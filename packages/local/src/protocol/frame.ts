@@ -55,13 +55,11 @@ export function encodeV34Frame(frame: TuyaFrame, key: Uint8Array): Buffer {
 // Source: Every frame a device sends carries a return code in
 // https://github.com/jasonacox/tinytuya/commit/ee995bf90fc3a676803df94e6bb699b362cdf47a
 // and https://github.com/clach04/python-tuya/commit/25d8b0846d9ca8857c99f9ff4c93a11fe64b9674.
-// Source: A frame whose CRC is wrong is rejected in
-// https://github.com/codetheweb/tuyapi/commit/9ea40d76dbc8721a174b427edf738d8f2f338c60.
 /** Splits the bytes read from a 3.1 to 3.3 device into whole frames. A
  * payload and the remainder are views of `bytes`, not copies. It throws a
  * `TuyaError` with code `MALFORMED_FRAME` for a length field under 12 or over
  * 1440, or a wrong CRC. It does not check the suffix: see
- * DESIGN.md#protocol-33. */
+ * DESIGN.md#received-frames. */
 export function decodeFrames(bytes: Uint8Array): DecodedFrames {
   return decode55aaFrames(
     bytes,
@@ -71,9 +69,6 @@ export function decodeFrames(bytes: Uint8Array): DecodedFrames {
   );
 }
 
-// Source: A frame whose HMAC is wrong is rejected in
-// https://github.com/codetheweb/tuyapi/commit/c2b5e48e805699969827affbfc11e893aeef701e
-// and https://github.com/iRayanKhan/homebridge-tuya/commit/ea1d903fb467dd8c296326db130630308113167a.
 /** Splits the bytes read from a 3.4 device into whole frames, checking each
  * HMAC under `key`: the local key during the session key negotiation, and the
  * session key after it. A payload and the remainder are views of `bytes`,

@@ -13,9 +13,9 @@ Each holds fixes the others lack.
 
 open-tuya gathers what they found, with additional reverse engineering of its
 own, into one library that any project can build on, whether a Homebridge or
-Matterbridge plugin or a script. Each behaviour taken from a project links the
-commit or pull request it came from, so a fix found here can be traced back,
-and one found there can be brought in.
+Matterbridge plugin or a script. Each protocol fact taken from a project links
+the commit or pull request it came from, so a fix found here can be traced
+back, and one found there can be brought in.
 
 ## Packages
 
@@ -46,8 +46,8 @@ pnpm clone-reference   # clone or update every project under Credits into refere
 
 ## Credits
 
-The code cites the commit or pull request each behaviour comes from. A
-behaviour none of these projects shows comes from open-tuya's own reverse
+The code cites the commit or pull request each protocol fact comes from. A
+fact none of these projects shows comes from open-tuya's own reverse
 engineering.
 
 | Project | License | Covers |

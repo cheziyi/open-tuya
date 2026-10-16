@@ -51,9 +51,6 @@ export function encodeV35Frame(
 // a device sends in
 // https://github.com/jasonacox/tinytuya/commit/c2f3e24d968c5d23ffd4e71956b46028563f422f
 // and https://github.com/codetheweb/tuyapi/commit/96af23b59f5dac4a10ef81afd8cc94e85b1ed6d9.
-// Source: A frame whose tag is wrong is rejected in
-// https://github.com/jasonacox/tinytuya/commit/4d0786400447bac9082930454c02264c038b5c6e
-// and https://github.com/adrianjagielak/homebridge-tuya-plus/commit/e316a912e5d24d6ad302768d26d5182ed2acef86.
 /** Splits the bytes read from a 3.5 device into whole frames and decrypts
  * each under `key`: the local key during the session key negotiation, and
  * the session key after it. The remainder is a view of `bytes`, not a copy.

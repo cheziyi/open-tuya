@@ -6,8 +6,6 @@ export function encryptAesEcb(plaintext: Uint8Array, key: Uint8Array): Buffer {
   return Buffer.concat([cipher.update(plaintext), cipher.final()]);
 }
 
-// Source: A payload that does not decrypt is an error in
-// https://github.com/jasonacox/tinytuya/commit/8528e03565d6dbaeebad372903de0adcfd3d037c.
 export function decryptAesEcb(ciphertext: Uint8Array, key: Uint8Array): Buffer {
   const decipher = createDecipheriv("aes-128-ecb", key, null);
   try {

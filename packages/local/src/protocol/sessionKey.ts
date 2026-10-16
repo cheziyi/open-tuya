@@ -6,8 +6,7 @@ const HMAC_LENGTH = 32;
 const V35_IV_LENGTH = 12;
 
 // Source: The device answers SESS_KEY_NEG_START with its own nonce and an
-// HMAC-SHA256 of the client's under the local key, and a wrong HMAC ends the
-// negotiation, in
+// HMAC-SHA256 of the client's under the local key, in
 // https://github.com/jasonacox/tinytuya/commit/d0ee0be3d0034bb9d8848dde6054d68d1102bf8b
 // and https://github.com/codetheweb/tuyapi/commit/c2b5e48e805699969827affbfc11e893aeef701e.
 /** Reads the device's nonce from its reply to `SESS_KEY_NEG_START`, the

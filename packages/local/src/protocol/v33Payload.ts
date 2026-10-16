@@ -16,7 +16,7 @@ export function encryptV33Payload(
   return addVersionHeader("3.3", command, encryptAesEcb(plaintext, localKey));
 }
 
-// Source: An empty payload has nothing to decrypt in
+// Source: A device sends an empty payload as an acknowledgement in
 // https://github.com/jasonacox/tinytuya/commit/8528e03565d6dbaeebad372903de0adcfd3d037c.
 /** Decrypts a payload from a device. A payload that starts with "3.3" loses
  * its first 15 bytes first, whatever the 12 after "3.3" hold: a device may put
