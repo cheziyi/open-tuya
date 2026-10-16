@@ -105,6 +105,8 @@ publishes in a separate job that runs no build script.
 
 - The root `test` script builds first: a package's `tsc` reads the `dist` of
   the packages it depends on.
+- Each package's `test` runs `vitest run --passWithNoTests`: vitest fails a
+  package with no test files, and a package has none until its first code.
 - Each package holds its own copy of `LICENSE`: npm packs only the files
   inside the package's folder.
 - `vitest` and `@vitest/coverage-v8` are pinned to the same exact version:

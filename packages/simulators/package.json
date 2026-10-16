@@ -28,7 +28,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc",
-    "test": "tsc && vitest run"
+    "test": "tsc && vitest run --passWithNoTests"
   },
   "dependencies": {
     "@open-tuya/core": "workspace:^"
