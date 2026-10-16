@@ -15,14 +15,16 @@ const V33_HEADER = Buffer.concat([Buffer.from("3.3"), Buffer.alloc(12)]);
 const PLAINTEXT = Buffer.from(TUYAPI_PLAINTEXT);
 
 describe("encryptV33Payload", () => {
-  it.each([COMMANDS.HEART_BEAT, COMMANDS.DP_QUERY, COMMANDS.UPDATEDPS])(
-    "sends command %i as the ciphertext alone",
-    (command) => {
-      expect(encryptV33Payload(command, PLAINTEXT, TUYAPI_KEY)).toEqual(
-        TUYAPI_CIPHERTEXT,
-      );
-    },
-  );
+  it.each([
+    COMMANDS.HEART_BEAT,
+    COMMANDS.DP_QUERY,
+    COMMANDS.DP_QUERY_NEW,
+    COMMANDS.UPDATEDPS,
+  ])("sends command %i as the ciphertext alone", (command) => {
+    expect(encryptV33Payload(command, PLAINTEXT, TUYAPI_KEY)).toEqual(
+      TUYAPI_CIPHERTEXT,
+    );
+  });
 
   it("puts the header in front of the ciphertext of any other command", () => {
     expect(encryptV33Payload(COMMANDS.CONTROL, PLAINTEXT, TUYAPI_KEY)).toEqual(

@@ -32,3 +32,24 @@ export const TUYAPI_CIPHERTEXT = Buffer.from(
   "zrA8OK3r3JMiUXpXDWauNppY4Am2c8rZ6sb4Yf15MjM8n5ByDx+QWeCZtcrPqddxLrhm906bSKbQAFtT1uCp+zP5AxlqJf5d0Pp2OxyXyjg=",
   "base64",
 );
+
+// Source: A 3.5 device's UDP broadcast, captured in hass-localtuya's
+// tests/test_discovery.py as DEVICE3_5, in
+// https://github.com/xZetsubou/hass-localtuya/commit/aeb5f9ce4c07c57e7868f296978fed4a2a5e9f18.
+// It is encrypted under BROADCAST_KEY.
+export const V35_BROADCAST = Buffer.from(
+  "0000669900000000000000000013000000f0930720d5927ecff2918553dc9f8d593d6453" +
+    "18ca3eaec2cfe76956f27bc421e7b80069114b116a0e35ed8ce76d4f9163ce4147537f40" +
+    "d6120ace92b49ae5eff48edfd3e1da0d74f1ee1b867ab2389a11eb789ce49b1974364c13" +
+    "4a5a37e7a688b9a9ccf931dc8f1d253e13104d27ee479ef7e5d6de4b3157e0a9f58c5ca1" +
+    "d63c1e1e63fbc92043569da34340491c15b43d36a0ce0a2bef1cc196f15fc05932e2cdc4" +
+    "6aa748cfe142e1ed5e98fe3bf1503a2125822ac9f6bd178ed9b5dfba198d039bfa009973" +
+    "d6740e443d26d8d1d78237ecacf2198afe941fd5e6e161c1fb2031a8f45d766418ed863c" +
+    "1113de14f2ba00009966",
+  "hex",
+);
+
+export const V35_BROADCAST_PLAINTEXT =
+  '{"ip":"192.168.1.104","gwId":"bfb7475dbdef49284eu4xe","uuid":"678a6c23563c5e29",' +
+  '"active":2,"ablilty":0,"encrypt":true,"productKey":"key8u54q9dtru5jw",' +
+  '"version":"3.5","token":true,"wf_cfg":true,"clientLink":1}';
