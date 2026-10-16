@@ -67,7 +67,7 @@ listed in [README.md](README.md#credits).
 | `@open-tuya/cloud-app` | `packages/cloud-app/` | The Tuya cloud as the Smart Life app reaches it, signed in by QR code: device lists with local keys, reading and writing data points | `core` |
 | `@open-tuya/devices` | `packages/devices/` | The device catalog: which data point of which product controls what | `core` |
 | `@open-tuya/simulators` | `packages/simulators/` | Devices as LAN servers, for tests: how each answers, and what it holds | `core` |
-| `open-tuya` | `packages/open-tuya/` | `createTuyaClient`, which takes the local route first, then whichever cloud the caller signed in to, and names data points from the catalog; it re-exports the other packages | Every package but `simulators` |
+| `open-tuya` | `packages/open-tuya/` | `createTuyaClient`, which reaches a device over the routes the caller sets up, the LAN and either cloud, in the order the caller gives, and names data points from the catalog; it re-exports the other packages | Every package but `simulators` |
 
 - **Import only from a package listed under "Depends on".** Adding a package
   there is a design change: record it in [DESIGN.md](DESIGN.md#packages).
