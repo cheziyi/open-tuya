@@ -158,18 +158,22 @@ describe.each(PROTOCOL_VERSIONS)("openConnection on %s", (version) => {
     for (const count of [1, 2, 3]) {
       await vi.advanceTimersByTimeAsync(10_000);
       await until(() => heartbeats().length === count);
+      // The device's frames arrive in order, so the connection has read the
+      // heartbeat reply once this STATUS arrives, before the next heartbeat.
+      device.send(STATUS, Buffer.from(STATUS_PLAINTEXT));
+      await until(() => frames.length === count);
     }
-    // The device's frames arrive in order, so its heartbeat replies arrive
-    // ahead of this STATUS.
-    device.send(STATUS, Buffer.from(STATUS_PLAINTEXT));
-    await until(() => frames.length > 0);
 
     expect(heartbeats().map((frame) => frame.payload)).toEqual([
       Buffer.alloc(0),
       Buffer.alloc(0),
       Buffer.alloc(0),
     ]);
-    expect(frames.map((frame) => frame.command)).toEqual([STATUS]);
+    expect(frames.map((frame) => frame.command)).toEqual([
+      STATUS,
+      STATUS,
+      STATUS,
+    ]);
     expect(closes).toEqual([]);
   });
 
@@ -233,7 +237,8 @@ describe.each(["3.4", "3.5"] as const)("openConnection on %s", (version) => {
     const rejected = expect(opening).rejects.toMatchObject({
       code: "SESSION_KEY_NEGOTIATION_FAILED",
     });
-    await device.connected;
+    // SESS_KEY_NEG_START goes out once the 10 s have started.
+    await until(() => device.received.length > 0);
 
     await vi.advanceTimersByTimeAsync(10_000);
 
