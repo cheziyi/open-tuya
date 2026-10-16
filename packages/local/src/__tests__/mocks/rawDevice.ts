@@ -8,15 +8,22 @@ export interface RawDevice {
 }
 
 /** A TCP server on 127.0.0.1 that writes `bytes` to each client as it
- * connects, then records what the client sends and never answers. */
-export async function startRawDevice(bytes: Uint8Array): Promise<RawDevice> {
+ * connects, and `answer` each time the client sends something. It records
+ * what the client sends. */
+export async function startRawDevice(
+  bytes: Uint8Array,
+  answer: Uint8Array = Buffer.alloc(0),
+): Promise<RawDevice> {
   const server = createServer();
   const sockets: Socket[] = [];
   const received: Buffer[] = [];
   server.on("connection", (socket) => {
     sockets.push(socket);
     socket.on("error", () => {});
-    socket.on("data", (chunk: Buffer) => received.push(chunk));
+    socket.on("data", (chunk: Buffer) => {
+      received.push(chunk);
+      socket.write(answer);
+    });
     socket.write(bytes);
   });
   await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));

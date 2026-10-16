@@ -21,8 +21,8 @@ import type { ProtocolVersion } from "@open-tuya/core";
 // Source: A device puts a 4-byte return code ahead of its payload: in the
 // clear on 0x55AA frames, in
 // https://github.com/clach04/python-tuya/commit/25d8b0846d9ca8857c99f9ff4c93a11fe64b9674,
-// and inside the plaintext on 0x6699 frames, in
-// https://github.com/jasonacox/tinytuya/commit/c2f3e24d968c5d23ffd4e71956b46028563f422f.
+// and inside the plaintext on 0x6699 frames, little-endian, in
+// https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
 // Source: The version header, the version and 12 more bytes, goes ahead of
 // the ciphertext on 3.3, in
 // https://github.com/codetheweb/tuyapi/commit/ab5c85e568d992f13107dbf684e6bec6df9bb7db,
@@ -60,7 +60,10 @@ export function sealDeviceFrame(
   key: Uint8Array,
   iv: Uint8Array,
 ): Buffer {
-  const returnCode = uint32(frame.returnCode);
+  const returnCode =
+    version === "3.5"
+      ? uint32LittleEndian(frame.returnCode)
+      : uint32(frame.returnCode);
   const header = frame.versionHeader ? versionHeader(version) : Buffer.alloc(0);
   if (version === "3.5") {
     const head = Buffer.concat([
@@ -231,6 +234,12 @@ function withoutVersionHeader(version: ProtocolVersion, bytes: Buffer): Buffer {
   return bytes.subarray(0, version.length).toString("latin1") === version
     ? bytes.subarray(VERSION_HEADER_LENGTH)
     : bytes;
+}
+
+function uint32LittleEndian(value: number): Buffer {
+  const bytes = Buffer.alloc(4);
+  bytes.writeUInt32LE(value);
+  return bytes;
 }
 
 function uint32(value: number): Buffer {

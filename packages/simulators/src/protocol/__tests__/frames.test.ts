@@ -3,8 +3,15 @@ import {
   BROADCAST_KEY,
   V33_BROADCAST,
   V33_BROADCAST_PLAINTEXT,
+  V33_QUERY_ERROR,
+  V33_QUERY_ERROR_KEY,
+  V33_QUERY_ERROR_PLAINTEXT,
   V35_BROADCAST,
   V35_BROADCAST_PLAINTEXT,
+  V35_QUERY,
+  V35_QUERY_ERROR,
+  V35_QUERY_ERROR_PLAINTEXT,
+  V35_QUERY_SESSION_KEY,
 } from "../../../../local/src/protocol/__tests__/fixtures/capturedFrames.js";
 import {
   CONTROL_PLAINTEXT,
@@ -125,7 +132,52 @@ describe("sealDeviceFrame", () => {
   );
 });
 
+describe("sealDeviceFrame, against a captured error", () => {
+  it.each([
+    [
+      "3.3",
+      { sequenceNumber: 1, command: 0x0a },
+      V33_QUERY_ERROR_PLAINTEXT,
+      V33_QUERY_ERROR_KEY,
+      NO_IV,
+      V33_QUERY_ERROR,
+    ],
+    [
+      "3.5",
+      { sequenceNumber: 0xf216, command: 0x10 },
+      V35_QUERY_ERROR_PLAINTEXT,
+      V35_QUERY_SESSION_KEY,
+      V35_QUERY_ERROR.subarray(18, 30),
+      V35_QUERY_ERROR,
+    ],
+  ] as const)(
+    "writes a %s device's error byte for byte, return code 1",
+    (version, frame, text, key, iv, expected) => {
+      expect(
+        sealDeviceFrame(
+          version,
+          {
+            ...frame,
+            returnCode: 1,
+            plaintext: Buffer.from(text),
+            versionHeader: false,
+          },
+          key,
+          iv,
+        ),
+      ).toEqual(expected);
+    },
+  );
+});
+
 describe("openClientFrame", () => {
+  it("reads the DP_QUERY_NEW a client sent a 3.5 device", () => {
+    expect(openClientFrame("3.5", V35_QUERY, V35_QUERY_SESSION_KEY)).toEqual({
+      frame: { sequenceNumber: 3, command: 0x10, payload: Buffer.from("{}") },
+      rest: Buffer.alloc(0),
+    });
+  });
+
   it.each([
     ["3.3", V33_CONTROL, LOCAL_KEY, 2, 0x07, Buffer.from(CONTROL_PLAINTEXT)],
     ["3.4", V34_SESSION_KEY_START, LOCAL_KEY, 1, 0x03, LOCAL_NONCE],

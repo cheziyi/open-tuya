@@ -1,3 +1,4 @@
+export * from "./client.js";
 export * from "./connection.js";
 export * from "./protocol/commands.js";
 export * from "./protocol/frame.js";

@@ -72,6 +72,7 @@ engineering.
 | [make-all/tuya-local](https://github.com/make-all/tuya-local) | MIT | Device catalog, Home Assistant; its local protocol is tinytuya's and its QR login tuya-device-sharing-sdk's |
 | [home-assistant-libs/tuya-device-handlers](https://github.com/home-assistant-libs/tuya-device-handlers) | MIT | Fixes to the data points of misbehaving devices, by product |
 | [home-assistant/core `components/tuya`](https://github.com/home-assistant/core/tree/dev/homeassistant/components/tuya) | Apache-2.0 | Standard data point codes by device category, Home Assistant |
+| [tuya/TuyaOpen `src/tuya_cloud_service`](https://github.com/tuya/TuyaOpen/tree/master/src/tuya_cloud_service) | Apache-2.0 | A device's own side of the LAN protocol: what it answers to each command, by Tuya |
 
 Projects not under MIT contribute protocol facts only, never code:
 [AGENTS.md](AGENTS.md#sources) says how. A project built on another, such as

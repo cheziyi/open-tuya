@@ -51,6 +51,10 @@ export function encodeV35Frame(
 // a device sends in
 // https://github.com/jasonacox/tinytuya/commit/c2f3e24d968c5d23ffd4e71956b46028563f422f
 // and https://github.com/codetheweb/tuyapi/commit/96af23b59f5dac4a10ef81afd8cc94e85b1ed6d9.
+// Source: A device writes it little-endian, in
+// https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1,
+// and a captured error carries 01 00 00 00, in
+// https://github.com/jasonacox/tinytuya/issues/658: see DESIGN.md#protocol-34-and-35.
 /** Splits the bytes read from a 3.5 device into whole frames and decrypts
  * each under `key`: the local key during the session key negotiation, and
  * the session key after it. The remainder is a view of `bytes`, not a copy. A
@@ -86,7 +90,7 @@ export function decodeV35Frames(
     decoded.frames.push({
       sequenceNumber: frame.readUInt32BE(6),
       command: frame.readUInt32BE(10),
-      returnCode: plaintext.readUInt32BE(0),
+      returnCode: plaintext.readUInt32LE(0),
       payload: plaintext.subarray(RETURN_CODE_LENGTH),
     });
   }

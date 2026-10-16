@@ -18,6 +18,7 @@ import {
 } from "../protocol/__tests__/fixtures/computedFrames.js";
 import { COMMANDS } from "../protocol/commands.js";
 import type { ReceivedTuyaFrame } from "../protocol/frame.js";
+import { until, useFakeTimers } from "./clock.js";
 import { type RawDevice, startRawDevice } from "./mocks/rawDevice.js";
 
 const LOCAL_KEY_TEXT = LOCAL_KEY.toString();
@@ -31,25 +32,6 @@ afterEach(async () => {
     await cleanup();
   }
 });
-
-// The sockets stay real, so only the timers the connection sets are faked.
-function useFakeTimers(): void {
-  vi.useFakeTimers({
-    toFake: ["setTimeout", "clearTimeout", "setInterval", "clearInterval"],
-  });
-}
-
-// Waits on the clock, not on turns of the event loop: the timers are fake,
-// but the sockets are not.
-async function until(condition: () => boolean): Promise<void> {
-  const deadline = performance.now() + 2000;
-  while (!condition()) {
-    if (performance.now() > deadline) {
-      throw new Error("The condition did not hold within 2 s");
-    }
-    await new Promise((resolve) => setImmediate(resolve));
-  }
-}
 
 async function startDevice(
   version: ProtocolVersion,

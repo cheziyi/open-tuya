@@ -3,6 +3,16 @@ import { COMMANDS } from "../commands.js";
 import { encodeFrame } from "../frame.js";
 import { decodeMessages, encodeMessage } from "../message.js";
 import {
+  V33_QUERY_ERROR,
+  V33_QUERY_ERROR_KEY,
+  V33_QUERY_ERROR_PLAINTEXT,
+  V35_QUERY,
+  V35_QUERY_ERROR,
+  V35_QUERY_ERROR_PLAINTEXT,
+  V35_QUERY_IV,
+  V35_QUERY_SESSION_KEY,
+} from "./fixtures/capturedFrames.js";
+import {
   CONTROL_PLAINTEXT,
   LOCAL_KEY,
   LOCAL_NONCE,
@@ -140,5 +150,57 @@ describe("decodeMessages", () => {
     expect(errors).toEqual([
       expect.objectContaining({ code: "DECRYPTION_FAILED" }),
     ]);
+  });
+
+  it.each([
+    [
+      "3.3",
+      V33_QUERY_ERROR,
+      V33_QUERY_ERROR_KEY,
+      1,
+      COMMANDS.DP_QUERY,
+      V33_QUERY_ERROR_PLAINTEXT,
+    ],
+    [
+      "3.5",
+      V35_QUERY_ERROR,
+      V35_QUERY_SESSION_KEY,
+      0xf216,
+      COMMANDS.DP_QUERY_NEW,
+      V35_QUERY_ERROR_PLAINTEXT,
+    ],
+  ] as const)(
+    "reads the error a %s device sent, with return code 1",
+    (version, bytes, key, sequenceNumber, command, text) => {
+      expect(decodeMessages(version, bytes, key)).toEqual({
+        frames: [
+          {
+            sequenceNumber,
+            command,
+            returnCode: 1,
+            payload: Buffer.from(text),
+          },
+        ],
+        errors: [],
+        remainder: Buffer.alloc(0),
+      });
+    },
+  );
+});
+
+describe("encodeMessage, against a captured frame", () => {
+  it("writes the DP_QUERY_NEW a client sent a 3.5 device byte for byte", () => {
+    expect(
+      encodeMessage(
+        "3.5",
+        {
+          sequenceNumber: 3,
+          command: COMMANDS.DP_QUERY_NEW,
+          payload: Buffer.from("{}"),
+        },
+        V35_QUERY_SESSION_KEY,
+        V35_QUERY_IV,
+      ),
+    ).toEqual(V35_QUERY);
   });
 });
