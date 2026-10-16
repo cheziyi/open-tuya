@@ -14,7 +14,12 @@ export type TuyaErrorCode =
   | "CONNECTION_FAILED"
   /** The device closed the connection, the connection failed, or the device
    * stopped answering heartbeats: open a new connection. */
-  | "CONNECTION_LOST";
+  | "CONNECTION_LOST"
+  /** The device answered a request with an error. The message carries the
+   * device's own text, such as "json obj data unvalid". */
+  | "REQUEST_REJECTED"
+  /** The device did not answer a request in time. */
+  | "REQUEST_TIMED_OUT";
 
 /** Every failure the open-tuya packages throw. Tell one from another by
  * `code`. */

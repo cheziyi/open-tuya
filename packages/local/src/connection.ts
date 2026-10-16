@@ -26,13 +26,16 @@ const NONCE_LENGTH = 16;
 const IV_LENGTH = 12;
 const FIRST_SEQUENCE_NUMBER = 1;
 
-export interface OpenConnectionOptions {
+export interface OpenConnectionOptions extends ConnectionListeners {
   host: string;
   /** Defaults to 6668. */
   port?: number;
   version: ProtocolVersion;
   /** The 16 characters the Tuya cloud gives as the device's local key. */
   localKey: string;
+}
+
+export interface ConnectionListeners {
   /** Called with every frame the device sends but a heartbeat reply, its
    * payload decrypted and its version header removed. */
   onFrame: (frame: ReceivedTuyaFrame) => void;

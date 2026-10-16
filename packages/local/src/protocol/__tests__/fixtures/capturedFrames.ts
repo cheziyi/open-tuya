@@ -53,3 +53,56 @@ export const V35_BROADCAST_PLAINTEXT =
   '{"ip":"192.168.1.104","gwId":"bfb7475dbdef49284eu4xe","uuid":"678a6c23563c5e29",' +
   '"active":2,"ablilty":0,"encrypt":true,"productKey":"key8u54q9dtru5jw",' +
   '"version":"3.5","token":true,"wf_cfg":true,"clientLink":1}';
+
+// Source: A 3.3 device's error reply to DP_QUERY, sequence number 1, return
+// code 1, with the device's local key, captured in
+// https://github.com/codetheweb/tuyapi/issues/577.
+export const V33_QUERY_ERROR_KEY = Buffer.from("d18579be1d0c1295");
+export const V33_QUERY_ERROR = Buffer.from(
+  "000055aa000000010000000a0000002c00000001683483b1c0730f381ef013cc7fdf16a7" +
+    "181ea1c34d49c2d16295f431b232b7a812efe1260000aa55",
+  "hex",
+);
+export const V33_QUERY_ERROR_PLAINTEXT = "parse data error";
+
+// Source: A client's DP_QUERY_NEW to a 3.5 device, sequence number 3,
+// carrying "{}" with the IV "0123456789ab", and the device's error reply,
+// sequence number 0xf216, return code 1 little-endian, with the session key
+// they agreed, captured in https://github.com/jasonacox/tinytuya/issues/658.
+export const V35_QUERY_SESSION_KEY = Buffer.from(
+  "eb61cd30ad4324398ca95596909ee017",
+  "hex",
+);
+export const V35_QUERY_IV = Buffer.from("0123456789ab");
+export const V35_QUERY = Buffer.from(
+  "00006699000000000003000000100000001e303132333435363738396162d52718d0bc16" +
+    "7524009d6768ce0ffcad64ba00009966",
+  "hex",
+);
+export const V35_QUERY_ERROR = Buffer.from(
+  "0000669900000000f21600000010000000350f5c15da38c0f3cad3b93e0272ae9b66dd8f" +
+    "eb12ee40b11b540c644be2230c4c6053ca917acfcd4a69eb4b45ec12ffc5a411a6f3f2" +
+    "00009966",
+  "hex",
+);
+export const V35_QUERY_ERROR_PLAINTEXT = "json obj data unvalid";
+
+// Source: A 3.3 device's reply to DP_QUERY, decrypted, captured in
+// https://github.com/jasonacox/tinytuya/issues/732.
+export const V33_QUERY_REPLY_PLAINTEXT =
+  '{"dps":{"20":true,"21":"colour","24":"003c000003e8","25":"000e0d00002e03e802cc00000000","26":0,"34":false,"42":"010000016432000003e8007803e800f003e8003c03e800b403e8012c03e8"}}';
+
+// Source: A 3.3 device's STATUS, decrypted, captured in
+// https://github.com/xZetsubou/hass-localtuya/issues/775.
+export const V33_STATUS_PLAINTEXT = '{"dps":{"3":0},"t":1769807713}';
+
+// Source: A 3.5 device's reply to DP_QUERY_NEW, decrypted, captured in
+// https://github.com/xZetsubou/hass-localtuya/issues/877.
+export const V35_QUERY_REPLY_PLAINTEXT =
+  '{"dps":{"20":false,"21":"colour","22":140,"23":10,"24":"000003e803e8","46":1000,"47":1000,"53":154,"101":"TM1809","102":"BRG"}}';
+
+// Source: A 3.5 device's STATUS, decrypted, after its return code and version
+// header, captured in
+// https://github.com/jasonacox/tinytuya/discussions/260#discussioncomment-14066063.
+export const V35_STATUS_PLAINTEXT =
+  '{"protocol":4,"t":1754855226,"data":{"dps":{"20":false}}}';
