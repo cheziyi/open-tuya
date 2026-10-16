@@ -1,6 +1,6 @@
 {
   "name": "@open-tuya/core",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Types and errors shared by the open-tuya packages.",
   "keywords": [
     "tuya",
