@@ -6,7 +6,9 @@
 `createTuyaClient`. Each part it bundles is its own package under the
 `@open-tuya` scope:
 
-- `@open-tuya/local` lets a caller who wants no cloud install no cloud code.
+- `@open-tuya/local`, `@open-tuya/cloud-developer` and `@open-tuya/cloud-app`
+  each reach a device by one route, so a caller installs the code of the
+  routes they use alone.
 - `@open-tuya/cloud-developer` and `@open-tuya/cloud-app` each release when
   Tuya changes its API, which happens more often than the LAN protocol
   changes. [Cloud logins](#cloud-logins) says why they are two packages.
@@ -45,8 +47,9 @@ Each way of signing in to the Tuya cloud is its own package:
 They are two packages because they are two APIs, on different hosts with
 different request signing and tokens, and share no wire code. The types they
 share are in `@open-tuya/core`, which defines the one cloud interface both
-implement, so `open-tuya` falls back to whichever the caller set up. A caller
-uses one of them, and the undocumented one can be fixed and released alone.
+implement, so `createTuyaClient` takes either as a route beside the LAN, in
+the order the caller gives. A caller uses one of them, and the undocumented
+one can be fixed and released alone.
 
 Rejected: one cloud package with both logins. A caller would install the
 code of the login they do not use, and a fix to one would release both.
