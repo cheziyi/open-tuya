@@ -1,6 +1,5 @@
+import type { ProtocolVersion } from "@open-tuya/core";
 import { COMMANDS } from "./commands.js";
-
-export type HeaderVersion = "3.3" | "3.4" | "3.5";
 
 const HEADER_LENGTH = 15;
 
@@ -24,7 +23,7 @@ const COMMANDS_WITHOUT_VERSION_HEADER: ReadonlySet<number> = new Set([
 /** Puts the version and 12 zero bytes in front of `payload`, unless the
  * command goes without them. */
 export function addVersionHeader(
-  version: HeaderVersion,
+  version: ProtocolVersion,
   command: number,
   payload: Uint8Array,
 ): Buffer {
@@ -44,7 +43,7 @@ export function addVersionHeader(
  * whatever the 12 after the version hold: a device may put a CRC, a sequence
  * number and a source ID there. */
 export function removeVersionHeader(
-  version: HeaderVersion,
+  version: ProtocolVersion,
   payload: Uint8Array,
 ): Buffer {
   const bytes = Buffer.from(

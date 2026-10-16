@@ -27,21 +27,28 @@ describe("decodeV35Frames", () => {
 
     expect(decodeV35Frames(head, BROADCAST_KEY)).toEqual({
       frames: [],
+      errors: [],
       remainder: head,
     });
   });
 
-  it("throws a TuyaError with code DECRYPTION_FAILED for a wrong tag", () => {
+  it("leaves out a frame whose tag is wrong, and reads the frame after it", () => {
     const frame = Buffer.from(V35_BROADCAST);
     frame.writeUInt32BE(0xdeadbeef, frame.length - 8);
 
-    expect(() => decodeV35Frames(frame, BROADCAST_KEY)).toThrow(
+    const { frames, errors } = decodeV35Frames(
+      Buffer.concat([frame, V35_BROADCAST]),
+      BROADCAST_KEY,
+    );
+
+    expect(frames).toHaveLength(1);
+    expect(errors).toEqual([
       expect.objectContaining({
         name: "TuyaError",
         code: "DECRYPTION_FAILED",
         cause: expect.any(Error),
       }),
-    );
+    ]);
   });
 
   it("throws a TuyaError with code MALFORMED_FRAME for a length field under 32", () => {

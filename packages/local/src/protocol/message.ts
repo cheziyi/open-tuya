@@ -1,0 +1,82 @@
+import type { ProtocolVersion, TuyaError } from "@open-tuya/core";
+import {
+  type DecodedFrames,
+  decodeFrames,
+  decodeV34Frames,
+  encodeFrame,
+  encodeV34Frame,
+  type ReceivedTuyaFrame,
+  type TuyaFrame,
+} from "./frame.js";
+import { decryptV33Payload, encryptV33Payload } from "./v33Payload.js";
+import { decryptV34Payload, encryptV34Payload } from "./v34Payload.js";
+import { decodeV35Frames, encodeV35Frame } from "./v35Frame.js";
+import { decodeV35Payload, encodeV35Payload } from "./v35Payload.js";
+
+/** Encrypts and frames `message.payload`, a plaintext, for a device of
+ * `version` under `key`. `iv` is used on 3.5 alone. */
+export function encodeMessage(
+  version: ProtocolVersion,
+  message: TuyaFrame,
+  key: Uint8Array,
+  iv: Uint8Array,
+): Buffer {
+  const { command, payload } = message;
+  switch (version) {
+    case "3.3":
+      return encodeFrame({
+        ...message,
+        payload: encryptV33Payload(command, payload, key),
+      });
+    case "3.4":
+      return encodeV34Frame(
+        { ...message, payload: encryptV34Payload(command, payload, key) },
+        key,
+      );
+    case "3.5":
+      return encodeV35Frame(
+        { ...message, payload: encodeV35Payload(command, payload) },
+        key,
+        iv,
+      );
+  }
+}
+
+/** Splits the bytes read from a device of `version` into whole frames, and
+ * decrypts each payload under `key` with its version header removed. A frame
+ * that fails its check or does not decrypt goes in `errors`. It throws a
+ * `TuyaError` with code `MALFORMED_FRAME` for a length field out of range. */
+export function decodeMessages(
+  version: ProtocolVersion,
+  bytes: Uint8Array,
+  key: Uint8Array,
+): DecodedFrames {
+  switch (version) {
+    case "3.3":
+      return decryptEach(decodeFrames(bytes), (payload) =>
+        decryptV33Payload(payload, key),
+      );
+    case "3.4":
+      return decryptEach(decodeV34Frames(bytes, key), (payload) =>
+        decryptV34Payload(payload, key),
+      );
+    case "3.5":
+      return decryptEach(decodeV35Frames(bytes, key), decodeV35Payload);
+  }
+}
+
+function decryptEach(
+  decoded: DecodedFrames,
+  decrypt: (payload: Uint8Array) => Buffer,
+): DecodedFrames {
+  const frames: ReceivedTuyaFrame[] = [];
+  const errors = [...decoded.errors];
+  for (const frame of decoded.frames) {
+    try {
+      frames.push({ ...frame, payload: decrypt(frame.payload) });
+    } catch (error) {
+      errors.push(error as TuyaError);
+    }
+  }
+  return { frames, errors, remainder: decoded.remainder };
+}

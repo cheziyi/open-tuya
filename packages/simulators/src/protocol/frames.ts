@@ -1,0 +1,240 @@
+import {
+  createCipheriv,
+  createDecipheriv,
+  createHmac,
+  timingSafeEqual,
+} from "node:crypto";
+import { crc32 } from "node:zlib";
+import type { ProtocolVersion } from "@open-tuya/core";
+
+// Source: The 0x55AA frame: prefix, sequence number, command and a length
+// field counting what follows it, then the payload, a CRC32 of every byte
+// before it and the 0xAA55 suffix, in
+// https://github.com/codetheweb/tuyapi/commit/9ea40d76dbc8721a174b427edf738d8f2f338c60.
+// Source: 3.4 puts an HMAC-SHA256 under the key where the CRC was, in
+// https://github.com/jasonacox/tinytuya/commit/782b469ee4c38b01703410fcc8f745bb53489c0e.
+// Source: The 0x6699 frame: prefix, two zero bytes, sequence number, command
+// and a length field counting the IV, the ciphertext and the tag, then
+// AES-128-GCM with the 14 bytes after the prefix as additional data, and the
+// 0x9966 suffix, in
+// https://github.com/jasonacox/tinytuya/commit/5742dcb99ef3c17d86b31470ed98b1acaed4e739.
+// Source: A device puts a 4-byte return code ahead of its payload: in the
+// clear on 0x55AA frames, in
+// https://github.com/clach04/python-tuya/commit/25d8b0846d9ca8857c99f9ff4c93a11fe64b9674,
+// and inside the plaintext on 0x6699 frames, in
+// https://github.com/jasonacox/tinytuya/commit/c2f3e24d968c5d23ffd4e71956b46028563f422f.
+// Source: The version header, the version and 12 more bytes, goes ahead of
+// the ciphertext on 3.3, in
+// https://github.com/codetheweb/tuyapi/commit/ab5c85e568d992f13107dbf684e6bec6df9bb7db,
+// and inside the encrypted bytes on 3.4 and 3.5, in
+// https://github.com/jasonacox/tinytuya/commit/a60ffc61484b164f588e2e6685810cfbd262de8f.
+
+const PREFIX_55AA = Buffer.from([0x00, 0x00, 0x55, 0xaa]);
+const SUFFIX_55AA = Buffer.from([0x00, 0x00, 0xaa, 0x55]);
+const PREFIX_6699 = Buffer.from([0x00, 0x00, 0x66, 0x99]);
+const SUFFIX_6699 = Buffer.from([0x00, 0x00, 0x99, 0x66]);
+const VERSION_HEADER_LENGTH = 15;
+const GCM_TAG_LENGTH = 16;
+const GCM_IV_LENGTH = 12;
+
+export interface ClientFrame {
+  sequenceNumber: number;
+  command: number;
+  /** Decrypted, with the version header removed. */
+  payload: Buffer;
+}
+
+export interface DeviceFrame {
+  sequenceNumber: number;
+  command: number;
+  returnCode: number;
+  plaintext: Uint8Array;
+  versionHeader: boolean;
+}
+
+/** Builds a frame as a device of `version` sends it. `iv` is used on 3.5
+ * alone. */
+export function sealDeviceFrame(
+  version: ProtocolVersion,
+  frame: DeviceFrame,
+  key: Uint8Array,
+  iv: Uint8Array,
+): Buffer {
+  const returnCode = uint32(frame.returnCode);
+  const header = frame.versionHeader ? versionHeader(version) : Buffer.alloc(0);
+  if (version === "3.5") {
+    const head = Buffer.concat([
+      PREFIX_6699,
+      Buffer.alloc(2),
+      uint32(frame.sequenceNumber),
+      uint32(frame.command),
+      uint32(
+        GCM_IV_LENGTH +
+          4 +
+          header.length +
+          frame.plaintext.length +
+          GCM_TAG_LENGTH,
+      ),
+    ]);
+    const cipher = createCipheriv("aes-128-gcm", key, iv);
+    cipher.setAAD(head.subarray(PREFIX_6699.length));
+    const ciphertext = Buffer.concat([
+      cipher.update(Buffer.concat([returnCode, header, frame.plaintext])),
+      cipher.final(),
+    ]);
+    return Buffer.concat([
+      head,
+      iv,
+      ciphertext,
+      cipher.getAuthTag(),
+      SUFFIX_6699,
+    ]);
+  }
+  const body =
+    version === "3.3"
+      ? Buffer.concat([header, ecb(key, frame.plaintext)])
+      : ecb(key, Buffer.concat([header, frame.plaintext]));
+  const checkLength = version === "3.3" ? 4 : 32;
+  const signed = Buffer.concat([
+    PREFIX_55AA,
+    uint32(frame.sequenceNumber),
+    uint32(frame.command),
+    uint32(returnCode.length + body.length + checkLength + SUFFIX_55AA.length),
+    returnCode,
+    body,
+  ]);
+  return Buffer.concat([signed, check(version, key, signed), SUFFIX_55AA]);
+}
+
+/** Reads the first frame in `bytes`, as a client of `version` sends it, and
+ * returns it with the bytes after it, or `undefined` while it is not yet
+ * whole. It throws on a frame whose CRC, HMAC or tag is wrong, or that does
+ * not decrypt. */
+export function openClientFrame(
+  version: ProtocolVersion,
+  bytes: Buffer,
+  key: Uint8Array,
+): { frame: ClientFrame; rest: Buffer } | undefined {
+  const opened =
+    version === "3.5" ? open6699(bytes, key) : open55aa(version, bytes, key);
+  return opened && { frame: opened.frame, rest: bytes.subarray(opened.length) };
+}
+
+function open55aa(
+  version: "3.3" | "3.4",
+  bytes: Buffer,
+  key: Uint8Array,
+): { frame: ClientFrame; length: number } | undefined {
+  if (bytes.length < 16) {
+    return undefined;
+  }
+  if (!bytes.subarray(0, 4).equals(PREFIX_55AA)) {
+    throw new Error("A client frame does not start with 0x000055AA");
+  }
+  const length = 16 + bytes.readUInt32BE(12);
+  if (bytes.length < length) {
+    return undefined;
+  }
+  const checkLength = version === "3.3" ? 4 : 32;
+  const checkOffset = length - SUFFIX_55AA.length - checkLength;
+  const signed = bytes.subarray(0, checkOffset);
+  if (
+    !timingSafeEqual(
+      check(version, key, signed),
+      bytes.subarray(checkOffset, checkOffset + checkLength),
+    )
+  ) {
+    throw new Error("A client frame's CRC or HMAC is wrong");
+  }
+  const body = signed.subarray(16);
+  const payload =
+    version === "3.3"
+      ? decryptEcb(key, withoutVersionHeader(version, body))
+      : withoutVersionHeader(version, decryptEcb(key, body));
+  return {
+    frame: {
+      sequenceNumber: bytes.readUInt32BE(4),
+      command: bytes.readUInt32BE(8),
+      payload,
+    },
+    length,
+  };
+}
+
+function open6699(
+  bytes: Buffer,
+  key: Uint8Array,
+): { frame: ClientFrame; length: number } | undefined {
+  if (bytes.length < 18) {
+    return undefined;
+  }
+  if (!bytes.subarray(0, 4).equals(PREFIX_6699)) {
+    throw new Error("A client frame does not start with 0x00006699");
+  }
+  const length = 18 + bytes.readUInt32BE(14) + SUFFIX_6699.length;
+  if (bytes.length < length) {
+    return undefined;
+  }
+  const ivEnd = 18 + GCM_IV_LENGTH;
+  const tagStart = length - SUFFIX_6699.length - GCM_TAG_LENGTH;
+  const decipher = createDecipheriv(
+    "aes-128-gcm",
+    key,
+    bytes.subarray(18, ivEnd),
+  );
+  decipher.setAAD(bytes.subarray(4, 18));
+  decipher.setAuthTag(bytes.subarray(tagStart, tagStart + GCM_TAG_LENGTH));
+  const plaintext = Buffer.concat([
+    decipher.update(bytes.subarray(ivEnd, tagStart)),
+    decipher.final(),
+  ]);
+  return {
+    frame: {
+      sequenceNumber: bytes.readUInt32BE(6),
+      command: bytes.readUInt32BE(10),
+      payload: withoutVersionHeader("3.5", plaintext),
+    },
+    length,
+  };
+}
+
+function check(
+  version: ProtocolVersion,
+  key: Uint8Array,
+  signed: Buffer,
+): Buffer {
+  return version === "3.3"
+    ? uint32(crc32(signed))
+    : createHmac("sha256", key).update(signed).digest();
+}
+
+function ecb(key: Uint8Array, plaintext: Uint8Array): Buffer {
+  const cipher = createCipheriv("aes-128-ecb", key, null);
+  return Buffer.concat([cipher.update(plaintext), cipher.final()]);
+}
+
+function decryptEcb(key: Uint8Array, ciphertext: Buffer): Buffer {
+  if (ciphertext.length === 0) {
+    return ciphertext;
+  }
+  const decipher = createDecipheriv("aes-128-ecb", key, null);
+  return Buffer.concat([decipher.update(ciphertext), decipher.final()]);
+}
+
+function versionHeader(version: ProtocolVersion): Buffer {
+  const header = Buffer.alloc(VERSION_HEADER_LENGTH);
+  header.write(version);
+  return header;
+}
+
+function withoutVersionHeader(version: ProtocolVersion, bytes: Buffer): Buffer {
+  return bytes.subarray(0, version.length).toString("latin1") === version
+    ? bytes.subarray(VERSION_HEADER_LENGTH)
+    : bytes;
+}
+
+function uint32(value: number): Buffer {
+  const bytes = Buffer.alloc(4);
+  bytes.writeUInt32BE(value);
+  return bytes;
+}

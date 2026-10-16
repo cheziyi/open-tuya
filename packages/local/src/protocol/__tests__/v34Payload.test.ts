@@ -4,11 +4,11 @@ import { decryptV34Payload, encryptV34Payload } from "../v34Payload.js";
 import {
   LOCAL_KEY,
   LOCAL_NONCE,
+  STATUS_PLAINTEXT,
   V34_CONTROL_NEW,
   V34_CONTROL_NEW_PLAINTEXT,
   V34_SESSION_KEY_START,
   V34_STATUS,
-  V34_STATUS_PLAINTEXT,
 } from "./fixtures/computedFrames.js";
 
 describe("encryptV34Payload", () => {
@@ -33,7 +33,7 @@ describe("decryptV34Payload", () => {
   it("decrypts a payload a device sent and drops its header", () => {
     expect(
       decryptV34Payload(V34_STATUS.subarray(20, -36), LOCAL_KEY).toString(),
-    ).toBe(V34_STATUS_PLAINTEXT);
+    ).toBe(STATUS_PLAINTEXT);
   });
 
   it("returns an empty payload empty", () => {
