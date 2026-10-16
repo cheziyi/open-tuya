@@ -1,6 +1,18 @@
 import { describe, expect, it } from "vitest";
-import { decodeFrames, encodeFrame } from "../frame.js";
+import { COMMANDS } from "../commands.js";
+import {
+  decodeFrames,
+  decodeV34Frames,
+  encodeFrame,
+  encodeV34Frame,
+} from "../frame.js";
 import { V33_BROADCAST } from "./fixtures/capturedFrames.js";
+import {
+  LOCAL_KEY,
+  V34_CONTROL_NEW,
+  V34_SESSION_KEY_START,
+  V34_STATUS,
+} from "./fixtures/computedFrames.js";
 
 function withLengthField(length: number): Buffer {
   const frame = Buffer.from(V33_BROADCAST);
@@ -75,9 +87,18 @@ describe("decodeFrames", () => {
     expect(remainder).toEqual(Buffer.from("00", "hex"));
   });
 
-  it("reads a frame whose CRC is wrong", () => {
+  it("throws a TuyaError with code MALFORMED_FRAME for a wrong CRC", () => {
     const frame = Buffer.from(V33_BROADCAST);
     frame.writeUInt32BE(0xdeadbeef, frame.length - 8);
+
+    expect(() => decodeFrames(frame)).toThrow(
+      expect.objectContaining({ name: "TuyaError", code: "MALFORMED_FRAME" }),
+    );
+  });
+
+  it("reads a frame whose suffix is wrong", () => {
+    const frame = Buffer.from(V33_BROADCAST);
+    frame.writeUInt32BE(0xdeadbeef, frame.length - 4);
 
     expect(decodeFrames(frame).frames).toHaveLength(1);
   });
@@ -114,5 +135,67 @@ describe("encodeFrame", () => {
       Buffer.from("000055aa010203040000000700000008", "hex"),
     );
     expect(encoded.subarray(-4)).toEqual(Buffer.from("0000aa55", "hex"));
+  });
+});
+
+describe("encodeV34Frame", () => {
+  it.each([
+    [
+      "SESS_KEY_NEG_START",
+      1,
+      COMMANDS.SESS_KEY_NEG_START,
+      V34_SESSION_KEY_START,
+    ],
+    ["CONTROL_NEW", 3, COMMANDS.CONTROL_NEW, V34_CONTROL_NEW],
+  ])(
+    "writes the length field and the HMAC of a %s frame",
+    (_name, sequenceNumber, command, expected) => {
+      expect(
+        encodeV34Frame(
+          { sequenceNumber, command, payload: expected.subarray(16, -36) },
+          LOCAL_KEY,
+        ),
+      ).toEqual(expected);
+    },
+  );
+});
+
+describe("decodeV34Frames", () => {
+  it("reads a frame a device sent", () => {
+    expect(decodeV34Frames(V34_STATUS, LOCAL_KEY)).toEqual({
+      frames: [
+        {
+          sequenceNumber: 7,
+          command: 0x08,
+          returnCode: 0,
+          payload: V34_STATUS.subarray(20, -36),
+        },
+      ],
+      remainder: Buffer.alloc(0),
+    });
+  });
+
+  it("throws a TuyaError with code DECRYPTION_FAILED for a wrong HMAC", () => {
+    const frame = Buffer.from(V34_STATUS);
+    frame.writeUInt32BE(0xdeadbeef, frame.length - 8);
+
+    expect(() => decodeV34Frames(frame, LOCAL_KEY)).toThrow(
+      expect.objectContaining({ name: "TuyaError", code: "DECRYPTION_FAILED" }),
+    );
+  });
+
+  it("throws a TuyaError with code DECRYPTION_FAILED under the wrong key", () => {
+    expect(() =>
+      decodeV34Frames(V34_STATUS, Buffer.from("fedcba9876543210")),
+    ).toThrow(expect.objectContaining({ code: "DECRYPTION_FAILED" }));
+  });
+
+  it("throws a TuyaError with code MALFORMED_FRAME for a length field under 40", () => {
+    const frame = Buffer.from(V34_STATUS);
+    frame.writeUInt32BE(39, 12);
+
+    expect(() => decodeV34Frames(frame, LOCAL_KEY)).toThrow(
+      expect.objectContaining({ code: "MALFORMED_FRAME" }),
+    );
   });
 });
