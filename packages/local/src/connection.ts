@@ -10,6 +10,7 @@ import {
   deriveV35SessionKey,
   parseSessionKeyResponse,
 } from "./protocol/sessionKey.js";
+import type { VersionHeaderFields } from "./protocol/versionHeader.js";
 
 // Source: A device listens on TCP port 6668 in
 // https://github.com/codetheweb/tuyapi/commit/ae63c2b9009ff2bc333e755b523977c9a6ec287f
@@ -121,11 +122,16 @@ export class TuyaConnection {
     this.heartbeat = setInterval(() => this.beat(), HEARTBEAT_INTERVAL_IN_MS);
   }
 
-  /** Encrypts `plaintext` and sends it as `command`, with the version header
-   * where `command` takes one. It resolves once the bytes are written, not
-   * when the device answers. It rejects with a `TuyaError` with code
-   * `CONNECTION_LOST` once the connection is closed. */
-  async send(command: number, plaintext: Uint8Array): Promise<void> {
+  /** Encrypts `plaintext` and sends it as `command`. On `CONTROL` and
+   * `CONTROL_NEW` the version header goes in front, holding `fields`, which
+   * default to zeros. It resolves once the bytes are written, not when the
+   * device answers. It rejects with a `TuyaError` with code `CONNECTION_LOST`
+   * once the connection is closed. */
+  async send(
+    command: number,
+    plaintext: Uint8Array,
+    fields?: VersionHeaderFields,
+  ): Promise<void> {
     if (this.closed) {
       throw new TuyaError("CONNECTION_LOST", "The connection is closed");
     }
@@ -138,6 +144,7 @@ export class TuyaConnection {
       },
       this.key,
       randomBytes(IV_LENGTH),
+      fields,
     );
     await new Promise<void>((resolve, reject) =>
       this.socket.write(bytes, (error) =>

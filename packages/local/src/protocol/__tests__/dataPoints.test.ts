@@ -20,7 +20,7 @@ describe("buildQuery", () => {
   it("asks a 3.3 device with DP_QUERY, naming it twice", () => {
     expect(text(buildQuery("3.3", DEVICE_ID))).toEqual({
       command: COMMANDS.DP_QUERY,
-      plaintext: `{"gwId":"${DEVICE_ID}","devId":"${DEVICE_ID}"}`,
+      plaintext: `{"devId":"${DEVICE_ID}","gwId":"${DEVICE_ID}"}`,
     });
   });
 
@@ -41,7 +41,7 @@ describe("buildControl", () => {
       text(buildControl("3.3", DEVICE_ID, { "1": true }, 1700000000.9)),
     ).toEqual({
       command: COMMANDS.CONTROL,
-      plaintext: `{"devId":"${DEVICE_ID}","uid":"","t":1700000000,"dps":{"1":true}}`,
+      plaintext: `{"devId":"${DEVICE_ID}","dps":{"1":true},"t":1700000000,"uid":""}`,
     });
   });
 

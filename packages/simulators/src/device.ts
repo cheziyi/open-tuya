@@ -71,6 +71,9 @@ export async function startSimulatedDevice(
 // of its own, which starts anywhere, in
 // https://github.com/rospogrigio/localtuya/commit/957cf25dd0af995c496a5644c7a773b46a426b04
 // and https://github.com/codetheweb/tuyapi/commit/e125a2e17f3043ed6263f092d154c72bf6d1ecdb.
+// Source: A device numbers the version headers it writes from a serial that
+// starts anywhere, in
+// https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
 // Source: A 3.4 or 3.5 device closes the connection on a frame not sealed
 // under its key, in
 // https://github.com/jasonacox/tinytuya/commit/a474c756c1d310ce452d71a7e1f3f52adff80e64.
@@ -92,6 +95,7 @@ export class SimulatedTuyaDevice {
   private key: Buffer;
   private buffered: Buffer = Buffer.alloc(0);
   private sequenceNumber = 0;
+  private headerSerialNumber = randomInt(0x10000);
   private deviceNonce: Buffer | undefined;
   private clientNonce: Buffer | undefined;
 
@@ -350,7 +354,10 @@ export class SimulatedTuyaDevice {
           command,
           returnCode,
           plaintext,
-          versionHeader: command === STATUS,
+          versionHeader:
+            command === STATUS
+              ? { serialNumber: this.headerSerialNumber++, sourceId: 1 }
+              : undefined,
         },
         this.key,
         randomBytes(IV_LENGTH),

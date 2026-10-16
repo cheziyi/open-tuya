@@ -3,37 +3,39 @@ import { COMMANDS } from "./commands.js";
 
 const HEADER_LENGTH = 15;
 
-// Source: All six commands go without the header on every version in
-// https://github.com/jasonacox/tinytuya/commit/0c68f4b4d40c16fb82586a37afe43588116920e4,
-// and on 3.4 and 3.5 in
-// https://github.com/codetheweb/tuyapi/commit/c2b5e48e805699969827affbfc11e893aeef701e.
-// On 3.3, HEART_BEAT and DP_QUERY go without it in
-// https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/45ad4893c18bbf308bd44ab286918d49833f2ed6,
-// and DP_QUERY and UPDATEDPS in
-// https://github.com/codetheweb/tuyapi/commit/4be9cc5de3048ab0f5eb97674ca964112d1d9452.
-const COMMANDS_WITHOUT_VERSION_HEADER: ReadonlySet<number> = new Set([
-  COMMANDS.SESS_KEY_NEG_START,
-  COMMANDS.SESS_KEY_NEG_FINISH,
-  COMMANDS.HEART_BEAT,
-  COMMANDS.DP_QUERY,
-  COMMANDS.DP_QUERY_NEW,
-  COMMANDS.UPDATEDPS,
+/** The two numbers a sender puts in the version header: a serial number it
+ * raises with each frame that carries the header, and an ID of its own. */
+export interface VersionHeaderFields {
+  serialNumber: number;
+  sourceId: number;
+}
+
+// Source: A device reads the header on CONTROL and CONTROL_NEW alone, as the
+// version, a CRC, a serial number and a source ID, and uses none of them, in
+// https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
+// It reads a query as plain JSON, which a header would break.
+const COMMANDS_WITH_VERSION_HEADER: ReadonlySet<number> = new Set([
+  COMMANDS.CONTROL,
+  COMMANDS.CONTROL_NEW,
 ]);
 
-/** Puts the version and 12 zero bytes in front of `payload`, unless the
- * command goes without them. */
+/** Puts the version header in front of `payload` when `command` is `CONTROL`
+ * or `CONTROL_NEW`: the version, a zero CRC, then `fields`. `fields` defaults
+ * to zeros. */
 export function addVersionHeader(
   version: ProtocolVersion,
   command: number,
   payload: Uint8Array,
+  fields: VersionHeaderFields = { serialNumber: 0, sourceId: 0 },
 ): Buffer {
-  return COMMANDS_WITHOUT_VERSION_HEADER.has(command)
-    ? Buffer.from(payload)
-    : Buffer.concat([
-        Buffer.from(version),
-        Buffer.alloc(HEADER_LENGTH - version.length),
-        payload,
-      ]);
+  if (!COMMANDS_WITH_VERSION_HEADER.has(command)) {
+    return Buffer.from(payload);
+  }
+  const header = Buffer.alloc(HEADER_LENGTH);
+  header.write(version);
+  header.writeUInt32BE(fields.serialNumber, HEADER_LENGTH - 8);
+  header.writeUInt32BE(fields.sourceId, HEADER_LENGTH - 4);
+  return Buffer.concat([header, payload]);
 }
 
 // Source: A payload that starts with the version loses 15 bytes in

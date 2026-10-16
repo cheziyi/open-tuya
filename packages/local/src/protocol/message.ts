@@ -12,30 +12,36 @@ import { decryptV33Payload, encryptV33Payload } from "./v33Payload.js";
 import { decryptV34Payload, encryptV34Payload } from "./v34Payload.js";
 import { decodeV35Frames, encodeV35Frame } from "./v35Frame.js";
 import { decodeV35Payload, encodeV35Payload } from "./v35Payload.js";
+import type { VersionHeaderFields } from "./versionHeader.js";
 
 /** Encrypts and frames `message.payload`, a plaintext, for a device of
- * `version` under `key`. `iv` is used on 3.5 alone. */
+ * `version` under `key`. `iv` is used on 3.5 alone, and `fields` only on
+ * `CONTROL` and `CONTROL_NEW`, which carry the version header. */
 export function encodeMessage(
   version: ProtocolVersion,
   message: TuyaFrame,
   key: Uint8Array,
   iv: Uint8Array,
+  fields?: VersionHeaderFields,
 ): Buffer {
   const { command, payload } = message;
   switch (version) {
     case "3.3":
       return encodeFrame({
         ...message,
-        payload: encryptV33Payload(command, payload, key),
+        payload: encryptV33Payload(command, payload, key, fields),
       });
     case "3.4":
       return encodeV34Frame(
-        { ...message, payload: encryptV34Payload(command, payload, key) },
+        {
+          ...message,
+          payload: encryptV34Payload(command, payload, key, fields),
+        },
         key,
       );
     case "3.5":
       return encodeV35Frame(
-        { ...message, payload: encodeV35Payload(command, payload) },
+        { ...message, payload: encodeV35Payload(command, payload, fields) },
         key,
         iv,
       );

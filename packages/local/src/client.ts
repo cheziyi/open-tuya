@@ -1,3 +1,4 @@
+import { randomInt } from "node:crypto";
 import {
   type DataPoints,
   type ProtocolVersion,
@@ -18,10 +19,14 @@ import {
   parseDataPoints,
 } from "./protocol/dataPoints.js";
 import type { ReceivedTuyaFrame } from "./protocol/frame.js";
+import type { VersionHeaderFields } from "./protocol/versionHeader.js";
 
 const REPLY_TIMEOUT_IN_MS = 5000;
 const FIRST_RECONNECT_DELAY_IN_MS = 5000;
 const MAX_RECONNECT_DELAY_IN_MS = 60_000;
+// The range of the source ID a write carries: see DESIGN.md#client.
+const MIN_SOURCE_ID = 1000;
+const MAX_SOURCE_ID = 1_000_999;
 
 export interface CreateLocalTuyaClientOptions
   extends Omit<OpenConnectionOptions, keyof ConnectionListeners> {
@@ -70,6 +75,8 @@ export class LocalTuyaClient implements TuyaClient {
   private reconnectDelayInMs = FIRST_RECONNECT_DELAY_IN_MS;
   private reconnectTimer: NodeJS.Timeout | undefined;
   private closed = false;
+  private serialNumber = 1;
+  private readonly sourceId = randomInt(MIN_SOURCE_ID, MAX_SOURCE_ID + 1);
 
   constructor(
     private readonly connect: (
@@ -101,6 +108,7 @@ export class LocalTuyaClient implements TuyaClient {
   async writeDataPoints(dataPoints: DataPoints): Promise<void> {
     const ack = await this.request(
       buildControl(this.version, this.deviceId, dataPoints, Date.now() / 1000),
+      { serialNumber: this.serialNumber++, sourceId: this.sourceId },
     );
     if (ack.payload.length > 0) {
       throw rejected(ack);
@@ -163,17 +171,20 @@ export class LocalTuyaClient implements TuyaClient {
 
   // One request at a time: a reply is matched by its command alone, as a 3.4
   // or 3.5 device numbers its frames from a counter of its own.
-  private request(request: DataPointRequest): Promise<ReceivedTuyaFrame> {
-    const send = () => this.send(request);
+  private request(
+    request: DataPointRequest,
+    fields?: VersionHeaderFields,
+  ): Promise<ReceivedTuyaFrame> {
+    const send = () => this.send(request, fields);
     const reply = this.queue.then(send, send);
     this.queue = reply.catch(() => {});
     return reply;
   }
 
-  private async send({
-    command,
-    plaintext,
-  }: DataPointRequest): Promise<ReceivedTuyaFrame> {
+  private async send(
+    { command, plaintext }: DataPointRequest,
+    fields?: VersionHeaderFields,
+  ): Promise<ReceivedTuyaFrame> {
     if (this.closed) {
       throw new TuyaError("CONNECTION_LOST", "The client is closed");
     }
@@ -208,7 +219,7 @@ export class LocalTuyaClient implements TuyaClient {
         REPLY_TIMEOUT_IN_MS,
       );
       this.pending = pending;
-      connection.send(command, plaintext).catch(pending.fail);
+      connection.send(command, plaintext, fields).catch(pending.fail);
     });
   }
 

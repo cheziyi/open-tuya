@@ -100,6 +100,24 @@ describe.each(PROTOCOL_VERSIONS)("LocalTuyaClient on %s", (version) => {
     expect(reports.at(-1)).toEqual({ "1": false, "3": "eco" });
   });
 
+  it("numbers its writes' version headers from 1, under one source ID", async () => {
+    const device = await startDevice(version);
+    const { client } = connect(device.port, version);
+
+    await client.writeDataPoints({ "2": 30 });
+    await client.writeDataPoints({ "2": 31 });
+
+    const headers = device.received
+      .filter((frame) => frame.versionHeader)
+      .map((frame) => frame.versionHeader);
+    expect(headers).toEqual([
+      { serialNumber: 1, sourceId: expect.any(Number) },
+      { serialNumber: 2, sourceId: headers[0]?.sourceId },
+    ]);
+    expect(headers[0]?.sourceId).toBeGreaterThanOrEqual(1000);
+    expect(headers[0]?.sourceId).toBeLessThanOrEqual(1_000_999);
+  });
+
   it("resolves a write the device only acks", async () => {
     const device = await startDevice(version);
     device.pushesAfterWrite = false;
