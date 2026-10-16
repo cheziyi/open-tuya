@@ -1,8 +1,7 @@
 import { TuyaError } from "@open-tuya/core";
 
-// Source: The cap on the length field, which fails a stream out of step
-// rather than waiting on it, is from
-// https://github.com/jasonacox/tinytuya/commit/0f38679d7972e446a3db854aa5eb50d8104ddd9d.
+// A corrupt length field would leave the reader waiting for bytes that never
+// come: see DESIGN.md#received-frames.
 const MAX_LENGTH = 1440;
 
 export interface FrameLayout {
@@ -18,13 +17,9 @@ export interface SplitFrames {
   remainder: Buffer;
 }
 
-// Source: A frame ends where its length field says in
-// https://github.com/xZetsubou/hass-localtuya/commit/6d07160c4f3bc1addd19d44f49aed1c40635e7be.
-// Source: Bytes before a prefix are skipped, keeping the last three in case a
-// prefix starts there, in
-// https://github.com/jasonacox/tinytuya/commit/54bf5459a1c5f059dd91ac2cf65a1c7c28bbd46c.
-// Source: A length field too small for the frame's fixed fields is rejected in
-// https://github.com/jasonacox/tinytuya/commit/27aa6986ed527f817a433933e00582a0ac0c66f4.
+// A frame ends where its length field says, not at its suffix: see
+// DESIGN.md#received-frames. With no prefix in sight, the last three bytes are
+// kept, as a prefix split across two reads starts in them.
 export function splitFrames(
   bytes: Uint8Array,
   layout: FrameLayout,

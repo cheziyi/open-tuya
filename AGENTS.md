@@ -32,16 +32,26 @@ the code it covers.
 
 ## Sources
 
-Every behaviour in this repository comes from an open-source Tuya project
-listed in [README.md](README.md#credits).
+Every protocol fact in this repository comes from an open-source Tuya project
+listed in [README.md](README.md#credits). A protocol fact is what a device or
+the cloud sends or expects: a byte layout, a constant, a command number, a
+field name, the order of messages, a limit a device enforces.
 
-- **Credit the source of every behaviour.** Link the commit or pull request
-  that introduced it, as a permalink pinned to a commit SHA: a link to a branch
-  moves. The link goes in the commit message and the pull request description,
-  beside the code as a `// Source:` comment, and in a catalog entry's sources.
-- **Build only what a source implements.** List anything no source pins down
-  in `UNSUPPORTED.md` with what is unknown; never ship a guess.
-- **Where sources disagree, take what most of them agree on.** A fork counts
+- **Decide an implementation choice on engineering grounds, never by counting
+  sources.** What this library does with what it receives is its own design:
+  its API, what it does with a bad frame, its timeouts, retries and connection
+  handling. Weigh it against best practice and this repository's style, and
+  record the reason in `DESIGN.md`. The sources show what is possible; they do
+  not vote.
+- **Credit the source of every protocol fact.** Link the commit or pull
+  request that introduced it, as a permalink pinned to a commit SHA: a link to
+  a branch moves. The link goes in the commit message and the pull request
+  description, beside the code as a `// Source:` comment, and in a catalog
+  entry's sources.
+- **Build only the protocol facts a source shows.** List anything no source
+  pins down in `UNSUPPORTED.md` with what is unknown; never ship a guess.
+- **Where sources disagree on a protocol fact, take what most of them agree
+  on.** A fork counts
   only for code it changed, and a project that copies another adds nothing. On
   a tie, take the most recent change. Record the choice and the sources on each
   side in `DESIGN.md`.
@@ -138,7 +148,7 @@ listed in [README.md](README.md#credits).
   the comment on the option they hover.
 - **Three markers, each with its own meaning.** Capitalise each one, and write
   the text after it as a full sentence.
-  - `// Source:` links the commit or pull request a behaviour comes from, and
+  - `// Source:` links the commit or pull request a protocol fact comes from, and
     says what it took when the link alone does not.
   - `// TechDebt:` marks a shortcut taken because doing it properly is not worth
     it today. The marker carries its own reasoning, and that reasoning never

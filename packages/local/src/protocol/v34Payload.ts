@@ -19,7 +19,7 @@ export function encryptV34Payload(
   return encryptAesEcb(addVersionHeader("3.4", command, plaintext), key);
 }
 
-// Source: An empty payload has nothing to decrypt in
+// Source: A device sends an empty payload as an acknowledgement in
 // https://github.com/jasonacox/tinytuya/commit/8528e03565d6dbaeebad372903de0adcfd3d037c.
 /** Decrypts a payload from a device under `key`, then drops the first 15
  * bytes of a plaintext that starts with "3.4". An empty payload comes back
