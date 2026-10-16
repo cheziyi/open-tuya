@@ -39,14 +39,16 @@ function useFakeTimers(): void {
   });
 }
 
+// Waits on the clock, not on turns of the event loop: the timers are fake,
+// but the sockets are not.
 async function until(condition: () => boolean): Promise<void> {
-  for (let turn = 0; turn < 1000; turn += 1) {
-    if (condition()) {
-      return;
+  const deadline = performance.now() + 2000;
+  while (!condition()) {
+    if (performance.now() > deadline) {
+      throw new Error("The condition did not hold within 2 s");
     }
     await new Promise((resolve) => setImmediate(resolve));
   }
-  throw new Error("The condition never held");
 }
 
 async function startDevice(
