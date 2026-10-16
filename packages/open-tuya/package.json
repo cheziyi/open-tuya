@@ -1,6 +1,6 @@
 {
   "name": "open-tuya",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Unofficial Node.js and TypeScript client for controlling Tuya devices over the local network (LAN), with the Tuya cloud as a fallback.",
   "keywords": [
     "tuya",
