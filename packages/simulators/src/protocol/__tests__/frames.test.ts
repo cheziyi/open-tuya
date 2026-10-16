@@ -1,3 +1,4 @@
+import { createDecipheriv } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import {
   BROADCAST_KEY,
@@ -8,10 +9,12 @@ import {
   V33_QUERY_ERROR_PLAINTEXT,
   V35_BROADCAST,
   V35_BROADCAST_PLAINTEXT,
+  V35_STATUS_PLAINTEXT as V35_CAPTURED_STATUS_PLAINTEXT,
   V35_QUERY,
   V35_QUERY_ERROR,
   V35_QUERY_ERROR_PLAINTEXT,
   V35_QUERY_SESSION_KEY,
+  V35_STATUS_VERSION_HEADER,
 } from "../../../../local/src/protocol/__tests__/fixtures/capturedFrames.js";
 import {
   CONTROL_PLAINTEXT,
@@ -38,6 +41,7 @@ import {
 import { openClientFrame, sealDeviceFrame } from "../frames.js";
 
 const NO_IV = Buffer.alloc(0);
+const ZERO_FIELDS = { serialNumber: 0, sourceId: 0 };
 
 describe("sealDeviceFrame", () => {
   it.each([
@@ -122,7 +126,7 @@ describe("sealDeviceFrame", () => {
             ...frame,
             plaintext: Buffer.from(frame.plaintext),
             returnCode: 0,
-            versionHeader,
+            versionHeader: versionHeader ? ZERO_FIELDS : undefined,
           },
           key,
           iv,
@@ -160,7 +164,6 @@ describe("sealDeviceFrame, against a captured error", () => {
             ...frame,
             returnCode: 1,
             plaintext: Buffer.from(text),
-            versionHeader: false,
           },
           key,
           iv,
@@ -170,7 +173,50 @@ describe("sealDeviceFrame, against a captured error", () => {
   );
 });
 
+describe("sealDeviceFrame, against a captured plaintext", () => {
+  it("puts a 3.5 STATUS's return code and version header as a device does", () => {
+    const frame = sealDeviceFrame(
+      "3.5",
+      {
+        sequenceNumber: 0,
+        command: 0x08,
+        returnCode: 0,
+        plaintext: Buffer.from(V35_CAPTURED_STATUS_PLAINTEXT),
+        versionHeader: { serialNumber: 0x3561, sourceId: 1 },
+      },
+      V35_SESSION_KEY,
+      V35_IV,
+    );
+    const decipher = createDecipheriv(
+      "aes-128-gcm",
+      V35_SESSION_KEY,
+      frame.subarray(18, 30),
+    );
+    decipher.setAAD(frame.subarray(4, 18));
+    decipher.setAuthTag(frame.subarray(-20, -4));
+
+    expect(
+      Buffer.concat([
+        decipher.update(frame.subarray(30, -20)),
+        decipher.final(),
+      ]),
+    ).toEqual(
+      Buffer.concat([
+        Buffer.alloc(4),
+        V35_STATUS_VERSION_HEADER,
+        Buffer.from(V35_CAPTURED_STATUS_PLAINTEXT),
+      ]),
+    );
+  });
+});
+
 describe("openClientFrame", () => {
+  it("reads the serial number and source ID in a version header", () => {
+    expect(
+      openClientFrame("3.4", V34_CONTROL_NEW, LOCAL_KEY)?.frame.versionHeader,
+    ).toEqual(ZERO_FIELDS);
+  });
+
   it("reads the DP_QUERY_NEW a client sent a 3.5 device", () => {
     expect(openClientFrame("3.5", V35_QUERY, V35_QUERY_SESSION_KEY)).toEqual({
       frame: { sequenceNumber: 3, command: 0x10, payload: Buffer.from("{}") },
@@ -193,9 +239,9 @@ describe("openClientFrame", () => {
     ["3.5", V35_SESSION_KEY_START, LOCAL_KEY, 1, 0x03, LOCAL_NONCE],
     ["3.5", V35_HEART_BEAT, V35_SESSION_KEY, 3, 0x09, Buffer.alloc(0)],
   ] as const)(
-    "reads a %s client frame with command %#x",
+    "reads a %s client frame with command %i",
     (version, bytes, key, sequenceNumber, command, payload) => {
-      expect(openClientFrame(version, bytes, key)).toEqual({
+      expect(openClientFrame(version, bytes, key)).toMatchObject({
         frame: { sequenceNumber, command, payload },
         rest: Buffer.alloc(0),
       });

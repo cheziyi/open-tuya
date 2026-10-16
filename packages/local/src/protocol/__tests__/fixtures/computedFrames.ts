@@ -99,10 +99,19 @@ export const V34_SESSION_KEY_RESPONSE = Buffer.from(
   "hex",
 );
 
-// HEART_BEAT, sequence number 3, with an empty payload under V34_SESSION_KEY.
+// HEART_BEAT, sequence number 3, with an empty payload padded to one block
+// under V34_SESSION_KEY.
 export const V34_HEART_BEAT = Buffer.from(
   "000055aa00000003000000090000003450ea1e29ebec0ee2a37a3dad0112945704ccc1df" +
     "96d57268bf0f3f5637486b11522d9f3405ad98a0cfc3a8c93bb94e000000aa55",
+  "hex",
+);
+
+// HEART_BEAT, sequence number 3, with no payload at all under
+// V34_SESSION_KEY. tinytuya built it and tuyapi read it back.
+export const V34_EMPTY_HEART_BEAT = Buffer.from(
+  "000055aa0000000300000009000000245a3ba6ac0d71e0efc1181b20db2a54d6c2d8b5" +
+    "9b1a8cc0d1e4543139a6a913b20000aa55",
   "hex",
 );
 

@@ -37,11 +37,20 @@ const VERSION_HEADER_LENGTH = 15;
 const GCM_TAG_LENGTH = 16;
 const GCM_IV_LENGTH = 12;
 
+/** The two numbers after the version in a version header: the sender's
+ * serial number and its source ID. */
+export interface VersionHeaderFields {
+  serialNumber: number;
+  sourceId: number;
+}
+
 export interface ClientFrame {
   sequenceNumber: number;
   command: number;
   /** Decrypted, with the version header removed. */
   payload: Buffer;
+  /** What the version header held, when the payload had one. */
+  versionHeader?: VersionHeaderFields;
 }
 
 export interface DeviceFrame {
@@ -49,7 +58,8 @@ export interface DeviceFrame {
   command: number;
   returnCode: number;
   plaintext: Uint8Array;
-  versionHeader: boolean;
+  /** The version header to put in front of the plaintext, if any. */
+  versionHeader?: VersionHeaderFields;
 }
 
 /** Builds a frame as a device of `version` sends it. `iv` is used on 3.5
@@ -64,7 +74,9 @@ export function sealDeviceFrame(
     version === "3.5"
       ? uint32LittleEndian(frame.returnCode)
       : uint32(frame.returnCode);
-  const header = frame.versionHeader ? versionHeader(version) : Buffer.alloc(0);
+  const header = frame.versionHeader
+    ? versionHeader(version, frame.versionHeader)
+    : Buffer.alloc(0);
   if (version === "3.5") {
     const head = Buffer.concat([
       PREFIX_6699,
@@ -150,15 +162,18 @@ function open55aa(
     throw new Error("A client frame's CRC or HMAC is wrong");
   }
   const body = signed.subarray(16);
-  const payload =
-    version === "3.3"
-      ? decryptEcb(key, withoutVersionHeader(version, body))
-      : withoutVersionHeader(version, decryptEcb(key, body));
+  let opened: OpenedPayload;
+  if (version === "3.3") {
+    opened = splitVersionHeader(version, body);
+    opened.payload = decryptEcb(key, opened.payload);
+  } else {
+    opened = splitVersionHeader(version, decryptEcb(key, body));
+  }
   return {
     frame: {
       sequenceNumber: bytes.readUInt32BE(4),
       command: bytes.readUInt32BE(8),
-      payload,
+      ...opened,
     },
     length,
   };
@@ -195,7 +210,7 @@ function open6699(
     frame: {
       sequenceNumber: bytes.readUInt32BE(6),
       command: bytes.readUInt32BE(10),
-      payload: withoutVersionHeader("3.5", plaintext),
+      ...splitVersionHeader("3.5", plaintext),
     },
     length,
   };
@@ -224,16 +239,39 @@ function decryptEcb(key: Uint8Array, ciphertext: Buffer): Buffer {
   return Buffer.concat([decipher.update(ciphertext), decipher.final()]);
 }
 
-function versionHeader(version: ProtocolVersion): Buffer {
+// Source: A sender puts a zero CRC, its serial number and its source ID after
+// the version, and a device writes source ID 1, in
+// https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
+function versionHeader(
+  version: ProtocolVersion,
+  fields: VersionHeaderFields,
+): Buffer {
   const header = Buffer.alloc(VERSION_HEADER_LENGTH);
   header.write(version);
+  header.writeUInt32BE(fields.serialNumber, VERSION_HEADER_LENGTH - 8);
+  header.writeUInt32BE(fields.sourceId, VERSION_HEADER_LENGTH - 4);
   return header;
 }
 
-function withoutVersionHeader(version: ProtocolVersion, bytes: Buffer): Buffer {
-  return bytes.subarray(0, version.length).toString("latin1") === version
-    ? bytes.subarray(VERSION_HEADER_LENGTH)
-    : bytes;
+interface OpenedPayload {
+  payload: Buffer;
+  versionHeader?: VersionHeaderFields;
+}
+
+function splitVersionHeader(
+  version: ProtocolVersion,
+  bytes: Buffer,
+): OpenedPayload {
+  if (bytes.subarray(0, version.length).toString("latin1") !== version) {
+    return { payload: bytes };
+  }
+  return {
+    payload: bytes.subarray(VERSION_HEADER_LENGTH),
+    versionHeader: {
+      serialNumber: bytes.readUInt32BE(VERSION_HEADER_LENGTH - 8),
+      sourceId: bytes.readUInt32BE(VERSION_HEADER_LENGTH - 4),
+    },
+  };
 }
 
 function uint32LittleEndian(value: number): Buffer {

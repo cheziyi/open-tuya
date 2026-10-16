@@ -106,3 +106,9 @@ export const V35_QUERY_REPLY_PLAINTEXT =
 // https://github.com/jasonacox/tinytuya/discussions/260#discussioncomment-14066063.
 export const V35_STATUS_PLAINTEXT =
   '{"protocol":4,"t":1754855226,"data":{"dps":{"20":false}}}';
+// The version header in front of V35_STATUS_PLAINTEXT, as the device wrote
+// it: "3.5", a zero CRC, serial number 0x3561 and source ID 1.
+export const V35_STATUS_VERSION_HEADER = Buffer.from(
+  "332e35000000000000356100000001",
+  "hex",
+);

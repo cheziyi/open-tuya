@@ -20,7 +20,7 @@ import {
   STATUS_PLAINTEXT,
   V33_CONTROL,
   V33_STATUS,
-  V34_HEART_BEAT,
+  V34_EMPTY_HEART_BEAT,
   V34_SESSION_KEY,
   V34_SESSION_KEY_RESPONSE,
   V35_HEART_BEAT,
@@ -49,7 +49,7 @@ describe("encodeMessage", () => {
       COMMANDS.HEART_BEAT,
       Buffer.alloc(0),
       V34_SESSION_KEY,
-      V34_HEART_BEAT,
+      V34_EMPTY_HEART_BEAT,
     ],
     [
       "3.5",

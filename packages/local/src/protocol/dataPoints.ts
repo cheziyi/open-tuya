@@ -25,7 +25,7 @@ export function buildQuery(
   return version === "3.3"
     ? {
         command: COMMANDS.DP_QUERY,
-        plaintext: json({ gwId: deviceId, devId: deviceId }),
+        plaintext: json({ devId: deviceId, gwId: deviceId }),
       }
     : { command: COMMANDS.DP_QUERY_NEW, plaintext: json({}) };
 }
@@ -54,9 +54,9 @@ export function buildControl(
         command: COMMANDS.CONTROL,
         plaintext: json({
           devId: deviceId,
-          uid: "",
-          t,
           dps: dataPoints,
+          t,
+          uid: "",
         }),
       }
     : {
@@ -90,6 +90,8 @@ export function parseDataPoints(payload: Uint8Array): DataPoints | undefined {
 // Source: A device does not answer a body with spaces between its tokens, in
 // https://github.com/clach04/python-tuya/commit/25d8b0846d9ca8857c99f9ff4c93a11fe64b9674.
 // JSON.stringify writes none, and keeps the spaces inside a string value.
+// Each body above lists its keys in alphabetical order: see
+// DESIGN.md#data-points.
 function json(value: unknown): Buffer {
   return Buffer.from(JSON.stringify(value));
 }

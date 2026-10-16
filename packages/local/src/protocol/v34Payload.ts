@@ -1,22 +1,29 @@
 import { decryptAesEcb, encryptAesEcb } from "./aesEcb.js";
-import { addVersionHeader, removeVersionHeader } from "./versionHeader.js";
+import {
+  addVersionHeader,
+  removeVersionHeader,
+  type VersionHeaderFields,
+} from "./versionHeader.js";
 
 // Source: The header goes inside the ciphertext in
 // https://github.com/jasonacox/tinytuya/commit/a60ffc61484b164f588e2e6685810cfbd262de8f
 // and https://github.com/codetheweb/tuyapi/commit/c2b5e48e805699969827affbfc11e893aeef701e,
 // and a payload already a whole number of blocks long gains a full block of
 // padding in both.
-/** Puts the header, "3.4" and 12 zero bytes, in front of a payload unless
- * `command` goes without it, then encrypts both under `key`: the local key
- * during the session key negotiation, and the session key after it. The
- * commands without the header are `SESS_KEY_NEG_START`, `SESS_KEY_NEG_FINISH`,
- * `HEART_BEAT`, `DP_QUERY`, `DP_QUERY_NEW` and `UPDATEDPS`. */
+// An empty payload, such as a heartbeat's, is sent as no bytes rather than as
+// a block of padding: see DESIGN.md#protocol-34-and-35.
+/** On `CONTROL` and `CONTROL_NEW`, puts the version header in front of a
+ * payload, holding `fields`, which default to zeros. It then encrypts the
+ * whole under `key`: the local key during the session key negotiation, and
+ * the session key after it. An empty payload comes back empty. */
 export function encryptV34Payload(
   command: number,
   plaintext: Uint8Array,
   key: Uint8Array,
+  fields?: VersionHeaderFields,
 ): Buffer {
-  return encryptAesEcb(addVersionHeader("3.4", command, plaintext), key);
+  const payload = addVersionHeader("3.4", command, plaintext, fields);
+  return payload.length === 0 ? payload : encryptAesEcb(payload, key);
 }
 
 // Source: A device sends an empty payload as an acknowledgement in

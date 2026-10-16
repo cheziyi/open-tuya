@@ -27,6 +27,12 @@ describe("encryptV34Payload", () => {
       encryptV34Payload(COMMANDS.SESS_KEY_NEG_START, LOCAL_NONCE, LOCAL_KEY),
     ).toEqual(V34_SESSION_KEY_START.subarray(16, -36));
   });
+
+  it("sends an empty payload as no bytes", () => {
+    expect(
+      encryptV34Payload(COMMANDS.HEART_BEAT, Buffer.alloc(0), LOCAL_KEY),
+    ).toEqual(Buffer.alloc(0));
+  });
 });
 
 describe("decryptV34Payload", () => {

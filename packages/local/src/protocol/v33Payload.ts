@@ -1,19 +1,28 @@
 import { decryptAesEcb, encryptAesEcb } from "./aesEcb.js";
-import { addVersionHeader, removeVersionHeader } from "./versionHeader.js";
+import {
+  addVersionHeader,
+  removeVersionHeader,
+  type VersionHeaderFields,
+} from "./versionHeader.js";
 
 // Source: AES-128-ECB, the ciphertext sent raw rather than in base64, and the
 // header in front of it in the clear are from
 // https://github.com/codetheweb/tuyapi/commit/ab5c85e568d992f13107dbf684e6bec6df9bb7db.
-/** Encrypts a payload under the local key. The clear header, "3.3" and 12
- * zero bytes, goes in front of the ciphertext unless `command` is
- * `HEART_BEAT`, `DP_QUERY`, `DP_QUERY_NEW` or `UPDATEDPS`: see
- * DESIGN.md#protocol-33. */
+/** Encrypts a payload under the local key. On `CONTROL` and `CONTROL_NEW`,
+ * the version header goes in front of the ciphertext in the clear, holding
+ * `fields`, which default to zeros. */
 export function encryptV33Payload(
   command: number,
   plaintext: Uint8Array,
   localKey: Uint8Array,
+  fields?: VersionHeaderFields,
 ): Buffer {
-  return addVersionHeader("3.3", command, encryptAesEcb(plaintext, localKey));
+  return addVersionHeader(
+    "3.3",
+    command,
+    encryptAesEcb(plaintext, localKey),
+    fields,
+  );
 }
 
 // Source: A device sends an empty payload as an acknowledgement in
