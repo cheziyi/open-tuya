@@ -1,18 +1,21 @@
 # open-tuya
 
-Unofficial Node.js and TypeScript libraries for controlling Tuya devices over
-the local network (LAN), with the Tuya cloud as a fallback.
+Unofficial Node.js and TypeScript libraries for controlling Tuya devices
+three ways: over the local network (LAN), through the Tuya developer platform,
+and through the cloud the Smart Life app signs in to.
 
 ## Goal
 
-Tuya publishes no local API. A dozen open-source projects
-([credits](#credits)) have each worked out the local protocol, its versions,
-and what each device's data points mean, and each holds fixes the others lack.
+Tuya documents only its developer platform. A dozen open-source projects
+([credits](#credits)) have each worked out the rest: the LAN protocol and its
+versions, the Smart Life app's cloud, and what each device's data points mean.
+Each holds fixes the others lack.
 
-open-tuya gathers what they found into one library that any project can build
-on, whether a Homebridge or Matterbridge plugin or a script. Each behaviour
-links the commit or pull request it came from, so a fix found here can be
-traced back, and one found there can be brought in.
+open-tuya gathers what they found, with additional reverse engineering of its
+own, into one library that any project can build on, whether a Homebridge or
+Matterbridge plugin or a script. Each behaviour taken from a project links the
+commit or pull request it came from, so a fix found here can be traced back,
+and one found there can be brought in.
 
 ## Packages
 
@@ -20,10 +23,10 @@ Install `open-tuya` unless you need only one part of it.
 
 | Package | Use it to |
 | --- | --- |
-| [`open-tuya`](packages/open-tuya) | Discover devices, and read and write their data points by name: locally first, then over the cloud |
-| [`@open-tuya/local`](packages/local) | Discover devices and control them over the LAN alone, with no cloud code installed |
-| [`@open-tuya/cloud-developer`](packages/cloud-developer) | Fetch devices and their local keys from the Tuya cloud, and control them over it, with a Tuya developer project |
-| [`@open-tuya/cloud-app`](packages/cloud-app) | The same, signed in by scanning a QR code with the Smart Life app instead |
+| [`open-tuya`](packages/open-tuya) | Discover devices, and read and write their data points by name, over any of the three |
+| [`@open-tuya/local`](packages/local) | Discover devices on the LAN and control them there |
+| [`@open-tuya/cloud-developer`](packages/cloud-developer) | List devices with their local keys, and control them, through the Tuya developer platform, signed in with a developer project's access ID and secret |
+| [`@open-tuya/cloud-app`](packages/cloud-app) | The same, through the Smart Life app's cloud, signed in by scanning a QR code with the app |
 | [`@open-tuya/devices`](packages/devices) | Look up what each data point of a device controls |
 | [`@open-tuya/simulators`](packages/simulators) | Test your code against a simulated device |
 | [`@open-tuya/core`](packages/core) | Nothing directly: it holds the types and errors the others share |
@@ -43,8 +46,9 @@ pnpm clone-reference   # clone or update every project under Credits into refere
 
 ## Credits
 
-Every behaviour here comes from one of these projects, and the code cites the
-commit or pull request it comes from.
+The code cites the commit or pull request each behaviour comes from. A
+behaviour none of these projects shows comes from open-tuya's own reverse
+engineering.
 
 | Project | License | Covers |
 | --- | --- | --- |
