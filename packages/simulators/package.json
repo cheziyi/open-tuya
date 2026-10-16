@@ -1,0 +1,39 @@
+{
+  "name": "@open-tuya/simulators",
+  "version": "0.0.0",
+  "description": "Tuya devices simulated as LAN servers, for testing code that controls them.",
+  "keywords": [
+    "tuya",
+    "simulator",
+    "testing",
+    "mock"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/cheziyi/open-tuya#readme",
+  "bugs": "https://github.com/cheziyi/open-tuya/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cheziyi/open-tuya.git",
+    "directory": "packages/simulators"
+  },
+  "type": "module",
+  "files": [
+    "dist",
+    "src",
+    "!src/**/__tests__"
+  ],
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc",
+    "test": "tsc && vitest run"
+  },
+  "dependencies": {
+    "@open-tuya/core": "workspace:^"
+  },
+  "engines": {
+    "node": ">=22.19.0"
+  }
+}

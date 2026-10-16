@@ -1,0 +1,34 @@
+{
+  "name": "@open-tuya/core",
+  "version": "0.0.0",
+  "description": "Types and errors shared by the open-tuya packages.",
+  "keywords": [
+    "tuya",
+    "open-tuya"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/cheziyi/open-tuya#readme",
+  "bugs": "https://github.com/cheziyi/open-tuya/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cheziyi/open-tuya.git",
+    "directory": "packages/core"
+  },
+  "type": "module",
+  "files": [
+    "dist",
+    "src",
+    "!src/**/__tests__"
+  ],
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc",
+    "test": "tsc && vitest run"
+  },
+  "engines": {
+    "node": ">=22.19.0"
+  }
+}

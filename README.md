@@ -1,0 +1,78 @@
+# open-tuya
+
+Unofficial Node.js and TypeScript libraries for controlling Tuya devices over
+the local network (LAN), with the Tuya cloud as a fallback.
+
+## Goal
+
+Tuya publishes no local API. A dozen open-source projects
+([credits](#credits)) have each worked out the local protocol, its versions,
+and what each device's data points mean, and each holds fixes the others lack.
+
+open-tuya gathers what they found into one library that any project can build
+on, whether a Homebridge or Matterbridge plugin or a script. Each behaviour
+links the commit or pull request it came from, so a fix found here can be
+traced back, and one found there can be brought in.
+
+## Packages
+
+Install `open-tuya` unless you need only one part of it.
+
+| Package | Use it to |
+| --- | --- |
+| [`open-tuya`](packages/open-tuya) | Discover devices, and read and write their data points by name: locally first, then over the cloud |
+| [`@open-tuya/local`](packages/local) | Discover devices and control them over the LAN alone, with no cloud code installed |
+| [`@open-tuya/cloud-developer`](packages/cloud-developer) | Fetch devices and their local keys from the Tuya cloud, and control them over it, with a Tuya developer project |
+| [`@open-tuya/cloud-app`](packages/cloud-app) | The same, signed in by scanning a QR code with the Smart Life app instead |
+| [`@open-tuya/devices`](packages/devices) | Look up what each data point of a device controls |
+| [`@open-tuya/simulators`](packages/simulators) | Test your code against a simulated device |
+| [`@open-tuya/core`](packages/core) | Nothing directly: it holds the types and errors the others share |
+
+[DESIGN.md](DESIGN.md#packages) says why it is split this way.
+
+## Development
+
+Requires Node 22.19 or later and pnpm.
+
+```sh
+pnpm install
+pnpm test
+pnpm check
+pnpm clone-reference   # clone or update every project under Credits into reference/
+```
+
+## Credits
+
+Every behaviour here comes from one of these projects, and the code cites the
+commit or pull request it comes from.
+
+| Project | License | Covers |
+| --- | --- | --- |
+| [jasonacox/tinytuya](https://github.com/jasonacox/tinytuya) | MIT | Local protocol, discovery, developer platform API, Python |
+| [codetheweb/tuyapi](https://github.com/codetheweb/tuyapi) | MIT | Local protocol, discovery, Node.js |
+| [clach04/python-tuya](https://github.com/clach04/python-tuya) | MIT | Local protocol, Python; the origin of localtuya's protocol code |
+| [rospogrigio/localtuya](https://github.com/rospogrigio/localtuya) | GPL-3.0 | Local protocol, Home Assistant |
+| [xZetsubou/hass-localtuya](https://github.com/xZetsubou/hass-localtuya) | GPL-3.0 | Local protocol, Home Assistant; the maintained fork of rospogrigio/localtuya |
+| [mileperhour/localtuya-homeassistant](https://github.com/mileperhour/localtuya-homeassistant) | GPL-3.0 | Local protocol, Home Assistant; localtuya was forked from it |
+| [AMoo-Miki/homebridge-tuya-lan](https://github.com/AMoo-Miki/homebridge-tuya-lan) | MIT | Local protocol, Homebridge |
+| [iRayanKhan/homebridge-tuya](https://github.com/iRayanKhan/homebridge-tuya) | MIT | Local protocol, Homebridge |
+| [adrianjagielak/homebridge-tuya-plus](https://github.com/adrianjagielak/homebridge-tuya-plus) | MIT | Fork of iRayanKhan/homebridge-tuya |
+| [Apollon77/ioBroker.tuya](https://github.com/Apollon77/ioBroker.tuya) | MIT | Local protocol through tuyapi, and a collection of device data point schemas, ioBroker |
+| [simensma/tuyamqtt](https://github.com/simensma/tuyamqtt) | None | Local protocol, MQTT gateway |
+| [iamjond/tuyagateway](https://github.com/iamjond/tuyagateway) | Unlicense, over code forked from simensma/tuyamqtt | Local protocol, MQTT gateway |
+| [TuyaAPI/stub](https://github.com/TuyaAPI/stub) | MIT | A device answering the local protocol, for tests |
+| [tuya/tuya-connector-nodejs](https://github.com/tuya/tuya-connector-nodejs) | MIT, in `package.json` only | Developer platform API, by Tuya |
+| [tuya/tuya-homebridge](https://github.com/tuya/tuya-homebridge) | MIT | Developer platform API and its pushed device updates, Homebridge, by Tuya |
+| [TuyaAPI/cli](https://github.com/TuyaAPI/cli) | MIT | Fetching local keys from the developer platform API |
+| [tuya/tuya-device-sharing-sdk](https://github.com/tuya/tuya-device-sharing-sdk) | MIT | Smart Life app QR login and its pushed device updates, by Tuya |
+| [make-all/tuya-local](https://github.com/make-all/tuya-local) | MIT | Device catalog, Home Assistant; its local protocol is tinytuya's and its QR login tuya-device-sharing-sdk's |
+| [home-assistant-libs/tuya-device-handlers](https://github.com/home-assistant-libs/tuya-device-handlers) | MIT | Fixes to the data points of misbehaving devices, by product |
+| [home-assistant/core `components/tuya`](https://github.com/home-assistant/core/tree/dev/homeassistant/components/tuya) | Apache-2.0 | Standard data point codes by device category, Home Assistant |
+
+Projects not under MIT contribute protocol facts only, never code:
+[AGENTS.md](AGENTS.md#sources) says how. A project built on another, such as
+tuya-local on tinytuya, does not agree with it independently.
+
+## License
+
+MIT

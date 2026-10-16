@@ -1,0 +1,51 @@
+{
+  "name": "open-tuya",
+  "version": "0.0.0",
+  "description": "Unofficial Node.js and TypeScript client for controlling Tuya devices over the local network (LAN), with the Tuya cloud as a fallback.",
+  "keywords": [
+    "tuya",
+    "tuya-api",
+    "tuya-local",
+    "localtuya",
+    "smart-life",
+    "local-control",
+    "local-api",
+    "lan",
+    "home-automation",
+    "smart-home",
+    "nodejs",
+    "typescript"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/cheziyi/open-tuya#readme",
+  "bugs": "https://github.com/cheziyi/open-tuya/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cheziyi/open-tuya.git",
+    "directory": "packages/open-tuya"
+  },
+  "type": "module",
+  "files": [
+    "dist",
+    "src",
+    "!src/**/__tests__"
+  ],
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc",
+    "test": "tsc && vitest run"
+  },
+  "dependencies": {
+    "@open-tuya/cloud-app": "workspace:^",
+    "@open-tuya/cloud-developer": "workspace:^",
+    "@open-tuya/core": "workspace:^",
+    "@open-tuya/devices": "workspace:^",
+    "@open-tuya/local": "workspace:^"
+  },
+  "engines": {
+    "node": ">=22.19.0"
+  }
+}
