@@ -112,3 +112,43 @@ publishes in a separate job that runs no build script.
 - `vitest` and `@vitest/coverage-v8` are pinned to the same exact version:
   `@vitest/coverage-v8` takes as a peer only the `vitest` version it was
   released with, so a caret on `vitest` lets the two drift apart.
+
+## Errors
+
+Every package throws a `TuyaError`, and a caller tells one failure from
+another by its `code`.
+
+Rejected: a subclass for each failure a caller handles differently.
+
+- A caller would import a class for each failure and test each with
+  `instanceof`, where a `code` is one string to switch on.
+- A subclass would carry nothing a `code` does not.
+
+## Protocol 3.3
+
+Where the sources disagree, `@open-tuya/local` takes what most of them do, and
+the most recent change on a tie. Four count as independent:
+[tinytuya](https://github.com/jasonacox/tinytuya),
+[tuyapi](https://github.com/codetheweb/tuyapi),
+[homebridge-tuya-lan](https://github.com/AMoo-Miki/homebridge-tuya-lan) and
+[python-tuya](https://github.com/clach04/python-tuya), with
+[hass-localtuya](https://github.com/xZetsubou/hass-localtuya) for the stream
+handling it rewrote. These count for nothing:
+
+| Source | Why |
+| --- | --- |
+| rospogrigio/localtuya | Its protocol code is tinytuya's since 2023 |
+| mileperhour/localtuya-homeassistant | A copy of python-tuya, 3.1 alone |
+| iRayanKhan/homebridge-tuya, adrianjagielak/homebridge-tuya-plus | Their 3.3 code is homebridge-tuya-lan's |
+| TuyaAPI/stub, Apollon77/ioBroker.tuya | Built on tuyapi |
+| simensma/tuyamqtt, iamjond/tuyagateway | Their protocol code is in libraries not cloned here |
+
+| Question | Chosen | For | Against |
+| --- | --- | --- | --- |
+| Which commands go without the "3.3" header | `HEART_BEAT`, `DP_QUERY` and `UPDATEDPS` | tinytuya [`0c68f4b`](https://github.com/jasonacox/tinytuya/commit/0c68f4b4d40c16fb82586a37afe43588116920e4); homebridge-tuya-lan [`45ad489`](https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/45ad4893c18bbf308bd44ab286918d49833f2ed6) for `HEART_BEAT` and `DP_QUERY`; tuyapi [`4be9cc5`](https://github.com/codetheweb/tuyapi/commit/4be9cc5de3048ab0f5eb97674ca964112d1d9452) for `DP_QUERY` and `UPDATEDPS` | tuyapi [`ab5c85e`](https://github.com/codetheweb/tuyapi/commit/ab5c85e568d992f13107dbf684e6bec6df9bb7db) puts it on `HEART_BEAT` |
+| Whether a frame from a device carries a return code | Always | tinytuya [`ee995bf`](https://github.com/jasonacox/tinytuya/commit/ee995bf90fc3a676803df94e6bb699b362cdf47a), 2021; python-tuya [`25d8b08`](https://github.com/clach04/python-tuya/commit/25d8b0846d9ca8857c99f9ff4c93a11fe64b9674) | tuyapi [`31a0cab`](https://github.com/codetheweb/tuyapi/commit/31a0cabf76149e29391b08409f9be1bfa7cabc0c) and homebridge-tuya-lan [`45ad489`](https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/45ad4893c18bbf308bd44ab286918d49833f2ed6), both 2019, take one only when the top 24 bits of its word are zero |
+| Whether a wrong CRC or suffix rejects a frame | Neither does | tinytuya logs it and keeps the frame; homebridge-tuya-lan and python-tuya never check | tuyapi [`9ea40d7`](https://github.com/codetheweb/tuyapi/commit/9ea40d76dbc8721a174b427edf738d8f2f338c60) throws |
+| Where a frame ends | Where its length field says | hass-localtuya [`6d07160`](https://github.com/xZetsubou/hass-localtuya/commit/6d07160c4f3bc1addd19d44f49aed1c40635e7be), 2024; tinytuya | tuyapi [`98d4bf8`](https://github.com/codetheweb/tuyapi/commit/98d4bf8f3338e994bc60f307db850c9b54d2424c) and homebridge-tuya-lan, 2019, end it at the first `0000AA55`, which a ciphertext can hold |
+| The largest length field | 1440 | tinytuya [`0f38679`](https://github.com/jasonacox/tinytuya/commit/0f38679d7972e446a3db854aa5eb50d8104ddd9d), 2026 | hass-localtuya takes 2000; tuyapi and homebridge-tuya-lan have no limit |
+| Which received payloads lose the "3.3" header | One that starts with "3.3" | tinytuya [`ee995bf`](https://github.com/jasonacox/tinytuya/commit/ee995bf90fc3a676803df94e6bb699b362cdf47a); tuyapi [`ab5c85e`](https://github.com/codetheweb/tuyapi/commit/ab5c85e568d992f13107dbf684e6bec6df9bb7db) | homebridge-tuya-lan searches the whole frame for "3.3"; python-tuya never strips it |
+| A payload that does not decrypt | An error | tinytuya [`8528e03`](https://github.com/jasonacox/tinytuya/commit/8528e03565d6dbaeebad372903de0adcfd3d037c), 2022; python-tuya | tuyapi and homebridge-tuya-lan, 2019, read it as plaintext |

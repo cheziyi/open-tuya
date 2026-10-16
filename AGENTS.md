@@ -111,6 +111,20 @@ listed in [README.md](README.md#credits).
 - **List a device the script cannot convert in `UNSUPPORTED.md`**, with the
   tuya-local feature it uses. Never convert part of a device.
 
+## Dependencies, errors and tests
+
+- **Inject only an I/O seam**, such as a connection or an HTTP client, through
+  the constructor as a `private readonly` parameter, and build the real one in
+  the `create*` function. A protocol function takes a nonce or an IV as an
+  argument. Never inject a clock, a random source or a logger: use fake timers
+  in the test.
+- **Throw a `TuyaError` with a `code`**, and pass the error it stands for as
+  `cause`. Assert the `code` in a test, not the message:
+  [DESIGN.md](DESIGN.md#errors) says why.
+- **Put a test in `__tests__/` beside the code it tests**, a fake in
+  `__tests__/mocks/` and captured bytes in `__tests__/fixtures/`. Fake a seam
+  by hand; never `vi.mock` a module of this repository.
+
 ## Comments
 
 - **No comments except gotchas and sources.** A comment explains behaviour the
