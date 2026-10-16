@@ -61,6 +61,10 @@ importers:
       '@open-tuya/core':
         specifier: workspace:^
         version: link:../core
+    devDependencies:
+      '@open-tuya/simulators':
+        specifier: workspace:^
+        version: link:../simulators
 
   packages/open-tuya:
     dependencies:

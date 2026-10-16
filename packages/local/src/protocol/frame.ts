@@ -26,6 +26,10 @@ export interface ReceivedTuyaFrame extends TuyaFrame {
 
 export interface DecodedFrames {
   frames: ReceivedTuyaFrame[];
+  /** One error for each whole frame left out of `frames`: its CRC, HMAC or
+   * tag is wrong, or its payload does not decrypt. The frames after it are
+   * read all the same. */
+  errors: TuyaError[];
   /** The bytes of a frame not yet whole, to put in front of the next read. */
   remainder: Buffer;
 }
@@ -56,9 +60,10 @@ export function encodeV34Frame(frame: TuyaFrame, key: Uint8Array): Buffer {
 // https://github.com/jasonacox/tinytuya/commit/ee995bf90fc3a676803df94e6bb699b362cdf47a
 // and https://github.com/clach04/python-tuya/commit/25d8b0846d9ca8857c99f9ff4c93a11fe64b9674.
 /** Splits the bytes read from a 3.1 to 3.3 device into whole frames. A
- * payload and the remainder are views of `bytes`, not copies. It throws a
- * `TuyaError` with code `MALFORMED_FRAME` for a length field under 12 or over
- * 1440, or a wrong CRC. It does not check the suffix: see
+ * payload and the remainder are views of `bytes`, not copies. A frame whose
+ * CRC is wrong goes in `errors` as a `TuyaError` with code `MALFORMED_FRAME`.
+ * It throws a `TuyaError` with code `MALFORMED_FRAME` for a length field under
+ * 12 or over 102,400. It does not check the suffix: see
  * DESIGN.md#received-frames. */
 export function decodeFrames(bytes: Uint8Array): DecodedFrames {
   return decode55aaFrames(
@@ -72,9 +77,9 @@ export function decodeFrames(bytes: Uint8Array): DecodedFrames {
 /** Splits the bytes read from a 3.4 device into whole frames, checking each
  * HMAC under `key`: the local key during the session key negotiation, and the
  * session key after it. A payload and the remainder are views of `bytes`,
- * not copies. It throws a `TuyaError` with code `MALFORMED_FRAME` for a
- * length field under 40 or over 1440, and `DECRYPTION_FAILED` for a wrong
- * HMAC. */
+ * not copies. A frame whose HMAC is wrong goes in `errors` as a `TuyaError`
+ * with code `DECRYPTION_FAILED`. It throws a `TuyaError` with code
+ * `MALFORMED_FRAME` for a length field under 40 or over 102,400. */
 export function decodeV34Frames(
   bytes: Uint8Array,
   key: Uint8Array,
@@ -123,28 +128,28 @@ function decode55aaFrames(
     uncountedLength: HEADER_LENGTH,
     minLength: RETURN_CODE_LENGTH + signatureLength + SUFFIX_LENGTH,
   });
-  return {
-    frames: frames.map((frame) => {
-      const signatureOffset = frame.length - SUFFIX_LENGTH - signatureLength;
-      const signature = frame.subarray(
+  const decoded: DecodedFrames = { frames: [], errors: [], remainder };
+  for (const frame of frames) {
+    const signatureOffset = frame.length - SUFFIX_LENGTH - signatureLength;
+    const signature = frame.subarray(
+      signatureOffset,
+      signatureOffset + signatureLength,
+    );
+    if (!sign(frame.subarray(0, signatureOffset)).equals(signature)) {
+      decoded.errors.push(signatureError());
+      continue;
+    }
+    decoded.frames.push({
+      sequenceNumber: frame.readUInt32BE(4),
+      command: frame.readUInt32BE(8),
+      returnCode: frame.readUInt32BE(HEADER_LENGTH),
+      payload: frame.subarray(
+        HEADER_LENGTH + RETURN_CODE_LENGTH,
         signatureOffset,
-        signatureOffset + signatureLength,
-      );
-      if (!sign(frame.subarray(0, signatureOffset)).equals(signature)) {
-        throw signatureError();
-      }
-      return {
-        sequenceNumber: frame.readUInt32BE(4),
-        command: frame.readUInt32BE(8),
-        returnCode: frame.readUInt32BE(HEADER_LENGTH),
-        payload: frame.subarray(
-          HEADER_LENGTH + RETURN_CODE_LENGTH,
-          signatureOffset,
-        ),
-      };
-    }),
-    remainder,
-  };
+      ),
+    });
+  }
+  return decoded;
 }
 
 function signWithCrc32(bytes: Uint8Array): Buffer {

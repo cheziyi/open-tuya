@@ -53,9 +53,10 @@ export function encodeV35Frame(
 // and https://github.com/codetheweb/tuyapi/commit/96af23b59f5dac4a10ef81afd8cc94e85b1ed6d9.
 /** Splits the bytes read from a 3.5 device into whole frames and decrypts
  * each under `key`: the local key during the session key negotiation, and
- * the session key after it. The remainder is a view of `bytes`, not a copy.
- * It throws a `TuyaError` with code `MALFORMED_FRAME` for a length field
- * under 32 or over 1440, and `DECRYPTION_FAILED` for a wrong tag. */
+ * the session key after it. The remainder is a view of `bytes`, not a copy. A
+ * frame whose tag is wrong goes in `errors` as a `TuyaError` with code
+ * `DECRYPTION_FAILED`. It throws a `TuyaError` with code `MALFORMED_FRAME` for
+ * a length field under 32 or over 102,400. */
 export function decodeV35Frames(
   bytes: Uint8Array,
   key: Uint8Array,
@@ -66,25 +67,30 @@ export function decodeV35Frames(
     uncountedLength: HEADER_LENGTH + SUFFIX_BYTES.length,
     minLength: IV_LENGTH + RETURN_CODE_LENGTH + TAG_LENGTH,
   });
-  return {
-    frames: frames.map((frame) => {
-      const tagOffset = frame.length - SUFFIX_BYTES.length - TAG_LENGTH;
-      const plaintext = decrypt(
+  const decoded: DecodedFrames = { frames: [], errors: [], remainder };
+  for (const frame of frames) {
+    const tagOffset = frame.length - SUFFIX_BYTES.length - TAG_LENGTH;
+    let plaintext: Buffer;
+    try {
+      plaintext = decrypt(
         key,
         frame.subarray(HEADER_LENGTH, HEADER_LENGTH + IV_LENGTH),
         frame.subarray(4, HEADER_LENGTH),
         frame.subarray(HEADER_LENGTH + IV_LENGTH, tagOffset),
         frame.subarray(tagOffset, tagOffset + TAG_LENGTH),
       );
-      return {
-        sequenceNumber: frame.readUInt32BE(6),
-        command: frame.readUInt32BE(10),
-        returnCode: plaintext.readUInt32BE(0),
-        payload: plaintext.subarray(RETURN_CODE_LENGTH),
-      };
-    }),
-    remainder,
-  };
+    } catch (error) {
+      decoded.errors.push(error as TuyaError);
+      continue;
+    }
+    decoded.frames.push({
+      sequenceNumber: frame.readUInt32BE(6),
+      command: frame.readUInt32BE(10),
+      returnCode: plaintext.readUInt32BE(0),
+      payload: plaintext.subarray(RETURN_CODE_LENGTH),
+    });
+  }
+  return decoded;
 }
 
 function decrypt(

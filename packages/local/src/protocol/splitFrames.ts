@@ -2,7 +2,7 @@ import { TuyaError } from "@open-tuya/core";
 
 // A corrupt length field would leave the reader waiting for bytes that never
 // come: see DESIGN.md#received-frames.
-const MAX_LENGTH = 1440;
+const MAX_LENGTH = 102_400;
 
 export interface FrameLayout {
   prefix: Buffer;

@@ -5,9 +5,16 @@ export type TuyaErrorCode =
   /** A payload did not decrypt, or a frame's HMAC or tag is wrong: the local
    * key, the session key or the protocol version is wrong. */
   | "DECRYPTION_FAILED"
-  /** The device's reply to the session key negotiation is too short, or its
-   * HMAC is wrong: the local key is wrong. */
-  | "SESSION_KEY_NEGOTIATION_FAILED";
+  /** The device's reply to the session key negotiation is too short, its HMAC
+   * is wrong, or it never came: the local key or the protocol version is
+   * wrong. */
+  | "SESSION_KEY_NEGOTIATION_FAILED"
+  /** No connection to the device opened: check its IP address, and that it
+   * is on and on the LAN. */
+  | "CONNECTION_FAILED"
+  /** The device closed the connection, the connection failed, or the device
+   * stopped answering heartbeats: open a new connection. */
+  | "CONNECTION_LOST";
 
 /** Every failure the open-tuya packages throw. Tell one from another by
  * `code`. */

@@ -38,6 +38,9 @@
   "dependencies": {
     "@open-tuya/core": "workspace:^"
   },
+  "devDependencies": {
+    "@open-tuya/simulators": "workspace:^"
+  },
   "engines": {
     "node": ">=22.19.0"
   }
