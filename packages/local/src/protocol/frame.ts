@@ -63,7 +63,7 @@ export function encodeV34Frame(frame: TuyaFrame, key: Uint8Array): Buffer {
  * payload and the remainder are views of `bytes`, not copies. A frame whose
  * CRC is wrong goes in `errors` as a `TuyaError` with code `MALFORMED_FRAME`.
  * It throws a `TuyaError` with code `MALFORMED_FRAME` for a length field under
- * 12 or over 1440. It does not check the suffix: see
+ * 12 or over 102,400. It does not check the suffix: see
  * DESIGN.md#received-frames. */
 export function decodeFrames(bytes: Uint8Array): DecodedFrames {
   return decode55aaFrames(
@@ -79,7 +79,7 @@ export function decodeFrames(bytes: Uint8Array): DecodedFrames {
  * session key after it. A payload and the remainder are views of `bytes`,
  * not copies. A frame whose HMAC is wrong goes in `errors` as a `TuyaError`
  * with code `DECRYPTION_FAILED`. It throws a `TuyaError` with code
- * `MALFORMED_FRAME` for a length field under 40 or over 1440. */
+ * `MALFORMED_FRAME` for a length field under 40 or over 102,400. */
 export function decodeV34Frames(
   bytes: Uint8Array,
   key: Uint8Array,

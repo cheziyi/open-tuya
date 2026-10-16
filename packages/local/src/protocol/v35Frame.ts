@@ -56,7 +56,7 @@ export function encodeV35Frame(
  * the session key after it. The remainder is a view of `bytes`, not a copy. A
  * frame whose tag is wrong goes in `errors` as a `TuyaError` with code
  * `DECRYPTION_FAILED`. It throws a `TuyaError` with code `MALFORMED_FRAME` for
- * a length field under 32 or over 1440. */
+ * a length field under 32 or over 102,400. */
 export function decodeV35Frames(
   bytes: Uint8Array,
   key: Uint8Array,

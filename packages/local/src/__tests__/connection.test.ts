@@ -308,7 +308,7 @@ describe("openConnection", () => {
 
   it("closes with CONNECTION_LOST when the device sends a length field out of range", async () => {
     const outOfRange = Buffer.from(V33_STATUS);
-    outOfRange.writeUInt32BE(0xffff, 12);
+    outOfRange.writeUInt32BE(102_401, 12);
     const device = await startRaw(outOfRange);
     const { connection, closes } = open(device.port, "3.3");
     await connection;

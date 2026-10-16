@@ -112,7 +112,7 @@ describe("decodeFrames", () => {
     expect(decodeFrames(frame).frames).toHaveLength(1);
   });
 
-  it.each([11, 1441])(
+  it.each([11, 102_401])(
     "throws a TuyaError with code MALFORMED_FRAME for a length field of %i",
     (length) => {
       expect(() => decodeFrames(withLengthField(length))).toThrow(
