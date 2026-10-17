@@ -1,5 +1,21 @@
 # @open-tuya/core
 
+## 0.1.0
+
+### Minor Changes
+
+- [#11](https://github.com/cheziyi/open-tuya/pull/11) [`e25e29d`](https://github.com/cheziyi/open-tuya/commit/e25e29d1ef9a48b13b36fd0ae1467b708b532873) Thanks [@cheziyi](https://github.com/cheziyi)! - `TuyaClient.close()` now returns a promise that resolves once the client's connections are released, and `TuyaClient` extends `AsyncDisposable`, so `await using` closes a client.
+
+- [#17](https://github.com/cheziyi/open-tuya/pull/17) [`68bbe44`](https://github.com/cheziyi/open-tuya/commit/68bbe441e0e8642b300c0075e8d99e07055ec71f) Thanks [@cheziyi](https://github.com/cheziyi)! - `TuyaClient` now has `connected`, which a class implementing it has to add; add the `ROUTES_FAILED` and `NO_CATALOG_ENTRY` error codes.
+
+### Patch Changes
+
+- [#15](https://github.com/cheziyi/open-tuya/pull/15) [`15b8f24`](https://github.com/cheziyi/open-tuya/commit/15b8f24376372cdc45e457f26dec173b2c49ecdc) Thanks [@cheziyi](https://github.com/cheziyi)! - Add `TuyaCloudAccount` and `TuyaCloudDevice`, which both clouds implement; `MqttSession` and `fetchJson`, which both clouds use; `isDataPointValue`; and the `PERMISSION_DENIED` error code.
+
+- [#14](https://github.com/cheziyi/open-tuya/pull/14) [`d7d5e08`](https://github.com/cheziyi/open-tuya/commit/d7d5e08edb24c7fcc482f829111a30c554ee45fc) Thanks [@cheziyi](https://github.com/cheziyi)! - Add the `QR_CODE_EXPIRED`, `SESSION_EXPIRED`, `RATE_LIMITED` and `UNMAPPED_DATA_POINT` error codes, for the cloud.
+
+- [#11](https://github.com/cheziyi/open-tuya/pull/11) [`e25e29d`](https://github.com/cheziyi/open-tuya/commit/e25e29d1ef9a48b13b36fd0ae1467b708b532873) Thanks [@cheziyi](https://github.com/cheziyi)! - Add the `DISCOVERY_FAILED` error code, for a UDP port that discovery cannot bind.
+
 ## 0.0.2
 
 ### Patch Changes
