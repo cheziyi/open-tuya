@@ -1,5 +1,17 @@
 # open-tuya
 
+## 0.0.2
+
+### Patch Changes
+
+- [#6](https://github.com/cheziyi/open-tuya/pull/6) [`fb31159`](https://github.com/cheziyi/open-tuya/commit/fb311599138de62fa302c081c552ef21579c553a) Thanks [@cheziyi](https://github.com/cheziyi)! - Describe the package as controlling Tuya devices over the LAN, the Tuya developer platform and the Smart Life app's cloud alike, rather than over the LAN with the cloud as a fallback.
+- Updated dependencies [[`c1443d9`](https://github.com/cheziyi/open-tuya/commit/c1443d993e6178e6d03bc4bcc607fe5f264089f9), [`050676f`](https://github.com/cheziyi/open-tuya/commit/050676f6bb225c21e02ca4a0ccbe0923a18d0795), [`75d11fb`](https://github.com/cheziyi/open-tuya/commit/75d11fb6afcf79cff49b00b9b865c67456da3c1c), [`33b888e`](https://github.com/cheziyi/open-tuya/commit/33b888e8d65c74b2764c70ac71196fbbe0f3d77e), [`75d11fb`](https://github.com/cheziyi/open-tuya/commit/75d11fb6afcf79cff49b00b9b865c67456da3c1c), [`c1443d9`](https://github.com/cheziyi/open-tuya/commit/c1443d993e6178e6d03bc4bcc607fe5f264089f9), [`33b888e`](https://github.com/cheziyi/open-tuya/commit/33b888e8d65c74b2764c70ac71196fbbe0f3d77e), [`050676f`](https://github.com/cheziyi/open-tuya/commit/050676f6bb225c21e02ca4a0ccbe0923a18d0795), [`0136431`](https://github.com/cheziyi/open-tuya/commit/0136431fb7544e0db14a9c9d0534194ac3c9102d)]:
+  - @open-tuya/core@0.0.2
+  - @open-tuya/local@0.1.0
+  - @open-tuya/cloud-app@0.0.2
+  - @open-tuya/cloud-developer@0.0.2
+  - @open-tuya/devices@0.0.2
+
 ## 0.0.1
 
 ### Patch Changes
