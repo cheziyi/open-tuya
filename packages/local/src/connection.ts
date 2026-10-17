@@ -89,13 +89,15 @@ export async function openConnection(
 // https://github.com/jasonacox/tinytuya/commit/a2486e834cefeec85da7fb012136d9235acc50b3
 // and https://github.com/rospogrigio/localtuya/commit/957cf25dd0af995c496a5644c7a773b46a426b04,
 // so a reply is not matched to its request by sequence number.
-/** An open TCP connection to one device. Open one with `openConnection`. */
-export class TuyaConnection {
+/** An open TCP connection to one device. Open one with `openConnection`.
+ * `await using` closes it at the end of its scope. */
+export class TuyaConnection implements AsyncDisposable {
   private buffered: Buffer = Buffer.alloc(0);
   private unansweredHeartbeats = 0;
   private closed = false;
   private socketError: Error | undefined;
   private readonly heartbeat: NodeJS.Timeout;
+  private readonly released: Promise<void>;
 
   constructor(
     private readonly socket: Socket,
@@ -103,6 +105,9 @@ export class TuyaConnection {
     private readonly key: Buffer,
     private sequenceNumber: number,
   ) {
+    this.released = new Promise((resolve) =>
+      socket.once("close", () => resolve()),
+    );
     socket.on("data", (chunk: Buffer) => this.receive(chunk));
     socket.on("error", (error) => {
       this.socketError = error;
@@ -159,8 +164,15 @@ export class TuyaConnection {
     );
   }
 
-  close(): void {
+  /** Closes the connection, calling `onClose` with no error, and resolves
+   * once the socket is released. */
+  async close(): Promise<void> {
     this.end();
+    await this.released;
+  }
+
+  async [Symbol.asyncDispose](): Promise<void> {
+    await this.close();
   }
 
   private receive(chunk: Buffer): void {

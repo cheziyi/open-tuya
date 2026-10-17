@@ -199,6 +199,28 @@ describe.each(PROTOCOL_VERSIONS)("LocalTuyaClient on %s", (version) => {
       code: "CONNECTION_LOST",
     });
   });
+
+  it("closes its connection at the end of an await using scope", async () => {
+    const device = await startDevice(version);
+    {
+      await using client = connect(device.port, version).client;
+      await client.readDataPoints();
+    }
+
+    await until(() => !device.ready);
+  });
+
+  it("closes while its connection is still opening", async () => {
+    const device = await startDevice(version);
+    const { client } = connect(device.port, version);
+
+    await client.close();
+
+    await until(() => !device.ready);
+    await expect(client.readDataPoints()).rejects.toMatchObject({
+      code: "CONNECTION_LOST",
+    });
+  });
 });
 
 describe("LocalTuyaClient", () => {

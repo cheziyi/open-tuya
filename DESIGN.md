@@ -131,6 +131,24 @@ Rejected: a subclass for each failure a caller handles differently.
   `instanceof`, where a `code` is one string to switch on.
 - A subclass would carry nothing a `code` does not.
 
+## Closing
+
+`TuyaConnection`, every `TuyaClient`, `TuyaDiscovery` and
+`SimulatedTuyaDevice` each hold sockets, and `close()` releases them.
+`[Symbol.asyncDispose]` calls `close()`, so `await using` releases the object
+at the end of its scope.
+
+| Choice | Why |
+| --- | --- |
+| `close`, whatever made the object | Node names it so for every object that holds a socket or a file, whatever made it: `net.createServer`, `dgram.createSocket`, `fs.promises.open`. One verb that always means "released for good" serves a caller better than one paired with each factory |
+| `close()` resolves once the sockets are released | A caller that binds the same port again, or exits, needs to know when it is free |
+| Closing twice is safe | `await using` and a `close()` of the caller's own can both reach one object |
+| `[Symbol.asyncDispose]` beside `close()` | `await using` releases the object even when its scope throws. Node's `net.Server`, `dgram.Socket` and `FileHandle` pair the two the same way |
+| `TuyaClient` extends `AsyncDisposable` | A caller holding a client through the interface can use `await using` too. The type comes from `@types/node`, as TypeScript's `es2024` lib lacks it: a caller who compiles without `@types/node` adds `esnext.disposable` to `lib` |
+
+Rejected: a `dispose()` method, which is not Node's name for it, and `stop()`
+for a discovery, which says it could start again.
+
 ## Protocol 3.3
 
 Where the sources disagree on a protocol fact, `@open-tuya/local` takes what
@@ -252,3 +270,31 @@ device accepts it.
 | An error that is not a `TuyaError`, such as a local key of the wrong length, stops the reconnecting | It fails every connection alike |
 | A write's version header carries a serial number from 1 and a source ID drawn at random from 1000 to 1,000,999, both kept for the client's life | A device uses neither. The source ID tells senders apart, so two clients draw different ones; a serial that restarted at each reconnect would repeat a pair |
 | No `UPDATEDPS` | Nothing needs it yet, and some devices answer it with "query dp failed" and close the connection ([hass-localtuya#784](https://github.com/xZetsubou/hass-localtuya/issues/784)) |
+
+## Discovery
+
+`discoverDevices` listens on UDP ports 6667 and 7000, and asks 3.5 devices to
+answer. Where the sources disagree on a protocol fact:
+
+| Question | Chosen | For | Against |
+| --- | --- | --- | --- |
+| What a request puts in `ip` | The address of the interface the request leaves by, against the most recent change. A device sends its answer to that address ([`cd3b764`](https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1)), so it has to be one the device reaches | tinytuya [`831f113`](https://github.com/jasonacox/tinytuya/commit/831f1131f17e6110c814c7d912e44a192fddb002), 2024 | homebridge-tuya-plus [`b3cb091`](https://github.com/adrianjagielak/homebridge-tuya-plus/commit/b3cb091641238dc00b9b62b7d16795ffeb9acdef), 2026, sends `255.255.255.255` |
+| Which address a client connects to | The broadcast's `ip` field | tuyapi [`ab5db86`](https://github.com/codetheweb/tuyapi/commit/ab5db864d86fe46fc045b490d6213f4ce5713c27), homebridge-tuya-lan [`800ade3`](https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/800ade32914c66a60566efbb485268283c8ca86a), rospogrigio/localtuya [`1e23120`](https://github.com/rospogrigio/localtuya/commit/1e2312087238eb22f9aa03e59ac5336b4dc0054c), homebridge-tuya-plus | tinytuya [`a495c69`](https://github.com/jasonacox/tinytuya/commit/a495c694990c386004f7780217afaa6832d45fa0) takes the address the datagram came from |
+| Whether the first 4 bytes of a 3.5 broadcast's plaintext are a return code | Always: Tuya's firmware writes one ([`cd3b764`](https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1)), and both captures carry it | tuyapi [`96af23b`](https://github.com/codetheweb/tuyapi/commit/96af23b59f5dac4a10ef81afd8cc94e85b1ed6d9) | tinytuya [`5742dcb`](https://github.com/jasonacox/tinytuya/commit/5742dcb99ef3c17d86b31470ed98b1acaed4e739) takes them only when the JSON starts after them; homebridge-tuya-plus [`e316a91`](https://github.com/adrianjagielak/homebridge-tuya-plus/commit/e316a912e5d24d6ad302768d26d5182ed2acef86) only when they are zero |
+| What a 3.4 broadcast ends with | A CRC32, as on 3.3, where a 3.4 TCP frame carries an HMAC. The capture's CRC holds | tuyapi [`45e0ae8`](https://github.com/codetheweb/tuyapi/commit/45e0ae8cb3064a89edf57255f42efcc9fc338769); captured in hass-localtuya [`aeb5f9c`](https://github.com/xZetsubou/hass-localtuya/commit/aeb5f9ce4c07c57e7868f296978fed4a2a5e9f18) | tuyapi [`c2b5e48`](https://github.com/codetheweb/tuyapi/commit/c2b5e48e805699969827affbfc11e893aeef701e) checked an HMAC until `45e0ae8` |
+
+What `discoverDevices` does with what it receives is its own design:
+
+| Choice | Why |
+| --- | --- |
+| `onDevice` is an option, and `close()` stops it | UDP pushes, so an async iterator would buffer without bound behind a slow reader. A scan that resolves after a timeout could not report a device's next broadcast, which a caller waiting to reconnect needs; a caller who wants a scan closes the discovery after a while |
+| Every broadcast and answer is reported | A device repeats its broadcast every few seconds, and each one says it is still there. A caller who wants a list keys it by `deviceId` |
+| Ports 6667 and 7000, not 6666 | 6666 carries 3.1 alone, which `@open-tuya/local` does not speak |
+| A device of another version is left out | `version` then goes to `createLocalTuyaClient` as it is |
+| A request every 6 s, to each IPv4 interface's subnet broadcast address, with the interfaces listed again each time | Some 3.5 devices answer only when asked, and UDP loses datagrams. A request to 255.255.255.255 leaves by one interface alone, and listing the interfaces again finds a laptop's new network on the next round |
+| A random IV for each request | GCM must never take the same IV twice under one key |
+| `reuseAddr` on every platform, and `reusePort` on Linux | Home Assistant or tinytuya on the same host listens on the same ports. On Linux, a program that sets SO_REUSEPORT alone, as tinytuya does, shares its port only with another that sets it. Each broadcast reaches every listener, but the kernel gives an answer on port 7000 to one of them alone |
+| A datagram that is not a device's broadcast is dropped, with no callback | The broadcast key is the same for every device, so unlike a dropped TCP frame it never means the caller's key is wrong: there is nothing for the caller to do |
+| A port that cannot be bound rejects with `DISCOVERY_FAILED`, and is not retried | Another program holds it without sharing it. Whether to wait for it is the caller's decision |
+| An error after the ports are bound, and a failed send, are ignored | A UDP socket has no connection to lose: an error costs one datagram, and a send to an interface that went away fails alone |
+| `TuyaDiscovery` takes its two sockets and the function that lists where requests go | A test binds loopback sockets, so no request leaves the machine and no device on the LAN answers one |

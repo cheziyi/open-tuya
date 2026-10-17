@@ -146,3 +146,17 @@ export const V35_STATUS = Buffer.from(
     "ac6d8b015afa1927b34642ae2ebb708423919cffb4a2f8be660d00009966",
   "hex",
 );
+
+// A client's REQ_DEVINFO, sequence number 0, carrying
+// {"from":"app","ip":"192.168.1.10"} under the broadcast key with the IV
+// DISCOVERY_REQUEST_IV. tinytuya's code above and homebridge-tuya-plus's code at
+// https://github.com/adrianjagielak/homebridge-tuya-plus/commit/8b0c47b2095a3d1e24ef97a7ac3aa7c4be685d91
+// gave the same bytes. tuyapi does not build one.
+export const DISCOVERY_REQUEST_IP = "192.168.1.10";
+export const DISCOVERY_REQUEST_IV = Buffer.from("0123456789ab");
+export const DISCOVERY_REQUEST = Buffer.from(
+  "00006699000000000000000000250000003e3031323334353637383961627f0e835e" +
+    "0dc9a2e1b3e59a027287fb6b6f25ce36b3b18f073545b9be65ea1cdf1b473f7aa91e2323" +
+    "36c3456e20ae37affc4c00009966",
+  "hex",
+);

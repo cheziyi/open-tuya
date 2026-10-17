@@ -54,6 +54,45 @@ export const V35_BROADCAST_PLAINTEXT =
   '"active":2,"ablilty":0,"encrypt":true,"productKey":"key8u54q9dtru5jw",' +
   '"version":"3.5","token":true,"wf_cfg":true,"clientLink":1}';
 
+// Source: A 3.4 device's UDP broadcast, captured in hass-localtuya's
+// tests/test_discovery.py as DEVICE3_4, in
+// https://github.com/xZetsubou/hass-localtuya/commit/aeb5f9ce4c07c57e7868f296978fed4a2a5e9f18.
+// It is encrypted under BROADCAST_KEY.
+export const V34_BROADCAST = Buffer.from(
+  "000055aa0000000000000023000000bc00000000d09766676f3369eb10b5e9f132fd" +
+    "802a4c2be52c54287a15b0282be388a4540e5962dd10b3f166258fffbc11713e2d7d2daf" +
+    "5f6b72db943fb08244c3e4ee98f0c2fb8459b1155fc75d4bf6699f92cba4c0ba52014804" +
+    "5e7605fa0498dfea5aab27a7afd2bd6d46ef72b6df69a156002d3c9dd03574ec0e0b0d8f" +
+    "860f374b41980616cd44036f7601ab71f0aa8391a55ce0913a793742322b90964948dad4" +
+    "b60cc0097b6cdcaa5a148223b3246686a12ebb96315b0000aa55",
+  "hex",
+);
+
+export const V34_BROADCAST_PLAINTEXT =
+  '{"ip":"192.168.1.36","gwId":"bf36eb3bd9f27a4264yxu1","active":2,"ablilty":0,' +
+  '"encrypt":true,"productKey":"key5ckdnys3pqgec","version":"3.4","token":true,' +
+  '"wf_cfg":true}';
+
+// Source: A 3.5 bulb's UDP broadcast to port 6667, captured in
+// https://github.com/jasonacox/tinytuya/issues/247#issuecomment-1372462132.
+// It is encrypted under BROADCAST_KEY.
+export const V35_BULB_BROADCAST = Buffer.from(
+  "0000669900000000000000000013000000efe65fbad09a1e4ccc27460c65e6b04158" +
+    "948c7dc9d3dff15b87551661dca6294f7f0237760e840a9c313247140a191385d89b5f2b" +
+    "b9262a37258ee962ba9022b15ab59faaccdcada29a8ffb7a3d3635471cab5a4ec9458127" +
+    "90aa7e4b4e8b136bcc721319398f92f510f8b4ebe9a83380e052c9e7de90d7900811dca0" +
+    "93c940b4307566ce827c94938be9315f96df33c294c4056fc4af4e316f21125ecb85a0ce" +
+    "fdb8af472d44dbd8587987c2c0d811cc05f3227337ac888dec88f06a672eba0160deb376" +
+    "9a0367a2580001c2d022c1415b1e0f753b2617f0325c9af45e847494014f9b1438d7f7ae" +
+    "6b73822cff60ad00009966",
+  "hex",
+);
+
+export const V35_BULB_BROADCAST_PLAINTEXT =
+  '{"ip":"192.168.2.46","gwId":"ebf310edb88d15f0edyr5i","uuid":"60b308e46e1b5871",' +
+  '"active":2,"ablilty":0,"encrypt":true,"productKey":"key8u54q9dtru5jw",' +
+  '"version":"3.5","token":true,"wf_cfg":true,"clientLink":3}';
+
 // Source: A 3.3 device's error reply to DP_QUERY, sequence number 1, return
 // code 1, with the device's local key, captured in
 // https://github.com/codetheweb/tuyapi/issues/577.

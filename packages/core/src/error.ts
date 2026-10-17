@@ -19,7 +19,10 @@ export type TuyaErrorCode =
    * device's own text, such as "json obj data unvalid". */
   | "REQUEST_REJECTED"
   /** The device did not answer a request in time. */
-  | "REQUEST_TIMED_OUT";
+  | "REQUEST_TIMED_OUT"
+  /** A UDP port that discovery listens on could not be bound: another
+   * program holds it without sharing it. */
+  | "DISCOVERY_FAILED";
 
 /** Every failure the open-tuya packages throw. Tell one from another by
  * `code`. */

@@ -1,5 +1,16 @@
 export * from "./client.js";
 export * from "./connection.js";
+export {
+  type DiscoveredTuyaDevice,
+  decodeBroadcast,
+} from "./discovery/broadcast.js";
+export {
+  type DiscoverDevicesOptions,
+  type DiscoveryRequestTarget,
+  discoverDevices,
+  TuyaDiscovery,
+} from "./discovery/discovery.js";
+export * from "./discovery/request.js";
 export * from "./protocol/commands.js";
 export * from "./protocol/frame.js";
 export * from "./protocol/sessionKey.js";

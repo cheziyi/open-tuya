@@ -1,4 +1,5 @@
 import { randomBytes, randomInt } from "node:crypto";
+import { createSocket, type Socket as UdpSocket } from "node:dgram";
 import {
   type AddressInfo,
   createServer,
@@ -10,6 +11,7 @@ import type {
   DataPointValue,
   ProtocolVersion,
 } from "@open-tuya/core";
+import { openDiscoveryRequest, sealBroadcast } from "./protocol/broadcast.js";
 import {
   type ClientFrame,
   openClientFrame,
@@ -37,6 +39,9 @@ const CONTROL_NEW = 0x0d;
 const DP_QUERY_NEW = 0x10;
 const NONCE_LENGTH = 16;
 const IV_LENGTH = 12;
+// Source: A 3.5 device answers a request to UDP port 7000, in
+// https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
+const DEFAULT_ANSWER_PORT = 7000;
 
 export type { ClientFrame };
 
@@ -47,9 +52,18 @@ export interface StartSimulatedDeviceOptions {
   /** The data points the device holds. A write sets only these. Defaults to
    * none. */
   dataPoints?: DataPoints;
+  /** The ID Tuya calls `gwId`, which the device broadcasts. Defaults to 22
+   * random hex characters. */
+  deviceId?: string;
+  /** Defaults to 16 random hex characters. */
+  productKey?: string;
+  /** The UDP port a 3.5 device answers a discovery request to. Defaults to
+   * 7000. */
+  answerPort?: number;
 }
 
-/** Starts a device listening on a free port of 127.0.0.1. */
+/** Starts a device listening on free ports of 127.0.0.1: TCP for a client,
+ * and UDP for a discovery request. */
 export async function startSimulatedDevice(
   options: StartSimulatedDeviceOptions,
 ): Promise<SimulatedTuyaDevice> {
@@ -57,7 +71,11 @@ export async function startSimulatedDevice(
   // hold back the frame after it.
   const server = createServer({ noDelay: true });
   await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
-  return new SimulatedTuyaDevice(server, options);
+  const discoverySocket = createSocket("udp4");
+  await new Promise<void>((resolve) =>
+    discoverySocket.bind(0, "127.0.0.1", resolve),
+  );
+  return new SimulatedTuyaDevice(server, discoverySocket, options);
 }
 
 // Source: A device serves one client at a time, and a new client closes the
@@ -77,8 +95,9 @@ export async function startSimulatedDevice(
 // Source: A 3.4 or 3.5 device closes the connection on a frame not sealed
 // under its key, in
 // https://github.com/jasonacox/tinytuya/commit/a474c756c1d310ce452d71a7e1f3f52adff80e64.
-/** A Tuya device answering the LAN protocol, for tests. */
-export class SimulatedTuyaDevice {
+/** A Tuya device answering the LAN protocol, for tests. `await using` closes
+ * it at the end of its scope. */
+export class SimulatedTuyaDevice implements AsyncDisposable {
   /** Every frame the connected clients sent, in order: decrypted, with the
    * version header removed. */
   readonly received: ClientFrame[] = [];
@@ -89,6 +108,9 @@ export class SimulatedTuyaDevice {
   /** Whether a write is followed by a STATUS frame of the data points it set:
    * some devices only ack. Defaults to true. */
   pushesAfterWrite = true;
+  readonly deviceId: string;
+  readonly productKey: string;
+  private readonly uuid = randomBytes(8).toString("hex");
   private client: Socket | undefined;
   private sessionKeyAgreed = false;
   private readonly localKey: Buffer;
@@ -97,20 +119,37 @@ export class SimulatedTuyaDevice {
   private sequenceNumber = 0;
   private headerSerialNumber = randomInt(0x10000);
   private deviceNonce: Buffer | undefined;
+  private closing: Promise<void> | undefined;
   private clientNonce: Buffer | undefined;
 
   constructor(
     private readonly server: Server,
+    private readonly discoverySocket: UdpSocket,
     private readonly options: StartSimulatedDeviceOptions,
   ) {
     this.localKey = Buffer.from(options.localKey);
     this.key = this.localKey;
     this.dataPoints = { ...options.dataPoints };
+    this.deviceId = options.deviceId ?? randomBytes(11).toString("hex");
+    this.productKey = options.productKey ?? randomBytes(8).toString("hex");
     server.on("connection", (socket) => this.accept(socket));
+    discoverySocket.on("message", (datagram: Buffer) =>
+      this.answerDiscoveryRequest(datagram),
+    );
+    // An answer that fails to send, as to an address with no route, is an
+    // 'error' event, which would otherwise crash the process.
+    discoverySocket.on("error", () => {});
   }
 
+  /** The TCP port a client connects to. */
   get port(): number {
     return (this.server.address() as AddressInfo).port;
+  }
+
+  /** The UDP port the device takes a discovery request on, where a real
+   * device takes it on 7000. */
+  get requestPort(): number {
+    return this.discoverySocket.address().port;
   }
 
   /** A client is connected and, on 3.4 and 3.5, has agreed a session key. A
@@ -141,10 +180,60 @@ export class SimulatedTuyaDevice {
     this.client?.destroy();
   }
 
-  async close(): Promise<void> {
-    this.disconnect();
+  /** Sends one broadcast, as the device does every few seconds, to `port`
+   * of `address`, where a real device sends it to port 6667 of
+   * 255.255.255.255. */
+  async broadcast(port: number, address = "127.0.0.1"): Promise<void> {
     await new Promise<void>((resolve, reject) =>
-      this.server.close((error) => (error ? reject(error) : resolve())),
+      this.discoverySocket.send(this.sealBroadcast(), port, address, (error) =>
+        error ? reject(error) : resolve(),
+      ),
+    );
+  }
+
+  /** Disconnects the client, and resolves once both ports are released. */
+  close(): Promise<void> {
+    this.disconnect();
+    this.closing ??= Promise.all([
+      new Promise<void>((resolve) =>
+        this.discoverySocket.close(() => resolve()),
+      ),
+      new Promise<void>((resolve, reject) =>
+        this.server.close((error) => (error ? reject(error) : resolve())),
+      ),
+    ]).then(() => {});
+    return this.closing;
+  }
+
+  async [Symbol.asyncDispose](): Promise<void> {
+    await this.close();
+  }
+
+  // Source: A 3.5 device answers a request with its broadcast, sent to the
+  // request's ip rather than to the address it came from, in
+  // https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
+  // Whether a 3.3 or 3.4 device answers is unknown: see UNSUPPORTED.md.
+  private answerDiscoveryRequest(datagram: Buffer): void {
+    const ip = openDiscoveryRequest(datagram);
+    if (this.options.version === "3.5" && ip !== undefined) {
+      this.discoverySocket.send(
+        this.sealBroadcast(),
+        this.options.answerPort ?? DEFAULT_ANSWER_PORT,
+        ip,
+      );
+    }
+  }
+
+  private sealBroadcast(): Buffer {
+    return sealBroadcast(
+      this.options.version,
+      {
+        ip: (this.server.address() as AddressInfo).address,
+        gwId: this.deviceId,
+        uuid: this.uuid,
+        productKey: this.productKey,
+      },
+      randomBytes(IV_LENGTH),
     );
   }
 
