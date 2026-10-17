@@ -132,7 +132,8 @@ field name, the order of messages, a limit a device enforces.
 | `scripts/` | The script that converts tuya-local's device files into `src/catalog/` |
 
 - **Never edit a file in `src/catalog/` by hand.** Change the import script
-  and run it again: the next run overwrites a hand edit.
+  and run it again, `pnpm --filter @open-tuya/devices import-catalog
+  ../../reference/make-all/tuya-local`: the next run overwrites a hand edit.
 - **Add a device to tuya-local, not here**, then run the import script: one
   catalog serves both communities.
 - **Describe a data point in the vocabulary of the control it drives**:
@@ -203,8 +204,13 @@ field name, the order of messages, a limit a device enforces.
 - **An options type is its function's or class's name plus `Options`**:
   `CreateTuyaClientOptions`.
 - **A name carrying a unit spells it after `In`**. Milliseconds abbreviates to
-  `Ms` and degrees Celsius to `C`: `timeoutInMs`, `DEFAULT_TIMEOUT_IN_MS`,
-  `targetTemperatureInC`.
+  `Ms`; degrees to `C`, `F` and `K`; and a unit read as its symbol more than
+  as words to that symbol: `V`, `A`, `W`, `Kw`, `Kwh`, `Hz`, `Ppm`, `Lux`. A
+  compound unit with no common word joins its symbols with `Per`: `UgPerM3`,
+  `LPerMin`. Spell out a unit whose symbol would misread, such as minutes
+  (`Min` reads as minimum) or milliamps (`Ma` beside `Ms`): `timeoutInMs`,
+  `DEFAULT_TIMEOUT_IN_MS`, `targetTemperatureInC`, `pm25InUgPerM3`,
+  `timerInMinutes`, `currentInMilliamps`.
 
 ## Version each package with semver
 

@@ -33,6 +33,26 @@ Install `open-tuya` unless you need only one part of it.
 
 [DESIGN.md](DESIGN.md#packages) says why it is split this way.
 
+## Naming data points
+
+`@open-tuya/devices` holds 1,038 devices converted from
+[tuya-local](https://github.com/make-all/tuya-local). Find a device's entry,
+then read and write its data points by name:
+
+```ts
+import { findDeviceEntries, readControls, writeControls } from "@open-tuya/devices";
+
+const [entry] = findDeviceEntries({ productKey, dataPoints: await client.readDataPoints() });
+readControls(entry, await client.readDataPoints());
+// { device: { on: true, voltageInV: 230.5, powerInW: 12.3, timerInSeconds: 0 } }
+await client.writeDataPoints(writeControls(entry, { device: { on: false } }));
+```
+
+A value is the device's own, in the unit its name carries. A name the
+catalog gives alike across devices is in `CONTROL_NAMES`; any other is the
+control's own, and its `kind` and `measures` say how to handle it.
+`UNSUPPORTED.md` lists the devices not converted yet.
+
 ## Signing in to the Smart Life cloud
 
 Pass Home Assistant's client ID and schema: they are the only pair known to
@@ -132,7 +152,7 @@ engineering.
 | [tuya/tuya-connector](https://github.com/tuya/tuya-connector) | Apache-2.0 | Developer platform API and its thing model, Java, by Tuya |
 | [tuya/tuya-openclaw-skills](https://github.com/tuya/tuya-openclaw-skills) | MIT | The thing model and issuing its properties, documented by Tuya |
 | [tuya/tuya-device-sharing-sdk](https://github.com/tuya/tuya-device-sharing-sdk) | MIT, Copyright (c) 2023 Tuya | Smart Life app QR login and its pushed device updates, by Tuya |
-| [make-all/tuya-local](https://github.com/make-all/tuya-local) | MIT | Device catalog, Home Assistant; its local protocol is tinytuya's and its QR login tuya-device-sharing-sdk's |
+| [make-all/tuya-local](https://github.com/make-all/tuya-local) | MIT, Copyright 2018 Nik Rolls, 2026 Jason Rumney, 2022-2026 other contributors as listed in its ACKNOWLEDGEMENTS.md | Device catalog, Home Assistant; its local protocol is tinytuya's and its QR login tuya-device-sharing-sdk's |
 | [home-assistant-libs/tuya-device-handlers](https://github.com/home-assistant-libs/tuya-device-handlers) | MIT | Fixes to the data points of misbehaving devices, by product |
 | [home-assistant/core `components/tuya`](https://github.com/home-assistant/core/tree/dev/homeassistant/components/tuya) | Apache-2.0 | Standard data point codes by device category, Home Assistant |
 | [tuya/TuyaOpen `src/tuya_cloud_service`](https://github.com/tuya/TuyaOpen/tree/master/src/tuya_cloud_service) | Apache-2.0 | A device's own side of the LAN protocol: what it answers to each command, by Tuya |

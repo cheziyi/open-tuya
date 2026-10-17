@@ -30,12 +30,16 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc",
-    "test": "tsc && vitest run --passWithNoTests"
+    "test": "tsc && vitest run --passWithNoTests",
+    "import-catalog": "node scripts/importTuyaLocal.ts"
   },
   "dependencies": {
     "@open-tuya/core": "workspace:^"
   },
   "engines": {
     "node": ">=22.19.0"
+  },
+  "devDependencies": {
+    "yaml": "^2.9.1"
   }
 }

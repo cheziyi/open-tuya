@@ -68,17 +68,38 @@ it is found only on old devices.
 ## Catalog
 
 `@open-tuya/devices` is converted from tuya-local's device files by
-`scripts/`, and the script runs again each time tuya-local adds devices. A new
-device goes to tuya-local, so the two projects share one catalog rather than
-splitting their contributors.
+`scripts/importTuyaLocal.ts`, and the script runs again each time tuya-local
+adds devices. A new device goes to tuya-local, so the two projects share one
+catalog rather than splitting their contributors.
 
-Each entry is a TypeScript file, `export default { … } satisfies
-TuyaDeviceEntry`, so `tsc` checks every entry against the type:
+Each entry is a TypeScript file, `const entry: TuyaDeviceEntry = { … }`, so
+`tsc` checks every entry against the type:
 
 - Rejected: tuya-local's YAML as it is. It describes a device as Home
   Assistant entities, and nothing checks a YAML file against our types.
 - Rejected: JSON. TypeScript widens a JSON string to `string`, so `tsc` cannot
-  catch a wrong value such as an unknown mode.
+  catch a wrong value such as an unknown data point type.
+- Rejected: `satisfies TuyaDeviceEntry`. It checks as strictly, but `tsc` then
+  writes each entry's whole literal type into its declaration file, which
+  doubled the package.
+
+| Choice | Why |
+| --- | --- |
+| A device's controls are grouped into components: a light, fan or climate entity is one, its other entities join the device's main one, and a device with no such entity has one named `device` | A control often repeats within a device: a backlight beside the light, a second valve. Matter's endpoints and HomeKit's services group the same way |
+| A control's value is the device's own after tuya-local's mapping and scale, with the device's range and unit | Every caller rescales to its own target, HomeKit to percent and Matter to 1–254, so a catalog that rescaled would lose precision for nothing |
+| A control's name carries its unit after `In`: `targetTemperatureInC`, `currentInMilliamps` | `AGENTS.md` names units so. A device that reports Fahrenheit has `targetTemperatureInF` |
+| A temperature on a device that switches unit at runtime has no unit in its name, and names the control that holds it in `unitFrom` | 180 of 492 climate and water heater files read their unit from a data point |
+| A climate entity's temperatures share one unit: the unit data point's, else the first temperature data point's, else Celsius | tuya-local resolves it so ([`climate.py`](https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/climate.py#L127-L156)) |
+| A standard data point takes a name from the converter's table, such as `hvacMode` for climate's `hvac_mode`; any other takes tuya-local's own name, translation key or class, in camelCase | The table covers what tuya-local names alike across devices; a free-text name such as "Outlet temperature" already says what it controls |
+| `CONTROL_NAMES` lists the names the catalog gives alike across devices, as a constant typed by its values; `KnownControlName` adds their unit suffixes | A caller's editor completes a known name, and `tsc` fails the converter if its table names one the list lacks. A catalog test fails once 20 entries share a name the list lacks, so the list follows each import |
+| A name of a control's own stays a `string` | It comes from the device file's text, so no fixed list holds it |
+| Every control has a `kind`, `switch`, `button`, `number`, `select`, `sensor`, `event` or `text`, and many say what they `measure` | A caller that meets a name it does not know handles the control by these: a button acts when written, where a switch toggles, though both take a boolean. `measures` turns tuya-local's class into the catalog's own words, so a free-form `poolTemperatureInC` still reads as a temperature |
+| A device file is converted whole or left out, and the script lists those it leaves out in `UNSUPPORTED.md` with the feature they use | `AGENTS.md` forbids converting part of a device |
+| The conversion takes tuya-local's mapping as `values`, `otherwise` and `absent`, and its `scale`, `step`, `invert`, `range` and `target_range` | 1,038 of 1,772 files use nothing more. `format` and `mask`, then `constraint` and `conditions`, are the next features to convert |
+| Presentation is dropped: icons, translation keys, entity categories, `hidden` entities, `deprecated` entities, `available` flags, and data points tuya-local itself calls `unknown_…` | None changes what a value means or what may be written. A data point given no control stays in `dataPoints`, which matching reads |
+| Lookup scores entries as tuya-local does: a product key match scores 101, and otherwise the share of reported data points the entry names | One product key appears in more than one file, so lookup returns candidates, best first |
+| Each entry records the tuya-local commit that last changed its file | A run then changes only the entries whose files changed |
+| `yaml` is a dev dependency of `@open-tuya/devices` | The script parses tuya-local's files with it. One file it rejects, as YAML 1.2 does, is listed in `UNSUPPORTED.md` rather than parsed by a laxer parser |
 
 A device whose product has no entry could later be named by Tuya's standard
 data point codes for its category, such as `temp_set`; the cloud reports each

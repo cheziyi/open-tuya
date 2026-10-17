@@ -6,7 +6,9 @@
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "allowImportingTsExtensions": false
   },
-  "exclude": ["src/**/__tests__/**"]
+  "exclude": ["src/**/__tests__/**"],
+  "include": ["src/**/*"]
 }
