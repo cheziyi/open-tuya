@@ -1,7 +1,7 @@
 import type { DataPoints } from "@open-tuya/core";
-import { openMqttConnection } from "@open-tuya/mqtt";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { DeveloperCloudAccount } from "../account.js";
+import { openMqttConnection } from "../mqtt.js";
 import { until, useFakeTimers } from "./clock.js";
 import { type Broker, startBroker } from "./mocks/broker.js";
 import {

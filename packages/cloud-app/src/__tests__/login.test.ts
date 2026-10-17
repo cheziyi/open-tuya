@@ -1,5 +1,5 @@
+import type { Fetch } from "@open-tuya/core";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { Fetch } from "../fetchJson.js";
 import { QrLogin } from "../login.js";
 
 const OPTIONS = {

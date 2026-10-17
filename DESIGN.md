@@ -14,10 +14,9 @@
   changes. [Cloud logins](#cloud-logins) says why they are two packages.
 - `@open-tuya/devices` releases each time a device is added.
 - `@open-tuya/simulators` is installed only as a dev dependency.
-- `@open-tuya/mqtt` holds the MQTT client both clouds receive pushes through,
-  so a fix to it lands once: [MQTT](#mqtt) says what it holds.
-- `@open-tuya/core` holds the types and errors the others all use, so no
-  package but the two clouds depends on another.
+- `@open-tuya/core` holds the types and errors the others all use, and the
+  two pieces both clouds share, `fetchJson` and `MqttSession`, so none of them
+  depends on another: [MQTT](#mqtt) says why the session is there.
 
 `open-tuya` depends on the others through `^` ranges, so a minor or patch
 release of one reaches its callers without a release of `open-tuya`.
@@ -51,7 +50,7 @@ Each way of signing in to the Tuya cloud is its own package:
 | `@open-tuya/cloud-app` | By scanning a QR code with the Smart Life app | No developer project, and the way tuya-local signs in, but the API is undocumented |
 
 They are two packages because they are two APIs, on different hosts with
-different request signing and tokens, and share no wire code but MQTT. The types they
+different request signing and tokens, and share no wire code. The types they
 share are in `@open-tuya/core`, which defines the one cloud interface both
 implement, so `createTuyaClient` takes either as a route beside the LAN, in
 the order the caller gives. A caller uses one of them, and the undocumented
@@ -373,25 +372,29 @@ own values by ID, so it carries every data point.
 
 ## MQTT
 
-`@open-tuya/mqtt` holds what both clouds' pushes share: an MQTT 3.1.1 client,
-and `MqttSession`, which keeps a connection to a cloud's broker while anything
-subscribes. Each cloud fetches its own credentials, names its own topics and
-reads its own messages.
-
-Rejected: a copy of the client in each cloud package. A fix to the renewal or
-the reconnecting would have to land twice, and the two copies would drift.
+Both clouds push device updates over MQTT. MQTT.js speaks the protocol;
+`MqttSession`, in `@open-tuya/core`, keeps a connection to a cloud's broker
+while anything subscribes, and each cloud opens its connections through a thin
+adapter over MQTT.js.
 
 | Choice | Why |
 | --- | --- |
-| A client of CONNECT, SUBSCRIBE and UNSUBSCRIBE at QoS 0, PUBLISH received, PINGREQ and DISCONNECT | Push needs only that subset. npm `mqtt` 5 would bring 15 direct dependencies for it, and polling would spend the rate limit users hit |
-| `aedes` is a dev dependency | An MQTT broker written by others parses the client's packets and writes its own, so a test fails on a bug in either side of the client's encoding |
+| MQTT.js, not a client of our own | It is the mature Node client, and the subset push needs is all it would replace: `AGENTS.md` says to depend on such a library |
+| `MqttSession` in `@open-tuya/core` | Both clouds renew and reconnect alike, and the session holds no byte layout and imports nothing from Node |
+| The adapter over MQTT.js in each cloud, not in core | In core it would install MQTT.js for a caller of the LAN alone. It is under 90 lines |
+| MQTT.js's defaults: MQTT 3.1.1, a clean session, a keep-alive of 60 s | Each cloud's sources connect with the same |
+| `reconnectPeriod: 0` | MQTT.js would reconnect with a client ID gone stale once renewed ([`6d400c4`](https://github.com/tuya/tuya-device-sharing-sdk/commit/6d400c48b9a123599bd1b96024665adf72447783)); the session reconnects with fresh credentials |
+| `aedes` is a dev dependency of each cloud | An MQTT broker written by others carries the clouds' push tests end to end |
 | A session connects with its first subscription and closes with its last | Nothing holds a connection nobody listens on |
 | A topic is named from each connection's credentials | The cloud app hands out its topic template with the credentials, and the developer platform its one topic |
 | Each message comes with the credentials of its connection | The developer platform encrypts a message under its connection's password |
-| Credentials are renewed 60 s before they expire, the new connection opened before the old one closes | A client ID goes stale once renewed ([`6d400c4`](https://github.com/tuya/tuya-device-sharing-sdk/commit/6d400c48b9a123599bd1b96024665adf72447783)), and no push is lost in between |
+| Credentials are renewed 60 s before they expire, the new connection opened before the old one closes | A client ID goes stale once renewed, and no push is lost in between |
 | After a loss, fresh credentials and a new connection 5 s later, doubling to 60 s; none after `SESSION_EXPIRED`, `PERMISSION_DENIED` or an error that is not a `TuyaError` | As `LocalTuyaClient`. None of those clears by waiting |
-| A ping every 60 s, and the connection lost once one goes unanswered until the next | The keep-alive is 60 s, and an MQTT server drops a client silent for 90 s |
-| 10 s to open a connection | Long enough over TLS to a cloud host |
+
+Rejected:
+
+- A client of our own. It was 450 lines, and MQTT.js does the same.
+- An `@open-tuya/mqtt` package. It would be a package to publish and version for 200 lines.
 
 ## Cloud developer sources
 

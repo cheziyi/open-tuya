@@ -29,7 +29,6 @@ Install `open-tuya` unless you need only one part of it.
 | [`@open-tuya/cloud-app`](packages/cloud-app) | The same, through the Smart Life app's cloud, signed in by scanning a QR code with the app |
 | [`@open-tuya/devices`](packages/devices) | Look up what each data point of a device controls |
 | [`@open-tuya/simulators`](packages/simulators) | Test your code against a simulated device |
-| [`@open-tuya/mqtt`](packages/mqtt) | Nothing directly: it holds the MQTT client both clouds receive pushes through |
 | [`@open-tuya/core`](packages/core) | Nothing directly: it holds the types and errors the others share |
 
 [DESIGN.md](DESIGN.md#packages) says why it is split this way.

@@ -21,7 +21,10 @@ the code it covers.
   rather than adding an injection point to production code.
 - **Delete anything you did not use**, including a folder's `.gitkeep` once the
   folder holds a file.
-- **Add a dependency only when it earns more than it replaces.**
+- **Depend on a mature library rather than maintain what it already does.**
+  Where a mature, reasonably lightweight library covers code outside Tuya's
+  protocols, use it; write your own only where none does. Tuya's protocols
+  are what this repository carries, so write them here.
 - **No configuration value without a reason.** Keep a tool's default unless a
   specific requirement forces the change, and write the reason in a comment
   beside the value. Where the format takes no comment, such as `package.json`,
@@ -74,11 +77,10 @@ field name, the order of messages, a limit a device enforces.
 
 | Package | Folder | Holds | Depends on |
 | --- | --- | --- | --- |
-| `@open-tuya/core` | `packages/core/` | The types a caller passes and receives, in the packages' own terms, and the errors | Nothing |
+| `@open-tuya/core` | `packages/core/` | The types a caller passes and receives, in the packages' own terms, the errors, and what both clouds share: `fetchJson` and `MqttSession` | Nothing |
 | `@open-tuya/local` | `packages/local/` | The LAN protocol and discovery | `core` |
-| `@open-tuya/cloud-developer` | `packages/cloud-developer/` | The Tuya developer platform API, signed in with a project's access ID and secret: device lists with local keys, reading and writing data points | `core`, `mqtt` |
-| `@open-tuya/cloud-app` | `packages/cloud-app/` | The Tuya cloud as the Smart Life app reaches it, signed in by QR code: device lists with local keys, reading and writing data points | `core`, `mqtt` |
-| `@open-tuya/mqtt` | `packages/mqtt/` | The MQTT client both clouds receive pushes through, and the session that renews its credentials | `core` |
+| `@open-tuya/cloud-developer` | `packages/cloud-developer/` | The Tuya developer platform API, signed in with a project's access ID and secret: device lists with local keys, reading and writing data points | `core` |
+| `@open-tuya/cloud-app` | `packages/cloud-app/` | The Tuya cloud as the Smart Life app reaches it, signed in by QR code: device lists with local keys, reading and writing data points | `core` |
 | `@open-tuya/devices` | `packages/devices/` | The device catalog: which data point of which product controls what | `core` |
 | `@open-tuya/simulators` | `packages/simulators/` | Devices as LAN servers, for tests: how each answers, and what it holds | `core` |
 | `open-tuya` | `packages/open-tuya/` | `createTuyaClient`, which reaches a device over the routes the caller sets up, the LAN and either cloud, in the order the caller gives, and names data points from the catalog; it re-exports the other packages | Every package but `simulators` |
@@ -111,11 +113,6 @@ field name, the order of messages, a limit a device enforces.
 | --- | --- | --- |
 | `src/protocol/` | Signing a request, decrypting a pushed message, and the cloud's field names | I/O |
 | `src/` | The account, the client and push | A byte layout |
-
-## `@open-tuya/mqtt`
-
-- **Hold no Tuya fact here.** A topic, a field name or a message format
-  belongs to the cloud package that reads it.
 
 ## `@open-tuya/simulators`
 

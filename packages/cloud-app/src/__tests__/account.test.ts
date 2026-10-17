@@ -1,7 +1,7 @@
 import type { DataPoints } from "@open-tuya/core";
-import { openMqttConnection } from "@open-tuya/mqtt";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { CloudAppAccount } from "../account.js";
+import { openMqttConnection } from "../mqtt.js";
 import {
   COMMAND_NOT_SUPPORTED,
   PUSH_CONFIG,

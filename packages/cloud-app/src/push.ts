@@ -1,9 +1,11 @@
-import type { DataPoints, DataPointValue } from "@open-tuya/core";
-import type {
-  MqttCredentials,
-  MqttSession,
-  PublishedMessage,
-} from "@open-tuya/mqtt";
+import {
+  type DataPoints,
+  type DataPointValue,
+  isDataPointValue,
+  type MqttCredentials,
+  type MqttMessage,
+  type MqttSession,
+} from "@open-tuya/core";
 import type { PushMessage } from "./protocol/records.js";
 
 // Source: A data point report is protocol 4, in
@@ -54,10 +56,10 @@ export class DevicePush {
     };
   }
 
-  receive({ payload }: PublishedMessage): void {
+  receive({ payload }: MqttMessage): void {
     let message: PushMessage;
     try {
-      message = JSON.parse(payload.toString());
+      message = JSON.parse(new TextDecoder().decode(payload));
     } catch {
       return;
     }
@@ -93,12 +95,4 @@ export class DevicePush {
     this.removals.delete(deviceId);
     await remove?.();
   }
-}
-
-export function isDataPointValue(value: unknown): value is DataPointValue {
-  return (
-    typeof value === "boolean" ||
-    typeof value === "number" ||
-    typeof value === "string"
-  );
 }

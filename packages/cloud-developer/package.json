@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@open-tuya/core": "workspace:^",
-    "@open-tuya/mqtt": "workspace:^"
+    "mqtt": "^5.16.1"
   },
   "engines": {
     "node": ">=22.19.0"

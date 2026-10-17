@@ -1,21 +1,20 @@
 import { randomInt, randomUUID } from "node:crypto";
 import {
+  type Fetch,
+  fetchJson,
+  MqttSession,
+  type OpenMqttConnection,
   type TuyaCloudAccount,
   type TuyaCloudDevice,
   TuyaError,
 } from "@open-tuya/core";
-import {
-  MqttSession,
-  type OpenMqttConnection,
-  openMqttConnection,
-} from "@open-tuya/mqtt";
 import {
   AppCloudTuyaClient,
   type CloudAppTransport,
   type RequestParts,
 } from "./client.js";
 import { mapDataPointCodes } from "./dataPointCodes.js";
-import { type Fetch, fetchJson } from "./fetchJson.js";
+import { openMqttConnection } from "./mqtt.js";
 import type {
   DeviceRecord,
   HomeRecord,

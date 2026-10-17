@@ -1,11 +1,11 @@
 import {
   type DataPoints,
   type DataPointValue,
+  isDataPointValue,
   type TuyaClient,
   TuyaError,
 } from "@open-tuya/core";
 import type { ShadowProperties } from "./protocol/records.js";
-import { isDataPointValue } from "./push.js";
 
 export interface RequestParts {
   query?: Readonly<Record<string, string>>;
