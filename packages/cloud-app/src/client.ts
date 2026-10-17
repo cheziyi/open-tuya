@@ -47,6 +47,10 @@ export class AppCloudTuyaClient implements TuyaClient {
       : undefined;
   }
 
+  get connected(): boolean {
+    return !this.closed;
+  }
+
   /** It leaves out the data points the cloud does not map. */
   async readDataPoints(): Promise<DataPoints> {
     const devices = (await this.request(

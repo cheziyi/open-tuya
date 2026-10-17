@@ -188,6 +188,23 @@ describe.each(PROTOCOL_VERSIONS)("LocalTuyaClient on %s", (version) => {
     expect(reports).toEqual([DATA_POINTS, DATA_POINTS]);
   });
 
+  it("is connected while its connection is open", async () => {
+    useFakeTimers();
+    const device = await startDevice(version);
+    const { client, reports } = connect(device.port, version);
+    expect(client.connected).toBe(false);
+    await until(() => reports.length > 0);
+    expect(client.connected).toBe(true);
+
+    device.disconnect();
+    await until(() => !client.connected);
+    await vi.advanceTimersByTimeAsync(5000);
+    await until(() => client.connected);
+    await client.close();
+
+    expect(client.connected).toBe(false);
+  });
+
   it("rejects requests with CONNECTION_LOST once closed", async () => {
     const device = await startDevice(version);
     const { client } = connect(device.port, version);

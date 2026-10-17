@@ -101,6 +101,10 @@ importers:
       '@open-tuya/local':
         specifier: workspace:^
         version: link:../local
+    devDependencies:
+      '@open-tuya/simulators':
+        specifier: workspace:^
+        version: link:../simulators
 
   packages/simulators:
     dependencies:

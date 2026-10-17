@@ -54,6 +54,10 @@ export class DeveloperCloudTuyaClient implements TuyaClient {
     );
   }
 
+  get connected(): boolean {
+    return !this.closed;
+  }
+
   async readDataPoints(): Promise<DataPoints> {
     const shadow = (await this.request(
       "GET",

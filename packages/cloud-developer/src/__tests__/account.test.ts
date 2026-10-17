@@ -261,13 +261,15 @@ describe("DeveloperCloudAccount", () => {
       );
     });
 
-    it("rejects with CONNECTION_LOST once closed", async () => {
+    it("is connected until closed, then rejects with CONNECTION_LOST", async () => {
       const { account } = setUp();
       const client = await account.createClient(DEVICE_ID);
+      expect(client.connected).toBe(true);
 
       await client.close();
       await client.close();
 
+      expect(client.connected).toBe(false);
       await expect(client.readDataPoints()).rejects.toMatchObject({
         code: "CONNECTION_LOST",
       });
