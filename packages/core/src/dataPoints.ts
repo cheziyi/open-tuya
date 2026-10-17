@@ -6,3 +6,11 @@ export type DataPointId = string;
 export type DataPointValue = boolean | number | string;
 
 export type DataPoints = Readonly<Record<DataPointId, DataPointValue>>;
+
+export function isDataPointValue(value: unknown): value is DataPointValue {
+  return (
+    typeof value === "boolean" ||
+    typeof value === "number" ||
+    typeof value === "string"
+  );
+}

@@ -21,7 +21,11 @@ the code it covers.
   rather than adding an injection point to production code.
 - **Delete anything you did not use**, including a folder's `.gitkeep` once the
   folder holds a file.
-- **Add a dependency only when it earns more than it replaces.**
+- **Depend on a well-maintained library rather than maintain what it already
+  does.** Where an actively maintained, reasonably lightweight library covers
+  code outside Tuya's protocols, use it, however new it is; write your own
+  only where none does. Tuya's protocols are what this repository carries, so
+  write them here.
 - **No configuration value without a reason.** Keep a tool's default unless a
   specific requirement forces the change, and write the reason in a comment
   beside the value. Where the format takes no comment, such as `package.json`,
@@ -50,11 +54,13 @@ field name, the order of messages, a limit a device enforces.
   entry's sources.
 - **Build only the protocol facts a source shows.** List anything no source
   pins down in `UNSUPPORTED.md` with what is unknown; never ship a guess.
-- **Where sources disagree on a protocol fact, take what most of them agree
-  on.** A fork counts
-  only for code it changed, and a project that copies another adds nothing. On
-  a tie, take the most recent change. Record the choice and the sources on each
-  side in `DESIGN.md`.
+- **Where sources disagree on a protocol fact, take the side with the most
+  weight.** A project by Tuya, such as its SDKs, connectors, firmware and
+  documentation, counts twice: it knows the protocol first-hand, but can be
+  outdated or wrong. A fork counts only for code it changed, and a project
+  that copies another adds nothing. On a tie, take what a capture or a report
+  from real devices shows, then the most recent change. Record the choice and
+  the sources on each side in `DESIGN.md`.
 - **Adapt code only from a source the README lists as MIT.** Add its copyright
   line to the source's row in [README.md](README.md#credits). From any other
   source take only facts: byte layouts, constants, command numbers and message
@@ -71,7 +77,7 @@ field name, the order of messages, a limit a device enforces.
 
 | Package | Folder | Holds | Depends on |
 | --- | --- | --- | --- |
-| `@open-tuya/core` | `packages/core/` | The types a caller passes and receives, in the packages' own terms, and the errors | Nothing |
+| `@open-tuya/core` | `packages/core/` | The types a caller passes and receives, in the packages' own terms, the errors, and what both clouds share: `fetchJson` and `MqttSession` | Nothing |
 | `@open-tuya/local` | `packages/local/` | The LAN protocol and discovery | `core` |
 | `@open-tuya/cloud-developer` | `packages/cloud-developer/` | The Tuya developer platform API, signed in with a project's access ID and secret: device lists with local keys, reading and writing data points | `core` |
 | `@open-tuya/cloud-app` | `packages/cloud-app/` | The Tuya cloud as the Smart Life app reaches it, signed in by QR code: device lists with local keys, reading and writing data points | `core` |
@@ -99,8 +105,14 @@ field name, the order of messages, a limit a device enforces.
 | Folder | Holds | Never holds |
 | --- | --- | --- |
 | `src/protocol/` | Signing and encrypting a request, reading a response, and the cloud's field names | I/O |
-| `src/mqtt/` | The subset of MQTT 3.1.1 push needs | A Tuya topic or field name |
 | `src/` | The login, the account, the client and push | A byte layout |
+
+## `@open-tuya/cloud-developer`
+
+| Folder | Holds | Never holds |
+| --- | --- | --- |
+| `src/protocol/` | Signing a request, decrypting a pushed message, and the cloud's field names | I/O |
+| `src/` | The account, the client and push | A byte layout |
 
 ## `@open-tuya/simulators`
 

@@ -1,5 +1,4 @@
-import { TuyaError } from "@open-tuya/core";
-import { type Fetch, fetchJson } from "./fetchJson.js";
+import { type Fetch, fetchJson, TuyaError } from "@open-tuya/core";
 import type { LoginResult } from "./protocol/records.js";
 import { parseResponse } from "./protocol/response.js";
 import type { CloudAppSession } from "./session.js";

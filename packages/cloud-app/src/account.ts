@@ -1,13 +1,20 @@
 import { randomInt, randomUUID } from "node:crypto";
-import { TuyaError } from "@open-tuya/core";
+import {
+  type Fetch,
+  fetchJson,
+  MqttSession,
+  type OpenMqttConnection,
+  type TuyaCloudAccount,
+  type TuyaCloudDevice,
+  TuyaError,
+} from "@open-tuya/core";
 import {
   AppCloudTuyaClient,
   type CloudAppTransport,
   type RequestParts,
 } from "./client.js";
 import { mapDataPointCodes } from "./dataPointCodes.js";
-import { type Fetch, fetchJson } from "./fetchJson.js";
-import { openMqttConnection } from "./mqtt/connection.js";
+import { openMqttConnection } from "./mqtt.js";
 import type {
   DeviceRecord,
   HomeRecord,
@@ -17,11 +24,7 @@ import type {
 } from "./protocol/records.js";
 import { signRequest } from "./protocol/request.js";
 import { type CloudResponse, parseResponse } from "./protocol/response.js";
-import {
-  DevicePush,
-  type OpenMqttConnection,
-  type PushConfig,
-} from "./push.js";
+import { DevicePush, type PushConfig } from "./push.js";
 import type { CloudAppSession } from "./session.js";
 
 const REFRESH_MARGIN_IN_MS = 60_000;
@@ -52,20 +55,9 @@ export interface CreateCloudAppAccountOptions {
   onSessionChange: (session: CloudAppSession) => void;
 }
 
-/** A device as the account lists it. `deviceId` and `localKey` are what
- * `createLocalTuyaClient` takes; the cloud gives neither the device's LAN
- * address nor its protocol version, which `discoverDevices` reports. */
-export interface CloudAppDevice {
-  deviceId: string;
-  name: string;
-  productKey: string;
-  /** Missing on some gateways. */
-  localKey?: string;
-  category: string;
-  online: boolean;
+/** A device as the account lists it, with the home it is in. */
+export interface CloudAppDevice extends TuyaCloudDevice {
   homeId: string;
-  /** The device's address on its gateway, on a device reached through one. */
-  nodeId?: string;
 }
 
 /** Reaches the cloud with a session from `QrLogin`: see
@@ -87,10 +79,11 @@ export function createCloudAppAccount(
  * rejects with `REQUEST_TIMED_OUT` when the cloud does not answer within
  * 10 s, `RATE_LIMITED` when it refuses one over its rate limit, and
  * `REQUEST_REJECTED` when it answers with another error. */
-export class CloudAppAccount implements AsyncDisposable {
+export class CloudAppAccount implements TuyaCloudAccount {
   private session: CloudAppSession;
   private refreshing: Promise<void> | undefined;
   private readonly closing = new AbortController();
+  private readonly mqtt: MqttSession<PushConfig>;
   private readonly push: DevicePush;
 
   constructor(
@@ -99,7 +92,11 @@ export class CloudAppAccount implements AsyncDisposable {
     private readonly options: CreateCloudAppAccountOptions,
   ) {
     this.session = options.session;
-    this.push = new DevicePush(openMqtt, () => this.fetchPushConfig());
+    this.mqtt = new MqttSession<PushConfig>(openMqtt, {
+      fetchCredentials: () => this.fetchPushConfig(),
+      onMessage: (message) => this.push.receive(message),
+    });
+    this.push = new DevicePush(this.mqtt);
   }
 
   // Source: Homes are listed by GET /v1.0/m/life/users/homes, and each
@@ -173,7 +170,7 @@ export class CloudAppAccount implements AsyncDisposable {
     this.closing.abort(
       new TuyaError("CONNECTION_LOST", "The account is closed"),
     );
-    await this.push.close();
+    await this.mqtt.close();
   }
 
   async [Symbol.asyncDispose](): Promise<void> {

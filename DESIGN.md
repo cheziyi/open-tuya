@@ -14,8 +14,9 @@
   changes. [Cloud logins](#cloud-logins) says why they are two packages.
 - `@open-tuya/devices` releases each time a device is added.
 - `@open-tuya/simulators` is installed only as a dev dependency.
-- `@open-tuya/core` holds the types and errors the others all use, so none of
-  them depends on another.
+- `@open-tuya/core` holds the types and errors the others all use, and the
+  two pieces both clouds share, `fetchJson` and `MqttSession`, so none of them
+  depends on another: [MQTT](#mqtt) says why the session is there.
 
 `open-tuya` depends on the others through `^` ranges, so a minor or patch
 release of one reaches its callers without a release of `open-tuya`.
@@ -364,12 +365,102 @@ own values by ID, so it carries every data point.
 
 | Choice | Why |
 | --- | --- |
-| A client of MQTT 3.1.1 in `src/mqtt/`: CONNECT, SUBSCRIBE and UNSUBSCRIBE at QoS 0, PUBLISH received, PINGREQ and DISCONNECT | Push needs only that subset. npm `mqtt` 5 would bring 15 direct dependencies for it, and polling would spend the rate limit users hit |
-| `aedes` is a dev dependency of `@open-tuya/cloud-app` | An MQTT broker written by others parses the client's packets and writes its own, so a test fails on a bug in either side of the client's encoding |
-| One connection per account, opened when the first client subscribes and closed with the last | One set of credentials serves every device of the account |
+| One connection per account, through `MqttSession` | One set of credentials serves every device of the account |
+| A device's topic is subscribed while it has a client | Each device has a topic of its own |
 | A client subscribes when created | As `LocalTuyaClient` connects when created |
-| Credentials are renewed 60 s before they expire, the new connection opened before the old one closes | A client ID goes stale once renewed ([`6d400c4`](https://github.com/tuya/tuya-device-sharing-sdk/commit/6d400c48b9a123599bd1b96024665adf72447783)), and no push is lost in between |
-| After a loss, fresh credentials and a new connection 5 s later, doubling to 60 s; none after `SESSION_EXPIRED` or an error that is not a `TuyaError` | As `LocalTuyaClient`. Neither error clears by waiting |
-| A ping every 60 s, and the connection lost once one goes unanswered until the next | The keep-alive is 60 s, and an MQTT server drops a client silent for 90 s |
-| 10 s to open a connection | Long enough over TLS to a cloud host |
 | No read after a reconnect, unlike `LocalTuyaClient` | Each read costs a request under the cloud's rate limit |
+
+## MQTT
+
+Both clouds push device updates over MQTT. MQTT.js speaks the protocol;
+`MqttSession`, in `@open-tuya/core`, keeps a connection to a cloud's broker
+while anything subscribes, and each cloud opens its connections through a thin
+adapter over MQTT.js.
+
+| Choice | Why |
+| --- | --- |
+| MQTT.js, not a client of our own | It is the mature Node client, and the subset push needs is all it would replace: `AGENTS.md` says to depend on such a library |
+| `MqttSession` in `@open-tuya/core` | Both clouds renew and reconnect alike, and the session holds no byte layout and imports nothing from Node |
+| The adapter over MQTT.js in each cloud, not in core | In core it would install MQTT.js for a caller of the LAN alone. It is under 90 lines |
+| MQTT.js's defaults: MQTT 3.1.1, a clean session, a keep-alive of 60 s | Each cloud's sources connect with the same |
+| `reconnectPeriod: 0` | MQTT.js would reconnect with a client ID gone stale once renewed ([`6d400c4`](https://github.com/tuya/tuya-device-sharing-sdk/commit/6d400c48b9a123599bd1b96024665adf72447783)); the session reconnects with fresh credentials |
+| `aedes` is a dev dependency of each cloud | An MQTT broker written by others carries the clouds' push tests end to end |
+| A session connects with its first subscription and closes with its last | Nothing holds a connection nobody listens on |
+| A topic is named from each connection's credentials | The cloud app hands out its topic template with the credentials, and the developer platform its one topic |
+| Each message comes with the credentials of its connection | The developer platform encrypts a message under its connection's password |
+| Credentials are renewed 60 s before they expire, the new connection opened before the old one closes | A client ID goes stale once renewed, and no push is lost in between |
+| After a loss, fresh credentials and a new connection 5 s later, doubling to 60 s; none after `SESSION_EXPIRED`, `PERMISSION_DENIED` or an error that is not a `TuyaError` | As `LocalTuyaClient`. None of those clears by waiting |
+
+Rejected:
+
+- A client of our own. It was 450 lines, and MQTT.js does the same.
+- An `@open-tuya/mqtt` package. It would be a package to publish and version for 200 lines.
+
+## Cloud developer sources
+
+Tuya's own projects count twice where sources disagree:
+tuya/tuya-connector-nodejs, tuya/tuya-connector, tuya/tuya-homebridge,
+tuya/tuya-iot-python-sdk and tuya/tuya-openclaw-skills. tinytuya,
+adrianjagielak/homebridge-tuya-plus, and xZetsubou/hass-localtuya for what it
+added, count once. Captured requests and responses settle a tie. These count
+for nothing:
+
+| Source | Why |
+| --- | --- |
+| rospogrigio/localtuya | Its `cloud_api.py` is Tuya's sample code and tinytuya's string to sign |
+| TuyaAPI/cli | Signs and sends through tuya-connector-nodejs |
+| home-assistant/core, before 2024 | Calls tuya-iot-python-sdk |
+
+The signing formula reproduces nine signatures captured with their secrets,
+in [tinytuya#330](https://github.com/jasonacox/tinytuya/issues/330),
+[tinytuya#346](https://github.com/jasonacox/tinytuya/issues/346) and
+[tuya-home-assistant#55](https://github.com/tuya/tuya-home-assistant/issues/55):
+one a POST with a body, two with a signed `Content-type` header, the rest with
+neither. The tests use signatures computed by tinytuya's
+and the SDK's own code instead, as the captured secrets are other people's.
+
+| Question | Chosen | For | Against |
+| --- | --- | --- | --- |
+| A GET's body hash | The SHA-256 of nothing, with no body sent, two of Tuya's three against one. The cloud hashes the bytes it receives | tuya-homebridge [`95487cf`](https://github.com/tuya/tuya-homebridge/commit/95487cfbc51b8df682c96750bb26b3f4e1675f1c), the SDK [`b3243bf`](https://github.com/tuya/tuya-iot-python-sdk/commit/b3243bf51822307b3cc93b14c2c18eae36d8585b); tinytuya [`9bb3656`](https://github.com/jasonacox/tinytuya/commit/9bb3656e6421f28b785bc5bd967d1fbf3391338b); the captures | The connector [`9d42acb`](https://github.com/tuya/tuya-connector-nodejs/commit/9d42acb88625df663b140639298dce6f00241db4) hashes and sends `{}` |
+| A nonce | None, two of Tuya's three against one | The connector, the SDK; tinytuya; the captures | tuya-homebridge [`95487cf`](https://github.com/tuya/tuya-homebridge/commit/95487cfbc51b8df682c96750bb26b3f4e1675f1c) signs one UUID for the life of the process |
+| Signed headers | None, two of Tuya's three against one | The connector, the SDK | tuya-homebridge signs `client_id`; tinytuya signs `Content-type` on a POST |
+| The query in the signature | Its keys sorted, its values unencoded, two of Tuya's three against one | The connector [`05c611c`](https://github.com/tuya/tuya-connector-nodejs/commit/05c611c4f38c89e1a6f9b38a560028162d783540), the SDK; tinytuya [`8393e6c`](https://github.com/jasonacox/tinytuya/commit/8393e6c71446feb92c4df77f7bd11af0ed1ab777) | tuya-homebridge signs it as written |
+| A pushed message's additional data | `t` as decimal text, and the tag checked. Tuya's two projects tie, both from 2021-04-24; a client that checked tuya-homebridge's form dropped every real message, and dropped the check ([`fd6e195`](https://github.com/adrianjagielak/homebridge-tuya-plus/commit/fd6e195a1c4dda58b95c4a0673722ebed5449b10)) | The SDK [`f97d9ea`](https://github.com/tuya/tuya-iot-python-sdk/commit/f97d9ea73226efcac36eebf74b080c4d4738518e), which checks the tag, and on which Home Assistant ran for years | tuya-homebridge [`b530a71`](https://github.com/tuya/tuya-homebridge/commit/b530a71ae78afc9672c2ce42345749d38605f31c) writes `t` as 6 bytes and never checks the tag |
+
+## Cloud developer requests
+
+| Choice | Why |
+| --- | --- |
+| The caller names the data center, by tinytuya's code | A project reaches only the accounts in its own, and no request tells which that is |
+| No session to persist | A project takes a token from its credentials whenever it needs one |
+| A new `grant_type=1` token a minute before the last expires, and once on 1010, never `/v1.0/token/{refresh_token}` | Both requests are Tuya's: the connector refreshes on 1010 and takes a new token when that fails ([`e619df6`](https://github.com/tuya/tuya-connector-nodejs/commit/e619df60109ac4f06e9b44de7fa15bf4d1b24690)), signing the refresh the old way. Taking a new token at once skips that request, as tinytuya does ([`4e553ee`](https://github.com/jasonacox/tinytuya/commit/4e553eedaa279403278f0b402d2efbc9ece5a7a0)) |
+| `listDevices()` lists every linked account's devices; `viaDeviceId` lists one account's | Some projects are refused the first with 1106, and tinytuya then lists through a known device ([tinytuya#330](https://github.com/jasonacox/tinytuya/issues/330)) |
+| 1106, 1114, 2007 and the 2884 codes reject with `PERMISSION_DENIED` | The caller's fix for each is on the platform: renew the trial, authorize the API, or pick the data center |
+| 1010 takes a new token and sends once more; a wrong secret rejects with `REQUEST_REJECTED` | A token lapses; a secret does not mend itself |
+| 10 s for an answer, no other retry | As the cloud app |
+
+## Cloud developer data points
+
+`DeveloperCloudTuyaClient` reads and writes a device's data points through its
+thing model, which keys them by ID with the device's own values, as
+[Client](#client) decides.
+
+| Choice | Why |
+| --- | --- |
+| Read `/v2.0/cloud/thing/{id}/shadow/properties` | It carries each `dp_id` and the device's own value ([`25424c5`](https://github.com/tuya/tuya-connector/commit/25424c594135e8c5f4c684a0b7cce8fc7b4fcca6)), as captured in [tinytuya#391](https://github.com/jasonacox/tinytuya/issues/391) and [hass-localtuya#782](https://github.com/xZetsubou/hass-localtuya/issues/782#issuecomment-3958114610) |
+| Write `/v2.0/cloud/thing/{id}/shadow/properties/issue`, by the thing model's code | It addresses the properties the shadow reads, in the thing model's own terms: an integer before its scale ([`79292c5`](https://github.com/tuya/tuya-openclaw-skills/commit/79292c594cfba383555b4f465e835132136f0ea6)), as the device holds it |
+| Map an ID to its code through `/v2.0/cloud/thing/{id}/model`, once per client | The model lists every property, where the shadow lists those with a value |
+| Push hands on the value under each data point's ID, never `value` | `value` holds the cloud's converted value, such as `{"h":23,…}` where the device sent `001703de0017` ([tuya-home-assistant#591](https://github.com/tuya/tuya-home-assistant/issues/591)) |
+
+Rejected: `/v1.0/iot-03/devices/{id}/status` and `/commands`, which most
+sources use. They key data points by the standard instruction set's codes and
+values, which the cloud converts from the device's for some data points and
+does not say which.
+
+## Cloud developer push
+
+| Choice | Why |
+| --- | --- |
+| One connection per account, through `MqttSession`, on the project's one topic | Every device of the project is pushed on it |
+| `msg_encrypted_version` 2.0 | AES-GCM, whose tag shows the message came under the connection's password |
+| A message whose tag is wrong is dropped | Its bytes are not what the cloud sealed |

@@ -1,11 +1,11 @@
-import { TuyaError } from "@open-tuya/core";
+import { TuyaError } from "./error.js";
 
 const REQUEST_TIMEOUT_IN_MS = 10_000;
 const TOO_MANY_REQUESTS = 429;
 
 export type Fetch = typeof globalThis.fetch;
 
-/** Sends a request and reads its JSON. It rejects with a `TuyaError` with
+/** Sends a request to a Tuya cloud and reads its JSON. It rejects with a `TuyaError` with
  * code `REQUEST_TIMED_OUT` when no answer comes within 10 s,
  * `CONNECTION_FAILED` when none can be sent, `RATE_LIMITED` on HTTP 429, and
  * `REQUEST_REJECTED` on any other HTTP error or a body that is not JSON. Once
