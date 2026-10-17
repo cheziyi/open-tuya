@@ -1,14 +1,13 @@
 import { type AddressInfo, createServer, type Socket } from "node:net";
 import type { TuyaError } from "@open-tuya/core";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { until, useFakeTimers } from "../../__tests__/clock.js";
-import { type Broker, startBroker } from "../../__tests__/mocks/broker.js";
-import {
-  PUSH_TOPIC,
-  PUSHED_REPORT,
-} from "../../protocol/__tests__/fixtures/capturedResponses.js";
 import { type MqttConnection, openMqttConnection } from "../connection.js";
 import type { PublishedMessage } from "../packet.js";
+import { until, useFakeTimers } from "./clock.js";
+import { type Broker, startBroker } from "./mocks/broker.js";
+
+const TOPIC = "cloud/device/bf0123456789abcdefgh/in/pen";
+const PAYLOAD = '{"protocol":4,"data":{"devId":"bf0123456789abcdefgh"}}';
 
 const cleanups: (() => unknown)[] = [];
 
@@ -80,14 +79,14 @@ describe("openMqttConnection", () => {
     const started = await broker();
     const { connection, messages } = await open(started.url);
 
-    connection.subscribe(PUSH_TOPIC);
+    connection.subscribe(TOPIC);
     await until(() => started.subscriptions.length > 0);
-    await started.publish(PUSH_TOPIC, PUSHED_REPORT);
+    await started.publish(TOPIC, PAYLOAD);
     await until(() => messages.length > 0);
 
-    expect(started.subscriptions).toEqual([PUSH_TOPIC]);
+    expect(started.subscriptions).toEqual([TOPIC]);
     expect(messages.map(({ topic, payload }) => [topic, `${payload}`])).toEqual(
-      [[PUSH_TOPIC, PUSHED_REPORT]],
+      [[TOPIC, PAYLOAD]],
     );
   });
 
@@ -108,11 +107,11 @@ describe("openMqttConnection", () => {
     const started = await broker();
     const { connection } = await open(started.url);
 
-    connection.subscribe(PUSH_TOPIC);
-    connection.unsubscribe(PUSH_TOPIC);
+    connection.subscribe(TOPIC);
+    connection.unsubscribe(TOPIC);
     await until(() => started.unsubscriptions.length > 0);
 
-    expect(started.unsubscriptions).toEqual([PUSH_TOPIC]);
+    expect(started.unsubscriptions).toEqual([TOPIC]);
   });
 
   it("rejects with CONNECTION_FAILED when the broker refuses the credentials", async () => {

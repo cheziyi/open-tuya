@@ -34,7 +34,8 @@
     "test": "tsc && vitest run --passWithNoTests"
   },
   "dependencies": {
-    "@open-tuya/core": "workspace:^"
+    "@open-tuya/core": "workspace:^",
+    "@open-tuya/mqtt": "workspace:^"
   },
   "engines": {
     "node": ">=22.19.0"

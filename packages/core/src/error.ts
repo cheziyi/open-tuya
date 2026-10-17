@@ -36,6 +36,10 @@ export type TuyaErrorCode =
   /** The cloud refused the request for exceeding its rate limit: wait before
    * sending another. */
   | "RATE_LIMITED"
+  /** The cloud refused the request for want of a subscription or a
+   * permission: on the Tuya developer platform, renew the project's trial,
+   * authorize the API, or pick the data center the account is in. */
+  | "PERMISSION_DENIED"
   /** A write names a data point the cloud cannot map to one of its codes, so
    * nothing was sent. */
   | "UNMAPPED_DATA_POINT";

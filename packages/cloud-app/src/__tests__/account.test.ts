@@ -1,13 +1,12 @@
-import type { DataPoints, TuyaError } from "@open-tuya/core";
+import type { DataPoints } from "@open-tuya/core";
+import { openMqttConnection } from "@open-tuya/mqtt";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { CloudAppAccount } from "../account.js";
-import { openMqttConnection } from "../mqtt/connection.js";
 import {
   COMMAND_NOT_SUPPORTED,
   PUSH_CONFIG,
   RATE_LIMITED,
 } from "../protocol/__tests__/fixtures/capturedResponses.js";
-import type { OpenMqttConnection } from "../push.js";
 import type { CloudAppSession } from "../session.js";
 import { until, useFakeTimers } from "./clock.js";
 import { type Broker, startBroker } from "./mocks/broker.js";
@@ -70,23 +69,12 @@ interface Setup {
   cloud: FakeCloud;
   account: CloudAppAccount;
   sessions: CloudAppSession[];
-  /** What each MQTT connection's `onClose` was called with. */
-  mqttCloses: (TuyaError | undefined)[];
 }
 
 function setUp(expiresAtInMs = Date.now() + 7_200_000): Setup {
   const cloud = new FakeCloud(CLIENT_ID);
   const sessions: CloudAppSession[] = [];
-  const mqttCloses: (TuyaError | undefined)[] = [];
-  const openMqtt: OpenMqttConnection = (options) =>
-    openMqttConnection({
-      ...options,
-      onClose: (error) => {
-        mqttCloses.push(error);
-        options.onClose(error);
-      },
-    });
-  const account = new CloudAppAccount(cloud.fetch, openMqtt, {
+  const account = new CloudAppAccount(cloud.fetch, openMqttConnection, {
     clientId: CLIENT_ID,
     session: {
       endpoint: cloud.endpoint,
@@ -113,7 +101,7 @@ function setUp(expiresAtInMs = Date.now() + 7_200_000): Setup {
   cloud.on("POST", `/v1.1/m/thing/${DEVICE_ID}/commands`, () => ({
     result: true,
   }));
-  return { cloud, account, sessions, mqttCloses };
+  return { cloud, account, sessions };
 }
 
 async function serveBroker(
@@ -373,62 +361,6 @@ describe("CloudAppAccount", () => {
 
       expect(broker.connects).toHaveLength(1);
       expect(broker.subscriptions).toEqual([PUSH_TOPIC]);
-    });
-
-    it("renews its credentials 60 s before they expire", async () => {
-      const { cloud, account } = setUp();
-      const broker = await serveBroker(cloud, 120);
-      useFakeTimers();
-      await account.createClient(DEVICE_ID);
-      await until(() => broker.subscriptions.length > 0);
-
-      await vi.advanceTimersByTimeAsync(60_000);
-      await until(() => broker.subscriptions.length > 1);
-
-      expect(broker.connects.map(({ clientId }) => clientId)).toEqual([
-        "cloud_1",
-        "cloud_2",
-      ]);
-      await until(
-        () => broker.clients.filter((client) => !client.closed).length === 1,
-      );
-    });
-
-    it("reconnects with new credentials 5 s after the broker drops it", async () => {
-      const { cloud, account, mqttCloses } = setUp();
-      const broker = await serveBroker(cloud);
-      useFakeTimers();
-      await account.createClient(DEVICE_ID);
-      await until(() => broker.subscriptions.length > 0);
-
-      broker.clients[0]?.close();
-      await until(() => mqttCloses.length > 0);
-      await vi.advanceTimersByTimeAsync(4999);
-      expect(broker.connects).toHaveLength(1);
-      await vi.advanceTimersByTimeAsync(1);
-      await until(() => broker.subscriptions.length > 1);
-
-      expect(broker.connects.map(({ clientId }) => clientId)).toEqual([
-        "cloud_1",
-        "cloud_2",
-      ]);
-    });
-
-    it("renews from the connection it reconnected, not the one it lost", async () => {
-      const { cloud, account, mqttCloses } = setUp();
-      const broker = await serveBroker(cloud, 120);
-      useFakeTimers();
-      await account.createClient(DEVICE_ID);
-      await until(() => broker.subscriptions.length > 0);
-
-      await vi.advanceTimersByTimeAsync(30_000);
-      broker.clients[0]?.close();
-      await until(() => mqttCloses.length > 0);
-      await vi.advanceTimersByTimeAsync(5000);
-      await until(() => broker.subscriptions.length > 1);
-      await vi.advanceTimersByTimeAsync(40_000);
-
-      expect(broker.connects).toHaveLength(2);
     });
 
     it("releases the connection when the account closes", async () => {

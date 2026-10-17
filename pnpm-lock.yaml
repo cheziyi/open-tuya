@@ -41,6 +41,9 @@ importers:
       '@open-tuya/core':
         specifier: workspace:^
         version: link:../core
+      '@open-tuya/mqtt':
+        specifier: workspace:^
+        version: link:../mqtt
     devDependencies:
       aedes:
         specifier: ^1.2.0
@@ -51,6 +54,13 @@ importers:
       '@open-tuya/core':
         specifier: workspace:^
         version: link:../core
+      '@open-tuya/mqtt':
+        specifier: workspace:^
+        version: link:../mqtt
+    devDependencies:
+      aedes:
+        specifier: ^1.2.0
+        version: 1.2.0
 
   packages/core: {}
 
@@ -69,6 +79,16 @@ importers:
       '@open-tuya/simulators':
         specifier: workspace:^
         version: link:../simulators
+
+  packages/mqtt:
+    dependencies:
+      '@open-tuya/core':
+        specifier: workspace:^
+        version: link:../core
+    devDependencies:
+      aedes:
+        specifier: ^1.2.0
+        version: 1.2.0
 
   packages/open-tuya:
     dependencies:

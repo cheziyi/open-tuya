@@ -36,3 +36,13 @@ does until a source or a capture settles it.
 | Whether the cloud reads the MQTT link ID | The SDK sends `tuya-device-sharing-sdk-python.` and a UUID; no source sends another | The account sends the same form |
 | A signed request whole | A log shows the response, never the request ID and refresh token that sign it | Tests use requests computed by the SDK's own code |
 | A push other than protocol 4 | No capture shows one | It is ignored |
+
+## Tuya developer platform
+
+| What | Unknown | Until then |
+| --- | --- | --- |
+| Whether `shadow/properties/issue` takes the device's own values | One source issues properties ([homebridge-tuya-plus](https://github.com/adrianjagielak/homebridge-tuya-plus/commit/1579a219964751ed40629074b7c7e0067eeac6f2)), and no capture shows a request or its answer. The shadow it writes holds the device's own values | A write sends the caller's values as they are |
+| A device's protocol version and LAN address | No response carries the version, and `ip` is the address the cloud sees | `listDevices` reports neither; `discoverDevices` does |
+| A pushed message's `sign` | No source computes it | It is ignored; the GCM tag stands for it |
+| A push other than protocol 4 | Protocol 20 carries `online`, `offline` and other events ([tuya-homebridge#401](https://github.com/tuya/tuya-homebridge/issues/401)); `TuyaClient` has nothing to hand them to | They are ignored |
+| Whether `/v1.0/users/{uid}/devices` pages | No source or capture shows a page past the first | `listDevices` with `viaDeviceId` reads one page |

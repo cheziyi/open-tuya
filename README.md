@@ -29,6 +29,7 @@ Install `open-tuya` unless you need only one part of it.
 | [`@open-tuya/cloud-app`](packages/cloud-app) | The same, through the Smart Life app's cloud, signed in by scanning a QR code with the app |
 | [`@open-tuya/devices`](packages/devices) | Look up what each data point of a device controls |
 | [`@open-tuya/simulators`](packages/simulators) | Test your code against a simulated device |
+| [`@open-tuya/mqtt`](packages/mqtt) | Nothing directly: it holds the MQTT client both clouds receive pushes through |
 | [`@open-tuya/core`](packages/core) | Nothing directly: it holds the types and errors the others share |
 
 [DESIGN.md](DESIGN.md#packages) says why it is split this way.
@@ -64,6 +65,35 @@ those the cloud passes through unchanged:
 [DESIGN.md](DESIGN.md#cloud-app-data-points) says why. The cloud gives no
 LAN address or protocol version: take those from `discoverDevices`.
 
+## Signing in to the Tuya developer platform
+
+Create a cloud project on [platform.tuya.com](https://platform.tuya.com), link
+your Smart Life app account to it under Devices > Link App Account, and pass
+the project's access ID and secret with the data center the account is in.
+
+```ts
+import { createDeveloperCloudAccount } from "@open-tuya/cloud-developer";
+
+const account = createDeveloperCloudAccount({
+  accessId,
+  accessSecret,
+  dataCenter: "eu", // cn, us, us-e, eu, eu-w, in or sg
+});
+const devices = await account.listDevices(); // deviceId, localKey, productKey
+await using client = await account.createClient(devices[0].deviceId);
+```
+
+The client keys data points by ID with the device's own values, through the
+device's thing model. A request that rejects with `PERMISSION_DENIED` needs a
+fix on the platform:
+
+| The cloud's answer | Fix |
+| --- | --- |
+| 28841002, "subscription to cloud development plan has expired" | Extend the project's IoT Core trial |
+| 28841101, 28841105, 28841106 | Authorize the API service the message names |
+| 1106 to `listDevices()` | Pass `{ viaDeviceId }` with any device of the account |
+| 2007, or no devices | Pick the data center the app account is in |
+
 ## Development
 
 Requires Node 22.19 or later and pnpm.
@@ -87,11 +117,11 @@ engineering.
 | [codetheweb/tuyapi](https://github.com/codetheweb/tuyapi) | MIT | Local protocol, discovery, Node.js |
 | [clach04/python-tuya](https://github.com/clach04/python-tuya) | MIT | Local protocol, Python; the origin of localtuya's protocol code |
 | [rospogrigio/localtuya](https://github.com/rospogrigio/localtuya) | GPL-3.0 | Local protocol, Home Assistant |
-| [xZetsubou/hass-localtuya](https://github.com/xZetsubou/hass-localtuya) | GPL-3.0 | Local protocol, Home Assistant; the maintained fork of rospogrigio/localtuya |
+| [xZetsubou/hass-localtuya](https://github.com/xZetsubou/hass-localtuya) | GPL-3.0 | Local protocol, Home Assistant; the maintained fork of rospogrigio/localtuya; the developer platform's thing model |
 | [mileperhour/localtuya-homeassistant](https://github.com/mileperhour/localtuya-homeassistant) | GPL-3.0 | Local protocol, Home Assistant; localtuya was forked from it |
 | [AMoo-Miki/homebridge-tuya-lan](https://github.com/AMoo-Miki/homebridge-tuya-lan) | MIT | Local protocol, Homebridge |
 | [iRayanKhan/homebridge-tuya](https://github.com/iRayanKhan/homebridge-tuya) | MIT | Local protocol, Homebridge |
-| [adrianjagielak/homebridge-tuya-plus](https://github.com/adrianjagielak/homebridge-tuya-plus) | MIT | Fork of iRayanKhan/homebridge-tuya |
+| [adrianjagielak/homebridge-tuya-plus](https://github.com/adrianjagielak/homebridge-tuya-plus) | MIT | Fork of iRayanKhan/homebridge-tuya; developer platform API, its thing model and its pushed device updates |
 | [Apollon77/ioBroker.tuya](https://github.com/Apollon77/ioBroker.tuya) | MIT | Local protocol through tuyapi, and a collection of device data point schemas, ioBroker |
 | [simensma/tuyamqtt](https://github.com/simensma/tuyamqtt) | None | Local protocol, MQTT gateway |
 | [iamjond/tuyagateway](https://github.com/iamjond/tuyagateway) | Unlicense, over code forked from simensma/tuyamqtt | Local protocol, MQTT gateway |
@@ -99,6 +129,7 @@ engineering.
 | [tuya/tuya-connector-nodejs](https://github.com/tuya/tuya-connector-nodejs) | MIT, in `package.json` only | Developer platform API, by Tuya |
 | [tuya/tuya-homebridge](https://github.com/tuya/tuya-homebridge) | MIT | Developer platform API and its pushed device updates, Homebridge, by Tuya |
 | [TuyaAPI/cli](https://github.com/TuyaAPI/cli) | MIT | Fetching local keys from the developer platform API |
+| [tuya/tuya-iot-python-sdk](https://github.com/tuya/tuya-iot-python-sdk) | MIT, Copyright (c) 2014-2021 Tuya Inc. | Developer platform API and its pushed device updates, Python, by Tuya |
 | [tuya/tuya-device-sharing-sdk](https://github.com/tuya/tuya-device-sharing-sdk) | MIT, Copyright (c) 2023 Tuya | Smart Life app QR login and its pushed device updates, by Tuya |
 | [make-all/tuya-local](https://github.com/make-all/tuya-local) | MIT | Device catalog, Home Assistant; its local protocol is tinytuya's and its QR login tuya-device-sharing-sdk's |
 | [home-assistant-libs/tuya-device-handlers](https://github.com/home-assistant-libs/tuya-device-handlers) | MIT | Fixes to the data points of misbehaving devices, by product |
