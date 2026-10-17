@@ -204,10 +204,13 @@ field name, the order of messages, a limit a device enforces.
 - **An options type is its function's or class's name plus `Options`**:
   `CreateTuyaClientOptions`.
 - **A name carrying a unit spells it after `In`**. Milliseconds abbreviates to
-  `Ms`, degrees to `C`, `F` and `K`, and a well-known SI unit to its symbol:
-  `V`, `A`, `W`, `Kw`, `Kwh`, `Hz`, `Ppm`, `Lux`. Spell out every other unit:
-  `timeoutInMs`, `DEFAULT_TIMEOUT_IN_MS`, `targetTemperatureInC`,
-  `currentInMilliamps`, `timerInSeconds`.
+  `Ms`; degrees to `C`, `F` and `K`; and a unit read as its symbol more than
+  as words to that symbol: `V`, `A`, `W`, `Kw`, `Kwh`, `Hz`, `Ppm`, `Lux`. A
+  compound unit with no common word joins its symbols with `Per`: `UgPerM3`,
+  `LPerMin`. Spell out a unit whose symbol would misread, such as minutes
+  (`Min` reads as minimum) or milliamps (`Ma` beside `Ms`): `timeoutInMs`,
+  `DEFAULT_TIMEOUT_IN_MS`, `targetTemperatureInC`, `pm25InUgPerM3`,
+  `timerInMinutes`, `currentInMilliamps`.
 
 ## Version each package with semver
 
