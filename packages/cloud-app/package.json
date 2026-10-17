@@ -38,5 +38,8 @@
   },
   "engines": {
     "node": ">=22.19.0"
+  },
+  "devDependencies": {
+    "aedes": "^1.2.0"
   }
 }

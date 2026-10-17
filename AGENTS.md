@@ -94,6 +94,14 @@ field name, the order of messages, a limit a device enforces.
 | `src/discovery/` | Listening for and decoding UDP broadcasts | A TCP connection |
 | `src/` | The TCP connection, and the client that sends commands over it | A byte layout |
 
+## `@open-tuya/cloud-app`
+
+| Folder | Holds | Never holds |
+| --- | --- | --- |
+| `src/protocol/` | Signing and encrypting a request, reading a response, and the cloud's field names | I/O |
+| `src/mqtt/` | The subset of MQTT 3.1.1 push needs | A Tuya topic or field name |
+| `src/` | The login, the account, the client and push | A byte layout |
+
 ## `@open-tuya/simulators`
 
 - **Write a simulator's protocol code fresh, from the sources.** A simulator
