@@ -95,8 +95,9 @@ export async function startSimulatedDevice(
 // Source: A 3.4 or 3.5 device closes the connection on a frame not sealed
 // under its key, in
 // https://github.com/jasonacox/tinytuya/commit/a474c756c1d310ce452d71a7e1f3f52adff80e64.
-/** A Tuya device answering the LAN protocol, for tests. */
-export class SimulatedTuyaDevice {
+/** A Tuya device answering the LAN protocol, for tests. `await using` closes
+ * it at the end of its scope. */
+export class SimulatedTuyaDevice implements AsyncDisposable {
   /** Every frame the connected clients sent, in order: decrypted, with the
    * version header removed. */
   readonly received: ClientFrame[] = [];
@@ -118,6 +119,7 @@ export class SimulatedTuyaDevice {
   private sequenceNumber = 0;
   private headerSerialNumber = randomInt(0x10000);
   private deviceNonce: Buffer | undefined;
+  private closing: Promise<void> | undefined;
   private clientNonce: Buffer | undefined;
 
   constructor(
@@ -189,14 +191,22 @@ export class SimulatedTuyaDevice {
     );
   }
 
-  async close(): Promise<void> {
+  /** Disconnects the client, and resolves once both ports are released. */
+  close(): Promise<void> {
     this.disconnect();
-    await new Promise<void>((resolve) =>
-      this.discoverySocket.close(() => resolve()),
-    );
-    await new Promise<void>((resolve, reject) =>
-      this.server.close((error) => (error ? reject(error) : resolve())),
-    );
+    this.closing ??= Promise.all([
+      new Promise<void>((resolve) =>
+        this.discoverySocket.close(() => resolve()),
+      ),
+      new Promise<void>((resolve, reject) =>
+        this.server.close((error) => (error ? reject(error) : resolve())),
+      ),
+    ]).then(() => {});
+    return this.closing;
+  }
+
+  async [Symbol.asyncDispose](): Promise<void> {
+    await this.close();
   }
 
   // Source: A 3.5 device answers a request with its broadcast, sent to the

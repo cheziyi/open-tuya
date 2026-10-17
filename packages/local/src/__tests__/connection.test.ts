@@ -203,6 +203,17 @@ describe.each(PROTOCOL_VERSIONS)("openConnection on %s", (version) => {
       connection.send(COMMANDS.CONTROL, Buffer.from(CONTROL_PLAINTEXT)),
     ).rejects.toMatchObject({ code: "CONNECTION_LOST" });
   });
+
+  it("closes with no error at the end of an await using scope", async () => {
+    const device = await startDevice(version);
+    const { connection: opening, closes } = open(device.port, version);
+    {
+      await using _connection = await opening;
+    }
+
+    expect(closes).toEqual([undefined]);
+    await until(() => !device.ready);
+  });
 });
 
 describe.each(["3.4", "3.5"] as const)("openConnection on %s", (version) => {

@@ -122,13 +122,15 @@ export class LocalTuyaClient implements TuyaClient {
     };
   }
 
-  close(): void {
+  async close(): Promise<void> {
     this.closed = true;
     clearTimeout(this.reconnectTimer);
-    this.connection?.then(
-      (connection) => connection.close(),
-      () => {},
-    );
+    const connection = await this.connection?.catch(() => undefined);
+    await connection?.close();
+  }
+
+  async [Symbol.asyncDispose](): Promise<void> {
+    await this.close();
   }
 
   private open(): void {

@@ -92,8 +92,9 @@ export async function bindSocket(port: number): Promise<Socket> {
   return socket;
 }
 
-/** Listens for devices on the LAN. Start one with `discoverDevices`. */
-export class TuyaDiscovery {
+/** Listens for devices on the LAN. Start one with `discoverDevices`.
+ * `await using` closes it at the end of its scope. */
+export class TuyaDiscovery implements AsyncDisposable {
   private readonly requests: NodeJS.Timeout;
   private closing: Promise<void> | undefined;
 
@@ -121,6 +122,10 @@ export class TuyaDiscovery {
       closeSocket(this.answerSocket),
     ]).then(() => {});
     return this.closing;
+  }
+
+  async [Symbol.asyncDispose](): Promise<void> {
+    await this.close();
   }
 
   private receive(datagram: Buffer): void {

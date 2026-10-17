@@ -131,6 +131,24 @@ Rejected: a subclass for each failure a caller handles differently.
   `instanceof`, where a `code` is one string to switch on.
 - A subclass would carry nothing a `code` does not.
 
+## Closing
+
+`TuyaConnection`, every `TuyaClient`, `TuyaDiscovery` and
+`SimulatedTuyaDevice` each hold sockets, and `close()` releases them.
+`[Symbol.asyncDispose]` calls `close()`, so `await using` releases the object
+at the end of its scope.
+
+| Choice | Why |
+| --- | --- |
+| `close`, whatever made the object | Node names it so for every object that holds a socket or a file, whatever made it: `net.createServer`, `dgram.createSocket`, `fs.promises.open`. One verb that always means "released for good" serves a caller better than one paired with each factory |
+| `close()` resolves once the sockets are released | A caller that binds the same port again, or exits, needs to know when it is free |
+| Closing twice is safe | `await using` and a `close()` of the caller's own can both reach one object |
+| `[Symbol.asyncDispose]` beside `close()` | `await using` releases the object even when its scope throws. Node's `net.Server`, `dgram.Socket` and `FileHandle` pair the two the same way |
+| `TuyaClient` extends `AsyncDisposable` | A caller holding a client through the interface can use `await using` too. The type comes from `@types/node`, as TypeScript's `es2024` lib lacks it: a caller who compiles without `@types/node` adds `esnext.disposable` to `lib` |
+
+Rejected: a `dispose()` method, which is not Node's name for it, and `stop()`
+for a discovery, which says it could start again.
+
 ## Protocol 3.3
 
 Where the sources disagree on a protocol fact, `@open-tuya/local` takes what

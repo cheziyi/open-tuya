@@ -213,6 +213,18 @@ describe("TuyaDiscovery", () => {
     await expect(bind(broadcastPort, "127.0.0.1")).resolves.toBeDefined();
     await expect(bind(answerPort, "127.0.0.1")).resolves.toBeDefined();
   });
+
+  it("releases both ports at the end of an await using scope", async () => {
+    const started = await startDiscovery();
+    {
+      await using _discovery = started.discovery;
+    }
+
+    await expect(
+      bind(started.broadcastPort, "127.0.0.1"),
+    ).resolves.toBeDefined();
+    await expect(bind(started.answerPort, "127.0.0.1")).resolves.toBeDefined();
+  });
 });
 
 describe("bindSocket", () => {

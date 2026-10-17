@@ -1,7 +1,8 @@
 import type { DataPoints } from "./dataPoints.js";
 
-/** One device, reached by one route: the LAN or a cloud. */
-export interface TuyaClient {
+/** One device, reached by one route: the LAN or a cloud. `await using`
+ * closes it at the end of its scope. */
+export interface TuyaClient extends AsyncDisposable {
   /** Reads the data points the device reports now. A device may leave some
    * out. */
   readDataPoints(): Promise<DataPoints>;
@@ -12,5 +13,6 @@ export interface TuyaClient {
    * arrive: one at a time on some devices. Returns a function that removes
    * the listener. */
   onDataPoints(listener: (dataPoints: DataPoints) => void): () => void;
-  close(): void;
+  /** Stops the client, and resolves once its connections are released. */
+  close(): Promise<void>;
 }
