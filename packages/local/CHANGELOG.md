@@ -1,5 +1,19 @@
 # @open-tuya/local
 
+## 0.2.0
+
+### Minor Changes
+
+- [#11](https://github.com/cheziyi/open-tuya/pull/11) [`e25e29d`](https://github.com/cheziyi/open-tuya/commit/e25e29d1ef9a48b13b36fd0ae1467b708b532873) Thanks [@cheziyi](https://github.com/cheziyi)! - `TuyaConnection.close()` and `LocalTuyaClient.close()` now return a promise that resolves once the socket is released. `TuyaConnection`, `LocalTuyaClient` and `TuyaDiscovery` close at the end of an `await using` scope.
+
+### Patch Changes
+
+- [#17](https://github.com/cheziyi/open-tuya/pull/17) [`68bbe44`](https://github.com/cheziyi/open-tuya/commit/68bbe441e0e8642b300c0075e8d99e07055ec71f) Thanks [@cheziyi](https://github.com/cheziyi)! - Add `LocalTuyaClient.connected`, true while its connection is open.
+
+- [#11](https://github.com/cheziyi/open-tuya/pull/11) [`e25e29d`](https://github.com/cheziyi/open-tuya/commit/e25e29d1ef9a48b13b36fd0ae1467b708b532873) Thanks [@cheziyi](https://github.com/cheziyi)! - Add `discoverDevices`, which reports each device on the LAN with its address, device ID, protocol version and product key, ready to pass to `createLocalTuyaClient`, and asks 3.5 devices that stay silent to answer.
+- Updated dependencies [[`e25e29d`](https://github.com/cheziyi/open-tuya/commit/e25e29d1ef9a48b13b36fd0ae1467b708b532873), [`68bbe44`](https://github.com/cheziyi/open-tuya/commit/68bbe441e0e8642b300c0075e8d99e07055ec71f), [`15b8f24`](https://github.com/cheziyi/open-tuya/commit/15b8f24376372cdc45e457f26dec173b2c49ecdc), [`d7d5e08`](https://github.com/cheziyi/open-tuya/commit/d7d5e08edb24c7fcc482f829111a30c554ee45fc), [`e25e29d`](https://github.com/cheziyi/open-tuya/commit/e25e29d1ef9a48b13b36fd0ae1467b708b532873)]:
+  - @open-tuya/core@0.1.0
+
 ## 0.1.0
 
 ### Minor Changes

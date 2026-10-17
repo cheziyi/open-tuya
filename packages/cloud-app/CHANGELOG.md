@@ -1,5 +1,17 @@
 # @open-tuya/cloud-app
 
+## 0.0.3
+
+### Patch Changes
+
+- [#17](https://github.com/cheziyi/open-tuya/pull/17) [`68bbe44`](https://github.com/cheziyi/open-tuya/commit/68bbe441e0e8642b300c0075e8d99e07055ec71f) Thanks [@cheziyi](https://github.com/cheziyi)! - Add `AppCloudTuyaClient.connected`, true until the client is closed.
+
+- [#14](https://github.com/cheziyi/open-tuya/pull/14) [`d7d5e08`](https://github.com/cheziyi/open-tuya/commit/d7d5e08edb24c7fcc482f829111a30c554ee45fc) Thanks [@cheziyi](https://github.com/cheziyi)! - Sign in by QR code as the Smart Life app does, list an account's devices with their local keys, and read, write and receive pushed data points through `AppCloudTuyaClient`.
+
+- [#15](https://github.com/cheziyi/open-tuya/pull/15) [`15b8f24`](https://github.com/cheziyi/open-tuya/commit/15b8f24376372cdc45e457f26dec173b2c49ecdc) Thanks [@cheziyi](https://github.com/cheziyi)! - `CloudAppAccount` implements `TuyaCloudAccount` from core, and pushes now arrive through MQTT.js.
+- Updated dependencies [[`e25e29d`](https://github.com/cheziyi/open-tuya/commit/e25e29d1ef9a48b13b36fd0ae1467b708b532873), [`68bbe44`](https://github.com/cheziyi/open-tuya/commit/68bbe441e0e8642b300c0075e8d99e07055ec71f), [`15b8f24`](https://github.com/cheziyi/open-tuya/commit/15b8f24376372cdc45e457f26dec173b2c49ecdc), [`d7d5e08`](https://github.com/cheziyi/open-tuya/commit/d7d5e08edb24c7fcc482f829111a30c554ee45fc), [`e25e29d`](https://github.com/cheziyi/open-tuya/commit/e25e29d1ef9a48b13b36fd0ae1467b708b532873)]:
+  - @open-tuya/core@0.1.0
+
 ## 0.0.2
 
 ### Patch Changes

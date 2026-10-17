@@ -1,6 +1,6 @@
 {
   "name": "@open-tuya/cloud-developer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Unofficial client for the Tuya developer platform API, signed in with a cloud project's access ID and secret: list devices with their local keys, and read and write their data points.",
   "keywords": [
     "tuya",
