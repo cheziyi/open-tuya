@@ -398,12 +398,12 @@ Rejected:
 
 ## Cloud developer sources
 
-Tuya's own projects decide where sources disagree:
+Tuya's own projects count twice where sources disagree:
 tuya/tuya-connector-nodejs, tuya/tuya-connector, tuya/tuya-homebridge,
 tuya/tuya-iot-python-sdk and tuya/tuya-openclaw-skills. tinytuya,
 adrianjagielak/homebridge-tuya-plus, and xZetsubou/hass-localtuya for what it
-added, count after them. Captured requests and responses settle what they
-leave open. These count for nothing:
+added, count once. Captured requests and responses settle a tie. These count
+for nothing:
 
 | Source | Why |
 | --- | --- |
@@ -425,7 +425,7 @@ and the SDK's own code instead, as the captured secrets are other people's.
 | A nonce | None, two of Tuya's three against one | The connector, the SDK; tinytuya; the captures | tuya-homebridge [`95487cf`](https://github.com/tuya/tuya-homebridge/commit/95487cfbc51b8df682c96750bb26b3f4e1675f1c) signs one UUID for the life of the process |
 | Signed headers | None, two of Tuya's three against one | The connector, the SDK | tuya-homebridge signs `client_id`; tinytuya signs `Content-type` on a POST |
 | The query in the signature | Its keys sorted, its values unencoded, two of Tuya's three against one | The connector [`05c611c`](https://github.com/tuya/tuya-connector-nodejs/commit/05c611c4f38c89e1a6f9b38a560028162d783540), the SDK; tinytuya [`8393e6c`](https://github.com/jasonacox/tinytuya/commit/8393e6c71446feb92c4df77f7bd11af0ed1ab777) | tuya-homebridge signs it as written |
-| A pushed message's additional data | `t` as decimal text, and the tag checked. Tuya's two projects split; a client that checked tuya-homebridge's form dropped every real message, and dropped the check ([`fd6e195`](https://github.com/adrianjagielak/homebridge-tuya-plus/commit/fd6e195a1c4dda58b95c4a0673722ebed5449b10)) | The SDK [`f97d9ea`](https://github.com/tuya/tuya-iot-python-sdk/commit/f97d9ea73226efcac36eebf74b080c4d4738518e), which checks the tag, and on which Home Assistant ran for years | tuya-homebridge [`b530a71`](https://github.com/tuya/tuya-homebridge/commit/b530a71ae78afc9672c2ce42345749d38605f31c) writes `t` as 6 bytes and never checks the tag |
+| A pushed message's additional data | `t` as decimal text, and the tag checked. Tuya's two projects tie, both from 2021-04-24; a client that checked tuya-homebridge's form dropped every real message, and dropped the check ([`fd6e195`](https://github.com/adrianjagielak/homebridge-tuya-plus/commit/fd6e195a1c4dda58b95c4a0673722ebed5449b10)) | The SDK [`f97d9ea`](https://github.com/tuya/tuya-iot-python-sdk/commit/f97d9ea73226efcac36eebf74b080c4d4738518e), which checks the tag, and on which Home Assistant ran for years | tuya-homebridge [`b530a71`](https://github.com/tuya/tuya-homebridge/commit/b530a71ae78afc9672c2ce42345749d38605f31c) writes `t` as 6 bytes and never checks the tag |
 
 ## Cloud developer requests
 

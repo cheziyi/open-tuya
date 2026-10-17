@@ -21,10 +21,11 @@ the code it covers.
   rather than adding an injection point to production code.
 - **Delete anything you did not use**, including a folder's `.gitkeep` once the
   folder holds a file.
-- **Depend on a mature library rather than maintain what it already does.**
-  Where a mature, reasonably lightweight library covers code outside Tuya's
-  protocols, use it; write your own only where none does. Tuya's protocols
-  are what this repository carries, so write them here.
+- **Depend on a well-maintained library rather than maintain what it already
+  does.** Where an actively maintained, reasonably lightweight library covers
+  code outside Tuya's protocols, use it, however new it is; write your own
+  only where none does. Tuya's protocols are what this repository carries, so
+  write them here.
 - **No configuration value without a reason.** Keep a tool's default unless a
   specific requirement forces the change, and write the reason in a comment
   beside the value. Where the format takes no comment, such as `package.json`,
@@ -53,14 +54,13 @@ field name, the order of messages, a limit a device enforces.
   entry's sources.
 - **Build only the protocol facts a source shows.** List anything no source
   pins down in `UNSUPPORTED.md` with what is unknown; never ship a guess.
-- **Where sources disagree on a protocol fact, follow Tuya's own projects,
-  and failing those, what most sources agree on.** A project by Tuya, such as
-  its SDKs, connectors, firmware and documentation, outweighs any count of
-  others. Where Tuya's projects disagree among themselves, count them alone,
-  and let a capture settle a tie. Among the others, a fork counts only for code
-  it changed, a project that copies another adds nothing, and a tie goes to the
-  most recent change. Record the choice and the sources on each side in
-  `DESIGN.md`.
+- **Where sources disagree on a protocol fact, take the side with the most
+  weight.** A project by Tuya, such as its SDKs, connectors, firmware and
+  documentation, counts twice: it knows the protocol first-hand, but can be
+  outdated or wrong. A fork counts only for code it changed, and a project
+  that copies another adds nothing. On a tie, take what a capture or a report
+  from real devices shows, then the most recent change. Record the choice and
+  the sources on each side in `DESIGN.md`.
 - **Adapt code only from a source the README lists as MIT.** Add its copyright
   line to the source's row in [README.md](README.md#credits). From any other
   source take only facts: byte layouts, constants, command numbers and message
