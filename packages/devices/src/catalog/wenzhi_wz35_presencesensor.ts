@@ -33,14 +33,18 @@ const entry: TuyaDeviceEntry = {
     device: {
       occupancy: {
         dataPoint: "1",
+        kind: "sensor",
+        measures: "occupancy",
         readOnly: true,
         values: [{ raw: "presence", value: true }],
         otherwise: false,
       },
-      occupancyCline: { dataPoint: "103", readOnly: true },
-      sensitivity: { dataPoint: "2", min: 1, max: 9 },
+      occupancyCline: { dataPoint: "103", kind: "sensor", readOnly: true },
+      sensitivity: { dataPoint: "2", kind: "number", min: 1, max: 9 },
       nearestRangeInM: {
         dataPoint: "3",
+        kind: "number",
+        measures: "distance",
         unit: "m",
         min: 0,
         max: 1000,
@@ -49,6 +53,8 @@ const entry: TuyaDeviceEntry = {
       },
       furthestRangeInM: {
         dataPoint: "4",
+        kind: "number",
+        measures: "distance",
         unit: "m",
         min: 150,
         max: 1000,
@@ -57,6 +63,8 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "6",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: "check_failure", value: true },
@@ -66,11 +74,19 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: false,
       },
-      faultDescription: { dataPoint: "6", readOnly: true },
-      faultParamResult: { dataPoint: "113", readOnly: true },
-      distanceInM: { dataPoint: "9", readOnly: true, unit: "m", scale: 100 },
+      faultDescription: { dataPoint: "6", kind: "sensor", readOnly: true },
+      faultParamResult: { dataPoint: "113", kind: "sensor", readOnly: true },
+      distanceInM: {
+        dataPoint: "9",
+        kind: "sensor",
+        measures: "distance",
+        readOnly: true,
+        unit: "m",
+        scale: 100,
+      },
       detectionDelayInSeconds: {
         dataPoint: "101",
+        kind: "number",
         unit: "s",
         min: 0,
         max: 200,
@@ -78,19 +94,24 @@ const entry: TuyaDeviceEntry = {
       },
       departureDelayInSeconds: {
         dataPoint: "102",
+        kind: "number",
         unit: "s",
         min: 5,
         max: 1500,
       },
       illuminanceInLux: {
         dataPoint: "104",
+        kind: "sensor",
+        measures: "illuminance",
         readOnly: true,
         unit: "lx",
         scale: 10,
       },
-      triggerSensitivity: { dataPoint: "105", min: 1, max: 9 },
+      triggerSensitivity: { dataPoint: "105", kind: "number", min: 1, max: 9 },
       triggerDistanceInM: {
         dataPoint: "106",
+        kind: "number",
+        measures: "distance",
         unit: "m",
         min: 0,
         max: 1000,
@@ -98,6 +119,7 @@ const entry: TuyaDeviceEntry = {
       },
       relayMode: {
         dataPoint: "107",
+        kind: "select",
         values: [
           { raw: "standard", value: "Manual control" },
           { raw: "local", value: "Presence control" },
@@ -108,6 +130,7 @@ const entry: TuyaDeviceEntry = {
       },
       relay: {
         dataPoint: "108",
+        kind: "switch",
         values: [
           { raw: "off", value: false },
           { raw: "on", value: true },
@@ -115,6 +138,8 @@ const entry: TuyaDeviceEntry = {
       },
       running: {
         dataPoint: "109",
+        kind: "sensor",
+        measures: "running",
         readOnly: true,
         values: [
           { raw: "off", value: false },
@@ -123,6 +148,8 @@ const entry: TuyaDeviceEntry = {
       },
       lightThresholdInLux: {
         dataPoint: "110",
+        kind: "number",
+        measures: "illuminance",
         unit: "lx",
         min: 0,
         max: 10000,
@@ -131,6 +158,7 @@ const entry: TuyaDeviceEntry = {
       },
       relayPolarity: {
         dataPoint: "111",
+        kind: "select",
         values: [
           { raw: "close", value: "Normally closed" },
           { raw: "open", value: "Normally open" },
@@ -138,6 +166,8 @@ const entry: TuyaDeviceEntry = {
       },
       reEntryDelayInSeconds: {
         dataPoint: "112",
+        kind: "number",
+        measures: "duration",
         unit: "s",
         min: 1,
         max: 600,
@@ -145,10 +175,12 @@ const entry: TuyaDeviceEntry = {
       },
       factoryReset: {
         dataPoint: "114",
+        kind: "button",
         values: [{ raw: "reset_setting", value: true }],
       },
       sensorMode: {
         dataPoint: "115",
+        kind: "select",
         values: [
           { raw: "no", value: "Turn on" },
           { raw: "off", value: "Turn off" },

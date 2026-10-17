@@ -20,18 +20,26 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
           { raw: "stop", value: "stop" },
         ],
       },
-      targetPosition: { dataPoint: "2", min: 0, max: 100 },
-      currentPosition: { dataPoint: "3", readOnly: true, min: 0, max: 100 },
-      unreliableAction: { dataPoint: "7" },
-      situationSet: { dataPoint: "11" },
+      targetPosition: { dataPoint: "2", kind: "number", min: 0, max: 100 },
+      currentPosition: {
+        dataPoint: "3",
+        kind: "sensor",
+        readOnly: true,
+        min: 0,
+        max: 100,
+      },
+      unreliableAction: { dataPoint: "7", kind: "text" },
+      situationSet: { dataPoint: "11", kind: "text" },
       direction: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "forward", value: "Clockwise" },
           { raw: "back", value: "Anti-clockwise" },
@@ -39,13 +47,15 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "12",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", readOnly: true },
-      handPulled: { dataPoint: "102", readOnly: true },
+      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      handPulled: { dataPoint: "102", kind: "sensor", readOnly: true },
     },
   },
   source: {

@@ -25,9 +25,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     music: {
-      on: { dataPoint: "103" },
+      on: { dataPoint: "103", kind: "switch" },
       tone: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: "0", value: "Track 1" },
           { raw: "1", value: "Track 2" },
@@ -41,17 +42,18 @@ const entry: TuyaDeviceEntry = {
           { raw: "9", value: "Track 10" },
         ],
       },
-      volume: { dataPoint: "105", min: 0, max: 16, scale: 16 },
-      duration: { dataPoint: "107", min: 1, max: 120 },
-      wakeAlarm: { dataPoint: "108" },
-      napAlarm: { dataPoint: "109" },
-      sleepAlarm: { dataPoint: "110" },
-      timeSet: { dataPoint: "111" },
-      snooze: { dataPoint: "114" },
+      volume: { dataPoint: "105", kind: "number", min: 0, max: 16, scale: 16 },
+      duration: { dataPoint: "107", kind: "number", min: 1, max: 120 },
+      wakeAlarm: { dataPoint: "108", kind: "text" },
+      napAlarm: { dataPoint: "109", kind: "text" },
+      sleepAlarm: { dataPoint: "110", kind: "text" },
+      timeSet: { dataPoint: "111", kind: "text" },
+      snooze: { dataPoint: "114", kind: "text" },
     },
     device: {
       alarmMode: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "awake", value: "Wake up" },
           { raw: "nap", value: "Nap" },
@@ -60,22 +62,24 @@ const entry: TuyaDeviceEntry = {
       },
       musicPlayback: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "0", value: "Repeat" },
           { raw: "1", value: "Normal" },
           { raw: "2", value: "Random" },
         ],
       },
-      autoTimeSync: { dataPoint: "112" },
+      autoTimeSync: { dataPoint: "112", kind: "switch" },
       timeFormat: {
         dataPoint: "113",
+        kind: "select",
         values: [
           { raw: "12", value: "12_hour" },
           { raw: "24", value: "24_hour" },
         ],
       },
-      childLock: { dataPoint: "115" },
-      sleep: { dataPoint: "116" },
+      childLock: { dataPoint: "115", kind: "switch" },
+      sleep: { dataPoint: "116", kind: "switch" },
     },
   },
   source: {

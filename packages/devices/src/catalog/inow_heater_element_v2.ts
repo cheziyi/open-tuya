@@ -21,6 +21,7 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
@@ -28,14 +29,23 @@ const entry: TuyaDeviceEntry = {
       },
       targetTemperatureInC: {
         dataPoint: "102",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 30,
         max: 70,
         step: 5,
       },
-      currentTemperatureInC: { dataPoint: "101", readOnly: true, unit: "C" },
+      currentTemperatureInC: {
+        dataPoint: "101",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       preset: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "comfort", value: "comfort" },
           { raw: "antifreezin", value: "away" },
@@ -43,10 +53,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "water_temp", value: "Radiator" },
         ],
       },
-      childLock: { dataPoint: "108" },
-      programEnabled: { dataPoint: "7" },
+      childLock: { dataPoint: "108", kind: "switch" },
+      programEnabled: { dataPoint: "7", kind: "switch" },
       boost: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "0h", value: "cancel" },
           { raw: "2h", value: "2h" },
@@ -57,6 +68,7 @@ const entry: TuyaDeviceEntry = {
     roomTemperature: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
@@ -64,14 +76,23 @@ const entry: TuyaDeviceEntry = {
       },
       targetTemperatureInC: {
         dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 7,
         max: 30,
         step: 1,
       },
-      currentTemperatureInC: { dataPoint: "3", readOnly: true, unit: "C" },
+      currentTemperatureInC: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       preset: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "comfort", value: "comfort" },
           { raw: "antifreezin", value: "away" },

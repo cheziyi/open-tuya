@@ -14,12 +14,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     filament: {
-      on: { dataPoint: "1" },
-      brightness: { dataPoint: "2", min: 10, max: 1000 },
+      on: { dataPoint: "1", kind: "switch" },
+      brightness: { dataPoint: "2", kind: "number", min: 10, max: 1000 },
     },
     base: {
-      on: { dataPoint: "7" },
-      brightness: { dataPoint: "8", min: 10, max: 1000 },
+      on: { dataPoint: "7", kind: "switch" },
+      brightness: { dataPoint: "8", kind: "number", min: 10, max: 1000 },
     },
   },
   source: {

@@ -23,24 +23,56 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      reset: { dataPoint: "1" },
+      reset: { dataPoint: "1", kind: "button" },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "auto_clean", value: "auto" },
           { raw: "manual_clean", value: "manual" },
         ],
       },
-      empty: { dataPoint: "3" },
-      cleaningDelayInMinutes: { dataPoint: "5", unit: "min", min: 1, max: 60 },
-      weightInKg: { dataPoint: "6", readOnly: true, unit: "kg", scale: 10 },
-      timesTodayInTimes: { dataPoint: "7", readOnly: true, unit: "times" },
-      toiletDurationInSeconds: { dataPoint: "8", readOnly: true, unit: "s" },
-      clean: { dataPoint: "9" },
-      factoryReset: { dataPoint: "23" },
-      cleaningTimesInTimes: { dataPoint: "103", readOnly: true, unit: "times" },
+      empty: { dataPoint: "3", kind: "button" },
+      cleaningDelayInMinutes: {
+        dataPoint: "5",
+        kind: "number",
+        measures: "duration",
+        unit: "min",
+        min: 1,
+        max: 60,
+      },
+      weightInKg: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "weight",
+        readOnly: true,
+        unit: "kg",
+        scale: 10,
+      },
+      timesTodayInTimes: {
+        dataPoint: "7",
+        kind: "sensor",
+        readOnly: true,
+        unit: "times",
+      },
+      toiletDurationInSeconds: {
+        dataPoint: "8",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "s",
+      },
+      clean: { dataPoint: "9", kind: "button" },
+      factoryReset: { dataPoint: "23", kind: "button" },
+      cleaningTimesInTimes: {
+        dataPoint: "103",
+        kind: "sensor",
+        readOnly: true,
+        unit: "times",
+      },
       status: {
         dataPoint: "110",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "Standby", value: "standby" },
@@ -62,13 +94,16 @@ const entry: TuyaDeviceEntry = {
       },
       weightUnit: {
         dataPoint: "111",
+        kind: "select",
         values: [
           { raw: "KG", value: "Kilograms" },
           { raw: "LB", value: "Pounds" },
         ],
       },
     },
-    backlight: { brightness: { dataPoint: "106", min: 0, max: 100 } },
+    backlight: {
+      brightness: { dataPoint: "106", kind: "number", min: 0, max: 100 },
+    },
   },
   source: {
     file: "minib_public_litterbox.yaml",

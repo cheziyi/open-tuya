@@ -27,6 +27,7 @@ const entry: TuyaDeviceEntry = {
     thermostat: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
@@ -34,17 +35,42 @@ const entry: TuyaDeviceEntry = {
       },
       preset: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "auto", value: "program" },
           { raw: "manual", value: "manual" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "16", unit: "C", min: 5, max: 90 },
-      maxTargetTemperatureInC: { dataPoint: "19", unit: "C" },
-      currentTemperatureInC: { dataPoint: "24", readOnly: true, unit: "C" },
-      minTargetTemperatureInC: { dataPoint: "26", unit: "C" },
+      targetTemperatureInC: {
+        dataPoint: "16",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 5,
+        max: 90,
+      },
+      maxTargetTemperatureInC: {
+        dataPoint: "19",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+      },
+      currentTemperatureInC: {
+        dataPoint: "24",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      minTargetTemperatureInC: {
+        dataPoint: "26",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+      },
       hvacAction: {
         dataPoint: "36",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "close", value: "idle" },
@@ -55,14 +81,17 @@ const entry: TuyaDeviceEntry = {
     device: {
       temperatureCalibrationInC: {
         dataPoint: "27",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: -9,
         max: 9,
       },
-      antiFrost: { dataPoint: "10" },
-      childLock: { dataPoint: "40" },
+      antiFrost: { dataPoint: "10", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch" },
       sensorSelection: {
         dataPoint: "43",
+        kind: "select",
         values: [
           { raw: "in", value: "Internal" },
           { raw: "out", value: "External" },
@@ -71,16 +100,33 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "45",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", readOnly: true },
-      maximumTemperatureInC: { dataPoint: "19", unit: "C", min: 30, max: 90 },
-      minimumTemperatureInC: { dataPoint: "26", unit: "C", min: 5, max: 20 },
-      reset: { dataPoint: "39" },
+      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      maximumTemperatureInC: {
+        dataPoint: "19",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 30,
+        max: 90,
+      },
+      minimumTemperatureInC: {
+        dataPoint: "26",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 5,
+        max: 20,
+      },
+      reset: { dataPoint: "39", kind: "button" },
       workingWeek: {
         dataPoint: "31",
+        kind: "select",
         values: [
           { raw: "00", value: "Off" },
           { raw: "5_2", value: "5 days" },
@@ -89,7 +135,9 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    backlight: { brightness: { dataPoint: "44", min: 0, max: 100 } },
+    backlight: {
+      brightness: { dataPoint: "44", kind: "number", min: 0, max: 100 },
+    },
   },
   source: {
     file: "multi_leaf_dy_107_thermostat.yaml",

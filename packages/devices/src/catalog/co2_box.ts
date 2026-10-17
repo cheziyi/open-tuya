@@ -9,7 +9,13 @@ const entry: TuyaDeviceEntry = {
   dataPoints: { "2": { type: "integer" } },
   components: {
     device: {
-      carbonDioxideInPpm: { dataPoint: "2", readOnly: true, unit: "ppm" },
+      carbonDioxideInPpm: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "carbonDioxide",
+        readOnly: true,
+        unit: "ppm",
+      },
     },
   },
   source: {

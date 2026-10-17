@@ -8,7 +8,10 @@ const entry: TuyaDeviceEntry = {
   productKeys: [],
   dataPoints: { "1": { type: "boolean" }, "3": { type: "integer" } },
   components: {
-    fan: { on: { dataPoint: "1" }, speed: { dataPoint: "3", min: 1, max: 5 } },
+    fan: {
+      on: { dataPoint: "1", kind: "switch" },
+      speed: { dataPoint: "3", kind: "number", min: 1, max: 5 },
+    },
   },
   source: {
     file: "generic_5speed_fanregulator.yaml",

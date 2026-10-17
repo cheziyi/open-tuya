@@ -16,9 +16,17 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      temperatureInC: { dataPoint: "1", readOnly: true, unit: "C", scale: 10 },
+      temperatureInC: {
+        dataPoint: "1",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+        scale: 10,
+      },
       temperatureUnit: {
         dataPoint: "9",
+        kind: "select",
         values: [
           { raw: "f", value: "fahrenheit" },
           { raw: "c", value: "celsius" },
@@ -26,6 +34,8 @@ const entry: TuyaDeviceEntry = {
       },
       maximumTemperatureInC: {
         dataPoint: "10",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: -400,
         max: 1200,
@@ -33,6 +43,8 @@ const entry: TuyaDeviceEntry = {
       },
       minimumTemperatureInC: {
         dataPoint: "11",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: -400,
         max: 1200,
@@ -40,6 +52,7 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureAlarm: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "loweralarm", value: "Low temperature" },
           { raw: "upperalarm", value: "High temperature" },
@@ -48,6 +61,8 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureCalibrationInC: {
         dataPoint: "23",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: -100,
         max: 100,

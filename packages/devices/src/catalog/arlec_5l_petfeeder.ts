@@ -19,10 +19,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      manualFeed: { dataPoint: "3", min: 1, max: 12 },
-      mealPlan: { dataPoint: "1" },
+      manualFeed: { dataPoint: "3", kind: "number", min: 1, max: 12 },
+      mealPlan: { dataPoint: "1", kind: "text" },
       status: {
         dataPoint: "4",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -32,13 +33,16 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "14",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "14", readOnly: true },
+      faultCode: { dataPoint: "14", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "14",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -49,12 +53,17 @@ const entry: TuyaDeviceEntry = {
           { raw: 16, value: "battery_low" },
         ],
       },
-      feedReport: { dataPoint: "15", readOnly: true },
-      batteryInPercent: { dataPoint: "11", readOnly: true, unit: "%" },
-      voicePlaybacks: { dataPoint: "18", min: 0, max: 5 },
-      factoryReset: { dataPoint: "9" },
+      feedReport: { dataPoint: "15", kind: "sensor", readOnly: true },
+      batteryInPercent: {
+        dataPoint: "11",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      voicePlaybacks: { dataPoint: "18", kind: "number", min: 0, max: 5 },
+      factoryReset: { dataPoint: "9", kind: "button" },
     },
-    indicator: { on: { dataPoint: "19" } },
+    indicator: { on: { dataPoint: "19", kind: "switch" } },
   },
   source: {
     file: "arlec_5l_petfeeder.yaml",

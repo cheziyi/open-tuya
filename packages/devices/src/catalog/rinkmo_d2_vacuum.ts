@@ -17,9 +17,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     vacuum: {
-      cleaning: { dataPoint: "2" },
+      cleaning: { dataPoint: "2", kind: "switch" },
       command: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "standby", value: "stop" },
           { raw: "smart", value: "smart" },
@@ -30,6 +31,7 @@ const entry: TuyaDeviceEntry = {
       },
       moveDirection: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "backward", value: "reverse" },
@@ -40,6 +42,7 @@ const entry: TuyaDeviceEntry = {
       },
       status: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "standby", value: "standby" },
           { raw: "smart_clean", value: "cleaning" },
@@ -51,17 +54,26 @@ const entry: TuyaDeviceEntry = {
           { raw: "paused", value: "paused" },
         ],
       },
-      locate: { dataPoint: "13" },
-      batteryInPercent: { dataPoint: "6", readOnly: true, unit: "%" },
+      locate: { dataPoint: "13", kind: "switch" },
+      batteryInPercent: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
       fault: {
         dataPoint: "18",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", readOnly: true },
+      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "18",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },

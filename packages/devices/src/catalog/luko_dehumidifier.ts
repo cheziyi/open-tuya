@@ -22,14 +22,23 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
-      currentHumidityInPercent: { dataPoint: "8", readOnly: true, unit: "%" },
+      on: { dataPoint: "1", kind: "switch" },
+      currentHumidityInPercent: {
+        dataPoint: "8",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [{ raw: "dehumidity", value: "normal" }],
       },
       targetHumidityInPercent: {
         dataPoint: "46",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 40,
         max: 80,
@@ -37,25 +46,50 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureInC: {
         dataPoint: "45",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 50,
         max: 350,
         scale: 10,
       },
-      temperatureInC2: { dataPoint: "9", readOnly: true, unit: "C", scale: 10 },
+      temperatureInC2: {
+        dataPoint: "9",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+        scale: 10,
+      },
       absoluteHumidityInGPerM3: {
         dataPoint: "107",
+        kind: "sensor",
+        measures: "absoluteHumidity",
         readOnly: true,
         unit: "g/m³",
         scale: 10,
       },
-      runtimeInHours: { dataPoint: "110", readOnly: true, unit: "h" },
-      dewpointInC: { dataPoint: "104", readOnly: true, unit: "C", scale: 10 },
+      runtimeInHours: {
+        dataPoint: "110",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "h",
+      },
+      dewpointInC: {
+        dataPoint: "104",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+        scale: 10,
+      },
     },
     ventilation: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "12",
+        kind: "select",
         values: [
           { raw: "1speed", value: 20 },
           { raw: "2speed", value: 40 },
@@ -66,13 +100,14 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "115",
+        kind: "select",
         values: [
           { raw: "0", value: "fresh" },
           { raw: "1", value: "circulate" },
         ],
       },
     },
-    freshAir: { open: { dataPoint: "109", min: 1, max: 99 } },
+    freshAir: { open: { dataPoint: "109", kind: "number", min: 1, max: 99 } },
   },
   source: {
     file: "luko_dehumidifier.yaml",

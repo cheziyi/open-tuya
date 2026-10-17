@@ -24,15 +24,30 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "2", unit: "C", min: 5, max: 35 },
-      currentTemperatureInC: { dataPoint: "3", readOnly: true, unit: "C" },
+      targetTemperatureInC: {
+        dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 5,
+        max: 35,
+      },
+      currentTemperatureInC: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       preset: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "CF", value: "comfort" },
           { raw: "EC", value: "eco" },
@@ -45,15 +60,17 @@ const entry: TuyaDeviceEntry = {
       },
       hvacAction: {
         dataPoint: "11",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "idle" },
           { raw: "working", value: "heating" },
         ],
       },
-      customProgram: { dataPoint: "26" },
+      customProgram: { dataPoint: "26", kind: "text" },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -82,12 +99,24 @@ const entry: TuyaDeviceEntry = {
           { raw: "24h", value: "24h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "20", readOnly: true, unit: "min" },
-      sleep: { dataPoint: "103" },
-      windowCheck: { dataPoint: "104" },
-      window: { dataPoint: "105", readOnly: true },
+      timeRemainingInMinutes: {
+        dataPoint: "20",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      sleep: { dataPoint: "103", kind: "switch" },
+      windowCheck: { dataPoint: "104", kind: "switch" },
+      window: {
+        dataPoint: "105",
+        kind: "sensor",
+        measures: "window",
+        readOnly: true,
+      },
       temperatureCalibrationInC: {
         dataPoint: "106",
+        kind: "number",
         unit: "C",
         min: -5,
         max: 35,

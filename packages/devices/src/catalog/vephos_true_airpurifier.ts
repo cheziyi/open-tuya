@@ -21,9 +21,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "manual", value: "manual" },
@@ -32,6 +33,7 @@ const entry: TuyaDeviceEntry = {
       },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "speed1", value: 33 },
           { raw: "speed2", value: 67 },
@@ -40,11 +42,18 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      pm25InUgPerM3: { dataPoint: "2", readOnly: true, unit: "ugm3" },
-      ionizer: { dataPoint: "6" },
-      uvSterilization: { dataPoint: "9" },
+      pm25InUgPerM3: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "pm25",
+        readOnly: true,
+        unit: "ugm3",
+      },
+      ionizer: { dataPoint: "6", kind: "switch" },
+      uvSterilization: { dataPoint: "9", kind: "switch" },
       timer: {
         dataPoint: "18",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "2h", value: "2h" },
@@ -56,13 +65,16 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "22",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", readOnly: true },
+      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "22",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -72,9 +84,10 @@ const entry: TuyaDeviceEntry = {
           { raw: 8, value: "Replace filter 4" },
         ],
       },
-      filter123Reset: { dataPoint: "101" },
+      filter123Reset: { dataPoint: "101", kind: "button" },
       airflowAngle: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "30", value: "30°" },
           { raw: "60", value: "60°" },
@@ -82,7 +95,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    indicator: { on: { dataPoint: "8" } },
+    indicator: { on: { dataPoint: "8", kind: "switch" } },
   },
   source: {
     file: "vephos_true_airpurifier.yaml",

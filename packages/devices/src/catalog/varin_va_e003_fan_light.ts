@@ -21,10 +21,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     mainLight: {
-      on: { dataPoint: "63" },
-      brightness: { dataPoint: "22", min: 10, max: 1000 },
+      on: { dataPoint: "63", kind: "switch" },
+      brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
       colorTemperatureInK: {
         dataPoint: "23",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 1000,
@@ -32,9 +33,10 @@ const entry: TuyaDeviceEntry = {
       },
     },
     auxiliaryLight: {
-      on: { dataPoint: "54" },
+      on: { dataPoint: "54", kind: "switch" },
       effect: {
         dataPoint: "55",
+        kind: "select",
         values: [
           { raw: "colour", value: "off" },
           { raw: "scene", value: "Scene" },
@@ -43,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       },
       colorName: {
         dataPoint: "61",
+        kind: "select",
         values: [
           { raw: "AAEADAAAAAPoA+g=", value: "red" },
           { raw: "AAEADAAAHgPoA+g=", value: "orange" },
@@ -60,12 +63,13 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    device: { masterSwitch: { dataPoint: "20" } },
+    device: { masterSwitch: { dataPoint: "20", kind: "switch" } },
     fan: {
-      on: { dataPoint: "107" },
-      speed: { dataPoint: "105", min: 1, max: 6 },
+      on: { dataPoint: "107", kind: "switch" },
+      speed: { dataPoint: "105", kind: "number", min: 1, max: 6 },
       direction: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "reverse", value: "reverse" },
@@ -73,6 +77,7 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "fresh", value: "fresh" },
           { raw: "nature", value: "nature" },

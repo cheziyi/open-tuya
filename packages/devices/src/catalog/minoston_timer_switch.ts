@@ -23,16 +23,59 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      timerInSeconds: { dataPoint: "7", unit: "s", min: 0, max: 86400 },
-      preset1TimeInSeconds: { dataPoint: "101", unit: "s", min: 0, max: 86400 },
-      preset2TimeInSeconds: { dataPoint: "102", unit: "s", min: 0, max: 86400 },
-      preset3TimeInSeconds: { dataPoint: "103", unit: "s", min: 0, max: 86400 },
-      preset4TimeInSeconds: { dataPoint: "104", unit: "s", min: 0, max: 86400 },
-      preset5TimeInSeconds: { dataPoint: "105", unit: "s", min: 0, max: 86400 },
-      preset6TimeInSeconds: { dataPoint: "106", unit: "s", min: 0, max: 86400 },
+      on: { dataPoint: "1", kind: "switch" },
+      timerInSeconds: {
+        dataPoint: "7",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      preset1TimeInSeconds: {
+        dataPoint: "101",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      preset2TimeInSeconds: {
+        dataPoint: "102",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      preset3TimeInSeconds: {
+        dataPoint: "103",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      preset4TimeInSeconds: {
+        dataPoint: "104",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      preset5TimeInSeconds: {
+        dataPoint: "105",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      preset6TimeInSeconds: {
+        dataPoint: "106",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
       activeTimer: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: 0, value: "None" },
           { raw: 1, value: "Preset 1" },
@@ -45,6 +88,7 @@ const entry: TuyaDeviceEntry = {
       },
       powerIndicator: {
         dataPoint: "109",
+        kind: "select",
         values: [
           { raw: "on", value: "Solid" },
           { raw: "flicker", value: "Blink" },
@@ -52,14 +96,17 @@ const entry: TuyaDeviceEntry = {
       },
       timerIndicator: {
         dataPoint: "110",
+        kind: "select",
         values: [
           { raw: "on", value: "Solid" },
           { raw: "flicker", value: "Blink" },
         ],
       },
-      override: { dataPoint: "111" },
+      override: { dataPoint: "111", kind: "switch" },
     },
-    indicator: { brightness: { dataPoint: "107", min: 0, max: 100 } },
+    indicator: {
+      brightness: { dataPoint: "107", kind: "number", min: 0, max: 100 },
+    },
   },
   source: {
     file: "minoston_timer_switch.yaml",

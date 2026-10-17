@@ -20,9 +20,14 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      manualFeed: { dataPoint: "3", values: [{ raw: 1, value: true }] },
+      manualFeed: {
+        dataPoint: "3",
+        kind: "button",
+        values: [{ raw: 1, value: true }],
+      },
       status: {
         dataPoint: "4",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -30,18 +35,21 @@ const entry: TuyaDeviceEntry = {
           { raw: "done", value: "feeding_complete" },
         ],
       },
-      statusFeedRecord: { dataPoint: "112", readOnly: true },
-      statusMcuVersion: { dataPoint: "130", readOnly: true },
+      statusFeedRecord: { dataPoint: "112", kind: "sensor", readOnly: true },
+      statusMcuVersion: { dataPoint: "130", kind: "sensor", readOnly: true },
       batteryInPercent: {
         dataPoint: "10",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         unit: "%",
         scale: 50,
       },
-      mealPlan: { dataPoint: "101", min: 1, max: 5 },
-      mealPlan2: { dataPoint: "108" },
+      mealPlan: { dataPoint: "101", kind: "number", min: 1, max: 5 },
+      mealPlan2: { dataPoint: "108", kind: "text" },
       alert: {
         dataPoint: "113",
+        kind: "event",
         readOnly: true,
         values: [
           { raw: 0, value: "feeding_successful" },
@@ -52,12 +60,16 @@ const entry: TuyaDeviceEntry = {
       },
       battery: {
         dataPoint: "114",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         values: [{ raw: 8, value: true }],
         otherwise: false,
       },
       plug: {
         dataPoint: "116",
+        kind: "sensor",
+        measures: "plug",
         readOnly: true,
         values: [
           { raw: true, value: false },

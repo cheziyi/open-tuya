@@ -14,18 +14,22 @@ const entry: TuyaDeviceEntry = {
     device: {
       temperature: {
         dataPoint: "1",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unitFrom: "temperatureUnit",
         scale: 10,
       },
       temperatureUnit: {
         dataPoint: "9",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
       temperatureUnit2: {
         dataPoint: "9",
+        kind: "select",
         values: [
           { raw: "c", value: "celsius" },
           { raw: "f", value: "fahrenheit" },

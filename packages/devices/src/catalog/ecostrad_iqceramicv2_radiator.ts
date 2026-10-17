@@ -25,6 +25,7 @@ const entry: TuyaDeviceEntry = {
     heater: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
@@ -32,6 +33,8 @@ const entry: TuyaDeviceEntry = {
       },
       targetTemperatureInC: {
         dataPoint: "3",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 70,
         max: 300,
@@ -40,6 +43,7 @@ const entry: TuyaDeviceEntry = {
       },
       preset: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "hot", value: "heat" },
           { raw: "Program", value: "program" },
@@ -47,12 +51,15 @@ const entry: TuyaDeviceEntry = {
       },
       currentTemperatureInC: {
         dataPoint: "24",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         scale: 10,
       },
       hvacAction: {
         dataPoint: "32",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "heating", value: "heating" },
@@ -61,16 +68,25 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      childLock: { dataPoint: "40" },
+      childLock: { dataPoint: "40", kind: "switch" },
       temperatureCalibrationInC: {
         dataPoint: "27",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: -5,
         max: 5,
       },
-      timeRemainingInMinutes: { dataPoint: "42", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "42",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       openWindowDetection: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "60", value: "60m" },
@@ -79,6 +95,7 @@ const entry: TuyaDeviceEntry = {
       },
       pirTimeout: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: "15", value: "15m" },
           { raw: "30", value: "30m" },
@@ -86,9 +103,30 @@ const entry: TuyaDeviceEntry = {
           { raw: "60", value: "1h" },
         ],
       },
-      powerInW: { dataPoint: "119", readOnly: true, unit: "W", scale: 10 },
-      voltageInV: { dataPoint: "118", readOnly: true, unit: "V", scale: 10 },
-      currentInA: { dataPoint: "120", readOnly: true, unit: "A", scale: 1000 },
+      powerInW: {
+        dataPoint: "119",
+        kind: "sensor",
+        measures: "power",
+        readOnly: true,
+        unit: "W",
+        scale: 10,
+      },
+      voltageInV: {
+        dataPoint: "118",
+        kind: "sensor",
+        measures: "voltage",
+        readOnly: true,
+        unit: "V",
+        scale: 10,
+      },
+      currentInA: {
+        dataPoint: "120",
+        kind: "sensor",
+        measures: "current",
+        readOnly: true,
+        unit: "A",
+        scale: 1000,
+      },
     },
   },
   source: {

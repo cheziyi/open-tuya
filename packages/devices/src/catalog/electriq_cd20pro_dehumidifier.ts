@@ -24,9 +24,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "low", value: "eco" },
@@ -34,9 +35,17 @@ const entry: TuyaDeviceEntry = {
           { raw: "fan", value: "purify" },
         ],
       },
-      currentHumidityInPercent: { dataPoint: "3", readOnly: true, unit: "%" },
+      currentHumidityInPercent: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       targetHumidityInPercent: {
         dataPoint: "4",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 35,
         max: 80,
@@ -44,17 +53,24 @@ const entry: TuyaDeviceEntry = {
       },
       direction: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "0_90", value: "45°-90°" },
           { raw: "45", value: "45°" },
           { raw: "90", value: "90°" },
         ],
       },
-      uvSterilization: { dataPoint: "10" },
-      ionizer: { dataPoint: "5" },
-      temperatureInC: { dataPoint: "103", readOnly: true, unit: "C" },
+      uvSterilization: { dataPoint: "10", kind: "switch" },
+      ionizer: { dataPoint: "5", kind: "switch" },
+      temperatureInC: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
     },
-    display: { on: { dataPoint: "101" } },
+    display: { on: { dataPoint: "101", kind: "switch" } },
   },
   source: {
     file: "electriq_cd20pro_dehumidifier.yaml",

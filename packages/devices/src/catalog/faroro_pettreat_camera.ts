@@ -17,21 +17,23 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      feed: { dataPoint: "231" },
-      flipImage: { dataPoint: "103" },
+      feed: { dataPoint: "231", kind: "button" },
+      flipImage: { dataPoint: "103", kind: "switch" },
       nightVision: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: 0, value: "auto" },
           { raw: 1, value: "on" },
           { raw: 2, value: "off" },
         ],
       },
-      motionDetection: { dataPoint: "134" },
-      limitMotionArea: { dataPoint: "168" },
-      motionArea: { dataPoint: "169" },
+      motionDetection: { dataPoint: "134", kind: "switch" },
+      limitMotionArea: { dataPoint: "168", kind: "switch" },
+      motionArea: { dataPoint: "169", kind: "text" },
       status: {
         dataPoint: "236",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "fault" },

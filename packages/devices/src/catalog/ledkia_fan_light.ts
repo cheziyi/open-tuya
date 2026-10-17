@@ -22,12 +22,13 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "60" },
-      speed: { dataPoint: "62", min: 1, max: 6 },
-      direction: { dataPoint: "63" },
-      scene: { dataPoint: "25" },
+      on: { dataPoint: "60", kind: "switch" },
+      speed: { dataPoint: "62", kind: "number", min: 1, max: 6 },
+      direction: { dataPoint: "63", kind: "text" },
+      scene: { dataPoint: "25", kind: "text" },
       minimumBrightnessInPercent: {
         dataPoint: "58",
+        kind: "number",
         unit: "%",
         min: 10,
         max: 1000,
@@ -35,28 +36,38 @@ const entry: TuyaDeviceEntry = {
       },
       lightType: {
         dataPoint: "59",
+        kind: "select",
         values: [
           { raw: "led", value: "LED" },
           { raw: "incandescent", value: "Incandescent" },
           { raw: "halogen", value: "Halogen" },
         ],
       },
-      fanTimerInMinutes: { dataPoint: "64", unit: "min", min: 0, max: 540 },
-      sound: { dataPoint: "66" },
+      fanTimerInMinutes: {
+        dataPoint: "64",
+        kind: "number",
+        measures: "duration",
+        unit: "min",
+        min: 0,
+        max: 540,
+      },
+      sound: { dataPoint: "66", kind: "switch" },
     },
     light: {
-      on: { dataPoint: "20" },
+      on: { dataPoint: "20", kind: "switch" },
       effect: {
         dataPoint: "21",
+        kind: "select",
         values: [
           { raw: "white", value: "off" },
           { raw: "scene", value: "Scene" },
         ],
         otherwise: "off",
       },
-      brightness: { dataPoint: "22", min: 10, max: 1000 },
+      brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
       colorTemperatureInK: {
         dataPoint: "23",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 1000,

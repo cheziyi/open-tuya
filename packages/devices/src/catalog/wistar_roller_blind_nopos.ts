@@ -25,17 +25,25 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "0", value: "open" },
           { raw: "1", value: "close" },
           { raw: "2", value: "stop" },
         ],
       },
-      targetPosition: { dataPoint: "102", min: 0, max: 100 },
-      currentPosition: { dataPoint: "102", readOnly: true, min: 0, max: 100 },
-      curtainHand: { dataPoint: "105" },
+      targetPosition: { dataPoint: "102", kind: "number", min: 0, max: 100 },
+      currentPosition: {
+        dataPoint: "102",
+        kind: "sensor",
+        readOnly: true,
+        min: 0,
+        max: 100,
+      },
+      curtainHand: { dataPoint: "105", kind: "switch" },
       curtainState: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "0", value: "status_0" },
           { raw: "1", value: "status_1" },
@@ -45,6 +53,7 @@ const entry: TuyaDeviceEntry = {
       },
       acControl: {
         dataPoint: "107",
+        kind: "select",
         values: [
           { raw: "1", value: "control_1" },
           { raw: "2", value: "control_2" },
@@ -54,6 +63,7 @@ const entry: TuyaDeviceEntry = {
       },
       dcControl: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: "1", value: "control_1" },
           { raw: "2", value: "control_2" },
@@ -61,12 +71,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "4", value: "control_4" },
         ],
       },
-      curtainType: { dataPoint: "109" },
-      report: { dataPoint: "110" },
-      borderState: { dataPoint: "111" },
-      brokenPosition: { dataPoint: "112" },
+      curtainType: { dataPoint: "109", kind: "text" },
+      report: { dataPoint: "110", kind: "text" },
+      borderState: { dataPoint: "111", kind: "switch" },
+      brokenPosition: { dataPoint: "112", kind: "number" },
       borderSetting: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: "1", value: "Upper Limit Set" },
           { raw: "2", value: "Upper Limit Remove" },
@@ -77,6 +88,7 @@ const entry: TuyaDeviceEntry = {
       },
       style: {
         dataPoint: "113",
+        kind: "select",
         values: [
           { raw: "0", value: "Venetian blind" },
           { raw: "1", value: "Silhouette blind" },
@@ -92,7 +104,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "11", value: "Roman pole" },
         ],
       },
-      reversed: { dataPoint: "103" },
+      reversed: { dataPoint: "103", kind: "switch" },
     },
   },
   source: {

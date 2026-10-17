@@ -14,7 +14,10 @@ const entry: TuyaDeviceEntry = {
     "105": { type: "boolean" },
   },
   components: {
-    device: { outlet1: { dataPoint: "1" }, outlet2: { dataPoint: "2" } },
+    device: {
+      outlet1: { dataPoint: "1", kind: "switch" },
+      outlet2: { dataPoint: "2", kind: "switch" },
+    },
   },
   source: {
     file: "grid_connect_double_switch.yaml",

@@ -25,9 +25,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      selfCheck: { dataPoint: "18" },
+      selfCheck: { dataPoint: "18", kind: "button" },
       selfCheckResult: {
         dataPoint: "19",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "checking", value: "Checking" },
@@ -36,25 +37,41 @@ const entry: TuyaDeviceEntry = {
           { raw: "others", value: "Uncertain" },
         ],
       },
-      preheating: { dataPoint: "20", readOnly: true },
+      preheating: {
+        dataPoint: "20",
+        kind: "sensor",
+        measures: "cold",
+        readOnly: true,
+      },
       fault: {
         dataPoint: "21",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "21", readOnly: true },
-      muteAlarm: { dataPoint: "24" },
+      faultCode: { dataPoint: "21", kind: "sensor", readOnly: true },
+      muteAlarm: { dataPoint: "24", kind: "button" },
       gas: {
         dataPoint: "25",
+        kind: "sensor",
+        measures: "gas",
         readOnly: true,
         values: [{ raw: "alarm", value: true }],
         otherwise: false,
       },
-      gasInPpm: { dataPoint: "26", readOnly: true, unit: "ppm", scale: 10 },
+      gasInPpm: {
+        dataPoint: "26",
+        kind: "sensor",
+        readOnly: true,
+        unit: "ppm",
+        scale: 10,
+      },
       alarmState: {
         dataPoint: "29",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "alarm_sound", value: "Sound" },
@@ -65,25 +82,38 @@ const entry: TuyaDeviceEntry = {
       },
       carbonMonoxide: {
         dataPoint: "34",
+        kind: "sensor",
+        measures: "gas",
         readOnly: true,
         values: [{ raw: "alarm", value: true }],
         otherwise: false,
       },
       carbonMonoxideInPpm: {
         dataPoint: "35",
+        kind: "sensor",
+        measures: "carbonMonoxide",
         readOnly: true,
         unit: "ppm",
         scale: 10,
       },
       earlyWarningTargetInMinutes: {
         dataPoint: "101",
+        kind: "number",
+        measures: "duration",
         unit: "min",
         min: 1,
         max: 30,
       },
-      earlyWarningsInTimes: { dataPoint: "102", unit: "times", min: 1, max: 5 },
+      earlyWarningsInTimes: {
+        dataPoint: "102",
+        kind: "number",
+        unit: "times",
+        min: 1,
+        max: 5,
+      },
       carbonMonoxidePreWarning: {
         dataPoint: "103",
+        kind: "event",
         readOnly: true,
         values: [
           { raw: true, value: "warning" },
@@ -92,6 +122,7 @@ const entry: TuyaDeviceEntry = {
       },
       test: {
         dataPoint: "104",
+        kind: "event",
         readOnly: true,
         values: [
           { raw: true, value: "testing" },
@@ -100,6 +131,7 @@ const entry: TuyaDeviceEntry = {
       },
       gasLeakPreWarning: {
         dataPoint: "105",
+        kind: "event",
         readOnly: true,
         values: [
           { raw: true, value: "warning" },

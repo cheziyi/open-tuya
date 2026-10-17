@@ -15,9 +15,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "3",
+        kind: "select",
+        measures: "humidity",
         unit: "%",
         values: [
           { raw: "30", value: 30 },
@@ -28,6 +30,7 @@ const entry: TuyaDeviceEntry = {
       },
       timer: {
         dataPoint: "17",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "2h", value: "2h" },
@@ -35,14 +38,22 @@ const entry: TuyaDeviceEntry = {
           { raw: "6h", value: "6h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "18", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "18",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "19",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", readOnly: true },
+      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
     },
   },
   source: {

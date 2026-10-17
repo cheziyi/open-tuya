@@ -21,17 +21,26 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "2",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 35,
         max: 80,
         step: 5,
       },
-      currentHumidityInPercent: { dataPoint: "3", readOnly: true, unit: "%" },
+      currentHumidityInPercent: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       mode: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "Dry", value: "normal" },
           { raw: "Fan", value: "purify" },
@@ -40,27 +49,36 @@ const entry: TuyaDeviceEntry = {
       },
     },
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "Low", value: 33 },
           { raw: "Mid", value: 67 },
           { raw: "High", value: 100 },
         ],
       },
-      oscillating: { dataPoint: "102" },
+      oscillating: { dataPoint: "102", kind: "switch" },
       tankFull: {
         dataPoint: "19",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
       },
-      childLock: { dataPoint: "16" },
-      temperatureInC: { dataPoint: "103", readOnly: true, unit: "C" },
-      sleep: { dataPoint: "104" },
+      childLock: { dataPoint: "16", kind: "switch" },
+      temperatureInC: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      sleep: { dataPoint: "104", kind: "switch" },
     },
-    indicator: { on: { dataPoint: "101" } },
+    indicator: { on: { dataPoint: "101", kind: "switch" } },
   },
   source: {
     file: "point_podh20_dehumidifier.yaml",

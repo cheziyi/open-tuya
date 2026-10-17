@@ -7,7 +7,16 @@ const entry: TuyaDeviceEntry = {
   name: "Window sensor",
   productKeys: ["0mjj67aaztcfmc3i"],
   dataPoints: { "1": { type: "boolean" } },
-  components: { device: { window: { dataPoint: "1", readOnly: true } } },
+  components: {
+    device: {
+      window: {
+        dataPoint: "1",
+        kind: "sensor",
+        measures: "window",
+        readOnly: true,
+      },
+    },
+  },
   source: {
     file: "simple_contact_sensor.yaml",
     commit: "349197eeb1e736b89659c2d48b3ddc17dd258f32",

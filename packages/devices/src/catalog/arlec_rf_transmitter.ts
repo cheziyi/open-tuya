@@ -25,6 +25,7 @@ const entry: TuyaDeviceEntry = {
     device: {
       remote1: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "Button1", value: "Button 1" },
           { raw: "Button2", value: "Button 2" },
@@ -36,12 +37,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "Button8", value: "Button 8" },
         ],
       },
-      remote1ButtonOperations: { dataPoint: "109" },
-      remote1ButtonList: { dataPoint: "110" },
-      remote1RemoteList: { dataPoint: "111" },
-      remote1RemoteNameStore: { dataPoint: "112" },
+      remote1ButtonOperations: { dataPoint: "109", kind: "text" },
+      remote1ButtonList: { dataPoint: "110", kind: "text" },
+      remote1RemoteList: { dataPoint: "111", kind: "text" },
+      remote1RemoteNameStore: { dataPoint: "112", kind: "text" },
       remote2: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "Button1", value: "Button 1" },
           { raw: "Button2", value: "Button 2" },
@@ -56,6 +58,7 @@ const entry: TuyaDeviceEntry = {
       },
       remote3: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "Button1", value: "Button 1" },
           { raw: "Button2", value: "Button 2" },
@@ -70,6 +73,7 @@ const entry: TuyaDeviceEntry = {
       },
       remote4: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: "Button1", value: "Button 1" },
           { raw: "Button2", value: "Button 2" },
@@ -84,6 +88,7 @@ const entry: TuyaDeviceEntry = {
       },
       remote5: {
         dataPoint: "105",
+        kind: "select",
         values: [
           { raw: "Button1", value: "Button 1" },
           { raw: "Button2", value: "Button 2" },
@@ -98,6 +103,7 @@ const entry: TuyaDeviceEntry = {
       },
       remote6: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "Button1", value: "Button 1" },
           { raw: "Button2", value: "Button 2" },
@@ -112,6 +118,7 @@ const entry: TuyaDeviceEntry = {
       },
       remote7: {
         dataPoint: "107",
+        kind: "select",
         values: [
           { raw: "Button1", value: "Button 1" },
           { raw: "Button2", value: "Button 2" },
@@ -126,6 +133,7 @@ const entry: TuyaDeviceEntry = {
       },
       remote8: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: "Button1", value: "Button 1" },
           { raw: "Button2", value: "Button 2" },
@@ -140,12 +148,14 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "113",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "113", readOnly: true },
+      faultCode: { dataPoint: "113", kind: "sensor", readOnly: true },
     },
   },
   source: {

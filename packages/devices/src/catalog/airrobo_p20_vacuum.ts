@@ -30,9 +30,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     vacuum: {
-      cleaning: { dataPoint: "2" },
+      cleaning: { dataPoint: "2", kind: "switch" },
       command: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "standby", value: "stop" },
           { raw: "smart", value: "smart" },
@@ -44,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       },
       moveDirection: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "turn_left", value: "left" },
@@ -53,6 +55,7 @@ const entry: TuyaDeviceEntry = {
       },
       status: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "standby", value: "idle" },
           { raw: "smart_clean", value: "auto" },
@@ -67,35 +70,78 @@ const entry: TuyaDeviceEntry = {
           { raw: "sleep", value: "idle" },
         ],
       },
-      locate: { dataPoint: "13" },
+      locate: { dataPoint: "13", kind: "switch" },
       suction: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "gentle", value: "Silent" },
           { raw: "normal", value: "Normal" },
           { raw: "strong", value: "Strong" },
         ],
       },
-      serialNumber: { dataPoint: "104" },
-      batteryInPercent: { dataPoint: "6", readOnly: true, unit: "%" },
-      edgeBrushLifeInPercent: { dataPoint: "7", readOnly: true, unit: "%" },
-      rollBrushLifeInPercent: { dataPoint: "8", readOnly: true, unit: "%" },
-      filterLifeInPercent: { dataPoint: "9", readOnly: true, unit: "%" },
-      resetEdgeBrush: { dataPoint: "10" },
-      resetRollBrush: { dataPoint: "11" },
-      resetFilter: { dataPoint: "12" },
-      cleanAreaInM2: { dataPoint: "16", readOnly: true, unit: "m2" },
-      cleanTimeInMinutes: { dataPoint: "17", readOnly: true, unit: "min" },
-      volumeInPercent: { dataPoint: "28", unit: "%", min: 0, max: 100 },
+      serialNumber: { dataPoint: "104", kind: "text" },
+      batteryInPercent: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      edgeBrushLifeInPercent: {
+        dataPoint: "7",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      rollBrushLifeInPercent: {
+        dataPoint: "8",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      filterLifeInPercent: {
+        dataPoint: "9",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      resetEdgeBrush: { dataPoint: "10", kind: "button" },
+      resetRollBrush: { dataPoint: "11", kind: "button" },
+      resetFilter: { dataPoint: "12", kind: "button" },
+      cleanAreaInM2: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "area",
+        readOnly: true,
+        unit: "m2",
+      },
+      cleanTimeInMinutes: {
+        dataPoint: "17",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      volumeInPercent: {
+        dataPoint: "28",
+        kind: "number",
+        unit: "%",
+        min: 0,
+        max: 100,
+      },
       fault: {
         dataPoint: "18",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", readOnly: true },
+      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "18",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -119,6 +165,7 @@ const entry: TuyaDeviceEntry = {
       },
       language: {
         dataPoint: "29",
+        kind: "select",
         values: [
           { raw: "english", value: "english" },
           { raw: "german", value: "german" },
@@ -130,6 +177,7 @@ const entry: TuyaDeviceEntry = {
       },
       quickClean: {
         dataPoint: "101",
+        kind: "switch",
         values: [
           { raw: "careful_clean", value: false },
           { raw: "speed_clean", value: true },

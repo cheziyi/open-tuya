@@ -20,9 +20,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "20" },
+      on: { dataPoint: "20", kind: "switch" },
       effect: {
         dataPoint: "21",
+        kind: "select",
         values: [
           { raw: "white", value: "off" },
           { raw: "colour", value: "off", readOnly: true },
@@ -30,14 +31,14 @@ const entry: TuyaDeviceEntry = {
           { raw: "music", value: "Music" },
         ],
       },
-      brightness: { dataPoint: "22", min: 10, max: 1000 },
-      music: { dataPoint: "27" },
-      control: { dataPoint: "28" },
-      microphone: { dataPoint: "42" },
-      scene: { dataPoint: "52" },
-      sceneList: { dataPoint: "51" },
-      sceneCombination: { dataPoint: "53" },
-      sceneReset: { dataPoint: "54" },
+      brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
+      music: { dataPoint: "27", kind: "text" },
+      control: { dataPoint: "28", kind: "text" },
+      microphone: { dataPoint: "42", kind: "text" },
+      scene: { dataPoint: "52", kind: "text" },
+      sceneList: { dataPoint: "51", kind: "text" },
+      sceneCombination: { dataPoint: "53", kind: "text" },
+      sceneReset: { dataPoint: "54", kind: "text" },
     },
   },
   source: {

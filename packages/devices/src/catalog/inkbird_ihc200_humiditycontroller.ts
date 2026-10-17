@@ -26,12 +26,16 @@ const entry: TuyaDeviceEntry = {
     humidifier: {
       currentHumidityInPercent: {
         dataPoint: "104",
+        kind: "sensor",
+        measures: "humidity",
         readOnly: true,
         unit: "%",
         scale: 10,
       },
       targetHumidityInPercent: {
         dataPoint: "106",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 50,
         max: 990,
@@ -39,6 +43,7 @@ const entry: TuyaDeviceEntry = {
       },
       action: {
         dataPoint: "115",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "0", value: "idle" },
@@ -49,13 +54,16 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "12",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", readOnly: true },
+      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
       calibrationInPercent: {
         dataPoint: "102",
+        kind: "number",
         unit: "%",
         min: -200,
         max: 200,
@@ -63,12 +71,15 @@ const entry: TuyaDeviceEntry = {
       },
       compressorDelayInMinutes: {
         dataPoint: "108",
+        kind: "number",
+        measures: "duration",
         unit: "min",
         min: 0,
         max: 10,
       },
       highHumidityThresholdInPercent: {
         dataPoint: "109",
+        kind: "number",
         unit: "%",
         min: 50,
         max: 990,
@@ -76,16 +87,23 @@ const entry: TuyaDeviceEntry = {
       },
       lowHumidityThresholdInPercent: {
         dataPoint: "110",
+        kind: "number",
         unit: "%",
         min: 50,
         max: 990,
         scale: 10,
       },
-      highHumidityAlarm: { dataPoint: "111", readOnly: true },
-      lowHumidityAlarm: { dataPoint: "112", readOnly: true },
-      probeError: { dataPoint: "113", readOnly: true },
+      highHumidityAlarm: { dataPoint: "111", kind: "sensor", readOnly: true },
+      lowHumidityAlarm: { dataPoint: "112", kind: "sensor", readOnly: true },
+      probeError: {
+        dataPoint: "113",
+        kind: "sensor",
+        measures: "problem",
+        readOnly: true,
+      },
       humidifyWhenBelowByInPercent: {
         dataPoint: "117",
+        kind: "number",
         unit: "%",
         min: 10,
         max: 200,
@@ -93,14 +111,21 @@ const entry: TuyaDeviceEntry = {
       },
       dehumidifyWhenAboveByInPercent: {
         dataPoint: "118",
+        kind: "number",
         unit: "%",
         min: 10,
         max: 200,
         scale: 10,
       },
-      alarm: { dataPoint: "119", readOnly: true },
+      alarm: {
+        dataPoint: "119",
+        kind: "sensor",
+        measures: "sound",
+        readOnly: true,
+      },
       alarmCancel: {
         dataPoint: "119",
+        kind: "button",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },

@@ -17,9 +17,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "2",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 30,
         max: 85,
@@ -27,25 +29,34 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "0", value: "normal" },
           { raw: "1", value: "purify" },
           { raw: "2", value: "laundry" },
         ],
       },
-      currentHumidityInPercent: { dataPoint: "6", readOnly: true, unit: "%" },
+      currentHumidityInPercent: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       tankFull: {
         dataPoint: "101",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      childLock: { dataPoint: "105" },
+      childLock: { dataPoint: "105", kind: "switch" },
     },
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "low", value: 50 },
           { raw: "high", value: 100 },

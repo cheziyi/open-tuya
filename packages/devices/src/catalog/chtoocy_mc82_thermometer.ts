@@ -24,9 +24,18 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      temperatureInC: { dataPoint: "1", readOnly: true, unit: "C", scale: 10 },
+      temperatureInC: {
+        dataPoint: "1",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+        scale: 10,
+      },
       alarm: {
         dataPoint: "14",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: "cancel", value: false },
@@ -35,6 +44,8 @@ const entry: TuyaDeviceEntry = {
       },
       maximumTemperatureInC: {
         dataPoint: "10",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: -400,
         max: 1000,
@@ -42,20 +53,32 @@ const entry: TuyaDeviceEntry = {
       },
       minimumTemperatureInC: {
         dataPoint: "11",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: -400,
         max: 1000,
         scale: 10,
       },
-      alarmDelayInMinutes: { dataPoint: "108", unit: "min", min: 0, max: 10 },
+      alarmDelayInMinutes: {
+        dataPoint: "108",
+        kind: "number",
+        measures: "duration",
+        unit: "min",
+        min: 0,
+        max: 10,
+      },
       alarmDurationInMinutes: {
         dataPoint: "106",
+        kind: "number",
+        measures: "duration",
         unit: "min",
         min: 1,
         max: 10,
       },
       alarmRepeat: {
         dataPoint: "105",
+        kind: "select",
         values: [
           { raw: "1h", value: "1h" },
           { raw: "2h", value: "2h" },
@@ -71,19 +94,30 @@ const entry: TuyaDeviceEntry = {
           { raw: "12h", value: "12h" },
         ],
       },
-      reportIntervalInHours: { dataPoint: "17", unit: "h" },
+      reportIntervalInHours: {
+        dataPoint: "17",
+        kind: "number",
+        measures: "duration",
+        unit: "h",
+      },
       temperatureUnit: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "c", value: "celsius" },
           { raw: "f", value: "fahrenheit" },
         ],
       },
-      sound: { dataPoint: "103" },
-      appPushNotifications: { dataPoint: "104" },
-      samplingIntervalInMinutes: { dataPoint: "6", unit: "min" },
-      masterAlarm: { dataPoint: "111" },
-      forceUpdate: { dataPoint: "107" },
+      sound: { dataPoint: "103", kind: "switch" },
+      appPushNotifications: { dataPoint: "104", kind: "switch" },
+      samplingIntervalInMinutes: {
+        dataPoint: "6",
+        kind: "number",
+        measures: "duration",
+        unit: "min",
+      },
+      masterAlarm: { dataPoint: "111", kind: "switch" },
+      forceUpdate: { dataPoint: "107", kind: "button" },
     },
   },
   source: {

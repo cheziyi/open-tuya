@@ -23,6 +23,7 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
@@ -30,6 +31,7 @@ const entry: TuyaDeviceEntry = {
       },
       preset: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "hot", value: "comfort" },
           { raw: "eco", value: "eco" },
@@ -39,25 +41,42 @@ const entry: TuyaDeviceEntry = {
       },
       hvacAction: {
         dataPoint: "3",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "heating", value: "heating" },
           { raw: "standby", value: "idle" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "16", unit: "C", min: 5, max: 45 },
-      currentTemperatureInC: { dataPoint: "24", readOnly: true, unit: "C" },
-      sound: { dataPoint: "7" },
-      windowDetection: { dataPoint: "8" },
+      targetTemperatureInC: {
+        dataPoint: "16",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 5,
+        max: 45,
+      },
+      currentTemperatureInC: {
+        dataPoint: "24",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      sound: { dataPoint: "7", kind: "switch" },
+      windowDetection: { dataPoint: "8", kind: "switch" },
       temperatureCalibrationInC: {
         dataPoint: "27",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: -9,
         max: 9,
       },
-      childLock: { dataPoint: "40" },
+      childLock: { dataPoint: "40", kind: "switch" },
       timer: {
         dataPoint: "41",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -87,7 +106,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    display: { on: { dataPoint: "6" } },
+    display: { on: { dataPoint: "6", kind: "switch" } },
   },
   source: {
     file: "bvf_cp1_heater.yaml",

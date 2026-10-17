@@ -16,9 +16,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "1", value: 33 },
           { raw: "2", value: 66 },
@@ -27,6 +28,7 @@ const entry: TuyaDeviceEntry = {
       },
       timer: {
         dataPoint: "6",
+        kind: "select",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -47,10 +49,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "16", value: "16h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "7", readOnly: true, unit: "min" },
-      sound: { dataPoint: "17" },
+      timeRemainingInMinutes: {
+        dataPoint: "7",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      sound: { dataPoint: "17", kind: "switch" },
     },
-    light: { on: { dataPoint: "9" } },
+    light: { on: { dataPoint: "9", kind: "switch" } },
   },
   source: {
     file: "qiachip_qiflrc1_fanlight.yaml",

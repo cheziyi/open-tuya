@@ -15,13 +15,13 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "60" },
-      speed: { dataPoint: "62", min: 1, max: 9 },
-      direction: { dataPoint: "63" },
+      on: { dataPoint: "60", kind: "switch" },
+      speed: { dataPoint: "62", kind: "number", min: 1, max: 9 },
+      direction: { dataPoint: "63", kind: "text" },
     },
     light: {
-      on: { dataPoint: "20" },
-      brightness: { dataPoint: "22", min: 1, max: 9 },
+      on: { dataPoint: "20", kind: "switch" },
+      brightness: { dataPoint: "22", kind: "number", min: 1, max: 9 },
     },
   },
   source: {

@@ -20,16 +20,33 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      switch1: { dataPoint: "1" },
-      switch1RandomSchedule: { dataPoint: "42" },
-      switch1RepeatingSchedule: { dataPoint: "43" },
-      switch1Inching: { dataPoint: "44" },
-      switch1Interlock: { dataPoint: "48" },
-      switch2: { dataPoint: "2" },
-      timer1: { dataPoint: "9", min: 0, max: 86400, scale: 60, step: 60 },
-      timer2: { dataPoint: "10", min: 0, max: 86400, scale: 60, step: 60 },
+      switch1: { dataPoint: "1", kind: "switch" },
+      switch1RandomSchedule: { dataPoint: "42", kind: "text" },
+      switch1RepeatingSchedule: { dataPoint: "43", kind: "text" },
+      switch1Inching: { dataPoint: "44", kind: "text" },
+      switch1Interlock: { dataPoint: "48", kind: "text" },
+      switch2: { dataPoint: "2", kind: "switch" },
+      timer1: {
+        dataPoint: "9",
+        kind: "number",
+        measures: "duration",
+        min: 0,
+        max: 86400,
+        scale: 60,
+        step: 60,
+      },
+      timer2: {
+        dataPoint: "10",
+        kind: "number",
+        measures: "duration",
+        min: 0,
+        max: 86400,
+        scale: 60,
+        step: 60,
+      },
       initialState: {
         dataPoint: "38",
+        kind: "select",
         values: [
           { raw: "memory", value: "memory" },
           { raw: "on", value: "on" },
@@ -38,6 +55,7 @@ const entry: TuyaDeviceEntry = {
       },
       switchType: {
         dataPoint: "47",
+        kind: "select",
         values: [
           { raw: "flip", value: "Flip" },
           { raw: "sync", value: "Synchronized" },

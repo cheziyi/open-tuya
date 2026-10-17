@@ -19,6 +19,7 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
@@ -26,6 +27,7 @@ const entry: TuyaDeviceEntry = {
       },
       preset: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "hot", value: "comfort" },
           { raw: "eco", value: "eco" },
@@ -35,6 +37,8 @@ const entry: TuyaDeviceEntry = {
       },
       targetTemperatureInC: {
         dataPoint: "16",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 70,
         max: 300,
@@ -43,6 +47,8 @@ const entry: TuyaDeviceEntry = {
       },
       currentTemperatureInC: {
         dataPoint: "24",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -50,13 +56,16 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureCalibrationInC: {
         dataPoint: "27",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: -5,
         max: 5,
       },
-      childLock: { dataPoint: "40" },
+      childLock: { dataPoint: "40", kind: "switch" },
       openWindowDetection: {
         dataPoint: "112",
+        kind: "select",
         values: [
           { raw: 0, value: "Off" },
           { raw: 60, value: "60 min" },

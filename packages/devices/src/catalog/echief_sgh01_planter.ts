@@ -16,17 +16,27 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "101" },
-      pump: { dataPoint: "102" },
-      on2: { dataPoint: "104" },
-      nutrientTimerInDays: { dataPoint: "106", unit: "d", min: 0, max: 30 },
+      on: { dataPoint: "101", kind: "switch" },
+      pump: { dataPoint: "102", kind: "switch" },
+      on2: { dataPoint: "104", kind: "switch" },
+      nutrientTimerInDays: {
+        dataPoint: "106",
+        kind: "number",
+        measures: "duration",
+        unit: "d",
+        min: 0,
+        max: 30,
+      },
       nutrientTimeRemainingInDays: {
         dataPoint: "107",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "d",
       },
       ledMode: {
         dataPoint: "105",
+        kind: "select",
         values: [
           { raw: "GROW", value: "Seeding" },
           { raw: "VEG", value: "Vegetable" },

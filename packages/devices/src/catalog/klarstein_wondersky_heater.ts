@@ -21,15 +21,30 @@ const entry: TuyaDeviceEntry = {
     heater: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "2", unit: "C", min: 5, max: 50 },
-      currentTemperatureInC: { dataPoint: "3", readOnly: true, unit: "C" },
+      targetTemperatureInC: {
+        dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 5,
+        max: 50,
+      },
+      currentTemperatureInC: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       preset: {
         dataPoint: "6",
+        kind: "select",
         values: [
           { raw: false, value: "none" },
           { raw: true, value: "eco" },
@@ -37,6 +52,7 @@ const entry: TuyaDeviceEntry = {
       },
       hvacAction: {
         dataPoint: "11",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "idle" },
@@ -48,6 +64,7 @@ const entry: TuyaDeviceEntry = {
     light: {
       on: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "0", value: false },
           { raw: "1", value: true },
@@ -56,6 +73,7 @@ const entry: TuyaDeviceEntry = {
       },
       brightness: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "0", value: 25 },
           { raw: "1", value: 56 },
@@ -70,6 +88,7 @@ const entry: TuyaDeviceEntry = {
       },
       colorTemperature: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "1", value: 6500 },
           { raw: "2", value: 2700 },
@@ -77,6 +96,7 @@ const entry: TuyaDeviceEntry = {
       },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -105,7 +125,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "24h", value: "24h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "20", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "20",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
     },
   },
   source: {

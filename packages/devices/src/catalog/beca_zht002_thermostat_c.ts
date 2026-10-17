@@ -21,29 +21,41 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "16", unit: "C", min: 1, max: 45 },
+      targetTemperatureInC: {
+        dataPoint: "16",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 1,
+        max: 45,
+      },
       currentTemperatureInC: {
         dataPoint: "24",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         scale: 10,
       },
       hvacAction: {
         dataPoint: "36",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "open", value: "heating" },
           { raw: "close", value: "idle" },
         ],
       },
-      childLock: { dataPoint: "40" },
+      childLock: { dataPoint: "40", kind: "switch" },
       sensorSelection: {
         dataPoint: "43",
+        kind: "select",
         values: [
           { raw: "in", value: "internal" },
           { raw: "ou", value: "external" },
@@ -52,13 +64,24 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureCalibrationInC: {
         dataPoint: "27",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: -9,
         max: 9,
       },
-      deadzoneTempInC: { dataPoint: "26", unit: "C", min: 1, max: 5 },
+      deadzoneTempInC: {
+        dataPoint: "26",
+        kind: "number",
+        measures: "temperatureDelta",
+        unit: "C",
+        min: 1,
+        max: 5,
+      },
       highLimitTemperatureCeilingInC: {
         dataPoint: "19",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 45,
         max: 70,

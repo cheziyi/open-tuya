@@ -15,9 +15,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       iceCubeSize: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "big", value: "Large" },
           { raw: "small", value: "Small" },
@@ -25,13 +26,15 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "3",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "3", readOnly: true },
-      uvSterilization: { dataPoint: "101" },
-      cleaningMode: { dataPoint: "102" },
+      faultCode: { dataPoint: "3", kind: "sensor", readOnly: true },
+      uvSterilization: { dataPoint: "101", kind: "switch" },
+      cleaningMode: { dataPoint: "102", kind: "switch" },
     },
   },
   source: {

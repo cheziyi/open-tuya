@@ -16,10 +16,18 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      waterInM3: { dataPoint: "1", readOnly: true, unit: "m³", scale: 1000 },
-      waterMeterId: { dataPoint: "16", readOnly: true },
+      waterInM3: {
+        dataPoint: "1",
+        kind: "sensor",
+        measures: "water",
+        readOnly: true,
+        unit: "m³",
+        scale: 1000,
+      },
+      waterMeterId: { dataPoint: "16", kind: "sensor", readOnly: true },
       reportingPeriod: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "1h", value: "1h" },
           { raw: "2h", value: "2h" },
@@ -33,18 +41,29 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "5",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "5", readOnly: true },
+      faultCode: { dataPoint: "5", kind: "sensor", readOnly: true },
       temperatureInC: {
         dataPoint: "22",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         scale: 100,
       },
-      voltageInV: { dataPoint: "26", readOnly: true, unit: "V", scale: 100 },
+      voltageInV: {
+        dataPoint: "26",
+        kind: "sensor",
+        measures: "voltage",
+        readOnly: true,
+        unit: "V",
+        scale: 100,
+      },
     },
   },
   source: {

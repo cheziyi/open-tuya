@@ -32,9 +32,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     vacuum: {
-      cleaning: { dataPoint: "2" },
+      cleaning: { dataPoint: "2", kind: "switch" },
       command: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "standby", value: "stop" },
           { raw: "smart", value: "clean" },
@@ -47,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       },
       moveDirection: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "backward", value: "reverse" },
@@ -57,6 +59,7 @@ const entry: TuyaDeviceEntry = {
       },
       status: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "standby", value: "standby" },
           { raw: "smart_clean", value: "smart_clean" },
@@ -74,33 +77,70 @@ const entry: TuyaDeviceEntry = {
           { raw: "sleep", value: "sleep" },
         ],
       },
-      locate: { dataPoint: "13" },
+      locate: { dataPoint: "13", kind: "switch" },
       suction: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "gentle", value: "low" },
           { raw: "normal", value: "medium" },
           { raw: "strong", value: "high" },
         ],
       },
-      batteryInPercent: { dataPoint: "6", readOnly: true, unit: "%" },
-      edgeBrushLifeInPercent: { dataPoint: "7", readOnly: true, unit: "%" },
-      rollBrushLifeInPercent: { dataPoint: "8", readOnly: true, unit: "%" },
-      filterLifeInPercent: { dataPoint: "9", readOnly: true, unit: "%" },
-      resetEdgeBrush: { dataPoint: "10" },
-      resetRollBrush: { dataPoint: "11" },
-      filterReset: { dataPoint: "12" },
-      cleaningAreaInM2: { dataPoint: "16", readOnly: true, unit: "m²" },
-      cleaningTimeInMinutes: { dataPoint: "17", readOnly: true, unit: "min" },
+      batteryInPercent: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      edgeBrushLifeInPercent: {
+        dataPoint: "7",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      rollBrushLifeInPercent: {
+        dataPoint: "8",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      filterLifeInPercent: {
+        dataPoint: "9",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      resetEdgeBrush: { dataPoint: "10", kind: "button" },
+      resetRollBrush: { dataPoint: "11", kind: "button" },
+      filterReset: { dataPoint: "12", kind: "button" },
+      cleaningAreaInM2: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "area",
+        readOnly: true,
+        unit: "m²",
+      },
+      cleaningTimeInMinutes: {
+        dataPoint: "17",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "18",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", readOnly: true },
+      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "18",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -115,6 +155,7 @@ const entry: TuyaDeviceEntry = {
       },
       mopping: {
         dataPoint: "20",
+        kind: "select",
         values: [
           { raw: "low", value: "low" },
           { raw: "middle", value: "medium" },
@@ -123,16 +164,18 @@ const entry: TuyaDeviceEntry = {
       },
       cleaningMode: {
         dataPoint: "24",
+        kind: "select",
         values: [
           { raw: "only_sweep", value: "sweep" },
           { raw: "only_mop", value: "mop" },
           { raw: "both_work", value: "sweep_and_mop" },
         ],
       },
-      carpetBoost: { dataPoint: "101" },
-      carpetDetection: { dataPoint: "102" },
+      carpetBoost: { dataPoint: "101", kind: "switch" },
+      carpetDetection: { dataPoint: "102", kind: "switch" },
       volume: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: "vol_mute", value: "mute" },
           { raw: "vol_normal", value: "normal" },
@@ -141,6 +184,7 @@ const entry: TuyaDeviceEntry = {
       },
       language: {
         dataPoint: "105",
+        kind: "select",
         values: [
           { raw: "english", value: "english" },
           { raw: "german", value: "german" },

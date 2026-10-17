@@ -14,12 +14,13 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "open" },
           { raw: false, value: "close" },
         ],
       },
-      open: { dataPoint: "101" },
+      open: { dataPoint: "101", kind: "switch" },
     },
   },
   source: {

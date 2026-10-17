@@ -24,21 +24,45 @@ const entry: TuyaDeviceEntry = {
     "121": { type: "string" },
   },
   components: {
-    valve1: { open: { dataPoint: "1" } },
-    valve2: { open: { dataPoint: "2" } },
-    valve3: { open: { dataPoint: "3" } },
+    valve1: { open: { dataPoint: "1", kind: "switch" } },
+    valve2: { open: { dataPoint: "2", kind: "switch" } },
+    valve3: { open: { dataPoint: "3", kind: "switch" } },
     device: {
-      timer1InSeconds: { dataPoint: "17", unit: "s", min: 0, max: 43200 },
-      timer2InSeconds: { dataPoint: "18", unit: "s", min: 0, max: 43200 },
-      timer3InSeconds: { dataPoint: "19", unit: "s", min: 0, max: 43200 },
+      timer1InSeconds: {
+        dataPoint: "17",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 0,
+        max: 43200,
+      },
+      timer2InSeconds: {
+        dataPoint: "18",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 0,
+        max: 43200,
+      },
+      timer3InSeconds: {
+        dataPoint: "19",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 0,
+        max: 43200,
+      },
       weatherDelayRemainingInHours: {
         dataPoint: "42",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "h",
       },
-      smartWeatherDelay: { dataPoint: "43" },
+      smartWeatherDelay: { dataPoint: "43", kind: "switch" },
       weather: {
         dataPoint: "44",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "sunny", value: "sunny" },
@@ -49,6 +73,7 @@ const entry: TuyaDeviceEntry = {
       },
       weatherDelay: {
         dataPoint: "45",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1", value: "1d" },
@@ -62,13 +87,22 @@ const entry: TuyaDeviceEntry = {
       },
       batteryInPercent: {
         dataPoint: "47",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         unit: "%",
         scale: 20,
       },
-      signalStrengthInDbm: { dataPoint: "118", readOnly: true, unit: "dBm" },
+      signalStrengthInDbm: {
+        dataPoint: "118",
+        kind: "sensor",
+        measures: "signalStrength",
+        readOnly: true,
+        unit: "dBm",
+      },
       valve1State: {
         dataPoint: "119",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "idle", value: "idle" },
@@ -79,6 +113,7 @@ const entry: TuyaDeviceEntry = {
       },
       valve2State: {
         dataPoint: "120",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "idle", value: "idle" },
@@ -89,6 +124,7 @@ const entry: TuyaDeviceEntry = {
       },
       valve3State: {
         dataPoint: "121",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "idle", value: "idle" },

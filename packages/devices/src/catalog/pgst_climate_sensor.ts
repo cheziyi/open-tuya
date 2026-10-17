@@ -20,10 +20,24 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      temperatureInC: { dataPoint: "1", readOnly: true, unit: "C" },
-      humidityInPercent: { dataPoint: "2", readOnly: true, unit: "%" },
+      temperatureInC: {
+        dataPoint: "1",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      humidityInPercent: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       batteryLevelInPercent: {
         dataPoint: "3",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         unit: "%",
         values: [
@@ -34,21 +48,40 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit: {
         dataPoint: "9",
+        kind: "select",
         values: [
           { raw: "f", value: "fahrenheit" },
           { raw: "c", value: "celsius" },
         ],
       },
-      maximumTemperatureInC: { dataPoint: "10", unit: "C", min: -20, max: 70 },
-      minimumTemperatureInC: { dataPoint: "11", unit: "C", min: -20, max: 70 },
+      maximumTemperatureInC: {
+        dataPoint: "10",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: -20,
+        max: 70,
+      },
+      minimumTemperatureInC: {
+        dataPoint: "11",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: -20,
+        max: 70,
+      },
       maximumHumidityInPercent: {
         dataPoint: "12",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 0,
         max: 100,
       },
       minimumHumidityInPercent: {
         dataPoint: "13",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 0,
         max: 100,

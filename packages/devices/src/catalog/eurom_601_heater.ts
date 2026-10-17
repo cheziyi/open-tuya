@@ -17,15 +17,30 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "2", unit: "C", min: 0, max: 37 },
-      currentTemperatureInC: { dataPoint: "3", readOnly: true, unit: "C" },
+      targetTemperatureInC: {
+        dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 0,
+        max: 37,
+      },
+      currentTemperatureInC: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       preset: {
         dataPoint: "6",
+        kind: "select",
         values: [
           { raw: false, value: "comfort" },
           { raw: true, value: "eco" },
@@ -33,11 +48,13 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "13",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", readOnly: true },
+      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
     },
   },
   source: {

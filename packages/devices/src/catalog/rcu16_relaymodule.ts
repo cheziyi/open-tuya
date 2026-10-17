@@ -34,24 +34,25 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      switch1: { dataPoint: "101" },
-      switch2: { dataPoint: "102" },
-      switch3: { dataPoint: "103" },
-      switch4: { dataPoint: "104" },
-      switch5: { dataPoint: "105" },
-      switch6: { dataPoint: "106" },
-      switch7: { dataPoint: "107" },
-      switch8: { dataPoint: "108" },
-      switch9: { dataPoint: "109" },
-      switch10: { dataPoint: "110" },
-      switch11: { dataPoint: "111" },
-      switch12: { dataPoint: "112" },
-      switch13: { dataPoint: "113" },
-      switch14: { dataPoint: "114" },
-      switch15: { dataPoint: "115" },
-      switch16: { dataPoint: "116" },
+      switch1: { dataPoint: "101", kind: "switch" },
+      switch2: { dataPoint: "102", kind: "switch" },
+      switch3: { dataPoint: "103", kind: "switch" },
+      switch4: { dataPoint: "104", kind: "switch" },
+      switch5: { dataPoint: "105", kind: "switch" },
+      switch6: { dataPoint: "106", kind: "switch" },
+      switch7: { dataPoint: "107", kind: "switch" },
+      switch8: { dataPoint: "108", kind: "switch" },
+      switch9: { dataPoint: "109", kind: "switch" },
+      switch10: { dataPoint: "110", kind: "switch" },
+      switch11: { dataPoint: "111", kind: "switch" },
+      switch12: { dataPoint: "112", kind: "switch" },
+      switch13: { dataPoint: "113", kind: "switch" },
+      switch14: { dataPoint: "114", kind: "switch" },
+      switch15: { dataPoint: "115", kind: "switch" },
+      switch16: { dataPoint: "116", kind: "switch" },
       initialState: {
         dataPoint: "117",
+        kind: "select",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -60,6 +61,7 @@ const entry: TuyaDeviceEntry = {
       },
       ioMode18: {
         dataPoint: "118",
+        kind: "select",
         values: [
           { raw: "eturn", value: "Button" },
           { raw: "switch", value: "Switch" },
@@ -68,6 +70,7 @@ const entry: TuyaDeviceEntry = {
       },
       ioMode916: {
         dataPoint: "119",
+        kind: "select",
         values: [
           { raw: "eturn", value: "Button" },
           { raw: "switch", value: "Switch" },
@@ -76,6 +79,7 @@ const entry: TuyaDeviceEntry = {
       },
       function1112: {
         dataPoint: "120",
+        kind: "select",
         values: [
           { raw: "switch", value: "Switch" },
           { raw: "curtain", value: "Curtain" },
@@ -83,6 +87,7 @@ const entry: TuyaDeviceEntry = {
       },
       function1314: {
         dataPoint: "121",
+        kind: "select",
         values: [
           { raw: "switch", value: "Switch" },
           { raw: "curtain", value: "Curtain" },
@@ -90,6 +95,7 @@ const entry: TuyaDeviceEntry = {
       },
       function1516: {
         dataPoint: "122",
+        kind: "select",
         values: [
           { raw: "switch", value: "Switch" },
           { raw: "curtain", value: "Curtain" },
@@ -97,6 +103,7 @@ const entry: TuyaDeviceEntry = {
       },
       scene: {
         dataPoint: "123",
+        kind: "select",
         values: [
           { raw: "ready", value: "none" },
           { raw: "scene1", value: "Scene 1" },
@@ -108,7 +115,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "scene7", value: "Scene 7" },
         ],
       },
-      number: { dataPoint: "125", min: 1, max: 30 },
+      number: { dataPoint: "125", kind: "number", min: 1, max: 30 },
     },
   },
   source: {

@@ -24,14 +24,23 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
         ],
       },
-      currentTemperatureInC: { dataPoint: "3", readOnly: true, unit: "C" },
+      currentTemperatureInC: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       targetTemperatureInC: {
         dataPoint: "5",
+        kind: "select",
+        measures: "temperature",
         unit: "C",
         min: 16,
         max: 30,
@@ -47,6 +56,7 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnitSetting: {
         dataPoint: "13",
+        kind: "select",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -54,6 +64,7 @@ const entry: TuyaDeviceEntry = {
       },
       fanMode: {
         dataPoint: "107",
+        kind: "select",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "high" },
@@ -62,6 +73,7 @@ const entry: TuyaDeviceEntry = {
       },
       timer: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -75,9 +87,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "9", value: "9h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "109", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "109",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       flameRed: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "0", value: "Off" },
           { raw: "1", value: "Low" },
@@ -87,6 +106,7 @@ const entry: TuyaDeviceEntry = {
       },
       flameBlue: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "0", value: "Off" },
           { raw: "1", value: "Low" },
@@ -96,6 +116,7 @@ const entry: TuyaDeviceEntry = {
       },
       flameYellow: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: "0", value: "Off" },
           { raw: "1", value: "Low" },
@@ -104,10 +125,11 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    flame: { on: { dataPoint: "101" } },
+    flame: { on: { dataPoint: "101", kind: "switch" } },
     embers: {
       on: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "0", value: false },
           { raw: "1", value: true },
@@ -116,6 +138,7 @@ const entry: TuyaDeviceEntry = {
       },
       colorName: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "0", value: "black" },
           { raw: "1", value: "red" },

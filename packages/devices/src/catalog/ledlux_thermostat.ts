@@ -30,6 +30,7 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
@@ -37,6 +38,8 @@ const entry: TuyaDeviceEntry = {
       },
       targetTemperatureInC: {
         dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 5,
         max: 1220,
@@ -45,6 +48,8 @@ const entry: TuyaDeviceEntry = {
       },
       currentTemperatureInC: {
         dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -52,6 +57,7 @@ const entry: TuyaDeviceEntry = {
       },
       preset: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "Manual", value: "manual" },
           { raw: "Program", value: "program" },
@@ -60,28 +66,53 @@ const entry: TuyaDeviceEntry = {
       },
       hvacAction: {
         dataPoint: "102",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: true, value: "heating" },
           { raw: false, value: "idle" },
         ],
       },
-      lowTemperatureLimit: { dataPoint: "113" },
-      maxTargetTemperatureInC: { dataPoint: "114", unit: "C" },
-      minTargetTemperatureInC: { dataPoint: "115", unit: "C" },
-      childLock: { dataPoint: "6" },
-      holidayDaysInDays: { dataPoint: "104", unit: "d", min: 1, max: 30 },
-      holidayTemperature: { dataPoint: "105" },
-      holidayTemperatureMaximum: { dataPoint: "114" },
-      holidayTemperatureMinimum: { dataPoint: "115" },
+      lowTemperatureLimit: { dataPoint: "113", kind: "number" },
+      maxTargetTemperatureInC: {
+        dataPoint: "114",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+      },
+      minTargetTemperatureInC: {
+        dataPoint: "115",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+      },
+      childLock: { dataPoint: "6", kind: "switch" },
+      holidayDaysInDays: {
+        dataPoint: "104",
+        kind: "number",
+        unit: "d",
+        min: 1,
+        max: 30,
+      },
+      holidayTemperature: {
+        dataPoint: "105",
+        kind: "number",
+        measures: "temperature",
+      },
+      holidayTemperatureMaximum: { dataPoint: "114", kind: "number" },
+      holidayTemperatureMinimum: { dataPoint: "115", kind: "number" },
       temperatureCalibrationInC: {
         dataPoint: "109",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: -9,
         max: 9,
       },
       calibrationSwingInternalInC: {
         dataPoint: "110",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: 5,
         max: 25,
@@ -89,14 +120,31 @@ const entry: TuyaDeviceEntry = {
       },
       lowTemperatureProtectionInC: {
         dataPoint: "113",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 1,
         max: 10,
       },
-      maximumTemperatureInC: { dataPoint: "114", unit: "C", min: 2, max: 70 },
-      minimumTemperatureInC: { dataPoint: "115", unit: "C", min: 1, max: 10 },
+      maximumTemperatureInC: {
+        dataPoint: "114",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 2,
+        max: 70,
+      },
+      minimumTemperatureInC: {
+        dataPoint: "115",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 1,
+        max: 10,
+      },
       initialState: {
         dataPoint: "117",
+        kind: "select",
         values: [
           { raw: "keep", value: "memory" },
           { raw: "off", value: "off" },
@@ -105,6 +153,7 @@ const entry: TuyaDeviceEntry = {
       },
       schedule: {
         dataPoint: "118",
+        kind: "select",
         values: [
           { raw: "0days", value: "7 day" },
           { raw: "1days", value: "6 + 1 day" },
@@ -113,11 +162,13 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "12",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", readOnly: true },
+      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
     },
   },
   source: {

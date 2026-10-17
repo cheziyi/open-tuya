@@ -15,14 +15,27 @@ const entry: TuyaDeviceEntry = {
     device: {
       motion: {
         dataPoint: "101",
+        kind: "sensor",
+        measures: "motion",
         readOnly: true,
         values: [
           { raw: "pir", value: true },
           { raw: "none", value: false },
         ],
       },
-      batteryInPercent: { dataPoint: "103", readOnly: true, unit: "%" },
-      tamperAlarm: { dataPoint: "104", readOnly: true },
+      batteryInPercent: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      tamperAlarm: {
+        dataPoint: "104",
+        kind: "sensor",
+        measures: "tamper",
+        readOnly: true,
+      },
     },
   },
   source: {

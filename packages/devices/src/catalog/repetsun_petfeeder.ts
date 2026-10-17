@@ -19,15 +19,17 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      mealPlan: { dataPoint: "1" },
+      mealPlan: { dataPoint: "1", kind: "text" },
       manualFeedInPortions: {
         dataPoint: "3",
+        kind: "number",
         unit: "portions",
         min: 1,
         max: 12,
       },
       status: {
         dataPoint: "4",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -37,6 +39,7 @@ const entry: TuyaDeviceEntry = {
       },
       foodStatus: {
         dataPoint: "6",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "enough", value: "normal" },
@@ -46,15 +49,22 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "13",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", readOnly: true },
-      lastFeedInPortions: { dataPoint: "14", readOnly: true, unit: "portions" },
-      on: { dataPoint: "17" },
-      slowFeed: { dataPoint: "23" },
-      factoryReset: { dataPoint: "24" },
+      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      lastFeedInPortions: {
+        dataPoint: "14",
+        kind: "sensor",
+        readOnly: true,
+        unit: "portions",
+      },
+      on: { dataPoint: "17", kind: "switch" },
+      slowFeed: { dataPoint: "23", kind: "switch" },
+      factoryReset: { dataPoint: "24", kind: "button" },
     },
   },
   source: {

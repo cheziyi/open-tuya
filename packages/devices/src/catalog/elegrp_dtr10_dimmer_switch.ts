@@ -22,11 +22,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1" },
-      brightness: { dataPoint: "2", min: 10, max: 1000 },
-      firmwareVersion: { dataPoint: "113" },
+      on: { dataPoint: "1", kind: "switch" },
+      brightness: { dataPoint: "2", kind: "number", min: 10, max: 1000 },
+      firmwareVersion: { dataPoint: "113", kind: "text" },
       bulbType: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "Cfl", value: "CFL" },
           { raw: "Led", value: "LED" },
@@ -36,6 +37,7 @@ const entry: TuyaDeviceEntry = {
       },
       longPressOn: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: 258, value: "Nap 25%" },
           { raw: 505, value: "Cuddle 50%" },
@@ -45,6 +47,7 @@ const entry: TuyaDeviceEntry = {
       },
       fadeOnSpeed: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "Immediate", value: "Immediate" },
           { raw: "Fast", value: "Fast (1s)" },
@@ -54,6 +57,7 @@ const entry: TuyaDeviceEntry = {
       },
       fadeOffSpeed: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: "Immediate", value: "Immediate" },
           { raw: "Fast", value: "Fast (1s)" },
@@ -63,22 +67,38 @@ const entry: TuyaDeviceEntry = {
       },
       minimumBrightnessInPercent: {
         dataPoint: "3",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 500,
         scale: 10,
       },
-      timerInSeconds: { dataPoint: "111", unit: "s", min: 0, max: 86399 },
+      timerInSeconds: {
+        dataPoint: "111",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86399,
+      },
       timerMode: {
         dataPoint: "110",
+        kind: "select",
         values: [
           { raw: false, value: "Off" },
           { raw: true, value: "On" },
         ],
       },
-      timeRemainingInSeconds: { dataPoint: "6", readOnly: true, unit: "s" },
+      timeRemainingInSeconds: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "s",
+      },
     },
-    indicator: { brightness: { dataPoint: "101", min: 0, max: 100 } },
+    indicator: {
+      brightness: { dataPoint: "101", kind: "number", min: 0, max: 100 },
+    },
   },
   source: {
     file: "elegrp_dtr10_dimmer_switch.yaml",

@@ -14,12 +14,12 @@ const entry: TuyaDeviceEntry = {
     "64": { type: "integer", optional: true },
   },
   components: {
-    light: { on: { dataPoint: "20" } },
+    light: { on: { dataPoint: "20", kind: "switch" } },
     fan: {
-      on: { dataPoint: "60" },
-      speed: { dataPoint: "62", min: 1, max: 6 },
-      direction: { dataPoint: "63" },
-      fanCountdownLeft: { dataPoint: "64" },
+      on: { dataPoint: "60", kind: "switch" },
+      speed: { dataPoint: "62", kind: "number", min: 1, max: 6 },
+      direction: { dataPoint: "63", kind: "text" },
+      fanCountdownLeft: { dataPoint: "64", kind: "number" },
     },
   },
   source: {

@@ -24,30 +24,47 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      mealPlan: { dataPoint: "1" },
+      mealPlan: { dataPoint: "1", kind: "text" },
       manualFeedInPortions: {
         dataPoint: "3",
+        kind: "number",
         unit: "portions",
         min: 1,
         max: 20,
       },
       manualFeed2InPortions: {
         dataPoint: "117",
+        kind: "number",
         unit: "portions",
         min: 1,
         max: 20,
       },
-      batteryInPercent: { dataPoint: "11", readOnly: true, unit: "%" },
-      batteryCharging: { dataPoint: "12", readOnly: true, absent: false },
+      batteryInPercent: {
+        dataPoint: "11",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      batteryCharging: {
+        dataPoint: "12",
+        kind: "sensor",
+        measures: "batteryCharging",
+        readOnly: true,
+        absent: false,
+      },
       fault: {
         dataPoint: "14",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "14", readOnly: true },
+      faultCode: { dataPoint: "14", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "14",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -59,16 +76,19 @@ const entry: TuyaDeviceEntry = {
       },
       feedReportInPortions: {
         dataPoint: "15",
+        kind: "sensor",
         readOnly: true,
         unit: "portions",
       },
       feedReport2InPortions: {
         dataPoint: "118",
+        kind: "sensor",
         readOnly: true,
         unit: "portions",
       },
       powerState: {
         dataPoint: "101",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "ac_power_on1", value: "ac_power_on1" },
@@ -83,17 +103,18 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "103",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "eco_mode", value: "eco_mode" },
           { raw: "real_time_mode", value: "real_time_mode" },
         ],
       },
-      volume: { dataPoint: "112", min: 0, max: 3 },
-      factoryReset: { dataPoint: "9" },
-      helpEmail: { dataPoint: "138", readOnly: true },
+      volume: { dataPoint: "112", kind: "number", min: 0, max: 3 },
+      factoryReset: { dataPoint: "9", kind: "button" },
+      helpEmail: { dataPoint: "138", kind: "sensor", readOnly: true },
     },
-    indicator: { on: { dataPoint: "19" } },
+    indicator: { on: { dataPoint: "19", kind: "switch" } },
   },
   source: {
     file: "xtuos_2x_petfeeder.yaml",

@@ -31,31 +31,34 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "60" },
+      on: { dataPoint: "60", kind: "switch" },
       mode: {
         dataPoint: "61",
+        kind: "select",
         values: [
           { raw: "fresh", value: "fresh" },
           { raw: "nature", value: "nature" },
         ],
       },
-      speed: { dataPoint: "62", min: 1, max: 100 },
+      speed: { dataPoint: "62", kind: "number", min: 1, max: 100 },
     },
     light: {
-      on: { dataPoint: "20" },
-      brightness: { dataPoint: "22", min: 10, max: 1000 },
+      on: { dataPoint: "20", kind: "switch" },
+      brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
       colorTemperatureInK: {
         dataPoint: "23",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 1000,
         targetRange: { min: 2700, max: 6500 },
       },
-      scene: { dataPoint: "25" },
-      music: { dataPoint: "27" },
-      lightControl: { dataPoint: "28" },
+      scene: { dataPoint: "25", kind: "text" },
+      music: { dataPoint: "27", kind: "text" },
+      lightControl: { dataPoint: "28", kind: "text" },
       oscillation1: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "on" },
@@ -64,6 +67,7 @@ const entry: TuyaDeviceEntry = {
       },
       oscillation2: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "on" },
@@ -72,6 +76,7 @@ const entry: TuyaDeviceEntry = {
       },
       oscillation3: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "on" },
@@ -80,28 +85,44 @@ const entry: TuyaDeviceEntry = {
       },
       oscillation4: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "on" },
           { raw: "2", value: "pause" },
         ],
       },
-      doNotDisturb: { dataPoint: "34" },
-      switchGradient: { dataPoint: "35" },
-      fanBeep: { dataPoint: "66" },
-      keytone: { dataPoint: "106" },
-      timerInSeconds: { dataPoint: "26", unit: "s", min: 0, max: 86400 },
-      timeRemainingInMinutes: { dataPoint: "64", readOnly: true, unit: "min" },
+      doNotDisturb: { dataPoint: "34", kind: "switch" },
+      switchGradient: { dataPoint: "35", kind: "text" },
+      fanBeep: { dataPoint: "66", kind: "switch" },
+      keytone: { dataPoint: "106", kind: "switch" },
+      timerInSeconds: {
+        dataPoint: "26",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      timeRemainingInMinutes: {
+        dataPoint: "64",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "67",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "67", readOnly: true },
+      faultCode: { dataPoint: "67", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "67",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -109,7 +130,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    nightlight: { on: { dataPoint: "105" } },
+    nightlight: { on: { dataPoint: "105", kind: "switch" } },
   },
   source: {
     file: "riyue_box3_fanlight.yaml",

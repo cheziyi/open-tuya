@@ -18,6 +18,7 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
@@ -25,17 +26,32 @@ const entry: TuyaDeviceEntry = {
       },
       preset: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "low", value: "eco" },
           { raw: "high", value: "boost" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "3", unit: "C", min: 10, max: 30 },
-      currentTemperatureInC: { dataPoint: "4", readOnly: true, unit: "C" },
+      targetTemperatureInC: {
+        dataPoint: "3",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 10,
+        max: 30,
+      },
+      currentTemperatureInC: {
+        dataPoint: "4",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
     },
     backlight: {
       effect: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "white", value: "white" },
           { raw: "blue", value: "blue" },
@@ -49,6 +65,7 @@ const entry: TuyaDeviceEntry = {
     flame: {
       effect: {
         dataPoint: "6",
+        kind: "select",
         values: [
           { raw: "orange", value: "orange" },
           { raw: "red", value: "red" },

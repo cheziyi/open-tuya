@@ -9,9 +9,10 @@ const entry: TuyaDeviceEntry = {
   dataPoints: { "2": { type: "string" }, "101": { type: "string" } },
   components: {
     cover: {
-      curtainStatus: { dataPoint: "2" },
+      curtainStatus: { dataPoint: "2", kind: "text" },
       command: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "01", value: "stop" },
           { raw: "02", value: "open" },

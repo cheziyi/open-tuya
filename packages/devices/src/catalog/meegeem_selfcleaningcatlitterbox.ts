@@ -25,6 +25,7 @@ const entry: TuyaDeviceEntry = {
     device: {
       status: {
         dataPoint: "107",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "standby" },
@@ -37,12 +38,14 @@ const entry: TuyaDeviceEntry = {
           { raw: 7, value: "Resetting paused" },
         ],
       },
-      empty: { dataPoint: "1" },
-      clean: { dataPoint: "3" },
-      reset: { dataPoint: "4" },
-      deodorize: { dataPoint: "9" },
+      empty: { dataPoint: "1", kind: "button" },
+      clean: { dataPoint: "3", kind: "button" },
+      reset: { dataPoint: "4", kind: "button" },
+      deodorize: { dataPoint: "9", kind: "button" },
       weightInKg: {
         dataPoint: "21",
+        kind: "sensor",
+        measures: "weight",
         readOnly: true,
         unit: "kg",
         values: [
@@ -70,6 +73,8 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "22",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -80,9 +85,10 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", readOnly: true },
+      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "22",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -100,23 +106,28 @@ const entry: TuyaDeviceEntry = {
       },
       autoCleanDelayInMinutes: {
         dataPoint: "101",
+        kind: "number",
         unit: "min",
         min: 0,
         max: 20,
       },
-      autoClean: { dataPoint: "102" },
-      autoDeodorize: { dataPoint: "103" },
+      autoClean: { dataPoint: "102", kind: "switch" },
+      autoDeodorize: { dataPoint: "103", kind: "switch" },
       litter: {
         dataPoint: "104",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: true },
           { raw: 1, value: false },
         ],
       },
-      operatingMode: { dataPoint: "105", readOnly: true },
+      operatingMode: { dataPoint: "105", kind: "sensor", readOnly: true },
       wasteBin: {
         dataPoint: "106",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: true },

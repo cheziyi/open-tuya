@@ -24,6 +24,7 @@ const entry: TuyaDeviceEntry = {
     heater: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
@@ -31,6 +32,8 @@ const entry: TuyaDeviceEntry = {
       },
       targetTemperatureInC: {
         dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 15,
         max: 290,
@@ -39,6 +42,7 @@ const entry: TuyaDeviceEntry = {
       },
       preset: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "comfor", value: "comfort" },
           { raw: "economics", value: "eco" },
@@ -51,6 +55,7 @@ const entry: TuyaDeviceEntry = {
       },
       hvacAction: {
         dataPoint: "11",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "idle" },
@@ -62,26 +67,38 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      childLock: { dataPoint: "7" },
+      childLock: { dataPoint: "7", kind: "switch" },
       fault: {
         dataPoint: "13",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", readOnly: true },
+      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
       energyInKwh: {
         dataPoint: "101",
+        kind: "sensor",
+        measures: "energy",
         readOnly: true,
         unit: "kWh",
         scale: 100,
       },
-      hourlyUsageInMinutes: { dataPoint: "102", readOnly: true, unit: "min" },
-      timeCalibration: { dataPoint: "103" },
-      schedule: { dataPoint: "104" },
-      openWindowDetection: { dataPoint: "105" },
+      hourlyUsageInMinutes: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      timeCalibration: { dataPoint: "103", kind: "button" },
+      schedule: { dataPoint: "104", kind: "text" },
+      openWindowDetection: { dataPoint: "105", kind: "switch" },
       temperatureCalibrationInC: {
         dataPoint: "107",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: -5,
         max: 5,

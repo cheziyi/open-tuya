@@ -18,14 +18,16 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      quickFeed: { dataPoint: "2" },
+      quickFeed: { dataPoint: "2", kind: "button" },
       lastAmountInPortions: {
         dataPoint: "14",
+        kind: "sensor",
         readOnly: true,
         unit: "portions",
       },
       feedState: {
         dataPoint: "4",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -35,19 +37,24 @@ const entry: TuyaDeviceEntry = {
       },
       manualFeedInPortions: {
         dataPoint: "3",
+        kind: "number",
         unit: "portions",
         min: 1,
         max: 60,
       },
-      slowFeed: { dataPoint: "23" },
+      slowFeed: { dataPoint: "23", kind: "switch" },
       emptyFood: {
         dataPoint: "13",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,
       },
       fault: {
         dataPoint: "13",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -55,10 +62,16 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", readOnly: true },
-      batteryLevelInPercent: { dataPoint: "10", readOnly: true, unit: "%" },
+      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      batteryLevelInPercent: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
     },
-    indicator: { on: { dataPoint: "17" } },
+    indicator: { on: { dataPoint: "17", kind: "switch" } },
   },
   source: {
     file: "rojeco_pet_feeder.yaml",

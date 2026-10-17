@@ -15,18 +15,27 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "101" },
-      filterLifeInMinutes: { dataPoint: "104", readOnly: true, unit: "min" },
-      pumpCleaningInInMinutes: {
-        dataPoint: "105",
+      on: { dataPoint: "101", kind: "switch" },
+      filterLifeInMinutes: {
+        dataPoint: "104",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "min",
       },
-      waterLevel: { dataPoint: "108", readOnly: true },
+      pumpCleaningInInMinutes: {
+        dataPoint: "105",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      waterLevel: { dataPoint: "108", kind: "sensor", readOnly: true },
     },
     indicator: {
       on: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },

@@ -21,6 +21,8 @@ const entry: TuyaDeviceEntry = {
     siren: {
       gas: {
         dataPoint: "2",
+        kind: "sensor",
+        measures: "gas",
         readOnly: true,
         values: [
           { raw: "normal", value: false },
@@ -29,15 +31,17 @@ const entry: TuyaDeviceEntry = {
       },
       gasLevelInPercentLel: {
         dataPoint: "5",
+        kind: "sensor",
         readOnly: true,
         unit: "% LEL",
         min: 1,
         max: 1000,
         scale: 10,
       },
-      on: { dataPoint: "12" },
+      on: { dataPoint: "12", kind: "switch" },
       tone: {
         dataPoint: "8",
+        kind: "select",
         values: [
           { raw: "1", value: "Alarm 1" },
           { raw: "2", value: "Alarm 2" },
@@ -46,12 +50,24 @@ const entry: TuyaDeviceEntry = {
           { raw: "5", value: "Alarm 5" },
         ],
       },
-      durationInSeconds: { dataPoint: "3", unit: "s", min: 1, max: 180 },
-      selfCheck: { dataPoint: "9" },
-      selfCheckResult: { dataPoint: "1" },
-      warmUp: { dataPoint: "10", readOnly: true },
+      durationInSeconds: {
+        dataPoint: "3",
+        kind: "number",
+        unit: "s",
+        min: 1,
+        max: 180,
+      },
+      selfCheck: { dataPoint: "9", kind: "button" },
+      selfCheckResult: { dataPoint: "1", kind: "text" },
+      warmUp: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "cold",
+        readOnly: true,
+      },
       sound: {
         dataPoint: "14",
+        kind: "switch",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },

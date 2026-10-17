@@ -19,10 +19,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
-      speed: { dataPoint: "3", min: 0, max: 8 },
+      on: { dataPoint: "1", kind: "switch" },
+      speed: { dataPoint: "3", kind: "number", min: 0, max: 8 },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "NORMAL", value: "normal" },
           { raw: "NATURAL_N1", value: "Natural 1" },
@@ -32,11 +33,18 @@ const entry: TuyaDeviceEntry = {
           { raw: "TURBO", value: "strong" },
         ],
       },
-      oscillating: { dataPoint: "5" },
-      verticalOscillation: { dataPoint: "4" },
-      temperatureInC: { dataPoint: "21", readOnly: true, unit: "C" },
+      oscillating: { dataPoint: "5", kind: "switch" },
+      verticalOscillation: { dataPoint: "4", kind: "switch" },
+      temperatureInC: {
+        dataPoint: "21",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       timer: {
         dataPoint: "22",
+        kind: "select",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -53,14 +61,22 @@ const entry: TuyaDeviceEntry = {
           { raw: "12", value: "12h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "23", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "23",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "24",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "24", readOnly: true },
+      faultCode: { dataPoint: "24", kind: "sensor", readOnly: true },
     },
   },
   source: {

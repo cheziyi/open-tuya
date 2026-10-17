@@ -36,10 +36,22 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     cover: {
-      batteryInPercent: { dataPoint: "10", readOnly: true, unit: "%" },
-      plug: { dataPoint: "11", readOnly: true },
+      batteryInPercent: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      plug: {
+        dataPoint: "11",
+        kind: "sensor",
+        measures: "plug",
+        readOnly: true,
+      },
       currentPosition: {
         dataPoint: "12",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "off", value: 0 },
@@ -49,6 +61,7 @@ const entry: TuyaDeviceEntry = {
       },
       command: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: true, value: "open" },
           { raw: false, value: "close" },
@@ -56,13 +69,16 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "13",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", readOnly: true },
+      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "13",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -74,12 +90,13 @@ const entry: TuyaDeviceEntry = {
           { raw: 32, value: "low_battery" },
         ],
       },
-      faultInfo: { dataPoint: "108", readOnly: true },
-      factoryReset: { dataPoint: "24" },
-      displayText: { dataPoint: "109" },
-      displayTextMessages: { dataPoint: "112" },
+      faultInfo: { dataPoint: "108", kind: "sensor", readOnly: true },
+      factoryReset: { dataPoint: "24", kind: "button" },
+      displayText: { dataPoint: "109", kind: "text" },
+      displayTextMessages: { dataPoint: "112", kind: "text" },
       feedingMethod: {
         dataPoint: "111",
+        kind: "select",
         values: [
           { raw: "1", value: "On demand" },
           { raw: "2", value: "On schedule" },
@@ -88,21 +105,24 @@ const entry: TuyaDeviceEntry = {
       },
       coverSpeed: {
         dataPoint: "113",
+        kind: "select",
         values: [
           { raw: "1", value: "Fast" },
           { raw: "2", value: "Medium" },
           { raw: "3", value: "Slow" },
         ],
       },
-      mealPlan: { dataPoint: "1" },
+      mealPlan: { dataPoint: "1", kind: "text" },
       manualFeedInPortions: {
         dataPoint: "3",
+        kind: "number",
         unit: "portions",
         min: 1,
         max: 4,
       },
       status: {
         dataPoint: "6",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "enough", value: "normal" },
@@ -110,9 +130,15 @@ const entry: TuyaDeviceEntry = {
           { raw: "run_out", value: "empty" },
         ],
       },
-      lastFeedInPortions: { dataPoint: "14", readOnly: true, unit: "portions" },
+      lastFeedInPortions: {
+        dataPoint: "14",
+        kind: "sensor",
+        readOnly: true,
+        unit: "portions",
+      },
       portionUnit: {
         dataPoint: "22",
+        kind: "select",
         values: [
           { raw: "cup", value: "Cup" },
           { raw: "oz", value: "oz" },
@@ -123,25 +149,35 @@ const entry: TuyaDeviceEntry = {
       },
       lastFeedDurationInSeconds: {
         dataPoint: "101",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "s",
       },
-      dessicantRemainingInDays: { dataPoint: "102", readOnly: true, unit: "d" },
-      pair: { dataPoint: "103" },
+      dessicantRemainingInDays: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "d",
+      },
+      pair: { dataPoint: "103", kind: "button" },
       pairingResult: {
         dataPoint: "104",
+        kind: "event",
         readOnly: true,
         values: [
           { raw: true, value: "success" },
           { raw: false, value: "failure" },
         ],
       },
-      petInformation: { dataPoint: "105" },
-      unpair: { dataPoint: "107" },
-      log: { dataPoint: "110", readOnly: true },
-      doNotDisturb: { dataPoint: "114" },
+      petInformation: { dataPoint: "105", kind: "text" },
+      unpair: { dataPoint: "107", kind: "text" },
+      log: { dataPoint: "110", kind: "sensor", readOnly: true },
+      doNotDisturb: { dataPoint: "114", kind: "text" },
       feed: {
         dataPoint: "115",
+        kind: "event",
         readOnly: true,
         values: [
           { raw: true, value: "eating" },
@@ -150,6 +186,7 @@ const entry: TuyaDeviceEntry = {
       },
       selectiveService: {
         dataPoint: "116",
+        kind: "switch",
         values: [
           { raw: "0", value: true },
           { raw: "1", value: false },

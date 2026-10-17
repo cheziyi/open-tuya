@@ -19,9 +19,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "normal", value: "normal" },
           { raw: "nature", value: "nature" },
@@ -30,6 +31,7 @@ const entry: TuyaDeviceEntry = {
       },
       speed: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "1", value: 8 },
           { raw: "2", value: 17 },
@@ -45,9 +47,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "12", value: 100 },
         ],
       },
-      oscillating: { dataPoint: "102" },
+      oscillating: { dataPoint: "102", kind: "switch" },
       timer: {
         dataPoint: "6",
+        kind: "select",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -76,17 +79,31 @@ const entry: TuyaDeviceEntry = {
           { raw: "24", value: "24h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "7", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "7",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "8",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "8", readOnly: true },
-      temperatureInC: { dataPoint: "19", readOnly: true, unit: "C" },
+      faultCode: { dataPoint: "8", kind: "sensor", readOnly: true },
+      temperatureInC: {
+        dataPoint: "19",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
     },
-    display: { on: { dataPoint: "9" } },
+    display: { on: { dataPoint: "9", kind: "switch" } },
   },
   source: {
     file: "arlec_12speed_tower_fan.yaml",

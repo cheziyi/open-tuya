@@ -13,9 +13,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "23",
+        kind: "select",
         values: [
           { raw: "level_1", value: 5 },
           { raw: "level_2", value: 10 },
@@ -41,11 +42,12 @@ const entry: TuyaDeviceEntry = {
       },
       tankEmpty: {
         dataPoint: "22",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      tankEmptyFaultCode: { dataPoint: "22", readOnly: true },
+      tankEmptyFaultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
     },
   },
   source: {

@@ -23,15 +23,30 @@ const entry: TuyaDeviceEntry = {
     heater: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "2", unit: "C", min: 5, max: 35 },
-      currentTemperatureInC: { dataPoint: "3", readOnly: true, unit: "C" },
+      targetTemperatureInC: {
+        dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 5,
+        max: 35,
+      },
+      currentTemperatureInC: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       preset: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "level_0", value: "eco" },
           { raw: "level_1", value: "low" },
@@ -41,6 +56,7 @@ const entry: TuyaDeviceEntry = {
       },
       hvacAction: {
         dataPoint: "11",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "heating", value: "heating" },
@@ -51,24 +67,47 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      childLock: { dataPoint: "7" },
-      timeRemainingInMinutes: { dataPoint: "20", readOnly: true, unit: "min" },
+      childLock: { dataPoint: "7", kind: "switch" },
+      timeRemainingInMinutes: {
+        dataPoint: "20",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "21",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "21", readOnly: true },
+      faultCode: { dataPoint: "21", kind: "sensor", readOnly: true },
       sound: {
         dataPoint: "101",
+        kind: "switch",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
         ],
       },
-      onTimerInHours: { dataPoint: "102", unit: "h", min: 0, max: 24 },
-      offTimerInHours: { dataPoint: "103", unit: "h", min: 0, max: 24 },
+      onTimerInHours: {
+        dataPoint: "102",
+        kind: "number",
+        measures: "duration",
+        unit: "h",
+        min: 0,
+        max: 24,
+      },
+      offTimerInHours: {
+        dataPoint: "103",
+        kind: "number",
+        measures: "duration",
+        unit: "h",
+        min: 0,
+        max: 24,
+      },
     },
   },
   source: {

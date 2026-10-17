@@ -15,6 +15,7 @@ const entry: TuyaDeviceEntry = {
     siren: {
       volume: {
         dataPoint: "30",
+        kind: "select",
         values: [
           { raw: "mute", value: 0 },
           { raw: "low", value: 0.33 },
@@ -24,6 +25,7 @@ const entry: TuyaDeviceEntry = {
       },
       tone: {
         dataPoint: "39",
+        kind: "select",
         values: [
           { raw: "1", value: "Tone 1" },
           { raw: "2", value: "Tone 2" },
@@ -32,7 +34,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "5", value: "Tone 5" },
         ],
       },
-      alarmMsg: { dataPoint: "26" },
+      alarmMsg: { dataPoint: "26", kind: "text" },
     },
   },
   source: {

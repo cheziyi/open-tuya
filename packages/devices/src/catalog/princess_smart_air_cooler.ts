@@ -17,22 +17,30 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "ordinary", value: "normal" },
           { raw: "nature", value: "nature" },
           { raw: "sleep", value: "sleep" },
         ],
       },
-      speed: { dataPoint: "2", min: 1, max: 3 },
-      oscillating: { dataPoint: "5" },
+      speed: { dataPoint: "2", kind: "number", min: 1, max: 3 },
+      oscillating: { dataPoint: "5", kind: "switch" },
     },
     device: {
-      cooling: { dataPoint: "11" },
-      silence: { dataPoint: "12" },
-      timerInHours: { dataPoint: "13", unit: "h", min: 0, max: 24 },
+      cooling: { dataPoint: "11", kind: "switch" },
+      silence: { dataPoint: "12", kind: "switch" },
+      timerInHours: {
+        dataPoint: "13",
+        kind: "number",
+        measures: "duration",
+        unit: "h",
+        min: 0,
+        max: 24,
+      },
     },
   },
   source: {

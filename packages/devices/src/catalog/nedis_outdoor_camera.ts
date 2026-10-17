@@ -31,14 +31,20 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      cameraRecord: { dataPoint: "150" },
-      motion: { dataPoint: "115", readOnly: true, otherwise: "detected" },
-      motionSnapshot: { dataPoint: "115", readOnly: true },
-      motionDetection: { dataPoint: "134" },
-      flipImage: { dataPoint: "103", absent: false },
-      watermark: { dataPoint: "104", absent: false },
+      cameraRecord: { dataPoint: "150", kind: "switch" },
+      motion: {
+        dataPoint: "115",
+        kind: "event",
+        readOnly: true,
+        otherwise: "detected",
+      },
+      motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
+      motionDetection: { dataPoint: "134", kind: "switch" },
+      flipImage: { dataPoint: "103", kind: "switch", absent: false },
+      watermark: { dataPoint: "104", kind: "switch", absent: false },
       motionSensitivity: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
@@ -47,6 +53,7 @@ const entry: TuyaDeviceEntry = {
       },
       nightVision: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -55,6 +62,7 @@ const entry: TuyaDeviceEntry = {
       },
       sdStatus: {
         dataPoint: "110",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -65,10 +73,11 @@ const entry: TuyaDeviceEntry = {
         ],
         absent: "normal",
       },
-      sdStatusCapacity: { dataPoint: "109", readOnly: true },
-      sdFormat: { dataPoint: "111" },
+      sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
+      sdFormat: { dataPoint: "111", kind: "button" },
       sdFormatState: {
         dataPoint: "117",
+        kind: "select",
         values: [
           { raw: 2000, value: "Formatting" },
           { raw: 2001, value: "Format failed" },
@@ -77,10 +86,11 @@ const entry: TuyaDeviceEntry = {
         ],
         absent: "Formatted",
       },
-      soundDetection: { dataPoint: "139", absent: false },
-      soundDetectionUpload: { dataPoint: "141" },
+      soundDetection: { dataPoint: "139", kind: "switch", absent: false },
+      soundDetectionUpload: { dataPoint: "141", kind: "text" },
       soundSensitivity: {
         dataPoint: "140",
+        kind: "select",
         values: [
           { raw: 0, value: "Low" },
           { raw: 1, value: "High" },
@@ -89,18 +99,19 @@ const entry: TuyaDeviceEntry = {
       },
       recordingMode: {
         dataPoint: "151",
+        kind: "select",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
         ],
       },
-      motionAlarmArea: { dataPoint: "168", absent: false },
-      motionAlarmArea2: { dataPoint: "169" },
-      onvifStream: { dataPoint: "255", absent: false },
-      onvifStreamIpAddress: { dataPoint: "254" },
-      onvifStreamPasswordChange: { dataPoint: "253" },
+      motionAlarmArea: { dataPoint: "168", kind: "switch", absent: false },
+      motionAlarmArea2: { dataPoint: "169", kind: "text" },
+      onvifStream: { dataPoint: "255", kind: "switch", absent: false },
+      onvifStreamIpAddress: { dataPoint: "254", kind: "text" },
+      onvifStreamPasswordChange: { dataPoint: "253", kind: "text" },
     },
-    indicator: { on: { dataPoint: "101" } },
+    indicator: { on: { dataPoint: "101", kind: "switch" } },
   },
   source: {
     file: "nedis_outdoor_camera.yaml",

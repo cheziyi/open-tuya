@@ -19,19 +19,34 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: true, value: "auto" },
           { raw: false, value: "normal" },
         ],
       },
-      targetHumidityInPercent: { dataPoint: "13", unit: "%", min: 40, max: 90 },
-      currentHumidityInPercent: { dataPoint: "14", readOnly: true, unit: "%" },
-      sleep: { dataPoint: "16", absent: false },
+      targetHumidityInPercent: {
+        dataPoint: "13",
+        kind: "number",
+        measures: "humidity",
+        unit: "%",
+        min: 40,
+        max: 90,
+      },
+      currentHumidityInPercent: {
+        dataPoint: "14",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      sleep: { dataPoint: "16", kind: "switch", absent: false },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -47,16 +62,18 @@ const entry: TuyaDeviceEntry = {
       },
       tankEmpty: {
         dataPoint: "22",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      tankEmptyFaultCode: { dataPoint: "22", readOnly: true },
+      tankEmptyFaultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
     },
     spray: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "23",
+        kind: "select",
         values: [
           { raw: "level_1", value: 33 },
           { raw: "level_2", value: 67 },
@@ -67,6 +84,7 @@ const entry: TuyaDeviceEntry = {
     display: {
       on: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },

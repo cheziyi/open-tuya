@@ -18,21 +18,24 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      manualFeed: { dataPoint: "3", min: 1, max: 6 },
-      mealPlan: { dataPoint: "1" },
-      slowFeeding: { dataPoint: "6" },
+      manualFeed: { dataPoint: "3", kind: "number", min: 1, max: 6 },
+      mealPlan: { dataPoint: "1", kind: "text" },
+      slowFeeding: { dataPoint: "6", kind: "switch" },
       fault: {
         dataPoint: "14",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "14", readOnly: true },
-      voiceActivations: { dataPoint: "18", min: 1, max: 10 },
-      mealLog: { dataPoint: "101", readOnly: true },
+      faultCode: { dataPoint: "14", kind: "sensor", readOnly: true },
+      voiceActivations: { dataPoint: "18", kind: "number", min: 1, max: 10 },
+      mealLog: { dataPoint: "101", kind: "sensor", readOnly: true },
       clock: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: false, value: "12 hour" },
           { raw: true, value: "24 hour" },
@@ -40,6 +43,8 @@ const entry: TuyaDeviceEntry = {
       },
       batteryInPercent: {
         dataPoint: "103",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         unit: "%",
         values: [

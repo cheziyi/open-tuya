@@ -15,17 +15,36 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     valve: {
-      open: { dataPoint: "102", step: 5 },
-      openInPercent: { dataPoint: "103", readOnly: true, unit: "%" },
-      timeRemainingInSeconds: { dataPoint: "104", readOnly: true, unit: "s" },
-      timerInSeconds: { dataPoint: "105", unit: "s", min: 0, max: 86399 },
+      open: { dataPoint: "102", kind: "number", step: 5 },
+      openInPercent: {
+        dataPoint: "103",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      timeRemainingInSeconds: {
+        dataPoint: "104",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "s",
+      },
+      timerInSeconds: {
+        dataPoint: "105",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86399,
+      },
       fault: {
         dataPoint: "108",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "108", readOnly: true },
+      faultCode: { dataPoint: "108", kind: "sensor", readOnly: true },
     },
   },
   source: {

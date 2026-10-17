@@ -14,10 +14,28 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     valve: {
-      open: { dataPoint: "1" },
-      timerInMinutes: { dataPoint: "5", unit: "min", min: 0, max: 1439 },
-      batteryInPercent: { dataPoint: "11", readOnly: true, unit: "%" },
-      timeRemainingInMinutes: { dataPoint: "6", readOnly: true, unit: "min" },
+      open: { dataPoint: "1", kind: "switch" },
+      timerInMinutes: {
+        dataPoint: "5",
+        kind: "number",
+        unit: "min",
+        min: 0,
+        max: 1439,
+      },
+      batteryInPercent: {
+        dataPoint: "11",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      timeRemainingInMinutes: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
     },
   },
   source: {

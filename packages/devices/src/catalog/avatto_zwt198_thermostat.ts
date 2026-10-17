@@ -27,6 +27,7 @@ const entry: TuyaDeviceEntry = {
     thermostat: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
@@ -34,6 +35,8 @@ const entry: TuyaDeviceEntry = {
       },
       targetTemperatureInC: {
         dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 50,
         max: 950,
@@ -42,22 +45,38 @@ const entry: TuyaDeviceEntry = {
       },
       currentTemperatureInC: {
         dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         scale: 10,
       },
       preset: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "auto", value: "program" },
           { raw: "home", value: "home" },
           { raw: "temporary", value: "temp_override" },
         ],
       },
-      maxTargetTemperatureInC: { dataPoint: "15", unit: "C", scale: 10 },
-      minTargetTemperatureInC: { dataPoint: "16", unit: "C", scale: 10 },
+      maxTargetTemperatureInC: {
+        dataPoint: "15",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        scale: 10,
+      },
+      minTargetTemperatureInC: {
+        dataPoint: "16",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        scale: 10,
+      },
       hvacAction: {
         dataPoint: "101",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "0", value: "idle" },
@@ -66,17 +85,20 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      childLock: { dataPoint: "9" },
+      childLock: { dataPoint: "9", kind: "switch" },
       fault: {
         dataPoint: "11",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", readOnly: true },
+      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
       maximumTemperatureInC: {
         dataPoint: "15",
+        kind: "number",
         unit: "C",
         min: 150,
         max: 950,
@@ -85,16 +107,18 @@ const entry: TuyaDeviceEntry = {
       },
       minimumTemperatureInC: {
         dataPoint: "16",
+        kind: "number",
         unit: "C",
         min: 50,
         max: 150,
         scale: 10,
         step: 5,
       },
-      antiFrost: { dataPoint: "102" },
-      factoryReset: { dataPoint: "103" },
+      antiFrost: { dataPoint: "102", kind: "switch" },
+      factoryReset: { dataPoint: "103", kind: "button" },
       schedule: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: "0", value: "Disabled" },
           { raw: "1", value: "Weekday+Weekend" },
@@ -102,9 +126,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "Daily" },
         ],
       },
-      schedule2: { dataPoint: "109" },
+      schedule2: { dataPoint: "109", kind: "text" },
       temperatureHysteresisInC: {
         dataPoint: "107",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: 5,
         max: 100,
@@ -115,6 +141,7 @@ const entry: TuyaDeviceEntry = {
     backlight: {
       brightness: {
         dataPoint: "110",
+        kind: "select",
         values: [
           { raw: "0", value: 0 },
           { raw: "1", value: 85 },

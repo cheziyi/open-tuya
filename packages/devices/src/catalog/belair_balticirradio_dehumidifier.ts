@@ -21,17 +21,26 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "2",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 35,
         max: 80,
         step: 5,
       },
-      currentHumidityInPercent: { dataPoint: "3", readOnly: true, unit: "%" },
+      currentHumidityInPercent: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       mode: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "Fan", value: "purify" },
           { raw: "Dry", value: "laundry" },
@@ -40,28 +49,37 @@ const entry: TuyaDeviceEntry = {
       },
     },
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "Low", value: 33 },
           { raw: "Mid", value: 66 },
           { raw: "High", value: 100 },
         ],
       },
-      oscillating: { dataPoint: "102" },
-      childLock: { dataPoint: "16" },
-      sleep: { dataPoint: "104" },
-      temperatureInC: { dataPoint: "103", readOnly: true, unit: "C" },
+      oscillating: { dataPoint: "102", kind: "switch" },
+      childLock: { dataPoint: "16", kind: "switch" },
+      sleep: { dataPoint: "104", kind: "switch" },
+      temperatureInC: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       fault: {
         dataPoint: "19",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", readOnly: true },
+      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
     },
-    indicator: { on: { dataPoint: "101" } },
+    indicator: { on: { dataPoint: "101", kind: "switch" } },
   },
   source: {
     file: "belair_balticirradio_dehumidifier.yaml",

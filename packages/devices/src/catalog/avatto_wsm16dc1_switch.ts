@@ -17,21 +17,29 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      timerInSeconds: { dataPoint: "7", unit: "s", min: 0, max: 86399 },
+      on: { dataPoint: "1", kind: "switch" },
+      timerInSeconds: {
+        dataPoint: "7",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86399,
+      },
       initialState: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
           { raw: "memory", value: "memory" },
         ],
       },
-      schedule: { dataPoint: "17" },
-      randomizedSchedule: { dataPoint: "18" },
-      inching: { dataPoint: "19" },
+      schedule: { dataPoint: "17", kind: "text" },
+      randomizedSchedule: { dataPoint: "18", kind: "text" },
+      inching: { dataPoint: "19", kind: "text" },
       switchType: {
         dataPoint: "47",
+        kind: "select",
         values: [
           { raw: "flip", value: "Flip" },
           { raw: "sync", value: "Synchronized" },

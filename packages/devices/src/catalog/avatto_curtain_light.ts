@@ -19,6 +19,7 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
@@ -27,6 +28,7 @@ const entry: TuyaDeviceEntry = {
       },
       targetPositionInPercent: {
         dataPoint: "2",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 100,
@@ -34,6 +36,7 @@ const entry: TuyaDeviceEntry = {
       },
       calibration: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "start", value: "Start" },
           { raw: "end", value: "End" },
@@ -41,15 +44,23 @@ const entry: TuyaDeviceEntry = {
       },
       reverse: {
         dataPoint: "8",
+        kind: "switch",
         values: [
           { raw: "forward", value: false },
           { raw: "back", value: true },
         ],
       },
-      timeControlInSeconds: { dataPoint: "10", unit: "s", min: 10, max: 120 },
+      timeControlInSeconds: {
+        dataPoint: "10",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 10,
+        max: 120,
+      },
     },
-    light: { on: { dataPoint: "102" } },
-    backlight: { on: { dataPoint: "7" } },
+    light: { on: { dataPoint: "102", kind: "switch" } },
+    backlight: { on: { dataPoint: "7", kind: "switch" } },
   },
   source: {
     file: "avatto_curtain_light.yaml",

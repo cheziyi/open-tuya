@@ -19,23 +19,33 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "2", unit: "C", min: 5, max: 50 },
+      targetTemperatureInC: {
+        dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 5,
+        max: 50,
+      },
       preset: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "0", value: "away" },
           { raw: "1", value: "eco" },
           { raw: "2", value: "comfort" },
         ],
       },
-      childLock: { dataPoint: "7" },
+      childLock: { dataPoint: "7", kind: "switch" },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -66,13 +76,15 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "21",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "21", readOnly: true },
+      faultCode: { dataPoint: "21", kind: "sensor", readOnly: true },
     },
-    indicator: { on: { dataPoint: "10" } },
+    indicator: { on: { dataPoint: "10", kind: "switch" } },
   },
   source: {
     file: "juskys_oh125bw2_radiator.yaml",

@@ -24,19 +24,28 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     valve: {
-      open: { dataPoint: "1" },
-      timerInSeconds: { dataPoint: "17", unit: "s", min: 0, max: 3599 },
-      timerNext: { dataPoint: "107" },
-      schedule: { dataPoint: "38" },
-      cycleTimer: { dataPoint: "39" },
+      open: { dataPoint: "1", kind: "switch" },
+      timerInSeconds: {
+        dataPoint: "17",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 3599,
+      },
+      timerNext: { dataPoint: "107", kind: "text" },
+      schedule: { dataPoint: "38", kind: "text" },
+      cycleTimer: { dataPoint: "39", kind: "text" },
       weatherDelayRemainingInHours: {
         dataPoint: "42",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "h",
       },
-      useWeather: { dataPoint: "43" },
+      useWeather: { dataPoint: "43", kind: "switch" },
       weather: {
         dataPoint: "44",
+        kind: "select",
         values: [
           { raw: "sunny", value: "sunny" },
           { raw: "rainy", value: "rainy" },
@@ -44,6 +53,7 @@ const entry: TuyaDeviceEntry = {
       },
       weatherDelay: {
         dataPoint: "45",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1", value: "1d" },
@@ -57,6 +67,8 @@ const entry: TuyaDeviceEntry = {
       },
       batteryInPercent: {
         dataPoint: "47",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         unit: "%",
         values: [
@@ -70,15 +82,30 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "53",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "53", readOnly: true },
-      lastRuntimeInSeconds: { dataPoint: "101", readOnly: true, unit: "s" },
-      durationInSeconds: { dataPoint: "103", readOnly: true, unit: "s" },
+      faultCode: { dataPoint: "53", kind: "sensor", readOnly: true },
+      lastRuntimeInSeconds: {
+        dataPoint: "101",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "s",
+      },
+      durationInSeconds: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "s",
+      },
       status: {
         dataPoint: "105",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "manual", value: "manual" },

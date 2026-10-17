@@ -15,19 +15,27 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       aroma: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "normal", value: "Normal" },
           { raw: "strong", value: "Strong" },
           { raw: "extra_strong", value: "Extra Strong" },
         ],
       },
-      workState: { dataPoint: "4", readOnly: true },
-      timeRemainingInMinutes: { dataPoint: "12", readOnly: true, unit: "min" },
+      workState: { dataPoint: "4", kind: "sensor", readOnly: true },
+      timeRemainingInMinutes: {
+        dataPoint: "12",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       tankEmpty: {
         dataPoint: "105",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

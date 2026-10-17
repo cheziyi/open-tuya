@@ -26,6 +26,7 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
@@ -34,6 +35,7 @@ const entry: TuyaDeviceEntry = {
       },
       targetPositionInPercent: {
         dataPoint: "2",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 100,
@@ -41,6 +43,7 @@ const entry: TuyaDeviceEntry = {
       },
       calibration: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "start", value: "Start" },
           { raw: "end", value: "End" },
@@ -48,33 +51,55 @@ const entry: TuyaDeviceEntry = {
       },
       direction: {
         dataPoint: "8",
+        kind: "select",
         values: [
           { raw: "forward", value: "Forward" },
           { raw: "back", value: "Back" },
         ],
       },
-      travelTimeInSeconds: { dataPoint: "10", unit: "s", min: 10, max: 120 },
-      timer1InSeconds: { dataPoint: "104", unit: "s", min: 0, max: 86400 },
-      timer2InSeconds: { dataPoint: "107", unit: "s", min: 0, max: 86400 },
+      travelTimeInSeconds: {
+        dataPoint: "10",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 10,
+        max: 120,
+      },
+      timer1InSeconds: {
+        dataPoint: "104",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      timer2InSeconds: {
+        dataPoint: "107",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
       percentageSwitch: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: true, value: "percent_on" },
           { raw: false, value: "percent_off" },
         ],
       },
-      randomSchedule1: { dataPoint: "103" },
-      randomSchedule2: { dataPoint: "106" },
+      randomSchedule1: { dataPoint: "103", kind: "text" },
+      randomSchedule2: { dataPoint: "106", kind: "text" },
       calibrationPositionInPercent: {
         dataPoint: "108",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 100,
       },
     },
-    light1: { on: { dataPoint: "102" } },
-    light2: { on: { dataPoint: "105" } },
-    backlight: { on: { dataPoint: "7" } },
+    light1: { on: { dataPoint: "102", kind: "switch" } },
+    light2: { on: { dataPoint: "105", kind: "switch" } },
+    backlight: { on: { dataPoint: "7", kind: "switch" } },
   },
   source: {
     file: "avatto_cls02_curtainduallights.yaml",

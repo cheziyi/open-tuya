@@ -25,6 +25,7 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
@@ -32,12 +33,16 @@ const entry: TuyaDeviceEntry = {
       },
       currentTemperature: {
         dataPoint: "102",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unitFrom: "temperatureUnit",
         scale: 10,
       },
       targetTemperature: {
         dataPoint: "103",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         unitFrom: "temperatureUnit",
         min: 50,
@@ -47,15 +52,17 @@ const entry: TuyaDeviceEntry = {
       },
       preset: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: true, value: "away" },
           { raw: false, value: "home" },
         ],
       },
-      windowCheck: { dataPoint: "8" },
-      antiFrost: { dataPoint: "10" },
+      windowCheck: { dataPoint: "8", kind: "switch" },
+      antiFrost: { dataPoint: "10", kind: "switch" },
       temperatureUnit: {
         dataPoint: "23",
+        kind: "select",
         values: [
           { raw: "c", value: "celsius" },
           { raw: "f", value: "fahrenheit" },
@@ -63,22 +70,31 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureCalibrationInC: {
         dataPoint: "27",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: -60,
         max: 60,
         scale: 10,
         step: 5,
       },
-      childLock: { dataPoint: "40" },
+      childLock: { dataPoint: "40", kind: "switch" },
       battery: {
         dataPoint: "105",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      schedule: { dataPoint: "108" },
-      antiscale: { dataPoint: "130" },
-      valveInPercent: { dataPoint: "104", readOnly: true, unit: "%" },
+      schedule: { dataPoint: "108", kind: "switch" },
+      antiscale: { dataPoint: "130", kind: "switch" },
+      valveInPercent: {
+        dataPoint: "104",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
     },
   },
   source: {

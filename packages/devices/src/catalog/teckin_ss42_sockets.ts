@@ -14,10 +14,22 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      outlet1: { dataPoint: "1" },
-      outlet2: { dataPoint: "2" },
-      timer2InSeconds: { dataPoint: "101", unit: "s", min: 0, max: 86400 },
-      timer1InSeconds: { dataPoint: "102", unit: "s", min: 0, max: 86400 },
+      outlet1: { dataPoint: "1", kind: "switch" },
+      outlet2: { dataPoint: "2", kind: "switch" },
+      timer2InSeconds: {
+        dataPoint: "101",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      timer1InSeconds: {
+        dataPoint: "102",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
     },
   },
   source: {

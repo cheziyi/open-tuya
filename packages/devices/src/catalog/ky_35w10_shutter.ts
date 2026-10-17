@@ -20,6 +20,7 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
@@ -28,14 +29,22 @@ const entry: TuyaDeviceEntry = {
       },
       currentPosition: {
         dataPoint: "102",
+        kind: "sensor",
         readOnly: true,
         min: 0,
         max: 100,
         invert: true,
       },
-      targetPosition: { dataPoint: "103", min: 0, max: 100, invert: true },
+      targetPosition: {
+        dataPoint: "103",
+        kind: "number",
+        min: 0,
+        max: 100,
+        invert: true,
+      },
       sleepInPercent: {
         dataPoint: "104",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 100,
@@ -43,6 +52,7 @@ const entry: TuyaDeviceEntry = {
       },
       riseInPercent: {
         dataPoint: "105",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 100,
@@ -50,6 +60,7 @@ const entry: TuyaDeviceEntry = {
       },
       viewInPercent: {
         dataPoint: "106",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 100,
@@ -57,12 +68,13 @@ const entry: TuyaDeviceEntry = {
       },
       direction: {
         dataPoint: "107",
+        kind: "select",
         values: [
           { raw: false, value: "Forward" },
           { raw: true, value: "Reverse" },
         ],
       },
-      handPulled: { dataPoint: "108" },
+      handPulled: { dataPoint: "108", kind: "switch" },
     },
   },
   source: {

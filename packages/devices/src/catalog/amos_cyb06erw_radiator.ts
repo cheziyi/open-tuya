@@ -16,14 +16,23 @@ const entry: TuyaDeviceEntry = {
     heater: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "2", unit: "C", min: 15, max: 35 },
+      targetTemperatureInC: {
+        dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 15,
+        max: 35,
+      },
       preset: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "level_1", value: "low" },
           { raw: "level_2", value: "medium" },
@@ -34,6 +43,7 @@ const entry: TuyaDeviceEntry = {
     device: {
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

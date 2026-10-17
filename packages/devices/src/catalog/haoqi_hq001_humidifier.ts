@@ -20,28 +20,38 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "2" },
+      on: { dataPoint: "2", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "13",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 45,
         max: 95,
         step: 5,
       },
-      currentHumidityInPercent: { dataPoint: "14", readOnly: true, unit: "%" },
+      currentHumidityInPercent: {
+        dataPoint: "14",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       mode: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: false, value: "normal" },
           { raw: true, value: "continuous" },
         ],
       },
     },
-    ambientLight: { on: { dataPoint: "5" } },
+    ambientLight: { on: { dataPoint: "5", kind: "switch" } },
     fan: {
-      sleep: { dataPoint: "16" },
+      sleep: { dataPoint: "16", kind: "switch" },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -70,15 +80,24 @@ const entry: TuyaDeviceEntry = {
           { raw: "24h", value: "24h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "20", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "20",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       tankEmpty: {
         dataPoint: "22",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
       },
       fault: {
         dataPoint: "22",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -86,10 +105,11 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", readOnly: true },
-      on: { dataPoint: "2" },
+      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      on: { dataPoint: "2", kind: "switch" },
       speed: {
         dataPoint: "23",
+        kind: "select",
         values: [
           { raw: "level_1", value: 25 },
           { raw: "level_2", value: 50 },

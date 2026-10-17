@@ -11,6 +11,7 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
@@ -18,7 +19,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    backlight: { on: { dataPoint: "101" } },
+    backlight: { on: { dataPoint: "101", kind: "switch" } },
   },
   source: {
     file: "avatto_curtain_switch.yaml",

@@ -16,9 +16,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "sleep", value: "sleep" },
@@ -28,11 +29,17 @@ const entry: TuyaDeviceEntry = {
       },
     },
     light: {
-      on: { dataPoint: "8" },
-      ionizer: { dataPoint: "6" },
-      filterLifeInPercent: { dataPoint: "5", readOnly: true, unit: "%" },
+      on: { dataPoint: "8", kind: "switch" },
+      ionizer: { dataPoint: "6", kind: "switch" },
+      filterLifeInPercent: {
+        dataPoint: "5",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
       timer: {
         dataPoint: "18",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

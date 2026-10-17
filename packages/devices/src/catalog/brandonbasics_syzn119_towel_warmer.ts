@@ -18,6 +18,7 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
@@ -25,14 +26,23 @@ const entry: TuyaDeviceEntry = {
       },
       targetTemperatureInF: {
         dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
         unit: "F",
         min: 100,
         max: 160,
         step: 10,
       },
-      currentTemperatureInF: { dataPoint: "3", readOnly: true, unit: "F" },
+      currentTemperatureInF: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "F",
+      },
       hvacAction: {
         dataPoint: "14",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "heating", value: "heating" },
@@ -41,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       },
       timer: {
         dataPoint: "12",
+        kind: "select",
         values: [
           { raw: "1h", value: "1h" },
           { raw: "2h", value: "2h" },
@@ -51,6 +62,8 @@ const entry: TuyaDeviceEntry = {
       },
       timeRemainingInMinutes: {
         dataPoint: "13",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "min",
         min: 0,

@@ -16,18 +16,20 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      enableFeeder: { dataPoint: "25" },
-      mealPlan: { dataPoint: "1" },
-      feedReport: { dataPoint: "14", readOnly: true },
-      factoryReset: { dataPoint: "24" },
-      manualFeed: { dataPoint: "3", min: 1, max: 20 },
+      enableFeeder: { dataPoint: "25", kind: "switch" },
+      mealPlan: { dataPoint: "1", kind: "text" },
+      feedReport: { dataPoint: "14", kind: "sensor", readOnly: true },
+      factoryReset: { dataPoint: "24", kind: "button" },
+      manualFeed: { dataPoint: "3", kind: "number", min: 1, max: 20 },
       feeding: {
         dataPoint: "4",
+        kind: "sensor",
+        measures: "running",
         readOnly: true,
         values: [{ raw: "feeding", value: true }],
         otherwise: false,
       },
-      feedingRaw: { dataPoint: "4", readOnly: true },
+      feedingRaw: { dataPoint: "4", kind: "sensor", readOnly: true },
     },
   },
   source: {

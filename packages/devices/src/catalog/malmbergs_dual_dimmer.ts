@@ -19,20 +19,43 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     dimmer1: {
-      on: { dataPoint: "1" },
-      brightness: { dataPoint: "2", min: 10, max: 1000 },
+      on: { dataPoint: "1", kind: "switch" },
+      brightness: { dataPoint: "2", kind: "number", min: 10, max: 1000 },
     },
     dimmer2: {
-      on: { dataPoint: "7" },
-      brightness: { dataPoint: "8", min: 10, max: 1000 },
+      on: { dataPoint: "7", kind: "switch" },
+      brightness: { dataPoint: "8", kind: "number", min: 10, max: 1000 },
     },
     device: {
-      minimumBrightness1: { dataPoint: "3", min: 10, max: 1000 },
-      timer1InSeconds: { dataPoint: "6", unit: "s", min: 0, max: 86400 },
-      minimumBrightness2: { dataPoint: "9", min: 10, max: 1000 },
-      timer2InSeconds: { dataPoint: "12", unit: "s", min: 0, max: 86400 },
+      minimumBrightness1: {
+        dataPoint: "3",
+        kind: "number",
+        min: 10,
+        max: 1000,
+      },
+      timer1InSeconds: {
+        dataPoint: "6",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      minimumBrightness2: {
+        dataPoint: "9",
+        kind: "number",
+        min: 10,
+        max: 1000,
+      },
+      timer2InSeconds: {
+        dataPoint: "12",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
       initialState: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },

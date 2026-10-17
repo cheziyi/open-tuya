@@ -19,9 +19,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "20" },
+      on: { dataPoint: "20", kind: "switch" },
       effect: {
         dataPoint: "21",
+        kind: "select",
         values: [
           { raw: "white", value: "off" },
           { raw: "colour", value: "draw" },
@@ -29,9 +30,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "music", value: "music", readOnly: true },
         ],
       },
-      brightness: { dataPoint: "22", min: 10, max: 1000 },
+      brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
       colorTemperatureInK: {
         dataPoint: "23",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 1000,
@@ -39,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       },
       segmentMode: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "RGB", value: "RGB" },
           { raw: "RGBIC", value: "RGBIC" },
@@ -46,10 +49,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "SCENE", value: "Scene" },
         ],
       },
-      ledCount: { dataPoint: "58", min: 1, max: 5000 },
-      timerInSeconds: { dataPoint: "26", unit: "s", min: 0, max: 86399 },
-      scene: { dataPoint: "56" },
-      drawTool: { dataPoint: "59" },
+      ledCount: { dataPoint: "58", kind: "number", min: 1, max: 5000 },
+      timerInSeconds: {
+        dataPoint: "26",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86399,
+      },
+      scene: { dataPoint: "56", kind: "text" },
+      drawTool: { dataPoint: "59", kind: "text" },
     },
   },
   source: {

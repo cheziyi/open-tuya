@@ -19,16 +19,29 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "51" },
-      speed: { dataPoint: "53", min: 1, max: 3 },
-      scene: { dataPoint: "25" },
-      lightTimerInSeconds: { dataPoint: "26", unit: "s", min: 0, max: 86399 },
-      fanTimerInSeconds: { dataPoint: "55", unit: "s", min: 0, max: 86399 },
+      on: { dataPoint: "51", kind: "switch" },
+      speed: { dataPoint: "53", kind: "number", min: 1, max: 3 },
+      scene: { dataPoint: "25", kind: "text" },
+      lightTimerInSeconds: {
+        dataPoint: "26",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86399,
+      },
+      fanTimerInSeconds: {
+        dataPoint: "55",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86399,
+      },
     },
     light: {
-      on: { dataPoint: "20" },
+      on: { dataPoint: "20", kind: "switch" },
       colorMode: {
         dataPoint: "21",
+        kind: "select",
         values: [
           { raw: "white", value: "color_temp" },
           { raw: "colour", value: "hs" },
@@ -36,9 +49,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "music", value: "Music" },
         ],
       },
-      brightness: { dataPoint: "22", min: 10, max: 1000 },
+      brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
       colorTemperatureInK: {
         dataPoint: "23",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 1000,

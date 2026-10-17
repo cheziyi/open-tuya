@@ -18,15 +18,17 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      quickFeed: { dataPoint: "2" },
+      quickFeed: { dataPoint: "2", kind: "button" },
       manualFeedInPortions: {
         dataPoint: "3",
+        kind: "number",
         unit: "portions",
         min: 1,
         max: 6,
       },
       status: {
         dataPoint: "4",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -36,18 +38,26 @@ const entry: TuyaDeviceEntry = {
       },
       feedReportInPortions: {
         dataPoint: "5",
+        kind: "sensor",
         readOnly: true,
         unit: "portions",
       },
-      batteryInPercent: { dataPoint: "10", readOnly: true, unit: "%" },
+      batteryInPercent: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
       voicePlaybackTimesInTimes: {
         dataPoint: "16",
+        kind: "number",
         unit: "times",
         min: 0,
         max: 10,
       },
-      factoryReset: { dataPoint: "20" },
-      slowFeed: { dataPoint: "218" },
+      factoryReset: { dataPoint: "20", kind: "button" },
+      slowFeed: { dataPoint: "218", kind: "switch" },
     },
   },
   source: {

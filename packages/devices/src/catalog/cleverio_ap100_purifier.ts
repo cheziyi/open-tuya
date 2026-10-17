@@ -16,13 +16,19 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
-      speed: { dataPoint: "4", min: 1, max: 4 },
+      on: { dataPoint: "1", kind: "switch" },
+      speed: { dataPoint: "4", kind: "number", min: 1, max: 4 },
     },
     device: {
-      filterLifeInPercent: { dataPoint: "5", readOnly: true, unit: "%" },
+      filterLifeInPercent: {
+        dataPoint: "5",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancle", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -33,6 +39,7 @@ const entry: TuyaDeviceEntry = {
       },
       airQuality: {
         dataPoint: "22",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "1", value: "excellent" },
@@ -42,7 +49,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    indicator: { on: { dataPoint: "8" } },
+    indicator: { on: { dataPoint: "8", kind: "switch" } },
   },
   source: {
     file: "cleverio_ap100_purifier.yaml",

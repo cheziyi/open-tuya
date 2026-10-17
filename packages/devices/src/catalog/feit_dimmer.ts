@@ -20,11 +20,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1", absent: false },
-      brightness: { dataPoint: "2", min: 10, max: 1000 },
-      minimumBrightness: { dataPoint: "3" },
+      on: { dataPoint: "1", kind: "switch", absent: false },
+      brightness: { dataPoint: "2", kind: "number", min: 10, max: 1000 },
+      minimumBrightness: { dataPoint: "3", kind: "number" },
       lightType: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "incandescent", value: "Incandescent" },
           { raw: "halogen", value: "LED" },
@@ -34,6 +35,7 @@ const entry: TuyaDeviceEntry = {
     indicator: {
       brightness: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "off", value: 0 },
           { raw: "low", value: 128 },

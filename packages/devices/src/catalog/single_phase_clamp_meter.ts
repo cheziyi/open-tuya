@@ -25,15 +25,33 @@ const entry: TuyaDeviceEntry = {
     device: {
       energyInKwh: {
         dataPoint: "108",
+        kind: "sensor",
+        measures: "energy",
         readOnly: true,
         unit: "kWh",
         scale: 1000,
       },
-      energyToday: { dataPoint: "109", readOnly: true, scale: 1000 },
-      energyAddEle: { dataPoint: "104", readOnly: true, scale: 100 },
-      energyAddToday: { dataPoint: "112", readOnly: true, scale: 100 },
+      energyToday: {
+        dataPoint: "109",
+        kind: "sensor",
+        readOnly: true,
+        scale: 1000,
+      },
+      energyAddEle: {
+        dataPoint: "104",
+        kind: "sensor",
+        readOnly: true,
+        scale: 100,
+      },
+      energyAddToday: {
+        dataPoint: "112",
+        kind: "sensor",
+        readOnly: true,
+        scale: 100,
+      },
       realTime: {
         dataPoint: "101",
+        kind: "event",
         readOnly: true,
         values: [
           { raw: "idle", value: "idle" },
@@ -42,6 +60,7 @@ const entry: TuyaDeviceEntry = {
       },
       realTime2: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "ok", value: "OK" },
           { raw: "clear", value: "Clear" },
@@ -50,6 +69,7 @@ const entry: TuyaDeviceEntry = {
       },
       status: {
         dataPoint: "103",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "close", value: "close" },
@@ -58,11 +78,34 @@ const entry: TuyaDeviceEntry = {
           { raw: "warning", value: "warning" },
         ],
       },
-      powerInW: { dataPoint: "105", readOnly: true, unit: "W", scale: 10 },
-      currentInA: { dataPoint: "106", readOnly: true, unit: "A", scale: 1000 },
-      voltageInV: { dataPoint: "107", readOnly: true, unit: "V", scale: 10 },
+      powerInW: {
+        dataPoint: "105",
+        kind: "sensor",
+        measures: "power",
+        readOnly: true,
+        unit: "W",
+        scale: 10,
+      },
+      currentInA: {
+        dataPoint: "106",
+        kind: "sensor",
+        measures: "current",
+        readOnly: true,
+        unit: "A",
+        scale: 1000,
+      },
+      voltageInV: {
+        dataPoint: "107",
+        kind: "sensor",
+        measures: "voltage",
+        readOnly: true,
+        unit: "V",
+        scale: 10,
+      },
       powerWarning: {
         dataPoint: "110",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: "normal", value: false },
@@ -71,12 +114,15 @@ const entry: TuyaDeviceEntry = {
       },
       warningPowerLevelInW: {
         dataPoint: "111",
+        kind: "number",
+        measures: "power",
         unit: "W",
         min: 200,
         max: 50000,
       },
       networkStatus: {
         dataPoint: "113",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "cloud_net", value: "Cloud" },

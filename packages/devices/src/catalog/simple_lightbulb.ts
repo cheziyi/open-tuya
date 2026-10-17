@@ -9,8 +9,8 @@ const entry: TuyaDeviceEntry = {
   dataPoints: { "1": { type: "boolean" }, "2": { type: "integer" } },
   components: {
     light: {
-      on: { dataPoint: "1" },
-      brightness: { dataPoint: "2", min: 10, max: 255 },
+      on: { dataPoint: "1", kind: "switch" },
+      brightness: { dataPoint: "2", kind: "number", min: 10, max: 255 },
     },
   },
   source: {

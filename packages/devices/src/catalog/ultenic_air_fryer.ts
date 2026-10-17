@@ -26,10 +26,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      power: { dataPoint: "1" },
-      cooking: { dataPoint: "2" },
+      power: { dataPoint: "1", kind: "switch" },
+      cooking: { dataPoint: "2", kind: "switch" },
       cookingMode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "fries", value: "fries" },
           { raw: "wings", value: "chicken_wings" },
@@ -51,6 +52,7 @@ const entry: TuyaDeviceEntry = {
       },
       status: {
         dataPoint: "5",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "0", value: "standby" },
@@ -64,6 +66,8 @@ const entry: TuyaDeviceEntry = {
       },
       cookingTemperature: {
         dataPoint: "6",
+        kind: "number",
+        measures: "temperature",
         unitFrom: "cookingTemperatureUnit",
         min: 75,
         max: 400,
@@ -71,23 +75,46 @@ const entry: TuyaDeviceEntry = {
       },
       cookingTemperatureUnit: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
         ],
       },
-      internalTemperatureInC: { dataPoint: "7", readOnly: true, unit: "C" },
-      cookingTimeInMinutes: { dataPoint: "9", unit: "min", min: 1, max: 720 },
-      timeRemainingInMinutes: { dataPoint: "10", readOnly: true, unit: "min" },
+      internalTemperatureInC: {
+        dataPoint: "7",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      cookingTimeInMinutes: {
+        dataPoint: "9",
+        kind: "number",
+        measures: "duration",
+        unit: "min",
+        min: 1,
+        max: 720,
+      },
+      timeRemainingInMinutes: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "12",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", readOnly: true },
+      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
       pauseCooking: {
         dataPoint: "13",
+        kind: "switch",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -95,16 +122,23 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "c", value: "celsius" },
           { raw: "f", value: "fahrenheit" },
         ],
       },
-      preheat: { dataPoint: "15" },
-      keepWarm: { dataPoint: "101" },
-      trayStatus: { dataPoint: "103", readOnly: true },
+      preheat: { dataPoint: "15", kind: "switch" },
+      keepWarm: { dataPoint: "101", kind: "switch" },
+      trayStatus: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "opening",
+        readOnly: true,
+      },
       shake: {
         dataPoint: "104",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "0", value: false },
@@ -113,6 +147,8 @@ const entry: TuyaDeviceEntry = {
       },
       currentStageRemainingTimeInMinutes: {
         dataPoint: "105",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "min",
       },

@@ -16,14 +16,14 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "20" },
-      workMode: { dataPoint: "21" },
-      brightness: { dataPoint: "22", min: 10, max: 1000 },
-      controlData: { dataPoint: "28" },
+      on: { dataPoint: "20", kind: "switch" },
+      workMode: { dataPoint: "21", kind: "text" },
+      brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
+      controlData: { dataPoint: "28", kind: "text" },
     },
     fan: {
-      on: { dataPoint: "60" },
-      speed: { dataPoint: "62", min: 1, max: 3 },
+      on: { dataPoint: "60", kind: "switch" },
+      speed: { dataPoint: "62", kind: "number", min: 1, max: 3 },
     },
   },
   source: {

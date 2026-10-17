@@ -20,27 +20,40 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "sleep", value: "sleep" },
           { raw: "normal", value: "normal" },
           { raw: "nature", value: "nature" },
         ],
       },
-      speed: { dataPoint: "3", min: 1, max: 10 },
-      direction: { dataPoint: "103" },
-      countdownInHours: { dataPoint: "6", unit: "h", min: 0, max: 8 },
-      countdownLeftInMinutes: { dataPoint: "7", unit: "min", min: 0, max: 480 },
+      speed: { dataPoint: "3", kind: "number", min: 1, max: 10 },
+      direction: { dataPoint: "103", kind: "text" },
+      countdownInHours: {
+        dataPoint: "6",
+        kind: "number",
+        unit: "h",
+        min: 0,
+        max: 8,
+      },
+      countdownLeftInMinutes: {
+        dataPoint: "7",
+        kind: "number",
+        unit: "min",
+        min: 0,
+        max: 480,
+      },
     },
     warmLight: {
-      on: { dataPoint: "9" },
-      brightness: { dataPoint: "10", min: 10, max: 1000 },
+      on: { dataPoint: "9", kind: "switch" },
+      brightness: { dataPoint: "10", kind: "number", min: 10, max: 1000 },
     },
     daylightLight: {
-      on: { dataPoint: "101" },
-      brightness: { dataPoint: "102", min: 10, max: 1000 },
+      on: { dataPoint: "101", kind: "switch" },
+      brightness: { dataPoint: "102", kind: "number", min: 10, max: 1000 },
     },
   },
   source: {

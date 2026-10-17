@@ -14,11 +14,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1" },
-      workMode: { dataPoint: "2" },
-      brightness: { dataPoint: "3", min: 25, max: 255 },
+      on: { dataPoint: "1", kind: "switch" },
+      workMode: { dataPoint: "2", kind: "text" },
+      brightness: { dataPoint: "3", kind: "number", min: 25, max: 255 },
       colorTemperatureInK: {
         dataPoint: "4",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 255,

@@ -16,10 +16,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "20" },
-      workMode: { dataPoint: "21" },
+      on: { dataPoint: "20", kind: "switch" },
+      workMode: { dataPoint: "21", kind: "text" },
       brightness: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "Low", value: 1 },
           { raw: "Mid", value: 82 },
@@ -29,6 +30,7 @@ const entry: TuyaDeviceEntry = {
       },
       colorTemperature: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "2700K", value: 2700 },
           { raw: "3000K", value: 3000 },
@@ -37,8 +39,14 @@ const entry: TuyaDeviceEntry = {
           { raw: "5000K", value: 5000 },
         ],
       },
-      scene: { dataPoint: "25" },
-      timerInSeconds: { dataPoint: "26", unit: "s", min: 0, max: 86400 },
+      scene: { dataPoint: "25", kind: "text" },
+      timerInSeconds: {
+        dataPoint: "26",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
     },
   },
   source: {

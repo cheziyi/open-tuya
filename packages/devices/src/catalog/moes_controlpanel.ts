@@ -29,14 +29,15 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      switch1: { dataPoint: "16" },
-      switch1UpChannel: { dataPoint: "1" },
-      switch1DownChannel: { dataPoint: "2" },
-      switch2: { dataPoint: "17" },
-      switch3: { dataPoint: "3" },
-      on: { dataPoint: "36" },
+      switch1: { dataPoint: "16", kind: "switch" },
+      switch1UpChannel: { dataPoint: "1", kind: "text" },
+      switch1DownChannel: { dataPoint: "2", kind: "text" },
+      switch2: { dataPoint: "17", kind: "switch" },
+      switch3: { dataPoint: "3", kind: "switch" },
+      on: { dataPoint: "36", kind: "switch" },
       lightMode: {
         dataPoint: "37",
+        kind: "select",
         values: [
           { raw: "none", value: "off" },
           { raw: "relay", value: "state" },
@@ -45,6 +46,7 @@ const entry: TuyaDeviceEntry = {
       },
       initialState: {
         dataPoint: "38",
+        kind: "select",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -53,6 +55,7 @@ const entry: TuyaDeviceEntry = {
       },
       initialState1: {
         dataPoint: "39",
+        kind: "select",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -61,6 +64,7 @@ const entry: TuyaDeviceEntry = {
       },
       initialState2: {
         dataPoint: "40",
+        kind: "select",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -69,21 +73,31 @@ const entry: TuyaDeviceEntry = {
       },
       initialState3: {
         dataPoint: "41",
+        kind: "select",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
           { raw: "memory", value: "memory" },
         ],
       },
-      voiceVolumeInPercent: { dataPoint: "203", unit: "%", min: 0, max: 100 },
-      micEnable: { dataPoint: "204" },
-      voicePlay: { dataPoint: "205" },
-      voicePlayAlarmClock: { dataPoint: "207" },
-      voicePlayControlGroup: { dataPoint: "208" },
-      voiceBluetoothPlay: { dataPoint: "206" },
+      voiceVolumeInPercent: {
+        dataPoint: "203",
+        kind: "number",
+        unit: "%",
+        min: 0,
+        max: 100,
+      },
+      micEnable: { dataPoint: "204", kind: "switch" },
+      voicePlay: { dataPoint: "205", kind: "button" },
+      voicePlayAlarmClock: { dataPoint: "207", kind: "text" },
+      voicePlayControlGroup: { dataPoint: "208", kind: "text" },
+      voiceBluetoothPlay: { dataPoint: "206", kind: "button" },
     },
-    remote: { send: { dataPoint: "201" }, receive: { dataPoint: "202" } },
-    infrared: { send: { dataPoint: "201" } },
+    remote: {
+      send: { dataPoint: "201", kind: "text" },
+      receive: { dataPoint: "202", kind: "text" },
+    },
+    infrared: { send: { dataPoint: "201", kind: "text" } },
   },
   source: {
     file: "moes_controlpanel.yaml",

@@ -18,14 +18,23 @@ const entry: TuyaDeviceEntry = {
     kettle: {
       mode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "electric" },
         ],
       },
-      currentTemperatureInC: { dataPoint: "2", readOnly: true, unit: "C" },
+      currentTemperatureInC: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       targetTemperatureInC: {
         dataPoint: "4",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 85,
         max: 90,
@@ -35,6 +44,7 @@ const entry: TuyaDeviceEntry = {
     device: {
       kettleMode: {
         dataPoint: "16",
+        kind: "select",
         values: [
           { raw: "boiling_quick", value: "quick_boil" },
           { raw: "setting_quick", value: "quick_heat" },
@@ -42,9 +52,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "temp_setting", value: "heat" },
         ],
       },
-      keepWarm: { dataPoint: "13" },
+      keepWarm: { dataPoint: "13", kind: "switch" },
       status: {
         dataPoint: "15",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },

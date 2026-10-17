@@ -19,29 +19,51 @@ const entry: TuyaDeviceEntry = {
     poolHeatpump: {
       hvacMode: {
         dataPoint: "121",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat_cool" },
         ],
       },
-      targetTemperatureInF: { dataPoint: "17", unit: "F", min: 32, max: 107 },
+      targetTemperatureInF: {
+        dataPoint: "17",
+        kind: "number",
+        measures: "temperature",
+        unit: "F",
+        min: 32,
+        max: 107,
+      },
       currentTemperatureInF: {
         dataPoint: "29",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "F",
         scale: 10,
       },
-      mode: { dataPoint: "115" },
+      mode: { dataPoint: "115", kind: "switch" },
     },
     device: {
-      compressor: { dataPoint: "122", readOnly: true },
+      compressor: {
+        dataPoint: "122",
+        kind: "sensor",
+        measures: "running",
+        readOnly: true,
+      },
       volumeFlowRateInLPerMin: {
         dataPoint: "102",
+        kind: "sensor",
+        measures: "volumeFlowRate",
         readOnly: true,
         unit: "L/min",
         scale: 10,
       },
-      waterPump: { dataPoint: "125", readOnly: true },
+      waterPump: {
+        dataPoint: "125",
+        kind: "sensor",
+        measures: "running",
+        readOnly: true,
+      },
     },
   },
   source: {

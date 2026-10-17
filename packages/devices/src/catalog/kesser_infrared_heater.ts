@@ -9,9 +9,10 @@ const entry: TuyaDeviceEntry = {
   dataPoints: { "1": { type: "boolean" }, "4": { type: "string" } },
   components: {
     device: {
-      power: { dataPoint: "1" },
+      power: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "P0", value: "off" },
           { raw: "P1", value: "low" },

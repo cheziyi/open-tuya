@@ -22,11 +22,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      onIlluminanceState: { dataPoint: "44" },
-      onMotionState: { dataPoint: "47" },
+      on: { dataPoint: "1", kind: "switch" },
+      onIlluminanceState: { dataPoint: "44", kind: "text" },
+      onMotionState: { dataPoint: "47", kind: "text" },
       initialState: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "memory", value: "memory" },
           { raw: "on", value: "on" },
@@ -35,22 +36,25 @@ const entry: TuyaDeviceEntry = {
       },
       lightMode: {
         dataPoint: "15",
+        kind: "select",
         values: [
           { raw: "none", value: "off" },
           { raw: "relay", value: "state" },
         ],
       },
-      illuminanceEnable: { dataPoint: "43" },
+      illuminanceEnable: { dataPoint: "43", kind: "switch" },
       illuminanceThreshold: {
         dataPoint: "45",
+        kind: "select",
         values: [
           { raw: "default", value: "Default" },
           { raw: "now", value: "Set current" },
         ],
       },
-      motionDetection: { dataPoint: "46" },
+      motionDetection: { dataPoint: "46", kind: "switch" },
       motionSensitivity: {
         dataPoint: "48",
+        kind: "select",
         values: [
           { raw: "low", value: "low" },
           { raw: "middle", value: "medium" },
@@ -59,12 +63,14 @@ const entry: TuyaDeviceEntry = {
       },
       motionAutoOffDelayInSeconds: {
         dataPoint: "49",
+        kind: "number",
         unit: "s",
         min: 5,
         max: 3600,
       },
       disableTimeInHours: {
         dataPoint: "101",
+        kind: "number",
         unit: "h",
         min: 0,
         max: 1440,
@@ -72,6 +78,7 @@ const entry: TuyaDeviceEntry = {
       },
       enableTimeInHours: {
         dataPoint: "102",
+        kind: "number",
         unit: "h",
         min: 0,
         max: 1440,

@@ -19,9 +19,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      brewing: { dataPoint: "1", readOnly: true },
+      brewing: { dataPoint: "1", kind: "sensor", readOnly: true },
       brewStrength: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "smart", value: "Regular" },
           { raw: "auto", value: "Strong" },
@@ -29,6 +30,7 @@ const entry: TuyaDeviceEntry = {
       },
       status: {
         dataPoint: "3",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "status1", value: "idle" },
@@ -39,12 +41,16 @@ const entry: TuyaDeviceEntry = {
       },
       carafe: {
         dataPoint: "6",
+        kind: "sensor",
+        measures: "occupancy",
         readOnly: true,
         values: [{ raw: 4, value: false }],
         otherwise: true,
       },
       fault: {
         dataPoint: "6",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -52,19 +58,41 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "6", readOnly: true },
+      faultCode: { dataPoint: "6", kind: "sensor", readOnly: true },
       tankEmpty: {
         dataPoint: "18",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      brewTimerInMinutes: { dataPoint: "102", unit: "min", min: 0, max: 1439 },
-      startBrewing: { dataPoint: "103", values: [{ raw: true, value: true }] },
-      powerOff: { dataPoint: "103", values: [{ raw: false, value: false }] },
-      warmTimerInMinutes: { dataPoint: "104", unit: "min", min: 0, max: 1439 },
+      brewTimerInMinutes: {
+        dataPoint: "102",
+        kind: "number",
+        unit: "min",
+        min: 0,
+        max: 1439,
+      },
+      startBrewing: {
+        dataPoint: "103",
+        kind: "button",
+        values: [{ raw: true, value: true }],
+      },
+      powerOff: {
+        dataPoint: "103",
+        kind: "button",
+        values: [{ raw: false, value: false }],
+      },
+      warmTimerInMinutes: {
+        dataPoint: "104",
+        kind: "number",
+        unit: "min",
+        min: 0,
+        max: 1439,
+      },
       syncTime: {
         dataPoint: "105",
+        kind: "button",
         values: [{ raw: "calibration", value: "calibration" }],
       },
     },

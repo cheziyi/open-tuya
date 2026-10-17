@@ -6,6 +6,13 @@ import type {
   TuyaDataPointType,
   TuyaDeviceEntry,
 } from "../src/entry.js";
+import {
+  type ControlKind,
+  type ControlName,
+  MEASURES,
+  type Measure,
+  type UnitSuffix,
+} from "../src/vocabulary.ts";
 
 interface DeviceFile {
   name: string;
@@ -86,6 +93,11 @@ const DATA_POINT_TYPES: ReadonlySet<string> = new Set([
   "unixtime",
 ]);
 const NUMBER_CONVERSIONS = ["scale", "step", "invert", "target_range"];
+const NUMBER_TYPES: ReadonlySet<string> = new Set([
+  "bitfield",
+  "integer",
+  "unixtime",
+]);
 
 // Entities that group several data points into one part of a device.
 const COMPOSITE_ENTITIES: ReadonlySet<string> = new Set([
@@ -132,7 +144,7 @@ const CAPABILITY_KEYS: ReadonlySet<string> = new Set([
 // A control's name for a composite entity's data point, by entity and
 // tuya-local's name for the data point. Any other data point keeps its own
 // name.
-const COMPOSITE_CONTROLS: Record<string, string> = {
+const COMPOSITE_CONTROLS: Record<string, ControlName> = {
   "light.switch": "on",
   "light.brightness": "brightness",
   "light.color_temp": "colorTemperature",
@@ -196,7 +208,7 @@ const COMPOSITE_CONTROLS: Record<string, string> = {
 
 // A control's name for an entity of one data point, by entity and its
 // translation key or, with no name or key, its class.
-const SIMPLE_CONTROLS: Record<string, string> = {
+const SIMPLE_CONTROLS: Record<string, ControlName> = {
   "switch/": "on",
   "lock/child_lock": "childLock",
   "binary_sensor/class:problem": "fault",
@@ -222,14 +234,14 @@ const TEMPERATURE_UNIT_DATA_POINTS = [
 
 // Home Assistant takes a climate or humidifier entity's humidity as a
 // percentage, whatever its data point says.
-const HUMIDITY_CONTROLS: ReadonlySet<string> = new Set([
+const HUMIDITY_CONTROLS: ReadonlySet<string> = new Set<ControlName>([
   "currentHumidity",
   "targetHumidity",
 ]);
 
 // The control a data point is read-only on, besides a sensor's: what a device
 // measures or reports.
-const READ_ONLY_CONTROLS: ReadonlySet<string> = new Set([
+const READ_ONLY_CONTROLS: ReadonlySet<string> = new Set<ControlName>([
   "action",
   "currentHumidity",
   "currentPosition",
@@ -245,6 +257,46 @@ const READ_ONLY_ENTITIES: ReadonlySet<string> = new Set([
   "sensor",
 ]);
 
+// The kind of control an entity of one data point is, by entity.
+const SIMPLE_KINDS: Record<string, ControlKind> = {
+  binary_sensor: "sensor",
+  button: "button",
+  datetime: "text",
+  event: "event",
+  lock: "switch",
+  number: "number",
+  select: "select",
+  sensor: "sensor",
+  switch: "switch",
+  text: "text",
+  time: "number",
+};
+
+// The entities whose class says what they measure or detect.
+const MEASURING_ENTITIES: ReadonlySet<string> = new Set([
+  "binary_sensor",
+  "number",
+  "sensor",
+]);
+
+// Classes that say nothing of what is measured.
+const UNMEASURED_CLASSES: ReadonlySet<string> = new Set([
+  "enum",
+  "measurement",
+]);
+
+// What a composite entity's control measures, by its name.
+const COMPOSITE_MEASURES: Partial<Record<ControlName, Measure>> = {
+  coolingTargetTemperature: "temperature",
+  currentHumidity: "humidity",
+  currentTemperature: "temperature",
+  heatingTargetTemperature: "temperature",
+  maxTargetTemperature: "temperature",
+  minTargetTemperature: "temperature",
+  targetHumidity: "humidity",
+  targetTemperature: "temperature",
+};
+
 // The unit a time entity's data point carries, by its name.
 const TIME_UNITS: Record<string, string> = {
   hour: "h",
@@ -254,7 +306,7 @@ const TIME_UNITS: Record<string, string> = {
 
 // Name suffixes for the units tuya-local writes most: AGENTS.md spells a unit
 // after `In`, abbreviating only where the abbreviation is well known.
-const UNIT_SUFFIXES: Record<string, string> = {
+const UNIT_SUFFIXES: Record<string, UnitSuffix> = {
   C: "C",
   "°C": "C",
   "℃": "C",
@@ -288,6 +340,7 @@ const UNIT_SUFFIXES: Record<string, string> = {
   "µg/m³": "UgPerM3",
   "μg/m³": "UgPerM3",
   Ω: "Ohms",
+  portions: "Portions",
 };
 
 /** Converts one tuya-local device file, or names the feature it uses that
@@ -447,12 +500,13 @@ function addCompositeControls(
     if (unit === undefined && HUMIDITY_CONTROLS.has(base)) {
       unit = "%";
     }
+    const measures = COMPOSITE_MEASURES[base as ControlName];
     addControl(
       component,
       base,
       kelvin(entity, { ...dp, ...(unit !== undefined && { unit }) }),
       entity,
-      unitFrom,
+      { ...(unitFrom && { unitFrom }), ...(measures && { measures }) },
     );
   }
 }
@@ -475,6 +529,8 @@ function addSimpleControls(
 ): void {
   const base = simpleBase(entity);
   const primary = PRIMARY_DATA_POINTS[entity.entity];
+  const kind = SIMPLE_KINDS[entity.entity];
+  const measures = entityMeasures(entity);
   const unitDp = entity.dps.find((dp) => dp.name === "unit" && isControl(dp));
   const unitName = unitDp ? `${base}Unit` : undefined;
   for (const dp of entity.dps) {
@@ -482,18 +538,47 @@ function addSimpleControls(
       continue;
     }
     if (entity.entity === "time" && TIME_UNITS[dp.name]) {
-      addControl(component, base, { ...dp, unit: TIME_UNITS[dp.name] }, entity);
+      addControl(
+        component,
+        base,
+        { ...dp, unit: TIME_UNITS[dp.name] },
+        entity,
+        {
+          ...(kind && { kind }),
+        },
+      );
     } else if (
       dp.name === primary ||
       (entity.entity === "lock" && dp.name === "lock")
     ) {
-      addControl(component, base, dp, entity, unitName);
+      addControl(component, base, dp, entity, {
+        ...(unitName && { unitFrom: unitName }),
+        ...(kind && { kind }),
+        ...(measures && { measures }),
+      });
     } else if (dp === unitDp && unitName) {
-      addControl(component, unitName, dp, entity);
+      addControl(component, unitName, dp, entity, {});
     } else {
-      addControl(component, join(base, dp.name), dp, entity);
+      addControl(component, join(base, dp.name), dp, entity, {});
     }
   }
+}
+
+// What an entity measures or detects, by its class: the catalog's own words,
+// so a class tuya-local adds stops the run until MEASURES names it.
+function entityMeasures(entity: EntityConfig): Measure | undefined {
+  if (
+    !entity.class ||
+    !MEASURING_ENTITIES.has(entity.entity) ||
+    UNMEASURED_CLASSES.has(entity.class)
+  ) {
+    return undefined;
+  }
+  const measures = camelCase(entity.class);
+  if (!(MEASURES as readonly string[]).includes(measures)) {
+    throw new Error(`Add "${measures}" to MEASURES in src/vocabulary.ts`);
+  }
+  return measures as Measure;
 }
 
 function simpleBase(entity: EntityConfig): string {
@@ -545,23 +630,19 @@ function addControl(
   base: string,
   dp: DataPointConfig,
   entity: EntityConfig,
-  unitFrom?: string,
+  options: { unitFrom?: string; kind?: ControlKind; measures?: Measure },
 ): void {
+  const { unitFrom } = options;
   const name = unique(
     component,
     unitFrom || dp.unit === undefined
       ? base
       : `${base}In${unitSuffix(dp.unit)}`,
   );
-  const control: TuyaControl = { dataPoint: String(dp.id) };
-  const writable: Partial<TuyaControl> = {};
-  if (
+  const readOnly =
     dp.readonly ||
     READ_ONLY_ENTITIES.has(entity.entity) ||
-    READ_ONLY_CONTROLS.has(base)
-  ) {
-    writable.readOnly = true;
-  }
+    READ_ONLY_CONTROLS.has(base);
   const rules = dp.mapping ?? [];
   const values: ControlMapping[] = [];
   let absent: unknown;
@@ -601,9 +682,22 @@ function addControl(
       };
     }
   }
+  const kind: ControlKind =
+    options.kind ??
+    (readOnly
+      ? "sensor"
+      : values.length > 0
+        ? "select"
+        : dp.type === "boolean"
+          ? "switch"
+          : NUMBER_TYPES.has(dp.type)
+            ? "number"
+            : "text");
   component[name] = {
-    ...control,
-    ...writable,
+    dataPoint: String(dp.id),
+    kind,
+    ...(options.measures && { measures: options.measures }),
+    ...(readOnly && { readOnly: true as const }),
     ...(dp.unit !== undefined && { unit: String(dp.unit) }),
     ...(unitFrom && { unitFrom }),
     ...(dp.range?.min !== undefined && { min: dp.range.min }),

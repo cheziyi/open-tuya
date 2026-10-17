@@ -15,9 +15,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     dehumidifier: {
-      on: { dataPoint: "102" },
+      on: { dataPoint: "102", kind: "switch" },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "sleep", value: "sleep" },
           { raw: "High", value: "strong" },
@@ -27,13 +28,20 @@ const entry: TuyaDeviceEntry = {
     device: {
       fault: {
         dataPoint: "12",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", readOnly: true },
-      airPurifier: { dataPoint: "101" },
-      replaceFilter: { dataPoint: "103", readOnly: true },
+      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      airPurifier: { dataPoint: "101", kind: "switch" },
+      replaceFilter: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "problem",
+        readOnly: true,
+      },
     },
   },
   source: {

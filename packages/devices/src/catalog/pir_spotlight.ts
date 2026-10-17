@@ -23,27 +23,36 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "20" },
-      workMode: { dataPoint: "21" },
-      brightness: { dataPoint: "22", min: 10, max: 1000 },
+      on: { dataPoint: "20", kind: "switch" },
+      workMode: { dataPoint: "21", kind: "text" },
+      brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
       colorTemperatureInK: {
         dataPoint: "23",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 1000,
         targetRange: { min: 2700, max: 6500 },
       },
-      timerInSeconds: { dataPoint: "26", unit: "s", min: 0, max: 86400 },
+      timerInSeconds: {
+        dataPoint: "26",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
       manualMode: {
         dataPoint: "51",
+        kind: "switch",
         values: [
           { raw: "auto", value: false },
           { raw: "manual", value: true },
         ],
       },
-      pirEnabled: { dataPoint: "56" },
+      pirEnabled: { dataPoint: "56", kind: "switch" },
       motion: {
         dataPoint: "52",
+        kind: "event",
         readOnly: true,
         values: [
           { raw: "pir", value: "detected" },
@@ -52,6 +61,7 @@ const entry: TuyaDeviceEntry = {
       },
       motionSensitivity: {
         dataPoint: "54",
+        kind: "select",
         values: [
           { raw: "high", value: "high" },
           { raw: "middle", value: "medium" },
@@ -60,13 +70,21 @@ const entry: TuyaDeviceEntry = {
       },
       fullLightDurationInSeconds: {
         dataPoint: "55",
+        kind: "number",
         unit: "s",
         min: 5,
         max: 3600,
       },
-      standbyDelayInMinutes: { dataPoint: "58", unit: "min", min: 1, max: 480 },
+      standbyDelayInMinutes: {
+        dataPoint: "58",
+        kind: "number",
+        unit: "min",
+        min: 1,
+        max: 480,
+      },
       standbyBrightnessInPercent: {
         dataPoint: "59",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 1000,
@@ -74,6 +92,7 @@ const entry: TuyaDeviceEntry = {
       },
       ambientLightSensor: {
         dataPoint: "53",
+        kind: "select",
         values: [
           { raw: "10lux", value: "10lux" },
           { raw: "2000lux", value: "2000lux" },

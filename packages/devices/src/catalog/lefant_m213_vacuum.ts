@@ -30,10 +30,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     vacuum: {
-      on: { dataPoint: "1" },
-      cleaning: { dataPoint: "2" },
+      on: { dataPoint: "1", kind: "switch" },
+      cleaning: { dataPoint: "2", kind: "switch" },
       command: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "standby", value: "stop" },
           { raw: "smart", value: "smart" },
@@ -45,6 +46,7 @@ const entry: TuyaDeviceEntry = {
       },
       moveDirection: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "backward", value: "reverse" },
@@ -55,6 +57,7 @@ const entry: TuyaDeviceEntry = {
       },
       status: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "0", value: "paused" },
           { raw: "1", value: "smart" },
@@ -66,36 +69,58 @@ const entry: TuyaDeviceEntry = {
           { raw: "7", value: "standby" },
         ],
       },
-      locate: { dataPoint: "13" },
-      cleanRecord: { dataPoint: "15" },
-      mapParameter: { dataPoint: "19" },
+      locate: { dataPoint: "13", kind: "switch" },
+      cleanRecord: { dataPoint: "15", kind: "text" },
+      mapParameter: { dataPoint: "19", kind: "text" },
       suction: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "low", value: "Low" },
           { raw: "nar", value: "Medium" },
           { raw: "high", value: "High" },
         ],
       },
-      chassisTemperatureInC: { dataPoint: "102", unit: "C" },
-      heading: { dataPoint: "103" },
-      iicErrorCount: { dataPoint: "104" },
-      wheelStatus: { dataPoint: "105" },
-      dockInfo: { dataPoint: "106" },
-      robotStatus: { dataPoint: "107" },
-      robotInfo: { dataPoint: "108" },
-      batteryInPercent: { dataPoint: "6", readOnly: true, unit: "%" },
-      cleanAreaInM2: { dataPoint: "16", readOnly: true, unit: "m2" },
-      cleanTimeInMinutes: { dataPoint: "17", readOnly: true, unit: "min" },
+      chassisTemperatureInC: { dataPoint: "102", kind: "number", unit: "C" },
+      heading: { dataPoint: "103", kind: "number" },
+      iicErrorCount: { dataPoint: "104", kind: "number" },
+      wheelStatus: { dataPoint: "105", kind: "text" },
+      dockInfo: { dataPoint: "106", kind: "text" },
+      robotStatus: { dataPoint: "107", kind: "text" },
+      robotInfo: { dataPoint: "108", kind: "text" },
+      batteryInPercent: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      cleanAreaInM2: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "area",
+        readOnly: true,
+        unit: "m2",
+      },
+      cleanTimeInMinutes: {
+        dataPoint: "17",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "18",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", readOnly: true },
+      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "18",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },

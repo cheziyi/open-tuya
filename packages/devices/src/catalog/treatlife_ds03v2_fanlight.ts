@@ -21,9 +21,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "1", value: 25 },
           { raw: "2", value: 50 },
@@ -31,24 +32,38 @@ const entry: TuyaDeviceEntry = {
           { raw: "4", value: 100 },
         ],
       },
-      fanTimerInMinutes: { dataPoint: "102", unit: "min", min: 0, max: 1440 },
-      lightTimerInMinutes: { dataPoint: "103", unit: "min", min: 0, max: 1440 },
+      fanTimerInMinutes: {
+        dataPoint: "102",
+        kind: "number",
+        unit: "min",
+        min: 0,
+        max: 1440,
+      },
+      lightTimerInMinutes: {
+        dataPoint: "103",
+        kind: "number",
+        unit: "min",
+        min: 0,
+        max: 1440,
+      },
       minimumBrightnessInPercent: {
         dataPoint: "105",
+        kind: "number",
         unit: "%",
         min: 10,
         max: 1000,
         scale: 10,
       },
-      powerOnConfig: { dataPoint: "107" },
-      randomSchedule: { dataPoint: "109" },
+      powerOnConfig: { dataPoint: "107", kind: "text" },
+      randomSchedule: { dataPoint: "109", kind: "text" },
     },
     light: {
-      on: { dataPoint: "101" },
-      brightness: { dataPoint: "6", min: 10, max: 1000 },
-      minimumBrightness: { dataPoint: "105" },
+      on: { dataPoint: "101", kind: "switch" },
+      brightness: { dataPoint: "6", kind: "number", min: 10, max: 1000 },
+      minimumBrightness: { dataPoint: "105", kind: "number" },
       effect: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "mode1", value: "Mode 1" },
           { raw: "mode2", value: "Mode 2" },
@@ -56,7 +71,9 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    indicator: { brightness: { dataPoint: "108", min: 0, max: 2 } },
+    indicator: {
+      brightness: { dataPoint: "108", kind: "number", min: 0, max: 2 },
+    },
   },
   source: {
     file: "treatlife_ds03v2_fanlight.yaml",

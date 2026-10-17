@@ -20,10 +20,18 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
-      currentHumidityInPercent: { dataPoint: "14", readOnly: true, unit: "%" },
+      on: { dataPoint: "1", kind: "switch" },
+      currentHumidityInPercent: {
+        dataPoint: "14",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       targetHumidityInPercent: {
         dataPoint: "103",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 40,
         max: 55,
@@ -31,6 +39,7 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: true, value: "auto" },
           { raw: false, value: "boost" },
@@ -38,14 +47,22 @@ const entry: TuyaDeviceEntry = {
       },
       tankEmpty: {
         dataPoint: "22",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      childLock: { dataPoint: "29" },
-      filterLifeInPercent: { dataPoint: "33", readOnly: true, unit: "%" },
+      childLock: { dataPoint: "29", kind: "switch" },
+      filterLifeInPercent: {
+        dataPoint: "33",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
       filterChange: {
         dataPoint: "104",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -54,6 +71,7 @@ const entry: TuyaDeviceEntry = {
     light: {
       brightness: {
         dataPoint: "34",
+        kind: "select",
         values: [
           { raw: "Fully", value: 255 },
           { raw: "Half", value: 128 },
@@ -62,9 +80,10 @@ const entry: TuyaDeviceEntry = {
       },
     },
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "level_1", value: 25 },
           { raw: "level_2", value: 50 },

@@ -20,28 +20,32 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "60" },
+      on: { dataPoint: "60", kind: "switch" },
       mode: {
         dataPoint: "61",
+        kind: "select",
         values: [
           { raw: "fresh", value: "fresh" },
           { raw: "soft_breeze", value: "nature" },
           { raw: "gusty_breeze", value: "strong" },
         ],
       },
-      speed: { dataPoint: "62", min: 1, max: 100 },
-      direction: { dataPoint: "63" },
+      speed: { dataPoint: "62", kind: "number", min: 1, max: 100 },
+      direction: { dataPoint: "63", kind: "text" },
     },
     device: {
       fault: {
         dataPoint: "67",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "67", readOnly: true },
+      faultCode: { dataPoint: "67", kind: "sensor", readOnly: true },
       sound: {
         dataPoint: "101",
+        kind: "switch",
         values: [
           { raw: false, value: true },
           { raw: true, value: false },
@@ -49,13 +53,15 @@ const entry: TuyaDeviceEntry = {
       },
       remoteControlsLimitInControllers: {
         dataPoint: "104",
+        kind: "number",
         unit: "controllers",
         min: 1,
         max: 255,
       },
-      remoteControlId: { dataPoint: "105" },
+      remoteControlId: { dataPoint: "105", kind: "text" },
       remoteLearningState: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "learn_st_done", value: "done" },
           { raw: "learn_st_learning", value: "learn" },
@@ -63,7 +69,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "learn_st_failed", value: "failure" },
         ],
       },
-      deleteRemote: { dataPoint: "107" },
+      deleteRemote: { dataPoint: "107", kind: "text" },
     },
   },
   source: {

@@ -16,9 +16,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "10",
+        kind: "select",
         values: [
           { raw: "off", value: 0 },
           { raw: "low", value: 25 },
@@ -27,11 +28,30 @@ const entry: TuyaDeviceEntry = {
           { raw: "max", value: 100 },
         ],
       },
-      delayShutoffInMinutes: { dataPoint: "101", unit: "min", min: 0, max: 5 },
-      baffleFilterInHours: { dataPoint: "102", readOnly: true, unit: "h" },
-      charcoalFilterInHours: { dataPoint: "103", readOnly: true, unit: "h" },
+      delayShutoffInMinutes: {
+        dataPoint: "101",
+        kind: "number",
+        measures: "duration",
+        unit: "min",
+        min: 0,
+        max: 5,
+      },
+      baffleFilterInHours: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "h",
+      },
+      charcoalFilterInHours: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "h",
+      },
     },
-    light: { on: { dataPoint: "4" } },
+    light: { on: { dataPoint: "4", kind: "switch" } },
   },
   source: {
     file: "hauslane_in_r110_rangehood.yaml",

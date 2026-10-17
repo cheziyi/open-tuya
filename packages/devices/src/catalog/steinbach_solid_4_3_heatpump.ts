@@ -19,25 +19,55 @@ const entry: TuyaDeviceEntry = {
     poolHeatpump: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "2", unit: "°C", min: 5, max: 40 },
-      currentTemperatureInC: { dataPoint: "101", readOnly: true, unit: "°C" },
+      targetTemperatureInC: {
+        dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
+        unit: "°C",
+        min: 5,
+        max: 40,
+      },
+      currentTemperatureInC: {
+        dataPoint: "101",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "°C",
+      },
     },
     device: {
-      ambientTemperatureInC: { dataPoint: "102", readOnly: true, unit: "°C" },
-      heatcoilTemperatureInC: { dataPoint: "104", readOnly: true, unit: "°C" },
+      ambientTemperatureInC: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "°C",
+      },
+      heatcoilTemperatureInC: {
+        dataPoint: "104",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "°C",
+      },
       waterFlow: {
         dataPoint: "21",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 256, value: true }],
         otherwise: false,
       },
       fault: {
         dataPoint: "21",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -45,8 +75,13 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "21", readOnly: true },
-      fanSpeedInRpm: { dataPoint: "114", readOnly: true, unit: "rpm" },
+      faultCode: { dataPoint: "21", kind: "sensor", readOnly: true },
+      fanSpeedInRpm: {
+        dataPoint: "114",
+        kind: "sensor",
+        readOnly: true,
+        unit: "rpm",
+      },
     },
   },
   source: {

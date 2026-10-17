@@ -25,6 +25,7 @@ const entry: TuyaDeviceEntry = {
     thermostat: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
@@ -32,6 +33,7 @@ const entry: TuyaDeviceEntry = {
       },
       hvacAction: {
         dataPoint: "3",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "open", value: "heating" },
@@ -40,39 +42,67 @@ const entry: TuyaDeviceEntry = {
       },
       targetTemperatureInC: {
         dataPoint: "16",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 50,
         max: 450,
         scale: 10,
       },
-      maxTempF: { dataPoint: "18", scale: 10 },
-      maxTargetTemperatureInC: { dataPoint: "19", unit: "C", scale: 10 },
-      minTempF: { dataPoint: "20", scale: 10 },
+      maxTempF: { dataPoint: "18", kind: "number", scale: 10 },
+      maxTargetTemperatureInC: {
+        dataPoint: "19",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        scale: 10,
+      },
+      minTempF: { dataPoint: "20", kind: "number", scale: 10 },
       currentTemperatureInC: {
         dataPoint: "24",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         scale: 10,
       },
-      minTargetTemperatureInC: { dataPoint: "26", unit: "C", scale: 10 },
+      minTargetTemperatureInC: {
+        dataPoint: "26",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        scale: 10,
+      },
     },
     device: {
       maximumTemperatureInC: {
         dataPoint: "19",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 159,
         max: 450,
         scale: 10,
       },
-      minimumTemperatureInC: { dataPoint: "26", unit: "C", min: 50, max: 150 },
+      minimumTemperatureInC: {
+        dataPoint: "26",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 50,
+        max: 150,
+      },
       temperatureCalibrationInC: {
         dataPoint: "27",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: -9,
         max: 9,
       },
       output: {
         dataPoint: "36",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "open", value: true },
@@ -81,14 +111,24 @@ const entry: TuyaDeviceEntry = {
       },
       sensor: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "IN", value: "internal" },
           { raw: "OU", value: "external" },
         ],
       },
-      temperatureHysteresisInC: { dataPoint: "103", unit: "C", min: 0, max: 5 },
+      temperatureHysteresisInC: {
+        dataPoint: "103",
+        kind: "number",
+        measures: "temperatureDelta",
+        unit: "C",
+        min: 0,
+        max: 5,
+      },
     },
-    backlight: { brightness: { dataPoint: "44", min: 0, max: 8 } },
+    backlight: {
+      brightness: { dataPoint: "44", kind: "number", min: 0, max: 8 },
+    },
   },
   source: {
     file: "ettroit_ln4102_thermostat.yaml",

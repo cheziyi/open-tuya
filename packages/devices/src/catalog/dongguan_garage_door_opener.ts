@@ -19,17 +19,36 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "open" },
           { raw: false, value: "close" },
         ],
       },
-      open: { dataPoint: "3" },
-      timerInSeconds: { dataPoint: "2", unit: "s", min: 0, max: 86400 },
-      runTimesInSeconds: { dataPoint: "4", unit: "s", min: 10, max: 120 },
-      alarmTimeoutInSeconds: { dataPoint: "5", unit: "s", min: 0, max: 86400 },
-      voiceControl: { dataPoint: "11", absent: false },
-      fault: { dataPoint: "12", readOnly: true },
+      open: { dataPoint: "3", kind: "switch" },
+      timerInSeconds: {
+        dataPoint: "2",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      runTimesInSeconds: {
+        dataPoint: "4",
+        kind: "number",
+        unit: "s",
+        min: 10,
+        max: 120,
+      },
+      alarmTimeoutInSeconds: {
+        dataPoint: "5",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      voiceControl: { dataPoint: "11", kind: "switch", absent: false },
+      fault: { dataPoint: "12", kind: "sensor", readOnly: true },
     },
   },
   source: {

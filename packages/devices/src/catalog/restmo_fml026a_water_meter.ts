@@ -13,14 +13,29 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      waterInL: { dataPoint: "107", readOnly: true, unit: "L", scale: 10 },
+      waterInL: {
+        dataPoint: "107",
+        kind: "sensor",
+        measures: "water",
+        readOnly: true,
+        unit: "L",
+        scale: 10,
+      },
       volumeFlowRateInLPerMin: {
         dataPoint: "5",
+        kind: "sensor",
+        measures: "volumeFlowRate",
         readOnly: true,
         unit: "L/min",
         scale: 10,
       },
-      batteryInPercent: { dataPoint: "4", readOnly: true, unit: "%" },
+      batteryInPercent: {
+        dataPoint: "4",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
     },
   },
   source: {

@@ -21,9 +21,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "low", value: "low" },
           { raw: "mid", value: "medium" },
@@ -31,13 +32,14 @@ const entry: TuyaDeviceEntry = {
           { raw: "auto", value: "auto" },
         ],
       },
-      timer: { dataPoint: "19" },
+      timer: { dataPoint: "19", kind: "text" },
     },
     device: {
-      childLock: { dataPoint: "7" },
-      sleep: { dataPoint: "101" },
+      childLock: { dataPoint: "7", kind: "switch" },
+      sleep: { dataPoint: "101", kind: "switch" },
       airQuality: {
         dataPoint: "22",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "bad", value: "poor" },
@@ -45,12 +47,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "good", value: "good" },
         ],
       },
-      prefilterLife: { dataPoint: "102", readOnly: true },
-      charcoalFilterLife: { dataPoint: "103", readOnly: true },
-      activeFilterLife: { dataPoint: "104", readOnly: true },
-      hepaFilterLife: { dataPoint: "105", readOnly: true },
+      prefilterLife: { dataPoint: "102", kind: "sensor", readOnly: true },
+      charcoalFilterLife: { dataPoint: "103", kind: "sensor", readOnly: true },
+      activeFilterLife: { dataPoint: "104", kind: "sensor", readOnly: true },
+      hepaFilterLife: { dataPoint: "105", kind: "sensor", readOnly: true },
     },
-    aqIndicator: { on: { dataPoint: "8" } },
+    aqIndicator: { on: { dataPoint: "8", kind: "switch" } },
   },
   source: {
     file: "renpho_rp_ap001s.yaml",

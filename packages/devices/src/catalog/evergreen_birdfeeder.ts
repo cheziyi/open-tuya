@@ -28,23 +28,37 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      cameraRecord: { dataPoint: "150" },
-      motionDetection: { dataPoint: "134" },
-      siren: { dataPoint: "159" },
-      batteryInPercent: { dataPoint: "145", readOnly: true, unit: "%" },
+      cameraRecord: { dataPoint: "150", kind: "switch" },
+      motionDetection: { dataPoint: "134", kind: "switch" },
+      siren: { dataPoint: "159", kind: "switch" },
+      batteryInPercent: {
+        dataPoint: "145",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
       plug: {
         dataPoint: "146",
+        kind: "sensor",
+        measures: "plug",
         readOnly: true,
         values: [
           { raw: "0", value: false },
           { raw: "1", value: true },
         ],
       },
-      running: { dataPoint: "149", readOnly: true },
-      flipImage: { dataPoint: "103" },
-      watermark: { dataPoint: "104" },
+      running: {
+        dataPoint: "149",
+        kind: "sensor",
+        measures: "running",
+        readOnly: true,
+      },
+      flipImage: { dataPoint: "103", kind: "switch" },
+      watermark: { dataPoint: "104", kind: "switch" },
       nightVision: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -53,16 +67,18 @@ const entry: TuyaDeviceEntry = {
       },
       motionSensitivity: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
           { raw: "2", value: "high" },
         ],
       },
-      motionDetectionTimer: { dataPoint: "135" },
-      motionRecord: { dataPoint: "137" },
+      motionDetectionTimer: { dataPoint: "135", kind: "switch" },
+      motionRecord: { dataPoint: "137", kind: "switch" },
       sdStatus: {
         dataPoint: "110",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -75,15 +91,17 @@ const entry: TuyaDeviceEntry = {
       },
       activationMode: {
         dataPoint: "231",
+        kind: "select",
         values: [
           { raw: "0", value: "motion" },
           { raw: "1", value: "smart" },
           { raw: "2", value: "off" },
         ],
       },
-      squirrelDeterrence: { dataPoint: "232" },
+      squirrelDeterrence: { dataPoint: "232", kind: "switch" },
       squirrelEvictionNoise: {
         dataPoint: "234",
+        kind: "select",
         values: [
           { raw: '{"code":"squirrelaway","id":3267873}', value: "Dog Sound" },
           { raw: '{"code":"squirrelaway","id":3267874}', value: "Siren Sound" },
@@ -98,6 +116,7 @@ const entry: TuyaDeviceEntry = {
       },
       recordingDurationSetting: {
         dataPoint: "235",
+        kind: "select",
         values: [
           { raw: 0, value: "15s" },
           { raw: 1, value: "20s" },
@@ -107,7 +126,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    indicator: { on: { dataPoint: "101" } },
+    indicator: { on: { dataPoint: "101", kind: "switch" } },
   },
   source: {
     file: "evergreen_birdfeeder.yaml",

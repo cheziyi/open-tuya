@@ -25,17 +25,18 @@ const entry: TuyaDeviceEntry = {
     "111": { type: "boolean", optional: true },
   },
   components: {
-    valve1: { open: { dataPoint: "101" } },
-    valve2: { open: { dataPoint: "102" } },
-    valve3: { open: { dataPoint: "103" } },
-    valve4: { open: { dataPoint: "104" } },
-    valve5: { open: { dataPoint: "105" } },
-    valve6: { open: { dataPoint: "106" } },
-    valve7: { open: { dataPoint: "110" } },
-    valve8: { open: { dataPoint: "111" } },
+    valve1: { open: { dataPoint: "101", kind: "switch" } },
+    valve2: { open: { dataPoint: "102", kind: "switch" } },
+    valve3: { open: { dataPoint: "103", kind: "switch" } },
+    valve4: { open: { dataPoint: "104", kind: "switch" } },
+    valve5: { open: { dataPoint: "105", kind: "switch" } },
+    valve6: { open: { dataPoint: "106", kind: "switch" } },
+    valve7: { open: { dataPoint: "110", kind: "switch" } },
+    valve8: { open: { dataPoint: "111", kind: "switch" } },
     device: {
       weather: {
         dataPoint: "108",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "sunny", value: "sunny" },
@@ -45,9 +46,9 @@ const entry: TuyaDeviceEntry = {
         ],
         absent: "unavailable",
       },
-      schedules: { dataPoint: "107" },
+      schedules: { dataPoint: "107", kind: "text" },
     },
-    allValves: { open: { dataPoint: "109" } },
+    allValves: { open: { dataPoint: "109", kind: "switch" } },
   },
   source: {
     file: "sh07_sprinkler_controller.yaml",

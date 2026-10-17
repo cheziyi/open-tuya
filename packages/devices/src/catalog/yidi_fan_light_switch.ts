@@ -16,11 +16,18 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
-      speed: { dataPoint: "4", min: 1, max: 100 },
-      timerInSeconds: { dataPoint: "2", unit: "s", min: 0, max: 86400 },
+      on: { dataPoint: "1", kind: "switch" },
+      speed: { dataPoint: "4", kind: "number", min: 1, max: 100 },
+      timerInSeconds: {
+        dataPoint: "2",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
       initialState: {
         dataPoint: "11",
+        kind: "select",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -28,8 +35,8 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    light: { on: { dataPoint: "5" } },
-    backlight: { on: { dataPoint: "13" } },
+    light: { on: { dataPoint: "5", kind: "switch" } },
+    backlight: { on: { dataPoint: "13", kind: "switch" } },
   },
   source: {
     file: "yidi_fan_light_switch.yaml",

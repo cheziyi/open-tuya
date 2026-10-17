@@ -26,35 +26,62 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "105" },
+      on: { dataPoint: "105", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "101",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 30,
         max: 70,
         step: 5,
       },
-      currentHumidityInPercent: { dataPoint: "13", readOnly: true, unit: "%" },
-      filterLifeInPercent: { dataPoint: "5", readOnly: true, unit: "%" },
-      airQuality: { dataPoint: "21", readOnly: true },
-      cleanWaterTankInPercent: { dataPoint: "106", readOnly: true, unit: "%" },
-      ionizer: { dataPoint: "6" },
-      uvSterilization: { dataPoint: "9" },
+      currentHumidityInPercent: {
+        dataPoint: "13",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      filterLifeInPercent: {
+        dataPoint: "5",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      airQuality: { dataPoint: "21", kind: "sensor", readOnly: true },
+      cleanWaterTankInPercent: {
+        dataPoint: "106",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      ionizer: { dataPoint: "6", kind: "switch" },
+      uvSterilization: { dataPoint: "9", kind: "switch" },
       sound: {
         dataPoint: "28",
+        kind: "switch",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
         ],
       },
-      dryFan: { dataPoint: "104" },
-      timerInHours: { dataPoint: "102", unit: "h", min: 1, max: 24 },
-      constantMist: { dataPoint: "10" },
+      dryFan: { dataPoint: "104", kind: "switch" },
+      timerInHours: {
+        dataPoint: "102",
+        kind: "number",
+        measures: "duration",
+        unit: "h",
+        min: 1,
+        max: 24,
+      },
+      constantMist: { dataPoint: "10", kind: "switch" },
     },
     purifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "low", value: 25 },
           { raw: "mid", value: 50 },
@@ -64,6 +91,7 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "normal", value: "normal" },
           { raw: "ai_clean", value: "AI Clean" },
@@ -74,6 +102,7 @@ const entry: TuyaDeviceEntry = {
     display: {
       on: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },

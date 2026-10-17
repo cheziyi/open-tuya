@@ -21,6 +21,7 @@ const entry: TuyaDeviceEntry = {
     thermostat: {
       hvacMode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "heat", value: "heat" },
           { raw: "cool", value: "cool" },
@@ -28,6 +29,7 @@ const entry: TuyaDeviceEntry = {
       },
       hvacAction: {
         dataPoint: "3",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "heating", value: "heating" },
@@ -37,6 +39,8 @@ const entry: TuyaDeviceEntry = {
       },
       targetTemperatureInC: {
         dataPoint: "16",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 70,
         max: 350,
@@ -45,12 +49,15 @@ const entry: TuyaDeviceEntry = {
       },
       currentTemperatureInC: {
         dataPoint: "24",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         scale: 10,
       },
       preset: {
         dataPoint: "58",
+        kind: "select",
         values: [
           { raw: "manual", value: "manual" },
           { raw: "program", value: "program" },
@@ -59,6 +66,7 @@ const entry: TuyaDeviceEntry = {
       },
       fanMode: {
         dataPoint: "109",
+        kind: "select",
         values: [
           { raw: "low", value: "low" },
           { raw: "middle", value: "medium" },
@@ -68,9 +76,15 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      humidityInPercent: { dataPoint: "108", readOnly: true, unit: "%" },
-      childLock: { dataPoint: "40" },
-      fanControl: { dataPoint: "132" },
+      humidityInPercent: {
+        dataPoint: "108",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      childLock: { dataPoint: "40", kind: "switch" },
+      fanControl: { dataPoint: "132", kind: "switch" },
     },
   },
   source: {

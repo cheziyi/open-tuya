@@ -30,9 +30,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     vacuum: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       status: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "SLEEP", value: "standby" },
           { raw: "CHARG_COMP", value: "charged" },
@@ -47,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       },
       command: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "clean_auto", value: "auto" },
           { raw: "clean_random", value: "random" },
@@ -58,6 +60,7 @@ const entry: TuyaDeviceEntry = {
       },
       suction: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: "FANHALTING", value: "Low" },
           { raw: "FANNORAM", value: "Medium" },
@@ -66,6 +69,7 @@ const entry: TuyaDeviceEntry = {
       },
       moveDirection: {
         dataPoint: "105",
+        kind: "select",
         values: [
           { raw: "MoveForward", value: "forward" },
           { raw: "MoveBackward", value: "reverse" },
@@ -76,27 +80,38 @@ const entry: TuyaDeviceEntry = {
       },
       cleaning: {
         dataPoint: "112",
+        kind: "select",
         values: [
           { raw: "0", value: false },
           { raw: "1", value: true },
         ],
       },
-      locate: { dataPoint: "116" },
-      program: { dataPoint: "117" },
-      model: { dataPoint: "118" },
-      dataSample: { dataPoint: "119" },
-      time: { dataPoint: "117" },
-      cleanAreaInM2: { dataPoint: "14", readOnly: true, unit: "m2", scale: 10 },
+      locate: { dataPoint: "116", kind: "switch" },
+      program: { dataPoint: "117", kind: "text" },
+      model: { dataPoint: "118", kind: "number" },
+      dataSample: { dataPoint: "119", kind: "number" },
+      time: { dataPoint: "117", kind: "text" },
+      cleanAreaInM2: {
+        dataPoint: "14",
+        kind: "sensor",
+        measures: "area",
+        readOnly: true,
+        unit: "m2",
+        scale: 10,
+      },
       fault: {
         dataPoint: "17",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "17", readOnly: true },
+      faultCode: { dataPoint: "17", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "17",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -112,22 +127,41 @@ const entry: TuyaDeviceEntry = {
           { raw: 512, value: "none" },
         ],
       },
-      cleanTimeInMinutes: { dataPoint: "107", readOnly: true, unit: "min" },
-      batteryInPercent: { dataPoint: "108", readOnly: true, unit: "%" },
-      brushRemainingInPercent: { dataPoint: "109", readOnly: true, unit: "%" },
+      cleanTimeInMinutes: {
+        dataPoint: "107",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      batteryInPercent: {
+        dataPoint: "108",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      brushRemainingInPercent: {
+        dataPoint: "109",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
       rollerBrushRemainingInPercent: {
         dataPoint: "110",
+        kind: "sensor",
         readOnly: true,
         unit: "%",
       },
       hepaFilterRemainingInPercent: {
         dataPoint: "111",
+        kind: "sensor",
         readOnly: true,
         unit: "%",
       },
-      resetBrush: { dataPoint: "113" },
-      resetRollerBrush: { dataPoint: "114" },
-      resetHepaFilter: { dataPoint: "115" },
+      resetBrush: { dataPoint: "113", kind: "button" },
+      resetRollerBrush: { dataPoint: "114", kind: "button" },
+      resetHepaFilter: { dataPoint: "115", kind: "button" },
     },
   },
   source: {

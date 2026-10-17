@@ -21,6 +21,7 @@ const entry: TuyaDeviceEntry = {
     heater: {
       hvacMode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "off", value: "off" },
           { raw: "manual", value: "heat" },
@@ -30,6 +31,7 @@ const entry: TuyaDeviceEntry = {
       },
       hvacAction: {
         dataPoint: "3",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "opened", value: "heating" },
@@ -38,6 +40,8 @@ const entry: TuyaDeviceEntry = {
       },
       targetTemperatureInC: {
         dataPoint: "4",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 50,
         max: 350,
@@ -46,23 +50,29 @@ const entry: TuyaDeviceEntry = {
       },
       currentTemperatureInC: {
         dataPoint: "5",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         scale: 10,
       },
     },
     device: {
-      childLock: { dataPoint: "7" },
+      childLock: { dataPoint: "7", kind: "switch" },
       battery: {
         dataPoint: "35",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      antiFrost: { dataPoint: "36", absent: false },
-      antiscale: { dataPoint: "39", absent: false },
+      antiFrost: { dataPoint: "36", kind: "switch", absent: false },
+      antiscale: { dataPoint: "39", kind: "switch", absent: false },
       temperatureCalibrationInC: {
         dataPoint: "47",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: -9,
         max: 9,

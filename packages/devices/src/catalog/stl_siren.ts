@@ -16,6 +16,7 @@ const entry: TuyaDeviceEntry = {
     siren: {
       tone: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "1", value: "Alarm 1" },
           { raw: "2", value: "Alarm 2" },
@@ -29,10 +30,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "10", value: "Alarm 10" },
         ],
       },
-      duration: { dataPoint: "103", min: 0, max: 60 },
-      on: { dataPoint: "104" },
+      duration: { dataPoint: "103", kind: "number", min: 0, max: 60 },
+      on: { dataPoint: "104", kind: "switch" },
       batteryInPercent: {
         dataPoint: "101",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         unit: "%",
         values: [
@@ -44,6 +47,8 @@ const entry: TuyaDeviceEntry = {
       },
       plug: {
         dataPoint: "101",
+        kind: "sensor",
+        measures: "plug",
         readOnly: true,
         values: [{ raw: "4", value: true }],
         otherwise: false,

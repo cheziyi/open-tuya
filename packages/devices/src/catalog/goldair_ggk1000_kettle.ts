@@ -21,6 +21,7 @@ const entry: TuyaDeviceEntry = {
     kettle: {
       mode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "electric" },
@@ -28,19 +29,36 @@ const entry: TuyaDeviceEntry = {
       },
       currentTemperatureInC: {
         dataPoint: "2",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         min: 0,
         max: 100,
       },
-      targetTemperatureInC: { dataPoint: "4", unit: "C", min: 0, max: 100 },
+      targetTemperatureInC: {
+        dataPoint: "4",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 0,
+        max: 100,
+      },
     },
     device: {
-      keepWarmTimeInMinutes: { dataPoint: "7", unit: "min", min: 0, max: 720 },
-      keepWarm: { dataPoint: "14" },
-      workMode: { dataPoint: "11", readOnly: true },
+      keepWarmTimeInMinutes: {
+        dataPoint: "7",
+        kind: "number",
+        measures: "duration",
+        unit: "min",
+        min: 0,
+        max: 720,
+      },
+      keepWarm: { dataPoint: "14", kind: "switch" },
+      workMode: { dataPoint: "11", kind: "sensor", readOnly: true },
       status: {
         dataPoint: "8",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -51,12 +69,21 @@ const entry: TuyaDeviceEntry = {
       },
       timeRemainingInMinutes: {
         dataPoint: "17",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "min",
         min: 0,
         max: 720,
       },
-      timerInMinutes: { dataPoint: "15", unit: "min", min: 0, max: 720 },
+      timerInMinutes: {
+        dataPoint: "15",
+        kind: "number",
+        measures: "duration",
+        unit: "min",
+        min: 0,
+        max: 720,
+      },
     },
   },
   source: {

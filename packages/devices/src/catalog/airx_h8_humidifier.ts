@@ -23,11 +23,25 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
-      targetHumidityInPercent: { dataPoint: "13", unit: "%", min: 30, max: 80 },
-      currentHumidityInPercent: { dataPoint: "14", readOnly: true, unit: "%" },
+      on: { dataPoint: "1", kind: "switch" },
+      targetHumidityInPercent: {
+        dataPoint: "13",
+        kind: "number",
+        measures: "humidity",
+        unit: "%",
+        min: 30,
+        max: 80,
+      },
+      currentHumidityInPercent: {
+        dataPoint: "14",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       mode: {
         dataPoint: "24",
+        kind: "select",
         values: [
           { raw: "AUTO", value: "auto" },
           { raw: "LOW", value: "eco" },
@@ -38,18 +52,21 @@ const entry: TuyaDeviceEntry = {
       },
       opening: {
         dataPoint: "22",
+        kind: "sensor",
+        measures: "opening",
         readOnly: true,
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
       },
-      electrolyticSterilization: { dataPoint: "21" },
-      evaporatorCleaning: { dataPoint: "2" },
-      uvSterilization: { dataPoint: "102" },
-      keytone: { dataPoint: "8" },
+      electrolyticSterilization: { dataPoint: "21", kind: "switch" },
+      evaporatorCleaning: { dataPoint: "2", kind: "switch" },
+      uvSterilization: { dataPoint: "102", kind: "switch" },
+      keytone: { dataPoint: "8", kind: "switch" },
       waterLevel: {
         dataPoint: "101",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "No_water", value: "empty" },
@@ -59,10 +76,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "Full_water", value: "full" },
         ],
       },
-      ionizer: { dataPoint: "25" },
-      childLock: { dataPoint: "29" },
+      ionizer: { dataPoint: "25", kind: "switch" },
+      childLock: { dataPoint: "29", kind: "switch" },
     },
-    display: { on: { dataPoint: "5" } },
+    display: { on: { dataPoint: "5", kind: "switch" } },
   },
   source: {
     file: "airx_h8_humidifier.yaml",

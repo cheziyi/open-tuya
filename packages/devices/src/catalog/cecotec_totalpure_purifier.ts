@@ -20,9 +20,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "1", value: 25 },
           { raw: "2", value: 50 },
@@ -32,6 +33,7 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "sleep", value: "sleep" },
@@ -40,12 +42,36 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      pm25InUgPerM3: { dataPoint: "2", readOnly: true, unit: "ugm3" },
-      filterInPercent: { dataPoint: "5", readOnly: true, unit: "%" },
-      temperatureInC: { dataPoint: "12", readOnly: true, unit: "C" },
-      humidityInPercent: { dataPoint: "13", readOnly: true, unit: "%" },
+      pm25InUgPerM3: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "pm25",
+        readOnly: true,
+        unit: "ugm3",
+      },
+      filterInPercent: {
+        dataPoint: "5",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      temperatureInC: {
+        dataPoint: "12",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      humidityInPercent: {
+        dataPoint: "13",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       timer: {
         dataPoint: "18",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -53,9 +79,9 @@ const entry: TuyaDeviceEntry = {
           { raw: "8h", value: "8h" },
         ],
       },
-      childLock: { dataPoint: "7" },
+      childLock: { dataPoint: "7", kind: "switch" },
     },
-    indicator: { on: { dataPoint: "8" } },
+    indicator: { on: { dataPoint: "8", kind: "switch" } },
   },
   source: {
     file: "cecotec_totalpure_purifier.yaml",

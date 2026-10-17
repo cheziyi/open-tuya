@@ -16,19 +16,27 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1" },
-      brightness: { dataPoint: "2", min: 10, max: 1000 },
+      on: { dataPoint: "1", kind: "switch" },
+      brightness: { dataPoint: "2", kind: "number", min: 10, max: 1000 },
       bulbType: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "halogen", value: "Halogen" },
           { raw: "incandescent", value: "Incandescent" },
           { raw: "led", value: "LED" },
         ],
       },
-      timerInSeconds: { dataPoint: "6", unit: "s", min: 0, max: 86400 },
+      timerInSeconds: {
+        dataPoint: "6",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
       initialState: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "memory", value: "memory" },
           { raw: "on", value: "on" },
@@ -37,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       },
       lightMode: {
         dataPoint: "21",
+        kind: "select",
         values: [
           { raw: "none", value: "off" },
           { raw: "pos", value: "locator" },

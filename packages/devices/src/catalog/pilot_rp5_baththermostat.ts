@@ -16,6 +16,7 @@ const entry: TuyaDeviceEntry = {
     thermostat: {
       hvacMode: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "Standby", value: "off" },
           { raw: "Programming", value: "auto" },
@@ -25,6 +26,8 @@ const entry: TuyaDeviceEntry = {
       },
       targetTemperatureInC: {
         dataPoint: "125",
+        kind: "number",
+        measures: "temperature",
         unit: "°C",
         min: 50,
         max: 300,
@@ -32,6 +35,8 @@ const entry: TuyaDeviceEntry = {
       },
       currentTemperatureInC: {
         dataPoint: "116",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "°C",
         min: -300,
@@ -40,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       },
       preset: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "ECO", value: "eco" },
           { raw: "Anti_forst", value: "away" },
@@ -51,7 +57,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    device: { childLock: { dataPoint: "102" } },
+    device: { childLock: { dataPoint: "102", kind: "switch" } },
   },
   source: {
     file: "pilot_rp5_baththermostat.yaml",

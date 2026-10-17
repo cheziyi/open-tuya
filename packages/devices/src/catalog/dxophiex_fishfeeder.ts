@@ -18,38 +18,44 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      mealPlan: { dataPoint: "1" },
+      mealPlan: { dataPoint: "1", kind: "text" },
       manualFeedInPortions: {
         dataPoint: "3",
+        kind: "number",
         unit: "portions",
         min: 1,
         max: 12,
       },
-      factoryReset: { dataPoint: "9" },
+      factoryReset: { dataPoint: "9", kind: "button" },
       lastManualFeedInPortions: {
         dataPoint: "101",
+        kind: "sensor",
         readOnly: true,
         unit: "portions",
       },
       lastAutoFeedInPortions: {
         dataPoint: "102",
+        kind: "sensor",
         readOnly: true,
         unit: "portions",
       },
       autoFirstFeedInPortions: {
         dataPoint: "104",
+        kind: "number",
         unit: "portions",
         min: 1,
         max: 12,
       },
       autoSecondFeedInPortions: {
         dataPoint: "105",
+        kind: "number",
         unit: "portions",
         min: 1,
         max: 12,
       },
       autoFeeding: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: "once", value: "Once a day" },
           { raw: "twice", value: "Twice a day" },

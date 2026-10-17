@@ -13,9 +13,27 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      carbonDioxideInPpm: { dataPoint: "2", readOnly: true, unit: "ppm" },
-      temperatureInC: { dataPoint: "18", readOnly: true, unit: "C" },
-      humidityInPercent: { dataPoint: "19", readOnly: true, unit: "%" },
+      carbonDioxideInPpm: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "carbonDioxide",
+        readOnly: true,
+        unit: "ppm",
+      },
+      temperatureInC: {
+        dataPoint: "18",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      humidityInPercent: {
+        dataPoint: "19",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
     },
   },
   source: {

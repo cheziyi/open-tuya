@@ -18,9 +18,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "forestwindhigh", value: "strong" },
           { raw: "forestwindlow", value: "nature" },
@@ -30,6 +31,7 @@ const entry: TuyaDeviceEntry = {
       },
       oscillating: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "off", value: false },
           { raw: "30", value: true },
@@ -39,12 +41,19 @@ const entry: TuyaDeviceEntry = {
           { raw: "360negative", value: true },
         ],
       },
-      speed: { dataPoint: "102", min: 1, max: 15 },
-      childLock: { dataPoint: "16" },
-      sound: { dataPoint: "17" },
-      timerInHours: { dataPoint: "6", unit: "h", min: 0, max: 7 },
+      speed: { dataPoint: "102", kind: "number", min: 1, max: 15 },
+      childLock: { dataPoint: "16", kind: "switch" },
+      sound: { dataPoint: "17", kind: "switch" },
+      timerInHours: {
+        dataPoint: "6",
+        kind: "number",
+        measures: "duration",
+        unit: "h",
+        min: 0,
+        max: 7,
+      },
     },
-    light: { on: { dataPoint: "9" } },
+    light: { on: { dataPoint: "9", kind: "switch" } },
   },
   source: {
     file: "lexy_f501_fan.yaml",

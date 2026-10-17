@@ -24,17 +24,26 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "4",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 25,
         max: 90,
         step: 5,
       },
-      currentHumidityInPercent: { dataPoint: "3", readOnly: true, unit: "%" },
+      currentHumidityInPercent: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "1", value: "normal" },
           { raw: "2", value: "laundry" },
@@ -44,6 +53,8 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "11",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -51,9 +62,10 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", readOnly: true },
+      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "11",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -64,28 +76,48 @@ const entry: TuyaDeviceEntry = {
       },
       tankFull: {
         dataPoint: "11",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,
       },
-      temperatureInC: { dataPoint: "110", readOnly: true, unit: "C" },
-      childLock: { dataPoint: "16" },
-      ionizer: { dataPoint: "10" },
-      filterReset: { dataPoint: "20" },
-      defrost: { dataPoint: "108", readOnly: true },
-      timerInHours: { dataPoint: "106", unit: "h", min: 0, max: 24 },
-      timeRemainingInMinutes: { dataPoint: "18", readOnly: true, unit: "min" },
+      temperatureInC: {
+        dataPoint: "110",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      childLock: { dataPoint: "16", kind: "switch" },
+      ionizer: { dataPoint: "10", kind: "switch" },
+      filterReset: { dataPoint: "20", kind: "button" },
+      defrost: { dataPoint: "108", kind: "sensor", readOnly: true },
+      timerInHours: {
+        dataPoint: "106",
+        kind: "number",
+        unit: "h",
+        min: 0,
+        max: 24,
+      },
+      timeRemainingInMinutes: {
+        dataPoint: "18",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
     },
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "6",
+        kind: "select",
         values: [
           { raw: "1", value: "high" },
           { raw: "2", value: "low" },
         ],
       },
-      oscillating: { dataPoint: "8" },
+      oscillating: { dataPoint: "8", kind: "switch" },
     },
   },
   source: {

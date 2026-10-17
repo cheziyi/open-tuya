@@ -26,9 +26,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "manual", value: "continuous" },
           { raw: "auto", value: "auto" },
@@ -37,17 +38,26 @@ const entry: TuyaDeviceEntry = {
       },
       targetHumidityInPercent: {
         dataPoint: "13",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 30,
         max: 75,
         step: 5,
       },
-      currentHumidityInPercent: { dataPoint: "14", readOnly: true, unit: "%" },
+      currentHumidityInPercent: {
+        dataPoint: "14",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
     },
     sprayLevel: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "23",
+        kind: "select",
         values: [
           { raw: "level_0", value: 0 },
           { raw: "level_1", value: 15 },
@@ -61,13 +71,25 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      warmMist: { dataPoint: "26" },
-      ionizer: { dataPoint: "35" },
-      sound: { dataPoint: "8" },
-      temperatureInC: { dataPoint: "10", readOnly: true, unit: "C" },
-      temperatureFInF: { dataPoint: "12", readOnly: true, unit: "F" },
+      warmMist: { dataPoint: "26", kind: "switch" },
+      ionizer: { dataPoint: "35", kind: "switch" },
+      sound: { dataPoint: "8", kind: "switch" },
+      temperatureInC: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      temperatureFInF: {
+        dataPoint: "12",
+        kind: "sensor",
+        readOnly: true,
+        unit: "F",
+      },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -84,17 +106,25 @@ const entry: TuyaDeviceEntry = {
           { raw: "12h", value: "12h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "20", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "20",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       temperatureUnit: {
         dataPoint: "18",
+        kind: "select",
         values: [
           { raw: "c", value: "celsius" },
           { raw: "f", value: "fahrenheit" },
         ],
       },
-      sleep: { dataPoint: "101" },
+      sleep: { dataPoint: "101", kind: "switch" },
       status: {
         dataPoint: "22",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "normal" },
@@ -103,7 +133,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    ambientLight: { on: { dataPoint: "5" } },
+    ambientLight: { on: { dataPoint: "5", kind: "switch" } },
   },
   source: {
     file: "eta_noble_humidifier.yaml",

@@ -16,10 +16,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     exterior: {
-      on: { dataPoint: "102" },
-      brightness: { dataPoint: "104", min: 10, max: 1000 },
+      on: { dataPoint: "102", kind: "switch" },
+      brightness: { dataPoint: "104", kind: "number", min: 10, max: 1000 },
       colorTemperatureInK: {
         dataPoint: "105",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 1000,
@@ -27,10 +28,11 @@ const entry: TuyaDeviceEntry = {
       },
     },
     interior: {
-      on: { dataPoint: "20" },
-      brightness: { dataPoint: "22", min: 10, max: 1000 },
+      on: { dataPoint: "20", kind: "switch" },
+      brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
       colorTemperatureInK: {
         dataPoint: "23",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 1000,

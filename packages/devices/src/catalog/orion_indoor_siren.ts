@@ -18,6 +18,7 @@ const entry: TuyaDeviceEntry = {
     siren: {
       on: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "alarm_sound", value: true },
           { raw: "normal", value: false },
@@ -25,15 +26,23 @@ const entry: TuyaDeviceEntry = {
       },
       volume: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "low", value: 0.33 },
           { raw: "middle", value: 0.67 },
           { raw: "high", value: 1 },
         ],
       },
-      durationInMinutes: { dataPoint: "7", unit: "min", min: 0, max: 4 },
+      durationInMinutes: {
+        dataPoint: "7",
+        kind: "number",
+        unit: "min",
+        min: 0,
+        max: 4,
+      },
       tone: {
         dataPoint: "21",
+        kind: "select",
         values: [
           { raw: "1", value: "Tone 1" },
           { raw: "2", value: "Tone 2" },
@@ -55,6 +64,7 @@ const entry: TuyaDeviceEntry = {
       },
       alarmMode: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "SOUND", value: "sound" },
           { raw: "Sound_Light", value: "sound_and_light" },
@@ -65,6 +75,7 @@ const entry: TuyaDeviceEntry = {
     alarmControlPanel: {
       alarmState: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: true, value: "armed_away" },
           { raw: false, value: "disarmed" },

@@ -21,19 +21,27 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
-      speed: { dataPoint: "3", min: 0, max: 2 },
+      on: { dataPoint: "1", kind: "switch" },
+      speed: { dataPoint: "3", kind: "number", min: 0, max: 2 },
       mode: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "stop", value: "off" },
           { raw: "low", value: "low" },
           { raw: "high", value: "high" },
         ],
       },
-      temperatureInC: { dataPoint: "21", readOnly: true, unit: "C" },
+      temperatureInC: {
+        dataPoint: "21",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       fanSpeed: {
         dataPoint: "102",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "stop", value: "stopped" },
@@ -43,18 +51,35 @@ const entry: TuyaDeviceEntry = {
       },
       motion: {
         dataPoint: "106",
+        kind: "sensor",
+        measures: "motion",
         readOnly: true,
         values: [{ raw: "pir", value: true }],
         otherwise: false,
       },
-      motionDetection: { dataPoint: "107" },
-      stopDelayInMinutes: { dataPoint: "109", unit: "min", min: 1, max: 60 },
+      motionDetection: { dataPoint: "107", kind: "switch" },
+      stopDelayInMinutes: {
+        dataPoint: "109",
+        kind: "number",
+        measures: "duration",
+        unit: "min",
+        min: 1,
+        max: 60,
+      },
     },
     humidityControl: {
-      on: { dataPoint: "10" },
-      currentHumidityInPercent: { dataPoint: "101", readOnly: true, unit: "%" },
+      on: { dataPoint: "10", kind: "switch" },
+      currentHumidityInPercent: {
+        dataPoint: "101",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       targetHumidityInPercent: {
         dataPoint: "104",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 40,
         max: 100,

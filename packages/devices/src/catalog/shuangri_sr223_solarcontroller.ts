@@ -16,18 +16,33 @@ const entry: TuyaDeviceEntry = {
     device: {
       solarCollectorTemperatureInC: {
         dataPoint: "26",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         scale: 10,
       },
       tankTemperatureInC: {
         dataPoint: "22",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         scale: 10,
       },
-      pumpSpeedInRpm: { dataPoint: "112", readOnly: true, unit: "rpm" },
-      signalStrengthInDbm: { dataPoint: "107", readOnly: true, unit: "dBm" },
+      pumpSpeedInRpm: {
+        dataPoint: "112",
+        kind: "sensor",
+        readOnly: true,
+        unit: "rpm",
+      },
+      signalStrengthInDbm: {
+        dataPoint: "107",
+        kind: "sensor",
+        measures: "signalStrength",
+        readOnly: true,
+        unit: "dBm",
+      },
     },
   },
   source: {

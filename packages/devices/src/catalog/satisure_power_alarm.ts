@@ -7,7 +7,16 @@ const entry: TuyaDeviceEntry = {
   name: "Power outage alarm",
   productKeys: ["q9f91lov6e6fphyp"],
   dataPoints: { "101": { type: "boolean" } },
-  components: { device: { power: { dataPoint: "101", readOnly: true } } },
+  components: {
+    device: {
+      power: {
+        dataPoint: "101",
+        kind: "sensor",
+        measures: "power",
+        readOnly: true,
+      },
+    },
+  },
   source: {
     file: "satisure_power_alarm.yaml",
     commit: "e5fd9128958c71659f829164463a3832decd28d8",

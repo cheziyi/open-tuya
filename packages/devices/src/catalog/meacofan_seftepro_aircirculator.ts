@@ -20,29 +20,32 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "Normal", value: "normal" },
           { raw: "sleep", value: "sleep" },
           { raw: "ECO", value: "eco" },
         ],
       },
-      speed: { dataPoint: "3", min: 1, max: 12 },
+      speed: { dataPoint: "3", kind: "number", min: 1, max: 12 },
       oscillating: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
         ],
       },
     },
-    display: { on: { dataPoint: "15" } },
+    display: { on: { dataPoint: "15", kind: "switch" } },
     device: {
-      keytone: { dataPoint: "13" },
+      keytone: { dataPoint: "13", kind: "switch" },
       horizontalSwing: {
         dataPoint: "7",
+        kind: "select",
         values: [
           { raw: "OFF", value: "off" },
           { raw: "30", value: "30°" },
@@ -52,6 +55,7 @@ const entry: TuyaDeviceEntry = {
       },
       verticalSwing: {
         dataPoint: "6",
+        kind: "select",
         values: [
           { raw: "OFF", value: "off" },
           { raw: "20", value: "20°" },
@@ -61,6 +65,7 @@ const entry: TuyaDeviceEntry = {
       },
       offTimer: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "00h", value: "cancel" },
           { raw: "01h", value: "1h" },
@@ -79,6 +84,7 @@ const entry: TuyaDeviceEntry = {
       },
       onTimer: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: "00h", value: "cancel" },
           { raw: "01h", value: "1h" },

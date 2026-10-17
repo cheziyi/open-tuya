@@ -23,16 +23,18 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      mealPlan: { dataPoint: "1" },
-      quickFeed: { dataPoint: "2" },
+      mealPlan: { dataPoint: "1", kind: "text" },
+      quickFeed: { dataPoint: "2", kind: "button" },
       manualFeedInPortions: {
         dataPoint: "3",
+        kind: "number",
         unit: "portions",
         min: 1,
         max: 50,
       },
       status: {
         dataPoint: "4",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -42,13 +44,16 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "14",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "14", readOnly: true },
+      faultCode: { dataPoint: "14", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "14",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -59,18 +64,27 @@ const entry: TuyaDeviceEntry = {
           { raw: 16, value: "battery_low" },
         ],
       },
-      lastFeedInPortions: { dataPoint: "15", readOnly: true, unit: "portions" },
+      lastFeedInPortions: {
+        dataPoint: "15",
+        kind: "sensor",
+        readOnly: true,
+        unit: "portions",
+      },
       selfFeedLockoutInMinutes: {
         dataPoint: "18",
+        kind: "number",
+        measures: "duration",
         unit: "min",
         min: 0,
         max: 10,
       },
-      feedingReminder: { dataPoint: "101" },
-      doNotDisturb: { dataPoint: "102" },
-      childLock: { dataPoint: "103" },
+      feedingReminder: { dataPoint: "101", kind: "switch" },
+      doNotDisturb: { dataPoint: "102", kind: "switch" },
+      childLock: { dataPoint: "103", kind: "switch" },
       batteryInPercent: {
         dataPoint: "104",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         unit: "%",
         values: [
@@ -87,9 +101,9 @@ const entry: TuyaDeviceEntry = {
           { raw: "10", value: 100 },
         ],
       },
-      restart: { dataPoint: "105" },
+      restart: { dataPoint: "105", kind: "button" },
     },
-    indicator: { on: { dataPoint: "19" } },
+    indicator: { on: { dataPoint: "19", kind: "switch" } },
   },
   source: {
     file: "petory_f03w_petfeeder.yaml",

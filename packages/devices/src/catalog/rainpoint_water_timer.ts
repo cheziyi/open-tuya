@@ -20,6 +20,7 @@ const entry: TuyaDeviceEntry = {
     valve: {
       open: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -27,6 +28,7 @@ const entry: TuyaDeviceEntry = {
       },
       automaticIrrigation: {
         dataPoint: "125",
+        kind: "switch",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -34,6 +36,7 @@ const entry: TuyaDeviceEntry = {
       },
       rainDelay: {
         dataPoint: "113",
+        kind: "select",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "24", value: "24h" },
@@ -43,6 +46,8 @@ const entry: TuyaDeviceEntry = {
       },
       batteryInPercent: {
         dataPoint: "105",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         unit: "%",
         values: [
@@ -51,10 +56,24 @@ const entry: TuyaDeviceEntry = {
           { raw: "2", value: 100 },
         ],
       },
-      waterFlowInL: { dataPoint: "103", readOnly: true, unit: "L" },
-      timerInMinutes: { dataPoint: "107", unit: "min", min: 0, max: 60 },
+      waterFlowInL: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "water",
+        readOnly: true,
+        unit: "L",
+      },
+      timerInMinutes: {
+        dataPoint: "107",
+        kind: "number",
+        measures: "duration",
+        unit: "min",
+        min: 0,
+        max: 60,
+      },
       status: {
         dataPoint: "106",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "0", value: "idle" },
@@ -65,11 +84,13 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "120",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "120", readOnly: true },
+      faultCode: { dataPoint: "120", kind: "sensor", readOnly: true },
     },
   },
   source: {

@@ -19,21 +19,29 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "1", value: "normal" },
           { raw: "2", value: "nature" },
           { raw: "3", value: "sleep" },
         ],
       },
-      speed: { dataPoint: "3", min: 1, max: 3 },
-      oscillating: { dataPoint: "5" },
-      ionizer: { dataPoint: "9" },
-      temperatureInC: { dataPoint: "21", readOnly: true, unit: "C" },
+      speed: { dataPoint: "3", kind: "number", min: 1, max: 3 },
+      oscillating: { dataPoint: "5", kind: "switch" },
+      ionizer: { dataPoint: "9", kind: "switch" },
+      temperatureInC: {
+        dataPoint: "21",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       timer: {
         dataPoint: "22",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -50,14 +58,22 @@ const entry: TuyaDeviceEntry = {
           { raw: "12h", value: "12h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "23", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "23",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "24",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "24", readOnly: true },
+      faultCode: { dataPoint: "24", kind: "sensor", readOnly: true },
     },
   },
   source: {

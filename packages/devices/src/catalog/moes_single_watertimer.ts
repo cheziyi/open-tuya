@@ -16,19 +16,35 @@ const entry: TuyaDeviceEntry = {
     device: {
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "manual", value: "manual" },
         ],
       },
-      wateringTimeInSeconds: { dataPoint: "56", unit: "s", min: 0, max: 600 },
+      wateringTimeInSeconds: {
+        dataPoint: "56",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 0,
+        max: 600,
+      },
       wateringIntervalInHours: {
         dataPoint: "101",
+        kind: "number",
+        measures: "duration",
         unit: "h",
         min: 1,
         max: 360,
       },
-      timeRemainingInHours: { dataPoint: "102", readOnly: true, unit: "h" },
+      timeRemainingInHours: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "h",
+      },
     },
   },
   source: {

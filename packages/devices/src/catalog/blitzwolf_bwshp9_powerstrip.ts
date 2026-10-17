@@ -15,11 +15,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      outlet1: { dataPoint: "1" },
-      outlet2: { dataPoint: "2" },
-      outlet3: { dataPoint: "3" },
-      usb: { dataPoint: "7" },
-      switchAll: { dataPoint: "101" },
+      outlet1: { dataPoint: "1", kind: "switch" },
+      outlet2: { dataPoint: "2", kind: "switch" },
+      outlet3: { dataPoint: "3", kind: "switch" },
+      usb: { dataPoint: "7", kind: "switch" },
+      switchAll: { dataPoint: "101", kind: "switch" },
     },
   },
   source: {

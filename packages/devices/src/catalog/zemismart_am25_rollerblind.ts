@@ -22,6 +22,7 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "stop", value: "stop" },
@@ -29,34 +30,44 @@ const entry: TuyaDeviceEntry = {
           { raw: "continue", value: "continue" },
         ],
       },
-      targetPosition: { dataPoint: "2", min: 0, max: 100, invert: true },
-      missingCurrentPosition: {
-        dataPoint: "3",
+      targetPosition: {
+        dataPoint: "2",
+        kind: "number",
         min: 0,
         max: 100,
         invert: true,
       },
-      workState: { dataPoint: "7" },
-      targetTilt: { dataPoint: "109", min: 1, max: 10 },
+      missingCurrentPosition: {
+        dataPoint: "3",
+        kind: "number",
+        min: 0,
+        max: 100,
+        invert: true,
+      },
+      workState: { dataPoint: "7", kind: "text" },
+      targetTilt: { dataPoint: "109", kind: "number", min: 1, max: 10 },
       fault: {
         dataPoint: "12",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", readOnly: true },
+      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
       direction: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: false, value: "forward" },
           { raw: true, value: "reverse" },
         ],
         absent: "forward",
       },
-      limitUp: { dataPoint: "104" },
-      limitDown: { dataPoint: "105" },
-      resetLimits: { dataPoint: "107" },
+      limitUp: { dataPoint: "104", kind: "switch" },
+      limitDown: { dataPoint: "105", kind: "switch" },
+      resetLimits: { dataPoint: "107", kind: "button" },
     },
   },
   source: {

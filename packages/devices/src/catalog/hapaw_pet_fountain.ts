@@ -27,9 +27,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       activationMode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "normal", value: "normal" },
           { raw: "smart", value: "smart" },
@@ -37,32 +38,73 @@ const entry: TuyaDeviceEntry = {
           { raw: "pir", value: "motion" },
         ],
       },
-      filterLifeInDays: { dataPoint: "3", readOnly: true, unit: "d" },
-      maintenanceDueInDays: { dataPoint: "4", readOnly: true, unit: "d" },
-      filterReset: { dataPoint: "5" },
-      maintenanceReset: { dataPoint: "6" },
-      filterLifeInDays2: { dataPoint: "7", unit: "d", min: 0, max: 90 },
-      maintenanceIntervalInDays: { dataPoint: "8", unit: "d", min: 0, max: 31 },
+      filterLifeInDays: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "d",
+      },
+      maintenanceDueInDays: {
+        dataPoint: "4",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "d",
+      },
+      filterReset: { dataPoint: "5", kind: "button" },
+      maintenanceReset: { dataPoint: "6", kind: "button" },
+      filterLifeInDays2: {
+        dataPoint: "7",
+        kind: "number",
+        measures: "duration",
+        unit: "d",
+        min: 0,
+        max: 90,
+      },
+      maintenanceIntervalInDays: {
+        dataPoint: "8",
+        kind: "number",
+        unit: "d",
+        min: 0,
+        max: 31,
+      },
       plug: {
         dataPoint: "20",
+        kind: "sensor",
+        measures: "plug",
         readOnly: true,
         values: [
           { raw: "strong_power", value: true },
           { raw: "battery_power", value: false },
         ],
       },
-      batteryInPercent: { dataPoint: "21", readOnly: true, unit: "%" },
-      clean: { dataPoint: "101" },
+      batteryInPercent: {
+        dataPoint: "21",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      clean: { dataPoint: "101", kind: "button" },
       cleaningInterval: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "24", value: "24h" },
           { raw: "48", value: "48h" },
         ],
       },
-      drankInTimes: { dataPoint: "103", readOnly: true, unit: "times" },
+      drankInTimes: {
+        dataPoint: "103",
+        kind: "sensor",
+        readOnly: true,
+        unit: "times",
+      },
       dirtyWater: {
         dataPoint: "104",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: "man", value: true },
@@ -71,14 +113,16 @@ const entry: TuyaDeviceEntry = {
       },
       purification: {
         dataPoint: "105",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         values: [
           { raw: "low", value: true },
           { raw: "high", value: false },
         ],
       },
-      manualWater: { dataPoint: "106" },
-      heat: { dataPoint: "107" },
+      manualWater: { dataPoint: "106", kind: "button" },
+      heat: { dataPoint: "107", kind: "switch" },
     },
   },
   source: {

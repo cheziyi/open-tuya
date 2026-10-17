@@ -14,9 +14,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "sleep", value: 10 },
           { raw: "grade1", value: 25 },
@@ -29,6 +30,7 @@ const entry: TuyaDeviceEntry = {
       },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "2h", value: "2h" },
@@ -43,6 +45,7 @@ const entry: TuyaDeviceEntry = {
     light: {
       on: {
         dataPoint: "6",
+        kind: "select",
         values: [
           { raw: "close", value: false },
           { raw: "colour", value: true },
@@ -51,6 +54,7 @@ const entry: TuyaDeviceEntry = {
       },
       colorName: {
         dataPoint: "6",
+        kind: "select",
         values: [
           { raw: "purple", value: "purple" },
           { raw: "blue", value: "blue" },

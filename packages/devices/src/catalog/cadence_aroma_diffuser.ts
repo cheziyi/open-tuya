@@ -25,9 +25,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     aromaDiffuser: {
-      on: { dataPoint: "2" },
+      on: { dataPoint: "2", kind: "switch" },
       mode: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "continued", value: "continuous" },
           { raw: "indirect", value: "intermittent" },
@@ -35,19 +36,21 @@ const entry: TuyaDeviceEntry = {
       },
     },
     light: {
-      power: { dataPoint: "1" },
-      on: { dataPoint: "7" },
-      brightness: { dataPoint: "8", min: 10, max: 1000 },
+      power: { dataPoint: "1", kind: "switch" },
+      on: { dataPoint: "7", kind: "switch" },
+      brightness: { dataPoint: "8", kind: "number", min: 10, max: 1000 },
       effect: {
         dataPoint: "105",
+        kind: "select",
         values: [
           { raw: false, value: "Static" },
           { raw: true, value: "Rotate" },
         ],
       },
-      controlData: { dataPoint: "111" },
+      controlData: { dataPoint: "111", kind: "text" },
       internalMusic: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "0", value: "Track 1" },
           { raw: "1", value: "Track 2" },
@@ -59,17 +62,25 @@ const entry: TuyaDeviceEntry = {
       },
       volumeInPercent: {
         dataPoint: "102",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 30,
         scale: 0.3,
       },
-      sleep: { dataPoint: "104" },
-      previousTrack: { dataPoint: "106" },
-      nextTrack: { dataPoint: "107" },
-      playMusic: { dataPoint: "108" },
-      timerInMinutes: { dataPoint: "109", unit: "min", min: 0, max: 1200 },
-      bluetoothPairing: { dataPoint: "110" },
+      sleep: { dataPoint: "104", kind: "switch" },
+      previousTrack: { dataPoint: "106", kind: "button" },
+      nextTrack: { dataPoint: "107", kind: "button" },
+      playMusic: { dataPoint: "108", kind: "button" },
+      timerInMinutes: {
+        dataPoint: "109",
+        kind: "number",
+        measures: "duration",
+        unit: "min",
+        min: 0,
+        max: 1200,
+      },
+      bluetoothPairing: { dataPoint: "110", kind: "button" },
     },
   },
   source: {

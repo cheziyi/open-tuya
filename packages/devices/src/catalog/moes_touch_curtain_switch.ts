@@ -16,16 +16,24 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
           { raw: "continue", value: "stop" },
         ],
       },
-      timeControlInSeconds: { dataPoint: "10", unit: "s", min: 10, max: 120 },
-      stopButton: { dataPoint: "101" },
+      timeControlInSeconds: {
+        dataPoint: "10",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 10,
+        max: 120,
+      },
+      stopButton: { dataPoint: "101", kind: "button" },
     },
-    backlight: { on: { dataPoint: "7" } },
+    backlight: { on: { dataPoint: "7", kind: "switch" } },
   },
   source: {
     file: "moes_touch_curtain_switch.yaml",

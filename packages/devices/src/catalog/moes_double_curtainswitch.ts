@@ -21,32 +21,49 @@ const entry: TuyaDeviceEntry = {
     curtain1: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
           { raw: "stop", value: "stop" },
         ],
       },
-      targetPosition: { dataPoint: "2", min: 0, max: 100 },
-      currentPosition: { dataPoint: "2", readOnly: true },
+      targetPosition: { dataPoint: "2", kind: "number", min: 0, max: 100 },
+      currentPosition: { dataPoint: "2", kind: "sensor", readOnly: true },
     },
     curtain2: {
       command: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
           { raw: "stop", value: "stop" },
         ],
       },
-      targetPosition: { dataPoint: "5", min: 0, max: 100 },
-      currentPosition: { dataPoint: "5", readOnly: true },
+      targetPosition: { dataPoint: "5", kind: "number", min: 0, max: 100 },
+      currentPosition: { dataPoint: "5", kind: "sensor", readOnly: true },
     },
     device: {
-      timer1InSeconds: { dataPoint: "10", unit: "s", min: 2, max: 240 },
-      timer2InSeconds: { dataPoint: "11", unit: "s", min: 2, max: 240 },
+      timer1InSeconds: {
+        dataPoint: "10",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 2,
+        max: 240,
+      },
+      timer2InSeconds: {
+        dataPoint: "11",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 2,
+        max: 240,
+      },
       direction1: {
         dataPoint: "8",
+        kind: "select",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "back", value: "back" },
@@ -54,13 +71,14 @@ const entry: TuyaDeviceEntry = {
       },
       direction2: {
         dataPoint: "9",
+        kind: "select",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "back", value: "back" },
         ],
       },
     },
-    backlight: { on: { dataPoint: "7" } },
+    backlight: { on: { dataPoint: "7", kind: "switch" } },
   },
   source: {
     file: "moes_double_curtainswitch.yaml",

@@ -35,30 +35,38 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     lock: {
-      openInside: { dataPoint: "18" },
-      unlockBle: { dataPoint: "19" },
-      rtcLock: { dataPoint: "44" },
-      locked: { dataPoint: "46" },
+      openInside: { dataPoint: "18", kind: "switch" },
+      unlockBle: { dataPoint: "19", kind: "number" },
+      rtcLock: { dataPoint: "44", kind: "switch" },
+      locked: { dataPoint: "46", kind: "switch" },
       lockState: {
         dataPoint: "47",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: false, value: true },
           { raw: true, value: false },
         ],
       },
-      setUnlockCode: { dataPoint: "60" },
-      codeUnlock: { dataPoint: "61" },
-      unlockApp: { dataPoint: "62" },
-      unlockVoice: { dataPoint: "63" },
-      record: { dataPoint: "69" },
-      checkCodeSet: { dataPoint: "70" },
-      bleUnlockCheck: { dataPoint: "71" },
-      unlockRecordCheck: { dataPoint: "72" },
-      remotePdSetkeyCheck: { dataPoint: "73" },
-      batteryInPercent: { dataPoint: "8", readOnly: true, unit: "%" },
+      setUnlockCode: { dataPoint: "60", kind: "text" },
+      codeUnlock: { dataPoint: "61", kind: "text" },
+      unlockApp: { dataPoint: "62", kind: "number" },
+      unlockVoice: { dataPoint: "63", kind: "number" },
+      record: { dataPoint: "69", kind: "text" },
+      checkCodeSet: { dataPoint: "70", kind: "text" },
+      bleUnlockCheck: { dataPoint: "71", kind: "text" },
+      unlockRecordCheck: { dataPoint: "72", kind: "text" },
+      remotePdSetkeyCheck: { dataPoint: "73", kind: "text" },
+      batteryInPercent: {
+        dataPoint: "8",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
       doorbellVolume: {
         dataPoint: "27",
+        kind: "select",
         values: [
           { raw: "mute", value: "mute" },
           { raw: "low", value: "low" },
@@ -68,6 +76,7 @@ const entry: TuyaDeviceEntry = {
       },
       lockMotorDirection: {
         dataPoint: "48",
+        kind: "select",
         values: [
           { raw: "clockwise", value: "clockwise" },
           { raw: "anticlockwise", value: "anticlockwise" },
@@ -75,6 +84,7 @@ const entry: TuyaDeviceEntry = {
       },
       motorTorque: {
         dataPoint: "56",
+        kind: "select",
         values: [
           { raw: "torque_low", value: "low" },
           { raw: "torque_middle", value: "middle" },
@@ -83,14 +93,16 @@ const entry: TuyaDeviceEntry = {
       },
       autoLockDelayInSeconds: {
         dataPoint: "36",
+        kind: "number",
         unit: "s",
         min: 1,
         max: 30,
         step: 1,
       },
-      autoLock: { dataPoint: "33" },
+      autoLock: { dataPoint: "33", kind: "switch" },
       alert: {
         dataPoint: "21",
+        kind: "event",
         readOnly: true,
         values: [
           { raw: "wrong_finger", value: "wrong_finger" },
@@ -109,10 +121,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "defense", value: "defense" },
         ],
       },
-      newCredential: { dataPoint: "1" },
-      deleteCredential: { dataPoint: "2" },
-      modifyCredential: { dataPoint: "3" },
-      syncCredentials: { dataPoint: "54" },
+      newCredential: { dataPoint: "1", kind: "text" },
+      deleteCredential: { dataPoint: "2", kind: "text" },
+      modifyCredential: { dataPoint: "3", kind: "text" },
+      syncCredentials: { dataPoint: "54", kind: "text" },
     },
   },
   source: {

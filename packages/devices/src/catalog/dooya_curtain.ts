@@ -16,16 +16,18 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
           { raw: "stop", value: "stop" },
         ],
       },
-      currentPosition: { dataPoint: "102", readOnly: true },
-      targetPosition: { dataPoint: "104" },
+      currentPosition: { dataPoint: "102", kind: "sensor", readOnly: true },
+      targetPosition: { dataPoint: "104", kind: "number" },
       direction: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: false, value: "Forward" },
           { raw: true, value: "Reverse" },

@@ -20,21 +20,26 @@ const entry: TuyaDeviceEntry = {
     climate: {
       mode: {
         dataPoint: "8",
+        kind: "select",
         values: [
           { raw: true, value: "water" },
           { raw: false, value: "infant_formula" },
         ],
       },
-      disinfection: { dataPoint: "9" },
+      disinfection: { dataPoint: "9", kind: "switch" },
       fault: {
         dataPoint: "17",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "17", readOnly: true },
+      faultCode: { dataPoint: "17", kind: "sensor", readOnly: true },
       waterAmountInMl: {
         dataPoint: "101",
+        kind: "number",
+        measures: "volumeStorage",
         unit: "mL",
         min: 30,
         max: 240,
@@ -42,15 +47,30 @@ const entry: TuyaDeviceEntry = {
       },
       hvacMode: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "103", unit: "C", min: 40, max: 70 },
-      currentTemperatureInC: { dataPoint: "106", readOnly: true, unit: "C" },
+      targetTemperatureInC: {
+        dataPoint: "103",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 40,
+        max: 70,
+      },
+      currentTemperatureInC: {
+        dataPoint: "106",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       formulaRatioInGPer30ml: {
         dataPoint: "105",
+        kind: "number",
         unit: "g/30mL",
         min: 30,
         max: 80,

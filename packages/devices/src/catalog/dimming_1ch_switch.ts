@@ -17,21 +17,29 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1" },
-      brightness: { dataPoint: "2", min: 10, max: 1000 },
-      minBrightness: { dataPoint: "3" },
-      maxBrightness: { dataPoint: "5" },
+      on: { dataPoint: "1", kind: "switch" },
+      brightness: { dataPoint: "2", kind: "number", min: 10, max: 1000 },
+      minBrightness: { dataPoint: "3", kind: "number" },
+      maxBrightness: { dataPoint: "5", kind: "number" },
       ledType: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "kickback", value: "Kickback" },
           { raw: "seesaw_toggle", value: "Seesaw toggle" },
           { raw: "seesaw_sync", value: "Seesaw sync" },
         ],
       },
-      timerInSeconds: { dataPoint: "6", unit: "s", min: 0, max: 86400 },
+      timerInSeconds: {
+        dataPoint: "6",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
       initialState: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "on", value: "on" },
           { raw: "off", value: "off" },

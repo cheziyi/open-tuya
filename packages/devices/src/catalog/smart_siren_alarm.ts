@@ -30,6 +30,7 @@ const entry: TuyaDeviceEntry = {
     status: {
       alarmState: {
         dataPoint: "116",
+        kind: "select",
         values: [
           { raw: "Disarm_", value: "disarmed" },
           { raw: "Arm_", value: "armed_away" },
@@ -39,18 +40,27 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      alarmTimeInSeconds: { dataPoint: "105", unit: "s", min: 5, max: 180 },
-      light: { dataPoint: "106" },
-      learningMode: { dataPoint: "111", readOnly: true },
-      remoteControl: { dataPoint: "112", readOnly: true },
+      alarmTimeInSeconds: {
+        dataPoint: "105",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 5,
+        max: 180,
+      },
+      light: { dataPoint: "106", kind: "switch" },
+      learningMode: { dataPoint: "111", kind: "sensor", readOnly: true },
+      remoteControl: { dataPoint: "112", kind: "sensor", readOnly: true },
       alarmDisplayPush: {
         dataPoint: "114",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: "ACA=", value: true }],
         otherwise: false,
       },
       tamperAlarm: {
         dataPoint: "117",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "1", value: true },
@@ -59,55 +69,63 @@ const entry: TuyaDeviceEntry = {
       },
       powerDownAlarm: {
         dataPoint: "118",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "1", value: true },
           { raw: "0", value: false },
         ],
       },
-      deleteUserData: { dataPoint: "119", readOnly: true },
+      deleteUserData: { dataPoint: "119", kind: "sensor", readOnly: true },
       alarmVolume: {
         dataPoint: "120",
+        kind: "select",
         values: [
           { raw: "1", value: "low" },
           { raw: "2", value: "middle" },
           { raw: "3", value: "high" },
         ],
       },
-      sound: { dataPoint: "121" },
+      sound: { dataPoint: "121", kind: "switch" },
       alarmMessagePush: {
         dataPoint: "122",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: "ACA=", value: true }],
         otherwise: false,
       },
       armingMessagePush: {
         dataPoint: "123",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: "ACA=", value: true }],
         otherwise: false,
       },
       armingAtHomeMessagePush: {
         dataPoint: "124",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: "ACA=", value: true }],
         otherwise: false,
       },
       disarmMessagePush: {
         dataPoint: "125",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: "ACA=", value: true }],
         otherwise: false,
       },
       accesoriesLowPowerPush: {
         dataPoint: "126",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: "ACA=", value: true }],
         otherwise: false,
       },
-      alarm: { dataPoint: "127" },
+      alarm: { dataPoint: "127", kind: "switch" },
       doorbell: {
         dataPoint: "128",
+        kind: "event",
         readOnly: true,
         values: [{ raw: "ACA=", value: "ring" }],
       },

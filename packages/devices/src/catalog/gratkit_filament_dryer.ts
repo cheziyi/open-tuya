@@ -23,14 +23,45 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1" },
-      dryingTemperatureInC: { dataPoint: "20", unit: "C", min: 40, max: 70 },
-      temperatureInC: { dataPoint: "21", readOnly: true, unit: "C" },
-      timeRemainingInMinutes: { dataPoint: "101", readOnly: true, unit: "min" },
-      dryingTimeInMinutes: { dataPoint: "101", unit: "min", min: 0, max: 1440 },
-      humidityInPercent: { dataPoint: "102", readOnly: true, unit: "%" },
+      on: { dataPoint: "1", kind: "switch" },
+      dryingTemperatureInC: {
+        dataPoint: "20",
+        kind: "number",
+        unit: "C",
+        min: 40,
+        max: 70,
+      },
+      temperatureInC: {
+        dataPoint: "21",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      timeRemainingInMinutes: {
+        dataPoint: "101",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      dryingTimeInMinutes: {
+        dataPoint: "101",
+        kind: "number",
+        unit: "min",
+        min: 0,
+        max: 1440,
+      },
+      humidityInPercent: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       on2: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "0", value: false },
           { raw: "4", value: true },
@@ -39,6 +70,7 @@ const entry: TuyaDeviceEntry = {
       },
       colorName: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "0", value: "black" },
           { raw: "1", value: "red" },
@@ -56,6 +88,7 @@ const entry: TuyaDeviceEntry = {
       },
       effect: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "4", value: "off" },
           { raw: "10", value: "Rainbow fade" },
@@ -66,11 +99,14 @@ const entry: TuyaDeviceEntry = {
       },
       heatingPlateTemperatureInC: {
         dataPoint: "104",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
       },
       filamentType: {
         dataPoint: "105",
+        kind: "select",
         values: [
           { raw: "PLA", value: "PLA" },
           { raw: "PLA_J", value: "PLA+" },
@@ -86,6 +122,7 @@ const entry: TuyaDeviceEntry = {
       },
       error: {
         dataPoint: "106",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "Normal" },
@@ -100,11 +137,16 @@ const entry: TuyaDeviceEntry = {
           { raw: 9, value: "9" },
         ],
       },
-      fanSpeedInRpm: { dataPoint: "107", readOnly: true, unit: "rpm" },
-      usb: { dataPoint: "108", readOnly: true },
-      speaker: { dataPoint: "109" },
+      fanSpeedInRpm: {
+        dataPoint: "107",
+        kind: "sensor",
+        readOnly: true,
+        unit: "rpm",
+      },
+      usb: { dataPoint: "108", kind: "sensor", readOnly: true },
+      speaker: { dataPoint: "109", kind: "switch" },
     },
-    display: { on: { dataPoint: "110" } },
+    display: { on: { dataPoint: "110", kind: "switch" } },
   },
   source: {
     file: "gratkit_filament_dryer.yaml",

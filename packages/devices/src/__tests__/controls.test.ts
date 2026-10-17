@@ -19,6 +19,7 @@ const ENTRY: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
@@ -26,6 +27,7 @@ const ENTRY: TuyaDeviceEntry = {
       },
       targetTemperatureInC: {
         dataPoint: "2",
+        kind: "number",
         unit: "C",
         min: 10,
         max: 70,
@@ -33,6 +35,7 @@ const ENTRY: TuyaDeviceEntry = {
       },
       preset: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "low", value: "eco" },
           { raw: "high", value: "boost" },
@@ -41,6 +44,7 @@ const ENTRY: TuyaDeviceEntry = {
       },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: 1, value: 33 },
           { raw: 2, value: 66 },
@@ -51,19 +55,22 @@ const ENTRY: TuyaDeviceEntry = {
     device: {
       fault: {
         dataPoint: "5",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
       overheat: {
         dataPoint: "5",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
       },
-      childLock: { dataPoint: "6", absent: false },
+      childLock: { dataPoint: "6", kind: "switch", absent: false },
       colorTemperatureInK: {
         dataPoint: "7",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 1000,
@@ -71,7 +78,7 @@ const ENTRY: TuyaDeviceEntry = {
         invert: true,
         targetRange: { min: 2700, max: 6500 },
       },
-      brightness: { dataPoint: "8", min: 10, max: 1000 },
+      brightness: { dataPoint: "8", kind: "number", min: 10, max: 1000 },
     },
   },
   source: { file: "heater.yaml", commit: "0".repeat(40) },

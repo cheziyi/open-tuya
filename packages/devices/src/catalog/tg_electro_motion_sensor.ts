@@ -19,15 +19,17 @@ const entry: TuyaDeviceEntry = {
     light: {
       pirSensor: {
         dataPoint: "51",
+        kind: "switch",
         values: [
           { raw: "auto", value: true },
           { raw: "manual", value: false },
         ],
       },
-      on: { dataPoint: "20" },
-      scanning: { dataPoint: "56" },
+      on: { dataPoint: "20", kind: "switch" },
+      scanning: { dataPoint: "56", kind: "switch" },
       ambientLightSensitivity: {
         dataPoint: "53",
+        kind: "select",
         values: [
           { raw: "5lux", value: "dark" },
           { raw: "10lux", value: "late_evening" },
@@ -38,15 +40,25 @@ const entry: TuyaDeviceEntry = {
       },
       sensitivity: {
         dataPoint: "54",
+        kind: "select",
         values: [
           { raw: "low", value: "low" },
           { raw: "middle", value: "middle" },
           { raw: "high", value: "high" },
         ],
       },
-      lightDurationInSeconds: { dataPoint: "55", unit: "s", min: 5, max: 360 },
+      lightDurationInSeconds: {
+        dataPoint: "55",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 5,
+        max: 360,
+      },
       motion: {
         dataPoint: "52",
+        kind: "sensor",
+        measures: "motion",
         readOnly: true,
         values: [{ raw: "motion", value: true }],
         otherwise: false,

@@ -19,17 +19,26 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "13",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 35,
         max: 80,
         step: 5,
       },
-      currentHumidityInPercent: { dataPoint: "14", readOnly: true, unit: "%" },
+      currentHumidityInPercent: {
+        dataPoint: "14",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       mode: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: true, value: "auto" },
           { raw: false, value: "boost" },
@@ -37,18 +46,21 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "22",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", readOnly: true },
-      warmMist: { dataPoint: "26" },
-      childLock: { dataPoint: "29" },
+      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      warmMist: { dataPoint: "26", kind: "switch" },
+      childLock: { dataPoint: "29", kind: "switch" },
     },
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "23",
+        kind: "select",
         values: [
           { raw: "1", value: 20 },
           { raw: "2", value: 40 },
@@ -61,6 +73,7 @@ const entry: TuyaDeviceEntry = {
     display: {
       brightness: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "0x00", value: 255 },
           { raw: "0x01", value: 128 },

@@ -23,32 +23,49 @@ const entry: TuyaDeviceEntry = {
     curtain1: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
           { raw: "stop", value: "stop" },
         ],
       },
-      targetPosition: { dataPoint: "2", min: 0, max: 100 },
-      currentPosition: { dataPoint: "2", readOnly: true },
+      targetPosition: { dataPoint: "2", kind: "number", min: 0, max: 100 },
+      currentPosition: { dataPoint: "2", kind: "sensor", readOnly: true },
     },
     curtain2: {
       command: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
           { raw: "stop", value: "stop" },
         ],
       },
-      targetPosition: { dataPoint: "5", min: 0, max: 100 },
-      currentPosition: { dataPoint: "5", readOnly: true },
+      targetPosition: { dataPoint: "5", kind: "number", min: 0, max: 100 },
+      currentPosition: { dataPoint: "5", kind: "sensor", readOnly: true },
     },
     device: {
-      timer1InSeconds: { dataPoint: "10", unit: "s", min: 2, max: 120 },
-      timer2InSeconds: { dataPoint: "11", unit: "s", min: 2, max: 120 },
+      timer1InSeconds: {
+        dataPoint: "10",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 2,
+        max: 120,
+      },
+      timer2InSeconds: {
+        dataPoint: "11",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 2,
+        max: 120,
+      },
       direction1: {
         dataPoint: "8",
+        kind: "select",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "back", value: "back" },
@@ -56,6 +73,7 @@ const entry: TuyaDeviceEntry = {
       },
       direction2: {
         dataPoint: "9",
+        kind: "select",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "back", value: "back" },
@@ -63,6 +81,7 @@ const entry: TuyaDeviceEntry = {
       },
       lightMode: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
@@ -71,6 +90,7 @@ const entry: TuyaDeviceEntry = {
       },
       calibration1: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "start", value: "start" },
           { raw: "end", value: "end" },
@@ -78,6 +98,7 @@ const entry: TuyaDeviceEntry = {
       },
       calibration2: {
         dataPoint: "6",
+        kind: "select",
         values: [
           { raw: "start", value: "start" },
           { raw: "end", value: "end" },

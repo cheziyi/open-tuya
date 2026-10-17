@@ -13,16 +13,17 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     ventilation: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "Cool", value: "fresh" },
           { raw: "Exhaust", value: "extractor" },
           { raw: "Circulate", value: "circulate" },
         ],
       },
-      speed: { dataPoint: "3", min: 1, max: 3 },
+      speed: { dataPoint: "3", kind: "number", min: 1, max: 3 },
     },
   },
   source: {

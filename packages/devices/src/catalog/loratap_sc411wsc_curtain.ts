@@ -15,6 +15,7 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "on", value: "open" },
           { raw: "off", value: "close" },
@@ -23,12 +24,20 @@ const entry: TuyaDeviceEntry = {
       },
       reverseMotorDirection: {
         dataPoint: "2",
+        kind: "switch",
         values: [
           { raw: "forward", value: false },
           { raw: "back", value: true },
         ],
       },
-      travelTimeInSeconds: { dataPoint: "3", unit: "s", min: 10, max: 120 },
+      travelTimeInSeconds: {
+        dataPoint: "3",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 10,
+        max: 120,
+      },
     },
   },
   source: {

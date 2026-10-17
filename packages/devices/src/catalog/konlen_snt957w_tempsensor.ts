@@ -18,17 +18,22 @@ const entry: TuyaDeviceEntry = {
     climate: {
       currentTemperature: {
         dataPoint: "1",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unitFrom: "temperatureUnit",
         scale: 10,
       },
       temperatureUnit: {
         dataPoint: "9",
+        kind: "select",
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
       coolingTargetTemperature: {
         dataPoint: "10",
+        kind: "number",
+        measures: "temperature",
         unitFrom: "temperatureUnit",
         min: -400,
         max: 1200,
@@ -36,6 +41,8 @@ const entry: TuyaDeviceEntry = {
       },
       heatingTargetTemperature: {
         dataPoint: "11",
+        kind: "number",
+        measures: "temperature",
         unitFrom: "temperatureUnit",
         min: -400,
         max: 1200,
@@ -43,18 +50,24 @@ const entry: TuyaDeviceEntry = {
       },
       cold: {
         dataPoint: "14",
+        kind: "sensor",
+        measures: "cold",
         readOnly: true,
         values: [{ raw: "loweralarm", value: true }],
         otherwise: false,
       },
       heat: {
         dataPoint: "14",
+        kind: "sensor",
+        measures: "heat",
         readOnly: true,
         values: [{ raw: "upperalarm", value: true }],
         otherwise: false,
       },
       temperatureCalibration: {
         dataPoint: "19",
+        kind: "number",
+        measures: "temperatureDelta",
         unitFrom: "temperatureCalibrationUnit",
         min: -100,
         max: 100,
@@ -62,11 +75,13 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureCalibrationUnit: {
         dataPoint: "9",
+        kind: "select",
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
       temperatureUnit2: {
         dataPoint: "9",
+        kind: "select",
         values: [
           { raw: "c", value: "celsius" },
           { raw: "f", value: "fahrenheit" },

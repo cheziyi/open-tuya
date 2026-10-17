@@ -17,16 +17,24 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
           { raw: "stop", value: "stop" },
         ],
       },
-      targetPositionInPercent: { dataPoint: "2", unit: "%", min: 0, max: 100 },
-      lightMode: { dataPoint: "14" },
+      targetPositionInPercent: {
+        dataPoint: "2",
+        kind: "number",
+        unit: "%",
+        min: 0,
+        max: 100,
+      },
+      lightMode: { dataPoint: "14", kind: "text" },
       reverseMotorDirection: {
         dataPoint: "8",
+        kind: "switch",
         values: [
           { raw: "forward", value: false },
           { raw: "back", value: true },
@@ -34,6 +42,7 @@ const entry: TuyaDeviceEntry = {
       },
       calibration: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "start", value: "On" },
           { raw: "end", value: "Off" },

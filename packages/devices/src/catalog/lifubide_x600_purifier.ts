@@ -16,9 +16,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "sleep", value: "sleep" },
@@ -27,17 +28,25 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      pm25InUgPerM3: { dataPoint: "2", readOnly: true, unit: "ugm3" },
-      childLock: { dataPoint: "7" },
+      pm25InUgPerM3: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "pm25",
+        readOnly: true,
+        unit: "ugm3",
+      },
+      childLock: { dataPoint: "7", kind: "switch" },
       fault: {
         dataPoint: "22",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", readOnly: true },
+      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
     },
-    indicator: { on: { dataPoint: "8" } },
+    indicator: { on: { dataPoint: "8", kind: "switch" } },
   },
   source: {
     file: "lifubide_x600_purifier.yaml",

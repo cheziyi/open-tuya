@@ -20,20 +20,34 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       activationMode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "normal", value: "normal" },
           { raw: "smart", value: "smart" },
         ],
       },
-      filterLifeInDays: { dataPoint: "3", readOnly: true, unit: "d" },
-      pumpRemainingInDays: { dataPoint: "4", readOnly: true, unit: "d" },
-      filterReset: { dataPoint: "5" },
-      resetPumpCleaningTimer: { dataPoint: "6" },
+      filterLifeInDays: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "d",
+      },
+      pumpRemainingInDays: {
+        dataPoint: "4",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "d",
+      },
+      filterReset: { dataPoint: "5", kind: "button" },
+      resetPumpCleaningTimer: { dataPoint: "6", kind: "button" },
       waterLevel: {
         dataPoint: "9",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "0", value: "empty" },
@@ -45,6 +59,8 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "23",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -52,9 +68,10 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "23", readOnly: true },
+      faultCode: { dataPoint: "23", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "23",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -68,15 +85,22 @@ const entry: TuyaDeviceEntry = {
       },
       tankEmpty: {
         dataPoint: "23",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 32, value: true }],
         otherwise: false,
       },
-      geyserModeStatus: { dataPoint: "105", readOnly: true },
+      geyserModeStatus: {
+        dataPoint: "105",
+        kind: "sensor",
+        measures: "running",
+        readOnly: true,
+      },
     },
     indicator: {
       on: {
         dataPoint: "12",
+        kind: "select",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },

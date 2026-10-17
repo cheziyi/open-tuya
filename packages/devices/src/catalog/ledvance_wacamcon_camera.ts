@@ -30,66 +30,81 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     floodlight: {
-      on: { dataPoint: "138" },
-      brightness: { dataPoint: "158", min: 1, max: 100 },
+      on: { dataPoint: "138", kind: "switch" },
+      brightness: { dataPoint: "158", kind: "number", min: 1, max: 100 },
     },
     device: {
-      siren: { dataPoint: "159", absent: false },
-      motionDetection: { dataPoint: "134" },
-      motion: { dataPoint: "115", readOnly: true, otherwise: "detected" },
+      siren: { dataPoint: "159", kind: "switch", absent: false },
+      motionDetection: { dataPoint: "134", kind: "switch" },
+      motion: {
+        dataPoint: "115",
+        kind: "event",
+        readOnly: true,
+        otherwise: "detected",
+      },
       motionSensitivity: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
           { raw: "2", value: "high" },
         ],
       },
-      ptzStop: { dataPoint: "116" },
+      ptzStop: { dataPoint: "116", kind: "button" },
       ptzUp: {
         dataPoint: "119",
+        kind: "button",
         values: [{ raw: "0", value: true }],
         otherwise: false,
       },
       ptzRightUp: {
         dataPoint: "119",
+        kind: "button",
         values: [{ raw: "1", value: true }],
         otherwise: false,
       },
       ptzRight: {
         dataPoint: "119",
+        kind: "button",
         values: [{ raw: "2", value: true }],
         otherwise: false,
       },
       ptzRightDown: {
         dataPoint: "119",
+        kind: "button",
         values: [{ raw: "3", value: true }],
         otherwise: false,
       },
       ptzDown: {
         dataPoint: "119",
+        kind: "button",
         values: [{ raw: "4", value: true }],
         otherwise: false,
       },
       ptzLeftDown: {
         dataPoint: "119",
+        kind: "button",
         values: [{ raw: "5", value: true }],
         otherwise: false,
       },
       ptzLeft: {
         dataPoint: "119",
+        kind: "button",
         values: [{ raw: "6", value: true }],
         otherwise: false,
       },
       ptzLeftUp: {
         dataPoint: "119",
+        kind: "button",
         values: [{ raw: "7", value: true }],
         otherwise: false,
       },
-      flipImage: { dataPoint: "103" },
-      watermark: { dataPoint: "104", absent: false },
+      flipImage: { dataPoint: "103", kind: "switch" },
+      watermark: { dataPoint: "104", kind: "switch", absent: false },
       nightVision: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -98,6 +113,7 @@ const entry: TuyaDeviceEntry = {
       },
       sdStatus: {
         dataPoint: "110",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -108,10 +124,11 @@ const entry: TuyaDeviceEntry = {
         ],
         absent: "normal",
       },
-      sdStatusCapacity: { dataPoint: "109", readOnly: true },
-      sdFormat: { dataPoint: "111" },
+      sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
+      sdFormat: { dataPoint: "111", kind: "button" },
       sdFormatStatus: {
         dataPoint: "117",
+        kind: "select",
         values: [
           { raw: 0, value: "Formatted" },
           { raw: 100, value: "Formatted" },
@@ -121,9 +138,10 @@ const entry: TuyaDeviceEntry = {
           { raw: 2003, value: "Card error" },
         ],
       },
-      cameraRecord: { dataPoint: "150" },
+      cameraRecord: { dataPoint: "150", kind: "switch" },
       recordingMode: {
         dataPoint: "151",
+        kind: "select",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
@@ -131,6 +149,7 @@ const entry: TuyaDeviceEntry = {
       },
       pirSensitivity: {
         dataPoint: "152",
+        kind: "select",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "low" },
@@ -140,6 +159,7 @@ const entry: TuyaDeviceEntry = {
       },
       pirLightDuration: {
         dataPoint: "232",
+        kind: "select",
         values: [
           { raw: 5, value: "5s" },
           { raw: 10, value: "10s" },
@@ -150,7 +170,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    indicator: { on: { dataPoint: "101" } },
+    indicator: { on: { dataPoint: "101", kind: "switch" } },
   },
   source: {
     file: "ledvance_wacamcon_camera.yaml",

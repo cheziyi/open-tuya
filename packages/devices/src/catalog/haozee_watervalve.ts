@@ -23,18 +23,35 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     valve: {
-      open: { dataPoint: "1" },
-      totalState: { dataPoint: "121" },
+      open: { dataPoint: "1", kind: "switch" },
+      totalState: { dataPoint: "121", kind: "text" },
       volumeFlowRateInGalPerMin: {
         dataPoint: "5",
+        kind: "sensor",
+        measures: "volumeFlowRate",
         readOnly: true,
         unit: "gal/min",
         scale: 600,
       },
-      waterInGal: { dataPoint: "6", readOnly: true, unit: "gal", scale: 10 },
-      lastUseInMinutes: { dataPoint: "102", readOnly: true, unit: "min" },
+      waterInGal: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "water",
+        readOnly: true,
+        unit: "gal",
+        scale: 10,
+      },
+      lastUseInMinutes: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       minimumFlowRateInGalPerMin: {
         dataPoint: "108",
+        kind: "number",
+        measures: "volumeFlowRate",
         unit: "gal/min",
         min: 0,
         max: 4000,
@@ -42,6 +59,8 @@ const entry: TuyaDeviceEntry = {
       },
       maximumFlowRateInGalPerMin: {
         dataPoint: "109",
+        kind: "number",
+        measures: "volumeFlowRate",
         unit: "gal/min",
         min: 0,
         max: 4000,
@@ -49,22 +68,27 @@ const entry: TuyaDeviceEntry = {
       },
       flowRateUnit: {
         dataPoint: "116",
+        kind: "select",
         values: [
           { raw: "1", value: "gal/h" },
           { raw: "2", value: "m3/h" },
           { raw: "3", value: "L/h" },
         ],
       },
-      flowAlarm: { dataPoint: "123" },
-      resetTotalFlow: { dataPoint: "124" },
+      flowAlarm: { dataPoint: "123", kind: "switch" },
+      resetTotalFlow: { dataPoint: "124", kind: "button" },
       lastHourUseInGal: {
         dataPoint: "125",
+        kind: "sensor",
+        measures: "volume",
         readOnly: true,
         unit: "gal",
         scale: 10,
       },
       highFlow: {
         dataPoint: "126",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: "on", value: true },
@@ -73,6 +97,8 @@ const entry: TuyaDeviceEntry = {
       },
       lowFlow: {
         dataPoint: "127",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: "on", value: true },

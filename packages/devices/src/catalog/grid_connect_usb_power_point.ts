@@ -17,20 +17,33 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      usb: { dataPoint: "2" },
-      timerInSeconds: { dataPoint: "9", unit: "s", min: 0, max: 86400 },
-      timerUsbInSeconds: { dataPoint: "10", unit: "s", min: 0, max: 86400 },
+      on: { dataPoint: "1", kind: "switch" },
+      usb: { dataPoint: "2", kind: "switch" },
+      timerInSeconds: {
+        dataPoint: "9",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      timerUsbInSeconds: {
+        dataPoint: "10",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
       initialState: {
         dataPoint: "38",
+        kind: "select",
         values: [
           { raw: "power_off", value: "off" },
           { raw: "power_on", value: "on" },
           { raw: "last", value: "memory" },
         ],
       },
-      childLock: { dataPoint: "41" },
-      autoOff: { dataPoint: "44" },
+      childLock: { dataPoint: "41", kind: "switch" },
+      autoOff: { dataPoint: "44", kind: "switch" },
     },
   },
   source: {

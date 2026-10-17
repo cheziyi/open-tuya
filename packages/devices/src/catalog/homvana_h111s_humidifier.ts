@@ -27,27 +27,37 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "6",
+        kind: "select",
         values: [
           { raw: "botany", value: "Plant" },
           { raw: "piano", value: "Piano" },
           { raw: "pet", value: "Pet" },
         ],
       },
-      currentHumidityInPercent: { dataPoint: "14", readOnly: true, unit: "%" },
-      strHumidity: { dataPoint: "102" },
+      currentHumidityInPercent: {
+        dataPoint: "14",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      strHumidity: { dataPoint: "102", kind: "text" },
       targetHumidityInPercent: {
         dataPoint: "105",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 30,
         max: 90,
         step: 5,
       },
-      sleep: { dataPoint: "16" },
+      sleep: { dataPoint: "16", kind: "switch" },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "2h", value: "2h" },
@@ -60,6 +70,7 @@ const entry: TuyaDeviceEntry = {
       },
       heating: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "cancel", value: "Off" },
           { raw: "1", value: "low" },
@@ -67,12 +78,26 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "high" },
         ],
       },
-      humiditySetting: { dataPoint: "106" },
-      heating2: { dataPoint: "107" },
-      temperatureInF: { dataPoint: "12", readOnly: true, unit: "F" },
-      timeRemainingInHours: { dataPoint: "20", readOnly: true, unit: "h" },
+      humiditySetting: { dataPoint: "106", kind: "switch" },
+      heating2: { dataPoint: "107", kind: "switch" },
+      temperatureInF: {
+        dataPoint: "12",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "F",
+      },
+      timeRemainingInHours: {
+        dataPoint: "20",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "h",
+      },
       fault: {
         dataPoint: "22",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -80,9 +105,10 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", readOnly: true },
+      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "22",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -97,6 +123,7 @@ const entry: TuyaDeviceEntry = {
       },
       tankEmpty: {
         dataPoint: "22",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 4, value: true },
@@ -106,6 +133,7 @@ const entry: TuyaDeviceEntry = {
       },
       status: {
         dataPoint: "103",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "dry", value: "dry" },
@@ -115,9 +143,10 @@ const entry: TuyaDeviceEntry = {
       },
     },
     spray: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "low", value: 33 },
           { raw: "middle", value: 66 },
@@ -126,13 +155,14 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: false, value: "continuous" },
           { raw: true, value: "auto" },
         ],
       },
     },
-    display: { on: { dataPoint: "5" } },
+    display: { on: { dataPoint: "5", kind: "switch" } },
   },
   source: {
     file: "homvana_h111s_humidifier.yaml",

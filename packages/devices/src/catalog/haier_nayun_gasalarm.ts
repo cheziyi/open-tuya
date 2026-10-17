@@ -25,6 +25,8 @@ const entry: TuyaDeviceEntry = {
     device: {
       gas: {
         dataPoint: "1",
+        kind: "sensor",
+        measures: "gas",
         readOnly: true,
         values: [
           { raw: "normal", value: false },
@@ -33,12 +35,14 @@ const entry: TuyaDeviceEntry = {
       },
       gasLevelInPercentLel: {
         dataPoint: "2",
+        kind: "sensor",
         readOnly: true,
         unit: "% LEL",
         scale: 10,
       },
       alarmTone: {
         dataPoint: "6",
+        kind: "select",
         values: [
           { raw: "1", value: "Alarm 1" },
           { raw: "2", value: "Alarm 2" },
@@ -47,10 +51,17 @@ const entry: TuyaDeviceEntry = {
           { raw: "5", value: "Alarm 5" },
         ],
       },
-      alarmDurationInSeconds: { dataPoint: "7", unit: "s", min: 1, max: 180 },
-      selfCheck: { dataPoint: "8" },
+      alarmDurationInSeconds: {
+        dataPoint: "7",
+        kind: "number",
+        unit: "s",
+        min: 1,
+        max: 180,
+      },
+      selfCheck: { dataPoint: "8", kind: "button" },
       selfCheckResult: {
         dataPoint: "9",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "checking", value: "In progress" },
@@ -59,14 +70,36 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: "Unknown",
       },
-      selfCheckResultTestData: { dataPoint: "101", readOnly: true },
-      selfCheckResultTest2: { dataPoint: "102", readOnly: true },
-      selfCheckResultTest3: { dataPoint: "103", readOnly: true },
-      selfCheckResultTest4: { dataPoint: "104", readOnly: true },
-      warmUp: { dataPoint: "10", readOnly: true },
-      alarmEnable: { dataPoint: "13" },
+      selfCheckResultTestData: {
+        dataPoint: "101",
+        kind: "sensor",
+        readOnly: true,
+      },
+      selfCheckResultTest2: {
+        dataPoint: "102",
+        kind: "sensor",
+        readOnly: true,
+      },
+      selfCheckResultTest3: {
+        dataPoint: "103",
+        kind: "sensor",
+        readOnly: true,
+      },
+      selfCheckResultTest4: {
+        dataPoint: "104",
+        kind: "sensor",
+        readOnly: true,
+      },
+      warmUp: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "cold",
+        readOnly: true,
+      },
+      alarmEnable: { dataPoint: "13", kind: "switch" },
       sound: {
         dataPoint: "16",
+        kind: "switch",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },

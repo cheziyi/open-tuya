@@ -24,15 +24,30 @@ const entry: TuyaDeviceEntry = {
     heater: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "2", unit: "C", min: 5, max: 45 },
-      currentTemperatureInC: { dataPoint: "3", readOnly: true, unit: "C" },
+      targetTemperatureInC: {
+        dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 5,
+        max: 45,
+      },
+      currentTemperatureInC: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       fanMode: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "low", value: "low" },
           { raw: "high", value: "high" },
@@ -41,6 +56,7 @@ const entry: TuyaDeviceEntry = {
       },
       preset: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: true, value: "eco" },
           { raw: false, value: "comfort" },
@@ -48,6 +64,7 @@ const entry: TuyaDeviceEntry = {
       },
       hvacAction: {
         dataPoint: "101",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: false, value: "idle" },
@@ -56,9 +73,10 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      childLock: { dataPoint: "6" },
+      childLock: { dataPoint: "6", kind: "switch" },
       timer: {
         dataPoint: "10",
+        kind: "select",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -87,18 +105,26 @@ const entry: TuyaDeviceEntry = {
           { raw: "24", value: "24h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "11", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "11",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "12",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", readOnly: true },
-      sleep: { dataPoint: "102" },
+      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      sleep: { dataPoint: "102", kind: "switch" },
     },
-    display: { on: { dataPoint: "104" } },
+    display: { on: { dataPoint: "104", kind: "switch" } },
   },
   source: {
     file: "klarstein_bornholmsmart1500_heater.yaml",

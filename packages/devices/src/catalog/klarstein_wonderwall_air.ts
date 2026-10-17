@@ -21,6 +21,7 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
@@ -28,6 +29,8 @@ const entry: TuyaDeviceEntry = {
       },
       targetTemperatureInC: {
         dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 0,
         max: 370,
@@ -36,6 +39,8 @@ const entry: TuyaDeviceEntry = {
       },
       currentTemperatureInC: {
         dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -43,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       },
       preset: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "manual", value: "manual" },
           { raw: "holiday", value: "away" },
@@ -51,6 +57,7 @@ const entry: TuyaDeviceEntry = {
       },
       timer: {
         dataPoint: "10",
+        kind: "select",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -79,16 +86,35 @@ const entry: TuyaDeviceEntry = {
           { raw: "24", value: "24h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "11", readOnly: true, unit: "min" },
-      holidayInDays: { dataPoint: "101", unit: "d", min: 0, max: 99 },
+      timeRemainingInMinutes: {
+        dataPoint: "11",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      holidayInDays: {
+        dataPoint: "101",
+        kind: "number",
+        unit: "d",
+        min: 0,
+        max: 99,
+      },
       openWindowDetection: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "continue", value: "On" },
           { raw: "close", value: "Off" },
         ],
       },
-      upTimeInMinutes: { dataPoint: "105", readOnly: true, unit: "min" },
+      upTimeInMinutes: {
+        dataPoint: "105",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
     },
   },
   source: {

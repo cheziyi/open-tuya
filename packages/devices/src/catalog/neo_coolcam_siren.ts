@@ -25,9 +25,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     siren: {
-      on: { dataPoint: "104" },
+      on: { dataPoint: "104", kind: "switch" },
       tone: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "1", value: "Doorbell" },
           { raw: "2", value: "Für Elise" },
@@ -49,9 +50,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "18", value: "School bell" },
         ],
       },
-      durationInSeconds: { dataPoint: "103", unit: "s", min: 0, max: 1800 },
+      durationInSeconds: {
+        dataPoint: "103",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 1800,
+      },
       volume: {
         dataPoint: "116",
+        kind: "select",
         values: [
           { raw: "0", value: 1 },
           { raw: "1", value: 0.7 },
@@ -60,6 +68,8 @@ const entry: TuyaDeviceEntry = {
       },
       batteryInPercent: {
         dataPoint: "101",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         unit: "%",
         values: [
@@ -72,52 +82,68 @@ const entry: TuyaDeviceEntry = {
       },
       charging: {
         dataPoint: "101",
+        kind: "sensor",
+        measures: "batteryCharging",
         readOnly: true,
         values: [{ raw: "4", value: true }],
         otherwise: false,
       },
       temperatureInC: {
         dataPoint: "105",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         scale: 10,
       },
-      humidityInPercent: { dataPoint: "106", readOnly: true, unit: "%" },
+      humidityInPercent: {
+        dataPoint: "106",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       lowTemperatureThresholdInC: {
         dataPoint: "107",
+        kind: "number",
         unit: "C",
         min: -20,
         max: 50,
       },
       highTemperatureThresholdInC: {
         dataPoint: "108",
+        kind: "number",
         unit: "C",
         min: -20,
         max: 50,
       },
       lowHumidityThresholdInPercent: {
         dataPoint: "109",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 100,
       },
       highHumidityThresholdInPercent: {
         dataPoint: "110",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 100,
       },
       temperatureUnit: {
         dataPoint: "112",
+        kind: "select",
         values: [
           { raw: true, value: "celsius" },
           { raw: false, value: "fahrenheit" },
         ],
       },
-      temperatureAlarm: { dataPoint: "113" },
-      humidityAlarm: { dataPoint: "114" },
+      temperatureAlarm: { dataPoint: "113", kind: "switch" },
+      humidityAlarm: { dataPoint: "114", kind: "switch" },
       alarmStatus: {
         dataPoint: "115",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "0", value: "High temperature" },

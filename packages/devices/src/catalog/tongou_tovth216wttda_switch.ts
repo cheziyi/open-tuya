@@ -14,10 +14,23 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      temperatureInC: { dataPoint: "27", readOnly: true, unit: "C", scale: 10 },
-      humidityInPercent: { dataPoint: "46", readOnly: true, unit: "%" },
-      switch1: { dataPoint: "2" },
-      switch2: { dataPoint: "101" },
+      temperatureInC: {
+        dataPoint: "27",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+        scale: 10,
+      },
+      humidityInPercent: {
+        dataPoint: "46",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      switch1: { dataPoint: "2", kind: "switch" },
+      switch2: { dataPoint: "101", kind: "switch" },
     },
   },
   source: {

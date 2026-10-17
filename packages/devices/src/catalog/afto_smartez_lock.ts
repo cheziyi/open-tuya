@@ -20,10 +20,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     lock: {
-      unlockKey: { dataPoint: "16" },
-      unlockBle: { dataPoint: "19" },
+      unlockKey: { dataPoint: "16", kind: "number" },
+      unlockBle: { dataPoint: "19", kind: "number" },
       jammed: {
         dataPoint: "21",
+        kind: "select",
         values: [
           { raw: "tongue_bad", value: true },
           { raw: "tongue_not_out", value: true },
@@ -31,18 +32,26 @@ const entry: TuyaDeviceEntry = {
         absent: false,
         otherwise: false,
       },
-      locked: { dataPoint: "46" },
+      locked: { dataPoint: "46", kind: "switch" },
       lockState: {
         dataPoint: "47",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
         ],
       },
-      batteryInPercent: { dataPoint: "8", readOnly: true, unit: "%" },
+      batteryInPercent: {
+        dataPoint: "8",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
       alert: {
         dataPoint: "21",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "wrong_finger", value: "Wrong Finger" },
@@ -65,20 +74,28 @@ const entry: TuyaDeviceEntry = {
       },
       autoLock: {
         dataPoint: "33",
+        kind: "switch",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
         ],
       },
-      autoLockDelayInSeconds: { dataPoint: "36", unit: "s", min: 1, max: 1800 },
+      autoLockDelayInSeconds: {
+        dataPoint: "36",
+        kind: "number",
+        unit: "s",
+        min: 1,
+        max: 1800,
+      },
       lockDirection: {
         dataPoint: "48",
+        kind: "select",
         values: [
           { raw: "clockwise", value: "Clockwise" },
           { raw: "anticlockwise", value: "Anti-clockwise" },
         ],
       },
-      syncCredentials: { dataPoint: "54" },
+      syncCredentials: { dataPoint: "54", kind: "text" },
     },
   },
   source: {

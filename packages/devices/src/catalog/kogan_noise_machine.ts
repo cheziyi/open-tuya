@@ -13,10 +13,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "105" },
-      brightness: { dataPoint: "104", min: 0, max: 255 },
+      on: { dataPoint: "105", kind: "switch" },
+      brightness: { dataPoint: "104", kind: "number", min: 0, max: 255 },
       volume: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "low", value: "Low" },
           { raw: "high", value: "High" },

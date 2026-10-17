@@ -18,9 +18,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "1", value: 12 },
           { raw: "2", value: 25 },
@@ -34,6 +35,7 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "Manual", value: "manual" },
           { raw: "Auto", value: "auto" },
@@ -42,11 +44,17 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      pm25InUgPerM3: { dataPoint: "2", readOnly: true, unit: "ugm3" },
-      ionizer: { dataPoint: "6" },
-      uvSterilization: { dataPoint: "9" },
-      childLock: { dataPoint: "7" },
-      filterLife: { dataPoint: "17", readOnly: true },
+      pm25InUgPerM3: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "pm25",
+        readOnly: true,
+        unit: "ugm3",
+      },
+      ionizer: { dataPoint: "6", kind: "switch" },
+      uvSterilization: { dataPoint: "9", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch" },
+      filterLife: { dataPoint: "17", kind: "sensor", readOnly: true },
     },
   },
   source: {

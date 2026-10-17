@@ -20,14 +20,16 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "open" },
           { raw: false, value: "close" },
         ],
       },
-      open: { dataPoint: "101" },
+      open: { dataPoint: "101", kind: "switch" },
       switchType: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: "NA", value: "Normally open" },
           { raw: "NF", value: "Normally closed" },
@@ -35,6 +37,7 @@ const entry: TuyaDeviceEntry = {
       },
       pulseType: {
         dataPoint: "109",
+        kind: "select",
         values: [
           { raw: "Pulsado", value: "Pulsed" },
           { raw: "Retencao", value: "Continuous" },
@@ -43,14 +46,21 @@ const entry: TuyaDeviceEntry = {
       },
       autoClose: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "habilitado", value: "Enabled" },
           { raw: "desabilitado", value: "Disabled" },
         ],
       },
-      unlockDurationInSeconds: { dataPoint: "107", unit: "s", min: 1, max: 65 },
-      doorOpened: { dataPoint: "111", readOnly: true },
-      doorClosed: { dataPoint: "112", readOnly: true },
+      unlockDurationInSeconds: {
+        dataPoint: "107",
+        kind: "number",
+        unit: "s",
+        min: 1,
+        max: 65,
+      },
+      doorOpened: { dataPoint: "111", kind: "sensor", readOnly: true },
+      doorClosed: { dataPoint: "112", kind: "sensor", readOnly: true },
     },
   },
   source: {

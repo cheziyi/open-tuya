@@ -17,6 +17,7 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
@@ -25,6 +26,7 @@ const entry: TuyaDeviceEntry = {
       },
       currentPosition: {
         dataPoint: "102",
+        kind: "sensor",
         readOnly: true,
         min: 0,
         max: 100,
@@ -32,13 +34,19 @@ const entry: TuyaDeviceEntry = {
       },
       direction: {
         dataPoint: "107",
+        kind: "select",
         values: [
           { raw: false, value: "forward" },
           { raw: true, value: "reverse" },
         ],
       },
-      manualOverride: { dataPoint: "108" },
-      schedule: { dataPoint: "109", readOnly: true },
+      manualOverride: { dataPoint: "108", kind: "switch" },
+      schedule: {
+        dataPoint: "109",
+        kind: "sensor",
+        measures: "running",
+        readOnly: true,
+      },
     },
   },
   source: {

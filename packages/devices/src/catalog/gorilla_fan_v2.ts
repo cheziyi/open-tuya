@@ -16,13 +16,20 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
-      speed: { dataPoint: "3", min: 1, max: 5 },
-      boost: { dataPoint: "115" },
-      sleep: { dataPoint: "113" },
-      timerInMinutes: { dataPoint: "102", unit: "min", min: 0, max: 360 },
+      on: { dataPoint: "1", kind: "switch" },
+      speed: { dataPoint: "3", kind: "number", min: 1, max: 5 },
+      boost: { dataPoint: "115", kind: "switch" },
+      sleep: { dataPoint: "113", kind: "switch" },
+      timerInMinutes: {
+        dataPoint: "102",
+        kind: "number",
+        measures: "duration",
+        unit: "min",
+        min: 0,
+        max: 360,
+      },
     },
-    nightlight: { on: { dataPoint: "15" } },
+    nightlight: { on: { dataPoint: "15", kind: "switch" } },
   },
   source: {
     file: "gorilla_fan_v2.yaml",

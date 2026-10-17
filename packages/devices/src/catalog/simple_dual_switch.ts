@@ -8,7 +8,10 @@ const entry: TuyaDeviceEntry = {
   productKeys: ["jupECyrdMrUifHd8"],
   dataPoints: { "1": { type: "boolean" }, "2": { type: "boolean" } },
   components: {
-    device: { switch1: { dataPoint: "1" }, switch2: { dataPoint: "2" } },
+    device: {
+      switch1: { dataPoint: "1", kind: "switch" },
+      switch2: { dataPoint: "2", kind: "switch" },
+    },
   },
   source: {
     file: "simple_dual_switch.yaml",

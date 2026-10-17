@@ -13,9 +13,14 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1" },
-      brightness: { dataPoint: "3", min: 25, max: 255 },
-      temperatureAlarm: { dataPoint: "101", readOnly: true },
+      on: { dataPoint: "1", kind: "switch" },
+      brightness: { dataPoint: "3", kind: "number", min: 25, max: 255 },
+      temperatureAlarm: {
+        dataPoint: "101",
+        kind: "sensor",
+        measures: "heat",
+        readOnly: true,
+      },
     },
   },
   source: {

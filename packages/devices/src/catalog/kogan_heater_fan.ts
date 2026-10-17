@@ -22,19 +22,21 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
-      speed: { dataPoint: "3", min: 1, max: 9 },
+      on: { dataPoint: "1", kind: "switch" },
+      speed: { dataPoint: "3", kind: "number", min: 1, max: 9 },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "normal", value: "none" },
           { raw: "strong", value: "boost" },
         ],
       },
-      oscillating: { dataPoint: "5" },
-      sound: { dataPoint: "13" },
+      oscillating: { dataPoint: "5", kind: "switch" },
+      sound: { dataPoint: "13", kind: "switch" },
       timer: {
         dataPoint: "22",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -45,27 +47,50 @@ const entry: TuyaDeviceEntry = {
           { raw: "6h", value: "6h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "23", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "23",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "24",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "24", readOnly: true },
+      faultCode: { dataPoint: "24", kind: "sensor", readOnly: true },
     },
     heater: {
       hvacMode: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "20", unit: "C", min: 15, max: 35 },
-      currentTemperatureInC: { dataPoint: "21", readOnly: true, unit: "C" },
+      targetTemperatureInC: {
+        dataPoint: "20",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 15,
+        max: 35,
+      },
+      currentTemperatureInC: {
+        dataPoint: "21",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       preset: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: 0, value: "low" },
           { raw: 1, value: "medium" },

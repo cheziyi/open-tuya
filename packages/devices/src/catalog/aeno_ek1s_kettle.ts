@@ -18,16 +18,24 @@ const entry: TuyaDeviceEntry = {
     kettle: {
       mode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "electric" },
         ],
       },
-      currentTemperatureInC: { dataPoint: "10", readOnly: true, unit: "C" },
+      currentTemperatureInC: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
     },
     device: {
       kettleMode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "mzj_black", value: "black_tea" },
           { raw: "mzj_white", value: "white_tea" },
@@ -38,9 +46,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "mzj_warm", value: "keep_warm" },
         ],
       },
-      on: { dataPoint: "2" },
+      on: { dataPoint: "2", kind: "switch" },
       status: {
         dataPoint: "5",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -50,7 +59,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    indicator: { on: { dataPoint: "101" } },
+    indicator: { on: { dataPoint: "101", kind: "switch" } },
   },
   source: {
     file: "aeno_ek1s_kettle.yaml",

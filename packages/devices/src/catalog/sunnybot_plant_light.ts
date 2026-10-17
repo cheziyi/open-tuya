@@ -17,14 +17,16 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1" },
-      workMode: { dataPoint: "2" },
-      brightness: { dataPoint: "3", min: 0, max: 1000 },
-      timer: { dataPoint: "37" },
-      timerReport: { dataPoint: "38" },
-      multiswitch: { dataPoint: "56" },
+      on: { dataPoint: "1", kind: "switch" },
+      workMode: { dataPoint: "2", kind: "text" },
+      brightness: { dataPoint: "3", kind: "number", min: 0, max: 1000 },
+      timer: { dataPoint: "37", kind: "text" },
+      timerReport: { dataPoint: "38", kind: "text" },
+      multiswitch: { dataPoint: "56", kind: "text" },
     },
-    violet: { brightness: { dataPoint: "54", min: 0, max: 1000 } },
+    violet: {
+      brightness: { dataPoint: "54", kind: "number", min: 0, max: 1000 },
+    },
   },
   source: {
     file: "sunnybot_plant_light.yaml",

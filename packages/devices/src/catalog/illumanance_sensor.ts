@@ -9,9 +9,16 @@ const entry: TuyaDeviceEntry = {
   dataPoints: { "1": { type: "string" }, "2": { type: "integer" } },
   components: {
     device: {
-      brightnessInLux: { dataPoint: "2", readOnly: true, unit: "lx" },
+      brightnessInLux: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "illuminance",
+        readOnly: true,
+        unit: "lx",
+      },
       lightLevel: {
         dataPoint: "1",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "low", value: "Low" },

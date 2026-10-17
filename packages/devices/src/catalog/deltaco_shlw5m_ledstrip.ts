@@ -13,10 +13,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1" },
-      brightness: { dataPoint: "3", min: 25, max: 255 },
+      on: { dataPoint: "1", kind: "switch" },
+      brightness: { dataPoint: "3", kind: "number", min: 25, max: 255 },
       effect: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: "1", value: "Combination" },
           { raw: "2", value: "In Wave" },

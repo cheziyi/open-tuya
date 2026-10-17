@@ -20,6 +20,7 @@ const entry: TuyaDeviceEntry = {
     device: {
       selfCheckResult: {
         dataPoint: "1",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "checking", value: "checking" },
@@ -31,29 +32,48 @@ const entry: TuyaDeviceEntry = {
       },
       gas: {
         dataPoint: "2",
+        kind: "sensor",
+        measures: "gas",
         readOnly: true,
         values: [{ raw: "alarm", value: true }],
         otherwise: false,
       },
-      alarmDurationInSeconds: { dataPoint: "3", unit: "s", min: 0, max: 60 },
+      alarmDurationInSeconds: {
+        dataPoint: "3",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 0,
+        max: 60,
+      },
       volatileOrganicCompoundsPartsInPpm: {
         dataPoint: "5",
+        kind: "sensor",
+        measures: "volatileOrganicCompoundsParts",
         readOnly: true,
         unit: "ppm",
         scale: 10,
       },
-      selfCheck: { dataPoint: "9" },
-      cold: { dataPoint: "10", readOnly: true },
-      mute: { dataPoint: "14" },
+      selfCheck: { dataPoint: "9", kind: "button" },
+      cold: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "cold",
+        readOnly: true,
+      },
+      mute: { dataPoint: "14", kind: "button" },
       fault: {
         dataPoint: "45",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", readOnly: true },
+      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "45",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },

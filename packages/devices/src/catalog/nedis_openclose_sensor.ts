@@ -9,8 +9,19 @@ const entry: TuyaDeviceEntry = {
   dataPoints: { "1": { type: "boolean" }, "2": { type: "integer" } },
   components: {
     device: {
-      door: { dataPoint: "1", readOnly: true },
-      batteryInPercent: { dataPoint: "2", readOnly: true, unit: "%" },
+      door: {
+        dataPoint: "1",
+        kind: "sensor",
+        measures: "door",
+        readOnly: true,
+      },
+      batteryInPercent: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
     },
   },
   source: {

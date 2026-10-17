@@ -15,11 +15,18 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
-      speed: { dataPoint: "4", min: 1, max: 20 },
-      timerInMinutes: { dataPoint: "2", unit: "min", min: 0, max: 1440 },
+      on: { dataPoint: "1", kind: "switch" },
+      speed: { dataPoint: "4", kind: "number", min: 1, max: 20 },
+      timerInMinutes: {
+        dataPoint: "2",
+        kind: "number",
+        unit: "min",
+        min: 0,
+        max: 1440,
+      },
       initialState: {
         dataPoint: "11",
+        kind: "select",
         values: [
           { raw: "on", value: "on" },
           { raw: "off", value: "off" },
@@ -27,7 +34,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    backlight: { on: { dataPoint: "13" } },
+    backlight: { on: { dataPoint: "13", kind: "switch" } },
   },
   source: {
     file: "nhzs_fan_switch.yaml",

@@ -18,28 +18,50 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     valve: {
-      open: { dataPoint: "1" },
-      schedule: { dataPoint: "48" },
+      open: { dataPoint: "1", kind: "switch" },
+      schedule: { dataPoint: "48", kind: "text" },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "manual", value: "manual" },
         ],
       },
-      timerInSeconds: { dataPoint: "56", unit: "s", min: 0, max: 360 },
+      timerInSeconds: {
+        dataPoint: "56",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 0,
+        max: 360,
+      },
       pump: {
         dataPoint: "28",
+        kind: "select",
         values: [
           { raw: "PumpA", value: "Pump A" },
           { raw: "PumpB", value: "Pump B" },
           { raw: "PumpAB", value: "Both pumps" },
         ],
       },
-      repeatIntervalInHours: { dataPoint: "101", unit: "h", min: 0, max: 60 },
-      timeRemainingInSeconds: { dataPoint: "102", readOnly: true, unit: "s" },
+      repeatIntervalInHours: {
+        dataPoint: "101",
+        kind: "number",
+        unit: "h",
+        min: 0,
+        max: 60,
+      },
+      timeRemainingInSeconds: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "s",
+      },
       timeRemainingRuntimeInSeconds: {
         dataPoint: "10",
+        kind: "sensor",
         readOnly: true,
         unit: "s",
       },

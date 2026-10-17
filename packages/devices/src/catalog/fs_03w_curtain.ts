@@ -18,6 +18,7 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
@@ -26,6 +27,7 @@ const entry: TuyaDeviceEntry = {
       },
       targetPositionInPercent: {
         dataPoint: "2",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 100,
@@ -33,14 +35,23 @@ const entry: TuyaDeviceEntry = {
       },
       motorDirection: {
         dataPoint: "8",
+        kind: "select",
         values: [
           { raw: "forward", value: "Forward" },
           { raw: "back", value: "Back" },
         ],
       },
-      travelTimeInSeconds: { dataPoint: "10", unit: "s", min: 1, max: 60 },
+      travelTimeInSeconds: {
+        dataPoint: "10",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 1,
+        max: 60,
+      },
       lightMode: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
@@ -48,7 +59,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    backlight: { on: { dataPoint: "7" } },
+    backlight: { on: { dataPoint: "7", kind: "switch" } },
   },
   source: {
     file: "fs_03w_curtain.yaml",

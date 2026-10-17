@@ -23,11 +23,13 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      filterReplaced: { dataPoint: "7" },
-      pumpCleaned: { dataPoint: "8" },
+      on: { dataPoint: "1", kind: "switch" },
+      filterReplaced: { dataPoint: "7", kind: "button" },
+      pumpCleaned: { dataPoint: "8", kind: "button" },
       filterLifeInMinutes: {
         dataPoint: "4",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "min",
         min: 0,
@@ -36,15 +38,18 @@ const entry: TuyaDeviceEntry = {
       },
       pumpMaintenanceInMinutes: {
         dataPoint: "5",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "min",
         min: 0,
         max: 86400,
         invert: true,
       },
-      uvSterilization: { dataPoint: "10" },
+      uvSterilization: { dataPoint: "10", kind: "switch" },
       waterLevel: {
         dataPoint: "12",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "level_1", value: "low" },
@@ -52,18 +57,30 @@ const entry: TuyaDeviceEntry = {
           { raw: "level_3", value: "full" },
         ],
       },
-      uvRuntimeInSeconds: { dataPoint: "11", readOnly: true, unit: "s" },
-      waterLow: { dataPoint: "101", readOnly: true },
+      uvRuntimeInSeconds: {
+        dataPoint: "11",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "s",
+      },
+      waterLow: { dataPoint: "101", kind: "sensor", readOnly: true },
       ecoMode: {
         dataPoint: "102",
+        kind: "switch",
         values: [
           { raw: 1, value: false },
           { raw: 2, value: true },
         ],
       },
-      running: { dataPoint: "103", readOnly: true },
-      tankEmpty: { dataPoint: "104", readOnly: true },
-      ipcDid: { dataPoint: "110" },
+      running: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "running",
+        readOnly: true,
+      },
+      tankEmpty: { dataPoint: "104", kind: "sensor", readOnly: true },
+      ipcDid: { dataPoint: "110", kind: "text" },
     },
   },
   source: {

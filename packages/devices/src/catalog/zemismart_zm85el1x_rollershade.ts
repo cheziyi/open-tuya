@@ -24,23 +24,32 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
           { raw: "stop", value: "stop" },
         ],
       },
-      targetPosition: { dataPoint: "2", min: 0, max: 100, invert: true },
+      targetPosition: {
+        dataPoint: "2",
+        kind: "number",
+        min: 0,
+        max: 100,
+        invert: true,
+      },
       currentPosition: {
         dataPoint: "3",
+        kind: "sensor",
         readOnly: true,
         min: 0,
         max: 100,
         invert: true,
       },
-      workState: { dataPoint: "7" },
+      workState: { dataPoint: "7", kind: "text" },
       movement: {
         dataPoint: "11",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "fully_open", value: "opened" },
@@ -49,22 +58,32 @@ const entry: TuyaDeviceEntry = {
       },
       curtainMode: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "morning", value: "morning" },
           { raw: "night", value: "night" },
         ],
       },
-      reverse: { dataPoint: "5" },
+      reverse: { dataPoint: "5", kind: "switch" },
       fault: {
         dataPoint: "12",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", readOnly: true },
-      batteryInPercent: { dataPoint: "13", readOnly: true, unit: "%" },
+      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      batteryInPercent: {
+        dataPoint: "13",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
       borderSetting: {
         dataPoint: "16",
+        kind: "select",
         values: [
           { raw: "up", value: "Set top" },
           { raw: "down", value: "Set bottom" },
@@ -73,9 +92,23 @@ const entry: TuyaDeviceEntry = {
           { raw: "remove_top_bottom", value: "Clear all" },
         ],
       },
-      savedPositionInPercent: { dataPoint: "19", unit: "%", min: 0, max: 100 },
-      up: { dataPoint: "20", values: [{ raw: "up", value: true }] },
-      down: { dataPoint: "20", values: [{ raw: "down", value: true }] },
+      savedPositionInPercent: {
+        dataPoint: "19",
+        kind: "number",
+        unit: "%",
+        min: 0,
+        max: 100,
+      },
+      up: {
+        dataPoint: "20",
+        kind: "button",
+        values: [{ raw: "up", value: true }],
+      },
+      down: {
+        dataPoint: "20",
+        kind: "button",
+        values: [{ raw: "down", value: true }],
+      },
     },
   },
   source: {

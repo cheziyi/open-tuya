@@ -21,17 +21,26 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "15",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 40,
         max: 90,
         step: 5,
       },
-      currentHumidityInPercent: { dataPoint: "16", readOnly: true, unit: "%" },
+      currentHumidityInPercent: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       mode: {
         dataPoint: "12",
+        kind: "select",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "general", value: "continuous" },
@@ -39,18 +48,26 @@ const entry: TuyaDeviceEntry = {
       },
     },
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "large", value: 33 },
           { raw: "middle", value: 50 },
           { raw: "small", value: 100 },
         ],
       },
-      temperatureInC: { dataPoint: "14", readOnly: true, unit: "C" },
+      temperatureInC: {
+        dataPoint: "14",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       timer: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -61,10 +78,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "6", value: "6h" },
         ],
       },
-      sleep: { dataPoint: "21" },
-      on2: { dataPoint: "10" },
+      sleep: { dataPoint: "21", kind: "switch" },
+      on2: { dataPoint: "10", kind: "switch" },
       fault: {
         dataPoint: "9",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -73,15 +92,16 @@ const entry: TuyaDeviceEntry = {
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "9", readOnly: true },
+      faultCode: { dataPoint: "9", kind: "sensor", readOnly: true },
       tankEmpty: {
         dataPoint: "9",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
       },
     },
-    nightlight: { on: { dataPoint: "5" } },
+    nightlight: { on: { dataPoint: "5", kind: "switch" } },
   },
   source: {
     file: "duux_beam2_humidifier.yaml",

@@ -19,15 +19,23 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "stop", value: "stop" },
           { raw: "close", value: "close" },
         ],
       },
-      targetPosition: { dataPoint: "2", min: 0, max: 100, invert: true },
+      targetPosition: {
+        dataPoint: "2",
+        kind: "number",
+        min: 0,
+        max: 100,
+        invert: true,
+      },
       currentPosition: {
         dataPoint: "2",
+        kind: "sensor",
         readOnly: true,
         min: 0,
         max: 100,
@@ -35,22 +43,26 @@ const entry: TuyaDeviceEntry = {
       },
       workState: {
         dataPoint: "7",
+        kind: "select",
         values: [
           { raw: "opening", value: "opening" },
           { raw: "closing", value: "closing" },
         ],
       },
-      reversed: { dataPoint: "5", absent: false },
+      reversed: { dataPoint: "5", kind: "switch", absent: false },
       fault: {
         dataPoint: "12",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", readOnly: true },
+      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
       borderSetting: {
         dataPoint: "16",
+        kind: "select",
         values: [
           { raw: "up", value: "Top" },
           { raw: "down", value: "Bottom" },
@@ -59,7 +71,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "remove_top_bottom", value: "Clear all" },
         ],
       },
-      bestPositionInPercent: { dataPoint: "19", unit: "%", min: 0, max: 100 },
+      bestPositionInPercent: {
+        dataPoint: "19",
+        kind: "number",
+        unit: "%",
+        min: 0,
+        max: 100,
+      },
     },
   },
   source: {

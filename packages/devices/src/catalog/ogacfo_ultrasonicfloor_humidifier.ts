@@ -19,33 +19,44 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "101",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 30,
         max: 80,
         step: 5,
       },
-      currentHumidityInPercent: { dataPoint: "14", readOnly: true, unit: "%" },
+      currentHumidityInPercent: {
+        dataPoint: "14",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       mode: {
         dataPoint: "23",
+        kind: "select",
         values: [
           { raw: "level_1", value: "eco" },
           { raw: "level_2", value: "normal" },
           { raw: "level_3", value: "boost" },
         ],
       },
-      uvSterilization: { dataPoint: "5" },
-      sleep: { dataPoint: "16" },
+      uvSterilization: { dataPoint: "5", kind: "switch" },
+      sleep: { dataPoint: "16", kind: "switch" },
       tankEmpty: {
         dataPoint: "22",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "TimeOff", value: "cancel" },
           { raw: "1H", value: "1h" },
@@ -62,7 +73,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "12H", value: "12h" },
         ],
       },
-      timeRemainingInHours: { dataPoint: "102", readOnly: true, unit: "h" },
+      timeRemainingInHours: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "h",
+      },
     },
   },
   source: {

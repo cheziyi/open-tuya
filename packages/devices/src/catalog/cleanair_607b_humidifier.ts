@@ -23,9 +23,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "3",
+        kind: "select",
+        measures: "humidity",
         unit: "%",
         values: [
           { raw: "cancel", value: 0 },
@@ -40,9 +42,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "80", value: 80 },
         ],
       },
-      currentHumidityInPercent: { dataPoint: "14", readOnly: true, unit: "%" },
+      currentHumidityInPercent: {
+        dataPoint: "14",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       mode: {
         dataPoint: "24",
+        kind: "select",
         values: [
           { raw: "cancel", value: "away" },
           { raw: "baby", value: "baby" },
@@ -51,9 +60,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "SLEEP", value: "sleep" },
         ],
       },
-      temperatureInC: { dataPoint: "10", readOnly: true, unit: "C" },
+      temperatureInC: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -70,23 +86,36 @@ const entry: TuyaDeviceEntry = {
           { raw: "12h", value: "12h" },
         ],
       },
-      uvSterilization: { dataPoint: "21" },
+      uvSterilization: { dataPoint: "21", kind: "switch" },
       tankEmpty: {
         dataPoint: "22",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
       },
-      tankEmptyFaultCode: { dataPoint: "22", readOnly: true },
-      ionizer: { dataPoint: "25" },
-      heat: { dataPoint: "26" },
-      filterLifeInPercent: { dataPoint: "33", readOnly: true, unit: "%" },
-      cleaningReminder: { dataPoint: "101", readOnly: true },
+      tankEmptyFaultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      ionizer: { dataPoint: "25", kind: "switch" },
+      heat: { dataPoint: "26", kind: "switch" },
+      filterLifeInPercent: {
+        dataPoint: "33",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      cleaningReminder: {
+        dataPoint: "101",
+        kind: "sensor",
+        measures: "problem",
+        readOnly: true,
+      },
     },
     sprayLevel: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "23",
+        kind: "select",
         values: [
           { raw: "level_1", value: 33 },
           { raw: "level_2", value: 66 },

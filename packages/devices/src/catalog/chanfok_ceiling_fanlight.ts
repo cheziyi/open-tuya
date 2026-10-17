@@ -21,32 +21,34 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "107" },
+      on: { dataPoint: "107", kind: "switch" },
       mode: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "fresh", value: "fresh" },
           { raw: "nature", value: "nature" },
         ],
       },
-      speed: { dataPoint: "105", min: 1, max: 6 },
-      direction: { dataPoint: "104" },
-      lightControl: { dataPoint: "28" },
-      sound: { dataPoint: "101" },
+      speed: { dataPoint: "105", kind: "number", min: 1, max: 6 },
+      direction: { dataPoint: "104", kind: "text" },
+      lightControl: { dataPoint: "28", kind: "text" },
+      sound: { dataPoint: "101", kind: "switch" },
     },
     light: {
-      on: { dataPoint: "20" },
-      workMode: { dataPoint: "21" },
-      brightness: { dataPoint: "22", min: 10, max: 1000 },
+      on: { dataPoint: "20", kind: "switch" },
+      workMode: { dataPoint: "21", kind: "text" },
+      brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
       colorTemperatureInK: {
         dataPoint: "23",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 1000,
         targetRange: { min: 2700, max: 6500 },
       },
     },
-    nightlight: { on: { dataPoint: "53" } },
+    nightlight: { on: { dataPoint: "53", kind: "switch" } },
   },
   source: {
     file: "chanfok_ceiling_fanlight.yaml",

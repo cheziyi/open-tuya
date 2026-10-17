@@ -18,15 +18,23 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
           { raw: "stop", value: "stop" },
         ],
       },
-      targetPosition: { dataPoint: "2", min: 0, max: 100, invert: true },
+      targetPosition: {
+        dataPoint: "2",
+        kind: "number",
+        min: 0,
+        max: 100,
+        invert: true,
+      },
       currentPosition: {
         dataPoint: "3",
+        kind: "sensor",
         readOnly: true,
         min: 0,
         max: 100,
@@ -34,6 +42,7 @@ const entry: TuyaDeviceEntry = {
       },
       direction: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: false, value: "Clockwise" },
           { raw: true, value: "Anti-clockwise" },
@@ -41,14 +50,18 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "10",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "10", readOnly: true },
+      faultCode: { dataPoint: "10", kind: "sensor", readOnly: true },
       runningTimeInSeconds: {
         dataPoint: "11",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "s",
         absent: 0,

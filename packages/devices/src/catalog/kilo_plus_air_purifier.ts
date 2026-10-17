@@ -17,14 +17,20 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
-      speed: { dataPoint: "4", min: 1, max: 3 },
+      on: { dataPoint: "1", kind: "switch" },
+      speed: { dataPoint: "4", kind: "number", min: 1, max: 3 },
     },
     device: {
-      filterLifeInPercent: { dataPoint: "5", readOnly: true, unit: "%" },
-      filterReset: { dataPoint: "11" },
+      filterLifeInPercent: {
+        dataPoint: "5",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      filterReset: { dataPoint: "11", kind: "button" },
       timer: {
         dataPoint: "18",
+        kind: "select",
         values: [
           { raw: "cancle", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -35,13 +41,20 @@ const entry: TuyaDeviceEntry = {
       },
       light: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "cancle", value: "Off" },
           { raw: "1", value: "Gradient" },
           { raw: "2", value: "On" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "20", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "20",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
     },
   },
   source: {

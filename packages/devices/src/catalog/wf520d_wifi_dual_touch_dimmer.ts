@@ -16,16 +16,17 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     dimmer1: {
-      on: { dataPoint: "1" },
-      brightness: { dataPoint: "2", min: 10, max: 1000 },
+      on: { dataPoint: "1", kind: "switch" },
+      brightness: { dataPoint: "2", kind: "number", min: 10, max: 1000 },
     },
     dimmer2: {
-      on: { dataPoint: "7" },
-      brightness: { dataPoint: "8", min: 10, max: 1000 },
+      on: { dataPoint: "7", kind: "switch" },
+      brightness: { dataPoint: "8", kind: "number", min: 10, max: 1000 },
     },
     device: {
       minimumBrightness1InPercent: {
         dataPoint: "3",
+        kind: "number",
         unit: "%",
         min: 10,
         max: 1000,
@@ -33,6 +34,7 @@ const entry: TuyaDeviceEntry = {
       },
       minimumBrightness2InPercent: {
         dataPoint: "9",
+        kind: "number",
         unit: "%",
         min: 10,
         max: 1000,

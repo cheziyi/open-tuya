@@ -20,9 +20,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "manual", value: "manual" },
           { raw: "auto", value: "auto" },
@@ -30,6 +31,7 @@ const entry: TuyaDeviceEntry = {
       },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "low", value: 33 },
           { raw: "mid", value: 66 },
@@ -38,12 +40,25 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      pm25InUgPerM3: { dataPoint: "2", readOnly: true, unit: "ugm3" },
-      nightMode: { dataPoint: "8" },
-      microShield: { dataPoint: "9" },
-      filterLifeInDays: { dataPoint: "16", readOnly: true, unit: "d" },
+      pm25InUgPerM3: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "pm25",
+        readOnly: true,
+        unit: "ugm3",
+      },
+      nightMode: { dataPoint: "8", kind: "switch" },
+      microShield: { dataPoint: "9", kind: "switch" },
+      filterLifeInDays: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "d",
+      },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancle", value: "cancel" },
           { raw: "2", value: "2h" },
@@ -51,9 +66,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "8", value: "8h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "20", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "20",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       airQuality: {
         dataPoint: "22",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "great", value: "excellent" },

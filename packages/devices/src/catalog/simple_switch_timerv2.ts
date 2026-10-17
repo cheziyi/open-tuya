@@ -26,17 +26,24 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      timerInSeconds: { dataPoint: "9", unit: "s", min: 0, max: 86400 },
+      on: { dataPoint: "1", kind: "switch" },
+      timerInSeconds: {
+        dataPoint: "9",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
       initialState: {
         dataPoint: "38",
+        kind: "select",
         values: [
           { raw: "on", value: "on" },
           { raw: "off", value: "off" },
           { raw: "memory", value: "memory" },
         ],
       },
-      inching: { dataPoint: "44" },
+      inching: { dataPoint: "44", kind: "text" },
     },
   },
   source: {

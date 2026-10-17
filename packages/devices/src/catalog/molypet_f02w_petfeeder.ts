@@ -22,16 +22,18 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      mealPlan: { dataPoint: "1" },
-      quickFeed: { dataPoint: "2" },
+      mealPlan: { dataPoint: "1", kind: "text" },
+      quickFeed: { dataPoint: "2", kind: "button" },
       manualFeedInPortions: {
         dataPoint: "3",
+        kind: "number",
         unit: "portions",
         min: 1,
         max: 50,
       },
       status: {
         dataPoint: "4",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -39,24 +41,35 @@ const entry: TuyaDeviceEntry = {
           { raw: "done", value: "feeding_complete" },
         ],
       },
-      slowFeed: { dataPoint: "6" },
+      slowFeed: { dataPoint: "6", kind: "switch" },
       fault: {
         dataPoint: "14",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "14", readOnly: true },
-      lastFeedInPortions: { dataPoint: "15", readOnly: true, unit: "portions" },
+      faultCode: { dataPoint: "14", kind: "sensor", readOnly: true },
+      lastFeedInPortions: {
+        dataPoint: "15",
+        kind: "sensor",
+        readOnly: true,
+        unit: "portions",
+      },
       slowReleaseIntervalInMinutes: {
         dataPoint: "18",
+        kind: "number",
+        measures: "duration",
         unit: "min",
         min: 0,
         max: 10,
       },
-      voicePlayback: { dataPoint: "101" },
+      voicePlayback: { dataPoint: "101", kind: "switch" },
       batteryInPercent: {
         dataPoint: "102",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         unit: "%",
         values: [
@@ -72,9 +85,9 @@ const entry: TuyaDeviceEntry = {
           { raw: "10", value: 100, readOnly: true },
         ],
       },
-      restart: { dataPoint: "103" },
+      restart: { dataPoint: "103", kind: "button" },
     },
-    indicator: { on: { dataPoint: "19" } },
+    indicator: { on: { dataPoint: "19", kind: "switch" } },
   },
   source: {
     file: "molypet_f02w_petfeeder.yaml",

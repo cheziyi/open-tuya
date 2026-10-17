@@ -16,6 +16,7 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
@@ -24,6 +25,7 @@ const entry: TuyaDeviceEntry = {
       },
       targetPositionInPercent: {
         dataPoint: "2",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 100,
@@ -31,12 +33,20 @@ const entry: TuyaDeviceEntry = {
       },
       motorReverseMode: {
         dataPoint: "8",
+        kind: "select",
         values: [
           { raw: "forward", value: "Forward" },
           { raw: "back", value: "Back" },
         ],
       },
-      travelTimeInSeconds: { dataPoint: "10", unit: "s", min: 1, max: 60 },
+      travelTimeInSeconds: {
+        dataPoint: "10",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 1,
+        max: 60,
+      },
     },
   },
   source: {

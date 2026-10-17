@@ -16,20 +16,33 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      switch1: { dataPoint: "1" },
-      switch2: { dataPoint: "2" },
+      switch1: { dataPoint: "1", kind: "switch" },
+      switch2: { dataPoint: "2", kind: "switch" },
       initialState: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
           { raw: "memory", value: "memory" },
         ],
       },
-      timer1InSeconds: { dataPoint: "7", unit: "s", min: 0, max: 86400 },
-      timer2InSeconds: { dataPoint: "8", unit: "s", min: 0, max: 86400 },
+      timer1InSeconds: {
+        dataPoint: "7",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      timer2InSeconds: {
+        dataPoint: "8",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
     },
-    backlight: { on: { dataPoint: "16" } },
+    backlight: { on: { dataPoint: "16", kind: "switch" } },
   },
   source: {
     file: "uk002wl2_2gang_switch.yaml",

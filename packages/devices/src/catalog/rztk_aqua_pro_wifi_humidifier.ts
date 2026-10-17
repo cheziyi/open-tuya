@@ -21,10 +21,18 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
-      currentHumidityInPercent: { dataPoint: "14", readOnly: true, unit: "%" },
+      on: { dataPoint: "1", kind: "switch" },
+      currentHumidityInPercent: {
+        dataPoint: "14",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       targetHumidityInPercent: {
         dataPoint: "101",
+        kind: "select",
+        measures: "humidity",
         unit: "%",
         values: [
           { raw: "cancel", value: 0 },
@@ -39,10 +47,17 @@ const entry: TuyaDeviceEntry = {
           { raw: 80, value: 80 },
         ],
       },
-      uvSterilization: { dataPoint: "21" },
-      temperatureInC: { dataPoint: "10", readOnly: true, unit: "C" },
+      uvSterilization: { dataPoint: "21", kind: "switch" },
+      temperatureInC: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -55,15 +70,18 @@ const entry: TuyaDeviceEntry = {
           { raw: "8h", value: "8h" },
         ],
       },
-      timerRemaining: { dataPoint: "20" },
+      timerRemaining: { dataPoint: "20", kind: "number" },
       tankEmpty: {
         dataPoint: "22",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
       },
       fault: {
         dataPoint: "22",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -72,12 +90,13 @@ const entry: TuyaDeviceEntry = {
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", readOnly: true },
+      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
     },
     sprayLevel: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "23",
+        kind: "select",
         values: [
           { raw: "level_0", value: 0 },
           { raw: "level_1", value: 33 },
@@ -86,10 +105,11 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    backlight: { on: { dataPoint: "5" } },
+    backlight: { on: { dataPoint: "5", kind: "switch" } },
     display: {
       on: {
         dataPoint: "16",
+        kind: "select",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },

@@ -19,6 +19,7 @@ const entry: TuyaDeviceEntry = {
     poolHeatpump: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
@@ -26,6 +27,7 @@ const entry: TuyaDeviceEntry = {
       },
       preset: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "eco_heat", value: "eco" },
           { raw: "heating", value: "boost" },
@@ -33,12 +35,31 @@ const entry: TuyaDeviceEntry = {
           { raw: "auto", value: "auto" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "4", unit: "C", min: 5, max: 40 },
-      currentTemperatureInC: { dataPoint: "26", readOnly: true, unit: "C" },
+      targetTemperatureInC: {
+        dataPoint: "4",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 5,
+        max: 40,
+      },
+      currentTemperatureInC: {
+        dataPoint: "26",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
     },
     device: {
-      childLock: { dataPoint: "3" },
-      inletTemperatureInC: { dataPoint: "25", readOnly: true, unit: "C" },
+      childLock: { dataPoint: "3", kind: "switch" },
+      inletTemperatureInC: {
+        dataPoint: "25",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
     },
   },
   source: {

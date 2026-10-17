@@ -30,11 +30,33 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      energyInKwh: { dataPoint: "1", readOnly: true, unit: "kWh", scale: 100 },
-      chargeCurrentInA: { dataPoint: "4", unit: "A", min: 13, max: 32 },
-      powerInKw: { dataPoint: "9", readOnly: true, unit: "kW", scale: 1000 },
+      energyInKwh: {
+        dataPoint: "1",
+        kind: "sensor",
+        measures: "energy",
+        readOnly: true,
+        unit: "kWh",
+        scale: 100,
+      },
+      chargeCurrentInA: {
+        dataPoint: "4",
+        kind: "number",
+        measures: "current",
+        unit: "A",
+        min: 13,
+        max: 32,
+      },
+      powerInKw: {
+        dataPoint: "9",
+        kind: "sensor",
+        measures: "power",
+        readOnly: true,
+        unit: "kW",
+        scale: 1000,
+      },
       connectionState: {
         dataPoint: "13",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "controlpi_12v", value: "standby" },
@@ -48,15 +70,24 @@ const entry: TuyaDeviceEntry = {
       },
       chargeEnergyInKwh: {
         dataPoint: "17",
+        kind: "number",
+        measures: "energyStorage",
         unit: "kWh",
         min: 0,
         max: 2000000,
         scale: 100,
       },
-      on: { dataPoint: "18" },
-      temperatureInC: { dataPoint: "24", readOnly: true, unit: "C" },
+      on: { dataPoint: "18", kind: "switch" },
+      temperatureInC: {
+        dataPoint: "24",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       lastChargeInKwh: {
         dataPoint: "25",
+        kind: "sensor",
         readOnly: true,
         unit: "kWh",
         scale: 100,

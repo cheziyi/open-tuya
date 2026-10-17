@@ -15,6 +15,7 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
@@ -22,12 +23,16 @@ const entry: TuyaDeviceEntry = {
       },
       currentTemperatureInC: {
         dataPoint: "102",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         scale: 10,
       },
       targetTemperatureInC: {
         dataPoint: "103",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 50,
         max: 300,

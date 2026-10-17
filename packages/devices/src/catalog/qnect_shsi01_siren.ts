@@ -20,6 +20,7 @@ const entry: TuyaDeviceEntry = {
     siren: {
       volume: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "mute", value: 0 },
           { raw: "low", value: 0.3 },
@@ -27,10 +28,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: 1 },
         ],
       },
-      duration: { dataPoint: "7", min: 1, max: 60 },
-      on: { dataPoint: "13" },
+      duration: { dataPoint: "7", kind: "number", min: 1, max: 60 },
+      on: { dataPoint: "13", kind: "switch" },
       status: {
         dataPoint: "1",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "1", value: "Audible alarm" },
@@ -39,10 +41,25 @@ const entry: TuyaDeviceEntry = {
           { raw: "4", value: "idle" },
         ],
       },
-      power: { dataPoint: "6", readOnly: true },
-      muffling: { dataPoint: "15" },
-      tamper: { dataPoint: "101", readOnly: true },
-      battery: { dataPoint: "102", readOnly: true },
+      power: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "power",
+        readOnly: true,
+      },
+      muffling: { dataPoint: "15", kind: "switch" },
+      tamper: {
+        dataPoint: "101",
+        kind: "sensor",
+        measures: "tamper",
+        readOnly: true,
+      },
+      battery: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+      },
     },
   },
   source: {

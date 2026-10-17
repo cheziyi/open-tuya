@@ -20,11 +20,25 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
-      targetHumidityInPercent: { dataPoint: "13", unit: "%", min: 30, max: 80 },
-      currentHumidityInPercent: { dataPoint: "14", readOnly: true, unit: "%" },
+      on: { dataPoint: "1", kind: "switch" },
+      targetHumidityInPercent: {
+        dataPoint: "13",
+        kind: "number",
+        measures: "humidity",
+        unit: "%",
+        min: 30,
+        max: 80,
+      },
+      currentHumidityInPercent: {
+        dataPoint: "14",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       mode: {
         dataPoint: "24",
+        kind: "select",
         values: [
           { raw: "AUTO", value: "auto" },
           { raw: "MIDDLE", value: "normal" },
@@ -32,9 +46,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "SLEEP", value: "sleep" },
         ],
       },
-      sound: { dataPoint: "8" },
+      sound: { dataPoint: "8", kind: "switch" },
       waterLevelInPercent: {
         dataPoint: "101",
+        kind: "sensor",
         readOnly: true,
         unit: "%",
         values: [
@@ -43,10 +58,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "Full_water", value: 100 },
         ],
       },
-      ionizer: { dataPoint: "25" },
-      childLock: { dataPoint: "29" },
+      ionizer: { dataPoint: "25", kind: "switch" },
+      childLock: { dataPoint: "29", kind: "switch" },
     },
-    display: { on: { dataPoint: "5" } },
+    display: { on: { dataPoint: "5", kind: "switch" } },
   },
   source: {
     file: "wetair_wawh1210lw_humidifier.yaml",

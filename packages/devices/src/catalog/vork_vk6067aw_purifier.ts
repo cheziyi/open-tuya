@@ -19,9 +19,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "low", value: "low" },
           { raw: "mid", value: "medium" },
@@ -32,20 +33,33 @@ const entry: TuyaDeviceEntry = {
       },
     },
     light: {
-      filterLifeInPercent: { dataPoint: "5", readOnly: true, unit: "%" },
-      on: { dataPoint: "8" },
-      filterReset: { dataPoint: "11" },
+      filterLifeInPercent: {
+        dataPoint: "5",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      on: { dataPoint: "8", kind: "switch" },
+      filterReset: { dataPoint: "11", kind: "button" },
       timer: {
         dataPoint: "18",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
           { raw: "2h", value: "2h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "19", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "19",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       airQuality: {
         dataPoint: "21",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "great", value: "excellent" },
@@ -56,11 +70,13 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "22",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", readOnly: true },
+      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
     },
   },
   source: {

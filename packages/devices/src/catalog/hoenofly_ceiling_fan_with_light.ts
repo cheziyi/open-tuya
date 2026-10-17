@@ -19,10 +19,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "105" },
-      speed: { dataPoint: "104", min: 1, max: 6 },
+      on: { dataPoint: "105", kind: "switch" },
+      speed: { dataPoint: "104", kind: "number", min: 1, max: 6 },
       mode: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "level_1", value: "1" },
           { raw: "level_2", value: "2" },
@@ -34,19 +35,21 @@ const entry: TuyaDeviceEntry = {
       },
       direction: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "reverse", value: "reverse" },
         ],
       },
-      fanMode: { dataPoint: "106" },
-      countdownSet: { dataPoint: "103" },
+      fanMode: { dataPoint: "106", kind: "text" },
+      countdownSet: { dataPoint: "103", kind: "text" },
     },
     light: {
-      on: { dataPoint: "20" },
-      brightness: { dataPoint: "22", min: 10, max: 1000 },
+      on: { dataPoint: "20", kind: "switch" },
+      brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
       colorTemperatureInK: {
         dataPoint: "23",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 1000,

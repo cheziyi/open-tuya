@@ -24,11 +24,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     vacuum: {
-      on: { dataPoint: "1" },
-      cleaning: { dataPoint: "2" },
-      charge: { dataPoint: "3" },
+      on: { dataPoint: "1", kind: "switch" },
+      cleaning: { dataPoint: "2", kind: "switch" },
+      charge: { dataPoint: "3", kind: "switch" },
       command: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "smart", value: "smart" },
           { raw: "chargego", value: "return_to_base" },
@@ -38,6 +39,7 @@ const entry: TuyaDeviceEntry = {
       },
       status: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "standby", value: "standby" },
           { raw: "zone_clean", value: "zone" },
@@ -55,15 +57,17 @@ const entry: TuyaDeviceEntry = {
       },
       suction: {
         dataPoint: "9",
+        kind: "select",
         values: [
           { raw: "gentle", value: "Low" },
           { raw: "normal", value: "Medium" },
           { raw: "strong", value: "High" },
         ],
       },
-      locate: { dataPoint: "11" },
+      locate: { dataPoint: "11", kind: "switch" },
       moveDirection: {
         dataPoint: "12",
+        kind: "select",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "backward", value: "reverse" },
@@ -72,12 +76,32 @@ const entry: TuyaDeviceEntry = {
           { raw: "stop", value: "stop" },
         ],
       },
-      breakClean: { dataPoint: "27" },
-      cleanTimeInMinutes: { dataPoint: "6", readOnly: true, unit: "min" },
-      cleanAreaInM2: { dataPoint: "7", readOnly: true, unit: "m2", scale: 10 },
-      batteryInPercent: { dataPoint: "8", readOnly: true, unit: "%" },
+      breakClean: { dataPoint: "27", kind: "switch" },
+      cleanTimeInMinutes: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      cleanAreaInM2: {
+        dataPoint: "7",
+        kind: "sensor",
+        measures: "area",
+        readOnly: true,
+        unit: "m2",
+        scale: 10,
+      },
+      batteryInPercent: {
+        dataPoint: "8",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
       waterTank: {
         dataPoint: "10",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "low", value: "Low" },
@@ -87,11 +111,13 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "28",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "28", readOnly: true },
+      faultCode: { dataPoint: "28", kind: "sensor", readOnly: true },
     },
   },
   source: {

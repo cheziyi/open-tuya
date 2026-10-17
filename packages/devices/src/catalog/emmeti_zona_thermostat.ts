@@ -34,6 +34,7 @@ const entry: TuyaDeviceEntry = {
     thermostat: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
@@ -41,6 +42,8 @@ const entry: TuyaDeviceEntry = {
       },
       targetTemperatureInC: {
         dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 50,
         max: 350,
@@ -48,12 +51,15 @@ const entry: TuyaDeviceEntry = {
       },
       currentTemperatureInC: {
         dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         scale: 10,
       },
       preset: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "1", value: "home" },
           { raw: "2", value: "away" },
@@ -63,31 +69,37 @@ const entry: TuyaDeviceEntry = {
       },
       hvacAction: {
         dataPoint: "105",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: false, value: "idle" },
           { raw: true, value: "heating" },
         ],
       },
-      mcuDate: { dataPoint: "107" },
+      mcuDate: { dataPoint: "107", kind: "text" },
     },
     device: {
-      childLock: { dataPoint: "6" },
+      childLock: { dataPoint: "6", kind: "switch" },
       fault: {
         dataPoint: "12",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", readOnly: true },
+      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
       floorTemperatureInC: {
         dataPoint: "101",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         scale: 10,
       },
       temperatureSensor: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "0", value: "Internal" },
           { raw: "1", value: "External" },
@@ -96,27 +108,53 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureCalibrationInC: {
         dataPoint: "103",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: -9,
         max: 9,
       },
-      temperatureHysteresisInC: { dataPoint: "104", unit: "C", min: 1, max: 9 },
-      temporaryProgram: { dataPoint: "106" },
-      optimumStartup: { dataPoint: "108" },
-      geofencing: { dataPoint: "109" },
-      boost: { dataPoint: "110" },
-      boostTimeInHours: { dataPoint: "111", unit: "h", min: 0, max: 24 },
+      temperatureHysteresisInC: {
+        dataPoint: "104",
+        kind: "number",
+        measures: "temperatureDelta",
+        unit: "C",
+        min: 1,
+        max: 9,
+      },
+      temporaryProgram: { dataPoint: "106", kind: "text" },
+      optimumStartup: { dataPoint: "108", kind: "switch" },
+      geofencing: { dataPoint: "109", kind: "switch" },
+      boost: { dataPoint: "110", kind: "switch" },
+      boostTimeInHours: {
+        dataPoint: "111",
+        kind: "number",
+        measures: "duration",
+        unit: "h",
+        min: 0,
+        max: 24,
+      },
       boostTemperatureInC: {
         dataPoint: "112",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 50,
         max: 350,
         scale: 10,
       },
-      holiday: { dataPoint: "113" },
-      holidayLengthInDays: { dataPoint: "114", unit: "d", min: 0, max: 300 },
+      holiday: { dataPoint: "113", kind: "switch" },
+      holidayLengthInDays: {
+        dataPoint: "114",
+        kind: "number",
+        measures: "duration",
+        unit: "d",
+        min: 0,
+        max: 300,
+      },
       holidayTemperatureInC: {
         dataPoint: "115",
+        kind: "number",
         unit: "C",
         min: 50,
         max: 350,
@@ -124,6 +162,7 @@ const entry: TuyaDeviceEntry = {
       },
       programMode: {
         dataPoint: "116",
+        kind: "select",
         values: [
           { raw: "0", value: "7 days" },
           { raw: "1", value: "5+2 days" },

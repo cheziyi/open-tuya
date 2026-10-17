@@ -19,20 +19,35 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "10" },
+      on: { dataPoint: "10", kind: "switch" },
       mode: {
         dataPoint: "12",
+        kind: "select",
         values: [
           { raw: "sleep", value: "sleep" },
           { raw: "humidity", value: "auto" },
           { raw: "work", value: "normal" },
         ],
       },
-      targetHumidityInPercent: { dataPoint: "15", unit: "%", min: 40, max: 90 },
-      currentHumidityInPercent: { dataPoint: "16", readOnly: true, unit: "%" },
-      uvSterilization: { dataPoint: "22" },
+      targetHumidityInPercent: {
+        dataPoint: "15",
+        kind: "number",
+        measures: "humidity",
+        unit: "%",
+        min: 40,
+        max: 90,
+      },
+      currentHumidityInPercent: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      uvSterilization: { dataPoint: "22", kind: "switch" },
       timer: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -49,15 +64,24 @@ const entry: TuyaDeviceEntry = {
           { raw: "12", value: "12h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "4", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "4",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       tankEmpty: {
         dataPoint: "9",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
       },
       fault: {
         dataPoint: "9",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -65,18 +89,19 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "9", readOnly: true },
+      faultCode: { dataPoint: "9", kind: "sensor", readOnly: true },
     },
     intensity: {
       speed: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "small", value: 33 },
           { raw: "middle", value: 67 },
           { raw: "large", value: 100 },
         ],
       },
-      on: { dataPoint: "10" },
+      on: { dataPoint: "10", kind: "switch" },
     },
   },
   source: {

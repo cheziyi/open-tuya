@@ -20,6 +20,7 @@ const entry: TuyaDeviceEntry = {
     curtain1: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
@@ -28,6 +29,7 @@ const entry: TuyaDeviceEntry = {
       },
       targetPositionInPercent: {
         dataPoint: "2",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 100,
@@ -37,6 +39,7 @@ const entry: TuyaDeviceEntry = {
     curtain2: {
       command: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
@@ -45,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       },
       targetPositionInPercent: {
         dataPoint: "5",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 100,
@@ -54,6 +58,7 @@ const entry: TuyaDeviceEntry = {
     device: {
       direction1: {
         dataPoint: "8",
+        kind: "select",
         values: [
           { raw: "forward", value: "Forward" },
           { raw: "back", value: "Back" },
@@ -61,13 +66,28 @@ const entry: TuyaDeviceEntry = {
       },
       direction2: {
         dataPoint: "9",
+        kind: "select",
         values: [
           { raw: "forward", value: "Forward" },
           { raw: "back", value: "Back" },
         ],
       },
-      travelTime1InSeconds: { dataPoint: "10", unit: "s", min: 1, max: 60 },
-      travelTime2InSeconds: { dataPoint: "11", unit: "s", min: 1, max: 60 },
+      travelTime1InSeconds: {
+        dataPoint: "10",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 1,
+        max: 60,
+      },
+      travelTime2InSeconds: {
+        dataPoint: "11",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 1,
+        max: 60,
+      },
     },
   },
   source: {

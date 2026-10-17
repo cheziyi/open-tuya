@@ -17,16 +17,24 @@ const entry: TuyaDeviceEntry = {
     siren: {
       volume: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "low", value: 0.3 },
           { raw: "middle", value: 0.6 },
           { raw: "high", value: 1 },
         ],
       },
-      durationInSeconds: { dataPoint: "7", unit: "s", min: 0, max: 1800 },
-      on: { dataPoint: "13" },
+      durationInSeconds: {
+        dataPoint: "7",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 1800,
+      },
+      on: { dataPoint: "13", kind: "switch" },
       tone: {
         dataPoint: "21",
+        kind: "select",
         values: [
           { raw: "mode_1", value: "Type 1" },
           { raw: "mode_2", value: "Type 2" },
@@ -48,7 +56,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "mode_18", value: "Type 18" },
         ],
       },
-      batteryInPercent: { dataPoint: "15", readOnly: true, unit: "%" },
+      batteryInPercent: {
+        dataPoint: "15",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
     },
   },
   source: {

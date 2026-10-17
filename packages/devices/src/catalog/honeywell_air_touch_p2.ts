@@ -24,9 +24,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "sleep", value: "sleep" },
@@ -35,6 +36,7 @@ const entry: TuyaDeviceEntry = {
       },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "S", value: 20 },
           { raw: 1, value: 40 },
@@ -45,15 +47,33 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      pm25InUgPerM3: { dataPoint: "2", readOnly: true, unit: "ugm3" },
-      filterLifeInPercent: { dataPoint: "5", readOnly: true, unit: "%" },
-      filterRemainingInDays: { dataPoint: "16", readOnly: true, unit: "d" },
-      airQuality: { dataPoint: "21", readOnly: true },
-      childLock: { dataPoint: "7" },
-      uvSterilization: { dataPoint: "9" },
-      filterReset: { dataPoint: "11" },
+      pm25InUgPerM3: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "pm25",
+        readOnly: true,
+        unit: "ugm3",
+      },
+      filterLifeInPercent: {
+        dataPoint: "5",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      filterRemainingInDays: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "d",
+      },
+      airQuality: { dataPoint: "21", kind: "sensor", readOnly: true },
+      childLock: { dataPoint: "7", kind: "switch" },
+      uvSterilization: { dataPoint: "9", kind: "switch" },
+      filterReset: { dataPoint: "11", kind: "button" },
       timer: {
         dataPoint: "18",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -62,18 +82,27 @@ const entry: TuyaDeviceEntry = {
           { raw: "8h", value: "8h" },
         ],
       },
-      timeRemainingInSeconds: { dataPoint: "19", readOnly: true, unit: "s" },
+      timeRemainingInSeconds: {
+        dataPoint: "19",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "s",
+      },
       fault: {
         dataPoint: "22",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", readOnly: true },
+      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
     },
     display: {
       on: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: false, value: true },
           { raw: true, value: false },

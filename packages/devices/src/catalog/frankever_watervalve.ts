@@ -15,12 +15,25 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     valve: {
-      open: { dataPoint: "101", min: 0, max: 100, step: 10 },
-      currentPosition: { dataPoint: "102", readOnly: true, min: 0, max: 100 },
-      switch: { dataPoint: "1" },
-      timerInSeconds: { dataPoint: "9", unit: "s", min: 0, max: 86400 },
+      open: { dataPoint: "101", kind: "number", min: 0, max: 100, step: 10 },
+      currentPosition: {
+        dataPoint: "102",
+        kind: "sensor",
+        readOnly: true,
+        min: 0,
+        max: 100,
+      },
+      switch: { dataPoint: "1", kind: "switch" },
+      timerInSeconds: {
+        dataPoint: "9",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
       initialState: {
         dataPoint: "38",
+        kind: "select",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },

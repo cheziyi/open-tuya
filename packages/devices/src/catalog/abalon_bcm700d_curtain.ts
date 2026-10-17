@@ -13,17 +13,18 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     cover: {
-      targetPosition: { dataPoint: "101", min: 0, max: 100 },
-      currentPosition: { dataPoint: "101", readOnly: true },
+      targetPosition: { dataPoint: "101", kind: "number", min: 0, max: 100 },
+      currentPosition: { dataPoint: "101", kind: "sensor", readOnly: true },
       command: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "ZZ", value: "open" },
           { raw: "FZ", value: "close" },
           { raw: "STOP", value: "stop" },
         ],
       },
-      reverse: { dataPoint: "103" },
+      reverse: { dataPoint: "103", kind: "switch" },
     },
   },
   source: {

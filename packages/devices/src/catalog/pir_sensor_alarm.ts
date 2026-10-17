@@ -18,16 +18,37 @@ const entry: TuyaDeviceEntry = {
     device: {
       motion: {
         dataPoint: "1",
+        kind: "sensor",
+        measures: "motion",
         readOnly: true,
         values: [{ raw: "pir", value: true }],
         otherwise: false,
       },
-      armed: { dataPoint: "104" },
-      batteryCharging: { dataPoint: "103", readOnly: true },
-      batteryInPercent: { dataPoint: "4", readOnly: true, unit: "%" },
-      alarmTimeInSeconds: { dataPoint: "102", unit: "s", min: 0, max: 255 },
+      armed: { dataPoint: "104", kind: "switch" },
+      batteryCharging: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "batteryCharging",
+        readOnly: true,
+      },
+      batteryInPercent: {
+        dataPoint: "4",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      alarmTimeInSeconds: {
+        dataPoint: "102",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 0,
+        max: 255,
+      },
       warningMode: {
         dataPoint: "105",
+        kind: "select",
         values: [
           { raw: "SoundLight_mode", value: "Sound and Light" },
           { raw: "OnlyLight_mode", value: "Only Light" },

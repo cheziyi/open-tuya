@@ -23,17 +23,26 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "13",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 30,
         max: 75,
         step: 5,
       },
-      currentHumidityInPercent: { dataPoint: "14", readOnly: true, unit: "%" },
+      currentHumidityInPercent: {
+        dataPoint: "14",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       mode: {
         dataPoint: "23",
+        kind: "select",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "level1", value: "eco" },
@@ -41,10 +50,17 @@ const entry: TuyaDeviceEntry = {
           { raw: "level3", value: "boost" },
         ],
       },
-      temperatureInC: { dataPoint: "10", readOnly: true, unit: "C" },
-      sleep: { dataPoint: "16" },
+      temperatureInC: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      sleep: { dataPoint: "16", kind: "switch" },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -61,17 +77,29 @@ const entry: TuyaDeviceEntry = {
           { raw: "12h", value: "12h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "20", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "20",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       tankEmpty: {
         dataPoint: "22",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      negativeIons: { dataPoint: "25" },
-      filterReset: { dataPoint: "28" },
-      filterLifeInPercent: { dataPoint: "33", readOnly: true, unit: "%" },
-      uvSterilization: { dataPoint: "101" },
+      negativeIons: { dataPoint: "25", kind: "switch" },
+      filterReset: { dataPoint: "28", kind: "button" },
+      filterLifeInPercent: {
+        dataPoint: "33",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      uvSterilization: { dataPoint: "101", kind: "switch" },
     },
   },
   source: {

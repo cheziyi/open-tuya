@@ -17,11 +17,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      start: { dataPoint: "2" },
-      stop: { dataPoint: "3" },
+      on: { dataPoint: "1", kind: "switch" },
+      start: { dataPoint: "2", kind: "button" },
+      stop: { dataPoint: "3", kind: "button" },
       washingMode: {
         dataPoint: "6",
+        kind: "select",
         values: [
           { raw: "Cold", value: "fruit" },
           { raw: "Intensive", value: "intensive" },
@@ -32,6 +33,7 @@ const entry: TuyaDeviceEntry = {
       },
       status: {
         dataPoint: "7",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -39,15 +41,23 @@ const entry: TuyaDeviceEntry = {
           { raw: "done", value: "done" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "9", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "9",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "18",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", readOnly: true },
+      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
     },
   },
   source: {

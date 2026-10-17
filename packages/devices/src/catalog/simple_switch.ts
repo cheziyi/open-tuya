@@ -7,7 +7,7 @@ const entry: TuyaDeviceEntry = {
   name: "Simple switch",
   productKeys: [],
   dataPoints: { "1": { type: "boolean" } },
-  components: { device: { on: { dataPoint: "1" } } },
+  components: { device: { on: { dataPoint: "1", kind: "switch" } } },
   source: {
     file: "simple_switch.yaml",
     commit: "3506ae3d57afe5e71f5d004f4bc56c8a990a89e0",

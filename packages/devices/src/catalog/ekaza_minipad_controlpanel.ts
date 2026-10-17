@@ -22,21 +22,23 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     mediaPlayer: {
-      switch1: { dataPoint: "16" },
-      switch2: { dataPoint: "17" },
-      volume: { dataPoint: "80", min: 0, max: 100, scale: 100 },
-      play: { dataPoint: "82" },
+      switch1: { dataPoint: "16", kind: "switch" },
+      switch2: { dataPoint: "17", kind: "switch" },
+      volume: { dataPoint: "80", kind: "number", min: 0, max: 100, scale: 100 },
+      play: { dataPoint: "82", kind: "switch" },
       source: {
         dataPoint: "83",
+        kind: "select",
         values: [
           { raw: "smart_speaker", value: "Smart speaker" },
           { raw: "bluetooth", value: "Bluetooth" },
         ],
       },
-      prev: { dataPoint: "85" },
-      next: { dataPoint: "86" },
+      prev: { dataPoint: "85", kind: "switch" },
+      next: { dataPoint: "86", kind: "switch" },
       shuffle: {
         dataPoint: "87",
+        kind: "select",
         values: [
           { raw: "random", value: true },
           { raw: "order", value: false },
@@ -45,6 +47,7 @@ const entry: TuyaDeviceEntry = {
       },
       repeat: {
         dataPoint: "87",
+        kind: "select",
         values: [
           { raw: "repeat_all", value: "all" },
           { raw: "repeat_one", value: "one" },
@@ -52,10 +55,10 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: "off",
       },
-      microphone: { dataPoint: "81" },
-      bluetooth: { dataPoint: "84" },
-      alarmClock: { dataPoint: "88" },
-      alert: { dataPoint: "89" },
+      microphone: { dataPoint: "81", kind: "switch" },
+      bluetooth: { dataPoint: "84", kind: "switch" },
+      alarmClock: { dataPoint: "88", kind: "text" },
+      alert: { dataPoint: "89", kind: "text" },
     },
   },
   source: {

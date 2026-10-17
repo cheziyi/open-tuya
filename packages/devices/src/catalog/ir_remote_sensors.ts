@@ -16,17 +16,27 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     remote: {
-      send: { dataPoint: "201" },
-      receive: { dataPoint: "202" },
+      send: { dataPoint: "201", kind: "text" },
+      receive: { dataPoint: "202", kind: "text" },
       temperatureInC: {
         dataPoint: "101",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         scale: 10,
       },
-      humidityInPercent: { dataPoint: "102", readOnly: true, unit: "%" },
+      humidityInPercent: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       temperatureCalibrationInC: {
         dataPoint: "103",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: -20,
         max: 20,
@@ -34,12 +44,14 @@ const entry: TuyaDeviceEntry = {
       },
       humidityCalibrationInPercent: {
         dataPoint: "104",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: -10,
         max: 10,
       },
     },
-    infrared: { send: { dataPoint: "201" } },
+    infrared: { send: { dataPoint: "201", kind: "text" } },
   },
   source: {
     file: "ir_remote_sensors.yaml",

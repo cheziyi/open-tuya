@@ -21,9 +21,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "2",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 30,
         max: 90,
@@ -31,15 +33,23 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "dehumidify", value: "auto" },
           { raw: "drying", value: "laundry" },
           { raw: "sleep", value: "sleep" },
         ],
       },
-      currentHumidityInPercent: { dataPoint: "6", readOnly: true, unit: "%" },
+      currentHumidityInPercent: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       tankFull: {
         dataPoint: "25",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "on", value: true },
@@ -48,14 +58,17 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "19",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", readOnly: true },
+      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "19",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -64,11 +77,12 @@ const entry: TuyaDeviceEntry = {
           { raw: 4, value: "Evaporator sensor fault" },
         ],
       },
-      ionizer: { dataPoint: "10" },
-      uvSterilization: { dataPoint: "13" },
-      childLock: { dataPoint: "16" },
+      ionizer: { dataPoint: "10", kind: "switch" },
+      uvSterilization: { dataPoint: "13", kind: "switch" },
+      childLock: { dataPoint: "16", kind: "switch" },
       timer: {
         dataPoint: "17",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -99,9 +113,10 @@ const entry: TuyaDeviceEntry = {
       },
     },
     dehumidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "low", value: 33 },
           { raw: "mid", value: 66 },

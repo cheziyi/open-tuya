@@ -11,6 +11,7 @@ const entry: TuyaDeviceEntry = {
     screen: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "stop", value: "stop" },
@@ -19,6 +20,7 @@ const entry: TuyaDeviceEntry = {
       },
       movement: {
         dataPoint: "1",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "open", value: "opened" },
@@ -30,6 +32,7 @@ const entry: TuyaDeviceEntry = {
     device: {
       select: {
         dataPoint: "8",
+        kind: "select",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "back", value: "reverse" },

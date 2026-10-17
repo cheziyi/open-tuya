@@ -17,11 +17,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
-      speed: { dataPoint: "3", min: 1, max: 6 },
-      direction: { dataPoint: "8" },
+      on: { dataPoint: "1", kind: "switch" },
+      speed: { dataPoint: "3", kind: "number", min: 1, max: 6 },
+      direction: { dataPoint: "8", kind: "text" },
       timer: {
         dataPoint: "22",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -34,10 +35,11 @@ const entry: TuyaDeviceEntry = {
       },
     },
     light: {
-      on: { dataPoint: "15" },
-      brightness: { dataPoint: "16", min: 10, max: 1000 },
+      on: { dataPoint: "15", kind: "switch" },
+      brightness: { dataPoint: "16", kind: "number", min: 10, max: 1000 },
       colorTemperatureInK: {
         dataPoint: "17",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 1000,

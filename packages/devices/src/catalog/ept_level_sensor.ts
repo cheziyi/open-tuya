@@ -20,6 +20,7 @@ const entry: TuyaDeviceEntry = {
     device: {
       status: {
         dataPoint: "1",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "normal", value: "normal" },
@@ -27,17 +28,40 @@ const entry: TuyaDeviceEntry = {
           { raw: "upper_alarm", value: "high" },
         ],
       },
-      depthInM: { dataPoint: "2", readOnly: true, unit: "m", scale: 100 },
+      depthInM: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "distance",
+        readOnly: true,
+        unit: "m",
+        scale: 100,
+      },
       batteryVoltageInV: {
         dataPoint: "5",
+        kind: "sensor",
+        measures: "voltage",
         readOnly: true,
         unit: "V",
         scale: 10,
       },
-      highLevelInPercent: { dataPoint: "7", unit: "%", min: 0, max: 100 },
-      lowLevelInPercent: { dataPoint: "8", unit: "%", min: 0, max: 100 },
+      highLevelInPercent: {
+        dataPoint: "7",
+        kind: "number",
+        unit: "%",
+        min: 0,
+        max: 100,
+      },
+      lowLevelInPercent: {
+        dataPoint: "8",
+        kind: "number",
+        unit: "%",
+        min: 0,
+        max: 100,
+      },
       installationHeightInM: {
         dataPoint: "19",
+        kind: "number",
+        measures: "distance",
         unit: "m",
         min: 100,
         max: 3000,
@@ -45,12 +69,19 @@ const entry: TuyaDeviceEntry = {
       },
       maximumDepthInM: {
         dataPoint: "21",
+        kind: "number",
+        measures: "distance",
         unit: "m",
         min: 100,
         max: 2900,
         scale: 1000,
       },
-      levelInPercent: { dataPoint: "22", readOnly: true, unit: "%" },
+      levelInPercent: {
+        dataPoint: "22",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
     },
   },
   source: {

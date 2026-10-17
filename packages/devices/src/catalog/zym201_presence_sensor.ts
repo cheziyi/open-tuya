@@ -20,6 +20,8 @@ const entry: TuyaDeviceEntry = {
     device: {
       occupancy: {
         dataPoint: "101",
+        kind: "sensor",
+        measures: "occupancy",
         readOnly: true,
         values: [
           { raw: "exist", value: true },
@@ -28,6 +30,7 @@ const entry: TuyaDeviceEntry = {
       },
       presenceState: {
         dataPoint: "1",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "none", value: "None" },
@@ -35,9 +38,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "move", value: "Moving" },
         ],
       },
-      sensitivity: { dataPoint: "2", min: 1, max: 10 },
+      sensitivity: { dataPoint: "2", kind: "number", min: 1, max: 10 },
       maximumDetectionDistanceInM: {
         dataPoint: "4",
+        kind: "number",
         unit: "m",
         min: 150,
         max: 550,
@@ -45,20 +49,30 @@ const entry: TuyaDeviceEntry = {
       },
       targetDistanceInM: {
         dataPoint: "9",
+        kind: "sensor",
+        measures: "distance",
         readOnly: true,
         unit: "m",
         scale: 100,
       },
       fadingTimeInSeconds: {
         dataPoint: "102",
+        kind: "number",
+        measures: "duration",
         unit: "s",
         min: 5,
         max: 1500,
         scale: 10,
         step: 5,
       },
-      illuminanceInLux: { dataPoint: "104", readOnly: true, unit: "lx" },
-      staticSensitivity: { dataPoint: "111", min: 1, max: 10 },
+      illuminanceInLux: {
+        dataPoint: "104",
+        kind: "sensor",
+        measures: "illuminance",
+        readOnly: true,
+        unit: "lx",
+      },
+      staticSensitivity: { dataPoint: "111", kind: "number", min: 1, max: 10 },
     },
   },
   source: {

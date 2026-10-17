@@ -19,12 +19,38 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      temperatureInC: { dataPoint: "2", readOnly: true, unit: "C", scale: 10 },
-      humidityInPercent: { dataPoint: "3", readOnly: true, unit: "%" },
-      carbonDioxideInPpm: { dataPoint: "4", readOnly: true, unit: "ppm" },
-      batteryInPercent: { dataPoint: "22", readOnly: true, unit: "%" },
+      temperatureInC: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+        scale: 10,
+      },
+      humidityInPercent: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      carbonDioxideInPpm: {
+        dataPoint: "4",
+        kind: "sensor",
+        measures: "carbonDioxide",
+        readOnly: true,
+        unit: "ppm",
+      },
+      batteryInPercent: {
+        dataPoint: "22",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
       temperatureUnit: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "c", value: "celsius" },
           { raw: "f", value: "fahrenheit" },
@@ -32,13 +58,16 @@ const entry: TuyaDeviceEntry = {
       },
       batteryCharging: {
         dataPoint: "102",
+        kind: "sensor",
+        measures: "batteryCharging",
         readOnly: true,
         values: [{ raw: "chraging", value: true }],
         otherwise: false,
       },
-      alarm: { dataPoint: "104" },
+      alarm: { dataPoint: "104", kind: "switch" },
       screenOffDelay: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "Never", value: "cancel" },
           { raw: "10minute", value: "10m" },
@@ -50,6 +79,8 @@ const entry: TuyaDeviceEntry = {
       },
       co2AlarmThresholdInPpm: {
         dataPoint: "107",
+        kind: "number",
+        measures: "carbonDioxide",
         unit: "ppm",
         min: 1000,
         max: 9999,

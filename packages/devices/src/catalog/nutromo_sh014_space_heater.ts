@@ -22,6 +22,7 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
@@ -29,6 +30,7 @@ const entry: TuyaDeviceEntry = {
       },
       preset: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "eco", value: "eco" },
           { raw: "low", value: "low" },
@@ -37,19 +39,34 @@ const entry: TuyaDeviceEntry = {
           { raw: "fan", value: "fan" },
         ],
       },
-      targetTemperatureInF: { dataPoint: "14", unit: "F", min: 40, max: 95 },
-      currentTemperatureInF: { dataPoint: "15", readOnly: true, unit: "F" },
+      targetTemperatureInF: {
+        dataPoint: "14",
+        kind: "number",
+        measures: "temperature",
+        unit: "F",
+        min: 40,
+        max: 95,
+      },
+      currentTemperatureInF: {
+        dataPoint: "15",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "F",
+      },
       swingMode: {
         dataPoint: "8",
+        kind: "select",
         values: [
           { raw: true, value: "on" },
           { raw: false, value: "off" },
         ],
       },
-      childLock: { dataPoint: "7" },
-      doNotDisturb: { dataPoint: "102" },
+      childLock: { dataPoint: "7", kind: "switch" },
+      doNotDisturb: { dataPoint: "102", kind: "switch" },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -78,9 +95,17 @@ const entry: TuyaDeviceEntry = {
           { raw: "24", value: "24h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "20", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "20",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       autoOffCountdownInMinutes: {
         dataPoint: "103",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "min",
       },

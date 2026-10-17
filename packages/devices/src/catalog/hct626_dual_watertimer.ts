@@ -27,11 +27,13 @@ const entry: TuyaDeviceEntry = {
     "108": { type: "string", optional: true },
   },
   components: {
-    valve1: { open: { dataPoint: "1" } },
-    valve2: { open: { dataPoint: "2" } },
+    valve1: { open: { dataPoint: "1", kind: "switch" } },
+    valve2: { open: { dataPoint: "2", kind: "switch" } },
     device: {
       timer1InMinutes: {
         dataPoint: "17",
+        kind: "number",
+        measures: "duration",
         unit: "min",
         min: 60,
         max: 3600,
@@ -40,6 +42,8 @@ const entry: TuyaDeviceEntry = {
       },
       timer2InMinutes: {
         dataPoint: "18",
+        kind: "number",
+        measures: "duration",
         unit: "min",
         min: 60,
         max: 3600,
@@ -48,12 +52,15 @@ const entry: TuyaDeviceEntry = {
       },
       weatherDelayRemainingInHours: {
         dataPoint: "42",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "h",
       },
-      smartWeatherDelay: { dataPoint: "43" },
+      smartWeatherDelay: { dataPoint: "43", kind: "switch" },
       weather: {
         dataPoint: "44",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "sunny", value: "Sunny" },
@@ -65,6 +72,7 @@ const entry: TuyaDeviceEntry = {
       },
       weatherDelay: {
         dataPoint: "45",
+        kind: "select",
         values: [
           { raw: "cancel", value: "Off" },
           { raw: "1", value: "1 day" },
@@ -78,30 +86,51 @@ const entry: TuyaDeviceEntry = {
       },
       batteryInPercent: {
         dataPoint: "47",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         unit: "%",
         scale: 0.05,
       },
       battery: {
         dataPoint: "53",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
       valve1LastRuntimeInSeconds: {
         dataPoint: "101",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "s",
       },
       valve2LastRuntimeInSeconds: {
         dataPoint: "102",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "s",
       },
-      valve1SprayTimeInSeconds: { dataPoint: "103", readOnly: true, unit: "s" },
-      valve2SprayTimeInSeconds: { dataPoint: "104", readOnly: true, unit: "s" },
+      valve1SprayTimeInSeconds: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "s",
+      },
+      valve2SprayTimeInSeconds: {
+        dataPoint: "104",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "s",
+      },
       valve1State: {
         dataPoint: "105",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "idle", value: "Idle" },
@@ -110,9 +139,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "timing", value: "Scheduled" },
         ],
       },
-      valve1StateSchedule: { dataPoint: "38", readOnly: true },
+      valve1StateSchedule: { dataPoint: "38", kind: "sensor", readOnly: true },
       valve2State: {
         dataPoint: "106",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "idle", value: "Idle" },
@@ -121,7 +151,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "timing", value: "Scheduled" },
         ],
       },
-      valve2StateSchedule: { dataPoint: "108", readOnly: true },
+      valve2StateSchedule: { dataPoint: "108", kind: "sensor", readOnly: true },
     },
   },
   source: {

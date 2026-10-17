@@ -13,9 +13,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "OFF", value: "off" },
           { raw: "F1", value: "low" },
@@ -23,7 +24,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "F3", value: "high" },
         ],
       },
-      on2: { dataPoint: "10" },
+      on2: { dataPoint: "10", kind: "switch" },
     },
   },
   source: {

@@ -15,11 +15,17 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1" },
-      brightness: { dataPoint: "2", min: 10, max: 1000 },
-      minimumBrightness: { dataPoint: "3", min: 10, max: 1000 },
-      maximumBrightness: { dataPoint: "5", min: 10, max: 1000 },
-      timerInSeconds: { dataPoint: "6", unit: "s", min: 0, max: 86400 },
+      on: { dataPoint: "1", kind: "switch" },
+      brightness: { dataPoint: "2", kind: "number", min: 10, max: 1000 },
+      minimumBrightness: { dataPoint: "3", kind: "number", min: 10, max: 1000 },
+      maximumBrightness: { dataPoint: "5", kind: "number", min: 10, max: 1000 },
+      timerInSeconds: {
+        dataPoint: "6",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
     },
   },
   source: {

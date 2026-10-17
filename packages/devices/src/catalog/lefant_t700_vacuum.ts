@@ -23,10 +23,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     vacuum: {
-      on: { dataPoint: "1" },
-      cleaning: { dataPoint: "2" },
+      on: { dataPoint: "1", kind: "switch" },
+      cleaning: { dataPoint: "2", kind: "switch" },
       command: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "standby", value: "stop" },
           { raw: "smart", value: "smart" },
@@ -38,6 +39,7 @@ const entry: TuyaDeviceEntry = {
       },
       moveDirection: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "backward", value: "reverse" },
@@ -48,6 +50,7 @@ const entry: TuyaDeviceEntry = {
       },
       status: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "0", value: "standby" },
           { raw: "1", value: "cleaning" },
@@ -58,21 +61,42 @@ const entry: TuyaDeviceEntry = {
           { raw: "6", value: "spot_cleaning" },
         ],
       },
-      locate: { dataPoint: "13" },
-      cleanRecord: { dataPoint: "15" },
-      mapConfig: { dataPoint: "19" },
-      batteryInPercent: { dataPoint: "6", readOnly: true, unit: "%" },
-      cleanAreaInM2: { dataPoint: "16", readOnly: true, unit: "m2" },
-      cleanTimeInMinutes: { dataPoint: "17", readOnly: true, unit: "min" },
+      locate: { dataPoint: "13", kind: "switch" },
+      cleanRecord: { dataPoint: "15", kind: "text" },
+      mapConfig: { dataPoint: "19", kind: "text" },
+      batteryInPercent: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      cleanAreaInM2: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "area",
+        readOnly: true,
+        unit: "m2",
+      },
+      cleanTimeInMinutes: {
+        dataPoint: "17",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "18",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", readOnly: true },
+      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
       mopping: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "low", value: "low" },
           { raw: "nar", value: "medium" },

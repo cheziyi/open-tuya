@@ -23,36 +23,47 @@ const entry: TuyaDeviceEntry = {
     "111": { type: "integer", optional: true },
   },
   components: {
-    zoneA: { open: { dataPoint: "1" } },
-    zoneB: { open: { dataPoint: "2" } },
+    zoneA: { open: { dataPoint: "1", kind: "switch" } },
+    zoneB: { open: { dataPoint: "2", kind: "switch" } },
     device: {
-      protection: { dataPoint: "3" },
-      scheduleA: { dataPoint: "101", readOnly: true },
-      scheduleB: { dataPoint: "102", readOnly: true },
+      protection: { dataPoint: "3", kind: "switch" },
+      scheduleA: { dataPoint: "101", kind: "sensor", readOnly: true },
+      scheduleB: { dataPoint: "102", kind: "sensor", readOnly: true },
       wateringTimeAInSeconds: {
         dataPoint: "103",
+        kind: "number",
         unit: "s",
         min: 0,
         max: 1800,
       },
       wateringTimeBInSeconds: {
         dataPoint: "104",
+        kind: "number",
         unit: "s",
         min: 0,
         max: 1800,
       },
-      runLog: { dataPoint: "105", readOnly: true },
+      runLog: { dataPoint: "105", kind: "sensor", readOnly: true },
       fault: {
         dataPoint: "106",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "106", readOnly: true },
-      cutOffTimeInMinutes: { dataPoint: "107", unit: "min", min: 1, max: 60 },
+      faultCode: { dataPoint: "106", kind: "sensor", readOnly: true },
+      cutOffTimeInMinutes: {
+        dataPoint: "107",
+        kind: "number",
+        unit: "min",
+        min: 1,
+        max: 60,
+      },
       switchLogA: {
         dataPoint: "108",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "key_off", value: "Key off" },
@@ -62,6 +73,7 @@ const entry: TuyaDeviceEntry = {
       },
       switchLogB: {
         dataPoint: "109",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "key_off", value: "Key off" },
@@ -71,6 +83,7 @@ const entry: TuyaDeviceEntry = {
       },
       powerLevelA: {
         dataPoint: "110",
+        kind: "select",
         values: [
           { raw: 1, value: "Level 1" },
           { raw: 2, value: "Level 2" },
@@ -79,6 +92,7 @@ const entry: TuyaDeviceEntry = {
       },
       powerLevelB: {
         dataPoint: "111",
+        kind: "select",
         values: [
           { raw: 1, value: "Level 1" },
           { raw: 2, value: "Level 2" },

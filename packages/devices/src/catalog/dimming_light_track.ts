@@ -14,16 +14,17 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "20" },
-      brightness: { dataPoint: "22", min: 5, max: 1000 },
+      on: { dataPoint: "20", kind: "switch" },
+      brightness: { dataPoint: "22", kind: "number", min: 5, max: 1000 },
       colorTemperatureInK: {
         dataPoint: "23",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 1000,
         targetRange: { min: 3000, max: 6000 },
       },
-      identity: { dataPoint: "106" },
+      identity: { dataPoint: "106", kind: "text" },
     },
   },
   source: {

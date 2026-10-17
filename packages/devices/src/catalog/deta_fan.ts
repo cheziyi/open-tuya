@@ -16,9 +16,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "1", value: 33 },
           { raw: "2", value: 66 },
@@ -27,6 +28,7 @@ const entry: TuyaDeviceEntry = {
       },
       fanTimer: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "1", value: "cancel" },
           { raw: "2", value: "1h" },
@@ -37,6 +39,7 @@ const entry: TuyaDeviceEntry = {
       },
       lightTimer: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "1", value: "cancel" },
           { raw: "2", value: "1h" },
@@ -45,9 +48,9 @@ const entry: TuyaDeviceEntry = {
           { raw: "5", value: "8h" },
         ],
       },
-      master: { dataPoint: "101" },
+      master: { dataPoint: "101", kind: "switch" },
     },
-    light: { on: { dataPoint: "9" } },
+    light: { on: { dataPoint: "9", kind: "switch" } },
   },
   source: {
     file: "deta_fan.yaml",

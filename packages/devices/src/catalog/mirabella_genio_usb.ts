@@ -15,8 +15,14 @@ const entry: TuyaDeviceEntry = {
   dataPoints: { "1": { type: "boolean" }, "2": { type: "integer" } },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      timerInSeconds: { dataPoint: "2", unit: "s", min: 0, max: 86400 },
+      on: { dataPoint: "1", kind: "switch" },
+      timerInSeconds: {
+        dataPoint: "2",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
     },
   },
   source: {

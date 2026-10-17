@@ -22,9 +22,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "101",
+        kind: "select",
+        measures: "humidity",
         unit: "%",
         values: [
           { raw: "CO", value: 100 },
@@ -38,10 +40,23 @@ const entry: TuyaDeviceEntry = {
           { raw: "75RH", value: 75 },
         ],
       },
-      currentHumidityInPercent: { dataPoint: "14", readOnly: true, unit: "%" },
-      temperatureInC: { dataPoint: "10", readOnly: true, unit: "C" },
+      currentHumidityInPercent: {
+        dataPoint: "14",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      temperatureInC: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       backlight: {
         dataPoint: "6",
+        kind: "select",
         values: [
           { raw: "Cancel", value: "Off" },
           { raw: "7_color_circle", value: "7 color circle" },
@@ -54,24 +69,39 @@ const entry: TuyaDeviceEntry = {
           { raw: "Ice_lake_blue", value: "Light lake blue" },
         ],
       },
-      sleep: { dataPoint: "16" },
-      childLock: { dataPoint: "29" },
+      sleep: { dataPoint: "16", kind: "switch" },
+      childLock: { dataPoint: "29", kind: "switch" },
       tankEmpty: {
         dataPoint: "102",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: "Lack_of_water", value: true }],
         otherwise: false,
       },
       tankRemoved: {
         dataPoint: "102",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: "Tank_removed", value: true }],
         otherwise: false,
       },
-      filterLifeInDays: { dataPoint: "104", readOnly: true, unit: "d" },
-      timeRemainingInMinutes: { dataPoint: "20", readOnly: true, unit: "min" },
+      filterLifeInDays: {
+        dataPoint: "104",
+        kind: "sensor",
+        readOnly: true,
+        unit: "d",
+      },
+      timeRemainingInMinutes: {
+        dataPoint: "20",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "CO", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -90,9 +120,10 @@ const entry: TuyaDeviceEntry = {
       },
     },
     sprayLevel: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "Low_speed", value: 25 },
           { raw: "Medium_speed", value: 50 },

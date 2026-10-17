@@ -25,9 +25,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "health", value: "comfort" },
@@ -40,19 +41,39 @@ const entry: TuyaDeviceEntry = {
       },
       targetHumidityInPercent: {
         dataPoint: "13",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 35,
         max: 75,
         step: 5,
       },
-      currentHumidityInPercent: { dataPoint: "14", readOnly: true, unit: "%" },
-      uvSterilization: { dataPoint: "21" },
-      warmMist: { dataPoint: "26" },
-      plasma: { dataPoint: "35" },
-      temperatureInC: { dataPoint: "10", readOnly: true, unit: "C" },
-      temperatureFInF: { dataPoint: "12", readOnly: true, unit: "F" },
+      currentHumidityInPercent: {
+        dataPoint: "14",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      uvSterilization: { dataPoint: "21", kind: "switch" },
+      warmMist: { dataPoint: "26", kind: "switch" },
+      plasma: { dataPoint: "35", kind: "switch" },
+      temperatureInC: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      temperatureFInF: {
+        dataPoint: "12",
+        kind: "sensor",
+        readOnly: true,
+        unit: "F",
+      },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -69,9 +90,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "12h", value: "12h" },
         ],
       },
-      timerRemaining: { dataPoint: "20" },
+      timerRemaining: { dataPoint: "20", kind: "number" },
       temperatureUnit: {
         dataPoint: "18",
+        kind: "select",
         values: [
           { raw: "c", value: "celsius" },
           { raw: "f", value: "fahrenheit" },
@@ -79,12 +101,15 @@ const entry: TuyaDeviceEntry = {
       },
       tankEmpty: {
         dataPoint: "22",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
       },
       fault: {
         dataPoint: "22",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -93,13 +118,14 @@ const entry: TuyaDeviceEntry = {
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", readOnly: true },
+      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
     },
-    indicator: { on: { dataPoint: "5" } },
+    indicator: { on: { dataPoint: "5", kind: "switch" } },
     sprayLevel: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "23",
+        kind: "select",
         values: [
           { raw: "level_1", value: 15 },
           { raw: "level_2", value: 30 },

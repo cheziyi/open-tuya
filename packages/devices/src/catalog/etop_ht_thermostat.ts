@@ -25,6 +25,7 @@ const entry: TuyaDeviceEntry = {
     thermostat: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
@@ -32,6 +33,7 @@ const entry: TuyaDeviceEntry = {
       },
       preset: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "manual", value: "manual" },
           { raw: "eco", value: "eco" },
@@ -40,12 +42,15 @@ const entry: TuyaDeviceEntry = {
       },
       hvacAction: {
         dataPoint: "3",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: "heating", value: "heating" }],
         otherwise: "idle",
       },
       currentTemperatureInC: {
         dataPoint: "24",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         min: 0,
@@ -55,6 +60,8 @@ const entry: TuyaDeviceEntry = {
       },
       targetTemperatureInC: {
         dataPoint: "16",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 0,
         max: 1000,
@@ -63,6 +70,8 @@ const entry: TuyaDeviceEntry = {
       },
       minTargetTemperatureInC: {
         dataPoint: "26",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 0,
         max: 1000,
@@ -71,26 +80,32 @@ const entry: TuyaDeviceEntry = {
       },
       maxTargetTemperatureInC: {
         dataPoint: "19",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 50,
         max: 1000,
         scale: 10,
         step: 5,
       },
-      deadZone: { dataPoint: "101" },
+      deadZone: { dataPoint: "101", kind: "number" },
     },
     device: {
-      antiFrost: { dataPoint: "10" },
+      antiFrost: { dataPoint: "10", kind: "switch" },
       window: {
         dataPoint: "3",
+        kind: "sensor",
+        measures: "window",
         readOnly: true,
         values: [{ raw: "window_opened", value: true }],
         otherwise: false,
       },
-      windowDetection: { dataPoint: "8" },
-      childLock: { dataPoint: "40" },
+      windowDetection: { dataPoint: "8", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch" },
       setpointMinInC: {
         dataPoint: "26",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 0,
         max: 1000,
@@ -99,6 +114,8 @@ const entry: TuyaDeviceEntry = {
       },
       setpointMaxInC: {
         dataPoint: "19",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 50,
         max: 1000,
@@ -107,6 +124,8 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureCalibrationInC: {
         dataPoint: "27",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: -100,
         max: 100,
@@ -115,11 +134,13 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "45",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", readOnly: true },
+      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
     },
   },
   source: {

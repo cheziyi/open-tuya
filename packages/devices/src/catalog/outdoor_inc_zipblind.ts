@@ -17,16 +17,24 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
           { raw: "stop", value: "stop" },
         ],
       },
-      targetPosition: { dataPoint: "9", min: 0, max: 100 },
-      currentPosition: { dataPoint: "8", readOnly: true, min: 0, max: 100 },
+      targetPosition: { dataPoint: "9", kind: "number", min: 0, max: 100 },
+      currentPosition: {
+        dataPoint: "8",
+        kind: "sensor",
+        readOnly: true,
+        min: 0,
+        max: 100,
+      },
       workState: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "opening", value: "opening" },
           { raw: "closing", value: "closing" },
@@ -34,6 +42,7 @@ const entry: TuyaDeviceEntry = {
       },
       reverse: {
         dataPoint: "11",
+        kind: "switch",
         values: [
           { raw: "back", value: true },
           { raw: "forward", value: false },

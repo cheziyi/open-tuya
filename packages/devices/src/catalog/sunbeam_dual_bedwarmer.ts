@@ -29,11 +29,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      combinedSwitch: { dataPoint: "1", absent: false },
-      combinedSwitchSchedule: { dataPoint: "101" },
-      combinedSwitchConfirmation: { dataPoint: "104" },
+      combinedSwitch: { dataPoint: "1", kind: "switch", absent: false },
+      combinedSwitchSchedule: { dataPoint: "101", kind: "text" },
+      combinedSwitchConfirmation: { dataPoint: "104", kind: "text" },
       combinedLevel: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "level_1", value: "1" },
           { raw: "level_2", value: "2" },
@@ -47,17 +48,20 @@ const entry: TuyaDeviceEntry = {
           { raw: "level_10", value: "10" },
         ],
       },
-      combinedPreheat: { dataPoint: "8" },
+      combinedPreheat: { dataPoint: "8", kind: "switch" },
       fault: {
         dataPoint: "13",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", readOnly: true },
+      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
       zone: {
         dataPoint: "105",
+        kind: "select",
         values: [
           { raw: "NO_ZONE", value: "Combined" },
           { raw: "ZONE_A", value: "Zone A" },
@@ -65,10 +69,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "DUAL_ZONE", value: "Dual zone" },
         ],
       },
-      switchA: { dataPoint: "14" },
-      switchB: { dataPoint: "15" },
+      switchA: { dataPoint: "14", kind: "switch" },
+      switchB: { dataPoint: "15", kind: "switch" },
       levelA: {
         dataPoint: "20",
+        kind: "select",
         values: [
           { raw: "level_1", value: "1" },
           { raw: "level_2", value: "2" },
@@ -84,6 +89,7 @@ const entry: TuyaDeviceEntry = {
       },
       levelB: {
         dataPoint: "21",
+        kind: "select",
         values: [
           { raw: "level_1", value: "1" },
           { raw: "level_2", value: "2" },
@@ -97,10 +103,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "level_10", value: "10" },
         ],
       },
-      preheatA: { dataPoint: "24" },
-      preheatB: { dataPoint: "25" },
+      preheatA: { dataPoint: "24", kind: "switch" },
+      preheatB: { dataPoint: "25", kind: "switch" },
       autoOffA: {
         dataPoint: "26",
+        kind: "select",
         values: [
           { raw: "30m", value: "30m" },
           { raw: "1h", value: "1h" },
@@ -127,6 +134,7 @@ const entry: TuyaDeviceEntry = {
       },
       autoOffB: {
         dataPoint: "27",
+        kind: "select",
         values: [
           { raw: "30m", value: "30m" },
           { raw: "1h", value: "1h" },
@@ -151,15 +159,31 @@ const entry: TuyaDeviceEntry = {
           { raw: "Stay_On", value: "cancel" },
         ],
       },
-      timeRemainingAInSeconds: { dataPoint: "28", readOnly: true, unit: "s" },
-      timeRemainingBInSeconds: { dataPoint: "29", readOnly: true, unit: "s" },
+      timeRemainingAInSeconds: {
+        dataPoint: "28",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "s",
+      },
+      timeRemainingBInSeconds: {
+        dataPoint: "29",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "s",
+      },
       preheatRemainingAInSeconds: {
         dataPoint: "102",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "s",
       },
       preheatRemainingBInSeconds: {
         dataPoint: "103",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "s",
       },

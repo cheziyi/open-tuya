@@ -16,14 +16,18 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     hoodFan: {
-      on: { dataPoint: "1" },
-      speed: { dataPoint: "102", min: 1, max: 9 },
+      on: { dataPoint: "1", kind: "switch" },
+      speed: { dataPoint: "102", kind: "number", min: 1, max: 9 },
     },
-    auxiliaryLight: { on: { dataPoint: "4" } },
+    auxiliaryLight: { on: { dataPoint: "4", kind: "switch" } },
     mainLight: {
-      on: { dataPoint: "104" },
-      brightness: { dataPoint: "106", min: 29, max: 1000 },
-      mode: { dataPoint: "107", values: [{ raw: "white", value: "white" }] },
+      on: { dataPoint: "104", kind: "switch" },
+      brightness: { dataPoint: "106", kind: "number", min: 29, max: 1000 },
+      mode: {
+        dataPoint: "107",
+        kind: "select",
+        values: [{ raw: "white", value: "white" }],
+      },
     },
   },
   source: {

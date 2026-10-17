@@ -22,9 +22,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "manual", value: "manual" },
@@ -34,6 +35,7 @@ const entry: TuyaDeviceEntry = {
       },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: 8, value: 100 },
           { raw: 7, value: 88 },
@@ -47,15 +49,39 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      pm25InUgPerM3: { dataPoint: "2", readOnly: true, unit: "ugm3" },
-      activeFilterLifeInPercent: { dataPoint: "5", readOnly: true, unit: "%" },
-      ionizer: { dataPoint: "6" },
-      childLock: { dataPoint: "7" },
-      filterReset: { dataPoint: "11" },
-      temperatureInC: { dataPoint: "12", readOnly: true, unit: "C" },
-      humidityInPercent: { dataPoint: "13", readOnly: true, unit: "%" },
+      pm25InUgPerM3: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "pm25",
+        readOnly: true,
+        unit: "ugm3",
+      },
+      activeFilterLifeInPercent: {
+        dataPoint: "5",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      ionizer: { dataPoint: "6", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch" },
+      filterReset: { dataPoint: "11", kind: "button" },
+      temperatureInC: {
+        dataPoint: "12",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      humidityInPercent: {
+        dataPoint: "13",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       airQuality: {
         dataPoint: "21",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "great", value: "excellent" },
@@ -66,6 +92,7 @@ const entry: TuyaDeviceEntry = {
       },
       autoMode: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "sleep", value: "Sleep" },
           { raw: "normal", value: "Normal" },

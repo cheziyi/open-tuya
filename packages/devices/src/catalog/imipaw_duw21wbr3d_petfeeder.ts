@@ -19,15 +19,17 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      mealPlan: { dataPoint: "1" },
+      mealPlan: { dataPoint: "1", kind: "text" },
       manualFeedInPortions: {
         dataPoint: "3",
+        kind: "number",
         unit: "portions",
         min: 1,
         max: 20,
       },
       status: {
         dataPoint: "4",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -35,19 +37,37 @@ const entry: TuyaDeviceEntry = {
           { raw: "done", value: "feeding_complete" },
         ],
       },
-      batteryInPercent: { dataPoint: "10", readOnly: true, unit: "%" },
-      batteryCharging: { dataPoint: "11", readOnly: true },
+      batteryInPercent: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      batteryCharging: {
+        dataPoint: "11",
+        kind: "sensor",
+        measures: "batteryCharging",
+        readOnly: true,
+      },
       fault: {
         dataPoint: "13",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", readOnly: true },
-      feedReport: { dataPoint: "14", readOnly: true, otherwise: "Fed" },
-      feedReportPortions: { dataPoint: "14", readOnly: true },
-      factoryReset: { dataPoint: "24" },
-      on: { dataPoint: "25" },
+      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      feedReport: {
+        dataPoint: "14",
+        kind: "event",
+        readOnly: true,
+        otherwise: "Fed",
+      },
+      feedReportPortions: { dataPoint: "14", kind: "sensor", readOnly: true },
+      factoryReset: { dataPoint: "24", kind: "button" },
+      on: { dataPoint: "25", kind: "switch" },
     },
   },
   source: {

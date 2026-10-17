@@ -15,11 +15,38 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      timerInSeconds: { dataPoint: "7", unit: "s", min: 0, max: 86400 },
-      currentInA: { dataPoint: "21", readOnly: true, unit: "A", scale: 1000 },
-      voltageInV: { dataPoint: "22", readOnly: true, unit: "V", scale: 10 },
-      powerInW: { dataPoint: "23", readOnly: true, unit: "W", scale: 10 },
+      on: { dataPoint: "1", kind: "switch" },
+      timerInSeconds: {
+        dataPoint: "7",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      currentInA: {
+        dataPoint: "21",
+        kind: "sensor",
+        measures: "current",
+        readOnly: true,
+        unit: "A",
+        scale: 1000,
+      },
+      voltageInV: {
+        dataPoint: "22",
+        kind: "sensor",
+        measures: "voltage",
+        readOnly: true,
+        unit: "V",
+        scale: 10,
+      },
+      powerInW: {
+        dataPoint: "23",
+        kind: "sensor",
+        measures: "power",
+        readOnly: true,
+        unit: "W",
+        scale: 10,
+      },
     },
   },
   source: {

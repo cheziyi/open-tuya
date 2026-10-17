@@ -19,9 +19,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "2",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 30,
         max: 80,
@@ -29,23 +31,39 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "Continuities", value: "continuous" },
           { raw: "Auto", value: "auto" },
           { raw: "Sleep", value: "sleep" },
         ],
       },
-      currentHumidityInPercent: { dataPoint: "6", readOnly: true, unit: "%" },
-      temperatureInC: { dataPoint: "7", readOnly: true, unit: "C" },
-      childLock: { dataPoint: "16" },
+      currentHumidityInPercent: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      temperatureInC: {
+        dataPoint: "7",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      childLock: { dataPoint: "16", kind: "switch" },
       tankFull: {
         dataPoint: "19",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 8, value: true }],
         otherwise: false,
       },
       fault: {
         dataPoint: "19",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -53,13 +71,14 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", readOnly: true },
-      ionizer: { dataPoint: "101" },
+      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      ionizer: { dataPoint: "101", kind: "switch" },
     },
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "low", value: 50 },
           { raw: "high", value: 100 },

@@ -25,18 +25,19 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     floodlight: {
-      on: { dataPoint: "138" },
-      brightness: { dataPoint: "158", min: 1, max: 100 },
+      on: { dataPoint: "138", kind: "switch" },
+      brightness: { dataPoint: "158", kind: "number", min: 1, max: 100 },
     },
     device: {
-      siren: { dataPoint: "159", absent: false },
-      siren2: { dataPoint: "120", absent: false },
-      cameraPrivacy: { dataPoint: "105" },
-      motionDetection: { dataPoint: "134" },
-      flipImage: { dataPoint: "103" },
-      watermark: { dataPoint: "104", absent: false },
+      siren: { dataPoint: "159", kind: "switch", absent: false },
+      siren2: { dataPoint: "120", kind: "switch", absent: false },
+      cameraPrivacy: { dataPoint: "105", kind: "switch" },
+      motionDetection: { dataPoint: "134", kind: "switch" },
+      flipImage: { dataPoint: "103", kind: "switch" },
+      watermark: { dataPoint: "104", kind: "switch", absent: false },
       sdStatus: {
         dataPoint: "110",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -47,10 +48,11 @@ const entry: TuyaDeviceEntry = {
         ],
         absent: "missing",
       },
-      sdStatusCapacity: { dataPoint: "109", readOnly: true },
-      sdFormat: { dataPoint: "111" },
+      sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
+      sdFormat: { dataPoint: "111", kind: "button" },
       sdFormatStatus: {
         dataPoint: "117",
+        kind: "select",
         values: [
           { raw: 0, value: "Formatted" },
           { raw: 100, value: "Formatted" },
@@ -60,16 +62,17 @@ const entry: TuyaDeviceEntry = {
           { raw: 2003, value: "Card error" },
         ],
       },
-      cameraRecord: { dataPoint: "150" },
+      cameraRecord: { dataPoint: "150", kind: "switch" },
       recordingMode: {
         dataPoint: "151",
+        kind: "select",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
         ],
       },
     },
-    indicator: { on: { dataPoint: "101" } },
+    indicator: { on: { dataPoint: "101", kind: "switch" } },
   },
   source: {
     file: "ledvance_floodlight_camera.yaml",

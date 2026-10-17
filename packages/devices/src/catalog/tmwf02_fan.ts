@@ -14,10 +14,16 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
-      fanLevel: { dataPoint: "3" },
-      speed: { dataPoint: "4", min: 1, max: 100 },
-      timerInSeconds: { dataPoint: "2", unit: "s", min: 0, max: 86400 },
+      on: { dataPoint: "1", kind: "switch" },
+      fanLevel: { dataPoint: "3", kind: "text" },
+      speed: { dataPoint: "4", kind: "number", min: 1, max: 100 },
+      timerInSeconds: {
+        dataPoint: "2",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
     },
   },
   source: {

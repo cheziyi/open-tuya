@@ -17,14 +17,33 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      switch1: { dataPoint: "1" },
-      switch2: { dataPoint: "2" },
-      switch3: { dataPoint: "3" },
-      timer1InSeconds: { dataPoint: "7", unit: "s", min: 0, max: 86399 },
-      timer2InSeconds: { dataPoint: "8", unit: "s", min: 0, max: 86399 },
-      timer3InSeconds: { dataPoint: "9", unit: "s", min: 0, max: 86399 },
+      switch1: { dataPoint: "1", kind: "switch" },
+      switch2: { dataPoint: "2", kind: "switch" },
+      switch3: { dataPoint: "3", kind: "switch" },
+      timer1InSeconds: {
+        dataPoint: "7",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86399,
+      },
+      timer2InSeconds: {
+        dataPoint: "8",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86399,
+      },
+      timer3InSeconds: {
+        dataPoint: "9",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86399,
+      },
       initialState: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },

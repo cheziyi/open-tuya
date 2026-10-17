@@ -21,10 +21,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
-      speed: { dataPoint: "109", min: 1, max: 100 },
+      on: { dataPoint: "1", kind: "switch" },
+      speed: { dataPoint: "109", kind: "number", min: 1, max: 100 },
       mode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "sleep", value: "sleep" },
@@ -34,12 +35,30 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      pm25InUgPerM3: { dataPoint: "2", readOnly: true, unit: "µg/m³" },
-      pm10InUgPerM3: { dataPoint: "102", readOnly: true, unit: "ugm3" },
-      filterLifeInPercent: { dataPoint: "104", readOnly: true, unit: "%" },
-      filterLifeHoursUsed: { dataPoint: "105", readOnly: true },
+      pm25InUgPerM3: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "pm25",
+        readOnly: true,
+        unit: "µg/m³",
+      },
+      pm10InUgPerM3: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "pm10",
+        readOnly: true,
+        unit: "ugm3",
+      },
+      filterLifeInPercent: {
+        dataPoint: "104",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      filterLifeHoursUsed: { dataPoint: "105", kind: "sensor", readOnly: true },
       timer: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "0_hour", value: "cancel" },
           { raw: "1_hour", value: "1h" },
@@ -48,10 +67,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "8_hour", value: "8h" },
         ],
       },
-      childLock: { dataPoint: "7" },
-      sound: { dataPoint: "101" },
+      childLock: { dataPoint: "7", kind: "switch" },
+      sound: { dataPoint: "101", kind: "switch" },
       displayBrightness: {
         dataPoint: "110",
+        kind: "select",
         values: [
           { raw: "BRIGHTNESS_HIGH", value: "high" },
           { raw: "BRIGHTNESS_LOW", value: "low" },

@@ -19,9 +19,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      power: { dataPoint: "1" },
+      power: { dataPoint: "1", kind: "switch" },
       workMode: {
         dataPoint: "2",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "auto_clean", value: "Auto" },
@@ -31,17 +32,25 @@ const entry: TuyaDeviceEntry = {
           { raw: "deodorization", value: "Deodorisation" },
         ],
       },
-      manualClean: { dataPoint: "3" },
-      sleep: { dataPoint: "10" },
-      deodorise: { dataPoint: "17" },
+      manualClean: { dataPoint: "3", kind: "switch" },
+      sleep: { dataPoint: "10", kind: "switch" },
+      deodorise: { dataPoint: "17", kind: "switch" },
       numberOfTimesUsedInTimes: {
         dataPoint: "7",
+        kind: "sensor",
         readOnly: true,
         unit: "times",
       },
-      lastVisitDurationInSeconds: { dataPoint: "8", readOnly: true, unit: "s" },
+      lastVisitDurationInSeconds: {
+        dataPoint: "8",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "s",
+      },
       status: {
         dataPoint: "24",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -54,7 +63,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "in_toilet", value: "occupied" },
         ],
       },
-      batteryInPercent: { dataPoint: "101", readOnly: true, unit: "%" },
+      batteryInPercent: {
+        dataPoint: "101",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
     },
   },
   source: {

@@ -22,9 +22,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "Sleep", value: "sleep" },
           { raw: "1", value: "low" },
@@ -36,6 +37,7 @@ const entry: TuyaDeviceEntry = {
       },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "Sleep", value: 20 },
           { raw: "1", value: 40 },
@@ -47,14 +49,37 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      pm25InUgPerM3: { dataPoint: "2", readOnly: true, unit: "ugm3" },
-      filterLifeInPercent: { dataPoint: "5", readOnly: true, unit: "%" },
-      filterReset: { dataPoint: "11" },
-      filterRemainingInHours: { dataPoint: "16", readOnly: true, unit: "h" },
-      childLock: { dataPoint: "7" },
-      filteredAirInM3: { dataPoint: "104", readOnly: true, unit: "m³" },
+      pm25InUgPerM3: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "pm25",
+        readOnly: true,
+        unit: "ugm3",
+      },
+      filterLifeInPercent: {
+        dataPoint: "5",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      filterReset: { dataPoint: "11", kind: "button" },
+      filterRemainingInHours: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "h",
+      },
+      childLock: { dataPoint: "7", kind: "switch" },
+      filteredAirInM3: {
+        dataPoint: "104",
+        kind: "sensor",
+        readOnly: true,
+        unit: "m³",
+      },
       airQuality: {
         dataPoint: "21",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "mild", value: "excellent" },
@@ -65,6 +90,7 @@ const entry: TuyaDeviceEntry = {
       },
       timer: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: 0, value: "cancel" },
           { raw: 1, value: "1h" },
@@ -77,6 +103,7 @@ const entry: TuyaDeviceEntry = {
     display: {
       on: {
         dataPoint: "8",
+        kind: "select",
         values: [
           { raw: false, value: true },
           { raw: true, value: false },

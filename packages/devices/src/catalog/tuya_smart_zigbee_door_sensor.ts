@@ -13,9 +13,25 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      door: { dataPoint: "101", readOnly: true },
-      batteryInPercent: { dataPoint: "103", readOnly: true, unit: "%" },
-      tamper: { dataPoint: "102", readOnly: true },
+      door: {
+        dataPoint: "101",
+        kind: "sensor",
+        measures: "door",
+        readOnly: true,
+      },
+      batteryInPercent: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      tamper: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "tamper",
+        readOnly: true,
+      },
     },
   },
   source: {

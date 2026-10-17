@@ -23,6 +23,7 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
@@ -31,6 +32,7 @@ const entry: TuyaDeviceEntry = {
       },
       targetPositionInPercent: {
         dataPoint: "2",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 100,
@@ -38,6 +40,7 @@ const entry: TuyaDeviceEntry = {
       },
       calibration: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "start", value: "Start" },
           { raw: "end", value: "End" },
@@ -45,25 +48,46 @@ const entry: TuyaDeviceEntry = {
       },
       direction: {
         dataPoint: "8",
+        kind: "select",
         values: [
           { raw: "forward", value: "Forward" },
           { raw: "back", value: "Back" },
         ],
       },
-      travelTimeInSeconds: { dataPoint: "10", unit: "s", min: 10, max: 120 },
+      travelTimeInSeconds: {
+        dataPoint: "10",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 10,
+        max: 120,
+      },
       motorConnection: {
         dataPoint: "12",
+        kind: "select",
         values: [
           { raw: "strong_power", value: "Direct" },
           { raw: "dry_contact", value: "Via relay" },
         ],
       },
-      timer1InSeconds: { dataPoint: "103", unit: "s", min: 0, max: 86400 },
-      timer2InSeconds: { dataPoint: "104", unit: "s", min: 0, max: 86400 },
+      timer1InSeconds: {
+        dataPoint: "103",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      timer2InSeconds: {
+        dataPoint: "104",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
     },
-    light1: { on: { dataPoint: "101" } },
-    light2: { on: { dataPoint: "102" } },
-    backlight: { on: { dataPoint: "7" } },
+    light1: { on: { dataPoint: "101", kind: "switch" } },
+    light2: { on: { dataPoint: "102", kind: "switch" } },
+    backlight: { on: { dataPoint: "7", kind: "switch" } },
   },
   source: {
     file: "avatto_curtain_duallights.yaml",

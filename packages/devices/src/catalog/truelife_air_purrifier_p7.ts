@@ -21,9 +21,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "AUTO", value: "auto" },
           { raw: "SLEEP", value: "sleep" },
@@ -32,20 +33,34 @@ const entry: TuyaDeviceEntry = {
       },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "LOW", value: 33 },
           { raw: "MID", value: 66 },
           { raw: "HI", value: 100 },
         ],
       },
-      pm25InUgPerM3: { dataPoint: "2", readOnly: true, unit: "ugm3" },
-      ionizer: { dataPoint: "6" },
-      childLock: { dataPoint: "7" },
-      uvSterilization: { dataPoint: "9" },
-      filterReset: { dataPoint: "11" },
-      filterLifeInHours: { dataPoint: "16", readOnly: true, unit: "h" },
+      pm25InUgPerM3: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "pm25",
+        readOnly: true,
+        unit: "ugm3",
+      },
+      ionizer: { dataPoint: "6", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch" },
+      uvSterilization: { dataPoint: "9", kind: "switch" },
+      filterReset: { dataPoint: "11", kind: "button" },
+      filterLifeInHours: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "h",
+      },
       timer: {
         dataPoint: "18",
+        kind: "select",
         values: [
           { raw: "cancle", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -58,7 +73,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "8h", value: "8h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "19", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "19",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
     },
   },
   source: {

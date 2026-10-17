@@ -21,6 +21,7 @@ const entry: TuyaDeviceEntry = {
     heater: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
@@ -28,6 +29,7 @@ const entry: TuyaDeviceEntry = {
       },
       preset: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "thaw", value: "anti_frost" },
           { raw: "eco", value: "eco" },
@@ -37,21 +39,44 @@ const entry: TuyaDeviceEntry = {
           { raw: "travel", value: "away" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "16", unit: "C", min: 7, max: 30 },
-      currentTemperatureInC: { dataPoint: "24", readOnly: true, unit: "C" },
+      targetTemperatureInC: {
+        dataPoint: "16",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 7,
+        max: 30,
+      },
+      currentTemperatureInC: {
+        dataPoint: "24",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
     },
     device: {
       temperatureCalibrationInC: {
         dataPoint: "27",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: -5,
         max: 5,
       },
-      schedule: { dataPoint: "53" },
-      awayDaysInDays: { dataPoint: "101", unit: "d", min: 1, max: 60 },
-      childLock: { dataPoint: "102" },
+      schedule: { dataPoint: "53", kind: "text" },
+      awayDaysInDays: {
+        dataPoint: "101",
+        kind: "number",
+        measures: "duration",
+        unit: "d",
+        min: 1,
+        max: 60,
+      },
+      childLock: { dataPoint: "102", kind: "switch" },
       openWindowDetection: {
         dataPoint: "112",
+        kind: "select",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "60", value: "1h" },

@@ -25,32 +25,59 @@ const entry: TuyaDeviceEntry = {
     "115": { type: "string" },
   },
   components: {
-    switch1: { on: { dataPoint: "101" } },
-    switch2: { on: { dataPoint: "102" } },
+    switch1: { on: { dataPoint: "101", kind: "switch" } },
+    switch2: { on: { dataPoint: "102", kind: "switch" } },
     device: {
       occupancy: {
         dataPoint: "1",
+        kind: "sensor",
+        measures: "occupancy",
         readOnly: true,
         values: [{ raw: "presence", value: true }],
         otherwise: false,
       },
-      sensitivity: { dataPoint: "2", min: 0, max: 19 },
+      sensitivity: { dataPoint: "2", kind: "number", min: 0, max: 19 },
       detectionDistanceInM: {
         dataPoint: "4",
+        kind: "number",
+        measures: "distance",
         unit: "m",
         min: 0,
         max: 1000,
         scale: 100,
       },
-      timer1InSeconds: { dataPoint: "103", unit: "s", min: 0, max: 43200 },
-      timer2InSeconds: { dataPoint: "104", unit: "s", min: 0, max: 43200 },
-      allOn: { dataPoint: "107" },
-      toggle1: { dataPoint: "108", values: [{ raw: "ch1", value: true }] },
-      toggle2: { dataPoint: "108", values: [{ raw: "ch2", value: true }] },
-      allOff: { dataPoint: "109" },
-      lightSensitivity: { dataPoint: "110", min: 0, max: 10 },
+      timer1InSeconds: {
+        dataPoint: "103",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 0,
+        max: 43200,
+      },
+      timer2InSeconds: {
+        dataPoint: "104",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 0,
+        max: 43200,
+      },
+      allOn: { dataPoint: "107", kind: "button" },
+      toggle1: {
+        dataPoint: "108",
+        kind: "button",
+        values: [{ raw: "ch1", value: true }],
+      },
+      toggle2: {
+        dataPoint: "108",
+        kind: "button",
+        values: [{ raw: "ch2", value: true }],
+      },
+      allOff: { dataPoint: "109", kind: "button" },
+      lightSensitivity: { dataPoint: "110", kind: "number", min: 0, max: 10 },
       initialState: {
         dataPoint: "112",
+        kind: "select",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -59,6 +86,7 @@ const entry: TuyaDeviceEntry = {
       },
       occupiedTurnOn: {
         dataPoint: "113",
+        kind: "select",
         values: [
           { raw: "off", value: "Disabled" },
           { raw: "all", value: "Both" },
@@ -68,12 +96,14 @@ const entry: TuyaDeviceEntry = {
       },
       unoccupiedDelayInSeconds: {
         dataPoint: "114",
+        kind: "number",
         unit: "s",
         min: 5,
         max: 28800,
       },
       unoccupiedTurnOff: {
         dataPoint: "115",
+        kind: "select",
         values: [
           { raw: "off", value: "Disabled" },
           { raw: "all", value: "Both" },
@@ -82,7 +112,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    backlight: { on: { dataPoint: "111" } },
+    backlight: { on: { dataPoint: "111", kind: "switch" } },
   },
   source: {
     file: "haozee_presence_wallswitch.yaml",

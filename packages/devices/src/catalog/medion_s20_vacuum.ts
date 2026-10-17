@@ -28,10 +28,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     vacuum: {
-      on: { dataPoint: "1" },
-      cleaning: { dataPoint: "2" },
+      on: { dataPoint: "1", kind: "switch" },
+      cleaning: { dataPoint: "2", kind: "switch" },
       command: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "standby", value: "stop" },
           { raw: "random", value: "random" },
@@ -43,6 +44,7 @@ const entry: TuyaDeviceEntry = {
       },
       moveDirection: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "backward", value: "reverse" },
@@ -53,6 +55,7 @@ const entry: TuyaDeviceEntry = {
       },
       status: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "standby", value: "standby" },
           { raw: "random_clean", value: "random" },
@@ -73,38 +76,70 @@ const entry: TuyaDeviceEntry = {
           { raw: "in_trouble", value: "error" },
         ],
       },
-      locate: { dataPoint: "13" },
+      locate: { dataPoint: "13", kind: "switch" },
       suction: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "normal", value: "normal" },
           { raw: "strong", value: "strong" },
         ],
       },
-      batteryInPercent: { dataPoint: "6", readOnly: true, unit: "%" },
-      edgeBrushInPercent: { dataPoint: "7", readOnly: true, unit: "%" },
-      filterLifeInPercent: { dataPoint: "9", readOnly: true, unit: "%" },
-      resetEdgeBrush: { dataPoint: "10" },
-      resetFilter: { dataPoint: "12" },
-      cleanAreaInM2: { dataPoint: "16", readOnly: true, unit: "m2" },
-      cleanAreaCleanRecord: { dataPoint: "15", readOnly: true },
-      cleanTimeInMinutes: { dataPoint: "17", readOnly: true, unit: "min" },
+      batteryInPercent: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      edgeBrushInPercent: {
+        dataPoint: "7",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      filterLifeInPercent: {
+        dataPoint: "9",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      resetEdgeBrush: { dataPoint: "10", kind: "button" },
+      resetFilter: { dataPoint: "12", kind: "button" },
+      cleanAreaInM2: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "area",
+        readOnly: true,
+        unit: "m2",
+      },
+      cleanAreaCleanRecord: { dataPoint: "15", kind: "sensor", readOnly: true },
+      cleanTimeInMinutes: {
+        dataPoint: "17",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "18",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", readOnly: true },
+      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
       mopping: {
         dataPoint: "20",
+        kind: "select",
         values: [
           { raw: "low", value: "low" },
           { raw: "middle", value: "medium" },
           { raw: "high", value: "high" },
         ],
       },
-      factoryReset: { dataPoint: "101" },
+      factoryReset: { dataPoint: "101", kind: "button" },
     },
   },
   source: {

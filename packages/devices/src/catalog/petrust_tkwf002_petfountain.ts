@@ -26,9 +26,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     valve: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       activationMode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "normal", value: "normal" },
           { raw: "smart", value: "smart" },
@@ -36,6 +37,7 @@ const entry: TuyaDeviceEntry = {
       },
       open: {
         dataPoint: "11",
+        kind: "select",
         values: [
           { raw: "close", value: 0 },
           { raw: "low", value: 25 },
@@ -43,14 +45,27 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: 100 },
         ],
       },
-      filterLifetime: { dataPoint: "7", min: 0, max: 30 },
-      filterLifeInDays: { dataPoint: "3", readOnly: true, unit: "d" },
-      filterReset: { dataPoint: "5" },
-      cleanInterval: { dataPoint: "8", min: 0, max: 20 },
-      cleanInInDays: { dataPoint: "4", readOnly: true, unit: "d" },
-      pumpCleaned: { dataPoint: "6" },
+      filterLifetime: { dataPoint: "7", kind: "number", min: 0, max: 30 },
+      filterLifeInDays: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "d",
+      },
+      filterReset: { dataPoint: "5", kind: "button" },
+      cleanInterval: { dataPoint: "8", kind: "number", min: 0, max: 20 },
+      cleanInInDays: {
+        dataPoint: "4",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "d",
+      },
+      pumpCleaned: { dataPoint: "6", kind: "button" },
       waterLevel: {
         dataPoint: "9",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "low", value: "low" },
@@ -58,19 +73,36 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: "high" },
         ],
       },
-      waterAgeInDays: { dataPoint: "24", readOnly: true, unit: "d" },
-      changeWater: { dataPoint: "25" },
-      uvSterilization: { dataPoint: "14" },
-      uvRuntimeInMinutes: { dataPoint: "15", unit: "min", min: 0, max: 90 },
+      waterAgeInDays: {
+        dataPoint: "24",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "d",
+      },
+      changeWater: { dataPoint: "25", kind: "button" },
+      uvSterilization: { dataPoint: "14", kind: "switch" },
+      uvRuntimeInMinutes: {
+        dataPoint: "15",
+        kind: "number",
+        measures: "duration",
+        unit: "min",
+        min: 0,
+        max: 90,
+      },
       fault: {
         dataPoint: "23",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "23", readOnly: true },
+      faultCode: { dataPoint: "23", kind: "sensor", readOnly: true },
     },
-    indicator: { brightness: { dataPoint: "12", min: 0, max: 4 } },
+    indicator: {
+      brightness: { dataPoint: "12", kind: "number", min: 0, max: 4 },
+    },
   },
   source: {
     file: "petrust_tkwf002_petfountain.yaml",

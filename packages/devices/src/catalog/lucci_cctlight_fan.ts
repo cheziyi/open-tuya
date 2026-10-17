@@ -20,30 +20,45 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "60" },
+      on: { dataPoint: "60", kind: "switch" },
       mode: {
         dataPoint: "61",
+        kind: "select",
         values: [
           { raw: "nature", value: "nature" },
           { raw: "fresh", value: "fresh" },
         ],
       },
-      speed: { dataPoint: "62", min: 1, max: 6 },
-      direction: { dataPoint: "63" },
+      speed: { dataPoint: "62", kind: "number", min: 1, max: 6 },
+      direction: { dataPoint: "63", kind: "text" },
     },
     light: {
-      on: { dataPoint: "20" },
-      brightness: { dataPoint: "22", min: 1, max: 100 },
+      on: { dataPoint: "20", kind: "switch" },
+      brightness: { dataPoint: "22", kind: "number", min: 1, max: 100 },
       colorTemperatureInK: {
         dataPoint: "23",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 100,
         targetRange: { min: 3000, max: 5000 },
       },
-      lightTimerInSeconds: { dataPoint: "26", unit: "s", min: 0, max: 64800 },
-      fanTimerInMinutes: { dataPoint: "64", unit: "min", min: 0, max: 540 },
-      lightControl: { dataPoint: "28" },
+      lightTimerInSeconds: {
+        dataPoint: "26",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 0,
+        max: 64800,
+      },
+      fanTimerInMinutes: {
+        dataPoint: "64",
+        kind: "number",
+        unit: "min",
+        min: 0,
+        max: 540,
+      },
+      lightControl: { dataPoint: "28", kind: "text" },
     },
   },
   source: {

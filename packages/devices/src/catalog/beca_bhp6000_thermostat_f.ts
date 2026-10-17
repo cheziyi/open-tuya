@@ -17,10 +17,24 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     climate: {
-      targetTemperatureInF: { dataPoint: "2", unit: "F", min: 40, max: 95 },
-      currentTemperatureInF: { dataPoint: "3", readOnly: true, unit: "F" },
+      targetTemperatureInF: {
+        dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
+        unit: "F",
+        min: 40,
+        max: 95,
+      },
+      currentTemperatureInF: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "F",
+      },
       preset: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: 1, value: "program" },
           { raw: 2, value: "temp_override" },
@@ -30,6 +44,7 @@ const entry: TuyaDeviceEntry = {
       },
       hvacMode: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: 1, value: "cool" },
           { raw: 2, value: "heat" },
@@ -40,14 +55,15 @@ const entry: TuyaDeviceEntry = {
       },
       fanMode: {
         dataPoint: "6",
+        kind: "select",
         values: [
           { raw: false, value: "auto" },
           { raw: true, value: "on" },
         ],
       },
-      childLock: { dataPoint: "7" },
+      childLock: { dataPoint: "7", kind: "switch" },
     },
-    display: { on: { dataPoint: "1" } },
+    display: { on: { dataPoint: "1", kind: "switch" } },
   },
   source: {
     file: "beca_bhp6000_thermostat_f.yaml",

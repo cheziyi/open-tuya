@@ -15,14 +15,15 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
           { raw: "stop", value: "stop" },
         ],
       },
-      controlBackMode: { dataPoint: "8" },
-      trTimecontrol: { dataPoint: "10" },
+      controlBackMode: { dataPoint: "8", kind: "text" },
+      trTimecontrol: { dataPoint: "10", kind: "number" },
     },
   },
   source: {

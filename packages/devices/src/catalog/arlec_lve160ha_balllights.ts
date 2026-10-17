@@ -17,9 +17,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       effect: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "1", value: "off" },
           { raw: "2", value: "Twinkle" },
@@ -30,11 +31,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "7", value: "Combination" },
         ],
       },
-      brightness: { dataPoint: "107", min: 10, max: 64 },
-      speed: { dataPoint: "108", min: 10, max: 50 },
-      mode1Data: { dataPoint: "109" },
-      mode2Data: { dataPoint: "110" },
-      mode4Data: { dataPoint: "111" },
+      brightness: { dataPoint: "107", kind: "number", min: 10, max: 64 },
+      speed: { dataPoint: "108", kind: "number", min: 10, max: 50 },
+      mode1Data: { dataPoint: "109", kind: "text" },
+      mode2Data: { dataPoint: "110", kind: "text" },
+      mode4Data: { dataPoint: "111", kind: "text" },
     },
   },
   source: {

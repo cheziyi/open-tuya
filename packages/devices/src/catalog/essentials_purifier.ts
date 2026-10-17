@@ -21,9 +21,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "M", value: "manual" },
@@ -33,20 +34,27 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      activeFilterLifeInPercent: { dataPoint: "5", readOnly: true, unit: "%" },
-      childLock: { dataPoint: "7" },
+      activeFilterLifeInPercent: {
+        dataPoint: "5",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      childLock: { dataPoint: "7", kind: "switch" },
       light: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "Standard", value: "On" },
           { raw: "Soft", value: "Soft" },
           { raw: "Close", value: "Off" },
         ],
       },
-      uvSterilization: { dataPoint: "9" },
-      filterReset: { dataPoint: "11" },
+      uvSterilization: { dataPoint: "9", kind: "switch" },
+      filterReset: { dataPoint: "11", kind: "button" },
       timer: {
         dataPoint: "18",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "2h", value: "2h" },
@@ -54,9 +62,21 @@ const entry: TuyaDeviceEntry = {
           { raw: "8h", value: "8h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "19", readOnly: true, unit: "min" },
-      pm25InUgPerM3: { dataPoint: "2", readOnly: true, unit: "ugm3" },
-      airQuality: { dataPoint: "21", readOnly: true },
+      timeRemainingInMinutes: {
+        dataPoint: "19",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      pm25InUgPerM3: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "pm25",
+        readOnly: true,
+        unit: "ugm3",
+      },
+      airQuality: { dataPoint: "21", kind: "sensor", readOnly: true },
     },
   },
   source: {

@@ -16,13 +16,14 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      outlet1: { dataPoint: "1" },
-      outlet2: { dataPoint: "2" },
-      outlet3: { dataPoint: "3" },
-      outlet4: { dataPoint: "4" },
-      usbSwitch: { dataPoint: "5" },
+      outlet1: { dataPoint: "1", kind: "switch" },
+      outlet2: { dataPoint: "2", kind: "switch" },
+      outlet3: { dataPoint: "3", kind: "switch" },
+      outlet4: { dataPoint: "4", kind: "switch" },
+      usbSwitch: { dataPoint: "5", kind: "switch" },
       initialState: {
         dataPoint: "7",
+        kind: "select",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "on" },

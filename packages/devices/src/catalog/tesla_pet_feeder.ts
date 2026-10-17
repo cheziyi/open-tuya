@@ -13,20 +13,23 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       servingSizeInPortions: {
         dataPoint: "101",
+        kind: "number",
         unit: "portions",
         min: 1,
         max: 10,
       },
       fault: {
         dataPoint: "102",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "102", readOnly: true },
+      faultCode: { dataPoint: "102", kind: "sensor", readOnly: true },
     },
   },
   source: {

@@ -16,24 +16,26 @@ const entry: TuyaDeviceEntry = {
     "105": { type: "string", optional: true },
   },
   components: {
-    pumpA: { open: { dataPoint: "1" } },
-    pumpB: { open: { dataPoint: "2" } },
+    pumpA: { open: { dataPoint: "1", kind: "switch" } },
+    pumpB: { open: { dataPoint: "2", kind: "switch" } },
     device: {
       pumpAIrrigationDurationInSeconds: {
         dataPoint: "103",
+        kind: "number",
         unit: "s",
         min: 1,
         max: 86399,
       },
       pumpBIrrigationDurationInSeconds: {
         dataPoint: "104",
+        kind: "number",
         unit: "s",
         min: 1,
         max: 86399,
       },
-      pumpASchedule: { dataPoint: "101" },
-      pumpBSchedule: { dataPoint: "102" },
-      runLog: { dataPoint: "105", readOnly: true },
+      pumpASchedule: { dataPoint: "101", kind: "text" },
+      pumpBSchedule: { dataPoint: "102", kind: "text" },
+      runLog: { dataPoint: "105", kind: "sensor", readOnly: true },
     },
   },
   source: {

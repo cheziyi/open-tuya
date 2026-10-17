@@ -16,10 +16,24 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     climate: {
-      targetTemperatureInC: { dataPoint: "2", unit: "C", min: 15, max: 35 },
-      currentTemperatureInC: { dataPoint: "3", readOnly: true, unit: "C" },
+      targetTemperatureInC: {
+        dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 15,
+        max: 35,
+      },
+      currentTemperatureInC: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       preset: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "Low", value: "eco" },
           { raw: "High", value: "boost" },
@@ -27,13 +41,20 @@ const entry: TuyaDeviceEntry = {
       },
       hvacMode: {
         dataPoint: "7",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
         ],
       },
-      childLock: { dataPoint: "6" },
-      timerInMinutes: { dataPoint: "8", unit: "min", min: 0, max: 1440 },
+      childLock: { dataPoint: "6", kind: "switch" },
+      timerInMinutes: {
+        dataPoint: "8",
+        kind: "number",
+        unit: "min",
+        min: 0,
+        max: 1440,
+      },
     },
   },
   source: {

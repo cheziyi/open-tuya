@@ -20,6 +20,7 @@ const entry: TuyaDeviceEntry = {
     waterHeater: {
       awayMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -27,6 +28,7 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "jiheat", value: "performance" },
           { raw: "maneco", value: "eco" },
@@ -34,15 +36,30 @@ const entry: TuyaDeviceEntry = {
       },
       targetTemperatureInC: {
         dataPoint: "9",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 40,
         max: 80,
         step: 10,
       },
-      currentTemperatureInC: { dataPoint: "10", readOnly: true, unit: "C" },
-      energyInKwh: { dataPoint: "12", readOnly: true, unit: "kWh" },
+      currentTemperatureInC: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      energyInKwh: {
+        dataPoint: "12",
+        kind: "sensor",
+        measures: "energy",
+        readOnly: true,
+        unit: "kWh",
+      },
       status: {
         dataPoint: "13",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -53,16 +70,19 @@ const entry: TuyaDeviceEntry = {
       },
       remainingHotWaterInPercent: {
         dataPoint: "14",
+        kind: "sensor",
         readOnly: true,
         unit: "%",
       },
       fault: {
         dataPoint: "20",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "20", readOnly: true },
+      faultCode: { dataPoint: "20", kind: "sensor", readOnly: true },
     },
   },
   source: {

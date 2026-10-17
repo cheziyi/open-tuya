@@ -24,15 +24,30 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "2", unit: "C", min: 5, max: 30 },
-      currentTemperatureInC: { dataPoint: "3", readOnly: true, unit: "C" },
+      targetTemperatureInC: {
+        dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 5,
+        max: 30,
+      },
+      currentTemperatureInC: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       preset: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: 1, value: "home" },
           { raw: 2, value: "away" },
@@ -42,16 +57,24 @@ const entry: TuyaDeviceEntry = {
       },
       hvacAction: {
         dataPoint: "105",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: true, value: "heating" },
           { raw: false, value: "idle" },
         ],
       },
-      childLock: { dataPoint: "6" },
-      externalTemperatureInC: { dataPoint: "101", readOnly: true, unit: "C" },
+      childLock: { dataPoint: "6", kind: "switch" },
+      externalTemperatureInC: {
+        dataPoint: "101",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       temperatureSensor: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: 0, value: "Internal" },
           { raw: 1, value: "External" },
@@ -60,18 +83,28 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureCalibrationInC: {
         dataPoint: "103",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: -9,
         max: 9,
       },
-      calibrationSwingInC: { dataPoint: "104", unit: "C", min: 1, max: 9 },
+      calibrationSwingInC: {
+        dataPoint: "104",
+        kind: "number",
+        unit: "C",
+        min: 1,
+        max: 9,
+      },
       fault: {
         dataPoint: "12",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", readOnly: true },
+      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
     },
   },
   source: {

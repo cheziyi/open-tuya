@@ -17,9 +17,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       bodyLevel: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "level_1", value: "0" },
           { raw: "level_2", value: "1" },
@@ -32,6 +33,7 @@ const entry: TuyaDeviceEntry = {
       },
       feetLevel: {
         dataPoint: "15",
+        kind: "select",
         values: [
           { raw: "level_1", value: "0" },
           { raw: "level_2", value: "1" },
@@ -44,6 +46,7 @@ const entry: TuyaDeviceEntry = {
       },
       bodyTimer: {
         dataPoint: "16",
+        kind: "select",
         values: [
           { raw: "1h", value: "1h" },
           { raw: "2h", value: "2h" },
@@ -61,6 +64,7 @@ const entry: TuyaDeviceEntry = {
       },
       feetTimer: {
         dataPoint: "17",
+        kind: "select",
         values: [
           { raw: "1h", value: "1h" },
           { raw: "2h", value: "2h" },
@@ -78,11 +82,15 @@ const entry: TuyaDeviceEntry = {
       },
       bodyTimeRemainingInSeconds: {
         dataPoint: "18",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "s",
       },
       feetTimeRemainingInSeconds: {
         dataPoint: "19",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "s",
       },

@@ -18,17 +18,26 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     valve: {
-      open: { dataPoint: "1" },
+      open: { dataPoint: "1", kind: "switch" },
       fault: {
         dataPoint: "4",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "4", readOnly: true },
-      batteryInPercent: { dataPoint: "7", readOnly: true, unit: "%" },
+      faultCode: { dataPoint: "4", kind: "sensor", readOnly: true },
+      batteryInPercent: {
+        dataPoint: "7",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
       batteryStatus: {
         dataPoint: "8",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "low", value: "Replace Battery" },
@@ -38,6 +47,7 @@ const entry: TuyaDeviceEntry = {
       },
       weatherDelay: {
         dataPoint: "10",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "24h", value: "24h" },
@@ -45,9 +55,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "72h", value: "72h" },
         ],
       },
-      timerInSeconds: { dataPoint: "11", unit: "s", min: 0, max: 86400 },
+      timerInSeconds: {
+        dataPoint: "11",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
       workMode: {
         dataPoint: "12",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "manual", value: "Manual" },
@@ -57,6 +74,8 @@ const entry: TuyaDeviceEntry = {
       },
       wateringTimeInSeconds: {
         dataPoint: "15",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "s",
         min: 0,

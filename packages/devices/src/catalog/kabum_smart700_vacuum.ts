@@ -33,9 +33,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     vacuum: {
-      cleaning: { dataPoint: "2" },
+      cleaning: { dataPoint: "2", kind: "switch" },
       command: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "smart", value: "smart" },
           { raw: "zone", value: "zone" },
@@ -48,6 +49,7 @@ const entry: TuyaDeviceEntry = {
       },
       moveDirection: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "backward", value: "reverse" },
@@ -58,6 +60,7 @@ const entry: TuyaDeviceEntry = {
       },
       status: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "standby", value: "standby" },
           { raw: "smart_clean", value: "cleaning" },
@@ -77,28 +80,50 @@ const entry: TuyaDeviceEntry = {
           { raw: "selectroom", value: "select_room" },
         ],
       },
-      locate: { dataPoint: "13" },
+      locate: { dataPoint: "13", kind: "switch" },
       suction: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "strong", value: "High" },
           { raw: "normal", value: "Medium" },
           { raw: "quiet", value: "Low" },
         ],
       },
-      pause: { dataPoint: "101" },
-      batteryInPercent: { dataPoint: "6", readOnly: true, unit: "%" },
-      cleanedAreaInM2: { dataPoint: "16", readOnly: true, unit: "m2" },
-      cleaningTimeInMinutes: { dataPoint: "17", readOnly: true, unit: "min" },
+      pause: { dataPoint: "101", kind: "switch" },
+      batteryInPercent: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      cleanedAreaInM2: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "area",
+        readOnly: true,
+        unit: "m2",
+      },
+      cleaningTimeInMinutes: {
+        dataPoint: "17",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "18",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", readOnly: true },
+      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "18",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -119,6 +144,7 @@ const entry: TuyaDeviceEntry = {
       },
       mopping: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "low" },
@@ -126,13 +152,14 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "high" },
         ],
       },
-      resetMap: { dataPoint: "103" },
-      resetMapRequest: { dataPoint: "104" },
-      resetMapComplexCommand: { dataPoint: "105" },
-      resetMapPathData: { dataPoint: "106" },
-      resetMapSmartRooms: { dataPoint: "108" },
+      resetMap: { dataPoint: "103", kind: "button" },
+      resetMapRequest: { dataPoint: "104", kind: "text" },
+      resetMapComplexCommand: { dataPoint: "105", kind: "text" },
+      resetMapPathData: { dataPoint: "106", kind: "text" },
+      resetMapSmartRooms: { dataPoint: "108", kind: "text" },
       resetMapRoomsMsg: {
         dataPoint: "109",
+        kind: "select",
         values: [
           { raw: 0, value: "None" },
           { raw: 1, value: "split" },
@@ -150,17 +177,24 @@ const entry: TuyaDeviceEntry = {
         ],
         absent: "None",
       },
-      doNotDisturb: { dataPoint: "107" },
-      breakClean: { dataPoint: "110" },
+      doNotDisturb: { dataPoint: "107", kind: "switch" },
+      breakClean: { dataPoint: "110", kind: "switch" },
       language: {
         dataPoint: "111",
+        kind: "select",
         values: [
           { raw: "cn", value: "chinese" },
           { raw: "en", value: "english" },
         ],
       },
-      volumeInPercent: { dataPoint: "112", unit: "%", min: 0, max: 100 },
-      yMopping: { dataPoint: "113" },
+      volumeInPercent: {
+        dataPoint: "112",
+        kind: "number",
+        unit: "%",
+        min: 0,
+        max: 100,
+      },
+      yMopping: { dataPoint: "113", kind: "switch" },
     },
   },
   source: {

@@ -21,32 +21,47 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "20" },
+      on: { dataPoint: "20", kind: "switch" },
       effect: {
         dataPoint: "21",
+        kind: "select",
         values: [
           { raw: "white", value: "off" },
           { raw: "scene", value: "Scene" },
           { raw: "music", value: "Music" },
         ],
       },
-      brightness: { dataPoint: "22", min: 10, max: 1000 },
+      brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
       colorTemperatureInK: {
         dataPoint: "23",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 1000,
         step: 500,
         targetRange: { min: 3000, max: 5000 },
       },
-      mixRgbcw: { dataPoint: "51" },
-      lightTimerInSeconds: { dataPoint: "26", unit: "s", min: 0, max: 86400 },
-      fanTimerInMinutes: { dataPoint: "103", unit: "min", min: 0, max: 540 },
+      mixRgbcw: { dataPoint: "51", kind: "text" },
+      lightTimerInSeconds: {
+        dataPoint: "26",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      fanTimerInMinutes: {
+        dataPoint: "103",
+        kind: "number",
+        unit: "min",
+        min: 0,
+        max: 540,
+      },
     },
     fan: {
-      on: { dataPoint: "107" },
+      on: { dataPoint: "107", kind: "switch" },
       mode: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "Natural", value: "nature" },
           { raw: "Normal", value: "normal" },
@@ -54,8 +69,8 @@ const entry: TuyaDeviceEntry = {
           { raw: "WakeUp", value: "fresh" },
         ],
       },
-      speed: { dataPoint: "105", min: 1, max: 6 },
-      direction: { dataPoint: "104" },
+      speed: { dataPoint: "105", kind: "number", min: 1, max: 6 },
+      direction: { dataPoint: "104", kind: "text" },
     },
   },
   source: {

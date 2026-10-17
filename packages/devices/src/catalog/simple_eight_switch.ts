@@ -20,16 +20,17 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      switch1: { dataPoint: "1" },
-      switch2: { dataPoint: "2" },
-      switch3: { dataPoint: "3" },
-      switch4: { dataPoint: "4" },
-      switch5: { dataPoint: "5" },
-      switch6: { dataPoint: "6" },
-      switch7: { dataPoint: "101" },
-      switch8: { dataPoint: "102" },
+      switch1: { dataPoint: "1", kind: "switch" },
+      switch2: { dataPoint: "2", kind: "switch" },
+      switch3: { dataPoint: "3", kind: "switch" },
+      switch4: { dataPoint: "4", kind: "switch" },
+      switch5: { dataPoint: "5", kind: "switch" },
+      switch6: { dataPoint: "6", kind: "switch" },
+      switch7: { dataPoint: "101", kind: "switch" },
+      switch8: { dataPoint: "102", kind: "switch" },
       initialState: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "off", value: "off" },
           { raw: "memory", value: "memory" },
@@ -38,6 +39,7 @@ const entry: TuyaDeviceEntry = {
       },
       lightMode: {
         dataPoint: "15",
+        kind: "select",
         values: [
           { raw: "none", value: "off" },
           { raw: "relay", value: "state" },

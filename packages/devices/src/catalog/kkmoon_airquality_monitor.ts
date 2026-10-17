@@ -17,17 +17,50 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      airQuality: { dataPoint: "21", readOnly: true },
-      pm25InUgPerM3: { dataPoint: "2", readOnly: true, unit: "ugm3" },
-      formaldehydeInUgPerM3: { dataPoint: "27", readOnly: true, unit: "ugm3" },
-      temperatureInC: { dataPoint: "12", readOnly: true, unit: "C", scale: 10 },
-      humidityInPercent: { dataPoint: "13", readOnly: true, unit: "%" },
-      volatileOrganicCompoundsInUgPerM3: {
-        dataPoint: "14",
+      airQuality: { dataPoint: "21", kind: "sensor", readOnly: true },
+      pm25InUgPerM3: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "pm25",
         readOnly: true,
         unit: "ugm3",
       },
-      carbonDioxideInPpm: { dataPoint: "15", readOnly: true, unit: "ppm" },
+      formaldehydeInUgPerM3: {
+        dataPoint: "27",
+        kind: "sensor",
+        measures: "volatileOrganicCompounds",
+        readOnly: true,
+        unit: "ugm3",
+      },
+      temperatureInC: {
+        dataPoint: "12",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+        scale: 10,
+      },
+      humidityInPercent: {
+        dataPoint: "13",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      volatileOrganicCompoundsInUgPerM3: {
+        dataPoint: "14",
+        kind: "sensor",
+        measures: "volatileOrganicCompounds",
+        readOnly: true,
+        unit: "ugm3",
+      },
+      carbonDioxideInPpm: {
+        dataPoint: "15",
+        kind: "sensor",
+        measures: "carbonDioxide",
+        readOnly: true,
+        unit: "ppm",
+      },
     },
   },
   source: {

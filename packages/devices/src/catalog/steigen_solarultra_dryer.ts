@@ -26,6 +26,7 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "up", value: "close" },
           { raw: "down", value: "open" },
@@ -34,6 +35,7 @@ const entry: TuyaDeviceEntry = {
       },
       movement: {
         dataPoint: "9",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "up", value: "closing" },
@@ -42,6 +44,7 @@ const entry: TuyaDeviceEntry = {
       },
       currentPosition: {
         dataPoint: "101",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "top", value: 0 },
@@ -49,11 +52,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "bottom", value: 100 },
         ],
       },
-      ionizer: { dataPoint: "5" },
-      fan: { dataPoint: "6" },
-      heat: { dataPoint: "7" },
+      ionizer: { dataPoint: "5", kind: "switch" },
+      fan: { dataPoint: "6", kind: "switch" },
+      heat: { dataPoint: "7", kind: "switch" },
       ionizerTimer: {
         dataPoint: "10",
+        kind: "select",
         values: [
           { raw: "10min", value: "10m" },
           { raw: "20min", value: "20m" },
@@ -62,6 +66,7 @@ const entry: TuyaDeviceEntry = {
       },
       heatTimer: {
         dataPoint: "11",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -74,6 +79,7 @@ const entry: TuyaDeviceEntry = {
       },
       windTimer: {
         dataPoint: "13",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -81,22 +87,38 @@ const entry: TuyaDeviceEntry = {
           { raw: "3h", value: "3h" },
         ],
       },
-      heatRemainingInMinutes: { dataPoint: "15", readOnly: true, unit: "min" },
-      windRemainingInMinutes: { dataPoint: "16", readOnly: true, unit: "min" },
+      heatRemainingInMinutes: {
+        dataPoint: "15",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      windRemainingInMinutes: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       ionizerRemainingInMinutes: {
         dataPoint: "17",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "min",
       },
       fault: {
         dataPoint: "18",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", readOnly: true },
+      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
     },
-    light: { on: { dataPoint: "4" } },
+    light: { on: { dataPoint: "4", kind: "switch" } },
   },
   source: {
     file: "steigen_solarultra_dryer.yaml",

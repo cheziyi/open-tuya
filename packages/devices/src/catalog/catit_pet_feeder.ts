@@ -15,10 +15,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      manualFeed: { dataPoint: "14", min: 1, max: 12 },
-      manualFeedMealPlan: { dataPoint: "104" },
-      feedReport: { dataPoint: "101", readOnly: true },
-      factoryReset: { dataPoint: "103" },
+      manualFeed: { dataPoint: "14", kind: "number", min: 1, max: 12 },
+      manualFeedMealPlan: { dataPoint: "104", kind: "text" },
+      feedReport: { dataPoint: "101", kind: "sensor", readOnly: true },
+      factoryReset: { dataPoint: "103", kind: "button" },
     },
   },
   source: {

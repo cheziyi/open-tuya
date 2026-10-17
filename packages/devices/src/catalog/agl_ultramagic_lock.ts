@@ -32,6 +32,7 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "118",
+        kind: "select",
         values: [
           { raw: true, value: "open" },
           { raw: false, value: "close" },
@@ -39,6 +40,7 @@ const entry: TuyaDeviceEntry = {
       },
       movement: {
         dataPoint: "3",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: false, value: "opened" },
@@ -47,6 +49,7 @@ const entry: TuyaDeviceEntry = {
       },
       beep: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "Silensioso", value: "Mute" },
           { raw: "Baixo", value: "Low" },
@@ -54,35 +57,59 @@ const entry: TuyaDeviceEntry = {
           { raw: "Alto", value: "High" },
         ],
       },
-      allowIntercomUnlock: { dataPoint: "105" },
-      allowInsideButtonUnlock: { dataPoint: "104" },
-      allowIcCardUnlock: { dataPoint: "109" },
-      enableInterlock: { dataPoint: "108" },
-      autoLockAfterClosed: { dataPoint: "107" },
-      lockTimeoutInSeconds: { dataPoint: "102", unit: "s", min: 1, max: 5 },
+      allowIntercomUnlock: { dataPoint: "105", kind: "switch" },
+      allowInsideButtonUnlock: { dataPoint: "104", kind: "switch" },
+      allowIcCardUnlock: { dataPoint: "109", kind: "switch" },
+      enableInterlock: { dataPoint: "108", kind: "switch" },
+      autoLockAfterClosed: { dataPoint: "107", kind: "switch" },
+      lockTimeoutInSeconds: {
+        dataPoint: "102",
+        kind: "number",
+        unit: "s",
+        min: 1,
+        max: 5,
+      },
       autoLockTimeoutInSeconds: {
         dataPoint: "115",
+        kind: "number",
         unit: "s",
         min: 1,
         max: 1200,
       },
-      openAlarmTimeInSeconds: { dataPoint: "106", unit: "s", min: 0, max: 100 },
-      recordTagId: { dataPoint: "101", min: 0, max: 2000 },
-      deleteTagId: { dataPoint: "110", min: 0, max: 100000 },
-      openDoorNotification: { dataPoint: "112" },
-      closeDoorNotification: { dataPoint: "113" },
+      openAlarmTimeInSeconds: {
+        dataPoint: "106",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 100,
+      },
+      recordTagId: { dataPoint: "101", kind: "number", min: 0, max: 2000 },
+      deleteTagId: { dataPoint: "110", kind: "number", min: 0, max: 100000 },
+      openDoorNotification: { dataPoint: "112", kind: "switch" },
+      closeDoorNotification: { dataPoint: "113", kind: "switch" },
       backupOptions: {
         dataPoint: "114",
+        kind: "select",
         values: [
           { raw: "Selecionar", value: "Select" },
           { raw: "Upload", value: "Upload" },
           { raw: "Download", value: "Download" },
         ],
       },
-      appStatus: { dataPoint: "122", readOnly: true },
-      digitalUnlock: { dataPoint: "124", readOnly: true },
-      openDoorBeep: { dataPoint: "125" },
-      mechanicalKeyUnlock: { dataPoint: "129", readOnly: true },
+      appStatus: { dataPoint: "122", kind: "sensor", readOnly: true },
+      digitalUnlock: {
+        dataPoint: "124",
+        kind: "sensor",
+        measures: "door",
+        readOnly: true,
+      },
+      openDoorBeep: { dataPoint: "125", kind: "switch" },
+      mechanicalKeyUnlock: {
+        dataPoint: "129",
+        kind: "sensor",
+        measures: "door",
+        readOnly: true,
+      },
     },
   },
   source: {

@@ -16,9 +16,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "1", value: "normal" },
           { raw: "2", value: "nature" },
@@ -26,16 +27,30 @@ const entry: TuyaDeviceEntry = {
           { raw: "4", value: "baby" },
         ],
       },
-      speed: { dataPoint: "3", min: 1, max: 3 },
+      speed: { dataPoint: "3", kind: "number", min: 1, max: 3 },
       oscillating: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "on", value: true },
           { raw: "off", value: false },
         ],
       },
-      timerInHours: { dataPoint: "6", unit: "h", min: 0, max: 9 },
-      temperatureInC: { dataPoint: "19", readOnly: true, unit: "C" },
+      timerInHours: {
+        dataPoint: "6",
+        kind: "number",
+        measures: "duration",
+        unit: "h",
+        min: 0,
+        max: 9,
+      },
+      temperatureInC: {
+        dataPoint: "19",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
     },
   },
   source: {

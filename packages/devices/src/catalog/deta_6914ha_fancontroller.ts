@@ -19,15 +19,17 @@ const entry: TuyaDeviceEntry = {
     fan: {
       speed: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "1", value: 33 },
           { raw: "2", value: 66 },
           { raw: "3", value: 100 },
         ],
       },
-      on: { dataPoint: "101" },
+      on: { dataPoint: "101", kind: "switch" },
       fanTimer: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: "1", value: "cancel" },
           { raw: "2", value: "1h" },
@@ -38,6 +40,7 @@ const entry: TuyaDeviceEntry = {
       },
       lightTimer: {
         dataPoint: "105",
+        kind: "select",
         values: [
           { raw: "1", value: "cancel" },
           { raw: "2", value: "1h" },
@@ -46,9 +49,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "5", value: "8h" },
         ],
       },
-      master: { dataPoint: "103" },
+      master: { dataPoint: "103", kind: "switch" },
       lightMode: {
         dataPoint: "12",
+        kind: "select",
         values: [
           { raw: "none", value: "off" },
           { raw: "relay", value: "state" },
@@ -56,7 +60,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    light: { on: { dataPoint: "102" } },
+    light: { on: { dataPoint: "102", kind: "switch" } },
   },
   source: {
     file: "deta_6914ha_fancontroller.yaml",

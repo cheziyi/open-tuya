@@ -16,18 +16,24 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      quickFeed: { dataPoint: "2" },
-      mealPlan: { dataPoint: "1" },
-      feedReport: { dataPoint: "15", readOnly: true },
-      batteryInPercent: { dataPoint: "11", readOnly: true, unit: "%" },
+      quickFeed: { dataPoint: "2", kind: "button" },
+      mealPlan: { dataPoint: "1", kind: "text" },
+      feedReport: { dataPoint: "15", kind: "sensor", readOnly: true },
+      batteryInPercent: {
+        dataPoint: "11",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
       voiceConfiguration: {
         dataPoint: "18",
+        kind: "switch",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
       },
-      factoryReset: { dataPoint: "9" },
+      factoryReset: { dataPoint: "9", kind: "button" },
     },
   },
   source: {

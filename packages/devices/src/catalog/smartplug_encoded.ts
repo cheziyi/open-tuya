@@ -15,11 +15,17 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      timerInSeconds: { dataPoint: "11", unit: "s", min: 0, max: 86400 },
-      timerRandom: { dataPoint: "101" },
-      timerCirculate: { dataPoint: "102" },
-      timerSchedule: { dataPoint: "103" },
+      on: { dataPoint: "1", kind: "switch" },
+      timerInSeconds: {
+        dataPoint: "11",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      timerRandom: { dataPoint: "101", kind: "text" },
+      timerCirculate: { dataPoint: "102", kind: "text" },
+      timerSchedule: { dataPoint: "103", kind: "text" },
     },
   },
   source: {

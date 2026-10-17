@@ -27,29 +27,30 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     channel1: {
-      on: { dataPoint: "106" },
-      brightness: { dataPoint: "101", min: 10, max: 1000 },
+      on: { dataPoint: "106", kind: "switch" },
+      brightness: { dataPoint: "101", kind: "number", min: 10, max: 1000 },
     },
     channel2: {
-      on: { dataPoint: "107" },
-      brightness: { dataPoint: "102", min: 10, max: 1000 },
+      on: { dataPoint: "107", kind: "switch" },
+      brightness: { dataPoint: "102", kind: "number", min: 10, max: 1000 },
     },
     channel3: {
-      on: { dataPoint: "108" },
-      brightness: { dataPoint: "103", min: 10, max: 1000 },
+      on: { dataPoint: "108", kind: "switch" },
+      brightness: { dataPoint: "103", kind: "number", min: 10, max: 1000 },
     },
     channel4: {
-      on: { dataPoint: "109" },
-      brightness: { dataPoint: "104", min: 10, max: 1000 },
+      on: { dataPoint: "109", kind: "switch" },
+      brightness: { dataPoint: "104", kind: "number", min: 10, max: 1000 },
     },
     channel5: {
-      on: { dataPoint: "110" },
-      brightness: { dataPoint: "105", min: 10, max: 1000 },
+      on: { dataPoint: "110", kind: "switch" },
+      brightness: { dataPoint: "105", kind: "number", min: 10, max: 1000 },
     },
     allChannels: {
-      on: { dataPoint: "20" },
+      on: { dataPoint: "20", kind: "switch" },
       effect: {
         dataPoint: "21",
+        kind: "select",
         values: [
           { raw: "white", value: "off" },
           { raw: "scene", value: "Scene" },
@@ -59,6 +60,7 @@ const entry: TuyaDeviceEntry = {
     device: {
       scene: {
         dataPoint: "115",
+        kind: "select",
         values: [
           { raw: "1", value: "Scene 1" },
           { raw: "2", value: "Scene 2" },
@@ -66,10 +68,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "4", value: "Scene 4" },
         ],
       },
-      scene1: { dataPoint: "111" },
-      scene2: { dataPoint: "112" },
-      scene3: { dataPoint: "113" },
-      scene4: { dataPoint: "114" },
+      scene1: { dataPoint: "111", kind: "text" },
+      scene2: { dataPoint: "112", kind: "text" },
+      scene3: { dataPoint: "113", kind: "text" },
+      scene4: { dataPoint: "114", kind: "text" },
     },
   },
   source: {

@@ -23,6 +23,7 @@ const entry: TuyaDeviceEntry = {
     thermostat: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
@@ -30,6 +31,7 @@ const entry: TuyaDeviceEntry = {
       },
       preset: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "comf", value: "comfort" },
           { raw: "eco", value: "eco" },
@@ -38,10 +40,24 @@ const entry: TuyaDeviceEntry = {
           { raw: "boost", value: "boost" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "16", unit: "C", min: 7, max: 30 },
-      currentTemperatureInC: { dataPoint: "24", readOnly: true, unit: "C" },
+      targetTemperatureInC: {
+        dataPoint: "16",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 7,
+        max: 30,
+      },
+      currentTemperatureInC: {
+        dataPoint: "24",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       hvacAction: {
         dataPoint: "104",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: false, value: "idle" },
@@ -52,15 +68,25 @@ const entry: TuyaDeviceEntry = {
     device: {
       temperatureCalibrationInC: {
         dataPoint: "27",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: -5,
         max: 5,
       },
-      childLock: { dataPoint: "40" },
-      schedule: { dataPoint: "53" },
-      boostTimeInHours: { dataPoint: "101", unit: "h", min: 1, max: 8 },
+      childLock: { dataPoint: "40", kind: "switch" },
+      schedule: { dataPoint: "53", kind: "text" },
+      boostTimeInHours: {
+        dataPoint: "101",
+        kind: "number",
+        measures: "duration",
+        unit: "h",
+        min: 1,
+        max: 8,
+      },
       highTemperatureProtection: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "htemp1", value: "Level 1" },
           { raw: "htemp2", value: "Level 2" },
@@ -69,6 +95,7 @@ const entry: TuyaDeviceEntry = {
       },
       openWindowDetection: {
         dataPoint: "112",
+        kind: "select",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "60", value: "60m" },

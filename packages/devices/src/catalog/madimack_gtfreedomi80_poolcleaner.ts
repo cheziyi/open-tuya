@@ -16,13 +16,17 @@ const entry: TuyaDeviceEntry = {
     device: {
       cleaningDurationInMinutes: {
         dataPoint: "103",
+        kind: "number",
+        measures: "duration",
         unit: "min",
         min: 30,
         max: 480,
       },
-      wallCleaning: { dataPoint: "104" },
+      wallCleaning: { dataPoint: "104", kind: "switch" },
       batteryInPercent: {
         dataPoint: "107",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         unit: "%",
         values: [
@@ -31,7 +35,14 @@ const entry: TuyaDeviceEntry = {
           { raw: "2", value: 100 },
         ],
       },
-      repeatIntervalInHours: { dataPoint: "108", unit: "h", min: 0, max: 168 },
+      repeatIntervalInHours: {
+        dataPoint: "108",
+        kind: "number",
+        measures: "duration",
+        unit: "h",
+        min: 0,
+        max: 168,
+      },
     },
   },
   source: {

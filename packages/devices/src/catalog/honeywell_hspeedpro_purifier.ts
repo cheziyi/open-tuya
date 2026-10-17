@@ -26,9 +26,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "1", value: 11 },
           { raw: "2", value: 22 },
@@ -43,6 +44,7 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "105",
+        kind: "select",
         values: [
           { raw: true, value: "auto" },
           { raw: false, value: "manual" },
@@ -50,18 +52,42 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      pm25InUgPerM3: { dataPoint: "2", readOnly: true, unit: "ugm3" },
+      pm25InUgPerM3: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "pm25",
+        readOnly: true,
+        unit: "ugm3",
+      },
       filterLifeInPercent: {
         dataPoint: "5",
+        kind: "sensor",
         readOnly: true,
         unit: "%",
         scale: 100,
       },
-      filterLifeReplacementDate: { dataPoint: "108", readOnly: true },
-      temperatureInC: { dataPoint: "12", readOnly: true, unit: "C" },
-      humidityInPercent: { dataPoint: "13", readOnly: true, unit: "%" },
+      filterLifeReplacementDate: {
+        dataPoint: "108",
+        kind: "sensor",
+        readOnly: true,
+      },
+      temperatureInC: {
+        dataPoint: "12",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      humidityInPercent: {
+        dataPoint: "13",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       airQuality: {
         dataPoint: "21",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "good", value: "good" },
@@ -71,18 +97,26 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "22",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", readOnly: true },
-      formaldehydeInUgPerM3: { dataPoint: "27", readOnly: true, unit: "ugm3" },
-      uvSterilization: { dataPoint: "101" },
-      filterReset: { dataPoint: "102" },
-      sleep: { dataPoint: "103" },
-      childLock: { dataPoint: "106" },
+      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      formaldehydeInUgPerM3: {
+        dataPoint: "27",
+        kind: "sensor",
+        measures: "volatileOrganicCompounds",
+        readOnly: true,
+        unit: "ugm3",
+      },
+      uvSterilization: { dataPoint: "101", kind: "switch" },
+      filterReset: { dataPoint: "102", kind: "button" },
+      sleep: { dataPoint: "103", kind: "switch" },
+      childLock: { dataPoint: "106", kind: "switch" },
     },
-    indicator: { on: { dataPoint: "8" } },
+    indicator: { on: { dataPoint: "8", kind: "switch" } },
   },
   source: {
     file: "honeywell_hspeedpro_purifier.yaml",

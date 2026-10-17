@@ -15,15 +15,23 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
           { raw: "stop", value: "stop" },
         ],
       },
-      timeControlInSeconds: { dataPoint: "10", unit: "s", min: 10, max: 180 },
+      timeControlInSeconds: {
+        dataPoint: "10",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 10,
+        max: 180,
+      },
     },
-    backlight: { on: { dataPoint: "7" } },
+    backlight: { on: { dataPoint: "7", kind: "switch" } },
   },
   source: {
     file: "etersky_curtain_switch.yaml",

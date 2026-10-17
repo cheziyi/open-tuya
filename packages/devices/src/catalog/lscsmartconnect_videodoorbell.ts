@@ -31,9 +31,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     siren: {
-      watermark: { dataPoint: "104" },
+      watermark: { dataPoint: "104", kind: "switch" },
       nightVision: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -42,6 +43,7 @@ const entry: TuyaDeviceEntry = {
       },
       sdStatus: {
         dataPoint: "110",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -51,10 +53,11 @@ const entry: TuyaDeviceEntry = {
           { raw: 5, value: "missing" },
         ],
       },
-      sdStatusCapacity: { dataPoint: "109", readOnly: true },
-      sdFormat: { dataPoint: "111" },
+      sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
+      sdFormat: { dataPoint: "111", kind: "button" },
       sdFormatStatus: {
         dataPoint: "117",
+        kind: "select",
         values: [
           { raw: 2000, value: "Formatting" },
           { raw: 2001, value: "Format error" },
@@ -62,14 +65,32 @@ const entry: TuyaDeviceEntry = {
           { raw: 2003, value: "Card error" },
         ],
       },
-      motion: { dataPoint: "115", readOnly: true, otherwise: "detected" },
-      motionSnapshot: { dataPoint: "115", readOnly: true },
-      doorbell: { dataPoint: "136", readOnly: true, otherwise: "ring" },
-      doorbellCallInfo: { dataPoint: "136", readOnly: true },
-      doorbellSnapshot: { dataPoint: "154", readOnly: true },
-      batteryInPercent: { dataPoint: "145", readOnly: true, unit: "%" },
+      motion: {
+        dataPoint: "115",
+        kind: "event",
+        readOnly: true,
+        otherwise: "detected",
+      },
+      motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
+      doorbell: {
+        dataPoint: "136",
+        kind: "event",
+        readOnly: true,
+        otherwise: "ring",
+      },
+      doorbellCallInfo: { dataPoint: "136", kind: "sensor", readOnly: true },
+      doorbellSnapshot: { dataPoint: "154", kind: "sensor", readOnly: true },
+      batteryInPercent: {
+        dataPoint: "145",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
       plug: {
         dataPoint: "146",
+        kind: "sensor",
+        measures: "plug",
         readOnly: true,
         values: [
           { raw: "0", value: false },
@@ -78,13 +99,20 @@ const entry: TuyaDeviceEntry = {
       },
       lowBatteryThresholdInPercent: {
         dataPoint: "147",
+        kind: "number",
         unit: "%",
         min: 10,
         max: 50,
       },
-      power: { dataPoint: "149", readOnly: true },
+      power: {
+        dataPoint: "149",
+        kind: "sensor",
+        measures: "power",
+        readOnly: true,
+      },
       motionSensitivity: {
         dataPoint: "152",
+        kind: "select",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "low" },
@@ -92,22 +120,33 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "high" },
         ],
       },
-      on: { dataPoint: "159" },
-      volume: { dataPoint: "160", min: 1, max: 10, scale: 10 },
-      humanoidFilter: { dataPoint: "170" },
-      alarm: { dataPoint: "185", readOnly: true, otherwise: "alarm" },
-      alarmMessage: { dataPoint: "185", readOnly: true },
+      on: { dataPoint: "159", kind: "switch" },
+      volume: { dataPoint: "160", kind: "number", min: 1, max: 10, scale: 10 },
+      humanoidFilter: { dataPoint: "170", kind: "switch" },
+      alarm: {
+        dataPoint: "185",
+        kind: "event",
+        readOnly: true,
+        otherwise: "alarm",
+      },
+      alarmMessage: { dataPoint: "185", kind: "sensor", readOnly: true },
       antiFlicker: {
         dataPoint: "188",
+        kind: "select",
         values: [
           { raw: "0", value: "Off" },
           { raw: "1", value: "50Hz" },
           { raw: "2", value: "60Hz" },
         ],
       },
-      notification: { dataPoint: "212", readOnly: true, otherwise: "message" },
-      notificationMessage: { dataPoint: "212", readOnly: true },
-      hideVoiceChange: { dataPoint: "231" },
+      notification: {
+        dataPoint: "212",
+        kind: "event",
+        readOnly: true,
+        otherwise: "message",
+      },
+      notificationMessage: { dataPoint: "212", kind: "sensor", readOnly: true },
+      hideVoiceChange: { dataPoint: "231", kind: "switch" },
     },
   },
   source: {

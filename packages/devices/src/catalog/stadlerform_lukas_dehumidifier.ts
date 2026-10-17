@@ -19,9 +19,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "DRY", value: "normal" },
           { raw: "LAUNDRY", value: "laundry" },
@@ -29,16 +30,26 @@ const entry: TuyaDeviceEntry = {
       },
       targetHumidityInPercent: {
         dataPoint: "3",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 25,
         max: 80,
         step: 5,
       },
-      currentHumidityInPercent: { dataPoint: "6", readOnly: true, unit: "%" },
-      sleep: { dataPoint: "14" },
-      childLock: { dataPoint: "16" },
+      currentHumidityInPercent: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      sleep: { dataPoint: "14", kind: "switch" },
+      childLock: { dataPoint: "16", kind: "switch" },
       fault: {
         dataPoint: "19",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -47,24 +58,27 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", readOnly: true },
+      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
       tankFull: {
         dataPoint: "19",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,
       },
       defrost: {
         dataPoint: "19",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
       },
     },
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "1", value: '25"' },
           { raw: "2", value: 50 },
@@ -72,7 +86,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "4", value: 100 },
         ],
       },
-      oscillating: { dataPoint: "8" },
+      oscillating: { dataPoint: "8", kind: "switch" },
     },
   },
   source: {

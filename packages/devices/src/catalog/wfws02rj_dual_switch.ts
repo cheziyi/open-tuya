@@ -15,13 +15,14 @@ const entry: TuyaDeviceEntry = {
     device: {
       master: {
         dataPoint: "5",
+        kind: "switch",
         values: [
           { raw: 1, value: true },
           { raw: 0, value: false },
         ],
       },
-      switch1: { dataPoint: "1" },
-      switch2: { dataPoint: "2" },
+      switch1: { dataPoint: "1", kind: "switch" },
+      switch2: { dataPoint: "2", kind: "switch" },
     },
   },
   source: {

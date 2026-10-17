@@ -15,10 +15,17 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      timerInSeconds: { dataPoint: "7", unit: "s", min: 0, max: 86400 },
+      on: { dataPoint: "1", kind: "switch" },
+      timerInSeconds: {
+        dataPoint: "7",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
       initialState: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "last", value: "memory" },
           { raw: "power_on", value: "on" },
@@ -27,6 +34,7 @@ const entry: TuyaDeviceEntry = {
       },
       lightMode: {
         dataPoint: "15",
+        kind: "select",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
@@ -34,7 +42,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    backlight: { on: { dataPoint: "16" } },
+    backlight: { on: { dataPoint: "16", kind: "switch" } },
   },
   source: {
     file: "single_switch_with_backlight.yaml",

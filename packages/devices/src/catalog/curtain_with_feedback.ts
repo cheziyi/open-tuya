@@ -18,6 +18,7 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
@@ -26,27 +27,42 @@ const entry: TuyaDeviceEntry = {
       },
       targetPositionInPercent: {
         dataPoint: "2",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 100,
         step: 10,
       },
-      currentPosition: { dataPoint: "2", readOnly: true },
+      currentPosition: { dataPoint: "2", kind: "sensor", readOnly: true },
       motorReverseMode: {
         dataPoint: "8",
+        kind: "select",
         values: [
           { raw: "forward", value: "Forward" },
           { raw: "back", value: "Back" },
         ],
       },
-      travelTimeInSeconds: { dataPoint: "10", unit: "s", min: 1, max: 60 },
+      travelTimeInSeconds: {
+        dataPoint: "10",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 1,
+        max: 60,
+      },
       calibrationStart: {
         dataPoint: "3",
+        kind: "button",
         values: [{ raw: "start", value: true }],
       },
-      calibrationEnd: { dataPoint: "3", values: [{ raw: "end", value: true }] },
+      calibrationEnd: {
+        dataPoint: "3",
+        kind: "button",
+        values: [{ raw: "end", value: true }],
+      },
       switchType: {
         dataPoint: "12",
+        kind: "select",
         values: [
           { raw: "rock", value: "Rocker switch" },
           { raw: "push", value: "Push button" },

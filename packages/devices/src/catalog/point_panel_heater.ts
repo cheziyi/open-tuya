@@ -18,6 +18,7 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
@@ -25,22 +26,31 @@ const entry: TuyaDeviceEntry = {
       },
       targetTemperatureInC: {
         dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 50,
         max: 500,
         scale: 10,
       },
-      currentTemperatureInC: { dataPoint: "3", readOnly: true, unit: "C" },
+      currentTemperatureInC: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       preset: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "ECO", value: "eco" },
           { raw: "Comfort", value: "comfort" },
         ],
       },
-      childLock: { dataPoint: "7" },
+      childLock: { dataPoint: "7", kind: "switch" },
     },
-    display: { on: { dataPoint: "109" } },
+    display: { on: { dataPoint: "109", kind: "switch" } },
   },
   source: {
     file: "point_panel_heater.yaml",

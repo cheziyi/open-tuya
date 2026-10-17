@@ -14,6 +14,7 @@ const entry: TuyaDeviceEntry = {
     device: {
       button: {
         dataPoint: "1",
+        kind: "event",
         readOnly: true,
         values: [
           { raw: "single_click", value: "press_end" },
@@ -23,10 +24,17 @@ const entry: TuyaDeviceEntry = {
       },
       buttonMultiPressCount: {
         dataPoint: "1",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: "double_click", value: 2 }],
       },
-      batteryInPercent: { dataPoint: "10", readOnly: true, unit: "%" },
+      batteryInPercent: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
     },
   },
   source: {

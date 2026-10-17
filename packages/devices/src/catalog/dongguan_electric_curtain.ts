@@ -22,6 +22,7 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
@@ -30,30 +31,52 @@ const entry: TuyaDeviceEntry = {
       },
       currentPositionInPercent: {
         dataPoint: "3",
+        kind: "sensor",
         readOnly: true,
         unit: "%",
         min: 0,
         max: 100,
         invert: true,
       },
-      learningState: { dataPoint: "7" },
+      learningState: { dataPoint: "7", kind: "text" },
       closedPosition: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "left", value: "left" },
           { raw: "right", value: "right" },
         ],
       },
-      temperatureInC: { dataPoint: "103", readOnly: true, unit: "C" },
-      illuminanceInLux: { dataPoint: "104", readOnly: true, unit: "lx" },
+      temperatureInC: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      illuminanceInLux: {
+        dataPoint: "104",
+        kind: "sensor",
+        measures: "illuminance",
+        readOnly: true,
+        unit: "lx",
+      },
       fault: {
         dataPoint: "12",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", readOnly: true },
-      batteryInPercent: { dataPoint: "13", readOnly: true, unit: "%" },
+      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      batteryInPercent: {
+        dataPoint: "13",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
     },
   },
   source: {

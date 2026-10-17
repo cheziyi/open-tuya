@@ -27,17 +27,33 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      temperatureInC: { dataPoint: "1", readOnly: true, unit: "C", scale: 10 },
+      temperatureInC: {
+        dataPoint: "1",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+        scale: 10,
+      },
       humidityInPercent: {
         dataPoint: "2",
+        kind: "sensor",
+        measures: "humidity",
         readOnly: true,
         unit: "%",
         scale: 10,
       },
-      batteryInPercent: { dataPoint: "4", readOnly: true, unit: "%" },
-      charger: { dataPoint: "8" },
+      batteryInPercent: {
+        dataPoint: "4",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      charger: { dataPoint: "8", kind: "switch" },
       temperatureUnit: {
         dataPoint: "9",
+        kind: "select",
         values: [
           { raw: "c", value: "celsius" },
           { raw: "f", value: "fahrenheit" },
@@ -45,6 +61,8 @@ const entry: TuyaDeviceEntry = {
       },
       maximumTemperatureInC: {
         dataPoint: "10",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: -190,
         max: 1500,
@@ -52,6 +70,8 @@ const entry: TuyaDeviceEntry = {
       },
       minimumTemperatureInC: {
         dataPoint: "11",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: -190,
         max: 1500,
@@ -59,6 +79,8 @@ const entry: TuyaDeviceEntry = {
       },
       highHumidityLimitInPercent: {
         dataPoint: "12",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 0,
         max: 1000,
@@ -66,6 +88,8 @@ const entry: TuyaDeviceEntry = {
       },
       lowHumidityLimitInPercent: {
         dataPoint: "13",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 0,
         max: 1000,
@@ -73,6 +97,7 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureAlarm: {
         dataPoint: "14",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "upperalarm", value: "High temperature" },
@@ -82,6 +107,7 @@ const entry: TuyaDeviceEntry = {
       },
       humidityAlarm: {
         dataPoint: "15",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "upperalarm", value: "High humidity" },
@@ -89,21 +115,30 @@ const entry: TuyaDeviceEntry = {
           { raw: "cancel", value: "No alarm" },
         ],
       },
-      illuminationInPercent: { dataPoint: "16", readOnly: true, unit: "%" },
+      illuminationInPercent: {
+        dataPoint: "16",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
       temperatureReportIntervalInSeconds: {
         dataPoint: "17",
+        kind: "number",
         unit: "s",
         min: 1,
         max: 3600,
       },
       humidityReportIntervalInSeconds: {
         dataPoint: "18",
+        kind: "number",
         unit: "s",
         min: 1,
         max: 3600,
       },
       temperatureCalibrationInC: {
         dataPoint: "23",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: -80,
         max: 80,
@@ -111,13 +146,15 @@ const entry: TuyaDeviceEntry = {
       },
       humidityCalibrationInPercent: {
         dataPoint: "24",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: -500,
         max: 500,
         scale: 10,
       },
     },
-    backlight: { on: { dataPoint: "21" } },
+    backlight: { on: { dataPoint: "21", kind: "switch" } },
   },
   source: {
     file: "hrt_as90_climatealarm.yaml",

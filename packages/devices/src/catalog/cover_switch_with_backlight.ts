@@ -16,22 +16,24 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
           { raw: "stop", value: "stop" },
         ],
       },
-      targetPosition: { dataPoint: "2", min: 0, max: 100 },
+      targetPosition: { dataPoint: "2", kind: "number", min: 0, max: 100 },
       calibration: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "start", value: "Start" },
           { raw: "end", value: "End" },
         ],
       },
     },
-    backlight: { on: { dataPoint: "7" } },
+    backlight: { on: { dataPoint: "7", kind: "switch" } },
   },
   source: {
     file: "cover_switch_with_backlight.yaml",

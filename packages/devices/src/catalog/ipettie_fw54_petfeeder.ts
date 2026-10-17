@@ -14,16 +14,18 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "111" },
-      manualFeed: { dataPoint: "3", min: 1, max: 15 },
+      on: { dataPoint: "111", kind: "switch" },
+      manualFeed: { dataPoint: "3", kind: "number", min: 1, max: 15 },
       fault: {
         dataPoint: "13",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", readOnly: true },
-      status: { dataPoint: "4", readOnly: true },
+      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      status: { dataPoint: "4", kind: "sensor", readOnly: true },
     },
   },
   source: {

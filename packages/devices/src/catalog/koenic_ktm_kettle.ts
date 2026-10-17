@@ -19,18 +19,33 @@ const entry: TuyaDeviceEntry = {
     kettle: {
       mode: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "4", value: "electric" },
           { raw: "6", value: "off" },
         ],
         otherwise: "electric",
       },
-      targetTemperatureInC: { dataPoint: "102", unit: "C", min: 30, max: 95 },
-      currentTemperatureInC: { dataPoint: "105", readOnly: true, unit: "C" },
+      targetTemperatureInC: {
+        dataPoint: "102",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 30,
+        max: 95,
+      },
+      currentTemperatureInC: {
+        dataPoint: "105",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
     },
     device: {
       kettleMode: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "0", value: "infant_formula" },
           { raw: "1", value: "honey_water" },
@@ -43,6 +58,7 @@ const entry: TuyaDeviceEntry = {
       },
       status: {
         dataPoint: "106",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "0", value: "fault_unplugged" },
@@ -55,13 +71,16 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "104",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "104", readOnly: true },
+      faultCode: { dataPoint: "104", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "104",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -70,8 +89,21 @@ const entry: TuyaDeviceEntry = {
           { raw: 4, value: "water_low" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "107", readOnly: true, unit: "min" },
-      timerInMinutes: { dataPoint: "108", unit: "min", min: 0, max: 240 },
+      timeRemainingInMinutes: {
+        dataPoint: "107",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      timerInMinutes: {
+        dataPoint: "108",
+        kind: "number",
+        measures: "duration",
+        unit: "min",
+        min: 0,
+        max: 240,
+      },
     },
   },
   source: {

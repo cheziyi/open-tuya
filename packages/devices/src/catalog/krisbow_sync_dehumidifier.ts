@@ -19,9 +19,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "3",
+        kind: "select",
+        measures: "humidity",
         unit: "%",
         values: [
           { raw: "30", value: 30 },
@@ -29,11 +31,24 @@ const entry: TuyaDeviceEntry = {
           { raw: "50", value: 50 },
         ],
       },
-      currentHumidityInPercent: { dataPoint: "6", readOnly: true, unit: "%" },
-      temperatureInC: { dataPoint: "7", readOnly: true, unit: "°C" },
-      sleep: { dataPoint: "14" },
+      currentHumidityInPercent: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      temperatureInC: {
+        dataPoint: "7",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "°C",
+      },
+      sleep: { dataPoint: "14", kind: "switch" },
       waterTankReminder: {
         dataPoint: "25",
+        kind: "switch",
         values: [
           { raw: "on", value: true },
           { raw: "off", value: false },
@@ -41,6 +56,7 @@ const entry: TuyaDeviceEntry = {
       },
       timer: {
         dataPoint: "17",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -50,9 +66,10 @@ const entry: TuyaDeviceEntry = {
       },
     },
     indicator: {
-      on: { dataPoint: "29" },
+      on: { dataPoint: "29", kind: "switch" },
       colorName: {
         dataPoint: "31",
+        kind: "select",
         values: [
           { raw: "light_red", value: "red" },
           { raw: "light_green", value: "lime" },
@@ -68,6 +85,7 @@ const entry: TuyaDeviceEntry = {
       },
       effect: {
         dataPoint: "31",
+        kind: "select",
         values: [
           { raw: "colorful", value: "Colorful" },
           { raw: "light_white", value: "off" },

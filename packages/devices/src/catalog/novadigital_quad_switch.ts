@@ -20,16 +20,41 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      switch1: { dataPoint: "1" },
-      switch2: { dataPoint: "2" },
-      switch3: { dataPoint: "3" },
-      switch4: { dataPoint: "4" },
-      timer1InSeconds: { dataPoint: "7", unit: "s", min: 0, max: 86400 },
-      timer2InSeconds: { dataPoint: "8", unit: "s", min: 0, max: 86400 },
-      timer3InSeconds: { dataPoint: "9", unit: "s", min: 0, max: 86400 },
-      timer4InSeconds: { dataPoint: "10", unit: "s", min: 0, max: 86400 },
+      switch1: { dataPoint: "1", kind: "switch" },
+      switch2: { dataPoint: "2", kind: "switch" },
+      switch3: { dataPoint: "3", kind: "switch" },
+      switch4: { dataPoint: "4", kind: "switch" },
+      timer1InSeconds: {
+        dataPoint: "7",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      timer2InSeconds: {
+        dataPoint: "8",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      timer3InSeconds: {
+        dataPoint: "9",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      timer4InSeconds: {
+        dataPoint: "10",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
       initialState: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "on" },
@@ -37,7 +62,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    backlight: { on: { dataPoint: "16" } },
+    backlight: { on: { dataPoint: "16", kind: "switch" } },
   },
   source: {
     file: "novadigital_quad_switch.yaml",

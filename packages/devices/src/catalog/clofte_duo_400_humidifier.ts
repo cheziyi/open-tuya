@@ -30,32 +30,46 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
-      speed: { dataPoint: "111", min: 0, max: 4 },
-      sleep: { dataPoint: "101" },
+      on: { dataPoint: "1", kind: "switch" },
+      speed: { dataPoint: "111", kind: "number", min: 0, max: 4 },
+      sleep: { dataPoint: "101", kind: "switch" },
       sound: {
         dataPoint: "116",
+        kind: "switch",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
         ],
       },
-      drying: { dataPoint: "105" },
-      pm25InUgPerM3: { dataPoint: "2", readOnly: true, unit: "ugm3" },
+      drying: { dataPoint: "105", kind: "switch" },
+      pm25InUgPerM3: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "pm25",
+        readOnly: true,
+        unit: "ugm3",
+      },
       waterLevel: {
         dataPoint: "108",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "low", value: "low" },
           { raw: "high", value: "high" },
         ],
       },
-      filterReset: { dataPoint: "11" },
-      filterLifeInPercent: { dataPoint: "16", readOnly: true, unit: "%" },
-      uvSterilization: { dataPoint: "9" },
-      childLock: { dataPoint: "7" },
+      filterReset: { dataPoint: "11", kind: "button" },
+      filterLifeInPercent: {
+        dataPoint: "16",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      uvSterilization: { dataPoint: "9", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch" },
       alarm: {
         dataPoint: "104",
+        kind: "event",
         readOnly: true,
         values: [
           { raw: "mon_err", value: "Monitoring fault" },
@@ -70,10 +84,23 @@ const entry: TuyaDeviceEntry = {
           { raw: "show_off_app", value: "Demo mode" },
         ],
       },
-      temperatureInC: { dataPoint: "112", readOnly: true, unit: "C" },
-      timerInHours: { dataPoint: "113", unit: "h", min: 0, max: 8 },
+      temperatureInC: {
+        dataPoint: "112",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      timerInHours: {
+        dataPoint: "113",
+        kind: "number",
+        unit: "h",
+        min: 0,
+        max: 8,
+      },
       autoLevel: {
         dataPoint: "114",
+        kind: "select",
         values: [
           { raw: "A0", value: "off" },
           { raw: "A1", value: "low" },
@@ -84,10 +111,18 @@ const entry: TuyaDeviceEntry = {
       },
     },
     humidifier: {
-      on: { dataPoint: "102" },
-      currentHumidityInPercent: { dataPoint: "103", readOnly: true, unit: "%" },
+      on: { dataPoint: "102", kind: "switch" },
+      currentHumidityInPercent: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       targetHumidityInPercent: {
         dataPoint: "106",
+        kind: "select",
+        measures: "humidity",
         unit: "%",
         min: 40,
         max: 60,
@@ -99,13 +134,14 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "110",
+        kind: "select",
         values: [
           { raw: false, value: "normal" },
           { raw: true, value: "auto" },
         ],
       },
     },
-    indicator: { on: { dataPoint: "115" } },
+    indicator: { on: { dataPoint: "115", kind: "switch" } },
   },
   source: {
     file: "clofte_duo_400_humidifier.yaml",

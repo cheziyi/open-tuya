@@ -25,9 +25,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "2",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 30,
         max: 80,
@@ -35,6 +37,7 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "Auto", value: "auto" },
           { raw: "Dehumi", value: "continuous" },
@@ -44,14 +47,30 @@ const entry: TuyaDeviceEntry = {
       },
       currentHumidityInPercent: {
         dataPoint: "6",
+        kind: "sensor",
+        measures: "humidity",
         readOnly: true,
         unit: "%",
         scale: 10,
       },
-      temperatureInC: { dataPoint: "7", readOnly: true, unit: "C", scale: 10 },
-      filterLifeInDays: { dataPoint: "101", readOnly: true, unit: "d" },
+      temperatureInC: {
+        dataPoint: "7",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+        scale: 10,
+      },
+      filterLifeInDays: {
+        dataPoint: "101",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "d",
+      },
       oscillation: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "stop", value: "Fixed" },
           { raw: "80angle", value: "Open" },
@@ -60,6 +79,7 @@ const entry: TuyaDeviceEntry = {
       },
       timer: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: 0, value: "cancel" },
           { raw: 1, value: "1h" },
@@ -76,21 +96,23 @@ const entry: TuyaDeviceEntry = {
           { raw: 12, value: "12h" },
         ],
       },
-      childLock: { dataPoint: "16" },
+      childLock: { dataPoint: "16", kind: "switch" },
       sleep: {
         dataPoint: "11",
+        kind: "switch",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
         ],
       },
-      keytone: { dataPoint: "104" },
-      tankFull: { dataPoint: "108", readOnly: true },
+      keytone: { dataPoint: "104", kind: "switch" },
+      tankFull: { dataPoint: "108", kind: "sensor", readOnly: true },
     },
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "low", value: 33 },
           { raw: "mid", value: 66 },
@@ -98,8 +120,8 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    humidityLight: { on: { dataPoint: "105" } },
-    tankLight: { on: { dataPoint: "106" } },
+    humidityLight: { on: { dataPoint: "105", kind: "switch" } },
+    tankLight: { on: { dataPoint: "106", kind: "switch" } },
   },
   source: {
     file: "breville_bad358_dehumidifier.yaml",

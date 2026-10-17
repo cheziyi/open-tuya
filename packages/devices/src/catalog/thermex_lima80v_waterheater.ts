@@ -18,16 +18,30 @@ const entry: TuyaDeviceEntry = {
     waterHeater: {
       mode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "electric" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "9", unit: "C", min: 35, max: 75 },
-      workMode: { dataPoint: "13" },
-      attr1: { dataPoint: "20" },
-      awayMode: { dataPoint: "101" },
-      currentTemperatureInC: { dataPoint: "102", readOnly: true, unit: "C" },
+      targetTemperatureInC: {
+        dataPoint: "9",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 35,
+        max: 75,
+      },
+      workMode: { dataPoint: "13", kind: "text" },
+      attr1: { dataPoint: "20", kind: "number" },
+      awayMode: { dataPoint: "101", kind: "switch" },
+      currentTemperatureInC: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
     },
   },
   source: {

@@ -19,12 +19,13 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      switch1: { dataPoint: "1" },
-      switch2: { dataPoint: "2" },
-      switch3: { dataPoint: "3" },
-      on: { dataPoint: "101" },
+      switch1: { dataPoint: "1", kind: "switch" },
+      switch2: { dataPoint: "2", kind: "switch" },
+      switch3: { dataPoint: "3", kind: "switch" },
+      on: { dataPoint: "101", kind: "switch" },
       speed: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "off", value: 0 },
           { raw: "level_1", value: 25 },
@@ -33,10 +34,34 @@ const entry: TuyaDeviceEntry = {
           { raw: "level_4", value: 100 },
         ],
       },
-      timer1InSeconds: { dataPoint: "9", unit: "s", min: 0, max: 86399 },
-      timer2InSeconds: { dataPoint: "10", unit: "s", min: 0, max: 86399 },
-      timer3InSeconds: { dataPoint: "11", unit: "s", min: 0, max: 86399 },
-      fanTimerInSeconds: { dataPoint: "103", unit: "s", min: 0, max: 86399 },
+      timer1InSeconds: {
+        dataPoint: "9",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86399,
+      },
+      timer2InSeconds: {
+        dataPoint: "10",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86399,
+      },
+      timer3InSeconds: {
+        dataPoint: "11",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86399,
+      },
+      fanTimerInSeconds: {
+        dataPoint: "103",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86399,
+      },
     },
   },
   source: {

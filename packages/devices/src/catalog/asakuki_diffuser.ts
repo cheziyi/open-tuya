@@ -17,9 +17,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     aromaDiffuser: {
-      on: { dataPoint: "11" },
+      on: { dataPoint: "11", kind: "switch" },
       speed: {
         dataPoint: "13",
+        kind: "select",
         values: [
           { raw: "0", value: 50 },
           { raw: "1", value: 100 },
@@ -27,18 +28,20 @@ const entry: TuyaDeviceEntry = {
       },
     },
     light: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       colorMode: {
         dataPoint: "109",
+        kind: "select",
         values: [
           { raw: "white", value: "white" },
           { raw: "colour", value: "hs" },
           { raw: "colourfull", value: "Mood" },
         ],
       },
-      brightness: { dataPoint: "111", min: 0, max: 255 },
+      brightness: { dataPoint: "111", kind: "number", min: 0, max: 255 },
       colorName: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: "ff00000064ff", value: "red" },
           { raw: "ffa5002764ff", value: "orange" },
@@ -54,6 +57,7 @@ const entry: TuyaDeviceEntry = {
       },
       mood: {
         dataPoint: "110",
+        kind: "select",
         values: [
           { raw: "1", value: "Mood 1" },
           { raw: "2", value: "Mood 2" },

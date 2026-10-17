@@ -25,39 +25,60 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      camera: { dataPoint: "115", readOnly: true, otherwise: "captured" },
-      cameraSnapshotData: { dataPoint: "115", readOnly: true },
-      batteryInPercent: { dataPoint: "145", readOnly: true, unit: "%" },
+      camera: {
+        dataPoint: "115",
+        kind: "event",
+        readOnly: true,
+        otherwise: "captured",
+      },
+      cameraSnapshotData: { dataPoint: "115", kind: "sensor", readOnly: true },
+      batteryInPercent: {
+        dataPoint: "145",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
       batteryCharging: {
         dataPoint: "146",
+        kind: "sensor",
+        measures: "batteryCharging",
         readOnly: true,
         values: [
           { raw: "0", value: false },
           { raw: "1", value: true },
         ],
       },
-      connectivity: { dataPoint: "149", readOnly: true },
+      connectivity: {
+        dataPoint: "149",
+        kind: "sensor",
+        measures: "connectivity",
+        readOnly: true,
+      },
       lowBatteryThresholdInPercent: {
         dataPoint: "147",
+        kind: "number",
         unit: "%",
         min: 10,
         max: 50,
       },
-      flipImage: { dataPoint: "103" },
-      watermark: { dataPoint: "104" },
+      flipImage: { dataPoint: "103", kind: "switch" },
+      watermark: { dataPoint: "104", kind: "switch" },
       nightVision: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
           { raw: "2", value: "on" },
         ],
       },
-      motionDetection: { dataPoint: "240" },
-      motionSensitivity: { dataPoint: "241", min: 1, max: 10 },
-      humanoidFilter: { dataPoint: "170" },
+      motionDetection: { dataPoint: "240", kind: "switch" },
+      motionSensitivity: { dataPoint: "241", kind: "number", min: 1, max: 10 },
+      humanoidFilter: { dataPoint: "170", kind: "switch" },
       sdStatus: {
         dataPoint: "110",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -68,10 +89,11 @@ const entry: TuyaDeviceEntry = {
         ],
         absent: "normal",
       },
-      sdStatusCapacity: { dataPoint: "109", readOnly: true },
-      sdFormat: { dataPoint: "111" },
+      sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
+      sdFormat: { dataPoint: "111", kind: "button" },
       sdFormatState: {
         dataPoint: "117",
+        kind: "select",
         values: [
           { raw: -20000, value: "Unknown" },
           { raw: 2000, value: "Formatting" },

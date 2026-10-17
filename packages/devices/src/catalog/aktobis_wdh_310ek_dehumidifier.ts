@@ -19,24 +19,41 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "3",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 30,
         max: 70,
         step: 5,
       },
-      currentHumidityInPercent: { dataPoint: "6", readOnly: true, unit: "%" },
-      temperatureInC: { dataPoint: "7", readOnly: true, unit: "C" },
+      currentHumidityInPercent: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      temperatureInC: {
+        dataPoint: "7",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       fault: {
         dataPoint: "19",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
       faultDescription: {
         dataPoint: "19",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -46,11 +63,12 @@ const entry: TuyaDeviceEntry = {
           { raw: 5, value: "E5 MCU Communication Failure" },
         ],
       },
-      faultCode: { dataPoint: "19", readOnly: true },
-      tankFull: { dataPoint: "101", readOnly: true },
-      defrost: { dataPoint: "102", readOnly: true },
+      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      tankFull: { dataPoint: "101", kind: "sensor", readOnly: true },
+      defrost: { dataPoint: "102", kind: "sensor", readOnly: true },
       timer: {
         dataPoint: "17",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -81,9 +99,10 @@ const entry: TuyaDeviceEntry = {
       },
     },
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "low", value: 50 },
           { raw: "high", value: 100 },

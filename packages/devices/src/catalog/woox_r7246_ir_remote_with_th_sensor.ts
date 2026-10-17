@@ -18,12 +18,15 @@ const entry: TuyaDeviceEntry = {
     remote: {
       temperature: {
         dataPoint: "2",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unitFrom: "temperatureUnit",
         scale: 10,
       },
       temperatureUnit: {
         dataPoint: "11",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "c", value: "C" },
@@ -32,6 +35,7 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit2: {
         dataPoint: "11",
+        kind: "select",
         values: [
           { raw: "c", value: "celsius" },
           { raw: "f", value: "fahrenheit" },
@@ -39,15 +43,17 @@ const entry: TuyaDeviceEntry = {
       },
       humidityInPercent: {
         dataPoint: "12",
+        kind: "sensor",
+        measures: "humidity",
         readOnly: true,
         unit: "%",
         scale: 10,
       },
-      displayOn: { dataPoint: "101" },
-      send: { dataPoint: "201" },
-      receive: { dataPoint: "202" },
+      displayOn: { dataPoint: "101", kind: "switch" },
+      send: { dataPoint: "201", kind: "text" },
+      receive: { dataPoint: "202", kind: "text" },
     },
-    infrared: { send: { dataPoint: "201" } },
+    infrared: { send: { dataPoint: "201", kind: "text" } },
   },
   source: {
     file: "woox_r7246_ir_remote_with_th_sensor.yaml",

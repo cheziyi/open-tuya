@@ -17,16 +17,24 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
           { raw: "stop", value: "stop" },
         ],
       },
-      targetPosition: { dataPoint: "2", min: 0, max: 100 },
-      currentPosition: { dataPoint: "2", readOnly: true, min: 0, max: 100 },
+      targetPosition: { dataPoint: "2", kind: "number", min: 0, max: 100 },
+      currentPosition: {
+        dataPoint: "2",
+        kind: "sensor",
+        readOnly: true,
+        min: 0,
+        max: 100,
+      },
       calibration: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "start", value: "Start" },
           { raw: "end", value: "End" },
@@ -35,13 +43,14 @@ const entry: TuyaDeviceEntry = {
       },
       motorReverseMode: {
         dataPoint: "8",
+        kind: "select",
         values: [
           { raw: "forward", value: "Forward" },
           { raw: "back", value: "Back" },
         ],
       },
     },
-    backlight: { on: { dataPoint: "7" } },
+    backlight: { on: { dataPoint: "7", kind: "switch" } },
   },
   source: {
     file: "currysmarter_6gen_rollershutter.yaml",

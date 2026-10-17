@@ -5,10 +5,17 @@ import type {
   TuyaDataPointType,
   TuyaDeviceEntry,
 } from "./entry.js";
+import type { KnownControlName } from "./vocabulary.js";
 
 /** Control values by component, then by control name. */
 export type ControlValues = Readonly<
-  Record<string, Readonly<Record<string, ControlValue>>>
+  Record<
+    string,
+    Readonly<
+      Partial<Record<KnownControlName, ControlValue>> &
+        Record<string, ControlValue>
+    >
+  >
 >;
 
 const NUMERIC_TYPES: ReadonlySet<TuyaDataPointType> = new Set([

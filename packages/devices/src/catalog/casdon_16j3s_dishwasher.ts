@@ -29,10 +29,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      start: { dataPoint: "2" },
+      on: { dataPoint: "1", kind: "switch" },
+      start: { dataPoint: "2", kind: "button" },
       stop: {
         dataPoint: "3",
+        kind: "button",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -40,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       },
       washingMode: {
         dataPoint: "6",
+        kind: "select",
         values: [
           { raw: "strong", value: "intensive" },
           { raw: "quick_wash", value: "rapid" },
@@ -57,6 +59,7 @@ const entry: TuyaDeviceEntry = {
       },
       status: {
         dataPoint: "7",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -71,14 +74,29 @@ const entry: TuyaDeviceEntry = {
       },
       reservationTimeInMinutes: {
         dataPoint: "8",
+        kind: "number",
         unit: "min",
         min: 0,
         max: 1440,
       },
-      timeRemainingInMinutes: { dataPoint: "9", readOnly: true, unit: "min" },
-      temperatureInC: { dataPoint: "11", readOnly: true, unit: "C" },
+      timeRemainingInMinutes: {
+        dataPoint: "9",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      temperatureInC: {
+        dataPoint: "11",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       problem: {
         dataPoint: "18",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: "e1", value: "no_water" },
@@ -94,6 +112,7 @@ const entry: TuyaDeviceEntry = {
       },
       childLock: {
         dataPoint: "19",
+        kind: "switch",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -101,6 +120,8 @@ const entry: TuyaDeviceEntry = {
       },
       door: {
         dataPoint: "101",
+        kind: "sensor",
+        measures: "door",
         readOnly: true,
         values: [
           { raw: true, value: false },
@@ -109,6 +130,7 @@ const entry: TuyaDeviceEntry = {
       },
       waterHardness: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "1", value: "1" },
           { raw: "2", value: "2" },
@@ -121,6 +143,7 @@ const entry: TuyaDeviceEntry = {
       },
       rinseAidLevel: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "1", value: "1" },
           { raw: "2", value: "2" },
@@ -131,13 +154,30 @@ const entry: TuyaDeviceEntry = {
           { raw: "7", value: "7" },
         ],
       },
-      salt: { dataPoint: "104", readOnly: true },
-      autoDry: { dataPoint: "105" },
-      autoStorage: { dataPoint: "106" },
-      daysStoredInDays: { dataPoint: "107", readOnly: true, unit: "d" },
-      rinseAid: { dataPoint: "108", readOnly: true },
+      salt: {
+        dataPoint: "104",
+        kind: "sensor",
+        measures: "problem",
+        readOnly: true,
+      },
+      autoDry: { dataPoint: "105", kind: "switch" },
+      autoStorage: { dataPoint: "106", kind: "switch" },
+      daysStoredInDays: {
+        dataPoint: "107",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "d",
+      },
+      rinseAid: {
+        dataPoint: "108",
+        kind: "sensor",
+        measures: "problem",
+        readOnly: true,
+      },
       rack: {
         dataPoint: "109",
+        kind: "select",
         values: [
           { raw: "all", value: "both" },
           { raw: "up", value: "upper" },

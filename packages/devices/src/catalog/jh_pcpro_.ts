@@ -17,24 +17,31 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      reset: { dataPoint: "101", values: [{ raw: "Reset", value: true }] },
+      on: { dataPoint: "1", kind: "switch" },
+      reset: {
+        dataPoint: "101",
+        kind: "button",
+        values: [{ raw: "Reset", value: true }],
+      },
       forceReset: {
         dataPoint: "101",
+        kind: "button",
         values: [{ raw: "forceReset", value: true }],
       },
-      rfPairing: { dataPoint: "7" },
-      buzzer: { dataPoint: "8" },
+      rfPairing: { dataPoint: "7", kind: "switch" },
+      buzzer: { dataPoint: "8", kind: "switch" },
       initialState: {
         dataPoint: "38",
+        kind: "select",
         values: [
           { raw: "on", value: "on" },
           { raw: "off", value: "off" },
         ],
       },
-      childLock: { dataPoint: "40" },
+      childLock: { dataPoint: "40", kind: "switch" },
       rfRemoteControl: {
         dataPoint: "102",
+        kind: "switch",
         values: [
           { raw: "on", value: true },
           { raw: "off", value: false },

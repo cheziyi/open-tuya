@@ -19,20 +19,28 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      forceShutdown: { dataPoint: "101" },
-      autoPowerOn: { dataPoint: "102" },
-      childLock: { dataPoint: "103" },
-      reset: { dataPoint: "104" },
-      temperatureInC: { dataPoint: "105", readOnly: true, unit: "C" },
+      on: { dataPoint: "1", kind: "switch" },
+      forceShutdown: { dataPoint: "101", kind: "button" },
+      autoPowerOn: { dataPoint: "102", kind: "switch" },
+      childLock: { dataPoint: "103", kind: "switch" },
+      reset: { dataPoint: "104", kind: "button" },
+      temperatureInC: {
+        dataPoint: "105",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       fanSpeedInRpm: {
         dataPoint: "106",
+        kind: "sensor",
         readOnly: true,
         unit: "rpm",
         scale: 0.016667,
       },
       status: {
         dataPoint: "107",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "power_on", value: "working" },
@@ -46,7 +54,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "forced_failure", value: "blocked" },
         ],
       },
-      timerInSeconds: { dataPoint: "108", unit: "s", min: 0, max: 86400 },
+      timerInSeconds: {
+        dataPoint: "108",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
     },
   },
   source: {

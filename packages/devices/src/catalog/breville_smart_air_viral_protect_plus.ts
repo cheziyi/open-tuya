@@ -19,9 +19,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "auto", value: "smart" },
           { raw: "manual", value: "normal" },
@@ -30,6 +31,7 @@ const entry: TuyaDeviceEntry = {
       },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "low", value: 25 },
           { raw: "mid", value: 50 },
@@ -39,14 +41,23 @@ const entry: TuyaDeviceEntry = {
       },
       pm25InUgPerM3: {
         dataPoint: "2",
+        kind: "sensor",
+        measures: "pm25",
         readOnly: true,
         unit: "ugm3",
         scale: 10,
       },
-      microbeShield: { dataPoint: "9" },
-      filterLifeInDays: { dataPoint: "16", readOnly: true, unit: "d" },
+      microbeShield: { dataPoint: "9", kind: "switch" },
+      filterLifeInDays: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "d",
+      },
       timer: {
         dataPoint: "18",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "2h", value: "2h" },
@@ -54,8 +65,14 @@ const entry: TuyaDeviceEntry = {
           { raw: "8h", value: "8h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "19", readOnly: true, unit: "min" },
-      airQuality: { dataPoint: "21", readOnly: true },
+      timeRemainingInMinutes: {
+        dataPoint: "19",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      airQuality: { dataPoint: "21", kind: "sensor", readOnly: true },
     },
   },
   source: {

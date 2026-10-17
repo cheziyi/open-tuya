@@ -18,9 +18,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "20" },
+      on: { dataPoint: "20", kind: "switch" },
       workMode: {
         dataPoint: "21",
+        kind: "select",
         values: [
           { raw: "white", value: "white" },
           { raw: "colour", value: "hs" },
@@ -28,12 +29,18 @@ const entry: TuyaDeviceEntry = {
           { raw: "music", value: "Music" },
         ],
       },
-      brightness: { dataPoint: "22", min: 10, max: 1000 },
-      scene: { dataPoint: "25" },
-      timerInSeconds: { dataPoint: "26", unit: "s", min: 0, max: 86399 },
-      music: { dataPoint: "27" },
-      control: { dataPoint: "28" },
-      debug: { dataPoint: "29" },
+      brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
+      scene: { dataPoint: "25", kind: "text" },
+      timerInSeconds: {
+        dataPoint: "26",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86399,
+      },
+      music: { dataPoint: "27", kind: "text" },
+      control: { dataPoint: "28", kind: "text" },
+      debug: { dataPoint: "29", kind: "text" },
     },
   },
   source: {

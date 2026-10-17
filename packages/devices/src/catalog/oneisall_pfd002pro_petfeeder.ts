@@ -24,16 +24,18 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      mealPlan: { dataPoint: "1" },
-      quickFeed: { dataPoint: "2" },
+      mealPlan: { dataPoint: "1", kind: "text" },
+      quickFeed: { dataPoint: "2", kind: "button" },
       manualFeedInPortions: {
         dataPoint: "3",
+        kind: "number",
         unit: "portions",
         min: 1,
         max: 60,
       },
       status: {
         dataPoint: "4",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -41,10 +43,24 @@ const entry: TuyaDeviceEntry = {
           { raw: "done", value: "feeding_complete" },
         ],
       },
-      batteryInPercent: { dataPoint: "10", readOnly: true, unit: "%" },
-      batteryCharging: { dataPoint: "11", readOnly: true, absent: false },
+      batteryInPercent: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      batteryCharging: {
+        dataPoint: "11",
+        kind: "sensor",
+        measures: "batteryCharging",
+        readOnly: true,
+        absent: false,
+      },
       cover: {
         dataPoint: "12",
+        kind: "sensor",
+        measures: "opening",
         readOnly: true,
         values: [
           { raw: "on", value: false },
@@ -53,6 +69,8 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "13",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -61,9 +79,10 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", readOnly: true },
+      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "13",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -78,24 +97,33 @@ const entry: TuyaDeviceEntry = {
       },
       tankEmpty: {
         dataPoint: "13",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
       },
       plug: {
         dataPoint: "13",
+        kind: "sensor",
+        measures: "plug",
         readOnly: true,
         values: [{ raw: 64, value: false }],
         otherwise: true,
       },
-      feed: { dataPoint: "14", readOnly: true, otherwise: "fed" },
-      feedAmount: { dataPoint: "14", readOnly: true },
-      on: { dataPoint: "17" },
-      slowFeed: { dataPoint: "23" },
-      factoryReset: { dataPoint: "24" },
-      weightCalibration: { dataPoint: "26" },
+      feed: {
+        dataPoint: "14",
+        kind: "event",
+        readOnly: true,
+        otherwise: "fed",
+      },
+      feedAmount: { dataPoint: "14", kind: "sensor", readOnly: true },
+      on: { dataPoint: "17", kind: "switch" },
+      slowFeed: { dataPoint: "23", kind: "switch" },
+      factoryReset: { dataPoint: "24", kind: "button" },
+      weightCalibration: { dataPoint: "26", kind: "switch" },
       powerMode: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "strong_power", value: "Full power" },
           { raw: "battery_power", value: "Battery saver" },

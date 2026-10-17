@@ -32,12 +32,44 @@ describe("convertDeviceFile", () => {
       },
       components: {
         device: {
-          on: { dataPoint: "1" },
-          voltageInV: { dataPoint: "6", readOnly: true, unit: "V", scale: 10 },
-          currentInMilliamps: { dataPoint: "4", readOnly: true, unit: "mA" },
-          powerInW: { dataPoint: "5", readOnly: true, unit: "W", scale: 10 },
-          overcurrentAlarm: { dataPoint: "7", readOnly: true, absent: false },
-          timerInSeconds: { dataPoint: "2", unit: "s", min: 0, max: 86400 },
+          on: { dataPoint: "1", kind: "switch" },
+          voltageInV: {
+            dataPoint: "6",
+            kind: "sensor",
+            measures: "voltage",
+            readOnly: true,
+            unit: "V",
+            scale: 10,
+          },
+          currentInMilliamps: {
+            dataPoint: "4",
+            kind: "sensor",
+            measures: "current",
+            readOnly: true,
+            unit: "mA",
+          },
+          powerInW: {
+            dataPoint: "5",
+            kind: "sensor",
+            measures: "power",
+            readOnly: true,
+            unit: "W",
+            scale: 10,
+          },
+          overcurrentAlarm: {
+            dataPoint: "7",
+            kind: "sensor",
+            measures: "problem",
+            readOnly: true,
+            absent: false,
+          },
+          timerInSeconds: {
+            dataPoint: "2",
+            kind: "number",
+            unit: "s",
+            min: 0,
+            max: 86400,
+          },
         },
       },
     });
@@ -99,15 +131,19 @@ entities:
     expect(components.climate).toEqual({
       targetTemperature: {
         dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         unitFrom: "temperatureUnit",
       },
       currentTemperature: {
         dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unitFrom: "temperatureUnit",
       },
-      temperatureUnit: { dataPoint: "9" },
+      temperatureUnit: { dataPoint: "9", kind: "text" },
     });
   });
 
@@ -163,9 +199,10 @@ entities:
 `);
 
     expect(components.light).toEqual({
-      on: { dataPoint: "20" },
+      on: { dataPoint: "20", kind: "switch" },
       colorTemperatureInK: {
         dataPoint: "23",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 1000,
@@ -241,15 +278,25 @@ entities:
 
     expect(components).toEqual({
       light: {
-        on: { dataPoint: "20" },
-        childLock: { dataPoint: "7" },
-        fault: { dataPoint: "11", readOnly: true },
-        faultCode: { dataPoint: "11", readOnly: true },
-        waterFlowInLPerMin: { dataPoint: "12", readOnly: true, unit: "L/min" },
+        on: { dataPoint: "20", kind: "switch" },
+        childLock: { dataPoint: "7", kind: "switch" },
+        fault: {
+          dataPoint: "11",
+          kind: "sensor",
+          measures: "problem",
+          readOnly: true,
+        },
+        faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+        waterFlowInLPerMin: {
+          dataPoint: "12",
+          kind: "sensor",
+          readOnly: true,
+          unit: "L/min",
+        },
       },
-      fan: { on: { dataPoint: "60" } },
-      valve1: { open: { dataPoint: "1" } },
-      backlight: { on: { dataPoint: "30" } },
+      fan: { on: { dataPoint: "60", kind: "switch" } },
+      valve1: { open: { dataPoint: "1", kind: "switch" } },
+      backlight: { on: { dataPoint: "30", kind: "switch" } },
     });
   });
 
@@ -310,6 +357,7 @@ entities:
     expect(components.device).toEqual({
       mode: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "low", value: "eco" },
           { raw: "high", value: "boost" },
@@ -319,6 +367,7 @@ entities:
       },
       target: {
         dataPoint: "5",
+        kind: "number",
         min: 0,
         max: 100,
         scale: 2,

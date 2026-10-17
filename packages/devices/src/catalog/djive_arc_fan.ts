@@ -20,9 +20,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "close", value: "normal" },
           { raw: "auto", value: "smart" },
@@ -31,10 +32,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "sleep", value: "sleep" },
         ],
       },
-      speed: { dataPoint: "3", min: 1, max: 9 },
-      oscillating: { dataPoint: "5" },
+      speed: { dataPoint: "3", kind: "number", min: 1, max: 9 },
+      oscillating: { dataPoint: "5", kind: "switch" },
       humidifier: {
         dataPoint: "105",
+        kind: "select",
         values: [
           { raw: "close", value: "off" },
           { raw: 1, value: "low" },
@@ -45,15 +47,29 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "24",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "24", readOnly: true },
-      uvSterilization: { dataPoint: "102" },
-      sound: { dataPoint: "13" },
-      humidityInPercent: { dataPoint: "106", readOnly: true, unit: "%" },
-      pm25InUgPerM3: { dataPoint: "101", readOnly: true, unit: "μg/m³" },
+      faultCode: { dataPoint: "24", kind: "sensor", readOnly: true },
+      uvSterilization: { dataPoint: "102", kind: "switch" },
+      sound: { dataPoint: "13", kind: "switch" },
+      humidityInPercent: {
+        dataPoint: "106",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      pm25InUgPerM3: {
+        dataPoint: "101",
+        kind: "sensor",
+        measures: "pm25",
+        readOnly: true,
+        unit: "μg/m³",
+      },
     },
   },
   source: {

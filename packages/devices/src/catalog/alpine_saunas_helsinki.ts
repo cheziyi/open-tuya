@@ -18,17 +18,37 @@ const entry: TuyaDeviceEntry = {
     sauna: {
       hvacMode: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "104", unit: "C", min: 30, max: 70 },
-      currentTemperatureInC: { dataPoint: "106", readOnly: true, unit: "C" },
+      targetTemperatureInC: {
+        dataPoint: "104",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 30,
+        max: 70,
+      },
+      currentTemperatureInC: {
+        dataPoint: "106",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
     },
     light: {
-      on: { dataPoint: "103" },
-      timerInMinutes: { dataPoint: "105", unit: "min", min: 0, max: 60 },
+      on: { dataPoint: "103", kind: "switch" },
+      timerInMinutes: {
+        dataPoint: "105",
+        kind: "number",
+        unit: "min",
+        min: 0,
+        max: 60,
+      },
     },
   },
   source: {

@@ -25,9 +25,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "manual", value: "manual" },
           { raw: "auto", value: "auto" },
@@ -35,6 +36,7 @@ const entry: TuyaDeviceEntry = {
       },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "sleep", value: 20 },
           { raw: "low", value: 40 },
@@ -45,16 +47,40 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      pm25InUgPerM3: { dataPoint: "2", readOnly: true, unit: "ugm3" },
-      filterLifeInPercent: { dataPoint: "5", readOnly: true, unit: "%" },
-      filterLifeDays: { dataPoint: "16", readOnly: true },
-      childLock: { dataPoint: "7" },
-      uvSterilization: { dataPoint: "9" },
-      filterReset: { dataPoint: "11" },
-      totalRuntimeInMinutes: { dataPoint: "17", readOnly: true, unit: "min" },
-      timeRemainingInMinutes: { dataPoint: "19", readOnly: true, unit: "min" },
+      pm25InUgPerM3: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "pm25",
+        readOnly: true,
+        unit: "ugm3",
+      },
+      filterLifeInPercent: {
+        dataPoint: "5",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      filterLifeDays: { dataPoint: "16", kind: "sensor", readOnly: true },
+      childLock: { dataPoint: "7", kind: "switch" },
+      uvSterilization: { dataPoint: "9", kind: "switch" },
+      filterReset: { dataPoint: "11", kind: "button" },
+      totalRuntimeInMinutes: {
+        dataPoint: "17",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      timeRemainingInMinutes: {
+        dataPoint: "19",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       airQuality: {
         dataPoint: "21",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "great", value: "good" },
@@ -63,10 +89,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "medium", value: "severe" },
         ],
       },
-      timer: { dataPoint: "101" },
-      timerInMinutes: { dataPoint: "102", unit: "min", min: 0, max: 1439 },
+      timer: { dataPoint: "101", kind: "switch" },
+      timerInMinutes: {
+        dataPoint: "102",
+        kind: "number",
+        unit: "min",
+        min: 0,
+        max: 1439,
+      },
     },
-    display: { on: { dataPoint: "8" } },
+    display: { on: { dataPoint: "8", kind: "switch" } },
   },
   source: {
     file: "homemedics_c500_airpurifier.yaml",

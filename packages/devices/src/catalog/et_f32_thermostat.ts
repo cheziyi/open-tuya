@@ -28,6 +28,7 @@ const entry: TuyaDeviceEntry = {
     thermostat: {
       hvacMode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "AUTO", value: "auto" },
           { raw: "MANUAL", value: "heat" },
@@ -38,6 +39,8 @@ const entry: TuyaDeviceEntry = {
       },
       targetTemperature: {
         dataPoint: "16",
+        kind: "number",
+        measures: "temperature",
         unitFrom: "temperatureUnit",
         min: 5,
         max: 40,
@@ -45,12 +48,15 @@ const entry: TuyaDeviceEntry = {
       },
       currentTemperature: {
         dataPoint: "24",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unitFrom: "temperatureUnit",
         scale: 10,
       },
       temperatureUnit: {
         dataPoint: "23",
+        kind: "select",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -58,6 +64,7 @@ const entry: TuyaDeviceEntry = {
       },
       preset: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "AUTO", value: "program" },
           { raw: "MANUAL", value: "manual" },
@@ -70,15 +77,23 @@ const entry: TuyaDeviceEntry = {
     device: {
       sensor: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "0", value: "Internal" },
           { raw: "1", value: "External" },
           { raw: "2", value: "Both" },
         ],
       },
-      temperatureCalibration: { dataPoint: "104", min: -9, max: 9, scale: 10 },
+      temperatureCalibration: {
+        dataPoint: "104",
+        kind: "number",
+        min: -9,
+        max: 9,
+        scale: 10,
+      },
       temperatureHysteresis: {
         dataPoint: "105",
+        kind: "select",
         values: [
           { raw: "0_5", value: "0.5°C" },
           { raw: "1", value: "1.0°C" },
@@ -86,20 +101,24 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "3.0°C" },
         ],
       },
-      holidayDays: { dataPoint: "101", min: 0, max: 99 },
-      adaptive: { dataPoint: "110" },
-      openWindowDetection: { dataPoint: "111" },
-      childLock: { dataPoint: "40" },
-      factoryReset: { dataPoint: "39" },
+      holidayDays: { dataPoint: "101", kind: "number", min: 0, max: 99 },
+      adaptive: { dataPoint: "110", kind: "switch" },
+      openWindowDetection: { dataPoint: "111", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch" },
+      factoryReset: { dataPoint: "39", kind: "button" },
       fault: {
         dataPoint: "45",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", readOnly: true },
+      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
     },
-    display: { brightness: { dataPoint: "115", min: 1, max: 8 } },
+    display: {
+      brightness: { dataPoint: "115", kind: "number", min: 1, max: 8 },
+    },
   },
   source: {
     file: "et_f32_thermostat.yaml",

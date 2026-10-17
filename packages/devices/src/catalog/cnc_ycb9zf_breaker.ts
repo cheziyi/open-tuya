@@ -23,26 +23,43 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      onEvent: { dataPoint: "101" },
-      onVersion: { dataPoint: "110" },
-      voltageInV: { dataPoint: "22", readOnly: true, unit: "V", scale: 10 },
-      voltageCalibration: { dataPoint: "25", readOnly: true },
+      on: { dataPoint: "1", kind: "switch" },
+      onEvent: { dataPoint: "101", kind: "text" },
+      onVersion: { dataPoint: "110", kind: "text" },
+      voltageInV: {
+        dataPoint: "22",
+        kind: "sensor",
+        measures: "voltage",
+        readOnly: true,
+        unit: "V",
+        scale: 10,
+      },
+      voltageCalibration: { dataPoint: "25", kind: "sensor", readOnly: true },
       overvoltageThresholdInPercent: {
         dataPoint: "102",
+        kind: "number",
         unit: "%",
         min: 110,
         max: 200,
       },
       undervoltageThresholdInPercent: {
         dataPoint: "103",
+        kind: "number",
         unit: "%",
         min: 50,
         max: 90,
       },
-      ratedVoltageInV: { dataPoint: "104", unit: "V", min: 150, max: 300 },
+      ratedVoltageInV: {
+        dataPoint: "104",
+        kind: "number",
+        measures: "voltage",
+        unit: "V",
+        min: 150,
+        max: 300,
+      },
       breakerTriggerAction: {
         dataPoint: "105",
+        kind: "select",
         values: [
           { raw: "Shut", value: "ignore" },
           { raw: "Alarm", value: "alarm" },
@@ -51,6 +68,7 @@ const entry: TuyaDeviceEntry = {
       },
       breakerTriggerAction2: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "Shut", value: "ignore" },
           { raw: "Alarm", value: "alarm" },
@@ -59,6 +77,8 @@ const entry: TuyaDeviceEntry = {
       },
       overvoltageDelayInSeconds: {
         dataPoint: "107",
+        kind: "number",
+        measures: "duration",
         unit: "s",
         min: 100,
         max: 10000,
@@ -67,11 +87,13 @@ const entry: TuyaDeviceEntry = {
       },
       undervoltageDelayInSeconds: {
         dataPoint: "108",
+        kind: "number",
+        measures: "duration",
         unit: "s",
         min: 1,
         max: 10,
       },
-      autoReset: { dataPoint: "109" },
+      autoReset: { dataPoint: "109", kind: "switch" },
     },
   },
   source: {

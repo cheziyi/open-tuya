@@ -25,9 +25,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "2",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 35,
         max: 70,
@@ -35,6 +37,7 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "manual", value: "normal" },
           { raw: "laundry", value: "laundry" },
@@ -42,10 +45,17 @@ const entry: TuyaDeviceEntry = {
           { raw: "purify", value: "purify" },
         ],
       },
-      currentHumidityInPercent: { dataPoint: "16", readOnly: true, unit: "%" },
-      childLock: { dataPoint: "14" },
+      currentHumidityInPercent: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      childLock: { dataPoint: "14", kind: "switch" },
       timer: {
         dataPoint: "17",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -74,9 +84,17 @@ const entry: TuyaDeviceEntry = {
           { raw: "24h", value: "24h" },
         ],
       },
-      timeRemainingInHours: { dataPoint: "18", readOnly: true, unit: "h" },
+      timeRemainingInHours: {
+        dataPoint: "18",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "h",
+      },
       fault: {
         dataPoint: "19",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -86,27 +104,32 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", readOnly: true },
+      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
       tankFull: {
         dataPoint: "19",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
       },
       defrost: {
         dataPoint: "19",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,
       },
       moisture: {
         dataPoint: "19",
+        kind: "sensor",
+        measures: "moisture",
         readOnly: true,
         values: [{ raw: 128, value: true }],
         otherwise: false,
       },
       onTimer: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "Cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

@@ -18,18 +18,20 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       direction: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "in", value: "forward" },
           { raw: "out", value: "reverse" },
           { raw: "exch", value: "exchange" },
         ],
       },
-      speed: { dataPoint: "3", min: 1, max: 3 },
+      speed: { dataPoint: "3", kind: "number", min: 1, max: 3 },
       mode: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: false, value: "normal" },
           { raw: true, value: "smart" },
@@ -39,15 +41,31 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "fan_only" },
           { raw: false, value: "off" },
         ],
       },
-      targetTemperatureInF: { dataPoint: "18", unit: "F", min: 40, max: 95 },
-      currentTemperatureInF: { dataPoint: "19", readOnly: true, unit: "F" },
+      targetTemperatureInF: {
+        dataPoint: "18",
+        kind: "number",
+        measures: "temperature",
+        unit: "F",
+        min: 40,
+        max: 95,
+      },
+      currentTemperatureInF: {
+        dataPoint: "19",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "F",
+      },
     },
-    display: { brightness: { dataPoint: "102", min: 1, max: 3 } },
+    display: {
+      brightness: { dataPoint: "102", kind: "number", min: 1, max: 3 },
+    },
   },
   source: {
     file: "aspen_asp200_fan.yaml",

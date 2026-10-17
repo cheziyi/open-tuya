@@ -22,15 +22,30 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
         ],
       },
-      targetTemperatureInF: { dataPoint: "2", unit: "F", min: 60, max: 86 },
-      currentTemperatureInF: { dataPoint: "3", readOnly: true, unit: "F" },
+      targetTemperatureInF: {
+        dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
+        unit: "F",
+        min: 60,
+        max: 86,
+      },
+      currentTemperatureInF: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "F",
+      },
       preset: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "auto", value: "eco" },
           { raw: "low", value: "comfort" },
@@ -39,6 +54,7 @@ const entry: TuyaDeviceEntry = {
       },
       swingMode: {
         dataPoint: "8",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "horizontal" },
@@ -46,6 +62,7 @@ const entry: TuyaDeviceEntry = {
       },
       timer: {
         dataPoint: "11",
+        kind: "select",
         values: [
           { raw: "0h", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -62,11 +79,27 @@ const entry: TuyaDeviceEntry = {
           { raw: "12h", value: "12h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "12", readOnly: true, unit: "min" },
-      overheatProtection: { dataPoint: "102", readOnly: true },
-      tipOverProtection: { dataPoint: "103", readOnly: true },
+      timeRemainingInMinutes: {
+        dataPoint: "12",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      overheatProtection: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "problem",
+        readOnly: true,
+      },
+      tipOverProtection: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "problem",
+        readOnly: true,
+      },
     },
-    display: { on: { dataPoint: "10" } },
+    display: { on: { dataPoint: "10", kind: "switch" } },
   },
   source: {
     file: "atomi_ceramic_heater.yaml",

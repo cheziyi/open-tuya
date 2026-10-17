@@ -22,9 +22,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "manual", value: "manual" },
@@ -33,6 +34,7 @@ const entry: TuyaDeviceEntry = {
       },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "low", value: 33 },
           { raw: "mid", value: 66 },
@@ -41,12 +43,13 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      ionizer: { dataPoint: "6" },
-      uvSterilization: { dataPoint: "9" },
-      childLock: { dataPoint: "7" },
-      keytone: { dataPoint: "101" },
+      ionizer: { dataPoint: "6", kind: "switch" },
+      uvSterilization: { dataPoint: "9", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch" },
+      keytone: { dataPoint: "101", kind: "switch" },
       timer: {
         dataPoint: "18",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -65,6 +68,7 @@ const entry: TuyaDeviceEntry = {
       },
       airQuality: {
         dataPoint: "21",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "excellent", value: "excellent" },
@@ -72,10 +76,22 @@ const entry: TuyaDeviceEntry = {
           { raw: "difference", value: "poor" },
         ],
       },
-      pm25InUgPerM3: { dataPoint: "2", readOnly: true, unit: "ugm3" },
-      filterLifeInDays: { dataPoint: "16", readOnly: true, unit: "d" },
+      pm25InUgPerM3: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "pm25",
+        readOnly: true,
+        unit: "ugm3",
+      },
+      filterLifeInDays: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "d",
+      },
     },
-    backlight: { on: { dataPoint: "8" } },
+    backlight: { on: { dataPoint: "8", kind: "switch" } },
   },
   source: {
     file: "soho_air_purifier.yaml",

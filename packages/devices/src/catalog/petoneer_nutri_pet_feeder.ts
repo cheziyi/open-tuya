@@ -19,18 +19,21 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      quickFeed: { dataPoint: "2" },
-      manualFeed: { dataPoint: "3", min: 1, max: 12 },
-      factoryReset: { dataPoint: "9" },
+      quickFeed: { dataPoint: "2", kind: "button" },
+      manualFeed: { dataPoint: "3", kind: "number", min: 1, max: 12 },
+      factoryReset: { dataPoint: "9", kind: "button" },
       fault: {
         dataPoint: "14",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 1, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "14", readOnly: true },
+      faultCode: { dataPoint: "14", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "14",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 1, value: "OK" },
@@ -41,14 +44,22 @@ const entry: TuyaDeviceEntry = {
       },
       lastAmountInPortions: {
         dataPoint: "15",
+        kind: "sensor",
         readOnly: true,
         unit: "portions",
       },
-      numberOfPortionsToDispense: { dataPoint: "101", min: 1, max: 12 },
-      manualFeedButton: { dataPoint: "102" },
-      sound: { dataPoint: "103" },
+      numberOfPortionsToDispense: {
+        dataPoint: "101",
+        kind: "number",
+        min: 1,
+        max: 12,
+      },
+      manualFeedButton: { dataPoint: "102", kind: "switch" },
+      sound: { dataPoint: "103", kind: "switch" },
       plug: {
         dataPoint: "105",
+        kind: "sensor",
+        measures: "plug",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

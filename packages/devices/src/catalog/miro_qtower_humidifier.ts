@@ -22,9 +22,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "23",
+        kind: "select",
         values: [
           { raw: "cancel", value: 0 },
           { raw: "level_1", value: 20 },
@@ -36,9 +37,16 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      humidityInPercent: { dataPoint: "14", readOnly: true, unit: "%" },
+      humidityInPercent: {
+        dataPoint: "14",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "2h", value: "2h" },
@@ -50,9 +58,17 @@ const entry: TuyaDeviceEntry = {
           { raw: "14h", value: "14h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "20", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "20",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "22",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -60,17 +76,19 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", readOnly: true },
+      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
       tankEmpty: {
         dataPoint: "22",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
       },
-      childLock: { dataPoint: "29" },
-      auto: { dataPoint: "101" },
+      childLock: { dataPoint: "29", kind: "switch" },
+      auto: { dataPoint: "101", kind: "switch" },
       heating: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "off", value: "off" },
           { raw: "low", value: "low" },
@@ -79,6 +97,7 @@ const entry: TuyaDeviceEntry = {
       },
       sound: {
         dataPoint: "103",
+        kind: "switch",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -88,6 +107,7 @@ const entry: TuyaDeviceEntry = {
     nightlight: {
       brightness: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: "cancle", value: 0 },
           { raw: "level_1", value: 85 },
@@ -97,6 +117,7 @@ const entry: TuyaDeviceEntry = {
       },
       colorTemperature: {
         dataPoint: "106",
+        kind: "select",
         min: 2700,
         max: 4000,
         values: [

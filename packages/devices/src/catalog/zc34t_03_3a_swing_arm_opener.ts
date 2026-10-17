@@ -20,6 +20,7 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
@@ -28,6 +29,7 @@ const entry: TuyaDeviceEntry = {
       },
       open: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: true },
           { raw: "closed", value: false },
@@ -35,6 +37,8 @@ const entry: TuyaDeviceEntry = {
       },
       windAndRain: {
         dataPoint: "104",
+        kind: "sensor",
+        measures: "moisture",
         readOnly: true,
         values: [
           { raw: "rain", value: true },
@@ -43,21 +47,25 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "105",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: "", value: false }],
         otherwise: true,
       },
-      faultDescription: { dataPoint: "105", readOnly: true },
+      faultDescription: { dataPoint: "105", kind: "sensor", readOnly: true },
       pushNotifications: {
         dataPoint: "106",
+        kind: "switch",
         values: [
           { raw: "open", value: true },
           { raw: "close", value: false },
         ],
       },
-      pushNotificationsNotification: { dataPoint: "107" },
+      pushNotificationsNotification: { dataPoint: "107", kind: "text" },
       windAndRainDetection: {
         dataPoint: "108",
+        kind: "switch",
         values: [
           { raw: "on", value: true },
           { raw: "off", value: false },
@@ -67,6 +75,7 @@ const entry: TuyaDeviceEntry = {
     lock: {
       locked: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "lock", value: true },
           { raw: "unlock", value: false },

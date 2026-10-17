@@ -21,20 +21,22 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "normal", value: "normal" },
           { raw: "nature", value: "nature" },
           { raw: "smart", value: "smart" },
         ],
       },
-      speed: { dataPoint: "3", min: 1, max: 4 },
+      speed: { dataPoint: "3", kind: "number", min: 1, max: 4 },
     },
     device: {
       timer: {
         dataPoint: "22",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -47,10 +49,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "8h", value: "8h" },
         ],
       },
-      verticalOscillation: { dataPoint: "4" },
-      horizontalOscillation: { dataPoint: "5" },
+      verticalOscillation: { dataPoint: "4", kind: "switch" },
+      horizontalOscillation: { dataPoint: "5", kind: "switch" },
       verticalAngle: {
         dataPoint: "6",
+        kind: "select",
         values: [
           { raw: "30", value: "30°" },
           { raw: "60", value: "60°" },
@@ -59,6 +62,7 @@ const entry: TuyaDeviceEntry = {
       },
       horizontalAngle: {
         dataPoint: "7",
+        kind: "select",
         values: [
           { raw: "30", value: "30°" },
           { raw: "60", value: "60°" },
@@ -66,10 +70,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "120", value: "120°" },
         ],
       },
-      sound: { dataPoint: "13" },
-      childLock: { dataPoint: "14" },
+      sound: { dataPoint: "13", kind: "switch" },
+      childLock: { dataPoint: "14", kind: "switch" },
     },
-    indicator: { on: { dataPoint: "15" } },
+    indicator: { on: { dataPoint: "15", kind: "switch" } },
   },
   source: {
     file: "smartmi_air_circulator_fan.yaml",

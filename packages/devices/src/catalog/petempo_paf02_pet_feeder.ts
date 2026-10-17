@@ -19,15 +19,17 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      quickFeed: { dataPoint: "2" },
+      quickFeed: { dataPoint: "2", kind: "button" },
       manualFeedInPortions: {
         dataPoint: "3",
+        kind: "number",
         unit: "portions",
         min: 1,
         max: 6,
       },
       status: {
         dataPoint: "4",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -35,17 +37,29 @@ const entry: TuyaDeviceEntry = {
           { raw: "done", value: "feeding_complete" },
         ],
       },
-      batteryInPercent: { dataPoint: "10", readOnly: true, unit: "%" },
-      batteryCharging: { dataPoint: "11", readOnly: true },
+      batteryInPercent: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      batteryCharging: {
+        dataPoint: "11",
+        kind: "sensor",
+        measures: "batteryCharging",
+        readOnly: true,
+      },
       feedReportInPortions: {
         dataPoint: "14",
+        kind: "sensor",
         readOnly: true,
         unit: "portions",
       },
-      slowFeed: { dataPoint: "23" },
-      factoryReset: { dataPoint: "24" },
+      slowFeed: { dataPoint: "23", kind: "switch" },
+      factoryReset: { dataPoint: "24", kind: "button" },
     },
-    display: { on: { dataPoint: "17" } },
+    display: { on: { dataPoint: "17", kind: "switch" } },
   },
   source: {
     file: "petempo_paf02_pet_feeder.yaml",

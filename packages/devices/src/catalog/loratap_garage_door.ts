@@ -17,15 +17,35 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "open" },
           { raw: false, value: "close" },
         ],
       },
-      open: { dataPoint: "101" },
-      timerInSeconds: { dataPoint: "7", unit: "s", min: 0, max: 86400 },
-      travelTimeInSeconds: { dataPoint: "102", unit: "s", min: 10, max: 120 },
-      alarmTimerInSeconds: { dataPoint: "103", unit: "s", min: 0, max: 86400 },
+      open: { dataPoint: "101", kind: "switch" },
+      timerInSeconds: {
+        dataPoint: "7",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      travelTimeInSeconds: {
+        dataPoint: "102",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 10,
+        max: 120,
+      },
+      alarmTimerInSeconds: {
+        dataPoint: "103",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
     },
   },
   source: {

@@ -27,13 +27,14 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "45" },
-      onAmbientTemperature: { dataPoint: "103" },
-      onCleanTime: { dataPoint: "56" },
-      onWindTemperature: { dataPoint: "57" },
-      onDryingTime: { dataPoint: "59" },
+      on: { dataPoint: "45", kind: "switch" },
+      onAmbientTemperature: { dataPoint: "103", kind: "number" },
+      onCleanTime: { dataPoint: "56", kind: "number" },
+      onWindTemperature: { dataPoint: "57", kind: "text" },
+      onDryingTime: { dataPoint: "59", kind: "number" },
       bidetMode: {
         dataPoint: "50",
+        kind: "select",
         values: [
           { raw: "dry", value: "dry" },
           { raw: "normal", value: "normal" },
@@ -42,6 +43,7 @@ const entry: TuyaDeviceEntry = {
       },
       waterTemperature: {
         dataPoint: "52",
+        kind: "number",
         min: 1,
         max: 4,
         values: [
@@ -51,10 +53,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "level_4", value: 4 },
         ],
       },
-      waterTemperature2: { dataPoint: "53" },
-      waterTemperaturePressure: { dataPoint: "54" },
+      waterTemperature2: { dataPoint: "53", kind: "number" },
+      waterTemperaturePressure: { dataPoint: "54", kind: "text" },
       position: {
         dataPoint: "55",
+        kind: "select",
         values: [
           { raw: "pos_1", value: "Front" },
           { raw: "pos_2", value: "Slightly forward" },
@@ -65,6 +68,7 @@ const entry: TuyaDeviceEntry = {
       },
       seatWarmth: {
         dataPoint: "60",
+        kind: "number",
         min: 1,
         max: 4,
         values: [
@@ -74,19 +78,27 @@ const entry: TuyaDeviceEntry = {
           { raw: "level_4", value: 4 },
         ],
       },
-      seatWarmthTemperature: { dataPoint: "61" },
-      deodorize: { dataPoint: "62" },
-      on2: { dataPoint: "64" },
-      ecoMode: { dataPoint: "65" },
+      seatWarmthTemperature: { dataPoint: "61", kind: "number" },
+      deodorize: { dataPoint: "62", kind: "switch" },
+      on2: { dataPoint: "64", kind: "switch" },
+      ecoMode: { dataPoint: "65", kind: "switch" },
       fault: {
         dataPoint: "68",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "68", readOnly: true },
-      seated: { dataPoint: "46", readOnly: true, absent: false },
+      faultCode: { dataPoint: "68", kind: "sensor", readOnly: true },
+      seated: {
+        dataPoint: "46",
+        kind: "sensor",
+        measures: "occupancy",
+        readOnly: true,
+        absent: false,
+      },
     },
   },
   source: {

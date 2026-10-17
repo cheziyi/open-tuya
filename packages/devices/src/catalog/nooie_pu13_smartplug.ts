@@ -14,11 +14,18 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      timerInSeconds: { dataPoint: "9", unit: "s", min: 0, max: 86400 },
-      childLock: { dataPoint: "41" },
+      on: { dataPoint: "1", kind: "switch" },
+      timerInSeconds: {
+        dataPoint: "9",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      childLock: { dataPoint: "41", kind: "switch" },
       initialState: {
         dataPoint: "39",
+        kind: "select",
         values: [
           { raw: 1, value: "on" },
           { raw: 0, value: "off" },

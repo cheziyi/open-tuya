@@ -21,9 +21,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "sleep", value: 20 },
           { raw: "low", value: 40 },
@@ -34,6 +35,7 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: false, value: "manual" },
           { raw: true, value: "auto" },
@@ -41,15 +43,37 @@ const entry: TuyaDeviceEntry = {
       },
     },
     light: {
-      childLock: { dataPoint: "7" },
-      on: { dataPoint: "8" },
-      filterLifeInPercent: { dataPoint: "5", readOnly: true, unit: "%" },
-      filterRemainingInDays: { dataPoint: "16", readOnly: true, unit: "d" },
-      pm25InUgPerM3: { dataPoint: "2", readOnly: true, unit: "ugm3" },
-      totalVolatileOrganicCompunds: { dataPoint: "14", readOnly: true },
-      airQuality: { dataPoint: "21", readOnly: true },
+      childLock: { dataPoint: "7", kind: "switch" },
+      on: { dataPoint: "8", kind: "switch" },
+      filterLifeInPercent: {
+        dataPoint: "5",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      filterRemainingInDays: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "d",
+      },
+      pm25InUgPerM3: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "pm25",
+        readOnly: true,
+        unit: "ugm3",
+      },
+      totalVolatileOrganicCompunds: {
+        dataPoint: "14",
+        kind: "sensor",
+        readOnly: true,
+      },
+      airQuality: { dataPoint: "21", kind: "sensor", readOnly: true },
       timer: {
         dataPoint: "18",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

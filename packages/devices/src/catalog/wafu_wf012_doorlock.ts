@@ -11,7 +11,10 @@ const entry: TuyaDeviceEntry = {
     "101": { type: "boolean" },
   },
   components: {
-    lock: { unlockApp: { dataPoint: "15" }, locked: { dataPoint: "101" } },
+    lock: {
+      unlockApp: { dataPoint: "15", kind: "number" },
+      locked: { dataPoint: "101", kind: "switch" },
+    },
   },
   source: {
     file: "wafu_wf012_doorlock.yaml",

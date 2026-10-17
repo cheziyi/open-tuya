@@ -11,13 +11,20 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "close" },
           { raw: true, value: "open" },
         ],
       },
-      open: { dataPoint: "1" },
-      timerInSeconds: { dataPoint: "2", unit: "s", min: 0, max: 86399 },
+      open: { dataPoint: "1", kind: "switch" },
+      timerInSeconds: {
+        dataPoint: "2",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86399,
+      },
     },
   },
   source: {

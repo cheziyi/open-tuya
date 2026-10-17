@@ -23,19 +23,21 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "108" },
-      brightness: { dataPoint: "22", min: 10, max: 1000 },
+      on: { dataPoint: "108", kind: "switch" },
+      brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
       colorTemperatureInK: {
         dataPoint: "23",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 1000,
         targetRange: { min: 2700, max: 6500 },
       },
-      verticalOscillation: { dataPoint: "104" },
-      fullRotation: { dataPoint: "112" },
+      verticalOscillation: { dataPoint: "104", kind: "switch" },
+      fullRotation: { dataPoint: "112", kind: "switch" },
       timer: {
         dataPoint: "109",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -48,6 +50,8 @@ const entry: TuyaDeviceEntry = {
       },
       timeRemainingInMinutes: {
         dataPoint: "110",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "min",
         min: 0,
@@ -55,16 +59,19 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "111",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "111", readOnly: true },
+      faultCode: { dataPoint: "111", kind: "sensor", readOnly: true },
     },
     fan: {
-      on: { dataPoint: "101" },
+      on: { dataPoint: "101", kind: "switch" },
       mode: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "nature", value: "nature" },
           { raw: "sleep", value: "sleep" },
@@ -72,9 +79,9 @@ const entry: TuyaDeviceEntry = {
           { raw: "strong", value: "strong" },
         ],
       },
-      speed: { dataPoint: "103", min: 1, max: 6 },
-      oscillating: { dataPoint: "105" },
-      fanSound: { dataPoint: "107" },
+      speed: { dataPoint: "103", kind: "number", min: 1, max: 6 },
+      oscillating: { dataPoint: "105", kind: "switch" },
+      fanSound: { dataPoint: "107", kind: "switch" },
     },
   },
   source: {

@@ -16,9 +16,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     aromaDiffuser: {
-      on: { dataPoint: "2" },
+      on: { dataPoint: "2", kind: "switch" },
       speed: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "L1", value: 17 },
           { raw: "L2", value: 33 },
@@ -32,6 +33,7 @@ const entry: TuyaDeviceEntry = {
     device: {
       timer: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "untime", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -40,9 +42,20 @@ const entry: TuyaDeviceEntry = {
           { raw: "8h", value: "8h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "5", readOnly: true, unit: "min" },
-      factoryReset: { dataPoint: "101" },
-      voltage: { dataPoint: "102", readOnly: true },
+      timeRemainingInMinutes: {
+        dataPoint: "5",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      factoryReset: { dataPoint: "101", kind: "button" },
+      voltage: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+      },
     },
   },
   source: {

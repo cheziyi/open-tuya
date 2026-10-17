@@ -21,10 +21,18 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
-      currentHumidityInPercent: { dataPoint: "13", readOnly: true, unit: "%" },
+      on: { dataPoint: "1", kind: "switch" },
+      currentHumidityInPercent: {
+        dataPoint: "13",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       targetHumidityInPercent: {
         dataPoint: "101",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 30,
         max: 80,
@@ -32,16 +40,29 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: true, value: "auto" },
           { raw: false, value: "normal" },
         ],
       },
-      childLock: { dataPoint: "29" },
-      filterLifeInPercent: { dataPoint: "33", readOnly: true, unit: "%" },
-      waterLevelInPercent: { dataPoint: "17", readOnly: true, unit: "%" },
+      childLock: { dataPoint: "29", kind: "switch" },
+      filterLifeInPercent: {
+        dataPoint: "33",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      waterLevelInPercent: {
+        dataPoint: "17",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
       filterChange: {
         dataPoint: "104",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: false, value: false },
@@ -50,15 +71,17 @@ const entry: TuyaDeviceEntry = {
       },
       tankEmpty: {
         dataPoint: "22",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
     },
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: 1, value: 20 },
           { raw: 2, value: 40 },
@@ -71,6 +94,7 @@ const entry: TuyaDeviceEntry = {
     display: {
       brightness: {
         dataPoint: "105",
+        kind: "select",
         values: [
           { raw: "Normal", value: 255 },
           { raw: "Dimmer", value: 128 },

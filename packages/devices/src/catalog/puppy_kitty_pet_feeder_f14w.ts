@@ -18,9 +18,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      manualFeed: { dataPoint: "3", min: 1, max: 10 },
+      manualFeed: { dataPoint: "3", kind: "number", min: 1, max: 10 },
       status: {
         dataPoint: "4",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -28,23 +29,28 @@ const entry: TuyaDeviceEntry = {
           { raw: "done", value: "done" },
         ],
       },
-      statusFeedRecord: { dataPoint: "112", readOnly: true },
-      mealPlans: { dataPoint: "101", readOnly: true },
+      statusFeedRecord: { dataPoint: "112", kind: "sensor", readOnly: true },
+      mealPlans: { dataPoint: "101", kind: "sensor", readOnly: true },
       batteryVoltageInMillivolts: {
         dataPoint: "106",
+        kind: "sensor",
+        measures: "voltage",
         readOnly: true,
         unit: "mV",
       },
-      mealPlan: { dataPoint: "108" },
+      mealPlan: { dataPoint: "108", kind: "text" },
       fault: {
         dataPoint: "113",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "113", readOnly: true },
+      faultCode: { dataPoint: "113", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "113",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -55,11 +61,13 @@ const entry: TuyaDeviceEntry = {
       },
       battery: {
         dataPoint: "114",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         values: [{ raw: 8, value: true }],
         otherwise: false,
       },
-      batteryFaultCode: { dataPoint: "114", readOnly: true },
+      batteryFaultCode: { dataPoint: "114", kind: "sensor", readOnly: true },
     },
   },
   source: {

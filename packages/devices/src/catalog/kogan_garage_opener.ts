@@ -16,6 +16,7 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "fopen", value: "open" },
           { raw: "fclose", value: "close" },
@@ -23,6 +24,7 @@ const entry: TuyaDeviceEntry = {
       },
       movement: {
         dataPoint: "102",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "openning", value: "opening" },
@@ -31,8 +33,19 @@ const entry: TuyaDeviceEntry = {
           { raw: "closed", value: "closed" },
         ],
       },
-      batteryInPercent: { dataPoint: "104", readOnly: true, unit: "%" },
-      doorOpen: { dataPoint: "105", readOnly: true },
+      batteryInPercent: {
+        dataPoint: "104",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      doorOpen: {
+        dataPoint: "105",
+        kind: "sensor",
+        measures: "garageDoor",
+        readOnly: true,
+      },
     },
   },
   source: {

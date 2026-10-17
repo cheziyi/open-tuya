@@ -20,13 +20,19 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      flipImage: { dataPoint: "103" },
-      motion: { dataPoint: "115", readOnly: true, otherwise: "detected" },
-      motionSnapshot: { dataPoint: "115", readOnly: true },
-      motionDetection: { dataPoint: "134" },
-      cameraRecord: { dataPoint: "150" },
+      flipImage: { dataPoint: "103", kind: "switch" },
+      motion: {
+        dataPoint: "115",
+        kind: "event",
+        readOnly: true,
+        otherwise: "detected",
+      },
+      motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
+      motionDetection: { dataPoint: "134", kind: "switch" },
+      cameraRecord: { dataPoint: "150", kind: "switch" },
       motionSensitivity: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
@@ -35,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       },
       nightVision: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -43,6 +50,7 @@ const entry: TuyaDeviceEntry = {
       },
       recordingMode: {
         dataPoint: "151",
+        kind: "select",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
@@ -50,6 +58,7 @@ const entry: TuyaDeviceEntry = {
       },
       manualFeedInPortions: {
         dataPoint: "201",
+        kind: "number",
         unit: "portions",
         min: 1,
         max: 12,
@@ -64,11 +73,13 @@ const entry: TuyaDeviceEntry = {
       },
       portionSizeInG: {
         dataPoint: "202",
+        kind: "sensor",
+        measures: "weight",
         readOnly: true,
         unit: "g",
         scale: 10,
       },
-      schedule: { dataPoint: "207" },
+      schedule: { dataPoint: "207", kind: "text" },
     },
   },
   source: {

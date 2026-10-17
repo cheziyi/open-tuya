@@ -19,9 +19,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "1", value: 11 },
           { raw: "2", value: 22 },
@@ -36,6 +37,7 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "sleep", value: "sleep" },
           { raw: "heavy", value: "strong" },
@@ -43,9 +45,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "close", value: "off" },
         ],
       },
-      oscillating: { dataPoint: "8" },
+      oscillating: { dataPoint: "8", kind: "switch" },
       timer: {
         dataPoint: "11",
+        kind: "select",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -58,17 +61,25 @@ const entry: TuyaDeviceEntry = {
           { raw: "8", value: "8h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "12", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "12",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "13",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", readOnly: true },
-      sound: { dataPoint: "102" },
+      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      sound: { dataPoint: "102", kind: "switch" },
     },
-    light: { on: { dataPoint: "101" } },
+    light: { on: { dataPoint: "101", kind: "switch" } },
   },
   source: {
     file: "hiper_bladeless_fan.yaml",

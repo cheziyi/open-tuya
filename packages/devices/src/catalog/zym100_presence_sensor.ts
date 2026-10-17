@@ -21,15 +21,18 @@ const entry: TuyaDeviceEntry = {
     device: {
       occupancy: {
         dataPoint: "1",
+        kind: "sensor",
+        measures: "occupancy",
         readOnly: true,
         values: [
           { raw: "presence", value: true },
           { raw: "none", value: false },
         ],
       },
-      sensitivity: { dataPoint: "2", min: 0, max: 9 },
+      sensitivity: { dataPoint: "2", kind: "number", min: 0, max: 9 },
       minimumDistanceInM: {
         dataPoint: "3",
+        kind: "number",
         unit: "m",
         min: 0,
         max: 1000,
@@ -38,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       },
       maximumDistanceInM: {
         dataPoint: "4",
+        kind: "number",
         unit: "m",
         min: 0,
         max: 1000,
@@ -46,6 +50,8 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "6",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: "check_success", value: false },
@@ -54,15 +60,19 @@ const entry: TuyaDeviceEntry = {
         absent: false,
         otherwise: true,
       },
-      faultDescription: { dataPoint: "6", readOnly: true },
+      faultDescription: { dataPoint: "6", kind: "sensor", readOnly: true },
       targetDistanceInM: {
         dataPoint: "9",
+        kind: "sensor",
+        measures: "distance",
         readOnly: true,
         unit: "m",
         scale: 100,
       },
       detectionDelayInSeconds: {
         dataPoint: "101",
+        kind: "number",
+        measures: "duration",
         unit: "s",
         min: 0,
         max: 100,
@@ -70,13 +80,21 @@ const entry: TuyaDeviceEntry = {
       },
       fadingTimeInSeconds: {
         dataPoint: "102",
+        kind: "number",
+        measures: "duration",
         unit: "s",
         min: 0,
         max: 15000,
         scale: 10,
         step: 50,
       },
-      illuminanceInLux: { dataPoint: "104", readOnly: true, unit: "lx" },
+      illuminanceInLux: {
+        dataPoint: "104",
+        kind: "sensor",
+        measures: "illuminance",
+        readOnly: true,
+        unit: "lx",
+      },
     },
   },
   source: {

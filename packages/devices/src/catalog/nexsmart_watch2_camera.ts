@@ -31,14 +31,20 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      motionDetection: { dataPoint: "134" },
-      cameraRecord: { dataPoint: "150" },
-      camera: { dataPoint: "115", readOnly: true, otherwise: "captured" },
-      cameraSnapshotData: { dataPoint: "115", readOnly: true },
-      flipImage: { dataPoint: "103" },
-      watermark: { dataPoint: "104" },
+      motionDetection: { dataPoint: "134", kind: "switch" },
+      cameraRecord: { dataPoint: "150", kind: "switch" },
+      camera: {
+        dataPoint: "115",
+        kind: "event",
+        readOnly: true,
+        otherwise: "captured",
+      },
+      cameraSnapshotData: { dataPoint: "115", kind: "sensor", readOnly: true },
+      flipImage: { dataPoint: "103", kind: "switch" },
+      watermark: { dataPoint: "104", kind: "switch" },
       nightVision: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -47,18 +53,20 @@ const entry: TuyaDeviceEntry = {
       },
       motionSensitivity: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
           { raw: "2", value: "high" },
         ],
       },
-      motionAlarmArea: { dataPoint: "168" },
-      motionAlarmArea2: { dataPoint: "169" },
-      soundDetection: { dataPoint: "139" },
-      soundDetectionUploadTimestamp: { dataPoint: "141" },
+      motionAlarmArea: { dataPoint: "168", kind: "switch" },
+      motionAlarmArea2: { dataPoint: "169", kind: "text" },
+      soundDetection: { dataPoint: "139", kind: "switch" },
+      soundDetectionUploadTimestamp: { dataPoint: "141", kind: "text" },
       soundSensitivity: {
         dataPoint: "140",
+        kind: "select",
         values: [
           { raw: "0", value: "Low" },
           { raw: "1", value: "High" },
@@ -66,6 +74,7 @@ const entry: TuyaDeviceEntry = {
       },
       sdStatus: {
         dataPoint: "110",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -76,10 +85,11 @@ const entry: TuyaDeviceEntry = {
         ],
         absent: "normal",
       },
-      sdStatusCapacity: { dataPoint: "109", readOnly: true },
-      sdFormat: { dataPoint: "111" },
+      sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
+      sdFormat: { dataPoint: "111", kind: "button" },
       sdFormatState: {
         dataPoint: "117",
+        kind: "select",
         values: [
           { raw: 0, value: "Ready" },
           { raw: 2000, value: "Formatting" },
@@ -91,16 +101,17 @@ const entry: TuyaDeviceEntry = {
       },
       recordingMode: {
         dataPoint: "151",
+        kind: "select",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
         ],
       },
-      onvifStream: { dataPoint: "255" },
-      onvifIpAddress: { dataPoint: "254", readOnly: true },
-      onvifPasswordChange: { dataPoint: "253" },
+      onvifStream: { dataPoint: "255", kind: "switch" },
+      onvifIpAddress: { dataPoint: "254", kind: "sensor", readOnly: true },
+      onvifPasswordChange: { dataPoint: "253", kind: "text" },
     },
-    indicator: { on: { dataPoint: "101" } },
+    indicator: { on: { dataPoint: "101", kind: "switch" } },
   },
   source: {
     file: "nexsmart_watch2_camera.yaml",

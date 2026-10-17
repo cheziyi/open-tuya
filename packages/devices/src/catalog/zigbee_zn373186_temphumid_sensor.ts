@@ -13,14 +13,29 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      temperatureInC: { dataPoint: "1", readOnly: true, unit: "C", scale: 10 },
+      temperatureInC: {
+        dataPoint: "1",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+        scale: 10,
+      },
       humidityInPercent: {
         dataPoint: "2",
+        kind: "sensor",
+        measures: "humidity",
         readOnly: true,
         unit: "%",
         scale: 10,
       },
-      batteryInPercent: { dataPoint: "4", readOnly: true, unit: "%" },
+      batteryInPercent: {
+        dataPoint: "4",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
     },
   },
   source: {

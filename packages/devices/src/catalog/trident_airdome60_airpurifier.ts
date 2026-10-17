@@ -21,9 +21,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "manual", value: "manual" },
@@ -32,6 +33,7 @@ const entry: TuyaDeviceEntry = {
       },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "speed1", value: 17 },
           { raw: "speed2", value: 33 },
@@ -43,10 +45,17 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      pm25InUgPerM3: { dataPoint: "2", readOnly: true, unit: "ugm3" },
-      childLock: { dataPoint: "7" },
+      pm25InUgPerM3: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "pm25",
+        readOnly: true,
+        unit: "ugm3",
+      },
+      childLock: { dataPoint: "7", kind: "switch" },
       timer: {
         dataPoint: "18",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -59,6 +68,7 @@ const entry: TuyaDeviceEntry = {
       },
       airQuality: {
         dataPoint: "21",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "great", value: "excellent" },
@@ -69,13 +79,16 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "22",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", readOnly: true },
+      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "22",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -83,9 +96,10 @@ const entry: TuyaDeviceEntry = {
           { raw: 2, value: "Replace air activator" },
         ],
       },
-      filterReset: { dataPoint: "101" },
+      filterReset: { dataPoint: "101", kind: "button" },
       airflowAngle: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "30", value: "30" },
           { raw: "60", value: "60" },
@@ -93,7 +107,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    backlight: { on: { dataPoint: "8" } },
+    backlight: { on: { dataPoint: "8", kind: "switch" } },
   },
   source: {
     file: "trident_airdome60_airpurifier.yaml",

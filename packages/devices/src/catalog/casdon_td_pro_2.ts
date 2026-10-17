@@ -24,6 +24,7 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
@@ -31,14 +32,23 @@ const entry: TuyaDeviceEntry = {
       },
       targetTemperatureInC: {
         dataPoint: "7",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 0,
         max: 500,
         step: 5,
       },
-      currentTemperatureInC: { dataPoint: "8", readOnly: true, unit: "C" },
+      currentTemperatureInC: {
+        dataPoint: "8",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       preset: {
         dataPoint: "105",
+        kind: "select",
         values: [
           { raw: "1", value: "healthy_steam" },
           { raw: "2", value: "fresh_steam" },
@@ -67,6 +77,7 @@ const entry: TuyaDeviceEntry = {
       },
       hvacAction: {
         dataPoint: "102",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "cooking", value: "heating" },
@@ -77,11 +88,25 @@ const entry: TuyaDeviceEntry = {
           { raw: "wait", value: "idle" },
         ],
       },
-      start: { dataPoint: "2" },
-      startTimeInMinutes: { dataPoint: "9", unit: "min", min: 1, max: 1440 },
-      cookingTimeInMinutes: { dataPoint: "10", unit: "min", min: 1, max: 1440 },
+      start: { dataPoint: "2", kind: "switch" },
+      startTimeInMinutes: {
+        dataPoint: "9",
+        kind: "number",
+        unit: "min",
+        min: 1,
+        max: 1440,
+      },
+      cookingTimeInMinutes: {
+        dataPoint: "10",
+        kind: "number",
+        unit: "min",
+        min: 1,
+        max: 1440,
+      },
       timeRemainingInMinutes: {
         dataPoint: "11",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "min",
         min: 0,
@@ -89,13 +114,16 @@ const entry: TuyaDeviceEntry = {
       },
       problem: {
         dataPoint: "13",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      problemFaultCode: { dataPoint: "13", readOnly: true },
+      problemFaultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
       problemDescription: {
         dataPoint: "13",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -112,6 +140,7 @@ const entry: TuyaDeviceEntry = {
       },
       cookingStatus: {
         dataPoint: "102",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "wait", value: "wait" },
@@ -124,6 +153,7 @@ const entry: TuyaDeviceEntry = {
       },
       ovenBuiltInRecipe: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "0", value: "none" },
           { raw: "1", value: "steamed_egg_with_okra" },
@@ -159,7 +189,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    light: { on: { dataPoint: "103" } },
+    light: { on: { dataPoint: "103", kind: "switch" } },
   },
   source: {
     file: "casdon_td_pro_2.yaml",

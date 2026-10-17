@@ -20,15 +20,30 @@ const entry: TuyaDeviceEntry = {
     petSofa: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "heat_cool" },
           { raw: false, value: "off" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "8", unit: "C", min: 20, max: 38 },
-      currentTemperatureInC: { dataPoint: "16", readOnly: true, unit: "C" },
+      targetTemperatureInC: {
+        dataPoint: "8",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 20,
+        max: 38,
+      },
+      currentTemperatureInC: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       hvacAction: {
         dataPoint: "101",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 1, value: "idle" },
@@ -38,6 +53,7 @@ const entry: TuyaDeviceEntry = {
       },
       preset: {
         dataPoint: "7",
+        kind: "select",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "manual", value: "manual" },
@@ -46,15 +62,23 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      ambientTemperatureInC: { dataPoint: "102", readOnly: true, unit: "C" },
+      ambientTemperatureInC: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       fault: {
         dataPoint: "22",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", readOnly: true },
-      faultPushState: { dataPoint: "105", readOnly: true },
+      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultPushState: { dataPoint: "105", kind: "sensor", readOnly: true },
     },
   },
   source: {

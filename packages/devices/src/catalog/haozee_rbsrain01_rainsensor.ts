@@ -19,27 +19,48 @@ const entry: TuyaDeviceEntry = {
     device: {
       moisture: {
         dataPoint: "1",
+        kind: "sensor",
+        measures: "moisture",
         readOnly: true,
         values: [{ raw: "alarm", value: true }],
         otherwise: false,
       },
-      batteryInPercent: { dataPoint: "4", readOnly: true, unit: "%" },
+      batteryInPercent: {
+        dataPoint: "4",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
       solarIntensityInMillivolts: {
         dataPoint: "101",
+        kind: "sensor",
+        measures: "voltage",
         readOnly: true,
         unit: "mV",
       },
-      solarIntensityAverage: { dataPoint: "102", readOnly: true },
-      solarIntensityPeak: { dataPoint: "103", readOnly: true },
+      solarIntensityAverage: {
+        dataPoint: "102",
+        kind: "sensor",
+        readOnly: true,
+      },
+      solarIntensityPeak: { dataPoint: "103", kind: "sensor", readOnly: true },
       cleaning: {
         dataPoint: "104",
+        kind: "event",
         readOnly: true,
         values: [
           { raw: true, value: "need_clean" },
           { raw: false, value: "is_clean" },
         ],
       },
-      rainSensorInMillivolts: { dataPoint: "105", readOnly: true, unit: "mV" },
+      rainSensorInMillivolts: {
+        dataPoint: "105",
+        kind: "sensor",
+        measures: "voltage",
+        readOnly: true,
+        unit: "mV",
+      },
     },
   },
   source: {

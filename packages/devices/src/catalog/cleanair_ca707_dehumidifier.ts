@@ -25,9 +25,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "0", value: "normal" },
           { raw: "1", value: "continuous" },
@@ -37,18 +38,33 @@ const entry: TuyaDeviceEntry = {
       },
       targetHumidityInPercent: {
         dataPoint: "4",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 30,
         max: 80,
         step: 5,
       },
-      currentHumidityInPercent: { dataPoint: "104", readOnly: true, unit: "%" },
-      ionizer: { dataPoint: "5" },
-      sleep: { dataPoint: "102" },
-      temperatureInC: { dataPoint: "103", readOnly: true, unit: "°C" },
-      timer: { dataPoint: "101" },
+      currentHumidityInPercent: {
+        dataPoint: "104",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      ionizer: { dataPoint: "5", kind: "switch" },
+      sleep: { dataPoint: "102", kind: "switch" },
+      temperatureInC: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "°C",
+      },
+      timer: { dataPoint: "101", kind: "switch" },
       timer2: {
         dataPoint: "12",
+        kind: "select",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -79,12 +95,15 @@ const entry: TuyaDeviceEntry = {
       },
       tankFull: {
         dataPoint: "11",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 8, value: true }],
         otherwise: false,
       },
       fault: {
         dataPoint: "11",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -93,16 +112,28 @@ const entry: TuyaDeviceEntry = {
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", readOnly: true },
-      defrost: { dataPoint: "105", readOnly: true },
-      childLock: { dataPoint: "7" },
-      filter: { dataPoint: "106", readOnly: true },
-      filterLifeInHours: { dataPoint: "107", readOnly: true, unit: "h" },
+      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      defrost: { dataPoint: "105", kind: "sensor", readOnly: true },
+      childLock: { dataPoint: "7", kind: "switch" },
+      filter: {
+        dataPoint: "106",
+        kind: "sensor",
+        measures: "problem",
+        readOnly: true,
+      },
+      filterLifeInHours: {
+        dataPoint: "107",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "h",
+      },
     },
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "6",
+        kind: "select",
         values: [
           { raw: "1", value: 33 },
           { raw: "3", value: 100 },

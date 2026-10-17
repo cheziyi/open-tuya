@@ -18,19 +18,21 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      speed: { dataPoint: "53", min: 1, max: 6 },
-      direction: { dataPoint: "54" },
-      on: { dataPoint: "101" },
+      speed: { dataPoint: "53", kind: "number", min: 1, max: 6 },
+      direction: { dataPoint: "54", kind: "text" },
+      on: { dataPoint: "101", kind: "switch" },
       mode: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "normal", value: "normal" },
           { raw: "nature", value: "nature" },
         ],
       },
-      antiBurglary: { dataPoint: "109" },
+      antiBurglary: { dataPoint: "109", kind: "switch" },
       timer: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: "1h", value: "1h" },
           { raw: "2h", value: "2h" },
@@ -39,9 +41,15 @@ const entry: TuyaDeviceEntry = {
         ],
         absent: "cancel",
       },
-      timeRemainingInMinutes: { dataPoint: "106", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "106",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
     },
-    light: { on: { dataPoint: "103" } },
+    light: { on: { dataPoint: "103", kind: "switch" } },
   },
   source: {
     file: "sulion_ceiling_fan.yaml",

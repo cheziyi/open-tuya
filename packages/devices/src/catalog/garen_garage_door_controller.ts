@@ -15,12 +15,13 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     lock: {
-      open: { dataPoint: "101" },
-      stop: { dataPoint: "102" },
-      close: { dataPoint: "103" },
-      locked: { dataPoint: "106" },
+      open: { dataPoint: "101", kind: "button" },
+      stop: { dataPoint: "102", kind: "button" },
+      close: { dataPoint: "103", kind: "button" },
+      locked: { dataPoint: "106", kind: "switch" },
       autoCloseTimer: {
         dataPoint: "109",
+        kind: "select",
         values: [
           { raw: "OFF", value: "cancel" },
           { raw: "5s", value: "5s" },

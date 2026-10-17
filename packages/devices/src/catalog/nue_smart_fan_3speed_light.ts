@@ -15,19 +15,33 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "1", value: 33 },
           { raw: "2", value: 66 },
           { raw: "3", value: 100 },
         ],
       },
-      timerInHours: { dataPoint: "6", unit: "h", min: 0, max: 6 },
-      timeRemainingInMinutes: { dataPoint: "7", readOnly: true, unit: "min" },
+      timerInHours: {
+        dataPoint: "6",
+        kind: "number",
+        measures: "duration",
+        unit: "h",
+        min: 0,
+        max: 6,
+      },
+      timeRemainingInMinutes: {
+        dataPoint: "7",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
     },
-    light: { on: { dataPoint: "9" } },
+    light: { on: { dataPoint: "9", kind: "switch" } },
   },
   source: {
     file: "nue_smart_fan_3speed_light.yaml",

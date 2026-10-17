@@ -9,10 +9,15 @@ const entry: TuyaDeviceEntry = {
   dataPoints: { "1": { type: "boolean" }, "101": { type: "string" } },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      reset: { dataPoint: "101", values: [{ raw: "Reset", value: true }] },
+      on: { dataPoint: "1", kind: "switch" },
+      reset: {
+        dataPoint: "101",
+        kind: "button",
+        values: [{ raw: "Reset", value: true }],
+      },
       forceReset: {
         dataPoint: "101",
+        kind: "button",
         values: [{ raw: "forceReset", value: true }],
       },
     },

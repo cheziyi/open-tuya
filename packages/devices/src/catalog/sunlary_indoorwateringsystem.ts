@@ -19,9 +19,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     valve: {
-      open: { dataPoint: "1" },
+      open: { dataPoint: "1", kind: "switch" },
       status: {
         dataPoint: "106",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "0", value: "idle" },
@@ -29,17 +30,40 @@ const entry: TuyaDeviceEntry = {
           { raw: "2", value: "manual" },
         ],
       },
-      autoRun: { dataPoint: "109" },
-      durationInSeconds: { dataPoint: "102", unit: "s", min: 20, max: 1800 },
-      intervalInHours: { dataPoint: "103", unit: "h", min: 1, max: 168 },
+      autoRun: { dataPoint: "109", kind: "switch" },
+      durationInSeconds: {
+        dataPoint: "102",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 20,
+        max: 1800,
+      },
+      intervalInHours: {
+        dataPoint: "103",
+        kind: "number",
+        unit: "h",
+        min: 1,
+        max: 168,
+      },
       nextIrrigationInMinutes: {
         dataPoint: "107",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "min",
       },
-      timeRemainingInSeconds: { dataPoint: "104", readOnly: true, unit: "s" },
+      timeRemainingInSeconds: {
+        dataPoint: "104",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "s",
+      },
       batteryInPercent: {
         dataPoint: "108",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         unit: "%",
         values: [
@@ -51,11 +75,13 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "105",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "105", readOnly: true },
+      faultCode: { dataPoint: "105", kind: "sensor", readOnly: true },
     },
   },
   source: {

@@ -13,10 +13,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1" },
-      brightness: { dataPoint: "2", min: 10, max: 1000 },
+      on: { dataPoint: "1", kind: "switch" },
+      brightness: { dataPoint: "2", kind: "number", min: 10, max: 1000 },
       lightMode: {
         dataPoint: "21",
+        kind: "select",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },

@@ -11,11 +11,19 @@ const entry: TuyaDeviceEntry = {
     device: {
       moisture: {
         dataPoint: "1",
+        kind: "sensor",
+        measures: "moisture",
         readOnly: true,
         values: [{ raw: "alarm", value: true }],
         otherwise: false,
       },
-      batteryInPercent: { dataPoint: "4", readOnly: true, unit: "%" },
+      batteryInPercent: {
+        dataPoint: "4",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
     },
   },
   source: {

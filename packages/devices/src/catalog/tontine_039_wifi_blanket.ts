@@ -14,17 +14,31 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       temperature: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "low", value: "low" },
           { raw: "middle", value: "middle" },
           { raw: "high", value: "high" },
         ],
       },
-      timerInHours: { dataPoint: "9", unit: "h", min: 1, max: 10 },
-      timeRemainingInMinutes: { dataPoint: "10", readOnly: true, unit: "min" },
+      timerInHours: {
+        dataPoint: "9",
+        kind: "number",
+        measures: "duration",
+        unit: "h",
+        min: 1,
+        max: 10,
+      },
+      timeRemainingInMinutes: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
     },
   },
   source: {

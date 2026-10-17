@@ -30,11 +30,13 @@ const entry: TuyaDeviceEntry = {
     "132": { type: "integer" },
   },
   components: {
-    valve1: { open: { dataPoint: "1" } },
-    valve2: { open: { dataPoint: "2" } },
+    valve1: { open: { dataPoint: "1", kind: "switch" } },
+    valve2: { open: { dataPoint: "2", kind: "switch" } },
     device: {
       timer1InMinutes: {
         dataPoint: "17",
+        kind: "number",
+        measures: "duration",
         unit: "min",
         min: 0,
         max: 43200,
@@ -43,6 +45,8 @@ const entry: TuyaDeviceEntry = {
       },
       timer2InMinutes: {
         dataPoint: "18",
+        kind: "number",
+        measures: "duration",
         unit: "min",
         min: 0,
         max: 43200,
@@ -51,12 +55,15 @@ const entry: TuyaDeviceEntry = {
       },
       weatherDelayRemainingInHours: {
         dataPoint: "42",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "h",
       },
-      smartWeatherDelay: { dataPoint: "43" },
+      smartWeatherDelay: { dataPoint: "43", kind: "switch" },
       weather: {
         dataPoint: "44",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "sunny", value: "sunny" },
@@ -67,6 +74,7 @@ const entry: TuyaDeviceEntry = {
       },
       weatherDelay: {
         dataPoint: "45",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1", value: "1d" },
@@ -80,6 +88,8 @@ const entry: TuyaDeviceEntry = {
       },
       batteryInPercent: {
         dataPoint: "47",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         unit: "%",
         values: [
@@ -94,25 +104,45 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "53",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "53", readOnly: true },
+      faultCode: { dataPoint: "53", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "53",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
           { raw: 1, value: "low_battery" },
         ],
       },
-      valve1Irrigating: { dataPoint: "101", readOnly: true },
-      valve2Irrigating: { dataPoint: "102", readOnly: true },
-      signalBoost: { dataPoint: "117" },
-      signalStrengthInDbm: { dataPoint: "118", readOnly: true, unit: "dBm" },
+      valve1Irrigating: {
+        dataPoint: "101",
+        kind: "sensor",
+        measures: "running",
+        readOnly: true,
+      },
+      valve2Irrigating: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "running",
+        readOnly: true,
+      },
+      signalBoost: { dataPoint: "117", kind: "switch" },
+      signalStrengthInDbm: {
+        dataPoint: "118",
+        kind: "sensor",
+        measures: "signalStrength",
+        readOnly: true,
+        unit: "dBm",
+      },
       valve1State: {
         dataPoint: "119",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "idle", value: "idle" },
@@ -121,9 +151,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "timing", value: "scheduled" },
         ],
       },
-      valve1StateSchedule: { dataPoint: "38", readOnly: true },
+      valve1StateSchedule: { dataPoint: "38", kind: "sensor", readOnly: true },
       valve2State: {
         dataPoint: "120",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "idle", value: "idle" },
@@ -132,9 +163,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "timing", value: "scheduled" },
         ],
       },
-      valve2StateSchedule: { dataPoint: "113", readOnly: true },
+      valve2StateSchedule: { dataPoint: "113", kind: "sensor", readOnly: true },
       upgradeStatus: {
         dataPoint: "123",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "upgrade_complete", value: "complete" },
@@ -143,11 +175,15 @@ const entry: TuyaDeviceEntry = {
       },
       valve1LastRuntimeInSeconds: {
         dataPoint: "131",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "s",
       },
       valve2LastRuntimeInSeconds: {
         dataPoint: "132",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "s",
       },

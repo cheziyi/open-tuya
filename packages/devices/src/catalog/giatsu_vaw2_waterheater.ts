@@ -17,15 +17,30 @@ const entry: TuyaDeviceEntry = {
     waterHeater: {
       mode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat_pump" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "2", unit: "C", min: 10, max: 70 },
-      currentTemperatureInC: { dataPoint: "3", readOnly: true, unit: "C" },
+      targetTemperatureInC: {
+        dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 10,
+        max: 70,
+      },
+      currentTemperatureInC: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       mode2: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "heat", value: "Heating" },
           { raw: "heatfan", value: "Heating and ventilation" },
@@ -33,11 +48,13 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "9",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "9", readOnly: true },
+      faultCode: { dataPoint: "9", kind: "sensor", readOnly: true },
     },
   },
   source: {

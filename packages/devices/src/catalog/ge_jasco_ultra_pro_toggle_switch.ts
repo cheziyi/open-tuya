@@ -14,9 +14,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       initialState: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "memory", value: "memory" },
           { raw: "on", value: "on" },
@@ -25,13 +26,20 @@ const entry: TuyaDeviceEntry = {
       },
       lightMode: {
         dataPoint: "15",
+        kind: "select",
         values: [
           { raw: "none", value: "off" },
           { raw: "pos", value: "locator" },
           { raw: "relay", value: "state" },
         ],
       },
-      timerInSeconds: { dataPoint: "7", unit: "s", min: 0, max: 86400 },
+      timerInSeconds: {
+        dataPoint: "7",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
     },
   },
   source: {

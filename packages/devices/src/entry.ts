@@ -1,4 +1,5 @@
 import type { DataPointId, DataPointValue } from "@open-tuya/core";
+import type { ControlKind, KnownControlName, Measure } from "./vocabulary.js";
 
 /** A data point's type, as tuya-local names it. */
 export type TuyaDataPointType =
@@ -36,6 +37,8 @@ export interface ControlMapping {
  * by `scale`. A write reverses it, and rounds the raw value to `step`. */
 export interface TuyaControl {
   dataPoint: DataPointId;
+  kind: ControlKind;
+  measures?: Measure;
   readOnly?: true;
   /** The unit of the control's value, as tuya-local writes it. */
   unit?: string;
@@ -62,8 +65,11 @@ export interface TuyaControl {
   targetRange?: { min: number; max: number };
 }
 
-/** A component's controls, by name. */
-export type TuyaComponent = Readonly<Record<string, TuyaControl>>;
+/** A component's controls, by name: a name from `CONTROL_NAMES` where the
+ * catalog gives the control one alike across devices, or a name of its own. */
+export type TuyaComponent = Readonly<
+  Partial<Record<KnownControlName, TuyaControl>> & Record<string, TuyaControl>
+>;
 
 /** A device as the catalog describes it. */
 export interface TuyaDeviceEntry {

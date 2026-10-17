@@ -13,15 +13,17 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      uvSterilization: { dataPoint: "10" },
+      on: { dataPoint: "1", kind: "switch" },
+      uvSterilization: { dataPoint: "10", kind: "switch" },
       fault: {
         dataPoint: "13",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", readOnly: true },
+      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
     },
   },
   source: {

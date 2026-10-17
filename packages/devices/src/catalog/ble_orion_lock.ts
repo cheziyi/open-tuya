@@ -17,13 +17,19 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     lock: {
-      unlockMethodRegister: { dataPoint: "1" },
-      unlockMethodDelete: { dataPoint: "2" },
-      unlockFingerprint: { dataPoint: "12" },
-      unlockApp: { dataPoint: "19" },
-      locked: { dataPoint: "33" },
-      syncMethod: { dataPoint: "54" },
-      batteryInPercent: { dataPoint: "8", readOnly: true, unit: "%" },
+      unlockMethodRegister: { dataPoint: "1", kind: "text" },
+      unlockMethodDelete: { dataPoint: "2", kind: "text" },
+      unlockFingerprint: { dataPoint: "12", kind: "number" },
+      unlockApp: { dataPoint: "19", kind: "number" },
+      locked: { dataPoint: "33", kind: "switch" },
+      syncMethod: { dataPoint: "54", kind: "text" },
+      batteryInPercent: {
+        dataPoint: "8",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
     },
   },
   source: {

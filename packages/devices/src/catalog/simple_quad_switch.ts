@@ -14,10 +14,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      switch1: { dataPoint: "1" },
-      switch2: { dataPoint: "2" },
-      switch3: { dataPoint: "3" },
-      switch4: { dataPoint: "4" },
+      switch1: { dataPoint: "1", kind: "switch" },
+      switch2: { dataPoint: "2", kind: "switch" },
+      switch3: { dataPoint: "3", kind: "switch" },
+      switch4: { dataPoint: "4", kind: "switch" },
     },
   },
   source: {

@@ -26,12 +26,15 @@ const entry: TuyaDeviceEntry = {
     device: {
       temperature: {
         dataPoint: "1",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unitFrom: "temperatureUnit",
         scale: 10,
       },
       temperatureUnit: {
         dataPoint: "9",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "c", value: "C" },
@@ -40,13 +43,22 @@ const entry: TuyaDeviceEntry = {
       },
       humidityInPercent: {
         dataPoint: "2",
+        kind: "sensor",
+        measures: "humidity",
         readOnly: true,
         unit: "%",
         scale: 10,
       },
-      batteryInPercent: { dataPoint: "4", readOnly: true, unit: "%" },
+      batteryInPercent: {
+        dataPoint: "4",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
       temperatureUnit2: {
         dataPoint: "9",
+        kind: "select",
         values: [
           { raw: "c", value: "celsius" },
           { raw: "f", value: "fahrenheit" },
@@ -54,14 +66,16 @@ const entry: TuyaDeviceEntry = {
       },
       timeFormat: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "0", value: "12_hour" },
           { raw: "1", value: "24_hour" },
         ],
       },
-      timeFormatRealtime: { dataPoint: "107" },
+      timeFormatRealtime: { dataPoint: "107", kind: "text" },
       comfort: {
         dataPoint: "105",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 1, value: "good" },
@@ -71,15 +85,18 @@ const entry: TuyaDeviceEntry = {
       },
       alarm: {
         dataPoint: "106",
+        kind: "switch",
         values: [
           { raw: "0", value: false },
           { raw: "1", value: true },
         ],
         absent: false,
       },
-      alarm2: { dataPoint: "102" },
+      alarm2: { dataPoint: "102", kind: "text" },
       maximumTemperature: {
         dataPoint: "108",
+        kind: "number",
+        measures: "temperature",
         unitFrom: "maximumTemperatureUnit",
         min: -400,
         max: 1000,
@@ -87,6 +104,7 @@ const entry: TuyaDeviceEntry = {
       },
       maximumTemperatureUnit: {
         dataPoint: "9",
+        kind: "select",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -94,6 +112,8 @@ const entry: TuyaDeviceEntry = {
       },
       minimumTemperature: {
         dataPoint: "109",
+        kind: "number",
+        measures: "temperature",
         unitFrom: "minimumTemperatureUnit",
         min: -400,
         max: 1000,
@@ -101,6 +121,7 @@ const entry: TuyaDeviceEntry = {
       },
       minimumTemperatureUnit: {
         dataPoint: "9",
+        kind: "select",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -108,6 +129,8 @@ const entry: TuyaDeviceEntry = {
       },
       maximumHumidityInPercent: {
         dataPoint: "110",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 0,
         max: 1000,
@@ -115,13 +138,15 @@ const entry: TuyaDeviceEntry = {
       },
       minimumHumidityInPercent: {
         dataPoint: "111",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 0,
         max: 1000,
         scale: 10,
       },
     },
-    backlight: { on: { dataPoint: "103" } },
+    backlight: { on: { dataPoint: "103", kind: "switch" } },
   },
   source: {
     file: "protech_pt19dw_climateclock.yaml",

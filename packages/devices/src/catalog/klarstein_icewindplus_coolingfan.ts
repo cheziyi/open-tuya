@@ -19,9 +19,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "verylow", value: 25 },
           { raw: "low", value: 50 },
@@ -31,17 +32,19 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "normal", value: "normal" },
           { raw: "nature", value: "nature" },
           { raw: "sleep", value: "sleep" },
         ],
       },
-      oscillating: { dataPoint: "10" },
+      oscillating: { dataPoint: "10", kind: "switch" },
     },
     device: {
       timer: {
         dataPoint: "11",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -50,13 +53,20 @@ const entry: TuyaDeviceEntry = {
           { raw: "8h", value: "8h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "12", readOnly: true, unit: "min" },
-      humidify: { dataPoint: "15" },
-      dryWind: { dataPoint: "101" },
+      timeRemainingInMinutes: {
+        dataPoint: "12",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      humidify: { dataPoint: "15", kind: "switch" },
+      dryWind: { dataPoint: "101", kind: "switch" },
     },
     display: {
       on: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: false, value: true },
           { raw: true, value: false },

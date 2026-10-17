@@ -17,13 +17,15 @@ const entry: TuyaDeviceEntry = {
     device: {
       manualFeedInPortions: {
         dataPoint: "3",
+        kind: "number",
         unit: "portions",
         min: 1,
         max: 40,
       },
-      mealPlan: { dataPoint: "1" },
+      mealPlan: { dataPoint: "1", kind: "text" },
       status: {
         dataPoint: "4",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -33,10 +35,11 @@ const entry: TuyaDeviceEntry = {
       },
       feedReportInPortions: {
         dataPoint: "15",
+        kind: "sensor",
         readOnly: true,
         unit: "portions",
       },
-      factoryReset: { dataPoint: "9" },
+      factoryReset: { dataPoint: "9", kind: "button" },
     },
   },
   source: {

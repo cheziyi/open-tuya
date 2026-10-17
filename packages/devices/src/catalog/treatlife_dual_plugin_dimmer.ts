@@ -24,21 +24,22 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light1: {
-      on: { dataPoint: "1" },
-      brightness: { dataPoint: "2", min: 10, max: 1000 },
-      minBrightness: { dataPoint: "3" },
-      awayProgram: { dataPoint: "101" },
-      sleepProgram: { dataPoint: "102" },
-      awakeProgram: { dataPoint: "103" },
+      on: { dataPoint: "1", kind: "switch" },
+      brightness: { dataPoint: "2", kind: "number", min: 10, max: 1000 },
+      minBrightness: { dataPoint: "3", kind: "number" },
+      awayProgram: { dataPoint: "101", kind: "text" },
+      sleepProgram: { dataPoint: "102", kind: "text" },
+      awakeProgram: { dataPoint: "103", kind: "text" },
     },
     light2: {
-      on: { dataPoint: "7" },
-      brightness: { dataPoint: "8", min: 0, max: 1000 },
-      minBrightness: { dataPoint: "9" },
+      on: { dataPoint: "7", kind: "switch" },
+      brightness: { dataPoint: "8", kind: "number", min: 0, max: 1000 },
+      minBrightness: { dataPoint: "9", kind: "number" },
     },
     device: {
       light1Type: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "led", value: "LED" },
           { raw: "incandescent", value: "Incandescent" },
@@ -47,16 +48,30 @@ const entry: TuyaDeviceEntry = {
       },
       light2Type: {
         dataPoint: "10",
+        kind: "select",
         values: [
           { raw: "led", value: "LED" },
           { raw: "incandescent", value: "Incandescent" },
           { raw: "halogen", value: "Halogen" },
         ],
       },
-      timer1InSeconds: { dataPoint: "6", unit: "s", min: 0, max: 86400 },
-      timer2InSeconds: { dataPoint: "12", unit: "s", min: 0, max: 86400 },
+      timer1InSeconds: {
+        dataPoint: "6",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      timer2InSeconds: {
+        dataPoint: "12",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
       lightMode: {
         dataPoint: "21",
+        kind: "select",
         values: [
           { raw: "none", value: "off" },
           { raw: "relay", value: "state" },

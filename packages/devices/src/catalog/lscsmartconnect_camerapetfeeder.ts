@@ -27,13 +27,19 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      cameraRecord: { dataPoint: "150" },
-      motion: { dataPoint: "115", readOnly: true, otherwise: "detected" },
-      motionSnapshot: { dataPoint: "115", readOnly: true },
-      motionDetection: { dataPoint: "134" },
-      flipImage: { dataPoint: "103", absent: false },
+      cameraRecord: { dataPoint: "150", kind: "switch" },
+      motion: {
+        dataPoint: "115",
+        kind: "event",
+        readOnly: true,
+        otherwise: "detected",
+      },
+      motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
+      motionDetection: { dataPoint: "134", kind: "switch" },
+      flipImage: { dataPoint: "103", kind: "switch", absent: false },
       motionSensitivity: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
@@ -42,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       },
       nightVision: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -50,6 +57,7 @@ const entry: TuyaDeviceEntry = {
       },
       sdStatus: {
         dataPoint: "110",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -60,10 +68,15 @@ const entry: TuyaDeviceEntry = {
         ],
         absent: "normal",
       },
-      sdStatusMemoryCardCapacity: { dataPoint: "109", readOnly: true },
-      formatSdCard: { dataPoint: "111" },
+      sdStatusMemoryCardCapacity: {
+        dataPoint: "109",
+        kind: "sensor",
+        readOnly: true,
+      },
+      formatSdCard: { dataPoint: "111", kind: "button" },
       formatSdCardSdFormatStatus: {
         dataPoint: "117",
+        kind: "select",
         values: [
           { raw: 2000, value: "Formatting" },
           { raw: 2001, value: "Format error" },
@@ -73,6 +86,7 @@ const entry: TuyaDeviceEntry = {
       },
       recordingMode: {
         dataPoint: "151",
+        kind: "select",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
@@ -80,14 +94,17 @@ const entry: TuyaDeviceEntry = {
       },
       manualFeedInPortions: {
         dataPoint: "231",
+        kind: "number",
         unit: "portions",
         min: 0,
         max: 20,
         absent: 0,
       },
-      manualFeedHistoryData: { dataPoint: "234" },
+      manualFeedHistoryData: { dataPoint: "234", kind: "switch" },
       portionWeightInG: {
         dataPoint: "232",
+        kind: "number",
+        measures: "weight",
         unit: "g",
         min: 1,
         max: 100,
@@ -95,18 +112,24 @@ const entry: TuyaDeviceEntry = {
       },
       feedProblem: {
         dataPoint: "233",
+        kind: "event",
         readOnly: true,
         values: [
           { raw: "0", value: "empty" },
           { raw: "1", value: "blocked" },
         ],
       },
-      voiceRecord: { dataPoint: "235", values: [{ raw: "1", value: true }] },
+      voiceRecord: {
+        dataPoint: "235",
+        kind: "button",
+        values: [{ raw: "1", value: true }],
+      },
       stopVoiceRecord: {
         dataPoint: "235",
+        kind: "button",
         values: [{ raw: "0", value: true }],
       },
-      mealPlan: { dataPoint: "236" },
+      mealPlan: { dataPoint: "236", kind: "text" },
     },
   },
   source: {

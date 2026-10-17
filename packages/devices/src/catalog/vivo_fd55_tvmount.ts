@@ -12,15 +12,29 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      stop: { dataPoint: "101", values: [{ raw: "cancel", value: true }] },
-      up: { dataPoint: "101", values: [{ raw: "move_up", value: true }] },
-      down: { dataPoint: "101", values: [{ raw: "move_down", value: true }] },
+      stop: {
+        dataPoint: "101",
+        kind: "button",
+        values: [{ raw: "cancel", value: true }],
+      },
+      up: {
+        dataPoint: "101",
+        kind: "button",
+        values: [{ raw: "move_up", value: true }],
+      },
+      down: {
+        dataPoint: "101",
+        kind: "button",
+        values: [{ raw: "move_down", value: true }],
+      },
       position1: {
         dataPoint: "103",
+        kind: "button",
         values: [{ raw: "recall1", value: true }],
       },
       position2: {
         dataPoint: "103",
+        kind: "button",
         values: [{ raw: "recall2", value: true }],
       },
     },

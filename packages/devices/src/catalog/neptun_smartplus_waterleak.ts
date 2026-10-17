@@ -23,12 +23,16 @@ const entry: TuyaDeviceEntry = {
     siren: {
       moisture: {
         dataPoint: "1",
+        kind: "sensor",
+        measures: "moisture",
         readOnly: true,
         values: [{ raw: "alarm", value: true }],
         otherwise: false,
       },
       batteryInPercent: {
         dataPoint: "3",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         unit: "%",
         values: [
@@ -37,9 +41,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: 80 },
         ],
       },
-      mute: { dataPoint: "7" },
+      mute: { dataPoint: "7", kind: "button" },
       volume: {
         dataPoint: "8",
+        kind: "select",
         values: [
           { raw: "mute", value: 0 },
           { raw: "low", value: 0.33 },
@@ -47,20 +52,27 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: 1 },
         ],
       },
-      duration: { dataPoint: "141", min: 0, max: 255 },
-      childLock: { dataPoint: "108" },
+      duration: { dataPoint: "141", kind: "number", min: 0, max: 255 },
+      childLock: { dataPoint: "108", kind: "switch" },
       fault: {
         dataPoint: "119",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "119", readOnly: true },
-      faultSerialNumber: { dataPoint: "121", readOnly: true },
-      faultLineSensorErrors: { dataPoint: "139", readOnly: true },
-      faultErrorCode: { dataPoint: "140", readOnly: true },
+      faultCode: { dataPoint: "119", kind: "sensor", readOnly: true },
+      faultSerialNumber: { dataPoint: "121", kind: "sensor", readOnly: true },
+      faultLineSensorErrors: {
+        dataPoint: "139",
+        kind: "sensor",
+        readOnly: true,
+      },
+      faultErrorCode: { dataPoint: "140", kind: "sensor", readOnly: true },
       notification: {
         dataPoint: "120",
+        kind: "event",
         readOnly: true,
         values: [
           { raw: true, value: "alert" },

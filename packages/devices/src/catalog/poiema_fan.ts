@@ -18,9 +18,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "Narmal", value: "normal" },
           { raw: "Sleep", value: "sleep" },
@@ -28,9 +29,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "AI", value: "smart" },
         ],
       },
-      speed: { dataPoint: "3", min: 1, max: 12 },
+      speed: { dataPoint: "3", kind: "number", min: 1, max: 12 },
       oscillationAngle: {
         dataPoint: "7",
+        kind: "select",
         values: [
           { raw: "0", value: "Disabled" },
           { raw: "60", value: "60°" },
@@ -41,10 +43,17 @@ const entry: TuyaDeviceEntry = {
           { raw: "120L", value: "120° slow" },
         ],
       },
-      childLock: { dataPoint: "14" },
-      temperatureInC: { dataPoint: "21", readOnly: true, unit: "°C" },
+      childLock: { dataPoint: "14", kind: "switch" },
+      temperatureInC: {
+        dataPoint: "21",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "°C",
+      },
       timer: {
         dataPoint: "22",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -62,7 +71,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    indicator: { on: { dataPoint: "15" } },
+    indicator: { on: { dataPoint: "15", kind: "switch" } },
   },
   source: {
     file: "poiema_fan.yaml",

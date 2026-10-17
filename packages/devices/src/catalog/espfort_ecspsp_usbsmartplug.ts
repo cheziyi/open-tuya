@@ -20,15 +20,28 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      usb: { dataPoint: "1" },
-      on: { dataPoint: "2" },
-      onCyclicSchedule: { dataPoint: "42" },
-      onRandomSchedule: { dataPoint: "43" },
-      onInching: { dataPoint: "44" },
-      timerUsbInSeconds: { dataPoint: "9", unit: "s", min: 0, max: 86400 },
-      timerInSeconds: { dataPoint: "10", unit: "s", min: 0, max: 86400 },
+      usb: { dataPoint: "1", kind: "switch" },
+      on: { dataPoint: "2", kind: "switch" },
+      onCyclicSchedule: { dataPoint: "42", kind: "text" },
+      onRandomSchedule: { dataPoint: "43", kind: "text" },
+      onInching: { dataPoint: "44", kind: "text" },
+      timerUsbInSeconds: {
+        dataPoint: "9",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      timerInSeconds: {
+        dataPoint: "10",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
       initialState: {
         dataPoint: "38",
+        kind: "select",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -37,13 +50,14 @@ const entry: TuyaDeviceEntry = {
       },
       lightMode: {
         dataPoint: "40",
+        kind: "select",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
           { raw: "none", value: "off" },
         ],
       },
-      childLock: { dataPoint: "41" },
+      childLock: { dataPoint: "41", kind: "switch" },
     },
   },
   source: {

@@ -18,10 +18,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     embers: {
-      on: { dataPoint: "1" },
-      brightness: { dataPoint: "18", min: 1, max: 5 },
+      on: { dataPoint: "1", kind: "switch" },
+      brightness: { dataPoint: "18", kind: "number", min: 1, max: 5 },
       colorName: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "light_1", value: "red" },
           { raw: "light_2", value: "steelblue" },
@@ -42,6 +43,7 @@ const entry: TuyaDeviceEntry = {
     device: {
       flameColor: {
         dataPoint: "17",
+        kind: "select",
         values: [
           { raw: "auto", value: "Auto" },
           { raw: "light_red", value: "Red" },
@@ -60,6 +62,7 @@ const entry: TuyaDeviceEntry = {
       },
       flameSpeed: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "level_1", value: "Level 1" },
           { raw: "level_2", value: "Level 2" },
@@ -70,6 +73,7 @@ const entry: TuyaDeviceEntry = {
       },
       heatLevel: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "off", value: "off" },
           { raw: "low", value: "low" },
@@ -78,6 +82,7 @@ const entry: TuyaDeviceEntry = {
       },
       timer: {
         dataPoint: "13",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -88,7 +93,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "6h", value: "6h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "14", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "14",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
     },
   },
   source: {

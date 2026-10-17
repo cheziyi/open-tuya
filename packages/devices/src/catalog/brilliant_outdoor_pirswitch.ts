@@ -16,16 +16,26 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "107" },
+      on: { dataPoint: "107", kind: "switch" },
       daylightThresholdInLux: {
         dataPoint: "102",
+        kind: "number",
+        measures: "illuminance",
         unit: "lx",
         min: 0,
         max: 2000,
       },
-      durationInSeconds: { dataPoint: "103", unit: "s", min: 10, max: 600 },
+      durationInSeconds: {
+        dataPoint: "103",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 10,
+        max: 600,
+      },
       lightMode: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "on" },
@@ -34,13 +44,19 @@ const entry: TuyaDeviceEntry = {
       },
       sensitivity: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
           { raw: "2", value: "high" },
         ],
       },
-      motion: { dataPoint: "108", readOnly: true },
+      motion: {
+        dataPoint: "108",
+        kind: "sensor",
+        measures: "motion",
+        readOnly: true,
+      },
     },
   },
   source: {

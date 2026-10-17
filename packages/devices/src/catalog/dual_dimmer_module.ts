@@ -15,14 +15,16 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light1: {
-      on: { dataPoint: "101" },
-      brightness: { dataPoint: "102", min: 25, max: 255 },
+      on: { dataPoint: "101", kind: "switch" },
+      brightness: { dataPoint: "102", kind: "number", min: 25, max: 255 },
     },
     light2: {
-      on: { dataPoint: "1" },
-      brightness: { dataPoint: "3", min: 25, max: 255 },
+      on: { dataPoint: "1", kind: "switch" },
+      brightness: { dataPoint: "3", kind: "number", min: 25, max: 255 },
     },
-    device: { minimumBrightness: { dataPoint: "104", min: 0, max: 255 } },
+    device: {
+      minimumBrightness: { dataPoint: "104", kind: "number", min: 0, max: 255 },
+    },
   },
   source: {
     file: "dual_dimmer_module.yaml",

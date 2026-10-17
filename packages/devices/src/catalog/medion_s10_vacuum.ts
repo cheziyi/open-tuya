@@ -22,10 +22,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     vacuum: {
-      on: { dataPoint: "1" },
-      cleaning: { dataPoint: "2" },
+      on: { dataPoint: "1", kind: "switch" },
+      cleaning: { dataPoint: "2", kind: "switch" },
       command: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "standby", value: "stop" },
           { raw: "spiral", value: "clean_spot" },
@@ -36,6 +37,7 @@ const entry: TuyaDeviceEntry = {
       },
       moveDirection: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "backward", value: "reverse" },
@@ -46,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       },
       status: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "0", value: "standby" },
           { raw: "1", value: "smart" },
@@ -55,26 +58,47 @@ const entry: TuyaDeviceEntry = {
           { raw: "6", value: "clean_spot" },
         ],
       },
-      locate: { dataPoint: "13" },
+      locate: { dataPoint: "13", kind: "switch" },
       suction: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "quiet", value: "quiet" },
           { raw: "normal", value: "normal" },
           { raw: "strong", value: "strong" },
         ],
       },
-      batteryInPercent: { dataPoint: "6", readOnly: true, unit: "%" },
-      cleanAreaInM2: { dataPoint: "16", readOnly: true, unit: "m2" },
-      cleanAreaCleanRecord: { dataPoint: "15", readOnly: true },
-      cleanTimeInMinutes: { dataPoint: "17", readOnly: true, unit: "min" },
+      batteryInPercent: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      cleanAreaInM2: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "area",
+        readOnly: true,
+        unit: "m2",
+      },
+      cleanAreaCleanRecord: { dataPoint: "15", kind: "sensor", readOnly: true },
+      cleanTimeInMinutes: {
+        dataPoint: "17",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "18",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", readOnly: true },
+      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
     },
   },
   source: {

@@ -20,9 +20,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "0", value: 0 },
           { raw: "1", value: 25 },
@@ -31,23 +32,45 @@ const entry: TuyaDeviceEntry = {
           { raw: "4", value: 100 },
         ],
       },
-      status: { dataPoint: "12" },
-      childLock: { dataPoint: "3" },
-      timerInMinutes: { dataPoint: "5", unit: "min", min: 0, max: 99 },
-      quickTimer: { dataPoint: "6" },
-      timeRemainingInMinutes: { dataPoint: "13", readOnly: true, unit: "min" },
+      status: { dataPoint: "12", kind: "text" },
+      childLock: { dataPoint: "3", kind: "switch" },
+      timerInMinutes: {
+        dataPoint: "5",
+        kind: "number",
+        measures: "duration",
+        unit: "min",
+        min: 0,
+        max: 99,
+      },
+      quickTimer: { dataPoint: "6", kind: "button" },
+      timeRemainingInMinutes: {
+        dataPoint: "13",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "14",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "14", readOnly: true },
-      totalRuntimeInHours: { dataPoint: "15", readOnly: true, unit: "h" },
+      faultCode: { dataPoint: "14", kind: "sensor", readOnly: true },
+      totalRuntimeInHours: {
+        dataPoint: "15",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "h",
+      },
     },
     light: {
       brightness: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: "Turn_off", value: 0 },
           { raw: "Level_1", value: 128 },

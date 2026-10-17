@@ -16,16 +16,18 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "close", value: "close" },
           { raw: "stop", value: "stop" },
         ],
       },
-      targetPosition: { dataPoint: "102", min: 0, max: 100 },
-      currentPosition: { dataPoint: "102", readOnly: true },
+      targetPosition: { dataPoint: "102", kind: "number", min: 0, max: 100 },
+      currentPosition: { dataPoint: "102", kind: "sensor", readOnly: true },
       movement: {
         dataPoint: "107",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "opened", value: "open" },
@@ -35,7 +37,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    light: { on: { dataPoint: "105" } },
+    light: { on: { dataPoint: "105", kind: "switch" } },
   },
   source: {
     file: "aosd_garagedoorwithlight.yaml",

@@ -21,6 +21,7 @@ const entry: TuyaDeviceEntry = {
     device: {
       enum: {
         dataPoint: "107",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "off", value: "off" },
@@ -34,15 +35,22 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "7",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "7", readOnly: true },
-      start: { dataPoint: "105" },
-      pause: { dataPoint: "105", values: [{ raw: false, value: true }] },
+      faultCode: { dataPoint: "7", kind: "sensor", readOnly: true },
+      start: { dataPoint: "105", kind: "button" },
+      pause: {
+        dataPoint: "105",
+        kind: "button",
+        values: [{ raw: false, value: true }],
+      },
       dryingMode: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "OFF", value: "Off" },
           { raw: "Standard", value: "Standard" },
@@ -64,6 +72,7 @@ const entry: TuyaDeviceEntry = {
       },
       dryingLevel: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: 0, value: "Auto" },
           { raw: 1, value: "Low" },
@@ -73,6 +82,7 @@ const entry: TuyaDeviceEntry = {
       },
       dryingTime: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: 0, value: "0:20" },
           { raw: 1, value: "0:30" },
@@ -96,14 +106,16 @@ const entry: TuyaDeviceEntry = {
           { raw: 19, value: "3:30" },
         ],
       },
-      antiCrease: { dataPoint: "103" },
+      antiCrease: { dataPoint: "103", kind: "switch" },
       dryingTimeRemainingInMinutes: {
         dataPoint: "4",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "min",
       },
     },
-    lock: { locked: { dataPoint: "106" } },
+    lock: { locked: { dataPoint: "106", kind: "switch" } },
   },
   source: {
     file: "akai_dryer.yaml",

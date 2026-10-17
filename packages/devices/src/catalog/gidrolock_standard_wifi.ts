@@ -13,9 +13,14 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     valve: {
-      open: { dataPoint: "1" },
-      moisture: { dataPoint: "101", readOnly: true },
-      cleaningMode: { dataPoint: "103" },
+      open: { dataPoint: "1", kind: "switch" },
+      moisture: {
+        dataPoint: "101",
+        kind: "sensor",
+        measures: "moisture",
+        readOnly: true,
+      },
+      cleaningMode: { dataPoint: "103", kind: "switch" },
     },
   },
   source: {

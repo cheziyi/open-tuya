@@ -16,6 +16,7 @@ const entry: TuyaDeviceEntry = {
     siren: {
       volume: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "mute", value: 0 },
           { raw: "low", value: 0.33 },
@@ -23,10 +24,17 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: 1 },
         ],
       },
-      durationInSeconds: { dataPoint: "7", unit: "s", min: 1, max: 380 },
-      on: { dataPoint: "13" },
+      durationInSeconds: {
+        dataPoint: "7",
+        kind: "number",
+        unit: "s",
+        min: 1,
+        max: 380,
+      },
+      on: { dataPoint: "13", kind: "switch" },
       tone: {
         dataPoint: "21",
+        kind: "select",
         values: [
           { raw: "mode_1", value: "Mode 1" },
           { raw: "mode_2", value: "Mode 2" },

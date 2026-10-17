@@ -31,28 +31,57 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      oven: { dataPoint: "1" },
-      ovenStart: { dataPoint: "19" },
-      rangehood: { dataPoint: "117" },
+      oven: { dataPoint: "1", kind: "switch" },
+      ovenStart: { dataPoint: "19", kind: "button" },
+      rangehood: { dataPoint: "117", kind: "switch" },
       reservationTimeInMinutes: {
         dataPoint: "23",
+        kind: "number",
         unit: "min",
         min: 0,
         max: 1440,
       },
-      cookingTimeInMinutes: { dataPoint: "24", unit: "min", min: 1, max: 1440 },
-      bottomTemperatureInC: { dataPoint: "111", unit: "C", min: 0, max: 500 },
-      topTemperatureInC: { dataPoint: "112", unit: "C", min: 0, max: 500 },
+      cookingTimeInMinutes: {
+        dataPoint: "24",
+        kind: "number",
+        unit: "min",
+        min: 1,
+        max: 1440,
+      },
+      bottomTemperatureInC: {
+        dataPoint: "111",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 0,
+        max: 500,
+      },
+      topTemperatureInC: {
+        dataPoint: "112",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 0,
+        max: 500,
+      },
       childLock: {
         dataPoint: "3",
+        kind: "switch",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "25", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "25",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       rangehoodFanSpeed: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "close", value: "off" },
           { raw: "low", value: "low" },
@@ -63,6 +92,7 @@ const entry: TuyaDeviceEntry = {
       },
       rangehoodMode: {
         dataPoint: "120",
+        kind: "select",
         values: [
           { raw: "1", value: "steaming" },
           { raw: "2", value: "regular" },
@@ -71,6 +101,7 @@ const entry: TuyaDeviceEntry = {
       },
       rangehoodDelayedShutdown: {
         dataPoint: "123",
+        kind: "select",
         values: [
           { raw: "0", value: "disabled" },
           { raw: "1", value: "1m" },
@@ -85,9 +116,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "10", value: "10m" },
         ],
       },
-      delayedFanOperation: { dataPoint: "124", readOnly: true },
+      delayedFanOperation: { dataPoint: "124", kind: "sensor", readOnly: true },
       cleanliness: {
         dataPoint: "119",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "poor", value: "poor" },
@@ -97,6 +129,8 @@ const entry: TuyaDeviceEntry = {
       },
       problem: {
         dataPoint: "31",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: "e01", value: "chamber_overheat" },
@@ -118,6 +152,7 @@ const entry: TuyaDeviceEntry = {
     oven: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
@@ -125,14 +160,23 @@ const entry: TuyaDeviceEntry = {
       },
       targetTemperatureInC: {
         dataPoint: "26",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 0,
         max: 500,
         step: 5,
       },
-      currentTemperatureInC: { dataPoint: "27", readOnly: true, unit: "C" },
+      currentTemperatureInC: {
+        dataPoint: "27",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       preset: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "1", value: "steaming" },
           { raw: "2", value: "high_temp_steam" },
@@ -156,6 +200,7 @@ const entry: TuyaDeviceEntry = {
       },
       hvacAction: {
         dataPoint: "104",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "cooking", value: "heating" },
@@ -167,8 +212,8 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    ovenLight: { on: { dataPoint: "102" } },
-    rangehoodLight: { on: { dataPoint: "4" } },
+    ovenLight: { on: { dataPoint: "102", kind: "switch" } },
+    rangehoodLight: { on: { dataPoint: "4", kind: "switch" } },
   },
   source: {
     file: "casdon_t2e_oven.yaml",

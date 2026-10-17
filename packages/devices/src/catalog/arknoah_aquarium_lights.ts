@@ -21,17 +21,18 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "20" },
-      music: { dataPoint: "27" },
-      powerMemory: { dataPoint: "33" },
-      doNotDisturb: { dataPoint: "34" },
-      rhythmPattern: { dataPoint: "106" },
-      schedule: { dataPoint: "107" },
-      custom: { dataPoint: "108" },
+      on: { dataPoint: "20", kind: "switch" },
+      music: { dataPoint: "27", kind: "text" },
+      powerMemory: { dataPoint: "33", kind: "text" },
+      doNotDisturb: { dataPoint: "34", kind: "switch" },
+      rhythmPattern: { dataPoint: "106", kind: "text" },
+      schedule: { dataPoint: "107", kind: "text" },
+      custom: { dataPoint: "108", kind: "text" },
     },
     blue: {
       effect: {
         dataPoint: "21",
+        kind: "select",
         values: [
           { raw: "music", value: "Music" },
           { raw: "rhythm", value: "Rhythm" },
@@ -39,10 +40,14 @@ const entry: TuyaDeviceEntry = {
           { raw: "schedule", value: "Scheduled" },
         ],
       },
-      brightness: { dataPoint: "101", min: 0, max: 1000 },
+      brightness: { dataPoint: "101", kind: "number", min: 0, max: 1000 },
     },
-    white: { brightness: { dataPoint: "102", min: 0, max: 1000 } },
-    moonlight: { brightness: { dataPoint: "103", min: 0, max: 1000 } },
+    white: {
+      brightness: { dataPoint: "102", kind: "number", min: 0, max: 1000 },
+    },
+    moonlight: {
+      brightness: { dataPoint: "103", kind: "number", min: 0, max: 1000 },
+    },
   },
   source: {
     file: "arknoah_aquarium_lights.yaml",

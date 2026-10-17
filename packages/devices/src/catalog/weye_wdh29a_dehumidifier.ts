@@ -21,9 +21,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "2",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 30,
         max: 90,
@@ -31,36 +33,51 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "dehumidify", value: "normal" },
           { raw: "dry", value: "laundry" },
           { raw: "sleep", value: "sleep" },
         ],
       },
-      currentHumidityInPercent: { dataPoint: "6", readOnly: true, unit: "%" },
+      currentHumidityInPercent: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       fault: {
         dataPoint: "19",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", readOnly: true },
-      tankFull: { dataPoint: "101", readOnly: true },
-      defrost: { dataPoint: "102", readOnly: true },
-      filter: { dataPoint: "103", readOnly: true },
-      autoOff: { dataPoint: "104" },
+      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      tankFull: { dataPoint: "101", kind: "sensor", readOnly: true },
+      defrost: { dataPoint: "102", kind: "sensor", readOnly: true },
+      filter: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "problem",
+        readOnly: true,
+      },
+      autoOff: { dataPoint: "104", kind: "switch" },
     },
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "low", value: 50 },
           { raw: "high", value: 100 },
         ],
       },
     },
-    display: { on: { dataPoint: "11" } },
+    display: { on: { dataPoint: "11", kind: "switch" } },
   },
   source: {
     file: "weye_wdh29a_dehumidifier.yaml",

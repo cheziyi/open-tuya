@@ -22,14 +22,33 @@ const entry: TuyaDeviceEntry = {
     "127": { type: "integer", optional: true },
   },
   components: {
-    valve1: { open: { dataPoint: "1" }, operation: { dataPoint: "12" } },
-    valve2: { open: { dataPoint: "121" }, operation: { dataPoint: "126" } },
+    valve1: {
+      open: { dataPoint: "1", kind: "switch" },
+      operation: { dataPoint: "12", kind: "text" },
+    },
+    valve2: {
+      open: { dataPoint: "121", kind: "switch" },
+      operation: { dataPoint: "126", kind: "text" },
+    },
     device: {
-      waterUseInL: { dataPoint: "112", readOnly: true, unit: "L" },
-      waterUseDaily: { dataPoint: "6", readOnly: true },
-      batteryInPercent: { dataPoint: "7", readOnly: true, unit: "%" },
+      waterUseInL: {
+        dataPoint: "112",
+        kind: "sensor",
+        measures: "volume",
+        readOnly: true,
+        unit: "L",
+      },
+      waterUseDaily: { dataPoint: "6", kind: "sensor", readOnly: true },
+      batteryInPercent: {
+        dataPoint: "7",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
       weatherDelay1: {
         dataPoint: "10",
+        kind: "select",
         values: [
           { raw: "OFF", value: "Off" },
           { raw: "1", value: "1 day" },
@@ -43,6 +62,7 @@ const entry: TuyaDeviceEntry = {
       },
       weatherDelay2: {
         dataPoint: "124",
+        kind: "select",
         values: [
           { raw: "OFF", value: "Off" },
           { raw: "1", value: "1 day" },
@@ -56,18 +76,32 @@ const entry: TuyaDeviceEntry = {
       },
       irrigationTime1InMinutes: {
         dataPoint: "15",
+        kind: "number",
         unit: "min",
         min: 0,
         max: 1440,
       },
       irrigationTime2InMinutes: {
         dataPoint: "127",
+        kind: "number",
         unit: "min",
         min: 0,
         max: 1440,
       },
-      timeRemaining1InSeconds: { dataPoint: "11", readOnly: true, unit: "s" },
-      timeRemaining2InSeconds: { dataPoint: "125", readOnly: true, unit: "s" },
+      timeRemaining1InSeconds: {
+        dataPoint: "11",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "s",
+      },
+      timeRemaining2InSeconds: {
+        dataPoint: "125",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "s",
+      },
     },
   },
   source: {

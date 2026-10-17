@@ -23,14 +23,24 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "2", unit: "C", min: 5, max: 35 },
+      targetTemperatureInC: {
+        dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 5,
+        max: 35,
+      },
       currentTemperatureInC: {
         dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         min: -20,
@@ -38,15 +48,17 @@ const entry: TuyaDeviceEntry = {
       },
       hvacAction: {
         dataPoint: "11",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "idle" },
           { raw: "working", value: "heating" },
         ],
       },
-      weekProgram: { dataPoint: "26" },
+      weekProgram: { dataPoint: "26", kind: "text" },
       preset: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "H1", value: "eco" },
           { raw: "H2", value: "boost" },
@@ -54,9 +66,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "P7", value: "activity" },
         ],
       },
-      childLock: { dataPoint: "7" },
+      childLock: { dataPoint: "7", kind: "switch" },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -85,10 +98,18 @@ const entry: TuyaDeviceEntry = {
           { raw: "24h", value: "24h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "20", readOnly: true, unit: "min" },
-      nightMode: { dataPoint: "103" },
+      timeRemainingInMinutes: {
+        dataPoint: "20",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      nightMode: { dataPoint: "103", kind: "switch" },
       temperatureCalibrationInC: {
         dataPoint: "106",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: 0,
         max: 40,

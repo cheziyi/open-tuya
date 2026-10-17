@@ -22,10 +22,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      dailyCycle: { dataPoint: "101" },
-      childLock: { dataPoint: "102" },
+      dailyCycle: { dataPoint: "101", kind: "switch" },
+      childLock: { dataPoint: "102", kind: "switch" },
       chlorinationOutput: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "25", value: "25% (3 h)" },
           { raw: "50", value: "50% (6 h)" },
@@ -35,15 +36,24 @@ const entry: TuyaDeviceEntry = {
           { raw: "200", value: "200% (24 h)" },
         ],
       },
-      waterTemperatureInC: { dataPoint: "104", readOnly: true, unit: "C" },
+      waterTemperatureInC: {
+        dataPoint: "104",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       fault: {
         dataPoint: "106",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: "work", value: false }],
         otherwise: true,
       },
       faultDescription: {
         dataPoint: "106",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "work", value: "Working" },
@@ -66,6 +76,7 @@ const entry: TuyaDeviceEntry = {
       },
       salinityStatus: {
         dataPoint: "107",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "salinity_low", value: "low" },
@@ -73,9 +84,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "salinity_high", value: "high" },
         ],
       },
-      clearFault: { dataPoint: "108" },
+      clearFault: { dataPoint: "108", kind: "button" },
       selfCleanInterval: {
         dataPoint: "109",
+        kind: "select",
         values: [
           { raw: 4, value: "4 h" },
           { raw: 8, value: "8 h" },
@@ -84,12 +96,26 @@ const entry: TuyaDeviceEntry = {
       },
       runtimeUntilSelfCleanInHours: {
         dataPoint: "110",
+        kind: "sensor",
+        measures: "duration",
         readOnly: true,
         unit: "h",
       },
-      clearSalinityFault: { dataPoint: "112" },
-      runtimeRemainingInHours: { dataPoint: "113", readOnly: true, unit: "h" },
-      runtimeDurationInHours: { dataPoint: "114", readOnly: true, unit: "h" },
+      clearSalinityFault: { dataPoint: "112", kind: "button" },
+      runtimeRemainingInHours: {
+        dataPoint: "113",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "h",
+      },
+      runtimeDurationInHours: {
+        dataPoint: "114",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "h",
+      },
     },
   },
   source: {

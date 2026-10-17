@@ -18,27 +18,31 @@ const entry: TuyaDeviceEntry = {
     device: {
       manualFeedInPortions: {
         dataPoint: "3",
+        kind: "number",
         unit: "portions",
         min: 1,
         max: 6,
       },
-      mealPlan: { dataPoint: "1" },
-      slowFeed: { dataPoint: "6" },
+      mealPlan: { dataPoint: "1", kind: "text" },
+      slowFeed: { dataPoint: "6", kind: "switch" },
       fault: {
         dataPoint: "14",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "14", readOnly: true },
+      faultCode: { dataPoint: "14", kind: "sensor", readOnly: true },
       clockType: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: false, value: "12 hour" },
           { raw: true, value: "24 hour" },
         ],
       },
-      battery: { dataPoint: "103", readOnly: true },
+      battery: { dataPoint: "103", kind: "sensor", readOnly: true },
     },
   },
   source: {

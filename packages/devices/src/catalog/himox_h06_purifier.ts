@@ -19,9 +19,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "low", value: 33 },
           { raw: "mid", value: 67 },
@@ -30,6 +31,7 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "calcle", value: "auto" },
           { raw: "1", value: "medium" },
@@ -38,20 +40,32 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      activeFilterLifeInPercent: { dataPoint: "5", readOnly: true, unit: "%" },
-      filterReset: { dataPoint: "11" },
+      activeFilterLifeInPercent: {
+        dataPoint: "5",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      filterReset: { dataPoint: "11", kind: "button" },
       timer: {
         dataPoint: "18",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "4h", value: "4h" },
           { raw: "8h", value: "8h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "19", readOnly: true, unit: "min" },
-      airQuality: { dataPoint: "22", readOnly: true },
+      timeRemainingInMinutes: {
+        dataPoint: "19",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      airQuality: { dataPoint: "22", kind: "sensor", readOnly: true },
     },
-    aqIndicator: { on: { dataPoint: "8" } },
+    aqIndicator: { on: { dataPoint: "8", kind: "switch" } },
   },
   source: {
     file: "himox_h06_purifier.yaml",

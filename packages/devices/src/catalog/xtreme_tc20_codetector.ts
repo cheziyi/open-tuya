@@ -16,15 +16,18 @@ const entry: TuyaDeviceEntry = {
     device: {
       gas: {
         dataPoint: "1",
+        kind: "sensor",
+        measures: "gas",
         readOnly: true,
         values: [
           { raw: "alarm", value: true },
           { raw: "normal", value: false },
         ],
       },
-      selfCheck: { dataPoint: "8" },
+      selfCheck: { dataPoint: "8", kind: "button" },
       selfCheck2: {
         dataPoint: "9",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "checking", value: "checking" },
@@ -35,11 +38,13 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "11",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", readOnly: true },
+      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
     },
   },
   source: {

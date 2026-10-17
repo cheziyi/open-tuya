@@ -19,8 +19,11 @@ const entry: TuyaDeviceEntry = {
     "202": { type: "string", optional: true },
   },
   components: {
-    remote: { send: { dataPoint: "201" }, receive: { dataPoint: "202" } },
-    infrared: { send: { dataPoint: "201" } },
+    remote: {
+      send: { dataPoint: "201", kind: "text" },
+      receive: { dataPoint: "202", kind: "text" },
+    },
+    infrared: { send: { dataPoint: "201", kind: "text" } },
   },
   source: {
     file: "basic_ir_remote.yaml",

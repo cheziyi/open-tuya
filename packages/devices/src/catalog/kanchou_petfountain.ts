@@ -24,25 +24,52 @@ const entry: TuyaDeviceEntry = {
     device: {
       activationMode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "normal", value: "normal" },
           { raw: "night", value: "night" },
         ],
       },
-      filterLifeInDays: { dataPoint: "3", readOnly: true, unit: "d" },
-      pumpCleaningDueInDays: { dataPoint: "4", readOnly: true, unit: "d" },
-      filterReset: { dataPoint: "5" },
-      pumpCleanReset: { dataPoint: "6" },
+      filterLifeInDays: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "d",
+      },
+      pumpCleaningDueInDays: {
+        dataPoint: "4",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "d",
+      },
+      filterReset: { dataPoint: "5", kind: "button" },
+      pumpCleanReset: { dataPoint: "6", kind: "button" },
       filterChangeIntervalInDays: {
         dataPoint: "7",
+        kind: "number",
         unit: "d",
         min: 0,
         max: 30,
       },
-      pumpCleanIntervalInDays: { dataPoint: "8", unit: "d", min: 0, max: 15 },
-      waterLevelInMl: { dataPoint: "102", readOnly: true, unit: "mL" },
+      pumpCleanIntervalInDays: {
+        dataPoint: "8",
+        kind: "number",
+        unit: "d",
+        min: 0,
+        max: 15,
+      },
+      waterLevelInMl: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "volumeStorage",
+        readOnly: true,
+        unit: "mL",
+      },
       waterLevelStatus: {
         dataPoint: "9",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "low", value: "low" },
@@ -50,10 +77,18 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: "high" },
         ],
       },
-      waterLevelPercent: { dataPoint: "10", readOnly: true },
-      waterConsumptionInMl: { dataPoint: "22", readOnly: true, unit: "mL" },
+      waterLevelPercent: { dataPoint: "10", kind: "sensor", readOnly: true },
+      waterConsumptionInMl: {
+        dataPoint: "22",
+        kind: "sensor",
+        measures: "volume",
+        readOnly: true,
+        unit: "mL",
+      },
       fault: {
         dataPoint: "23",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -62,9 +97,10 @@ const entry: TuyaDeviceEntry = {
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "23", readOnly: true },
+      faultCode: { dataPoint: "23", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "23",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },

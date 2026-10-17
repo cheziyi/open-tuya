@@ -15,12 +15,29 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      up: { dataPoint: "1", values: [{ raw: "up", value: true }] },
-      down: { dataPoint: "1", values: [{ raw: "down", value: true }] },
-      stop: { dataPoint: "1", values: [{ raw: "stop", value: true }] },
-      continue: { dataPoint: "1", values: [{ raw: "continue", value: true }] },
+      up: {
+        dataPoint: "1",
+        kind: "button",
+        values: [{ raw: "up", value: true }],
+      },
+      down: {
+        dataPoint: "1",
+        kind: "button",
+        values: [{ raw: "down", value: true }],
+      },
+      stop: {
+        dataPoint: "1",
+        kind: "button",
+        values: [{ raw: "stop", value: true }],
+      },
+      continue: {
+        dataPoint: "1",
+        kind: "button",
+        values: [{ raw: "continue", value: true }],
+      },
       status: {
         dataPoint: "2",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "up", value: "ascending" },
@@ -28,18 +45,42 @@ const entry: TuyaDeviceEntry = {
           { raw: "stop", value: "idle" },
         ],
       },
-      preset1: { dataPoint: "3", values: [{ raw: "level_1", value: true }] },
-      preset2: { dataPoint: "3", values: [{ raw: "level_2", value: true }] },
-      preset3: { dataPoint: "3", values: [{ raw: "level_3", value: true }] },
-      preset4: { dataPoint: "3", values: [{ raw: "level_4", value: true }] },
+      preset1: {
+        dataPoint: "3",
+        kind: "button",
+        values: [{ raw: "level_1", value: true }],
+      },
+      preset2: {
+        dataPoint: "3",
+        kind: "button",
+        values: [{ raw: "level_2", value: true }],
+      },
+      preset3: {
+        dataPoint: "3",
+        kind: "button",
+        values: [{ raw: "level_3", value: true }],
+      },
+      preset4: {
+        dataPoint: "3",
+        kind: "button",
+        values: [{ raw: "level_4", value: true }],
+      },
       fault: {
         dataPoint: "5",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "5", readOnly: true },
-      heightInMm: { dataPoint: "8", readOnly: true, unit: "mm" },
+      faultCode: { dataPoint: "5", kind: "sensor", readOnly: true },
+      heightInMm: {
+        dataPoint: "8",
+        kind: "sensor",
+        measures: "distance",
+        readOnly: true,
+        unit: "mm",
+      },
     },
   },
   source: {

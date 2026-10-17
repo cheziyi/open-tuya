@@ -48,8 +48,10 @@ readControls(entry, await client.readDataPoints());
 await client.writeDataPoints(writeControls(entry, { device: { on: false } }));
 ```
 
-A value is the device's own, in the unit its name carries. `UNSUPPORTED.md`
-lists the devices not converted yet.
+A value is the device's own, in the unit its name carries. A name the
+catalog gives alike across devices is in `CONTROL_NAMES`; any other is the
+control's own, and its `kind` and `measures` say how to handle it.
+`UNSUPPORTED.md` lists the devices not converted yet.
 
 ## Signing in to the Smart Life cloud
 

@@ -22,14 +22,27 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      switch1: { dataPoint: "1" },
-      switch2: { dataPoint: "2" },
-      timer1InSeconds: { dataPoint: "9", unit: "s", min: 0, max: 86400 },
-      timer1RandomTime: { dataPoint: "42" },
-      timer1CycleTime: { dataPoint: "43" },
-      timer2InSeconds: { dataPoint: "10", unit: "s", min: 0, max: 86400 },
+      switch1: { dataPoint: "1", kind: "switch" },
+      switch2: { dataPoint: "2", kind: "switch" },
+      timer1InSeconds: {
+        dataPoint: "9",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      timer1RandomTime: { dataPoint: "42", kind: "text" },
+      timer1CycleTime: { dataPoint: "43", kind: "text" },
+      timer2InSeconds: {
+        dataPoint: "10",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
       initialState: {
         dataPoint: "38",
+        kind: "select",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "on" },
@@ -38,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       },
       switchType: {
         dataPoint: "47",
+        kind: "select",
         values: [
           { raw: "flip", value: "Flip" },
           { raw: "sync", value: "Synchronized" },
@@ -46,13 +60,34 @@ const entry: TuyaDeviceEntry = {
       },
       energyInKwh: {
         dataPoint: "20",
+        kind: "sensor",
         readOnly: true,
         unit: "kWh",
         scale: 1000,
       },
-      currentInMilliamps: { dataPoint: "21", readOnly: true, unit: "mA" },
-      powerInW: { dataPoint: "22", readOnly: true, unit: "W", scale: 10 },
-      voltageInV: { dataPoint: "23", readOnly: true, unit: "V", scale: 10 },
+      currentInMilliamps: {
+        dataPoint: "21",
+        kind: "sensor",
+        measures: "current",
+        readOnly: true,
+        unit: "mA",
+      },
+      powerInW: {
+        dataPoint: "22",
+        kind: "sensor",
+        measures: "power",
+        readOnly: true,
+        unit: "W",
+        scale: 10,
+      },
+      voltageInV: {
+        dataPoint: "23",
+        kind: "sensor",
+        measures: "voltage",
+        readOnly: true,
+        unit: "V",
+        scale: 10,
+      },
     },
   },
   source: {

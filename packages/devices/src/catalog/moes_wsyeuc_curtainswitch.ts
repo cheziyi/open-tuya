@@ -15,15 +15,22 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "on", value: "open" },
           { raw: "off", value: "close" },
           { raw: "stop", value: "stop" },
         ],
       },
-      travelTimeInSeconds: { dataPoint: "9", unit: "s", min: 10, max: 120 },
+      travelTimeInSeconds: {
+        dataPoint: "9",
+        kind: "number",
+        unit: "s",
+        min: 10,
+        max: 120,
+      },
     },
-    backlight: { on: { dataPoint: "101" } },
+    backlight: { on: { dataPoint: "101", kind: "switch" } },
   },
   source: {
     file: "moes_wsyeuc_curtainswitch.yaml",

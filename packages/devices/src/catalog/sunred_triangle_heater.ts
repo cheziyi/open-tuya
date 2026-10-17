@@ -14,10 +14,17 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      temperatureInC: { dataPoint: "3", readOnly: true, unit: "C" },
+      on: { dataPoint: "1", kind: "switch" },
+      temperatureInC: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       level: {
         dataPoint: "5",
+        kind: "number",
         min: 0,
         max: 9,
         values: [
@@ -35,6 +42,7 @@ const entry: TuyaDeviceEntry = {
       },
       timer: {
         dataPoint: "11",
+        kind: "select",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },

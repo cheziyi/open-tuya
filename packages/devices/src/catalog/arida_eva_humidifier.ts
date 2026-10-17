@@ -25,9 +25,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "102",
+        kind: "select",
+        measures: "humidity",
         unit: "%",
         values: [
           { raw: "cancel", value: 0 },
@@ -44,17 +46,31 @@ const entry: TuyaDeviceEntry = {
           { raw: "80t", value: 80 },
         ],
       },
-      currentHumidityInPercent: { dataPoint: "14", readOnly: true, unit: "%" },
+      currentHumidityInPercent: {
+        dataPoint: "14",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       mode: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: true, value: "auto" },
           { raw: false, value: "normal" },
         ],
       },
-      temperatureInC: { dataPoint: "10", readOnly: true, unit: "C" },
+      temperatureInC: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       mistLevel: {
         dataPoint: "23",
+        kind: "select",
         values: [
           { raw: "level_1", value: "Low" },
           { raw: "level_2", value: "Medium" },
@@ -63,6 +79,7 @@ const entry: TuyaDeviceEntry = {
       },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -79,15 +96,25 @@ const entry: TuyaDeviceEntry = {
           { raw: "12h", value: "12h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "20", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "20",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       tankEmpty: {
         dataPoint: "22",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,
       },
       fault: {
         dataPoint: "22",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -95,14 +122,14 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", readOnly: true },
-      childLock: { dataPoint: "29" },
-      warmMist: { dataPoint: "101" },
-      uvSterilization: { dataPoint: "104" },
-      sleep: { dataPoint: "106" },
-      cleaningMode: { dataPoint: "107" },
+      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      childLock: { dataPoint: "29", kind: "switch" },
+      warmMist: { dataPoint: "101", kind: "switch" },
+      uvSterilization: { dataPoint: "104", kind: "switch" },
+      sleep: { dataPoint: "106", kind: "switch" },
+      cleaningMode: { dataPoint: "107", kind: "switch" },
     },
-    display: { on: { dataPoint: "105" } },
+    display: { on: { dataPoint: "105", kind: "switch" } },
   },
   source: {
     file: "arida_eva_humidifier.yaml",

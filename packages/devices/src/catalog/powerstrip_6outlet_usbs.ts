@@ -16,12 +16,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      switch1: { dataPoint: "1" },
-      switch1Countdown: { dataPoint: "101" },
-      switch2: { dataPoint: "2" },
-      switch2Countdown2: { dataPoint: "102" },
-      usb: { dataPoint: "7" },
-      usbCountdownUsb: { dataPoint: "105" },
+      switch1: { dataPoint: "1", kind: "switch" },
+      switch1Countdown: { dataPoint: "101", kind: "number" },
+      switch2: { dataPoint: "2", kind: "switch" },
+      switch2Countdown2: { dataPoint: "102", kind: "number" },
+      usb: { dataPoint: "7", kind: "switch" },
+      usbCountdownUsb: { dataPoint: "105", kind: "number" },
     },
   },
   source: {

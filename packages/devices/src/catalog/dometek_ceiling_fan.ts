@@ -17,21 +17,29 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "60" },
+      on: { dataPoint: "60", kind: "switch" },
       mode: {
         dataPoint: "61",
+        kind: "select",
         values: [
           { raw: "fresh", value: "fresh" },
           { raw: "nature", value: "nature" },
         ],
       },
-      speed: { dataPoint: "62", min: 1, max: 100, step: 25 },
-      direction: { dataPoint: "63" },
+      speed: { dataPoint: "62", kind: "number", min: 1, max: 100, step: 25 },
+      direction: { dataPoint: "63", kind: "text" },
     },
     light: {
-      on: { dataPoint: "20" },
-      lightTimerInSeconds: { dataPoint: "26", unit: "s" },
-      fanTimerInMinutes: { dataPoint: "64", unit: "min", min: 0, max: 540 },
+      on: { dataPoint: "20", kind: "switch" },
+      lightTimerInSeconds: { dataPoint: "26", kind: "number", unit: "s" },
+      fanTimerInMinutes: {
+        dataPoint: "64",
+        kind: "number",
+        measures: "duration",
+        unit: "min",
+        min: 0,
+        max: 540,
+      },
     },
   },
   source: {

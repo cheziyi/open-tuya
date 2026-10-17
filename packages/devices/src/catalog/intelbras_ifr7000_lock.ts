@@ -29,29 +29,37 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     lock: {
-      unlockFingerprint: { dataPoint: "1" },
-      unlockPassword: { dataPoint: "2" },
-      unlockTempPwd: { dataPoint: "3" },
-      unlockDynamicPwd: { dataPoint: "4" },
-      unlockCard: { dataPoint: "5" },
-      unlockKey: { dataPoint: "7" },
+      unlockFingerprint: { dataPoint: "1", kind: "number" },
+      unlockPassword: { dataPoint: "2", kind: "number" },
+      unlockTempPwd: { dataPoint: "3", kind: "number" },
+      unlockDynamicPwd: { dataPoint: "4", kind: "number" },
+      unlockCard: { dataPoint: "5", kind: "number" },
+      unlockKey: { dataPoint: "7", kind: "number" },
       lockState: {
         dataPoint: "8",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
         ],
       },
-      alarm: { dataPoint: "9" },
-      remoteResult: { dataPoint: "22" },
-      unlockApp: { dataPoint: "41" },
-      lockRaw: { dataPoint: "47" },
-      lockMotorStatus: { dataPoint: "57" },
-      unlockVoice: { dataPoint: "62" },
-      batteryInPercent: { dataPoint: "10", readOnly: true, unit: "%" },
+      alarm: { dataPoint: "9", kind: "text" },
+      remoteResult: { dataPoint: "22", kind: "switch" },
+      unlockApp: { dataPoint: "41", kind: "number" },
+      lockRaw: { dataPoint: "47", kind: "text" },
+      lockMotorStatus: { dataPoint: "57", kind: "switch" },
+      unlockVoice: { dataPoint: "62", kind: "number" },
+      batteryInPercent: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
       keyVolume: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "mute", value: "Mute" },
           { raw: "low", value: "Low" },
@@ -59,13 +67,15 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: "High" },
         ],
       },
-      enableRemoteUnlock: { dataPoint: "23" },
+      enableRemoteUnlock: { dataPoint: "23", kind: "button" },
       disableRemoteUnlock: {
         dataPoint: "23",
+        kind: "button",
         values: [{ raw: false, value: true }],
       },
       hijack: {
         dataPoint: "35",
+        kind: "event",
         readOnly: true,
         values: [
           { raw: true, value: "hijack" },
@@ -74,13 +84,14 @@ const entry: TuyaDeviceEntry = {
       },
       doorOpen: {
         dataPoint: "38",
+        kind: "event",
         readOnly: true,
         values: [
           { raw: true, value: "opened" },
           { raw: false, value: "closed" },
         ],
       },
-      oneTimePasswordEnabled: { dataPoint: "61", absent: true },
+      oneTimePasswordEnabled: { dataPoint: "61", kind: "switch", absent: true },
     },
   },
   source: {

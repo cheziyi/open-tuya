@@ -17,21 +17,31 @@ const entry: TuyaDeviceEntry = {
     device: {
       occupancy: {
         dataPoint: "1",
+        kind: "sensor",
+        measures: "occupancy",
         readOnly: true,
         values: [{ raw: "pir", value: true }],
         otherwise: false,
       },
       motionSensitivity: {
         dataPoint: "9",
+        kind: "select",
         values: [
           { raw: "low", value: "low" },
           { raw: "middle", value: "medium" },
           { raw: "high", value: "high" },
         ],
       },
-      illuminanceInLux: { dataPoint: "11", readOnly: true, unit: "lx" },
+      illuminanceInLux: {
+        dataPoint: "11",
+        kind: "sensor",
+        measures: "illuminance",
+        readOnly: true,
+        unit: "lx",
+      },
       presenceSensitivity: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "low", value: "Low" },
           { raw: "middle", value: "Medium" },
@@ -40,6 +50,8 @@ const entry: TuyaDeviceEntry = {
       },
       presenceTimeoutInSeconds: {
         dataPoint: "102",
+        kind: "number",
+        measures: "duration",
         unit: "s",
         min: 10,
         max: 600,

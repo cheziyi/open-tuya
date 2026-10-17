@@ -29,9 +29,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "2",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 35,
         max: 80,
@@ -39,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "dehumidify", value: "comfort" },
           { raw: "drying", value: "laundry" },
@@ -46,23 +49,52 @@ const entry: TuyaDeviceEntry = {
           { raw: "boost", value: "boost" },
         ],
       },
-      currentHumidityInPercent: { dataPoint: "6", readOnly: true, unit: "%" },
-      temperatureInC: { dataPoint: "7", readOnly: true, unit: "C" },
-      filterLifeInPercent: { dataPoint: "23", readOnly: true, unit: "%" },
-      filterReset: { dataPoint: "20" },
-      timeRemainingInMinutes: { dataPoint: "18", readOnly: true, unit: "min" },
+      currentHumidityInPercent: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      temperatureInC: {
+        dataPoint: "7",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      filterLifeInPercent: {
+        dataPoint: "23",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      filterReset: { dataPoint: "20", kind: "button" },
+      timeRemainingInMinutes: {
+        dataPoint: "18",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       tankFull: {
         dataPoint: "102",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "Bucket_OK", value: false },
           { raw: "Bucket_Full", value: true },
         ],
       },
-      nightMode: { dataPoint: "101" },
-      nightModeDisplayBrightness: { dataPoint: "30", scale: 0.05 },
+      nightMode: { dataPoint: "101", kind: "switch" },
+      nightModeDisplayBrightness: {
+        dataPoint: "30",
+        kind: "number",
+        scale: 0.05,
+      },
       timer: {
         dataPoint: "17",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -75,22 +107,36 @@ const entry: TuyaDeviceEntry = {
           { raw: "8h", value: "8h" },
         ],
       },
-      defrost: { dataPoint: "9", readOnly: true },
+      defrost: {
+        dataPoint: "9",
+        kind: "sensor",
+        measures: "defrost",
+        readOnly: true,
+      },
       fault: {
         dataPoint: "19",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", readOnly: true },
-      uvSterilization: { dataPoint: "13" },
-      runtimeInHours: { dataPoint: "27", readOnly: true, unit: "h" },
-      runtimeReset: { dataPoint: "28" },
+      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      uvSterilization: { dataPoint: "13", kind: "switch" },
+      runtimeInHours: {
+        dataPoint: "27",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "h",
+      },
+      runtimeReset: { dataPoint: "28", kind: "button" },
     },
     fan: {
-      on: { dataPoint: "103", readOnly: true },
+      on: { dataPoint: "103", kind: "sensor", readOnly: true },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "low", value: 50 },
           { raw: "high", value: 100 },

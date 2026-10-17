@@ -26,6 +26,7 @@ const entry: TuyaDeviceEntry = {
     heater: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "heat" },
@@ -33,6 +34,7 @@ const entry: TuyaDeviceEntry = {
       },
       preset: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "thaw", value: "anti_frost" },
           { raw: "eco", value: "eco" },
@@ -42,15 +44,25 @@ const entry: TuyaDeviceEntry = {
           { raw: "travel", value: "away" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "16", unit: "C", min: 7, max: 30 },
+      targetTemperatureInC: {
+        dataPoint: "16",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 7,
+        max: 30,
+      },
       currentTemperatureInC: {
         dataPoint: "24",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         scale: 10,
       },
       hvacAction: {
         dataPoint: "32",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: "HEAT", value: "heating" }],
         otherwise: "idle",
@@ -59,18 +71,47 @@ const entry: TuyaDeviceEntry = {
     device: {
       temperatureCalibrationInC: {
         dataPoint: "27",
+        kind: "number",
+        measures: "temperatureDelta",
         unit: "C",
         min: -10,
         max: 10,
       },
-      timeRemainingInMinutes: { dataPoint: "42", readOnly: true, unit: "min" },
-      schedule: { dataPoint: "53" },
-      holidayLengthInDays: { dataPoint: "101", unit: "d", min: 0, max: 60 },
-      childLock: { dataPoint: "102" },
-      antiFrostThresholdInC: { dataPoint: "103", unit: "C", min: 0, max: 5 },
-      surfaceTemperatureInC: { dataPoint: "104", readOnly: true, unit: "C" },
+      timeRemainingInMinutes: {
+        dataPoint: "42",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      schedule: { dataPoint: "53", kind: "text" },
+      holidayLengthInDays: {
+        dataPoint: "101",
+        kind: "number",
+        measures: "duration",
+        unit: "d",
+        min: 0,
+        max: 60,
+      },
+      childLock: { dataPoint: "102", kind: "switch" },
+      antiFrostThresholdInC: {
+        dataPoint: "103",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 0,
+        max: 5,
+      },
+      surfaceTemperatureInC: {
+        dataPoint: "104",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       timerMode: {
         dataPoint: "105",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "0", value: "0" },
@@ -81,6 +122,7 @@ const entry: TuyaDeviceEntry = {
       },
       openWindowDetection: {
         dataPoint: "112",
+        kind: "select",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "60", value: "1h" },

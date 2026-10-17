@@ -14,9 +14,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "20" },
+      on: { dataPoint: "20", kind: "switch" },
       colorName: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "R", value: "red" },
           { raw: "RG", value: "yellow" },
@@ -30,6 +31,7 @@ const entry: TuyaDeviceEntry = {
       },
       effect: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "Bright", value: "Bright" },
           { raw: "Gradually", value: "Fade" },
@@ -43,15 +45,17 @@ const entry: TuyaDeviceEntry = {
       },
       timer: {
         dataPoint: "103",
+        kind: "event",
         readOnly: true,
         values: [
           { raw: true, value: "report_on" },
           { raw: false, value: "report_off" },
         ],
       },
-      timerOn: { dataPoint: "103" },
+      timerOn: { dataPoint: "103", kind: "button" },
       timerOff: {
         dataPoint: "103",
+        kind: "button",
         values: [
           { raw: false, value: true },
           { raw: true, value: false },

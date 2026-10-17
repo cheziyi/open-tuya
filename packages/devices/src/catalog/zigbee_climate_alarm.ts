@@ -24,12 +24,15 @@ const entry: TuyaDeviceEntry = {
     device: {
       temperature: {
         dataPoint: "1",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unitFrom: "temperatureUnit",
         scale: 10,
       },
       temperatureUnit: {
         dataPoint: "9",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "c", value: "C" },
@@ -38,24 +41,58 @@ const entry: TuyaDeviceEntry = {
       },
       humidityInPercent: {
         dataPoint: "2",
+        kind: "sensor",
+        measures: "humidity",
         readOnly: true,
         unit: "%",
         scale: 10,
       },
-      batteryInPercent: { dataPoint: "4", readOnly: true, unit: "%" },
+      batteryInPercent: {
+        dataPoint: "4",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
       temperatureUnit2: {
         dataPoint: "9",
+        kind: "select",
         values: [
           { raw: "c", value: "celsius" },
           { raw: "f", value: "fahrenheit" },
         ],
       },
-      highTemperature: { dataPoint: "10", min: -10, max: 60 },
-      lowTemperature: { dataPoint: "11", min: -10, max: 60 },
-      highHumidity: { dataPoint: "12", min: 0, max: 100 },
-      lowHumidity: { dataPoint: "13", min: 0, max: 100 },
+      highTemperature: {
+        dataPoint: "10",
+        kind: "number",
+        measures: "temperature",
+        min: -10,
+        max: 60,
+      },
+      lowTemperature: {
+        dataPoint: "11",
+        kind: "number",
+        measures: "temperature",
+        min: -10,
+        max: 60,
+      },
+      highHumidity: {
+        dataPoint: "12",
+        kind: "number",
+        measures: "humidity",
+        min: 0,
+        max: 100,
+      },
+      lowHumidity: {
+        dataPoint: "13",
+        kind: "number",
+        measures: "humidity",
+        min: 0,
+        max: 100,
+      },
       temperatureAlarm: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "loweralarm", value: "Low temperature" },
           { raw: "upperalarm", value: "High temperature" },
@@ -64,14 +101,21 @@ const entry: TuyaDeviceEntry = {
       },
       humidityAlarm: {
         dataPoint: "15",
+        kind: "select",
         values: [
           { raw: "loweralarm", value: "Low humidity" },
           { raw: "upperalarm", value: "High humidity" },
           { raw: "cancel", value: "Not set" },
         ],
       },
-      illuminanceInLux: { dataPoint: "16", readOnly: true, unit: "lx" },
-      switch: { dataPoint: "21" },
+      illuminanceInLux: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "illuminance",
+        readOnly: true,
+        unit: "lx",
+      },
+      switch: { dataPoint: "21", kind: "switch" },
     },
   },
   source: {

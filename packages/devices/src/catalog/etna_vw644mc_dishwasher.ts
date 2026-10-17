@@ -26,18 +26,26 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      start: { dataPoint: "2" },
+      on: { dataPoint: "1", kind: "switch" },
+      start: { dataPoint: "2", kind: "button" },
       stop: {
         dataPoint: "2",
+        kind: "button",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
         ],
       },
-      timerInMinutes: { dataPoint: "6", unit: "min", min: 0, max: 1440 },
+      timerInMinutes: {
+        dataPoint: "6",
+        kind: "number",
+        unit: "min",
+        min: 0,
+        max: 1440,
+      },
       washingMode: {
         dataPoint: "7",
+        kind: "select",
         values: [
           { raw: "neutral", value: "neutral" },
           { raw: "eco", value: "eco" },
@@ -53,16 +61,25 @@ const entry: TuyaDeviceEntry = {
           { raw: "party", value: "party" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "8", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "8",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "12",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", readOnly: true },
+      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
       status: {
         dataPoint: "16",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "unwash", value: "unwashed" },
@@ -74,23 +91,32 @@ const entry: TuyaDeviceEntry = {
           { raw: "standby", value: "standby" },
         ],
       },
-      temperatureInC: { dataPoint: "17", readOnly: true, unit: "C" },
-      childLock: { dataPoint: "101", absent: false },
-      delayedStart: { dataPoint: "102" },
+      temperatureInC: {
+        dataPoint: "17",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      childLock: { dataPoint: "101", kind: "switch", absent: false },
+      delayedStart: { dataPoint: "102", kind: "switch" },
       door: {
         dataPoint: "103",
+        kind: "sensor",
+        measures: "door",
         readOnly: true,
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
         ],
       },
-      rinseAid: { dataPoint: "104", readOnly: true },
-      salt: { dataPoint: "105", readOnly: true },
-      pause: { dataPoint: "107" },
-      autoOpen: { dataPoint: "110" },
+      rinseAid: { dataPoint: "104", kind: "sensor", readOnly: true },
+      salt: { dataPoint: "105", kind: "sensor", readOnly: true },
+      pause: { dataPoint: "107", kind: "button" },
+      autoOpen: { dataPoint: "110", kind: "switch" },
       waterHardness: {
         dataPoint: "111",
+        kind: "select",
         values: [
           { raw: "1", value: "1" },
           { raw: "2", value: "2" },

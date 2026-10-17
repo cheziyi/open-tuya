@@ -15,11 +15,18 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     valve: {
-      switch: { dataPoint: "1" },
-      open: { dataPoint: "102", min: 0, max: 100, step: 10 },
-      timerInSeconds: { dataPoint: "9", unit: "s", min: 0, max: 86399 },
+      switch: { dataPoint: "1", kind: "switch" },
+      open: { dataPoint: "102", kind: "number", min: 0, max: 100, step: 10 },
+      timerInSeconds: {
+        dataPoint: "9",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86399,
+      },
       initialState: {
         dataPoint: "38",
+        kind: "select",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -28,6 +35,7 @@ const entry: TuyaDeviceEntry = {
       },
       maximumInPercent: {
         dataPoint: "101",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 100,

@@ -17,15 +17,17 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       manualFeedInPortions: {
         dataPoint: "2",
+        kind: "number",
         unit: "portions",
         min: 1,
         max: 5,
       },
       feeding: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "3h", value: "3h" },
@@ -34,22 +36,38 @@ const entry: TuyaDeviceEntry = {
           { raw: "diy", value: "custom" },
         ],
       },
-      autoFeedInPortions: { dataPoint: "4", unit: "portions", min: 0, max: 3 },
-      mealPlan: { dataPoint: "5" },
+      autoFeedInPortions: {
+        dataPoint: "4",
+        kind: "number",
+        unit: "portions",
+        min: 0,
+        max: 3,
+      },
+      mealPlan: { dataPoint: "5", kind: "text" },
       manualFeedReport: {
         dataPoint: "6",
+        kind: "event",
         readOnly: true,
         values: [{ raw: 0, value: "error" }],
         otherwise: "fed",
       },
-      manualFeedReportPortions: { dataPoint: "6", readOnly: true },
+      manualFeedReportPortions: {
+        dataPoint: "6",
+        kind: "sensor",
+        readOnly: true,
+      },
       autoFeedReport: {
         dataPoint: "7",
+        kind: "event",
         readOnly: true,
         values: [{ raw: 0, value: "error" }],
         otherwise: "fed",
       },
-      autoFeedReportPortions: { dataPoint: "7", readOnly: true },
+      autoFeedReportPortions: {
+        dataPoint: "7",
+        kind: "sensor",
+        readOnly: true,
+      },
     },
   },
   source: {

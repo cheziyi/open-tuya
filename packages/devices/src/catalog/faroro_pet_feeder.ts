@@ -22,21 +22,24 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      manualFeed: { dataPoint: "3", min: 1, max: 12 },
+      manualFeed: { dataPoint: "3", kind: "number", min: 1, max: 12 },
       feedStatus: {
         dataPoint: "4",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
           { raw: "feeding", value: "feeding" },
         ],
       },
-      factoryReset: { dataPoint: "9" },
-      lastFeedAmount: { dataPoint: "15", readOnly: true },
-      voiceTimes: { dataPoint: "18", readOnly: true },
-      indicatorLight: { dataPoint: "19" },
+      factoryReset: { dataPoint: "9", kind: "button" },
+      lastFeedAmount: { dataPoint: "15", kind: "sensor", readOnly: true },
+      voiceTimes: { dataPoint: "18", kind: "sensor", readOnly: true },
+      indicatorLight: { dataPoint: "19", kind: "switch" },
       batteryInPercent: {
         dataPoint: "101",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         unit: "%",
         values: [
@@ -47,6 +50,7 @@ const entry: TuyaDeviceEntry = {
       },
       foodLevel: {
         dataPoint: "102",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "full", value: "Full" },
@@ -54,10 +58,20 @@ const entry: TuyaDeviceEntry = {
           { raw: "lack", value: "Empty" },
         ],
       },
-      foodJam: { dataPoint: "103", readOnly: true },
-      stuck: { dataPoint: "104", readOnly: true },
-      reboot: { dataPoint: "105" },
-      buttonPortionSize: { dataPoint: "106", min: 1, max: 12 },
+      foodJam: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "problem",
+        readOnly: true,
+      },
+      stuck: {
+        dataPoint: "104",
+        kind: "sensor",
+        measures: "problem",
+        readOnly: true,
+      },
+      reboot: { dataPoint: "105", kind: "button" },
+      buttonPortionSize: { dataPoint: "106", kind: "number", min: 1, max: 12 },
     },
   },
   source: {

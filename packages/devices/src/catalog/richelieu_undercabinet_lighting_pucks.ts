@@ -16,9 +16,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       effect: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "current", value: "off" },
           { raw: "scene_1", value: "Scene 1" },
@@ -41,9 +42,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "scene_18", value: "Scene 18" },
         ],
       },
-      brightnessInPercent: { dataPoint: "3", unit: "%", min: 1, max: 100 },
+      brightnessInPercent: {
+        dataPoint: "3",
+        kind: "number",
+        unit: "%",
+        min: 1,
+        max: 100,
+      },
       colorTemperatureInK: {
         dataPoint: "4",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 100,
@@ -51,6 +59,7 @@ const entry: TuyaDeviceEntry = {
       },
       selectedSceneToDelete: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "scene_1", value: "Scene 1" },
           { raw: "scene_2", value: "Scene 2" },
@@ -74,6 +83,7 @@ const entry: TuyaDeviceEntry = {
       },
       selectedSceneToAdd: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "scene_1", value: "Scene 1" },
           { raw: "scene_2", value: "Scene 2" },

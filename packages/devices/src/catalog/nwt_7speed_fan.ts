@@ -12,8 +12,11 @@ const entry: TuyaDeviceEntry = {
     "15": { type: "boolean" },
   },
   components: {
-    fan: { on: { dataPoint: "1" }, speed: { dataPoint: "3", min: 1, max: 7 } },
-    light: { on: { dataPoint: "15" } },
+    fan: {
+      on: { dataPoint: "1", kind: "switch" },
+      speed: { dataPoint: "3", kind: "number", min: 1, max: 7 },
+    },
+    light: { on: { dataPoint: "15", kind: "switch" } },
   },
   source: {
     file: "nwt_7speed_fan.yaml",

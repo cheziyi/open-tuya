@@ -24,19 +24,26 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "20" },
-      workMode: { dataPoint: "21" },
-      brightness: { dataPoint: "22", min: 10, max: 1000 },
+      on: { dataPoint: "20", kind: "switch" },
+      workMode: { dataPoint: "21", kind: "text" },
+      brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
       colorTemperatureInK: {
         dataPoint: "23",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 1000,
         targetRange: { min: 2700, max: 6500 },
       },
-      timerInSeconds: { dataPoint: "26", unit: "s", min: 0, max: 86400 },
-      scene: { dataPoint: "25" },
-      doNotDisturb: { dataPoint: "34" },
+      timerInSeconds: {
+        dataPoint: "26",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
+      scene: { dataPoint: "25", kind: "text" },
+      doNotDisturb: { dataPoint: "34", kind: "switch" },
     },
   },
   source: {

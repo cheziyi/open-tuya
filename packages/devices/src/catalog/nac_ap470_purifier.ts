@@ -24,9 +24,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: 1, value: "auto" },
           { raw: 2, value: "sleep" },
@@ -38,17 +39,36 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      pm25InUgPerM3: { dataPoint: "2", readOnly: true, unit: "ugm3" },
-      filterLifeInDays: { dataPoint: "16", readOnly: true, unit: "d" },
-      totalTimeInHours: { dataPoint: "17", readOnly: true, unit: "h" },
-      ionizer: { dataPoint: "6" },
-      childLock: { dataPoint: "7" },
-      disableLight: { dataPoint: "8" },
-      uvSterilization: { dataPoint: "9" },
-      filterClean: { dataPoint: "101" },
-      filterReset: { dataPoint: "11" },
+      pm25InUgPerM3: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "pm25",
+        readOnly: true,
+        unit: "ugm3",
+      },
+      filterLifeInDays: {
+        dataPoint: "16",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "d",
+      },
+      totalTimeInHours: {
+        dataPoint: "17",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "h",
+      },
+      ionizer: { dataPoint: "6", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch" },
+      disableLight: { dataPoint: "8", kind: "switch" },
+      uvSterilization: { dataPoint: "9", kind: "switch" },
+      filterClean: { dataPoint: "101", kind: "switch" },
+      filterReset: { dataPoint: "11", kind: "button" },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancle", value: "cancel" },
           { raw: 2, value: "2h" },
@@ -57,14 +77,22 @@ const entry: TuyaDeviceEntry = {
           { raw: 8, value: "8h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "20", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "20",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "21",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "21", readOnly: true },
+      faultCode: { dataPoint: "21", kind: "sensor", readOnly: true },
     },
   },
   source: {

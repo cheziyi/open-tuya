@@ -19,9 +19,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     vacuum: {
-      cleaning: { dataPoint: "2" },
+      cleaning: { dataPoint: "2", kind: "switch" },
       command: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "standby", value: "stop" },
           { raw: "spiral", value: "clean_spot" },
@@ -33,6 +34,7 @@ const entry: TuyaDeviceEntry = {
       },
       moveDirection: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "backward", value: "reverse" },
@@ -43,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       },
       status: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "standby", value: "standby" },
           { raw: "smart_clean", value: "cleaning" },
@@ -59,22 +62,38 @@ const entry: TuyaDeviceEntry = {
       },
       suction: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "strong", value: "High" },
           { raw: "normal", value: "Medium" },
         ],
       },
-      batteryInPercent: { dataPoint: "6", readOnly: true, unit: "%" },
-      cleaningTimeInMinutes: { dataPoint: "17", readOnly: true, unit: "min" },
+      batteryInPercent: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      cleaningTimeInMinutes: {
+        dataPoint: "17",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "18",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", readOnly: true },
+      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "18",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -96,6 +115,7 @@ const entry: TuyaDeviceEntry = {
       },
       mopping: {
         dataPoint: "20",
+        kind: "select",
         values: [
           { raw: "closed", value: "off" },
           { raw: "low", value: "low" },

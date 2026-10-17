@@ -22,13 +22,17 @@ const entry: TuyaDeviceEntry = {
     device: {
       occupancy: {
         dataPoint: "1",
+        kind: "sensor",
+        measures: "occupancy",
         readOnly: true,
         values: [{ raw: "presence", value: true }],
         otherwise: false,
       },
-      sensitivity: { dataPoint: "2", min: 0, max: 9 },
+      sensitivity: { dataPoint: "2", kind: "number", min: 0, max: 9 },
       nearDetectionInM: {
         dataPoint: "3",
+        kind: "number",
+        measures: "distance",
         unit: "m",
         min: 0,
         max: 1000,
@@ -36,15 +40,25 @@ const entry: TuyaDeviceEntry = {
       },
       farDetectionInM: {
         dataPoint: "4",
+        kind: "number",
+        measures: "distance",
         unit: "m",
         min: 0,
         max: 1000,
         scale: 100,
       },
-      selfCheck: { dataPoint: "5" },
-      illuminanceInLux: { dataPoint: "101", readOnly: true, unit: "lx" },
+      selfCheck: { dataPoint: "5", kind: "button" },
+      illuminanceInLux: {
+        dataPoint: "101",
+        kind: "sensor",
+        measures: "illuminance",
+        readOnly: true,
+        unit: "lx",
+      },
       entryDelayInSeconds: {
         dataPoint: "102",
+        kind: "number",
+        measures: "duration",
         unit: "s",
         min: 0,
         max: 65,
@@ -52,6 +66,8 @@ const entry: TuyaDeviceEntry = {
       },
       exitDelayInSeconds: {
         dataPoint: "103",
+        kind: "number",
+        measures: "duration",
         unit: "s",
         min: 0,
         max: 15000,
@@ -59,6 +75,7 @@ const entry: TuyaDeviceEntry = {
       },
       scene: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: "living_room", value: "Living room" },
           { raw: "bathroom", value: "Bathroom" },
@@ -66,7 +83,14 @@ const entry: TuyaDeviceEntry = {
           { raw: "sleep_detection", value: "Sleep detection" },
         ],
       },
-      distanceInM: { dataPoint: "105", readOnly: true, unit: "m", scale: 100 },
+      distanceInM: {
+        dataPoint: "105",
+        kind: "sensor",
+        measures: "distance",
+        readOnly: true,
+        unit: "m",
+        scale: 100,
+      },
     },
   },
   source: {

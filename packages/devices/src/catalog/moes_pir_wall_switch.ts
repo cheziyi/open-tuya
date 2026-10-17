@@ -14,11 +14,16 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1" },
-      inching: { dataPoint: "103" },
-      motion: { dataPoint: "106", readOnly: true },
+      on: { dataPoint: "1", kind: "switch" },
+      inching: { dataPoint: "103", kind: "text" },
+      motion: {
+        dataPoint: "106",
+        kind: "sensor",
+        measures: "motion",
+        readOnly: true,
+      },
     },
-    indicator: { on: { dataPoint: "104" } },
+    indicator: { on: { dataPoint: "104", kind: "switch" } },
   },
   source: {
     file: "moes_pir_wall_switch.yaml",

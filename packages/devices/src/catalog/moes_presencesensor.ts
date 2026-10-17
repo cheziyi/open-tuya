@@ -22,14 +22,22 @@ const entry: TuyaDeviceEntry = {
     device: {
       occupancy: {
         dataPoint: "1",
+        kind: "sensor",
+        measures: "occupancy",
         readOnly: true,
         values: [{ raw: "presence", value: true }],
         otherwise: false,
       },
-      occupancySelftestResult: { dataPoint: "6", readOnly: true },
-      sensitivity: { dataPoint: "2", min: 0, max: 9 },
+      occupancySelftestResult: {
+        dataPoint: "6",
+        kind: "sensor",
+        readOnly: true,
+      },
+      sensitivity: { dataPoint: "2", kind: "number", min: 0, max: 9 },
       minimumDistanceInM: {
         dataPoint: "3",
+        kind: "number",
+        measures: "distance",
         unit: "m",
         min: 0,
         max: 950,
@@ -37,6 +45,8 @@ const entry: TuyaDeviceEntry = {
       },
       maximumDistanceInM: {
         dataPoint: "4",
+        kind: "number",
+        measures: "distance",
         unit: "m",
         min: 0,
         max: 950,
@@ -44,6 +54,8 @@ const entry: TuyaDeviceEntry = {
       },
       detectDelayInSeconds: {
         dataPoint: "101",
+        kind: "number",
+        measures: "duration",
         unit: "s",
         min: 0,
         max: 500,
@@ -51,14 +63,22 @@ const entry: TuyaDeviceEntry = {
       },
       clearDelayInSeconds: {
         dataPoint: "102",
+        kind: "number",
+        measures: "duration",
         unit: "s",
         min: 0,
         max: 15000,
         scale: 10,
       },
-      illuminanceInLux: { dataPoint: "104", readOnly: true, unit: "lx" },
-      identifyLevel: { dataPoint: "107", min: 0, max: 3 },
-      triggerLevel: { dataPoint: "108", min: 0, max: 3 },
+      illuminanceInLux: {
+        dataPoint: "104",
+        kind: "sensor",
+        measures: "illuminance",
+        readOnly: true,
+        unit: "lx",
+      },
+      identifyLevel: { dataPoint: "107", kind: "number", min: 0, max: 3 },
+      triggerLevel: { dataPoint: "108", kind: "number", min: 0, max: 3 },
     },
   },
   source: {

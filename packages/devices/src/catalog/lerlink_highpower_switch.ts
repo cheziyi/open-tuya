@@ -18,10 +18,17 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      timerInSeconds: { dataPoint: "7", unit: "s", min: 0, max: 86400 },
+      on: { dataPoint: "1", kind: "switch" },
+      timerInSeconds: {
+        dataPoint: "7",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
       initialState: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "power_off", value: "off" },
           { raw: "power_on", value: "on" },
@@ -30,17 +37,18 @@ const entry: TuyaDeviceEntry = {
       },
       lightMode: {
         dataPoint: "15",
+        kind: "select",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
           { raw: "none", value: "off" },
         ],
       },
-      schedule: { dataPoint: "17" },
-      randomSchedule: { dataPoint: "18" },
-      inching: { dataPoint: "19" },
+      schedule: { dataPoint: "17", kind: "text" },
+      randomSchedule: { dataPoint: "18", kind: "text" },
+      inching: { dataPoint: "19", kind: "text" },
     },
-    backlight: { on: { dataPoint: "16" } },
+    backlight: { on: { dataPoint: "16", kind: "switch" } },
   },
   source: {
     file: "lerlink_highpower_switch.yaml",

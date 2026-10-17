@@ -21,14 +21,14 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     remote: {
-      send: { dataPoint: "201" },
-      receive: { dataPoint: "202" },
-      scene1: { dataPoint: "1" },
-      scene2: { dataPoint: "2" },
-      scene3: { dataPoint: "3" },
-      scene4: { dataPoint: "4" },
+      send: { dataPoint: "201", kind: "text" },
+      receive: { dataPoint: "202", kind: "text" },
+      scene1: { dataPoint: "1", kind: "text" },
+      scene2: { dataPoint: "2", kind: "text" },
+      scene3: { dataPoint: "3", kind: "text" },
+      scene4: { dataPoint: "4", kind: "text" },
     },
-    infrared: { send: { dataPoint: "201" } },
+    infrared: { send: { dataPoint: "201", kind: "text" } },
   },
   source: {
     file: "s11_rfir_remote.yaml",

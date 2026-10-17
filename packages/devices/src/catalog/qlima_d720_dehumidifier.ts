@@ -20,9 +20,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "2",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 35,
         max: 85,
@@ -30,6 +32,7 @@ const entry: TuyaDeviceEntry = {
       },
       mode: {
         dataPoint: "5",
+        kind: "select",
         values: [
           { raw: "manual", value: "normal" },
           { raw: "continuous", value: "continuous" },
@@ -37,30 +40,53 @@ const entry: TuyaDeviceEntry = {
           { raw: "drying", value: "laundry" },
         ],
       },
-      currentHumidityInPercent: { dataPoint: "6", readOnly: true, unit: "%" },
-      temperatureInC: { dataPoint: "7", readOnly: true, unit: "°C" },
+      currentHumidityInPercent: {
+        dataPoint: "6",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      temperatureInC: {
+        dataPoint: "7",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "°C",
+      },
       fault: {
         dataPoint: "19",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", readOnly: true },
+      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
       tankFull: {
         dataPoint: "25",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "off", value: false },
           { raw: "on", value: true },
         ],
       },
-      waterPump: { dataPoint: "101" },
-      waterCapacityInL: { dataPoint: "102", unit: "L", min: 1, max: 4 },
+      waterPump: { dataPoint: "101", kind: "switch" },
+      waterCapacityInL: {
+        dataPoint: "102",
+        kind: "number",
+        measures: "volumeStorage",
+        unit: "L",
+        min: 1,
+        max: 4,
+      },
     },
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "low", value: 33 },
           { raw: "mid", value: 66 },

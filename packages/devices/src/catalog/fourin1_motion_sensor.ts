@@ -24,22 +24,34 @@ const entry: TuyaDeviceEntry = {
     device: {
       occupancy: {
         dataPoint: "1",
+        kind: "sensor",
+        measures: "occupancy",
         readOnly: true,
         values: [
           { raw: "presence", value: true },
           { raw: "none", value: false },
         ],
       },
-      motionSensitivity: { dataPoint: "2", min: 0, max: 19 },
-      exitDelayInSeconds: { dataPoint: "102", unit: "s", min: 5, max: 28800 },
+      motionSensitivity: { dataPoint: "2", kind: "number", min: 0, max: 19 },
+      exitDelayInSeconds: {
+        dataPoint: "102",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 5,
+        max: 28800,
+      },
       temperature: {
         dataPoint: "111",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unitFrom: "temperatureUnit",
         scale: 10,
       },
       temperatureUnit: {
         dataPoint: "109",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "c", value: "C" },
@@ -48,6 +60,8 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureCalibration: {
         dataPoint: "105",
+        kind: "number",
+        measures: "temperatureDelta",
         unitFrom: "temperatureCalibrationUnit",
         min: -30,
         max: 30,
@@ -56,6 +70,7 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureCalibrationUnit: {
         dataPoint: "109",
+        kind: "select",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -63,28 +78,50 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit2: {
         dataPoint: "109",
+        kind: "select",
         values: [
           { raw: "c", value: "celsius" },
           { raw: "f", value: "fahrenheit" },
         ],
       },
-      humidityInPercent: { dataPoint: "101", readOnly: true, unit: "%" },
+      humidityInPercent: {
+        dataPoint: "101",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       humidityCalibrationInPercent: {
         dataPoint: "104",
+        kind: "number",
         unit: "%",
         min: -10,
         max: 10,
       },
-      illuminanceInLux: { dataPoint: "106", readOnly: true, unit: "lx" },
+      illuminanceInLux: {
+        dataPoint: "106",
+        kind: "sensor",
+        measures: "illuminance",
+        readOnly: true,
+        unit: "lx",
+      },
       lightSamplingIntervalInMinutes: {
         dataPoint: "107",
+        kind: "number",
+        measures: "duration",
         unit: "min",
         min: 1,
         max: 480,
       },
-      batteryInPercent: { dataPoint: "110", readOnly: true, unit: "%" },
+      batteryInPercent: {
+        dataPoint: "110",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
     },
-    indicator: { on: { dataPoint: "108" } },
+    indicator: { on: { dataPoint: "108", kind: "switch" } },
   },
   source: {
     file: "fourin1_motion_sensor.yaml",

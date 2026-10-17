@@ -22,18 +22,40 @@ const entry: TuyaDeviceEntry = {
     kettle: {
       mode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "electric" },
         ],
       },
-      currentTemperatureInC: { dataPoint: "2", readOnly: true, unit: "C" },
-      targetTemperatureInC: { dataPoint: "4", unit: "C", min: 0, max: 100 },
+      currentTemperatureInC: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      targetTemperatureInC: {
+        dataPoint: "4",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 0,
+        max: 100,
+      },
     },
     device: {
-      keepWarmTimeInMinutes: { dataPoint: "7", unit: "min", min: 0, max: 720 },
+      keepWarmTimeInMinutes: {
+        dataPoint: "7",
+        kind: "number",
+        measures: "duration",
+        unit: "min",
+        min: 0,
+        max: 720,
+      },
       status: {
         dataPoint: "8",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -44,13 +66,16 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "10",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "10", readOnly: true },
+      faultCode: { dataPoint: "10", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "10",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -61,6 +86,7 @@ const entry: TuyaDeviceEntry = {
       },
       kettleMode: {
         dataPoint: "11",
+        kind: "select",
         values: [
           { raw: "diy", value: "custom" },
           { raw: "boiled_water", value: "boil" },
@@ -72,9 +98,22 @@ const entry: TuyaDeviceEntry = {
           { raw: "milk_powder", value: "infant_formula" },
         ],
       },
-      keepWarm: { dataPoint: "14" },
-      keepWarmTemperatureInC: { dataPoint: "15", unit: "C", min: 0, max: 100 },
-      timeRemainingInMinutes: { dataPoint: "17", readOnly: true, unit: "min" },
+      keepWarm: { dataPoint: "14", kind: "switch" },
+      keepWarmTemperatureInC: {
+        dataPoint: "15",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 0,
+        max: 100,
+      },
+      timeRemainingInMinutes: {
+        dataPoint: "17",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
     },
   },
   source: {

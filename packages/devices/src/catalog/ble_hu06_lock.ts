@@ -29,29 +29,39 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     lock: {
-      unlockPassword: { dataPoint: "13" },
-      unlockKey: { dataPoint: "16" },
-      unlockBle: { dataPoint: "19" },
+      unlockPassword: { dataPoint: "13", kind: "number" },
+      unlockKey: { dataPoint: "16", kind: "number" },
+      unlockBle: { dataPoint: "19", kind: "number" },
       jammed: {
         dataPoint: "21",
+        kind: "select",
         values: [{ raw: "tongue_bad", value: true }],
         otherwise: false,
       },
-      unlockFingerprint: { dataPoint: "43" },
+      unlockFingerprint: { dataPoint: "43", kind: "number" },
       lockState: {
         dataPoint: "47",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: false, value: true },
           { raw: true, value: false },
         ],
       },
-      unlockApp: { dataPoint: "62" },
-      unlockVoice: { dataPoint: "63" },
-      lockRecord: { dataPoint: "105" },
-      batteryInPercent: { dataPoint: "8", readOnly: true, unit: "%" },
+      unlockApp: { dataPoint: "62", kind: "number" },
+      unlockVoice: { dataPoint: "63", kind: "number" },
+      lockRecord: { dataPoint: "105", kind: "text" },
+      batteryInPercent: {
+        dataPoint: "8",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
       wrongPassword: {
         dataPoint: "21",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: "wrong_password", value: true },
@@ -61,6 +71,8 @@ const entry: TuyaDeviceEntry = {
       },
       tamper: {
         dataPoint: "21",
+        kind: "sensor",
+        measures: "tamper",
         readOnly: true,
         values: [
           { raw: "pry", value: true },
@@ -70,6 +82,8 @@ const entry: TuyaDeviceEntry = {
       },
       battery: {
         dataPoint: "21",
+        kind: "sensor",
+        measures: "battery",
         readOnly: true,
         values: [
           { raw: "low_battery", value: true },
@@ -79,6 +93,8 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "21",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: "defense", value: true },
@@ -86,15 +102,23 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: false,
       },
-      faultDescription: { dataPoint: "21", readOnly: true },
-      duress: { dataPoint: "22", readOnly: true, absent: false },
+      faultDescription: { dataPoint: "21", kind: "sensor", readOnly: true },
+      duress: {
+        dataPoint: "22",
+        kind: "sensor",
+        measures: "safety",
+        readOnly: true,
+        absent: false,
+      },
       doorbell: {
         dataPoint: "24",
+        kind: "event",
         readOnly: true,
         values: [{ raw: true, value: "ring" }],
       },
       doorbellVolumeInPercent: {
         dataPoint: "27",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 100,
@@ -103,9 +127,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "voice", value: 100 },
         ],
       },
-      autoLock: { dataPoint: "33" },
+      autoLock: { dataPoint: "33", kind: "switch" },
       autoLockDelayInSeconds: {
         dataPoint: "36",
+        kind: "number",
         unit: "s",
         min: 10,
         max: 180,
@@ -113,15 +138,33 @@ const entry: TuyaDeviceEntry = {
       },
       door: {
         dataPoint: "40",
+        kind: "sensor",
+        measures: "door",
         readOnly: true,
         values: [
           { raw: "open", value: true },
           { raw: "closed", value: false },
         ],
       },
-      keypadReset: { dataPoint: "102", readOnly: true },
-      keypadBatteryInPercent: { dataPoint: "103", readOnly: true, unit: "%" },
-      connectivity: { dataPoint: "107", readOnly: true },
+      keypadReset: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "running",
+        readOnly: true,
+      },
+      keypadBatteryInPercent: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      connectivity: {
+        dataPoint: "107",
+        kind: "sensor",
+        measures: "connectivity",
+        readOnly: true,
+      },
     },
   },
   source: {

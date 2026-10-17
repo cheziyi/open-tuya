@@ -11,6 +11,7 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "0", value: "open" },
           { raw: "1", value: "close" },
@@ -19,6 +20,7 @@ const entry: TuyaDeviceEntry = {
       },
       currentPositionInPercent: {
         dataPoint: "101",
+        kind: "sensor",
         readOnly: true,
         unit: "%",
         min: 0,
@@ -26,6 +28,7 @@ const entry: TuyaDeviceEntry = {
       },
       targetPositionInPercent: {
         dataPoint: "101",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 100,

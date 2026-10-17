@@ -22,10 +22,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     airPurifier: {
-      on: { dataPoint: "1" },
-      speed: { dataPoint: "101", min: 1, max: 5 },
+      on: { dataPoint: "1", kind: "switch" },
+      speed: { dataPoint: "101", kind: "number", min: 1, max: 5 },
       mode: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "manual", value: "manual" },
           { raw: "auto", value: "auto" },
@@ -35,19 +36,39 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      filterLifeInPercent: { dataPoint: "5", readOnly: true, unit: "%" },
-      ionizer: { dataPoint: "6" },
-      childLock: { dataPoint: "7" },
-      uvSterilization: { dataPoint: "9" },
-      temperatureInC: { dataPoint: "12", readOnly: true, unit: "C" },
-      humidityInPercent: { dataPoint: "13", readOnly: true, unit: "%" },
+      filterLifeInPercent: {
+        dataPoint: "5",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
+      ionizer: { dataPoint: "6", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch" },
+      uvSterilization: { dataPoint: "9", kind: "switch" },
+      temperatureInC: {
+        dataPoint: "12",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      humidityInPercent: {
+        dataPoint: "13",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       volatileOrganicCompoundsPartsInPpb: {
         dataPoint: "14",
+        kind: "sensor",
+        measures: "volatileOrganicCompoundsParts",
         readOnly: true,
         unit: "ppb",
       },
       airQuality: {
         dataPoint: "21",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "great", value: "excellent" },
@@ -58,6 +79,7 @@ const entry: TuyaDeviceEntry = {
       },
       formaldehydeInUgPerM3: {
         dataPoint: "27",
+        kind: "sensor",
         readOnly: true,
         unit: "ugm3",
         scale: 0.1,

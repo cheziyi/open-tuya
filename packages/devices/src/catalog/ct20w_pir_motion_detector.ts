@@ -18,6 +18,7 @@ const entry: TuyaDeviceEntry = {
     alarmControlPanel: {
       alarmState: {
         dataPoint: "110",
+        kind: "select",
         values: [
           { raw: "disarm", value: "disarmed" },
           { raw: "away", value: "armed_away" },
@@ -26,17 +27,38 @@ const entry: TuyaDeviceEntry = {
       },
       motion: {
         dataPoint: "6",
+        kind: "sensor",
+        measures: "motion",
         readOnly: true,
         values: [
           { raw: "none", value: false },
           { raw: "pir", value: true },
         ],
       },
-      batteryInPercent: { dataPoint: "2", readOnly: true, unit: "%" },
-      plug: { dataPoint: "102", readOnly: true },
-      alarmDurationInSeconds: { dataPoint: "106", unit: "s", min: 0, max: 300 },
+      batteryInPercent: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      plug: {
+        dataPoint: "102",
+        kind: "sensor",
+        measures: "plug",
+        readOnly: true,
+      },
+      alarmDurationInSeconds: {
+        dataPoint: "106",
+        kind: "number",
+        measures: "duration",
+        unit: "s",
+        min: 0,
+        max: 300,
+      },
       alertOption: {
         dataPoint: "107",
+        kind: "select",
         values: [
           { raw: "OnlySound_mode", value: "Sound only" },
           { raw: "OnlyLight_mode", value: "Light only" },

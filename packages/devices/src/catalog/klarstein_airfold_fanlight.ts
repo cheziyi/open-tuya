@@ -22,9 +22,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "101" },
+      on: { dataPoint: "101", kind: "switch" },
       mode: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "nature", value: "nature" },
           { raw: "sleep", value: "sleep" },
@@ -32,16 +33,17 @@ const entry: TuyaDeviceEntry = {
           { raw: "strong", value: "strong" },
         ],
       },
-      speed: { dataPoint: "103", min: 1, max: 6 },
-      direction: { dataPoint: "106" },
-      oscillating: { dataPoint: "112" },
+      speed: { dataPoint: "103", kind: "number", min: 1, max: 6 },
+      direction: { dataPoint: "106", kind: "text" },
+      oscillating: { dataPoint: "112", kind: "switch" },
     },
     light: {
-      sound: { dataPoint: "107" },
-      on: { dataPoint: "108" },
-      brightness: { dataPoint: "22", min: 10, max: 1000 },
+      sound: { dataPoint: "107", kind: "switch" },
+      on: { dataPoint: "108", kind: "switch" },
+      brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
       colorTemperatureInK: {
         dataPoint: "23",
+        kind: "number",
         unit: "K",
         min: 0,
         max: 1000,
@@ -49,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       },
       timer: {
         dataPoint: "109",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -59,15 +62,23 @@ const entry: TuyaDeviceEntry = {
           { raw: "6h", value: "6h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "110", readOnly: true, unit: "min" },
+      timeRemainingInMinutes: {
+        dataPoint: "110",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
       fault: {
         dataPoint: "111",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         absent: false,
         otherwise: true,
       },
-      faultCode: { dataPoint: "111", readOnly: true },
+      faultCode: { dataPoint: "111", kind: "sensor", readOnly: true },
     },
   },
   source: {

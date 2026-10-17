@@ -14,18 +14,40 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      stop: { dataPoint: "101", values: [{ raw: "cancel", value: true }] },
-      up: { dataPoint: "101", values: [{ raw: "move_up", value: true }] },
-      down: { dataPoint: "101", values: [{ raw: "move_down", value: true }] },
+      stop: {
+        dataPoint: "101",
+        kind: "button",
+        values: [{ raw: "cancel", value: true }],
+      },
+      up: {
+        dataPoint: "101",
+        kind: "button",
+        values: [{ raw: "move_up", value: true }],
+      },
+      down: {
+        dataPoint: "101",
+        kind: "button",
+        values: [{ raw: "move_down", value: true }],
+      },
       default: {
         dataPoint: "101",
+        kind: "button",
         values: [{ raw: "move_default", value: true }],
       },
-      defaultModelNo: { dataPoint: "102" },
-      left: { dataPoint: "101", values: [{ raw: "move_left", value: true }] },
-      right: { dataPoint: "101", values: [{ raw: "move_right", value: true }] },
+      defaultModelNo: { dataPoint: "102", kind: "text" },
+      left: {
+        dataPoint: "101",
+        kind: "button",
+        values: [{ raw: "move_left", value: true }],
+      },
+      right: {
+        dataPoint: "101",
+        kind: "button",
+        values: [{ raw: "move_right", value: true }],
+      },
       preset: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "recall1", value: "Preset 1" },
           { raw: "recall2", value: "Preset 2" },
@@ -36,6 +58,7 @@ const entry: TuyaDeviceEntry = {
       },
       savePreset: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "mem1", value: "Preset 1" },
           { raw: "mem2", value: "Preset 2" },
@@ -46,11 +69,13 @@ const entry: TuyaDeviceEntry = {
       },
       fault: {
         dataPoint: "105",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "105", readOnly: true },
+      faultCode: { dataPoint: "105", kind: "sensor", readOnly: true },
     },
   },
   source: {

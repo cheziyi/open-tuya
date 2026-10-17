@@ -23,14 +23,23 @@ const entry: TuyaDeviceEntry = {
     heater: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "2", unit: "C", min: 5, max: 35 },
+      targetTemperatureInC: {
+        dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 5,
+        max: 35,
+      },
       preset: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "CF", value: "comfort" },
           { raw: "AF", value: "away" },
@@ -39,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       },
       fanMode: {
         dataPoint: "101",
+        kind: "select",
         values: [
           { raw: "H1", value: "low" },
           { raw: "H2", value: "medium" },
@@ -47,6 +57,7 @@ const entry: TuyaDeviceEntry = {
       },
       hvacAction: {
         dataPoint: "11",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "standby", value: "idle" },
@@ -55,10 +66,11 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      nightMode: { dataPoint: "103" },
-      childLock: { dataPoint: "7" },
+      nightMode: { dataPoint: "103", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch" },
       timer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -87,17 +99,26 @@ const entry: TuyaDeviceEntry = {
           { raw: "24h", value: "24h" },
         ],
       },
-      timeRemainingInMinutes: { dataPoint: "20", readOnly: true, unit: "min" },
-      schedule: { dataPoint: "26" },
+      timeRemainingInMinutes: {
+        dataPoint: "20",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "min",
+      },
+      schedule: { dataPoint: "26", kind: "text" },
       fault: {
         dataPoint: "21",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "21", readOnly: true },
+      faultCode: { dataPoint: "21", kind: "sensor", readOnly: true },
       faultDescription: {
         dataPoint: "21",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },

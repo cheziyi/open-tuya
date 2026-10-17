@@ -18,10 +18,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1" },
-      brightness: { dataPoint: "2", min: 10, max: 1000 },
+      on: { dataPoint: "1", kind: "switch" },
+      brightness: { dataPoint: "2", kind: "number", min: 10, max: 1000 },
       lightType: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "led", value: "LED" },
           { raw: "incandescent", value: "Incandescent" },
@@ -30,6 +31,7 @@ const entry: TuyaDeviceEntry = {
       },
       minimumBrightneessInPercent: {
         dataPoint: "3",
+        kind: "number",
         unit: "%",
         min: 10,
         max: 1000,
@@ -37,14 +39,22 @@ const entry: TuyaDeviceEntry = {
       },
       maximumBrightnessInPercent: {
         dataPoint: "5",
+        kind: "number",
         unit: "%",
         min: 10,
         max: 1000,
         scale: 10,
       },
-      timerInSeconds: { dataPoint: "6", unit: "s", min: 0, max: 86400 },
+      timerInSeconds: {
+        dataPoint: "6",
+        kind: "number",
+        unit: "s",
+        min: 0,
+        max: 86400,
+      },
       initialState: {
         dataPoint: "14",
+        kind: "select",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -53,6 +63,7 @@ const entry: TuyaDeviceEntry = {
       },
       lightMode: {
         dataPoint: "21",
+        kind: "select",
         values: [
           { raw: "none", value: "off" },
           { raw: "relay", value: "state" },

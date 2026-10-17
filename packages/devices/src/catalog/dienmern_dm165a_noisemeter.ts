@@ -16,13 +16,27 @@ const entry: TuyaDeviceEntry = {
     device: {
       soundPressureInDba: {
         dataPoint: "2",
+        kind: "sensor",
+        measures: "soundPressure",
         readOnly: true,
         unit: "dBA",
         scale: 10,
       },
-      alarm: { dataPoint: "13" },
-      temperatureInC: { dataPoint: "18", readOnly: true, unit: "C" },
-      humidityInPercent: { dataPoint: "19", readOnly: true, unit: "%" },
+      alarm: { dataPoint: "13", kind: "switch" },
+      temperatureInC: {
+        dataPoint: "18",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
+      humidityInPercent: {
+        dataPoint: "19",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
     },
   },
   source: {

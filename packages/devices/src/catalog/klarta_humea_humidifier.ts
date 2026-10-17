@@ -20,9 +20,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "10" },
+      on: { dataPoint: "10", kind: "switch" },
       mode: {
         dataPoint: "104",
+        kind: "select",
         values: [
           { raw: true, value: "auto" },
           { raw: false, value: "normal" },
@@ -30,6 +31,8 @@ const entry: TuyaDeviceEntry = {
       },
       targetHumidityInPercent: {
         dataPoint: "105",
+        kind: "select",
+        measures: "humidity",
         unit: "%",
         values: [
           { raw: "0", value: 35 },
@@ -43,10 +46,17 @@ const entry: TuyaDeviceEntry = {
           { raw: "8", value: 75 },
         ],
       },
-      currentHumidityInPercent: { dataPoint: "109", readOnly: true, unit: "%" },
-      sleep: { dataPoint: "103" },
+      currentHumidityInPercent: {
+        dataPoint: "109",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      sleep: { dataPoint: "103", kind: "switch" },
       sprayLevel: {
         dataPoint: "106",
+        kind: "number",
         min: 1,
         max: 4,
         values: [
@@ -56,10 +66,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "4", value: 4 },
         ],
       },
-      waterLevel: { dataPoint: "101", readOnly: true },
-      filterLife: { dataPoint: "107", readOnly: true },
+      waterLevel: { dataPoint: "101", kind: "sensor", readOnly: true },
+      filterLife: { dataPoint: "107", kind: "sensor", readOnly: true },
       timer: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -80,6 +91,7 @@ const entry: TuyaDeviceEntry = {
     nightlight: {
       brightness: {
         dataPoint: "102",
+        kind: "select",
         values: [
           { raw: "cancel", value: 0 },
           { raw: "1", value: 50 },

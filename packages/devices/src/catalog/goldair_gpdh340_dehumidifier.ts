@@ -22,9 +22,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "2", value: "normal", readOnly: true },
           { raw: "4", value: "sleep" },
@@ -35,23 +36,40 @@ const entry: TuyaDeviceEntry = {
       },
       targetHumidityInPercent: {
         dataPoint: "4",
+        kind: "number",
+        measures: "humidity",
         unit: "%",
         min: 35,
         max: 80,
         step: 5,
       },
-      currentHumidityInPercent: { dataPoint: "104", readOnly: true, unit: "%" },
-      modelCode: { dataPoint: "105" },
-      childLock: { dataPoint: "106" },
-      temperatureInC: { dataPoint: "103", readOnly: true, unit: "C" },
+      currentHumidityInPercent: {
+        dataPoint: "104",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
+      modelCode: { dataPoint: "105", kind: "number" },
+      childLock: { dataPoint: "106", kind: "switch" },
+      temperatureInC: {
+        dataPoint: "103",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       tankFull: {
         dataPoint: "11",
+        kind: "sensor",
         readOnly: true,
         values: [{ raw: 16, value: true }],
         otherwise: false,
       },
       fault: {
         dataPoint: "11",
+        kind: "sensor",
+        measures: "problem",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -59,14 +77,20 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", readOnly: true },
-      filterCleanRequired: { dataPoint: "108", readOnly: true },
-      liftPump: { dataPoint: "109" },
+      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      filterCleanRequired: {
+        dataPoint: "108",
+        kind: "sensor",
+        measures: "problem",
+        readOnly: true,
+      },
+      liftPump: { dataPoint: "109", kind: "switch" },
     },
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       speed: {
         dataPoint: "6",
+        kind: "select",
         values: [
           { raw: "1", value: 33 },
           { raw: "2", value: 67 },
@@ -74,7 +98,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    display: { on: { dataPoint: "107" } },
+    display: { on: { dataPoint: "107", kind: "switch" } },
   },
   source: {
     file: "goldair_gpdh340_dehumidifier.yaml",

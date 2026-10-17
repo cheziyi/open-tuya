@@ -13,10 +13,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1" },
-      start: { dataPoint: "2" },
+      on: { dataPoint: "1", kind: "switch" },
+      start: { dataPoint: "2", kind: "button" },
       pause: {
         dataPoint: "2",
+        kind: "button",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -24,6 +25,7 @@ const entry: TuyaDeviceEntry = {
       },
       washingMode: {
         dataPoint: "6",
+        kind: "select",
         values: [
           { raw: "biaozhun", value: "standard" },
           { raw: "chaokuai", value: "rapid" },

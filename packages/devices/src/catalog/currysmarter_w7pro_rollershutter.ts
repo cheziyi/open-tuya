@@ -27,6 +27,7 @@ const entry: TuyaDeviceEntry = {
     cover: {
       command: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: "open", value: "open" },
           { raw: "stop", value: "stop" },
@@ -35,20 +36,39 @@ const entry: TuyaDeviceEntry = {
       },
       targetPositionInPercent: {
         dataPoint: "2",
+        kind: "number",
         unit: "%",
         min: 0,
         max: 100,
         invert: true,
       },
-      batteryInPercent: { dataPoint: "15", readOnly: true, unit: "%" },
-      illuminanceInLux: { dataPoint: "101", readOnly: true, unit: "lx" },
-      rainDetected: { dataPoint: "131", readOnly: true },
-      childLockSwitch: { dataPoint: "105" },
-      lightSensorAutomation: { dataPoint: "132" },
-      rainSensorAutomation: { dataPoint: "133" },
-      rainNotification: { dataPoint: "104" },
+      batteryInPercent: {
+        dataPoint: "15",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      illuminanceInLux: {
+        dataPoint: "101",
+        kind: "sensor",
+        measures: "illuminance",
+        readOnly: true,
+        unit: "lx",
+      },
+      rainDetected: {
+        dataPoint: "131",
+        kind: "sensor",
+        measures: "moisture",
+        readOnly: true,
+      },
+      childLockSwitch: { dataPoint: "105", kind: "switch" },
+      lightSensorAutomation: { dataPoint: "132", kind: "switch" },
+      rainSensorAutomation: { dataPoint: "133", kind: "switch" },
+      rainNotification: { dataPoint: "104", kind: "switch" },
       calibration: {
         dataPoint: "3",
+        kind: "select",
         values: [
           { raw: "start", value: "Start" },
           { raw: "end", value: "Done" },
@@ -57,19 +77,21 @@ const entry: TuyaDeviceEntry = {
       },
       lightSensorPairing: {
         dataPoint: "127",
+        kind: "select",
         values: [
           { raw: "start", value: "Start" },
           { raw: "end", value: "Done" },
           { raw: "pause", value: "Cancel" },
         ],
       },
-      resetCalibration: { dataPoint: "102" },
-      syncCalibrationData: { dataPoint: "129" },
+      resetCalibration: { dataPoint: "102", kind: "button" },
+      syncCalibrationData: { dataPoint: "129", kind: "button" },
     },
-    indicator: { on: { dataPoint: "128" } },
+    indicator: { on: { dataPoint: "128", kind: "switch" } },
     backlight: {
       brightness: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "max_light", value: 255 },
           { raw: "micro_light", value: 128 },

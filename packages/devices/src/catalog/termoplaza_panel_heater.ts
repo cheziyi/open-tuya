@@ -25,15 +25,30 @@ const entry: TuyaDeviceEntry = {
     climate: {
       hvacMode: {
         dataPoint: "1",
+        kind: "select",
         values: [
           { raw: true, value: "heat" },
           { raw: false, value: "off" },
         ],
       },
-      targetTemperatureInC: { dataPoint: "2", unit: "C", min: 5, max: 30 },
-      currentTemperatureInC: { dataPoint: "3", readOnly: true, unit: "C" },
+      targetTemperatureInC: {
+        dataPoint: "2",
+        kind: "number",
+        measures: "temperature",
+        unit: "C",
+        min: 5,
+        max: 30,
+      },
+      currentTemperatureInC: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       preset: {
         dataPoint: "4",
+        kind: "select",
         values: [
           { raw: "ECO", value: "eco" },
           { raw: "Comfort", value: "comfort" },
@@ -41,9 +56,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "Off", value: "none" },
         ],
       },
-      childLock: { dataPoint: "7" },
+      childLock: { dataPoint: "7", kind: "switch" },
       surfaceStatus: {
         dataPoint: "11",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: "heating", value: "heating" },
@@ -51,9 +67,15 @@ const entry: TuyaDeviceEntry = {
           { raw: "cold", value: "cold" },
         ],
       },
-      dutyCycleInPercent: { dataPoint: "12", readOnly: true, unit: "%" },
+      dutyCycleInPercent: {
+        dataPoint: "12",
+        kind: "sensor",
+        readOnly: true,
+        unit: "%",
+      },
       turboModeTimer: {
         dataPoint: "19",
+        kind: "select",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "2h" },
@@ -70,9 +92,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "12", value: "24h" },
         ],
       },
-      programMode: { dataPoint: "110" },
+      programMode: { dataPoint: "110", kind: "switch" },
       brightnessLevel: {
         dataPoint: "112",
+        kind: "select",
         values: [
           { raw: 0, value: "Low" },
           { raw: 1, value: "Average" },
@@ -83,18 +106,22 @@ const entry: TuyaDeviceEntry = {
       },
       maximumSurfaceTemperatureInC: {
         dataPoint: "113",
+        kind: "number",
+        measures: "temperature",
         unit: "C",
         min: 45,
         max: 95,
       },
       surfaceTemperatureInC: {
         dataPoint: "114",
+        kind: "sensor",
+        measures: "temperature",
         readOnly: true,
         unit: "C",
         min: -10,
         max: 110,
       },
-      factoryReset: { dataPoint: "115" },
+      factoryReset: { dataPoint: "115", kind: "button" },
     },
   },
   source: {

@@ -22,12 +22,18 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      relay: { dataPoint: "1" },
-      relayRdTest: { dataPoint: "107" },
-      motion: { dataPoint: "101", readOnly: true },
-      factoryReset: { dataPoint: "102" },
+      relay: { dataPoint: "1", kind: "switch" },
+      relayRdTest: { dataPoint: "107", kind: "number" },
+      motion: {
+        dataPoint: "101",
+        kind: "sensor",
+        measures: "motion",
+        readOnly: true,
+      },
+      factoryReset: { dataPoint: "102", kind: "button" },
       function: {
         dataPoint: "103",
+        kind: "select",
         values: [
           { raw: "Auto", value: "Auto" },
           { raw: "SemiAuto", value: "Semi-auto" },
@@ -36,6 +42,8 @@ const entry: TuyaDeviceEntry = {
       },
       durationInSeconds: {
         dataPoint: "104",
+        kind: "number",
+        measures: "duration",
         unit: "s",
         min: 30,
         max: 1800,
@@ -43,6 +51,8 @@ const entry: TuyaDeviceEntry = {
       },
       illuminanceInLux: {
         dataPoint: "105",
+        kind: "number",
+        measures: "illuminance",
         unit: "lx",
         min: 5,
         max: 2000,
@@ -50,6 +60,7 @@ const entry: TuyaDeviceEntry = {
       },
       sensitivity: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "Level1", value: "25%" },
           { raw: "Level2", value: "50%" },
@@ -57,11 +68,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "Level4", value: "100%" },
         ],
       },
-      learnLightLevel: { dataPoint: "109" },
-      ignoreLightLevel: { dataPoint: "110" },
-      temporaryDisable: { dataPoint: "117" },
+      learnLightLevel: { dataPoint: "109", kind: "switch" },
+      ignoreLightLevel: { dataPoint: "110", kind: "switch" },
+      temporaryDisable: { dataPoint: "117", kind: "switch" },
     },
-    indicator: { on: { dataPoint: "108" } },
+    indicator: { on: { dataPoint: "108", kind: "switch" } },
   },
   source: {
     file: "timeguard_wfpir.yaml",

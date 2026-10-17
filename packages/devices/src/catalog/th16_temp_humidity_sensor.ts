@@ -14,17 +14,31 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      temperatureInC: { dataPoint: "1", readOnly: true, unit: "C", scale: 10 },
-      humidityInPercent: { dataPoint: "2", readOnly: true, unit: "%" },
+      temperatureInC: {
+        dataPoint: "1",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+        scale: 10,
+      },
+      humidityInPercent: {
+        dataPoint: "2",
+        kind: "sensor",
+        measures: "humidity",
+        readOnly: true,
+        unit: "%",
+      },
       temperatureUnit: {
         dataPoint: "9",
+        kind: "select",
         values: [
           { raw: "f", value: "fahrenheit" },
           { raw: "c", value: "celsius" },
         ],
       },
     },
-    display: { on: { dataPoint: "21" } },
+    display: { on: { dataPoint: "21", kind: "switch" } },
   },
   source: {
     file: "th16_temp_humidity_sensor.yaml",

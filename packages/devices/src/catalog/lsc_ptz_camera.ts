@@ -40,15 +40,21 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      cameraRecord: { dataPoint: "150" },
-      motion: { dataPoint: "115", readOnly: true, otherwise: "detected" },
-      motionSnapshot: { dataPoint: "115", readOnly: true },
-      motionDetection: { dataPoint: "134" },
-      cameraPrivacy: { dataPoint: "105" },
-      flipImage: { dataPoint: "103" },
-      watermark: { dataPoint: "104", absent: false },
+      cameraRecord: { dataPoint: "150", kind: "switch" },
+      motion: {
+        dataPoint: "115",
+        kind: "event",
+        readOnly: true,
+        otherwise: "detected",
+      },
+      motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
+      motionDetection: { dataPoint: "134", kind: "switch" },
+      cameraPrivacy: { dataPoint: "105", kind: "switch" },
+      flipImage: { dataPoint: "103", kind: "switch" },
+      watermark: { dataPoint: "104", kind: "switch", absent: false },
       motionSensitivity: {
         dataPoint: "106",
+        kind: "select",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
@@ -57,6 +63,7 @@ const entry: TuyaDeviceEntry = {
       },
       nightVision: {
         dataPoint: "108",
+        kind: "select",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -65,6 +72,7 @@ const entry: TuyaDeviceEntry = {
       },
       sdStatus: {
         dataPoint: "110",
+        kind: "sensor",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -75,10 +83,15 @@ const entry: TuyaDeviceEntry = {
         ],
         absent: "normal",
       },
-      sdStatusMemoryCardCapacity: { dataPoint: "109", readOnly: true },
-      formatSdCard: { dataPoint: "111" },
+      sdStatusMemoryCardCapacity: {
+        dataPoint: "109",
+        kind: "sensor",
+        readOnly: true,
+      },
+      formatSdCard: { dataPoint: "111", kind: "button" },
       formatSdCardSdFormatStatus: {
         dataPoint: "117",
+        kind: "select",
         values: [
           { raw: 2000, value: "Formatting" },
           { raw: 2001, value: "Format error" },
@@ -86,51 +99,60 @@ const entry: TuyaDeviceEntry = {
           { raw: 2003, value: "Card error" },
         ],
       },
-      ptzStop: { dataPoint: "116" },
+      ptzStop: { dataPoint: "116", kind: "button" },
       ptzUp: {
         dataPoint: "119",
+        kind: "button",
         values: [{ raw: "0", value: true }],
         otherwise: false,
       },
       ptzRightUp: {
         dataPoint: "119",
+        kind: "button",
         values: [{ raw: "1", value: true }],
         otherwise: false,
       },
       ptzRight: {
         dataPoint: "119",
+        kind: "button",
         values: [{ raw: "2", value: true }],
         otherwise: false,
       },
       ptzRightDown: {
         dataPoint: "119",
+        kind: "button",
         values: [{ raw: "3", value: true }],
         otherwise: false,
       },
       ptzDown: {
         dataPoint: "119",
+        kind: "button",
         values: [{ raw: "4", value: true }],
         otherwise: false,
       },
       ptzLeftDown: {
         dataPoint: "119",
+        kind: "button",
         values: [{ raw: "5", value: true }],
         otherwise: false,
       },
       ptzLeft: {
         dataPoint: "119",
+        kind: "button",
         values: [{ raw: "6", value: true }],
         otherwise: false,
       },
       ptzLeftUp: {
         dataPoint: "119",
+        kind: "button",
         values: [{ raw: "7", value: true }],
         otherwise: false,
       },
-      ptzCalibration: { dataPoint: "132", absent: false },
-      soundDetection: { dataPoint: "139", absent: false },
+      ptzCalibration: { dataPoint: "132", kind: "switch", absent: false },
+      soundDetection: { dataPoint: "139", kind: "switch", absent: false },
       soundSensitivity: {
         dataPoint: "140",
+        kind: "select",
         values: [
           { raw: "0", value: "Low" },
           { raw: "1", value: "High" },
@@ -138,25 +160,27 @@ const entry: TuyaDeviceEntry = {
       },
       recordingMode: {
         dataPoint: "151",
+        kind: "select",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
         ],
       },
-      alarm: { dataPoint: "159", absent: false },
-      alarmLogMessage: { dataPoint: "185" },
-      motionTracking: { dataPoint: "161" },
-      humanDetection: { dataPoint: "170" },
+      alarm: { dataPoint: "159", kind: "switch", absent: false },
+      alarmLogMessage: { dataPoint: "185", kind: "text" },
+      motionTracking: { dataPoint: "161", kind: "switch" },
+      humanDetection: { dataPoint: "170", kind: "switch" },
       antiFlicker: {
         dataPoint: "188",
+        kind: "select",
         values: [
           { raw: "0", value: "Off" },
           { raw: "1", value: "50Hz" },
           { raw: "2", value: "60Hz" },
         ],
       },
-      motionLimitArea: { dataPoint: "168" },
-      motionLimitArea2: { dataPoint: "169" },
+      motionLimitArea: { dataPoint: "168", kind: "switch" },
+      motionLimitArea2: { dataPoint: "169", kind: "text" },
     },
   },
   source: {

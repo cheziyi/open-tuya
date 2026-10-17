@@ -16,9 +16,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1" },
+      on: { dataPoint: "1", kind: "switch" },
       mode: {
         dataPoint: "2",
+        kind: "select",
         values: [
           { raw: "nature", value: "nature" },
           { raw: "sleep", value: "sleep" },
@@ -27,10 +28,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "custom", value: "custom" },
         ],
       },
-      speed: { dataPoint: "3", min: 1, max: 6 },
-      direction: { dataPoint: "8" },
+      speed: { dataPoint: "3", kind: "number", min: 1, max: 6 },
+      direction: { dataPoint: "8", kind: "text" },
       timer: {
         dataPoint: "22",
+        kind: "select",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -44,7 +46,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    light: { on: { dataPoint: "15" } },
+    light: { on: { dataPoint: "15", kind: "switch" } },
   },
   source: {
     file: "cecotec_fan_light.yaml",

@@ -20,28 +20,49 @@ const entry: TuyaDeviceEntry = {
     "117": { type: "string", optional: true },
   },
   components: {
-    valve1: { open: { dataPoint: "105" } },
-    valve2: { open: { dataPoint: "104" } },
+    valve1: { open: { dataPoint: "105", kind: "switch" } },
+    valve2: { open: { dataPoint: "104", kind: "switch" } },
     device: {
-      batteryInPercent: { dataPoint: "11", readOnly: true, unit: "%" },
-      operation1: { dataPoint: "112", readOnly: true },
-      operation2: { dataPoint: "113", readOnly: true },
-      lastUseTime1InSeconds: { dataPoint: "111", readOnly: true, unit: "s" },
-      lastUseTime2InSeconds: { dataPoint: "110", readOnly: true, unit: "s" },
+      batteryInPercent: {
+        dataPoint: "11",
+        kind: "sensor",
+        measures: "battery",
+        readOnly: true,
+        unit: "%",
+      },
+      operation1: { dataPoint: "112", kind: "sensor", readOnly: true },
+      operation2: { dataPoint: "113", kind: "sensor", readOnly: true },
+      lastUseTime1InSeconds: {
+        dataPoint: "111",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "s",
+      },
+      lastUseTime2InSeconds: {
+        dataPoint: "110",
+        kind: "sensor",
+        measures: "duration",
+        readOnly: true,
+        unit: "s",
+      },
       irrigationTime1InMinutes: {
         dataPoint: "106",
+        kind: "number",
         unit: "min",
         min: 0,
         max: 1440,
       },
       irrigationTime2InMinutes: {
         dataPoint: "103",
+        kind: "number",
         unit: "min",
         min: 0,
         max: 1440,
       },
       weatherDelay1: {
         dataPoint: "117",
+        kind: "select",
         values: [
           { raw: "OFF", value: "Off" },
           { raw: "1", value: "1 day" },
@@ -55,6 +76,7 @@ const entry: TuyaDeviceEntry = {
       },
       weatherDelay2: {
         dataPoint: "114",
+        kind: "select",
         values: [
           { raw: "OFF", value: "Off" },
           { raw: "1", value: "1 day" },
