@@ -395,11 +395,12 @@ the reconnecting would have to land twice, and the two copies would drift.
 
 ## Cloud developer sources
 
-These count on the wire for `@open-tuya/cloud-developer`: tinytuya,
-tuya/tuya-connector-nodejs, tuya/tuya-homebridge, tuya/tuya-iot-python-sdk,
+Tuya's own projects decide where sources disagree:
+tuya/tuya-connector-nodejs, tuya/tuya-connector, tuya/tuya-homebridge,
+tuya/tuya-iot-python-sdk and tuya/tuya-openclaw-skills. tinytuya,
 adrianjagielak/homebridge-tuya-plus, and xZetsubou/hass-localtuya for what it
-added. Captured requests and responses in issues settle what they leave open.
-These count for nothing:
+added, count after them. Captured requests and responses settle what they
+leave open. These count for nothing:
 
 | Source | Why |
 | --- | --- |
@@ -417,12 +418,11 @@ and the SDK's own code instead, as the captured secrets are other people's.
 
 | Question | Chosen | For | Against |
 | --- | --- | --- | --- |
-| A GET's body hash | The SHA-256 of nothing, with no body sent: the cloud hashes the bytes it receives | tinytuya [`9bb3656`](https://github.com/jasonacox/tinytuya/commit/9bb3656e6421f28b785bc5bd967d1fbf3391338b), tuya-homebridge [`95487cf`](https://github.com/tuya/tuya-homebridge/commit/95487cfbc51b8df682c96750bb26b3f4e1675f1c), the SDK [`b3243bf`](https://github.com/tuya/tuya-iot-python-sdk/commit/b3243bf51822307b3cc93b14c2c18eae36d8585b); the captures | The connector [`9d42acb`](https://github.com/tuya/tuya-connector-nodejs/commit/9d42acb88625df663b140639298dce6f00241db4) hashes and sends `{}` |
-| A nonce | None | tinytuya, the connector, the SDK; the captures | tuya-homebridge [`95487cf`](https://github.com/tuya/tuya-homebridge/commit/95487cfbc51b8df682c96750bb26b3f4e1675f1c) signs one UUID for the life of the process |
-| Signed headers | None | The connector, the SDK | tinytuya signs `Content-type` on a POST; tuya-homebridge signs `client_id` |
-| The query in the signature | Its keys sorted, its values unencoded | tinytuya [`8393e6c`](https://github.com/jasonacox/tinytuya/commit/8393e6c71446feb92c4df77f7bd11af0ed1ab777), the connector [`05c611c`](https://github.com/tuya/tuya-connector-nodejs/commit/05c611c4f38c89e1a6f9b38a560028162d783540), the SDK | tuya-homebridge signs it as written |
-| A token's renewal | A new `grant_type=1` token a minute before the last expires, and once on 1010 | tinytuya [`4e553ee`](https://github.com/jasonacox/tinytuya/commit/4e553eedaa279403278f0b402d2efbc9ece5a7a0), hass-localtuya, the connector's fallback | The connector [`e619df6`](https://github.com/tuya/tuya-connector-nodejs/commit/e619df60109ac4f06e9b44de7fa15bf4d1b24690) and the SDK refresh with `/v1.0/token/{refresh_token}` first |
-| A pushed message's additional data | `t` as decimal text, and the tag checked | The SDK [`f97d9ea`](https://github.com/tuya/tuya-iot-python-sdk/commit/f97d9ea73226efcac36eebf74b080c4d4738518e), the one source that checks the tag, on which Home Assistant ran for years | tuya-homebridge [`b530a71`](https://github.com/tuya/tuya-homebridge/commit/b530a71ae78afc9672c2ce42345749d38605f31c) writes `t` as 6 bytes and never checks the tag; homebridge-tuya-plus checks none |
+| A GET's body hash | The SHA-256 of nothing, with no body sent, two of Tuya's three against one. The cloud hashes the bytes it receives | tuya-homebridge [`95487cf`](https://github.com/tuya/tuya-homebridge/commit/95487cfbc51b8df682c96750bb26b3f4e1675f1c), the SDK [`b3243bf`](https://github.com/tuya/tuya-iot-python-sdk/commit/b3243bf51822307b3cc93b14c2c18eae36d8585b); tinytuya [`9bb3656`](https://github.com/jasonacox/tinytuya/commit/9bb3656e6421f28b785bc5bd967d1fbf3391338b); the captures | The connector [`9d42acb`](https://github.com/tuya/tuya-connector-nodejs/commit/9d42acb88625df663b140639298dce6f00241db4) hashes and sends `{}` |
+| A nonce | None, two of Tuya's three against one | The connector, the SDK; tinytuya; the captures | tuya-homebridge [`95487cf`](https://github.com/tuya/tuya-homebridge/commit/95487cfbc51b8df682c96750bb26b3f4e1675f1c) signs one UUID for the life of the process |
+| Signed headers | None, two of Tuya's three against one | The connector, the SDK | tuya-homebridge signs `client_id`; tinytuya signs `Content-type` on a POST |
+| The query in the signature | Its keys sorted, its values unencoded, two of Tuya's three against one | The connector [`05c611c`](https://github.com/tuya/tuya-connector-nodejs/commit/05c611c4f38c89e1a6f9b38a560028162d783540), the SDK; tinytuya [`8393e6c`](https://github.com/jasonacox/tinytuya/commit/8393e6c71446feb92c4df77f7bd11af0ed1ab777) | tuya-homebridge signs it as written |
+| A pushed message's additional data | `t` as decimal text, and the tag checked. Tuya's two projects split; a client that checked tuya-homebridge's form dropped every real message, and dropped the check ([`fd6e195`](https://github.com/adrianjagielak/homebridge-tuya-plus/commit/fd6e195a1c4dda58b95c4a0673722ebed5449b10)) | The SDK [`f97d9ea`](https://github.com/tuya/tuya-iot-python-sdk/commit/f97d9ea73226efcac36eebf74b080c4d4738518e), which checks the tag, and on which Home Assistant ran for years | tuya-homebridge [`b530a71`](https://github.com/tuya/tuya-homebridge/commit/b530a71ae78afc9672c2ce42345749d38605f31c) writes `t` as 6 bytes and never checks the tag |
 
 ## Cloud developer requests
 
@@ -430,6 +430,7 @@ and the SDK's own code instead, as the captured secrets are other people's.
 | --- | --- |
 | The caller names the data center, by tinytuya's code | A project reaches only the accounts in its own, and no request tells which that is |
 | No session to persist | A project takes a token from its credentials whenever it needs one |
+| A new `grant_type=1` token a minute before the last expires, and once on 1010, never `/v1.0/token/{refresh_token}` | Both requests are Tuya's: the connector refreshes on 1010 and takes a new token when that fails ([`e619df6`](https://github.com/tuya/tuya-connector-nodejs/commit/e619df60109ac4f06e9b44de7fa15bf4d1b24690)), signing the refresh the old way. Taking a new token at once skips that request, as tinytuya does ([`4e553ee`](https://github.com/jasonacox/tinytuya/commit/4e553eedaa279403278f0b402d2efbc9ece5a7a0)) |
 | `listDevices()` lists every linked account's devices; `viaDeviceId` lists one account's | Some projects are refused the first with 1106, and tinytuya then lists through a known device ([tinytuya#330](https://github.com/jasonacox/tinytuya/issues/330)) |
 | 1106, 1114, 2007 and the 2884 codes reject with `PERMISSION_DENIED` | The caller's fix for each is on the platform: renew the trial, authorize the API, or pick the data center |
 | 1010 takes a new token and sends once more; a wrong secret rejects with `REQUEST_REJECTED` | A token lapses; a secret does not mend itself |
@@ -443,8 +444,8 @@ thing model, which keys them by ID with the device's own values, as
 
 | Choice | Why |
 | --- | --- |
-| Read `/v2.0/cloud/thing/{id}/shadow/properties` | It carries each `dp_id` and the device's own value, as captured in [tinytuya#391](https://github.com/jasonacox/tinytuya/issues/391) and [hass-localtuya#782](https://github.com/xZetsubou/hass-localtuya/issues/782#issuecomment-3958114610) |
-| Write `/v2.0/cloud/thing/{id}/shadow/properties/issue`, by the thing model's code | It addresses the same properties the shadow reads |
+| Read `/v2.0/cloud/thing/{id}/shadow/properties` | It carries each `dp_id` and the device's own value ([`25424c5`](https://github.com/tuya/tuya-connector/commit/25424c594135e8c5f4c684a0b7cce8fc7b4fcca6)), as captured in [tinytuya#391](https://github.com/jasonacox/tinytuya/issues/391) and [hass-localtuya#782](https://github.com/xZetsubou/hass-localtuya/issues/782#issuecomment-3958114610) |
+| Write `/v2.0/cloud/thing/{id}/shadow/properties/issue`, by the thing model's code | It addresses the properties the shadow reads, in the thing model's own terms: an integer before its scale ([`79292c5`](https://github.com/tuya/tuya-openclaw-skills/commit/79292c594cfba383555b4f465e835132136f0ea6)), as the device holds it |
 | Map an ID to its code through `/v2.0/cloud/thing/{id}/model`, once per client | The model lists every property, where the shadow lists those with a value |
 | Push hands on the value under each data point's ID, never `value` | `value` holds the cloud's converted value, such as `{"h":23,…}` where the device sent `001703de0017` ([tuya-home-assistant#591](https://github.com/tuya/tuya-home-assistant/issues/591)) |
 

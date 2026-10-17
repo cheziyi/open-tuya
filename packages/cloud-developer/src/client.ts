@@ -22,12 +22,19 @@ export interface DeveloperCloudTransport {
 
 // Source: The thing shadow holds each data point's ID beside its code, with
 // the device's own value, in
+// https://github.com/tuya/tuya-connector/commit/25424c594135e8c5f4c684a0b7cce8fc7b4fcca6,
 // https://github.com/adrianjagielak/homebridge-tuya-plus/commit/d7bb418646dfda361e67a61cbc76debacb0a8b10
 // and https://github.com/xZetsubou/hass-localtuya/commit/17a99789947de7fe44ca593b6d424863ef2c8f44,
 // and as captured in https://github.com/jasonacox/tinytuya/issues/391 and
 // https://github.com/xZetsubou/hass-localtuya/issues/782#issuecomment-3958114610.
-// Source: Properties are issued by code, as the JSON text of an object, in
-// https://github.com/adrianjagielak/homebridge-tuya-plus/commit/1579a219964751ed40629074b7c7e0067eeac6f2.
+// Source: Properties are issued to /shadow/properties/issue by the thing
+// model's code, as the JSON text of an object, in
+// https://github.com/tuya/tuya-connector/commit/25424c594135e8c5f4c684a0b7cce8fc7b4fcca6,
+// https://github.com/tuya/tuya-openclaw-skills/commit/016cb18098bb5302e24a9a33c1bcb665445eda7c
+// and https://github.com/adrianjagielak/homebridge-tuya-plus/commit/1579a219964751ed40629074b7c7e0067eeac6f2.
+// Source: An issued value is in the thing model's own terms, an integer
+// before its scale, in
+// https://github.com/tuya/tuya-openclaw-skills/commit/79292c594cfba383555b4f465e835132136f0ea6.
 /** A device reached through the Tuya developer platform. Create one with
  * `DeveloperCloudAccount.createClient`. It reads and writes the device's data
  * points through its thing model, by ID with the device's own values, and

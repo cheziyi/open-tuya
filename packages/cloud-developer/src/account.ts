@@ -194,7 +194,8 @@ export class DeveloperCloudAccount implements TuyaCloudAccount {
 
   // Source: A device's thing model names each data point's ID as `abilityId`
   // beside its code, as JSON text in `model`, in
-  // https://github.com/xZetsubou/hass-localtuya/commit/2f733ce0dd99076b4936a7ce08642bca87ad4a93,
+  // https://github.com/tuya/tuya-connector/commit/25424c594135e8c5f4c684a0b7cce8fc7b4fcca6
+  // and https://github.com/xZetsubou/hass-localtuya/commit/2f733ce0dd99076b4936a7ce08642bca87ad4a93,
   // and as captured in https://github.com/jasonacox/tinytuya/issues/537.
   /** Fetches the device's thing model, and resolves with a client for it. */
   async createClient(deviceId: string): Promise<DeveloperCloudTuyaClient> {

@@ -50,11 +50,14 @@ field name, the order of messages, a limit a device enforces.
   entry's sources.
 - **Build only the protocol facts a source shows.** List anything no source
   pins down in `UNSUPPORTED.md` with what is unknown; never ship a guess.
-- **Where sources disagree on a protocol fact, take what most of them agree
-  on.** A fork counts
-  only for code it changed, and a project that copies another adds nothing. On
-  a tie, take the most recent change. Record the choice and the sources on each
-  side in `DESIGN.md`.
+- **Where sources disagree on a protocol fact, follow Tuya's own projects,
+  and failing those, what most sources agree on.** A project by Tuya, such as
+  its SDKs, connectors, firmware and documentation, outweighs any count of
+  others. Where Tuya's projects disagree among themselves, count them alone,
+  and let a capture settle a tie. Among the others, a fork counts only for code
+  it changed, a project that copies another adds nothing, and a tie goes to the
+  most recent change. Record the choice and the sources on each side in
+  `DESIGN.md`.
 - **Adapt code only from a source the README lists as MIT.** Add its copyright
   line to the source's row in [README.md](README.md#credits). From any other
   source take only facts: byte layouts, constants, command numbers and message
