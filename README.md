@@ -33,6 +33,37 @@ Install `open-tuya` unless you need only one part of it.
 
 [DESIGN.md](DESIGN.md#packages) says why it is split this way.
 
+## Signing in to the Smart Life cloud
+
+Pass Home Assistant's client ID and schema: they are the only pair known to
+work, so `@open-tuya/cloud-app` signs in as Home Assistant does.
+
+```ts
+import { createCloudAppAccount, createQrLogin } from "@open-tuya/cloud-app";
+
+const clientId = "HA_3y9q4ak7g4ephrvke";
+const login = createQrLogin({
+  clientId,
+  schema: "haauthorize",
+  userCode, // Smart Life app > Settings > Account and Security > User Code
+});
+const qrCode = await login.requestQrCode(); // show it as a QR code
+const session = await login.waitForScan(qrCode);
+
+const account = createCloudAppAccount({
+  clientId,
+  session,
+  onSessionChange: save, // persist each one: its refresh token works once
+});
+const devices = await account.listDevices(); // deviceId, localKey, productKey
+await using client = await account.createClient(devices[0].deviceId);
+```
+
+The client keys data points by ID, as the LAN does, and reads and writes only
+those the cloud passes through unchanged:
+[DESIGN.md](DESIGN.md#cloud-app-data-points) says why. The cloud gives no
+LAN address or protocol version: take those from `discoverDevices`.
+
 ## Development
 
 Requires Node 22.19 or later and pnpm.
@@ -68,7 +99,7 @@ engineering.
 | [tuya/tuya-connector-nodejs](https://github.com/tuya/tuya-connector-nodejs) | MIT, in `package.json` only | Developer platform API, by Tuya |
 | [tuya/tuya-homebridge](https://github.com/tuya/tuya-homebridge) | MIT | Developer platform API and its pushed device updates, Homebridge, by Tuya |
 | [TuyaAPI/cli](https://github.com/TuyaAPI/cli) | MIT | Fetching local keys from the developer platform API |
-| [tuya/tuya-device-sharing-sdk](https://github.com/tuya/tuya-device-sharing-sdk) | MIT | Smart Life app QR login and its pushed device updates, by Tuya |
+| [tuya/tuya-device-sharing-sdk](https://github.com/tuya/tuya-device-sharing-sdk) | MIT, Copyright (c) 2023 Tuya | Smart Life app QR login and its pushed device updates, by Tuya |
 | [make-all/tuya-local](https://github.com/make-all/tuya-local) | MIT | Device catalog, Home Assistant; its local protocol is tinytuya's and its QR login tuya-device-sharing-sdk's |
 | [home-assistant-libs/tuya-device-handlers](https://github.com/home-assistant-libs/tuya-device-handlers) | MIT | Fixes to the data points of misbehaving devices, by product |
 | [home-assistant/core `components/tuya`](https://github.com/home-assistant/core/tree/dev/homeassistant/components/tuya) | Apache-2.0 | Standard data point codes by device category, Home Assistant |

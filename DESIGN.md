@@ -298,3 +298,78 @@ What `discoverDevices` does with what it receives is its own design:
 | A port that cannot be bound rejects with `DISCOVERY_FAILED`, and is not retried | Another program holds it without sharing it. Whether to wait for it is the caller's decision |
 | An error after the ports are bound, and a failed send, are ignored | A UDP socket has no connection to lose: an error costs one datagram, and a send to an interface that went away fails alone |
 | `TuyaDiscovery` takes its two sockets and the function that lists where requests go | A test binds loopback sockets, so no request leaves the machine and no device on the LAN answers one |
+
+## Cloud app sources
+
+Every protocol fact in `@open-tuya/cloud-app` comes from
+[tuya-device-sharing-sdk](https://github.com/tuya/tuya-device-sharing-sdk),
+Tuya's own client for this API, or from responses captured in issues. These
+count for nothing on the wire:
+
+| Source | Why |
+| --- | --- |
+| home-assistant/core `components/tuya` | Calls the SDK, and adds only its client ID, schema and QR text |
+| make-all/tuya-local | Its login is Home Assistant's, copied in [`8896547`](https://github.com/make-all/tuya-local/commit/8896547f6af5ea6f3252256e0dc94cc4e54aa983), and it calls the SDK |
+
+## Cloud app requests
+
+What `@open-tuya/cloud-app` does with each request is its own design.
+
+| Choice | Why |
+| --- | --- |
+| A nonce of 12 characters drawn by `node:crypto` from the SDK's alphabet | AES-GCM must never take a nonce twice under one key, and the cloud reads the nonce from the payload. The SDK draws from Python's `random`, which is not built for keys; its alphabet is kept, as no source shows the cloud taking other bytes |
+| The response's `sign` is ignored | The GCM tag already proves the result came under the request's key, and no source shows how `sign` is computed |
+| 10 s for an answer, and no retry but the one below | The SDK's 60 s would hold a write for a minute. Whether to retry is the caller's decision |
+| A token is refreshed a minute before it expires, measured on the local clock from when it arrived | The SDK measures from the cloud's clock against the local one, so clock skew moves its refresh |
+| One refresh at a time, and a request refused after another one refreshed is sent again without refreshing | The refresh token works once: a second refresh in flight would spend one the first already spent |
+| "sign invalid" or code 1010 refreshes once and sends again, then rejects with `SESSION_EXPIRED` | The cloud also answers "sign invalid" after a rate limit ([core#178266](https://github.com/home-assistant/core/issues/178266#issuecomment-5200735391)) and after a network fault ([core#178338](https://github.com/home-assistant/core/issues/178338)), not only for a dead session |
+| No filter on repeated commands | The SDK drops a command repeated within 10 s without saying so, which a caller would read as a write that worked |
+| `listDevices` lists one home's devices at a time | Users hit the cloud's rate limit ([core#178281](https://github.com/home-assistant/core/issues/178281#issuecomment-5201857057)) |
+
+## Cloud app login
+
+| Choice | Why |
+| --- | --- |
+| `clientId` and `schema` are required options | The only pair known to work is Home Assistant's, so a caller who passes it chooses to sign in as Home Assistant |
+| `requestQrCode` and `waitForScan` are separate calls on one `QrLogin` | After `QR_CODE_EXPIRED` the caller requests a new QR code with the same login |
+| `waitForScan` polls every 2 s until it succeeds, until `E0020002`, or until the signal aborts | Home Assistant and tuya-local check once when the user clicks, so no source shows what the cloud answers before the scan: every other answer has to mean "not yet". A scan is noticed within 2 s |
+| `CloudAppSession` holds the endpoint, the tokens and the expiry alone | Nothing built needs the user ID or the terminal ID; logging out, which takes the terminal ID, is not built |
+
+## Cloud app data points
+
+`AppCloudTuyaClient` keys data points by ID with the device's own values, as
+[Client](#client) decides. The cloud reads and writes them by code, and maps a
+code to an ID through `dpStatusRelationDTOS`, each relation naming the
+conversion the cloud applies to the device's value.
+
+Chosen: a data point maps when its conversion is `"default"`, which hands the
+value through unchanged, on a device whose every relation supports local and
+which is not of a custom type. Any other data point is left out of a read, and
+a write to it rejects with `UNMAPPED_DATA_POINT`. A push carries the device's
+own values by ID, so it carries every data point.
+
+- Rejected: keying the cloud client by code. A caller could not switch
+  between the LAN and the cloud.
+- Rejected: converting back what the other strategies convert. Each converts
+  the device's value to the cloud's alone, such as `hb_range_v1` mapping a
+  brightness of 25 to 255 onto 0 to 100, and tuya-local stopped trusting the
+  cloud's model for its enums ([`934171a`](https://github.com/make-all/tuya-local/commit/934171ac822f4be6672d14c7e01a8265ec8188ac)).
+  Inverting an `"enum"` mapping that is one-to-one could follow.
+
+| Question | Chosen | For | Against |
+| --- | --- | --- | --- |
+| Which field of a relation names the code a command takes | `statusCode`. No capture shows it differ from `dpCode` | The SDK [`ae5e3c4`](https://github.com/tuya/tuya-device-sharing-sdk/commit/ae5e3c4c67eaefffd1be79e39d9f411e43515d13) | tuya-local [`c0e9a87`](https://github.com/make-all/tuya-local/commit/c0e9a876451e9c300de163eeea8e4fa7846c29d6) names a data point by `dpCode`, and sends no command |
+
+## Cloud app push
+
+| Choice | Why |
+| --- | --- |
+| A client of MQTT 3.1.1 in `src/mqtt/`: CONNECT, SUBSCRIBE and UNSUBSCRIBE at QoS 0, PUBLISH received, PINGREQ and DISCONNECT | Push needs only that subset. npm `mqtt` 5 would bring 15 direct dependencies for it, and polling would spend the rate limit users hit |
+| `aedes` is a dev dependency of `@open-tuya/cloud-app` | An MQTT broker written by others parses the client's packets and writes its own, so a test fails on a bug in either side of the client's encoding |
+| One connection per account, opened when the first client subscribes and closed with the last | One set of credentials serves every device of the account |
+| A client subscribes when created | As `LocalTuyaClient` connects when created |
+| Credentials are renewed 60 s before they expire, the new connection opened before the old one closes | A client ID goes stale once renewed ([`6d400c4`](https://github.com/tuya/tuya-device-sharing-sdk/commit/6d400c48b9a123599bd1b96024665adf72447783)), and no push is lost in between |
+| After a loss, fresh credentials and a new connection 5 s later, doubling to 60 s; none after `SESSION_EXPIRED` or an error that is not a `TuyaError` | As `LocalTuyaClient`. Neither error clears by waiting |
+| A ping every 60 s, and the connection lost once one goes unanswered until the next | The keep-alive is 60 s, and an MQTT server drops a client silent for 90 s |
+| 10 s to open a connection | Long enough over TLS to a cloud host |
+| No read after a reconnect, unlike `LocalTuyaClient` | Each read costs a request under the cloud's rate limit |
