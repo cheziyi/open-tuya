@@ -33,11 +33,65 @@ Install `open-tuya` unless you need only one part of it.
 
 [DESIGN.md](DESIGN.md#packages) says why it is split this way.
 
+## Reaching a device
+
+Sign in to a cloud for the local keys, listen for the devices on the LAN, and
+pass the routes in the order to try them:
+
+```ts
+import { setTimeout } from "node:timers/promises";
+import { createTuyaClient, type DiscoveredTuyaDevice, discoverDevices } from "open-tuya";
+
+const found = new Map<string, DiscoveredTuyaDevice>();
+const discovery = await discoverDevices({
+  onDevice: (device) => found.set(device.deviceId, device),
+});
+const [device] = await account.listDevices(); // either cloud's account: see below
+await setTimeout(10_000); // a device broadcasts every few seconds
+await discovery.close();
+
+const lan = found.get(device.deviceId);
+await using client = await createTuyaClient({
+  deviceId: device.deviceId,
+  productKey: device.productKey,
+  routes: [
+    ...(lan && device.localKey
+      ? [{ lan: { host: lan.host, version: lan.version, localKey: device.localKey } }]
+      : []),
+    { cloud: account },
+  ],
+});
+await client.readControls(); // { device: { on: true, … }, backlight: { on: false } }
+await client.writeControls({ device: { on: false } });
+client.onControls((values) => update(values)); // the controls each push carries
+```
+
+| When | The client |
+| --- | --- |
+| A route is not connected, such as the LAN while it reconnects | Skips it, unless it is the last |
+| A read fails | Tries the next route |
+| A write fails with `CONNECTION_FAILED`, `SESSION_KEY_NEGOTIATION_FAILED`, `RATE_LIMITED`, `SESSION_EXPIRED`, `PERMISSION_DENIED` or `UNMAPPED_DATA_POINT` | Tries the next route |
+| A write fails otherwise, such as a timeout | Rejects with that error: the device may have taken it |
+| Every route it tried failed | Rejects with that route's error, or with `ROUTES_FAILED` when it tried several, each route's error in `cause.errors` |
+| Two routes push the same change | Hands on the first connected route's push alone |
+
+The LAN route keeps its `host`: when discovery reports a new one, create a
+new client. A device with a `nodeId`, reached through a gateway, takes a cloud
+route alone: `@open-tuya/local` does not address a gateway's devices yet.
+
+`client.entry` is the catalog entry the controls are named by, the best of
+`client.entries`. Save its `source.file` and pass the entry next time, so the
+client uses it without matching again:
+`entry: CATALOG.find((entry) => entry.source.file === saved)`. A device the
+catalog lacks has no `entry`: read and write its data points by ID.
+[DESIGN.md](DESIGN.md#routes) says why the client routes this way.
+
 ## Naming data points
 
 `@open-tuya/devices` holds 1,038 devices converted from
-[tuya-local](https://github.com/make-all/tuya-local). Find a device's entry,
-then read and write its data points by name:
+[tuya-local](https://github.com/make-all/tuya-local). Without
+`createTuyaClient`, find a device's entry, then read and write its data
+points by name:
 
 ```ts
 import { findDeviceEntries, readControls, writeControls } from "@open-tuya/devices";

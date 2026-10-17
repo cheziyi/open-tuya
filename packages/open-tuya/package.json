@@ -45,6 +45,9 @@
     "@open-tuya/devices": "workspace:^",
     "@open-tuya/local": "workspace:^"
   },
+  "devDependencies": {
+    "@open-tuya/simulators": "workspace:^"
+  },
   "engines": {
     "node": ">=22.19.0"
   }

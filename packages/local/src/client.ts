@@ -68,6 +68,7 @@ interface PendingRequest {
  * connection. */
 export class LocalTuyaClient implements TuyaClient {
   private connection: Promise<TuyaConnection> | undefined;
+  private connectionOpen = false;
   private lastError: unknown;
   private pending: PendingRequest | undefined;
   private queue: Promise<unknown> = Promise.resolve();
@@ -86,6 +87,10 @@ export class LocalTuyaClient implements TuyaClient {
     private readonly deviceId: string,
   ) {
     this.open();
+  }
+
+  get connected(): boolean {
+    return this.connectionOpen && !this.closed;
   }
 
   /** It rejects with a `TuyaError` with code `REQUEST_REJECTED` when the
@@ -142,6 +147,7 @@ export class LocalTuyaClient implements TuyaClient {
     this.connection = connection;
     connection.then(
       () => {
+        this.connectionOpen = true;
         this.reconnectDelayInMs = FIRST_RECONNECT_DELAY_IN_MS;
         this.readDataPoints().then(
           (dataPoints) => this.report(dataPoints),
@@ -154,6 +160,7 @@ export class LocalTuyaClient implements TuyaClient {
 
   private lose(error: unknown): void {
     this.connection = undefined;
+    this.connectionOpen = false;
     this.lastError =
       error ?? new TuyaError("CONNECTION_LOST", "The client is closed");
     this.pending?.fail(this.lastError);

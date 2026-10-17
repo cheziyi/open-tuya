@@ -280,6 +280,7 @@ device accepts it.
 | Choice | Why |
 | --- | --- |
 | Data points are keyed by ID, with the device's own values | The catalog and the LAN key them by ID, and each cloud reports a data point's ID beside its code, so a cloud client can key them the same way. Scaling belongs to the catalog |
+| `connected` on every client: a LAN client's while its connection is open, a cloud client's until it is closed | `RoutedTuyaClient` skips a route that would make a request wait to connect, and takes pushes from the first connected route. On the interface, a `RoutedTuyaClient` is itself a route |
 | `onDataPoints(listener)` returns a function that removes it | A client has many readers, such as `createTuyaClient` and each part of an app. Unlike an emitter, it has no event names to mistype and no `'error'` event that crashes when nobody listens, and `@open-tuya/core` needs nothing from Node |
 | A write resolves on the device's ack, not on the `STATUS` after it | The ack says the device took the write; some devices never send the `STATUS` |
 | A write fails on its ack's payload alone | A device acks a write with return code 0 on 3.3 and 1 on 3.5, success or not: only an error text tells a failure |
@@ -485,3 +486,37 @@ does not say which.
 | One connection per account, through `MqttSession`, on the project's one topic | Every device of the project is pushed on it |
 | `msg_encrypted_version` 2.0 | AES-GCM, whose tag shows the message came under the connection's password |
 | A message whose tag is wrong is dropped | Its bytes are not what the cloud sealed |
+
+## Routes
+
+`createTuyaClient` reaches one device over the routes the caller lists, in
+their order, as a `RoutedTuyaClient`. Each choice below is the library's own.
+homebridge-tuya-plus
+([`d7bb418`](https://github.com/adrianjagielak/homebridge-tuya-plus/commit/d7bb418646dfda361e67a61cbc76debacb0a8b10))
+and ioBroker.tuya are the open-source projects that route one device over the
+LAN and a cloud. Both pick a route for each write by whether the LAN is
+connected.
+
+| Choice | Why |
+| --- | --- |
+| The caller passes the LAN's `host`, `version` and `localKey`; `createTuyaClient` runs no discovery and lists no cloud | Discovery binds UDP ports shared with other programs, and on Linux a 3.5 device's answer on port 7000 reaches one socket alone, so a discovery per client loses answers. A cloud list per client spends requests against the rate limit |
+| Each request starts at the first route, and skips a route that is not connected unless it is the last | A request to a LAN client that is reconnecting waits up to 5 s for the attempt. Starting again at the first route returns to the LAN as soon as `LocalTuyaClient` reconnects |
+| A read moves on to the next route after any failure | A read changes nothing |
+| A write moves on only after `CONNECTION_FAILED`, `SESSION_KEY_NEGOTIATION_FAILED`, `RATE_LIMITED`, `SESSION_EXPIRED`, `PERMISSION_DENIED` or `UNMAPPED_DATA_POINT` | Each shows the route did not deliver the write. After a timeout or a lost connection the device may have taken it, and a button such as a feeder's `manualFeed` would act twice: ioBroker.tuya resends a write that timed out ([`main.js`](https://github.com/Apollon77/ioBroker.tuya/blob/dc8d799a9f292f573ec03ed994ab96a7ff7326f8/main.js#L467-L486)) |
+| A request that failed on the one route it tried rejects with that route's error; one that failed on several rejects with `ROUTES_FAILED`, an `AggregateError` of their errors as its `cause` | One code cannot say both that the LAN key is wrong and that the cloud session expired, and the caller acts on each |
+| Pushes come from the first route that is connected alone | A device reports each change over the LAN and to the cloud, the cloud's copy up to 5 s later (TuyaOpen [`cd3b764`](https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1), [`6b54585`](https://github.com/tuya/TuyaOpen/commit/6b5458586756d2e535b578ecc65a7fac35d30b12)). ioBroker.tuya drops the cloud's pushes while the LAN is connected the same way ([`main.js`](https://github.com/Apollon77/ioBroker.tuya/blob/dc8d799a9f292f573ec03ed994ab96a7ff7326f8/main.js#L2307)) |
+| A cloud route's client is built again 5 s after a failed build, doubling to 60 s, but not after `SESSION_EXPIRED`, `PERMISSION_DENIED` or an error that is not a `TuyaError` | A cloud that is down at startup would otherwise leave the route dead, though the LAN reaches the device. As `MqttSession`, none of those clears by waiting |
+| `createTuyaClient` reads the data points once through the routes, unless given `entry`, and finds the entry by them and the product key; when no route answers, by the product key alone | A product key is shared by several entries, and reused across products ([`f145f0e`](https://github.com/make-all/tuya-local/commit/f145f0ee2fcb39dc54bd992f8ab84895cc2b919e)): the data points' types rule some out. A device that is off still gets a client |
+| The best entry is used; `entries` lists every candidate, and a caller passes the one it saved as `entry` | tuya-local lets the user pick once and keeps the pick |
+| No entry leaves `entry` undefined, and the control methods throw `NO_CATALOG_ENTRY` | The data points of a device the catalog lacks can still be read and written |
+| `onControls` hands on the controls of the data points a push carries alone | A push carries some data points, and `readControls` would read the rest as absent |
+| No timeout of its own | Each route bounds its own requests |
+| `close()` closes the clients it built, never the accounts | The caller made the account, and may share it between devices |
+
+Rejected:
+
+- Dropping a pushed value equal to the last one, as homebridge-tuya-plus does.
+  A scene button pressed twice reports the same value twice.
+- A route chosen once and kept until it fails. It would need a check to know
+  when the LAN is back, which `LocalTuyaClient`'s own reconnecting already
+  makes.

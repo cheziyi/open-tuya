@@ -42,7 +42,13 @@ export type TuyaErrorCode =
   | "PERMISSION_DENIED"
   /** A write names a data point the cloud cannot map to one of its codes, so
    * nothing was sent. */
-  | "UNMAPPED_DATA_POINT";
+  | "UNMAPPED_DATA_POINT"
+  /** Every route a request tried failed, and it tried more than one. `cause`
+   * is an `AggregateError` of each route's error, in the order tried. */
+  | "ROUTES_FAILED"
+  /** The device catalog has no entry for the device, so its controls cannot
+   * be named: read and write its data points by ID. */
+  | "NO_CATALOG_ENTRY";
 
 /** Every failure the open-tuya packages throw. Tell one from another by
  * `code`. */
