@@ -1,0 +1,67 @@
+name: Import catalog
+
+on:
+  schedule:
+    # Off the hour: GitHub delays and drops scheduled runs most at the top of the hour.
+    - cron: "42 2 * * *"
+  workflow_dispatch:
+
+# Each job grants only the permissions it needs.
+permissions: {}
+
+# A manual run waits for the scheduled one, so two runs never push the same branch.
+concurrency:
+  group: ${{ github.workflow }}
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    permissions:
+      # Pushes the import-catalog branch.
+      contents: write
+      # Opens or updates the pull request.
+      pull-requests: write
+      # Starts CI on the branch.
+      actions: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: pnpm/setup@v3
+      - id: import
+        run: |
+          # Commits and trees but no file history: the script walks the devices folder's log, and reads only today's files.
+          git clone --quiet --filter=blob:none https://github.com/make-all/tuya-local.git "$RUNNER_TEMP/tuya-local"
+          pnpm --filter @open-tuya/devices import-catalog "$RUNNER_TEMP/tuya-local"
+          echo "commit=$(git -C "$RUNNER_TEMP/tuya-local" rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - env:
+          COMMIT: ${{ steps.import.outputs.commit }}
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            cat > .changeset/devices-tuya-local-import.md <<EOF
+          ---
+          "@open-tuya/devices": patch
+          ---
+
+          Update the catalog to tuya-local's device files at make-all/tuya-local@${COMMIT::7}.
+          EOF
+          fi
+      - id: pull-request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          branch: import-catalog
+          commit-message: |
+            Import the catalog from tuya-local ${{ steps.import.outputs.commit }}
+
+            https://github.com/make-all/tuya-local/tree/${{ steps.import.outputs.commit }}/custom_components/tuya_local/devices
+          title: Import the catalog from tuya-local
+          body: |
+            `scripts/importTuyaLocal.ts` converted tuya-local's device files at [`make-all/tuya-local@${{ steps.import.outputs.commit }}`](https://github.com/make-all/tuya-local/tree/${{ steps.import.outputs.commit }}/custom_components/tuya_local/devices) into `packages/devices/src/catalog/` and `UNSUPPORTED.md`.
+
+            - Raise the changeset to the bump [AGENTS.md](https://github.com/${{ github.repository }}/blob/main/AGENTS.md#version-each-package-with-semver) gives if the diff removes or renames a catalog entry or a control: it bumps `@open-tuya/devices` by a patch.
+            - Fix a failing check on `main`, in the script or `CONTROL_NAMES`, not on this branch: the next run resets the branch to `main` plus a fresh import.
+      # A pull request opened with GITHUB_TOKEN starts no pull_request run, and a workflow_dispatch does.
+      - if: steps.pull-request.outputs.pull-request-operation == 'created' || steps.pull-request.outputs.pull-request-operation == 'updated'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run ci.yml --repo "$GITHUB_REPOSITORY" --ref import-catalog

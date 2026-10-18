@@ -91,6 +91,18 @@ Each entry is a TypeScript file, `const entry: TuyaDeviceEntry = { … }`, so
   writes each entry's whole literal type into its declaration file, which
   doubled the package.
 
+`import-catalog.yml` runs the script daily against tuya-local's latest commit
+and opens or updates the `import-catalog` pull request with
+`GITHUB_TOKEN`. A pull request opened with `GITHUB_TOKEN` starts no
+`pull_request` run, and `main` requires CI's checks, so the workflow then
+starts `ci.yml` on the branch with `workflow_dispatch`, an event
+`GITHUB_TOKEN` may start a run with:
+
+- Rejected: a GitHub App's or a personal access token. Either starts CI as
+  any pull request does, but adds a secret to store and rotate.
+- Rejected: a person closing and reopening the pull request. Every daily update
+  would need it again.
+
 | Choice | Why |
 | --- | --- |
 | A device's controls are grouped into components: a light, fan or climate entity is one, its other entities join the device's main one, and a device with no such entity has one named `device` | A control often repeats within a device: a backlight beside the light, a second valve. Matter's endpoints and HomeKit's services group the same way |
