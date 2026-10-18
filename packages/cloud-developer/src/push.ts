@@ -10,7 +10,10 @@ import { decryptPushData } from "./protocol/message.js";
 import type { PushData, PushEnvelope } from "./protocol/records.js";
 
 // Source: A data point report is protocol 4, in
-// https://github.com/tuya/tuya-iot-python-sdk/commit/927f095469a5acf09ff1c55f90f22fa8ad8ae5b1.
+// https://github.com/tuya/tuya-iot-python-sdk/commit/927f095469a5acf09ff1c55f90f22fa8ad8ae5b1,
+// and some firmwares send it with no protocol, in
+// https://github.com/adrianjagielak/homebridge-tuya-plus/commit/0c5cc665272c9510ad7bc382aafda3ee4ea26017.
+// DESIGN.md#cloud-developer-push says why a message without one is read.
 const PROTOCOL_DEVICE_REPORT = 4;
 const DATA_POINT_ID = /^\d+$/;
 
@@ -60,7 +63,11 @@ export class DevicePush {
       const envelope: PushEnvelope = JSON.parse(
         new TextDecoder().decode(payload),
       );
-      if (envelope.protocol !== PROTOCOL_DEVICE_REPORT || !envelope.data) {
+      if (
+        (envelope.protocol != null &&
+          envelope.protocol !== PROTOCOL_DEVICE_REPORT) ||
+        !envelope.data
+      ) {
         return;
       }
       data = JSON.parse(

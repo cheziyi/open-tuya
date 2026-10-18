@@ -584,6 +584,62 @@ describe("DeveloperCloudAccount", () => {
       expect(reports).toEqual([{ "24": "001703de0017", "3": 76 }]);
     });
 
+    it("hands on a report that names no protocol", async () => {
+      const { cloud, account } = setUp();
+      const broker = await serveBroker(cloud);
+      const client = await account.createClient(DEVICE_ID);
+      const reports: DataPoints[] = [];
+      client.onDataPoints((dataPoints) => reports.push(dataPoints));
+      await until(() => broker.subscriptions.length > 0);
+
+      await broker.publish(
+        TOPIC,
+        encryptPushMessage(
+          { devId: DEVICE_ID, status: [{ "1": true }] },
+          PASSWORD,
+          1636197093,
+          20,
+        ),
+      );
+      await broker.publish(
+        TOPIC,
+        encryptPushMessage(
+          { devId: DEVICE_ID, status: [{ "1": false }] },
+          PASSWORD,
+          1636197093,
+          null,
+        ),
+      );
+      await until(() => reports.length > 0);
+
+      expect(reports).toEqual([{ "1": false }]);
+    });
+
+    it("asks for credentials again 5 s later when the cloud's lack a topic", async () => {
+      const { cloud, account } = setUp();
+      await serveBroker(cloud);
+      cloud.on("POST", "/v1.0/iot-03/open-hub/access-config", () => ({
+        result: {
+          client_id: "cloud_client",
+          expire_time: 7200,
+          password: PASSWORD,
+          url: "tcp://127.0.0.1:1",
+          username: "cloud_user",
+        },
+      }));
+      const configRequests = () =>
+        cloud.requests.filter(({ path }) => path.includes("open-hub")).length;
+      const client = await account.createClient(DEVICE_ID);
+      useFakeTimers();
+
+      client.onDataPoints(() => {});
+      await vi.advanceTimersByTimeAsync(0);
+      expect(configRequests()).toBe(1);
+      await vi.advanceTimersByTimeAsync(5000);
+
+      expect(configRequests()).toBe(2);
+    });
+
     it("closes the connection with its last client", async () => {
       const { cloud, account } = setUp();
       const broker = await serveBroker(cloud);

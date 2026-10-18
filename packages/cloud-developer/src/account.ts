@@ -412,6 +412,7 @@ export class DeveloperCloudAccount implements TuyaCloudAccount {
   // https://github.com/adrianjagielak/homebridge-tuya-plus/commit/0c5cc665272c9510ad7bc382aafda3ee4ea26017.
   // Source: `msg_encrypted_version` 2.0 asks for AES-GCM, in
   // https://github.com/tuya/tuya-homebridge/commit/a0da33fb0bf046fef5b915c07c78098dd068809f.
+  // A fresh `link_id` each time: DESIGN.md#cloud-developer-push says why.
   private async fetchPushConfig(): Promise<PushConfig> {
     const token = await this.validToken();
     const result = (await this.request(
