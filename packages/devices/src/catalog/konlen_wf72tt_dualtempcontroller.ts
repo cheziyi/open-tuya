@@ -29,7 +29,7 @@ const entry: TuyaDeviceEntry = {
     "117": { type: "integer" },
   },
   components: {
-    thermostat: {
+    channel1: {
       hvacMode: {
         dataPoint: "1",
         kind: "select",
@@ -74,7 +74,7 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
       },
     },
-    secondThermostat: {
+    channel2: {
       hvacMode: {
         dataPoint: "105",
         kind: "select",

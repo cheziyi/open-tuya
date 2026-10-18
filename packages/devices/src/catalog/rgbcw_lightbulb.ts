@@ -117,8 +117,7 @@ const entry: TuyaDeviceEntry = {
           { raw: true, value: false },
         ],
       },
-      scene: { dataPoint: "25", kind: "text" },
-      secondScene: {
+      scene: {
         dataPoint: "25",
         kind: "select",
         type: "string",

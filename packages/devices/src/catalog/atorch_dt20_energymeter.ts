@@ -229,7 +229,7 @@ const entry: TuyaDeviceEntry = {
     display: {
       brightness: { dataPoint: "108", kind: "number", min: 1, max: 9 },
     },
-    secondDisplay: {
+    standbyDisplay: {
       brightness: { dataPoint: "109", kind: "number", min: 0, max: 9 },
     },
   },

@@ -46,10 +46,13 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit: {
         dataPoint: "113",
-        kind: "sensor",
-        readOnly: true,
-        values: [{ raw: "f", value: "F" }],
+        kind: "select",
+        values: [
+          { raw: "f", value: "F" },
+          { raw: "c", value: "C" },
+        ],
         otherwise: "C",
+        ownRuleReadOnly: true,
       },
       temperatureInF: {
         dataPoint: "129",
@@ -112,14 +115,6 @@ const entry: TuyaDeviceEntry = {
         measures: "battery",
         readOnly: true,
         unit: "%",
-      },
-      secondTemperatureUnit: {
-        dataPoint: "113",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
       },
     },
     display: { on: { dataPoint: "101", kind: "switch" } },

@@ -174,14 +174,6 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      secondTemperatureUnit: {
-        dataPoint: "23",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       humidityInPercent: {
         dataPoint: "34",
         kind: "sensor",

@@ -116,14 +116,6 @@ const entry: TuyaDeviceEntry = {
       model: { dataPoint: "108", kind: "number" },
       emergencyHeat: { dataPoint: "12", kind: "switch" },
       childLock: { dataPoint: "14", kind: "switch" },
-      secondTemperatureUnit: {
-        dataPoint: "19",
-        kind: "select",
-        values: [
-          { raw: "C", value: "celsius" },
-          { raw: "F", value: "fahrenheit" },
-        ],
-      },
       energyInKwh: {
         dataPoint: "28",
         kind: "sensor",

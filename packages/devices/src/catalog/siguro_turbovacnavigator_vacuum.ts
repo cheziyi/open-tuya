@@ -151,7 +151,6 @@ const entry: TuyaDeviceEntry = {
       voiceData: { dataPoint: "35", kind: "text" },
       messageUnseen: { dataPoint: "104", kind: "number" },
       charge: { dataPoint: "3", kind: "switch" },
-      secondCommand: { dataPoint: "15", kind: "text" },
       fetchRequest: {
         dataPoint: "16",
         kind: "select",
@@ -306,6 +305,7 @@ const entry: TuyaDeviceEntry = {
       },
     },
     light: { on: { dataPoint: "101", kind: "switch" } },
+    device: { command: { dataPoint: "15", kind: "text" } },
   },
   source: {
     file: "siguro_turbovacnavigator_vacuum.yaml",

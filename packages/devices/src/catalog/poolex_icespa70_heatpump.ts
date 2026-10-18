@@ -142,7 +142,8 @@ const entry: TuyaDeviceEntry = {
           { raw: "f", value: "fahrenheit" },
         ],
       },
-      defrost: { dataPoint: "7", kind: "switch" },
+      defrostEnabled: { dataPoint: "7", kind: "switch" },
+      defrost: { dataPoint: "33", kind: "sensor", readOnly: true },
       compressorDutyCycle: { dataPoint: "20", kind: "sensor", readOnly: true },
       coilTemperatureInC: {
         dataPoint: "23",
@@ -176,7 +177,6 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 100,
       },
-      secondDefrost: { dataPoint: "33", kind: "sensor", readOnly: true },
       powerDownMemory: { dataPoint: "101", kind: "switch" },
       inletTemperatureCompensationInC: {
         dataPoint: "102",

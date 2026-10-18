@@ -104,14 +104,6 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: 1, value: false }],
         otherwise: true,
       },
-      secondTemperatureUnit: {
-        dataPoint: "19",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       sleep: { dataPoint: "101", kind: "switch" },
       timerInHours: {
         dataPoint: "103",

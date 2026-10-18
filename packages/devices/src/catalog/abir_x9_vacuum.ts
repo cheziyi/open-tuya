@@ -157,7 +157,6 @@ const entry: TuyaDeviceEntry = {
       deviceInfo: { dataPoint: "34", kind: "text" },
       voiceData: { dataPoint: "35", kind: "text" },
       charge: { dataPoint: "3", kind: "switch" },
-      secondCommand: { dataPoint: "15", kind: "text" },
       fetchRequest: {
         dataPoint: "16",
         kind: "select",
@@ -328,6 +327,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
+    device: { command: { dataPoint: "15", kind: "text" } },
   },
   source: {
     file: "abir_x9_vacuum.yaml",

@@ -121,7 +121,10 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "19",
         kind: "select",
-        values: [{ raw: "f", value: "F" }],
+        values: [
+          { raw: "f", value: "F" },
+          { raw: "c", value: "C" },
+        ],
         otherwise: "C",
       },
       currentTemperatureInF: {
@@ -186,14 +189,6 @@ const entry: TuyaDeviceEntry = {
       },
       sleep: { dataPoint: "105", kind: "switch" },
       childLock: { dataPoint: "14", kind: "switch" },
-      secondTemperatureUnit: {
-        dataPoint: "19",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       selfClean: { dataPoint: "102", kind: "switch" },
       outdoorTemperature: {
         dataPoint: "106",

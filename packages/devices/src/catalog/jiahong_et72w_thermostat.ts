@@ -150,14 +150,6 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "min",
       },
-      secondTemperatureUnit: {
-        dataPoint: "107",
-        kind: "select",
-        values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
-        ],
-      },
       roomTemperatureLimit: {
         dataPoint: "121",
         kind: "number",

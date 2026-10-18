@@ -120,7 +120,7 @@ const entry: TuyaDeviceEntry = {
       },
       factoryReset: { dataPoint: "34", kind: "button" },
     },
-    alarm: {
+    alarmControlPanel: {
       alarmState: {
         dataPoint: "1",
         kind: "select",
@@ -132,7 +132,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    secondAlarm: {
+    siren: {
       durationInMinutes: {
         dataPoint: "3",
         kind: "number",

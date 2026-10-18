@@ -105,7 +105,10 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "19",
         kind: "select",
-        values: [{ raw: "f", value: "F" }],
+        values: [
+          { raw: "f", value: "F" },
+          { raw: "c", value: "C" },
+        ],
         otherwise: "C",
       },
       preset: {
@@ -187,24 +190,6 @@ const entry: TuyaDeviceEntry = {
         measures: "temperature",
         readOnly: true,
         unit: "F",
-      },
-      secondTemperatureUnit: {
-        dataPoint: "19",
-        kind: "select",
-        values: [
-          { raw: "f", value: "fahrenheit" },
-          { raw: "c", value: "celsius" },
-        ],
-      },
-      secondConfiguration: {
-        dataPoint: "112",
-        kind: "select",
-        values: [
-          { raw: "1", value: "cooling" },
-          { raw: "2", value: "heating" },
-          { raw: "3", value: "heat/cool" },
-          { raw: "5", value: "heatpump" },
-        ],
       },
     },
   },

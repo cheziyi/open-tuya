@@ -123,8 +123,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "anti_clockwise", value: "Anti-clockwise" },
         ],
       },
-      secondSaturation: { dataPoint: "71", kind: "number", min: 0, max: 100 },
       whiteBalance: { dataPoint: "72", kind: "number", min: 0, max: 100 },
+    },
+    device: {
+      saturation: { dataPoint: "71", kind: "number", min: 0, max: 100 },
     },
   },
   source: {

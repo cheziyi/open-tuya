@@ -93,6 +93,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       motionTimer: { dataPoint: "114", kind: "text" },
+      motionTimerEnabled: { dataPoint: "135", kind: "switch" },
       motion: {
         dataPoint: "115",
         kind: "event",
@@ -124,7 +125,6 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       motionDetection: { dataPoint: "134", kind: "switch" },
-      secondMotionTimer: { dataPoint: "135", kind: "switch" },
       soundDetection: { dataPoint: "139", kind: "switch" },
       soundSensitivity: {
         dataPoint: "140",
@@ -158,8 +158,8 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: false }],
       },
       restart: { dataPoint: "162", kind: "button" },
-      limitMotionDetectionArea: { dataPoint: "168", kind: "switch" },
-      secondLimitMotionDetectionArea: { dataPoint: "169", kind: "text" },
+      limitMotionDetectionAreaEnabled: { dataPoint: "168", kind: "switch" },
+      limitMotionDetectionArea: { dataPoint: "169", kind: "text" },
       alarm: {
         dataPoint: "185",
         kind: "event",

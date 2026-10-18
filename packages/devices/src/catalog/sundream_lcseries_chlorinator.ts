@@ -85,10 +85,11 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "select",
         values: [
-          { raw: true, value: "fahrenheit" },
-          { raw: false, value: "celsius" },
+          { raw: true, value: "F" },
+          { raw: false, value: "C" },
         ],
-        whenAbsent: { value: "celsius" },
+        otherwise: "C",
+        ownRuleReadOnly: true,
       },
       salinityTest: { dataPoint: "109", kind: "button" },
       detectFlow: { dataPoint: "110", kind: "button" },
@@ -99,13 +100,6 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unitFrom: "temperatureUnit",
         scale: 10,
-      },
-      secondTemperatureUnit: {
-        dataPoint: "108",
-        kind: "sensor",
-        readOnly: true,
-        values: [{ raw: true, value: "F" }],
-        otherwise: "C",
       },
       fault: {
         dataPoint: "112",

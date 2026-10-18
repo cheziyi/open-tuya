@@ -110,7 +110,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "error", value: "fault" },
         ],
       },
-      currentInA: {
+      targetCurrentInA: {
         dataPoint: "102",
         kind: "number",
         measures: "current",
@@ -128,6 +128,14 @@ const entry: TuyaDeviceEntry = {
             },
           ],
         },
+      },
+      currentInA: {
+        dataPoint: "108",
+        kind: "sensor",
+        measures: "current",
+        readOnly: true,
+        unit: "A",
+        scale: 10,
       },
       currentSupport32a: { dataPoint: "103", kind: "switch" },
       currentSet16a: { dataPoint: "111", kind: "number", min: 8, max: 16 },
@@ -154,14 +162,6 @@ const entry: TuyaDeviceEntry = {
         measures: "voltage",
         readOnly: true,
         unit: "V",
-      },
-      secondCurrentInA: {
-        dataPoint: "108",
-        kind: "sensor",
-        measures: "current",
-        readOnly: true,
-        unit: "A",
-        scale: 10,
       },
       powerInKw: {
         dataPoint: "109",

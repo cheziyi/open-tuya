@@ -193,7 +193,6 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       pathData: { dataPoint: "14", kind: "text" },
-      secondCommand: { dataPoint: "15", kind: "text" },
       request: {
         dataPoint: "16",
         kind: "select",
@@ -322,6 +321,7 @@ const entry: TuyaDeviceEntry = {
       },
       maintenance: { dataPoint: "157", kind: "text" },
     },
+    device: { command: { dataPoint: "15", kind: "text" } },
   },
   source: {
     file: "ilife_v30_vacuum.yaml",

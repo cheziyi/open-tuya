@@ -69,7 +69,10 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "21",
         kind: "select",
-        values: [{ raw: true, value: "F" }],
+        values: [
+          { raw: true, value: "F" },
+          { raw: false, value: "C" },
+        ],
         otherwise: "C",
       },
       fault: {
@@ -100,14 +103,6 @@ const entry: TuyaDeviceEntry = {
           { raw: "1", value: "blue" },
           { raw: "2", value: "green" },
           { raw: "3", value: "yellow" },
-        ],
-      },
-      secondTemperatureUnit: {
-        dataPoint: "21",
-        kind: "select",
-        values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
         ],
       },
       schedule: { dataPoint: "23", kind: "text" },

@@ -51,7 +51,10 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "6",
         kind: "select",
-        values: [{ raw: "f", value: "F" }],
+        values: [
+          { raw: "f", value: "F" },
+          { raw: "c", value: "C" },
+        ],
         otherwise: "C",
       },
       currentTemperature: {
@@ -77,14 +80,6 @@ const entry: TuyaDeviceEntry = {
           { raw: "cool", value: "cool" },
           { raw: "wth_heat", value: "hotwater_heat" },
           { raw: "wth_cool", value: "hotwater_cool" },
-        ],
-      },
-      secondTemperatureUnit: {
-        dataPoint: "6",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
         ],
       },
       fault: {

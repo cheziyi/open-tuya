@@ -239,7 +239,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "rpm",
       },
-      secondCompressorFanSpeedInRpm: {
+      targetCompressorFanSpeedInRpm: {
         dataPoint: "118",
         kind: "number",
         unit: "rpm",
@@ -248,17 +248,17 @@ const entry: TuyaDeviceEntry = {
         scale: 0.1,
       },
       compressorFrequency: { dataPoint: "119", kind: "sensor", readOnly: true },
-      compressorFrequencyTarget: {
-        dataPoint: "120",
-        kind: "sensor",
-        readOnly: true,
-      },
-      secondCompressorFrequency: {
+      targetCompressorFrequency: {
         dataPoint: "121",
         kind: "number",
         min: 0,
         max: 150,
         scale: 0.1,
+      },
+      compressorFrequencyTarget: {
+        dataPoint: "120",
+        kind: "sensor",
+        readOnly: true,
       },
       compressorEevOpeningInDegrees: {
         dataPoint: "122",

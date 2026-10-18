@@ -217,6 +217,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "charge_delay", value: "delayed_charge" },
         ],
       },
+      chargingModeData: { dataPoint: "33", kind: "text" },
       on: { dataPoint: "18", kind: "switch" },
       temperatureInC: {
         dataPoint: "24",
@@ -250,7 +251,6 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 15,
       },
-      secondChargingMode: { dataPoint: "33", kind: "text" },
       chargeTimeInHours: {
         dataPoint: "101",
         mask: "FF00",

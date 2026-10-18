@@ -65,9 +65,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 86400,
       },
-      secondPixels: { dataPoint: "53", kind: "number", min: 1, max: 1000 },
-      scene: { dataPoint: "51", kind: "text", type: "base64" },
-      secondScene: {
+      scene: {
         dataPoint: "51",
         kind: "select",
         values: [
@@ -119,6 +117,7 @@ const entry: TuyaDeviceEntry = {
       },
       paint: { dataPoint: "61", kind: "text" },
     },
+    device: { pixels: { dataPoint: "53", kind: "number", min: 1, max: 1000 } },
   },
   source: {
     file: "lsc_neon_ledstrip.yaml",

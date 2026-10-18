@@ -145,14 +145,14 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       scheduleProgram: { dataPoint: "43", kind: "text" },
-      floorTemperatureInC: {
+      targetFloorTemperatureInC: {
         dataPoint: "101",
         kind: "number",
         unit: "C",
         min: 5,
         max: 99,
       },
-      secondFloorTemperatureInC: {
+      floorTemperatureInC: {
         dataPoint: "102",
         kind: "sensor",
         measures: "temperature",

@@ -750,46 +750,391 @@ function dataPointSpecs(file: DeviceFile): Record<string, TuyaDataPointSpec> {
   );
 }
 
+// A control before its name is settled, by the name it asks for: several
+// can ask for one, see settle.
+interface Candidate {
+  /** The name before its unit. */
+  base: string;
+  /** The unit the name spells, where it spells one. */
+  unit?: string;
+  control: TuyaControl;
+  entity: EntityConfig;
+  composite: boolean;
+  /** An extra data point of its entity, which tuya-local shows as an
+   * attribute, not one the entity acts on. */
+  attribute: boolean;
+}
+
+type Draft = Record<string, Candidate[]>;
+
+function isComposite(entity: EntityConfig): boolean {
+  return (
+    COMPOSITE_ENTITIES.has(entity.entity) &&
+    !(entity.entity === "lock" && entity.translation_key === "child_lock")
+  );
+}
+
 function components(
   file: DeviceFile,
 ): Record<string, Record<string, TuyaControl>> {
   const entities = file.entities.filter((entity) => !entity.deprecated);
-  const isComposite = (entity: EntityConfig) =>
-    COMPOSITE_ENTITIES.has(entity.entity) &&
-    !(entity.entity === "lock" && entity.translation_key === "child_lock");
   const main = entities.find(
     (entity) => isComposite(entity) && !entity.name && !entity.translation_key,
   );
-  const result: Record<string, Record<string, TuyaControl>> = {};
+  const drafts: Record<string, Draft> = {};
   const mainName = main ? camelCase(main.entity) : "device";
   const unitSelect = entities.some(
     (entity) =>
       entity.entity === "select" &&
       entity.translation_key === "temperature_unit",
   );
+  const componentNames = nameComponents(
+    entities.filter((entity) => isComposite(entity) && entity !== main),
+    mainName,
+  );
   for (const entity of entities) {
-    let componentName = mainName;
-    if (isComposite(entity) && entity !== main) {
-      componentName = unique(result, camelCase(componentKey(entity)));
-    }
-    result[componentName] ??= {};
-    const component = result[componentName];
+    const componentName = componentNames.get(entity) ?? mainName;
+    drafts[componentName] ??= {};
+    const draft = drafts[componentName];
     if (isComposite(entity)) {
-      addCompositeControls(component, entity, unitSelect && entity === main);
+      addCompositeControls(draft, entity, unitSelect && entity === main);
     } else {
-      addSimpleControls(component, entity, entities);
+      addSimpleControls(draft, entity, entities);
     }
   }
-  for (const [name, controls] of Object.entries(result)) {
-    if (Object.keys(controls).length === 0) {
-      delete result[name];
+  for (const draft of Object.values(drafts)) {
+    for (const [name, candidates] of Object.entries(draft)) {
+      draft[name] = mergeDataPoints(draft, name, candidates);
+    }
+  }
+  if (main) {
+    leaveMain(drafts, mainName);
+  }
+  const result: Record<string, Record<string, TuyaControl>> = {};
+  for (const [name, draft] of Object.entries(drafts)) {
+    const controls = settle(draft);
+    if (Object.keys(controls).length > 0) {
+      result[name] = controls;
     }
   }
   return result;
 }
 
+// Two entities that expose one data point, as a climate's unit and a select
+// for it, give it one control: the one ranked first below, which takes the
+// writes of the other where it can do so exactly (see absorb).
+function mergeDataPoints(
+  draft: Draft,
+  name: string,
+  candidates: readonly Candidate[],
+): Candidate[] {
+  // A mask makes its bits a value of their own.
+  const byValue = new Map<string, Candidate[]>();
+  for (const candidate of candidates) {
+    const { dataPoint, mask } = candidate.control;
+    const key = `${dataPoint}/${mask ?? ""}`;
+    byValue.set(key, [...(byValue.get(key) ?? []), candidate]);
+  }
+  // A control another of its entity reads its unit from.
+  const givesUnit = (candidate: Candidate) =>
+    Object.values(draft).some((others) =>
+      others.some(
+        (other) =>
+          other.entity === candidate.entity && other.control.unitFrom === name,
+      ),
+    );
+  const rank = (candidate: Candidate) => [
+    candidate.attribute ? 0 : 1,
+    candidate.composite ? 1 : 0,
+    givesUnit(candidate) ? 1 : 0,
+    candidate.control.readOnly ? 0 : 1,
+    candidate.control.values?.length ?? 0,
+  ];
+  return [...byValue.values()].map((group) => {
+    const kept = group.reduce((best, candidate) => {
+      const [a, b] = [rank(best), rank(candidate)];
+      const index = a.findIndex((value, at) => value !== b[at]);
+      return index !== -1 && (b[index] ?? 0) > (a[index] ?? 0)
+        ? candidate
+        : best;
+    });
+    return {
+      ...kept,
+      control: group
+        .filter((candidate) => candidate !== kept)
+        .reduce((control, other) => absorb(control, other), kept.control),
+    };
+  });
+}
+
+// The fields of a control that converts a raw value by its mappings and
+// `otherwise` alone.
+const PLAIN_FIELDS: ReadonlySet<string> = new Set([
+  "dataPoint",
+  "type",
+  "kind",
+  "measures",
+  "readOnly",
+  "unit",
+  "unitFrom",
+  "values",
+  "otherwise",
+  "whenAbsent",
+]);
+
+function isPlain(control: TuyaControl): boolean {
+  return (
+    Object.keys(control).every((key) => PLAIN_FIELDS.has(key)) &&
+    (control.values ?? []).every((mapping) =>
+      Object.keys(mapping).every((key) => key === "raw" || key === "value"),
+    )
+  );
+}
+
+// The kept control takes the writes of another entity's control: each raw
+// value the other writes, and the kept control cannot, maps to the kept
+// control's reading of it. A sensor's unit, F for f and C for anything else,
+// beside a select writing c for celsius, then writes c for C. The kept
+// control's reads stay as they were, and where it was read-only, a mapping
+// the other never writes stays so. Where that would not be exact, as where
+// two raw values read alike, the kept control stays as it was. An attribute
+// gives no writes: tuya-local never writes one.
+function absorb(kept: TuyaControl, other: Candidate): TuyaControl {
+  if (other.attribute || other.control.readOnly) {
+    return kept;
+  }
+  const keptValues = kept.values ?? [];
+  const written = (other.control.values ?? [])
+    .filter((mapping) => !mapping.readOnly && mapping.value != null)
+    .map((mapping) => mapping.raw);
+  // A raw value no mapping names, and no mapping reads as, is written as it
+  // is by a control without `otherwise`.
+  const writable = (raw: ControlMapping["raw"]) =>
+    keptValues.some((mapping) => mapping.raw === raw && !mapping.readOnly) ||
+    (kept.otherwise === undefined &&
+      !keptValues.some(
+        (mapping) => mapping.raw === raw || mapping.value === raw,
+      ));
+  const missing = written.filter((raw) => !writable(raw));
+  if (
+    (!kept.readOnly && missing.length === 0) ||
+    !isPlain(kept) ||
+    !isPlain(other.control) ||
+    kept.type !== other.control.type
+  ) {
+    return kept;
+  }
+  const values: ControlMapping[] = [
+    ...keptValues.map((mapping) =>
+      kept.readOnly && !written.includes(mapping.raw)
+        ? { ...mapping, readOnly: true as const }
+        : mapping,
+    ),
+    ...missing.map((raw) => ({
+      raw,
+      value: kept.otherwise === undefined ? raw : kept.otherwise,
+    })),
+  ];
+  const writes = values
+    .filter((mapping) => !mapping.readOnly)
+    .map((mapping) => mapping.value);
+  if (writes.includes(null) || new Set(writes).size !== writes.length) {
+    return kept;
+  }
+  const { readOnly: _, ...rest } = kept;
+  return {
+    ...rest,
+    kind: kept.readOnly
+      ? other.control.kind
+      : values.length > 0
+        ? "select"
+        : kept.kind,
+    ...(values.length > 0 && { values }),
+    ...(kept.readOnly &&
+      kept.otherwise !== undefined && { ownRuleReadOnly: true as const }),
+  };
+}
+
+// An entity that joins the main component, but asks for a name a control of
+// the main entity holds, goes to a component of the device's own instead:
+// an aroma diffuser's switch beside its light's.
+function leaveMain(drafts: Record<string, Draft>, mainName: string): void {
+  const main = drafts[mainName] ?? {};
+  const leaving = new Set<EntityConfig>();
+  for (const candidates of Object.values(main)) {
+    if (
+      candidates.length > 1 &&
+      candidates.some((candidate) => candidate.composite)
+    ) {
+      for (const candidate of candidates) {
+        if (!candidate.composite) {
+          leaving.add(candidate.entity);
+        }
+      }
+    }
+  }
+  if (leaving.size === 0) {
+    return;
+  }
+  const device: Draft = {};
+  for (const [name, candidates] of Object.entries(main)) {
+    const staying = candidates.filter(
+      (candidate) => !leaving.has(candidate.entity),
+    );
+    const left = candidates.filter((candidate) =>
+      leaving.has(candidate.entity),
+    );
+    if (left.length > 0) {
+      device[name] = left;
+    }
+    if (staying.length > 0) {
+      main[name] = staying;
+    } else {
+      delete main[name];
+    }
+  }
+  drafts[unique(drafts, "device")] = device;
+}
+
+// Names each control of a component. A name distinguish leaves shared goes
+// to an entity's own data point before an attribute, then to the first in
+// the file, and the rest take an ordinal.
+function settle(draft: Draft): Record<string, TuyaControl> {
+  const named = Object.entries(draft).flatMap(([name, candidates]) =>
+    candidates.length === 1 && candidates[0]
+      ? [{ name, candidate: candidates[0] }]
+      : distinguish(name, candidates, draft),
+  );
+  const holders = new Set<Candidate>();
+  for (const name of new Set(named.map((item) => item.name))) {
+    const [holder] = named
+      .filter((item) => item.name === name)
+      .sort(
+        (a, b) => Number(a.candidate.attribute) - Number(b.candidate.attribute),
+      );
+    if (holder) {
+      holders.add(holder.candidate);
+    }
+  }
+  const finalNames = new Map<Candidate, string>();
+  const taken: Record<string, true> = {};
+  for (const item of named) {
+    if (item.name in draft && holders.has(item.candidate)) {
+      finalNames.set(item.candidate, item.name);
+      taken[item.name] = true;
+    }
+  }
+  for (const pass of [true, false]) {
+    for (const item of named) {
+      if (
+        !finalNames.has(item.candidate) &&
+        holders.has(item.candidate) === pass
+      ) {
+        const name = unique(taken, item.name);
+        finalNames.set(item.candidate, name);
+        taken[name] = true;
+      }
+    }
+  }
+  const controls: Record<string, TuyaControl> = {};
+  for (const { candidate } of named) {
+    const name = finalNames.get(candidate) ?? "";
+    const unitFrom = candidate.control.unitFrom;
+    const unitHolder =
+      unitFrom === undefined
+        ? undefined
+        : (draft[unitFrom]?.find(
+            (other) => other.entity === candidate.entity,
+          ) ?? draft[unitFrom]?.[0]);
+    const unitName = unitHolder && finalNames.get(unitHolder);
+    controls[name] =
+      unitName && unitName !== unitFrom
+        ? { ...candidate.control, unitFrom: unitName }
+        : candidate.control;
+  }
+  return controls;
+}
+
+// Words that tell a control from another of its name by the kind of each: a
+// number set beside the reading of its name is the target the reading
+// follows, as `targetTemperature` beside `currentTemperature`; a switch
+// beside another kind of control turns that feature on; a text beside a
+// select or a number holds the raw data of what they choose; and a reading
+// beside a button or a select is the state they act on, as `lockState`.
+function byKind(
+  candidate: Candidate,
+  rivals: readonly Candidate[],
+): string | undefined {
+  const { kind, readOnly } = candidate.control;
+  const kinds = new Set(rivals.map((rival) => rival.control.kind));
+  if (
+    kind === "number" &&
+    !readOnly &&
+    rivals.some((rival) => rival.control.readOnly)
+  ) {
+    return `target${candidate.base.charAt(0).toUpperCase()}${candidate.base.slice(1)}`;
+  }
+  if (kind === "switch" && [...kinds].some((other) => other !== "switch")) {
+    return join(candidate.base, "enabled");
+  }
+  if (kind === "text" && (kinds.has("select") || kinds.has("number"))) {
+    return join(candidate.base, "data");
+  }
+  if (kind === "sensor" && (kinds.has("button") || kinds.has("select"))) {
+    return join(candidate.base, "state");
+  }
+  return undefined;
+}
+
+// A reading whose class its rivals do not share, and its name does not say,
+// takes the class's word: a doorbell's connectivity beside its ring.
+function byMeasure(
+  candidate: Candidate,
+  rivals: readonly Candidate[],
+): string | undefined {
+  const { measures } = candidate.control;
+  if (
+    !measures ||
+    rivals.some((rival) => rival.control.measures === measures) ||
+    candidate.base.toLowerCase().includes(measures.toLowerCase())
+  ) {
+    return undefined;
+  }
+  return candidate.base + measures.charAt(0).toUpperCase() + measures.slice(1);
+}
+
+// Tells apart controls of different values that ask for one name, by byKind
+// and then byMeasure. A name another control of the component asks for
+// tells nothing apart.
+function distinguish(
+  name: string,
+  candidates: readonly Candidate[],
+  draft: Draft,
+): { name: string; candidate: Candidate }[] {
+  let names = candidates.map(() => name);
+  for (const qualify of [byKind, byMeasure]) {
+    const current = names;
+    names = candidates.map((candidate, index) => {
+      const own = current[index] ?? name;
+      const rivals = candidates.filter(
+        (_, other) => other !== index && current[other] === own,
+      );
+      const base = rivals.length > 0 ? qualify(candidate, rivals) : undefined;
+      const qualified =
+        base === undefined || candidate.unit === undefined
+          ? base
+          : controlName(base, candidate.unit);
+      return qualified === undefined || qualified in draft ? own : qualified;
+    });
+  }
+  return candidates.map((candidate, index) => ({
+    name: names[index] ?? name,
+    candidate,
+  }));
+}
+
 function addCompositeControls(
-  component: Record<string, TuyaControl>,
+  draft: Draft,
   entity: EntityConfig,
   unitSelect: boolean,
 ): void {
@@ -804,7 +1149,7 @@ function addCompositeControls(
       continue;
     }
     if (hasFormat(dp)) {
-      addFormatControls(component, entity, dp, dp.format);
+      addFormatControls(draft, entity, dp, dp.format);
       continue;
     }
     const named = splitUnit(dp);
@@ -831,11 +1176,14 @@ function addCompositeControls(
       ? defaultValueOf(dp)
       : undefined;
     addControl(
-      component,
+      draft,
       base,
       kelvin(entity, { ...dp, ...(unit !== undefined && { unit }) }),
       entity,
       {
+        ...(!(`${entity.entity}.${named.name}` in COMPOSITE_CONTROLS) && {
+          attribute: true,
+        }),
         ...(unitFrom && { unitFrom }),
         ...(measures && { measures }),
         ...(defaultValue !== undefined && { defaultValue }),
@@ -851,7 +1199,7 @@ function addCompositeControls(
 // and https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/light.py#L210-L228.
 // Each field becomes a control over the bytes it covers.
 function addFormatControls(
-  component: Record<string, TuyaControl>,
+  draft: Draft,
   entity: EntityConfig,
   dp: DataPointConfig,
   fields: readonly FormatField[],
@@ -871,7 +1219,7 @@ function addFormatControls(
     const min = field.range?.min ?? 0;
     const max = field.range?.max ?? 256 ** bytes - 1;
     addControl(
-      component,
+      draft,
       dp.name === "rgbhsv"
         ? fieldName
         : camelCase(dp.name) +
@@ -888,7 +1236,12 @@ function addFormatControls(
         ...(min < 0 && { mask_signed: true }),
       },
       entity,
-      { kind: "number" },
+      {
+        kind: "number",
+        ...(!(`${entity.entity}.${dp.name}` in COMPOSITE_CONTROLS) && {
+          attribute: true,
+        }),
+      },
     );
   }
 }
@@ -906,7 +1259,7 @@ function kelvin(entity: EntityConfig, dp: DataPointConfig): DataPointConfig {
 }
 
 function addSimpleControls(
-  component: Record<string, TuyaControl>,
+  draft: Draft,
   entity: EntityConfig,
   entities: readonly EntityConfig[],
 ): void {
@@ -921,34 +1274,28 @@ function addSimpleControls(
       continue;
     }
     if (entity.entity === "time" && TIME_UNITS[dp.name]) {
-      addControl(
-        component,
-        base,
-        { ...dp, unit: TIME_UNITS[dp.name] },
-        entity,
-        {
-          ...(kind && { kind }),
-        },
-      );
+      addControl(draft, base, { ...dp, unit: TIME_UNITS[dp.name] }, entity, {
+        ...(kind && { kind }),
+      });
     } else if (
       dp.name === primary ||
       (entity.entity === "lock" && dp.name === "lock")
     ) {
-      addControl(component, base, dp, entity, {
+      addControl(draft, base, dp, entity, {
         ...(unitName && { unitFrom: unitName }),
         ...(kind && { kind }),
         ...(measures && { measures }),
       });
     } else if (dp === unitDp && unitName) {
-      addControl(component, unitName, dp, entity, {});
+      addControl(draft, unitName, dp, entity, {});
     } else {
       const named = splitUnit(dp);
       addControl(
-        component,
+        draft,
         join(base, named.name),
         { ...dp, ...(named.unit !== undefined && { unit: named.unit }) },
         entity,
-        {},
+        { attribute: true },
       );
     }
   }
@@ -1005,6 +1352,47 @@ function simpleBase(
     );
   }
   return camelCase(entity.entity);
+}
+
+// Composite entities that ask for one component name, as two thermostats of
+// one translation key, are told apart by their names, then their classes,
+// then their kinds, where that tells them all apart; and else by an ordinal.
+function nameComponents(
+  entities: readonly EntityConfig[],
+  mainName: string,
+): Map<EntityConfig, string> {
+  const names = new Map(
+    entities.map((entity) => [entity, camelCase(componentKey(entity))]),
+  );
+  for (const name of new Set(names.values())) {
+    const group = entities.filter((entity) => names.get(entity) === name);
+    const taken = name === mainName ? [mainName] : [];
+    if (group.length + taken.length < 2) {
+      continue;
+    }
+    for (const field of ["name", "class", "entity"] as const) {
+      const next = group.map((entity) => {
+        const value = entity[field];
+        return value === undefined ? name : camelCase(value);
+      });
+      if (
+        next.some((other) => other !== name) &&
+        new Set([...next, ...taken]).size === next.length + taken.length
+      ) {
+        group.forEach((entity, index) => {
+          names.set(entity, next[index] ?? name);
+        });
+        break;
+      }
+    }
+  }
+  const taken: Record<string, true> = { [mainName]: true };
+  for (const entity of entities) {
+    const name = unique(taken, names.get(entity) ?? "");
+    taken[name] = true;
+    names.set(entity, name);
+  }
+  return names;
 }
 
 function componentKey(entity: EntityConfig): string {
@@ -1078,7 +1466,7 @@ function isShadowed(entity: EntityConfig, dp: DataPointConfig): boolean {
 }
 
 function addControl(
-  component: Record<string, TuyaControl>,
+  draft: Draft,
   base: string,
   dp: DataPointConfig,
   entity: EntityConfig,
@@ -1087,6 +1475,7 @@ function addControl(
     kind?: ControlKind;
     measures?: Measure;
     defaultValue?: ControlValue;
+    attribute?: true;
   },
 ): void {
   const { unitFrom } = options;
@@ -1101,10 +1490,7 @@ function addControl(
       : `${base}In${unitSuffix(dp.unit)}`;
   // A name that dropped its unit's word keeps it where another control
   // already has the shorter name.
-  const name = unique(
-    component,
-    shortest in component && !(longest in component) ? longest : shortest,
-  );
+  const name = shortest in draft && !(longest in draft) ? longest : shortest;
   const readOnly =
     dp.readonly ||
     READ_ONLY_ENTITIES.has(entity.entity) ||
@@ -1135,7 +1521,7 @@ function addControl(
             : NUMBER_TYPES.has(type)
               ? "number"
               : "text");
-  component[name] = {
+  const control: TuyaControl = {
     dataPoint,
     ...(mask !== undefined && { mask }),
     ...(maskSigned && { maskSigned }),
@@ -1150,6 +1536,15 @@ function addControl(
       defaultValue: options.defaultValue,
     }),
   };
+  draft[name] ??= [];
+  draft[name].push({
+    base,
+    ...(!unitFrom && dp.unit !== undefined && { unit: String(dp.unit) }),
+    control,
+    entity,
+    composite: isComposite(entity),
+    attribute: options.attribute ?? false,
+  });
 }
 
 // Source: The default is the first rule, or a rule's condition, marked
@@ -1576,9 +1971,9 @@ function join(base: string, name: string): string {
   return base + pascal;
 }
 
-// A second control or component of one name takes an ordinal before it,
-// `secondCurrentInA`: a digit after it would read as part of the name or its
-// unit, as in `cleanedAreaInM2`.
+// A second control or component of one name that nothing else tells apart
+// takes an ordinal before it, `secondCurrentInA`: a digit after it would
+// read as part of the name or its unit, as in `cleanedAreaInM2` or `pm25`.
 const ORDINALS = [
   "second",
   "third",

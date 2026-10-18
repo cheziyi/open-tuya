@@ -172,14 +172,6 @@ const entry: TuyaDeviceEntry = {
       },
       sleep: { dataPoint: "105", kind: "switch" },
       childLock: { dataPoint: "14", kind: "switch" },
-      secondTemperatureUnit: {
-        dataPoint: "19",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       selfClean: { dataPoint: "102", kind: "switch" },
     },
   },

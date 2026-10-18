@@ -98,8 +98,7 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
         step: 10,
       },
-      scene: { dataPoint: "25", kind: "text", type: "hex" },
-      secondScene: {
+      scene: {
         dataPoint: "25",
         kind: "select",
         values: [

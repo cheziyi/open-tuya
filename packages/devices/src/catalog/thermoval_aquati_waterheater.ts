@@ -142,7 +142,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "fangdong", value: "anti_freeze" },
         ],
       },
-      schedule: {
+      scheduleEnabled: {
         dataPoint: "2",
         kind: "switch",
         values: [
@@ -151,7 +151,7 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: null,
       },
-      secondSchedule: { dataPoint: "16", kind: "text" },
+      schedule: { dataPoint: "16", kind: "text" },
     },
   },
   source: {

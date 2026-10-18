@@ -105,14 +105,6 @@ const entry: TuyaDeviceEntry = {
       },
       model: { dataPoint: "105", kind: "text" },
       antiFrost: { dataPoint: "10", kind: "switch" },
-      secondTemperatureUnit: {
-        dataPoint: "23",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       schedule: {
         dataPoint: "31",
         kind: "select",

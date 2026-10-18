@@ -155,6 +155,12 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
       },
+      targetLoadedCompartments: {
+        dataPoint: "127",
+        kind: "number",
+        min: 0,
+        max: 28,
+      },
       currentCompartment: {
         dataPoint: "102",
         mask: "00000000000000000000000000000000000000000000000000FF000000000000",
@@ -333,12 +339,6 @@ const entry: TuyaDeviceEntry = {
         unit: "min",
         min: 1,
         max: 240,
-      },
-      secondLoadedCompartments: {
-        dataPoint: "127",
-        kind: "number",
-        min: 0,
-        max: 28,
       },
       remindMethod: {
         dataPoint: "128",

@@ -45,10 +45,13 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit: {
         dataPoint: "20",
-        kind: "sensor",
-        readOnly: true,
-        values: [{ raw: "f", value: "F" }],
+        kind: "select",
+        values: [
+          { raw: "f", value: "F" },
+          { raw: "c", value: "C" },
+        ],
         otherwise: "C",
+        ownRuleReadOnly: true,
       },
       pressure: {
         dataPoint: "15",
@@ -304,14 +307,6 @@ const entry: TuyaDeviceEntry = {
         max: 50,
         values: [{ raw: 0, value: 50 }],
         scale: 0.01,
-      },
-      secondTemperatureUnit: {
-        dataPoint: "20",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
       },
       measurementUnits: {
         dataPoint: "102",

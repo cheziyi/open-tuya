@@ -105,14 +105,6 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       timer: { dataPoint: "106", kind: "text" },
-      secondTemperatureUnit: {
-        dataPoint: "13",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       flameSpeed: {
         dataPoint: "103",
         kind: "select",

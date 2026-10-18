@@ -18,9 +18,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "20", kind: "switch" },
-      power: { dataPoint: "20", kind: "switch" },
-      secondOn: {
+      on: {
         dataPoint: "51",
         mask: "000100000000000000000000",
         kind: "switch",
@@ -31,6 +29,7 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { mirror: { dataPoint: "20" } },
         otherwise: true,
       },
+      power: { dataPoint: "20", kind: "switch" },
       workMode: { dataPoint: "21", kind: "text" },
       standardBrightness: {
         dataPoint: "22",
@@ -157,6 +156,7 @@ const entry: TuyaDeviceEntry = {
         max: 65535,
       },
     },
+    device: { on: { dataPoint: "20", kind: "switch" } },
   },
   source: {
     file: "ledvance_smart_plabl100x25b.yaml",

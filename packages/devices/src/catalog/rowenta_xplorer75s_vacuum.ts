@@ -226,7 +226,6 @@ const entry: TuyaDeviceEntry = {
       charge: { dataPoint: "3", kind: "switch" },
       resetMap: { dataPoint: "13", kind: "button" },
       pathData: { dataPoint: "14", kind: "text" },
-      secondCommand: { dataPoint: "15", kind: "text" },
       request: {
         dataPoint: "16",
         kind: "select",
@@ -297,6 +296,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
       },
     },
+    device: { command: { dataPoint: "15", kind: "text" } },
   },
   source: {
     file: "rowenta_xplorer75s_vacuum.yaml",

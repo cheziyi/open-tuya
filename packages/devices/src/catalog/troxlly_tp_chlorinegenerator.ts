@@ -80,12 +80,20 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "select",
         values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
+          { raw: true, value: "F" },
+          { raw: false, value: "C" },
         ],
+        otherwise: "C",
+        ownRuleReadOnly: true,
       },
       salinity: { dataPoint: "109", kind: "switch" },
-      flow: { dataPoint: "110", kind: "switch" },
+      flowEnabled: { dataPoint: "110", kind: "switch" },
+      flow: {
+        dataPoint: "113",
+        kind: "sensor",
+        measures: "running",
+        readOnly: true,
+      },
       temperature: {
         dataPoint: "111",
         kind: "sensor",
@@ -93,13 +101,6 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unitFrom: "temperatureUnit",
         scale: 10,
-      },
-      secondTemperatureUnit: {
-        dataPoint: "108",
-        kind: "sensor",
-        readOnly: true,
-        values: [{ raw: true, value: "F" }],
-        otherwise: "C",
       },
       fault: {
         dataPoint: "112",
@@ -112,12 +113,6 @@ const entry: TuyaDeviceEntry = {
       faultCode: { dataPoint: "112", kind: "sensor", readOnly: true },
       faultVersionNumber: { dataPoint: "134", kind: "sensor", readOnly: true },
       faultVersion: { dataPoint: "139", kind: "sensor", readOnly: true },
-      secondFlow: {
-        dataPoint: "113",
-        kind: "sensor",
-        measures: "running",
-        readOnly: true,
-      },
       cleaningReminderInHours: {
         dataPoint: "114",
         kind: "number",

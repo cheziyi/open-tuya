@@ -44,7 +44,7 @@ const entry: TuyaDeviceEntry = {
         max: 80,
         step: 5,
       },
-      temperatureInC: {
+      targetTemperatureInC: {
         dataPoint: "45",
         kind: "number",
         measures: "temperature",
@@ -53,7 +53,7 @@ const entry: TuyaDeviceEntry = {
         max: 350,
         scale: 10,
       },
-      secondTemperatureInC: {
+      temperatureInC: {
         dataPoint: "9",
         kind: "sensor",
         measures: "temperature",

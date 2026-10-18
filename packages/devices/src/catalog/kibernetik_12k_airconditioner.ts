@@ -91,14 +91,6 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       model: { dataPoint: "110", kind: "text" },
-      secondTemperatureUnit: {
-        dataPoint: "19",
-        kind: "select",
-        values: [
-          { raw: "C", value: "celsius" },
-          { raw: "F", value: "fahrenheit" },
-        ],
-      },
       autoDry: { dataPoint: "109", kind: "switch" },
       timerInHours: {
         dataPoint: "103",

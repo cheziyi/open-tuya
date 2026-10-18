@@ -334,7 +334,10 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "6",
         kind: "select",
-        values: [{ raw: "f", value: "F" }],
+        values: [
+          { raw: "f", value: "F" },
+          { raw: "c", value: "C" },
+        ],
         otherwise: "C",
       },
       targetTemperature: {
@@ -419,14 +422,6 @@ const entry: TuyaDeviceEntry = {
             { when: ["c"], min: 7, max: 30 },
           ],
         },
-      },
-      secondTemperatureUnit: {
-        dataPoint: "6",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
       },
       fault: {
         dataPoint: "15",

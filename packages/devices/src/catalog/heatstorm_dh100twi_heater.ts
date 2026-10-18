@@ -153,14 +153,6 @@ const entry: TuyaDeviceEntry = {
           { raw: 4, value: "Over-voltage" },
         ],
       },
-      secondTemperatureUnit: {
-        dataPoint: "13",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       timeRemainingInMinutes: {
         dataPoint: "20",
         kind: "sensor",

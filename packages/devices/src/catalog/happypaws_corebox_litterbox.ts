@@ -138,7 +138,6 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: "Used",
       },
-      secondUsageReport: { dataPoint: "102", kind: "sensor", readOnly: true },
       childLock: { dataPoint: "103", kind: "switch" },
       manualEmpty: {
         dataPoint: "104",

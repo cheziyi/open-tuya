@@ -98,7 +98,7 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
       },
       turbo: { dataPoint: "107", kind: "switch" },
-      orpInMillivolts: {
+      targetOrpInMillivolts: {
         dataPoint: "108",
         kind: "number",
         measures: "voltage",
@@ -106,6 +106,13 @@ const entry: TuyaDeviceEntry = {
         min: 650,
         max: 800,
         step: 10,
+      },
+      orpInMillivolts: {
+        dataPoint: "111",
+        kind: "sensor",
+        measures: "voltage",
+        readOnly: true,
+        unit: "mV",
       },
       poolVolumeInM3: {
         dataPoint: "109",
@@ -124,13 +131,6 @@ const entry: TuyaDeviceEntry = {
         min: 72,
         max: 76,
         scale: 10,
-      },
-      secondOrpInMillivolts: {
-        dataPoint: "111",
-        kind: "sensor",
-        measures: "voltage",
-        readOnly: true,
-        unit: "mV",
       },
       phInPh: {
         dataPoint: "112",

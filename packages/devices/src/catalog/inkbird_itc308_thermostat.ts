@@ -109,14 +109,6 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 10,
       },
-      secondTemperatureUnit: {
-        dataPoint: "101",
-        kind: "select",
-        values: [
-          { raw: "C", value: "celsius" },
-          { raw: "F", value: "fahrenheit" },
-        ],
-      },
       highTemperature: {
         dataPoint: "111",
         kind: "sensor",

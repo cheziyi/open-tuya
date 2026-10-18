@@ -60,6 +60,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       motionTimer: { dataPoint: "114", kind: "text" },
+      motionTimerEnabled: { dataPoint: "135", kind: "switch" },
       motion: {
         dataPoint: "115",
         kind: "event",
@@ -69,7 +70,6 @@ const entry: TuyaDeviceEntry = {
       },
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
       motionDetection: { dataPoint: "134", kind: "switch" },
-      secondMotionTimer: { dataPoint: "135", kind: "switch" },
       volumeInPercent: {
         dataPoint: "160",
         kind: "number",

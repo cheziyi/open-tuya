@@ -41,7 +41,10 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "6",
         kind: "select",
-        values: [{ raw: "f", value: "F" }],
+        values: [
+          { raw: "f", value: "F" },
+          { raw: "c", value: "C" },
+        ],
         otherwise: "C",
       },
       targetTemperature: {
@@ -79,14 +82,6 @@ const entry: TuyaDeviceEntry = {
           { raw: "cool", value: "cool" },
           { raw: "wth_heat", value: "hotwater_heat" },
           { raw: "wth_cool", value: "hotwater_cool" },
-        ],
-      },
-      secondTemperatureUnit: {
-        dataPoint: "6",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
         ],
       },
       fault: {
@@ -358,7 +353,7 @@ const entry: TuyaDeviceEntry = {
         type: "base64",
         scale: 10,
       },
-      pumpSpeed: {
+      targetPumpSpeed: {
         dataPoint: "140",
         mask: "000000000000000000000000000000000000000000000000FFFFFFFF00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
         kind: "number",
@@ -366,7 +361,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 100,
       },
-      secondPumpSpeed: {
+      pumpSpeed: {
         dataPoint: "140",
         mask: "00000000000000000000000000000000000000000000000000000000FFFFFFFF000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
         kind: "sensor",

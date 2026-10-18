@@ -54,8 +54,7 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit: {
         dataPoint: "109",
-        kind: "sensor",
-        readOnly: true,
+        kind: "select",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -77,14 +76,6 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
-        ],
-      },
-      secondTemperatureUnit: {
-        dataPoint: "109",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
         ],
       },
       humidityInPercent: {

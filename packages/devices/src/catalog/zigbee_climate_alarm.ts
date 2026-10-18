@@ -32,8 +32,7 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit: {
         dataPoint: "9",
-        kind: "sensor",
-        readOnly: true,
+        kind: "select",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -53,14 +52,6 @@ const entry: TuyaDeviceEntry = {
         measures: "battery",
         readOnly: true,
         unit: "%",
-      },
-      secondTemperatureUnit: {
-        dataPoint: "9",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
       },
       highTemperature: {
         dataPoint: "10",

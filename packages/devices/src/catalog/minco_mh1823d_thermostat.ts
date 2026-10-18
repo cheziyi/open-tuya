@@ -140,14 +140,6 @@ const entry: TuyaDeviceEntry = {
           { raw: "out", value: "External" },
         ],
       },
-      secondTemperatureUnit: {
-        dataPoint: "19",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       calibrationOffsetInternal: {
         dataPoint: "35",
         kind: "number",

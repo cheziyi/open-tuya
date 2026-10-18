@@ -22,18 +22,13 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit: {
         dataPoint: "9",
-        kind: "sensor",
-        readOnly: true,
-        values: [{ raw: "f", value: "F" }],
-        otherwise: "C",
-      },
-      secondTemperatureUnit: {
-        dataPoint: "9",
         kind: "select",
         values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
+          { raw: "f", value: "F" },
+          { raw: "c", value: "C" },
         ],
+        otherwise: "C",
+        ownRuleReadOnly: true,
       },
     },
   },

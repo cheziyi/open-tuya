@@ -173,14 +173,6 @@ const entry: TuyaDeviceEntry = {
       power: { dataPoint: "112", kind: "number" },
       cleaning56c: { dataPoint: "119", kind: "switch" },
       emergencyHeat: { dataPoint: "12", kind: "switch" },
-      secondTemperatureUnit: {
-        dataPoint: "19",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       quiet: { dataPoint: "108", kind: "switch" },
       sleep: { dataPoint: "109", kind: "switch" },
       health: { dataPoint: "106", kind: "switch" },

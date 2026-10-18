@@ -140,14 +140,6 @@ const entry: TuyaDeviceEntry = {
         otherwise: true,
       },
       faultCode: { dataPoint: "9", kind: "sensor", readOnly: true },
-      secondTemperatureUnit: {
-        dataPoint: "14",
-        kind: "select",
-        values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
-        ],
-      },
       timeRemainingInMinutes: {
         dataPoint: "15",
         kind: "sensor",

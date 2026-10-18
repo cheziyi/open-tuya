@@ -223,8 +223,8 @@ const entry: TuyaDeviceEntry = {
         otherwise: true,
       },
       faultCode: { dataPoint: "28", kind: "sensor", readOnly: true },
-      secondCommand: { dataPoint: "15", kind: "text" },
     },
+    device: { command: { dataPoint: "15", kind: "text" } },
   },
   source: {
     file: "lefant_n3_vacuum.yaml",

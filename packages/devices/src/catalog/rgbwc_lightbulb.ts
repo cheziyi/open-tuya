@@ -84,8 +84,7 @@ const entry: TuyaDeviceEntry = {
         max: 86400,
       },
       doNotDisturb: { dataPoint: "34", kind: "switch" },
-      scene: { dataPoint: "25", kind: "text" },
-      secondScene: {
+      scene: {
         dataPoint: "25",
         kind: "select",
         type: "string",

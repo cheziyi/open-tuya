@@ -157,14 +157,6 @@ const entry: TuyaDeviceEntry = {
       volatileOrganicCompounds: { dataPoint: "104", kind: "number" },
       power: { dataPoint: "112", kind: "number" },
       emergencyHeat: { dataPoint: "12", kind: "switch" },
-      secondTemperatureUnit: {
-        dataPoint: "19",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       pm25InUgPerM3: {
         dataPoint: "102",
         kind: "sensor",

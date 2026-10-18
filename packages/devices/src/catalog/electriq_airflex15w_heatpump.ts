@@ -133,7 +133,10 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "109",
         kind: "select",
-        values: [{ raw: true, value: "F" }],
+        values: [
+          { raw: true, value: "F" },
+          { raw: false, value: "C" },
+        ],
         otherwise: "C",
       },
       currentHumidityInPercent: {
@@ -144,14 +147,6 @@ const entry: TuyaDeviceEntry = {
         unit: "%",
       },
       power: { dataPoint: "1", kind: "switch" },
-      secondTemperatureUnit: {
-        dataPoint: "109",
-        kind: "select",
-        values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
-        ],
-      },
       fault: {
         dataPoint: "20",
         kind: "sensor",

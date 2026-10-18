@@ -57,6 +57,14 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
+      targetOutputInPercent: {
+        dataPoint: "107",
+        kind: "number",
+        unit: "%",
+        min: 20,
+        max: 100,
+        step: 20,
+      },
       volumeInM3: {
         dataPoint: "103",
         kind: "number",
@@ -83,14 +91,6 @@ const entry: TuyaDeviceEntry = {
         step: 2,
       },
       boost: { dataPoint: "106", kind: "switch" },
-      secondOutputInPercent: {
-        dataPoint: "107",
-        kind: "number",
-        unit: "%",
-        min: 20,
-        max: 100,
-        step: 20,
-      },
       salinityInGPerL: {
         dataPoint: "108",
         kind: "sensor",
@@ -145,7 +145,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "mV",
       },
-      secondOrpInMillivolts: {
+      targetOrpInMillivolts: {
         dataPoint: "116",
         kind: "number",
         measures: "voltage",
@@ -160,7 +160,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         scale: 10,
       },
-      secondPh: {
+      targetPh: {
         dataPoint: "118",
         kind: "number",
         measures: "ph",
@@ -196,6 +196,7 @@ const entry: TuyaDeviceEntry = {
         unit: "W",
       },
       pump: { dataPoint: "122", kind: "sensor", readOnly: true },
+      pumpEnabled: { dataPoint: "136", kind: "switch" },
       flow: {
         dataPoint: "127",
         kind: "sensor",
@@ -244,7 +245,6 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 24,
       },
-      secondPump: { dataPoint: "136", kind: "switch" },
       timer1Period1InHours: {
         dataPoint: "137",
         kind: "number",

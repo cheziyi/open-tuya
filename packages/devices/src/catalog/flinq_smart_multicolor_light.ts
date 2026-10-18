@@ -28,8 +28,7 @@ const entry: TuyaDeviceEntry = {
       brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
       musicData: { dataPoint: "27", kind: "text" },
       directControl: { dataPoint: "28", kind: "text" },
-      scene: { dataPoint: "52", kind: "text" },
-      secondScene: {
+      scene: {
         dataPoint: "52",
         kind: "select",
         type: "string",

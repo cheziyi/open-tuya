@@ -279,7 +279,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "rpm",
       },
-      secondOutdoorFanSpeedInRpm: {
+      targetOutdoorFanSpeedInRpm: {
         dataPoint: "118",
         kind: "number",
         unit: "rpm",
@@ -294,18 +294,18 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "Hz",
       },
-      compressorFrequencyTarget: {
-        dataPoint: "120",
-        kind: "sensor",
-        readOnly: true,
-      },
-      secondCompressorFrequencyInHz: {
+      targetCompressorFrequencyInHz: {
         dataPoint: "121",
         kind: "number",
         measures: "frequency",
         unit: "Hz",
         min: 0,
         max: 150,
+      },
+      compressorFrequencyTarget: {
+        dataPoint: "120",
+        kind: "sensor",
+        readOnly: true,
       },
       eevOpening: { dataPoint: "122", kind: "number", min: 0, max: 500 },
       softWind: {

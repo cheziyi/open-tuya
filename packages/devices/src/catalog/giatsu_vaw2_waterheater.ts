@@ -38,14 +38,6 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "C",
       },
-      secondMode: {
-        dataPoint: "4",
-        kind: "select",
-        values: [
-          { raw: "heat", value: "Heating" },
-          { raw: "heatfan", value: "Heating and ventilation" },
-        ],
-      },
       fault: {
         dataPoint: "9",
         kind: "sensor",
@@ -55,6 +47,16 @@ const entry: TuyaDeviceEntry = {
         otherwise: true,
       },
       faultCode: { dataPoint: "9", kind: "sensor", readOnly: true },
+    },
+    device: {
+      mode: {
+        dataPoint: "4",
+        kind: "select",
+        values: [
+          { raw: "heat", value: "Heating" },
+          { raw: "heatfan", value: "Heating and ventilation" },
+        ],
+      },
     },
   },
   source: {

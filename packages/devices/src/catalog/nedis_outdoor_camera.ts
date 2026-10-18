@@ -118,12 +118,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "2", value: "continuous" },
         ],
       },
-      motionAlarmArea: {
+      motionAlarmAreaEnabled: {
         dataPoint: "168",
         kind: "switch",
         whenAbsent: { value: false },
       },
-      secondMotionAlarmArea: { dataPoint: "169", kind: "text" },
+      motionAlarmArea: { dataPoint: "169", kind: "text" },
       onvifStream: {
         dataPoint: "255",
         kind: "switch",
