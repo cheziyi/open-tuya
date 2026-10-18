@@ -52,11 +52,15 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "C",
       },
-      antiLegionella: { dataPoint: "4", kind: "switch" },
+      antiLegionella: {
+        dataPoint: "4",
+        kind: "switch",
+        values: [{ raw: true }, { raw: false }],
+      },
       fault: {
         dataPoint: "101",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -83,7 +87,9 @@ const entry: TuyaDeviceEntry = {
         otherwise: false,
       },
       defrost: { dataPoint: "103", kind: "sensor", readOnly: true },
-      targetTemperatureInC2: {
+    },
+    device: {
+      targetTemperatureInC: {
         dataPoint: "104",
         kind: "sensor",
         measures: "temperature",

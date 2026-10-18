@@ -35,6 +35,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "1", value: 75 },
           { raw: "2", value: 50 },
           { raw: "3", value: 25 },
+          { raw: "4", value: null },
         ],
       },
       batteryCharging: {
@@ -127,8 +128,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "112",
         kind: "select",
         values: [
-          { raw: true, value: "celsius" },
-          { raw: false, value: "fahrenheit" },
+          { raw: true, value: "C" },
+          { raw: false, value: "F" },
         ],
       },
       temperatureAlarm: { dataPoint: "113", kind: "switch" },

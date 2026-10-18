@@ -193,7 +193,6 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       pathData: { dataPoint: "14", kind: "text" },
-      command2: { dataPoint: "15", kind: "text" },
       request: {
         dataPoint: "16",
         kind: "select",
@@ -256,7 +255,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "28",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -293,21 +292,21 @@ const entry: TuyaDeviceEntry = {
       cleanEdgeBrush: {
         dataPoint: "150",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         whenAbsent: { value: false },
       },
       cleanRollBrush: {
         dataPoint: "151",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         whenAbsent: { value: false },
       },
       cleanFilter: {
         dataPoint: "152",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         whenAbsent: { value: false },
       },
@@ -322,6 +321,7 @@ const entry: TuyaDeviceEntry = {
       },
       maintenance: { dataPoint: "157", kind: "text" },
     },
+    device: { command: { dataPoint: "15", kind: "text" } },
   },
   source: {
     file: "ilife_v30_vacuum.yaml",

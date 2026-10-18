@@ -73,14 +73,14 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: "opened", value: "heating" }],
         otherwise: "idle",
       },
-      minTargetTemperatureInC: {
+      minimumTargetTemperatureInC: {
         dataPoint: "15",
         kind: "number",
         measures: "temperature",
         unit: "C",
         scale: 10,
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "16",
         kind: "number",
         measures: "temperature",
@@ -119,7 +119,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "14",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

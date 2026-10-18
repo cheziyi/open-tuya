@@ -51,13 +51,13 @@ describe("decodeV35Frames", () => {
     ]);
   });
 
-  it("throws a TuyaError with code MALFORMED_FRAME for a length field under 32", () => {
+  it("sets malformed to a TuyaError with code MALFORMED_FRAME for a length field under 32", () => {
     const frame = Buffer.from(V35_BROADCAST);
     frame.writeUInt32BE(31, 14);
 
-    expect(() => decodeV35Frames(frame, BROADCAST_KEY)).toThrow(
-      expect.objectContaining({ code: "MALFORMED_FRAME" }),
-    );
+    expect(decodeV35Frames(frame, BROADCAST_KEY).malformed).toMatchObject({
+      code: "MALFORMED_FRAME",
+    });
   });
 });
 

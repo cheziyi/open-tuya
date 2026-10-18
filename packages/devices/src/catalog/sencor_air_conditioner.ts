@@ -63,6 +63,13 @@ const entry: TuyaDeviceEntry = {
             value: "high",
             dependsOn: {
               dataPoint: "25",
+              constraint: {
+                dataPoint: "25",
+                values: [
+                  { raw: true, value: "sleep" },
+                  { raw: false, value: "comfort" },
+                ],
+              },
               conditions: [{ when: [true], invalid: true }],
             },
           },
@@ -80,7 +87,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -90,8 +97,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "select",
         values: [
-          { raw: "C", value: "celsius" },
-          { raw: "F", value: "fahrenheit" },
+          { raw: "C", value: "C" },
+          { raw: "F", value: "F" },
         ],
       },
     },

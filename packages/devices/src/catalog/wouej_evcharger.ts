@@ -75,7 +75,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "10",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -107,14 +107,15 @@ const entry: TuyaDeviceEntry = {
         measures: "temperature",
         readOnly: true,
         unit: "C",
+        whenAbsent: {},
         scale: 10,
       },
       temperatureUnit: {
         dataPoint: "106",
         kind: "select",
         values: [
-          { raw: "C", value: "celsius" },
-          { raw: "F", value: "fahrenheit" },
+          { raw: "C", value: "C" },
+          { raw: "F", value: "F" },
         ],
       },
       l1VoltageInV: {

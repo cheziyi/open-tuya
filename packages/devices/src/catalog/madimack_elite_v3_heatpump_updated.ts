@@ -56,6 +56,13 @@ const entry: TuyaDeviceEntry = {
         max: 40,
         dependsOn: {
           dataPoint: "106",
+          constraint: {
+            dataPoint: "106",
+            values: [
+              { raw: "f", value: "F" },
+              { raw: "c", value: "C" },
+            ],
+          },
           conditions: [{ when: ["f"], min: 54, max: 104 }],
         },
       },
@@ -76,13 +83,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "c", value: "C" },
         ],
       },
-      maxTargetTemperature: {
+      maximumTargetTemperature: {
         dataPoint: "110",
         kind: "number",
         measures: "temperature",
         unitFrom: "temperatureUnit",
       },
-      minTargetTemperature: {
+      minimumTargetTemperature: {
         dataPoint: "111",
         kind: "number",
         measures: "temperature",
@@ -213,7 +220,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "c", value: "C" },
         ],
       },
-      eevOpeningInP: {
+      eevOpening: {
         dataPoint: "121",
         kind: "sensor",
         readOnly: true,
@@ -222,7 +229,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "107",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

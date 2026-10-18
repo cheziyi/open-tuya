@@ -86,6 +86,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Bucket_Full", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       nightMode: { dataPoint: "101", kind: "switch" },
@@ -118,7 +119,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "19",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

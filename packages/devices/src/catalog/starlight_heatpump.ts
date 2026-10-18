@@ -91,7 +91,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "strong", value: "strong" },
         ],
       },
-      sleepMode: { dataPoint: "105", kind: "text" },
+      sleepMode: {
+        dataPoint: "105",
+        kind: "select",
+        values: [
+          { raw: "off", value: "Off" },
+          { raw: "normal", value: "Standard" },
+          { raw: "old", value: "Elderly" },
+          { raw: "child", value: "Child" },
+        ],
+      },
       flags: { dataPoint: "110", kind: "number" },
       swingMode: {
         dataPoint: "113",
@@ -101,6 +110,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "1", value: "on" },
         ],
         otherwise: "on",
+        ownRuleReadOnly: true,
       },
       horizontalSwingMode: {
         dataPoint: "114",
@@ -110,6 +120,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "1", value: "on" },
         ],
         otherwise: "on",
+        ownRuleReadOnly: true,
       },
       electricityManagement: { dataPoint: "119", kind: "text" },
       flags2: { dataPoint: "123", kind: "text" },
@@ -173,16 +184,6 @@ const entry: TuyaDeviceEntry = {
           { raw: "5", value: "Rightmost" },
         ],
       },
-      sleepMode2: {
-        dataPoint: "105",
-        kind: "select",
-        values: [
-          { raw: "off", value: "Off" },
-          { raw: "normal", value: "Standard" },
-          { raw: "old", value: "Elderly" },
-          { raw: "child", value: "Child" },
-        ],
-      },
       buzzer: {
         dataPoint: "123",
         mask: "0010",
@@ -191,6 +192,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       softWind: {
@@ -201,6 +203,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       antiMildew: {
@@ -211,6 +214,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       health: {
@@ -221,6 +225,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       antiFrost: {
@@ -231,6 +236,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       ecoMode: {
@@ -241,12 +247,13 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       fault: {
         dataPoint: "20",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -255,7 +262,7 @@ const entry: TuyaDeviceEntry = {
       filter: {
         dataPoint: "131",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       generatorMode: {
@@ -278,6 +285,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
     },

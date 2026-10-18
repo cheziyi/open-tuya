@@ -39,6 +39,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 1, value: "heat" },
         ],
         otherwise: "heat",
+        ownRuleReadOnly: true,
       },
       currentTemperature: {
         dataPoint: "101",
@@ -84,7 +85,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "108",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -109,7 +110,10 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "event",
         readOnly: true,
-        values: [{ raw: true, value: "notify" }],
+        values: [
+          { raw: false, value: null },
+          { raw: true, value: "notify" },
+        ],
       },
       alarmMessage: {
         dataPoint: "108",
@@ -138,8 +142,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "select",
         values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
+          { raw: false, value: "C" },
+          { raw: true, value: "F" },
         ],
       },
       probe1AlarmInC: {

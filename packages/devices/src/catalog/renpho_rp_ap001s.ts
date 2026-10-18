@@ -22,7 +22,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     airPurifier: {
       on: { dataPoint: "1", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "4",
         kind: "select",
         values: [
@@ -52,7 +52,13 @@ const entry: TuyaDeviceEntry = {
       activeFilterLife: { dataPoint: "104", kind: "sensor", readOnly: true },
       hepaFilterLife: { dataPoint: "105", kind: "sensor", readOnly: true },
     },
-    aqIndicator: { on: { dataPoint: "8", kind: "switch" } },
+    aqIndicator: {
+      on: {
+        dataPoint: "8",
+        kind: "select",
+        values: [{ raw: true }, { raw: false }],
+      },
+    },
   },
   source: {
     file: "renpho_rp_ap001s.yaml",

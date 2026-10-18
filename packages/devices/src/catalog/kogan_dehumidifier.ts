@@ -54,7 +54,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "11",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         type: "bitfield",
         values: [

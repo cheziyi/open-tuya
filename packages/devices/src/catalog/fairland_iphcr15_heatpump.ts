@@ -63,16 +63,23 @@ const entry: TuyaDeviceEntry = {
         max: 45,
         dependsOn: {
           dataPoint: "103",
+          constraint: {
+            dataPoint: "103",
+            values: [
+              { raw: false, value: "F" },
+              { raw: true, value: "C" },
+            ],
+          },
           conditions: [{ when: [false], min: 55, max: 115 }],
         },
       },
-      minTargetTemperature: {
+      minimumTargetTemperature: {
         dataPoint: "107",
         kind: "number",
         measures: "temperature",
         unitFrom: "temperatureUnit",
       },
-      maxTargetTemperature: {
+      maximumTargetTemperature: {
         dataPoint: "108",
         kind: "number",
         measures: "temperature",
@@ -95,23 +102,15 @@ const entry: TuyaDeviceEntry = {
       waterFlow: {
         dataPoint: "115",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
       },
-      temperatureUnit2: {
-        dataPoint: "103",
-        kind: "select",
-        values: [
-          { raw: false, value: "fahrenheit" },
-          { raw: true, value: "celsius" },
-        ],
-      },
       fault: {
         dataPoint: "116",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           {

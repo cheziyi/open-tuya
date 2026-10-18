@@ -84,7 +84,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "10",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -201,7 +201,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "C",
       },
-      chargeEnergyInKwh: {
+      chargeEnergySettingInKwh: {
         dataPoint: "17",
         kind: "number",
         measures: "energyStorage",
@@ -210,20 +210,20 @@ const entry: TuyaDeviceEntry = {
         max: 20000000,
         scale: 1000,
       },
-      chargingTimeInMinutes: {
-        dataPoint: "19",
-        kind: "number",
-        unit: "min",
-        min: 1,
-        max: 1440,
-      },
-      chargeEnergyInKwh2: {
+      chargeEnergyInKwh: {
         dataPoint: "25",
         kind: "sensor",
         measures: "energyStorage",
         readOnly: true,
         unit: "kWh",
         scale: 100,
+      },
+      chargingTimeInMinutes: {
+        dataPoint: "19",
+        kind: "number",
+        unit: "min",
+        min: 1,
+        max: 1440,
       },
       on: { dataPoint: "18", kind: "switch" },
       chargingTimeInSeconds: {

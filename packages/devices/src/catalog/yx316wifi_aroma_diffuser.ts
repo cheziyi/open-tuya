@@ -20,7 +20,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     aromaDiffuser: {
       on: { dataPoint: "2", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "3",
         kind: "select",
         values: [
@@ -90,7 +90,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "11",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },

@@ -30,8 +30,8 @@ export class SubDeviceTuyaClient implements TuyaClient {
   }
 
   /** Whether the gateway is connected and does not report the device
-   * offline. A 3.3 gateway reports nothing, so its devices are connected
-   * while it is. */
+   * offline. A gateway that never answers the online query, as some 3.3
+   * gateways do not, leaves its devices connected while it is. */
   get connected(): boolean {
     return !this.closed && this.transport.connected();
   }

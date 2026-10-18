@@ -74,6 +74,20 @@ const entry: TuyaDeviceEntry = {
             value: "smart",
             dependsOn: {
               dataPoint: "1",
+              constraint: {
+                dataPoint: "1",
+                values: [
+                  { raw: true, value: true },
+                  {
+                    raw: false,
+                    value: false,
+                    dependsOn: {
+                      dataPoint: "2",
+                      conditions: [{ when: [true], value: false }],
+                    },
+                  },
+                ],
+              },
               conditions: [{ when: [false], value: "stop" }],
             },
           },
@@ -137,7 +151,6 @@ const entry: TuyaDeviceEntry = {
       voiceData: { dataPoint: "35", kind: "text" },
       messageUnseen: { dataPoint: "104", kind: "number" },
       charge: { dataPoint: "3", kind: "switch" },
-      command2: { dataPoint: "15", kind: "text" },
       fetchRequest: {
         dataPoint: "16",
         kind: "select",
@@ -258,7 +271,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "28",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -292,6 +305,7 @@ const entry: TuyaDeviceEntry = {
       },
     },
     light: { on: { dataPoint: "101", kind: "switch" } },
+    device: { command: { dataPoint: "15", kind: "text" } },
   },
   source: {
     file: "siguro_turbovacnavigator_vacuum.yaml",

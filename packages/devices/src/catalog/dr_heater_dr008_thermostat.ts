@@ -43,6 +43,13 @@ const entry: TuyaDeviceEntry = {
         max: 500,
         dependsOn: {
           dataPoint: "107",
+          constraint: {
+            dataPoint: "107",
+            values: [
+              { raw: false, value: "C" },
+              { raw: true, value: "F" },
+            ],
+          },
           conditions: [{ when: [true], step: 10, min: 680, max: 1220 }],
         },
         scale: 10,
@@ -138,8 +145,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "select",
         values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
+          { raw: false, value: "C" },
+          { raw: true, value: "F" },
         ],
       },
       roomTemperatureLimit: {
@@ -151,6 +158,13 @@ const entry: TuyaDeviceEntry = {
         max: 500,
         dependsOn: {
           dataPoint: "107",
+          constraint: {
+            dataPoint: "107",
+            values: [
+              { raw: false, value: "C" },
+              { raw: true, value: "F" },
+            ],
+          },
           conditions: [{ when: [true], step: 30, min: 680, max: 1220 }],
         },
         scale: 10,

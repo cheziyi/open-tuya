@@ -35,13 +35,14 @@ const entry: TuyaDeviceEntry = {
       alarm: {
         dataPoint: "14",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: "cancel", value: false },
           { raw: "alarm", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       maximumTemperatureInC: {
@@ -106,8 +107,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "select",
         values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
         ],
       },
       sound: { dataPoint: "103", kind: "switch" },

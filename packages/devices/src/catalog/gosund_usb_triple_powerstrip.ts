@@ -81,13 +81,13 @@ const entry: TuyaDeviceEntry = {
       overload: {
         dataPoint: "101",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       usbOverload: {
         dataPoint: "102",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
     },

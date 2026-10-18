@@ -31,8 +31,8 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     lock: {
-      unlockFingerprint: { dataPoint: "12", kind: "number" },
-      unlockBle: { dataPoint: "19", kind: "number" },
+      unlockFingerprint: { dataPoint: "12", kind: "sensor", readOnly: true },
+      unlockBle: { dataPoint: "19", kind: "sensor", readOnly: true },
       lockRecord: { dataPoint: "20", kind: "text" },
       locked: { dataPoint: "46", kind: "switch" },
       lockState: {
@@ -46,7 +46,7 @@ const entry: TuyaDeviceEntry = {
       },
       setUnlockCode: { dataPoint: "73", kind: "text" },
       codeUnlock: { dataPoint: "61", kind: "text" },
-      unlockApp: { dataPoint: "62", kind: "number" },
+      unlockApp: { dataPoint: "62", kind: "sensor", readOnly: true },
       checkCodeSet: { dataPoint: "70", kind: "text" },
       bleUnlockCheck: { dataPoint: "71", kind: "text" },
       batteryInPercent: {
@@ -76,6 +76,12 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         measures: "lock",
         readOnly: true,
+        values: [
+          { raw: true, value: true },
+          { raw: false, value: false },
+        ],
+        whenAbsent: { value: null },
+        otherwise: true,
       },
       autoLock: { dataPoint: "33", kind: "switch" },
       autoLockDelayInSeconds: {

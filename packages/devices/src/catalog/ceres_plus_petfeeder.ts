@@ -61,7 +61,7 @@ const entry: TuyaDeviceEntry = {
       },
       formatSdCardCapacity: { dataPoint: "109", kind: "text" },
       formatSdCardFormatState: { dataPoint: "117", kind: "number" },
-      cameraRecord: { dataPoint: "150", kind: "switch" },
+      recording: { dataPoint: "150", kind: "switch" },
       recordingMode: {
         dataPoint: "151",
         kind: "select",
@@ -86,7 +86,7 @@ const entry: TuyaDeviceEntry = {
       foodBlockage: {
         dataPoint: "240",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: "", value: false }],
         whenAbsent: { value: false },
@@ -95,7 +95,7 @@ const entry: TuyaDeviceEntry = {
       dispenserStuck: {
         dataPoint: "241",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: "", value: false }],
         whenAbsent: { value: false },

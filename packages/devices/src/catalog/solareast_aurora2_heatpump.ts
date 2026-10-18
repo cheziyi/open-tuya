@@ -344,7 +344,7 @@ const entry: TuyaDeviceEntry = {
       backflow: {
         dataPoint: "31",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       defrost: { dataPoint: "33", kind: "sensor", readOnly: true },

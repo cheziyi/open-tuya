@@ -65,7 +65,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kW",
         scale: 1000,
       },
-      breakerTriggerAction: {
+      breakerOvervoltageAction: {
         dataPoint: "102",
         kind: "select",
         values: [
@@ -74,7 +74,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction2: {
+      breakerUndervoltageAction: {
         dataPoint: "103",
         kind: "select",
         values: [
@@ -83,7 +83,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction3: {
+      breakerOvercurrentAction: {
         dataPoint: "104",
         kind: "select",
         values: [
@@ -92,7 +92,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction4: {
+      breakerOverpowerAction: {
         dataPoint: "105",
         kind: "select",
         values: [
@@ -101,7 +101,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction5: {
+      breakerTemperatureAction: {
         dataPoint: "107",
         kind: "select",
         values: [

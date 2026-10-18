@@ -36,9 +36,7 @@ const entry: TuyaDeviceEntry = {
       controlData: { dataPoint: "28", kind: "text" },
       sceneList: { dataPoint: "101", kind: "text" },
       sceneCombine: { dataPoint: "103", kind: "text" },
-      scene: { dataPoint: "102", kind: "text" },
-      scene2: { dataPoint: "102", kind: "text", type: "hex" },
-      scene3: {
+      scene: {
         dataPoint: "102",
         kind: "select",
         values: [

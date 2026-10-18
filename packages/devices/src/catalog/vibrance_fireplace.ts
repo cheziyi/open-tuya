@@ -32,6 +32,13 @@ const entry: TuyaDeviceEntry = {
         max: 35,
         dependsOn: {
           dataPoint: "13",
+          constraint: {
+            dataPoint: "13",
+            values: [
+              { raw: "c", value: "C" },
+              { raw: "f", value: "F" },
+            ],
+          },
           conditions: [
             { when: ["F"], redirect: { dataPoint: "14", min: 41, max: 95 } },
           ],

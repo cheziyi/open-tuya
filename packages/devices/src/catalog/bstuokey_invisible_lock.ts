@@ -26,11 +26,12 @@ const entry: TuyaDeviceEntry = {
       unlockMethodCreate: { dataPoint: "1", kind: "text" },
       unlockMethodDelete: { dataPoint: "2", kind: "text" },
       unlockMethodModify: { dataPoint: "3", kind: "text" },
-      unlockCard: { dataPoint: "15", kind: "number" },
-      unlockBle: { dataPoint: "19", kind: "number" },
+      unlockCard: { dataPoint: "15", kind: "sensor", readOnly: true },
+      unlockBle: { dataPoint: "19", kind: "sensor", readOnly: true },
       jammed: {
         dataPoint: "21",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [
           { raw: "tongue_bad", value: true },
           { raw: "tongue_not_out", value: true },

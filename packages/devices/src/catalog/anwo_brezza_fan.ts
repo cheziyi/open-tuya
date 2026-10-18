@@ -16,7 +16,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     fan: {
       on: { dataPoint: "60", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "61",
         kind: "select",
         values: [

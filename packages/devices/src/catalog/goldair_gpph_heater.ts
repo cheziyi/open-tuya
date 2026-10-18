@@ -39,6 +39,14 @@ const entry: TuyaDeviceEntry = {
         max: 35,
         dependsOn: {
           dataPoint: "4",
+          constraint: {
+            dataPoint: "4",
+            values: [
+              { raw: "C", value: "comfort" },
+              { raw: "ECO", value: "eco" },
+              { raw: "AF", value: "away" },
+            ],
+          },
           conditions: [
             {
               when: ["ECO"],
@@ -50,6 +58,14 @@ const entry: TuyaDeviceEntry = {
                 max: 21,
                 dependsOn: {
                   dataPoint: "4",
+                  constraint: {
+                    dataPoint: "4",
+                    values: [
+                      { raw: "C", value: "comfort" },
+                      { raw: "ECO", value: "eco" },
+                      { raw: "AF", value: "away" },
+                    ],
+                  },
                   conditions: [
                     { when: ["C"], invalid: true },
                     { when: ["AF"], invalid: true },
@@ -92,6 +108,34 @@ const entry: TuyaDeviceEntry = {
             raw: "stop",
             dependsOn: {
               dataPoint: "105",
+              constraint: {
+                dataPoint: "105",
+                values: [
+                  {
+                    raw: "stop",
+                    value: "stop",
+                    dependsOn: {
+                      dataPoint: "101",
+                      conditions: [{ when: ["stop"], value: "stop" }],
+                    },
+                  },
+                  { raw: "auto", value: "auto" },
+                  {
+                    raw: "user",
+                    dependsOn: {
+                      dataPoint: "101",
+                      conditions: [
+                        { when: ["1"], value: "1" },
+                        { when: ["2"], value: "2" },
+                        { when: ["3"], value: "3" },
+                        { when: ["4"], value: "4" },
+                        { when: ["5"], value: "5" },
+                        { when: ["stop"], value: "stop" },
+                      ],
+                    },
+                  },
+                ],
+              },
               conditions: [{ when: ["stop"], value: "Stop" }],
             },
           },
@@ -112,6 +156,23 @@ const entry: TuyaDeviceEntry = {
             value: "stop",
             dependsOn: {
               dataPoint: "101",
+              constraint: {
+                dataPoint: "101",
+                values: [
+                  {
+                    raw: "stop",
+                    dependsOn: {
+                      dataPoint: "105",
+                      conditions: [{ when: ["stop"], value: "Stop" }],
+                    },
+                  },
+                  { raw: "1", value: "1" },
+                  { raw: "2", value: "2" },
+                  { raw: "3", value: "3" },
+                  { raw: "4", value: "4" },
+                  { raw: "5", value: "5" },
+                ],
+              },
               conditions: [{ when: ["stop"], value: "stop" }],
             },
           },
@@ -120,6 +181,23 @@ const entry: TuyaDeviceEntry = {
             raw: "user",
             dependsOn: {
               dataPoint: "101",
+              constraint: {
+                dataPoint: "101",
+                values: [
+                  {
+                    raw: "stop",
+                    dependsOn: {
+                      dataPoint: "105",
+                      conditions: [{ when: ["stop"], value: "Stop" }],
+                    },
+                  },
+                  { raw: "1", value: "1" },
+                  { raw: "2", value: "2" },
+                  { raw: "3", value: "3" },
+                  { raw: "4", value: "4" },
+                  { raw: "5", value: "5" },
+                ],
+              },
               conditions: [
                 { when: ["1"], value: "1" },
                 { when: ["2"], value: "2" },
@@ -158,7 +236,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "12",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

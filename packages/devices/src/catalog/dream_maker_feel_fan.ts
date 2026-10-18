@@ -24,7 +24,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     fan: {
       on: { dataPoint: "1", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "2",
         kind: "select",
         values: [
@@ -39,11 +39,11 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "select",
         values: [
-          { raw: 30, value: "30°" },
-          { raw: 60, value: "60°" },
-          { raw: 90, value: "90°" },
-          { raw: 120, value: "120°" },
-          { raw: 140, value: "140°" },
+          { raw: "30", value: "30°" },
+          { raw: "60", value: "60°" },
+          { raw: "90", value: "90°" },
+          { raw: "120", value: "120°" },
+          { raw: "140", value: "140°" },
         ],
       },
       keytone: { dataPoint: "13", kind: "switch" },
@@ -58,7 +58,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "24",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },

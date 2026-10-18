@@ -49,7 +49,7 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
         step: 5,
       },
-      maxTargetTemperature: {
+      maximumTargetTemperature: {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
@@ -72,7 +72,7 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         scale: 10,
       },
-      minTargetTemperature: {
+      minimumTargetTemperature: {
         dataPoint: "26",
         kind: "number",
         measures: "temperature",
@@ -107,14 +107,6 @@ const entry: TuyaDeviceEntry = {
           { raw: "f", value: "F" },
         ],
       },
-      temperatureUnit2: {
-        dataPoint: "23",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       minimumTemperature: {
         dataPoint: "26",
         kind: "number",
@@ -144,7 +136,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "45",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

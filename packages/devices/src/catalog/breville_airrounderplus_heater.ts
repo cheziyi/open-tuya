@@ -36,6 +36,15 @@ const entry: TuyaDeviceEntry = {
             readOnly: true,
             dependsOn: {
               dataPoint: "4",
+              constraint: {
+                dataPoint: "4",
+                values: [
+                  { raw: "heat_mid", value: "low" },
+                  { raw: "heat_high", value: "medium" },
+                  { raw: "heat_0", value: "high" },
+                  { raw: "heat_low", value: "off", readOnly: true },
+                ],
+              },
               conditions: [
                 { when: ["heat_low"], value: "off" },
                 { when: ["heat_high"], value: "heat" },
@@ -92,6 +101,15 @@ const entry: TuyaDeviceEntry = {
             readOnly: true,
             dependsOn: {
               dataPoint: "5",
+              constraint: {
+                dataPoint: "5",
+                values: [
+                  { raw: "SleepWind", value: 0, readOnly: true },
+                  { raw: "NatureWind_Low", value: 33 },
+                  { raw: "NatureWind_High", value: 66 },
+                  { raw: "CoolWind_0", value: 100 },
+                ],
+              },
               conditions: [
                 { when: ["SleepWInd"], value: false, readOnly: true },
                 { when: ["NatureWind_High"], value: true },
@@ -144,7 +162,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "23",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

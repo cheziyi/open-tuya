@@ -66,8 +66,7 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit: {
         dataPoint: "24",
-        kind: "sensor",
-        readOnly: true,
+        kind: "select",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -85,21 +84,21 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "19",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
-      filterReset: { dataPoint: "20", kind: "button" },
-      temperatureUnit2: {
-        dataPoint: "24",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
+      secondFault: {
+        dataPoint: "108",
+        kind: "event",
+        readOnly: true,
+        values: [{ raw: "no_error", value: null }],
+        otherwise: "alert",
       },
+      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      secondFaultCode: { dataPoint: "108", kind: "sensor", readOnly: true },
+      filterReset: { dataPoint: "20", kind: "button" },
       tankFull: {
         dataPoint: "25",
         kind: "sensor",
@@ -109,6 +108,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "on", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       dryAfterOff: { dataPoint: "101", kind: "switch" },
@@ -142,13 +142,6 @@ const entry: TuyaDeviceEntry = {
         max: 240,
       },
       drying: { dataPoint: "107", kind: "switch" },
-      fault2: {
-        dataPoint: "108",
-        kind: "event",
-        readOnly: true,
-        otherwise: "alert",
-      },
-      faultCode2: { dataPoint: "108", kind: "sensor", readOnly: true },
       energySaving: { dataPoint: "109", kind: "switch" },
     },
     indicator: {

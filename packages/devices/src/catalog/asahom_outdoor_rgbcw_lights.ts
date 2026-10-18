@@ -76,6 +76,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 1000,
       },
+      secondColorBrightness: { dataPoint: "111", kind: "number" },
       musicData: { dataPoint: "27", kind: "text" },
       colorAddressable: { dataPoint: "101", kind: "text" },
       colorFavorite: { dataPoint: "102", kind: "text" },
@@ -86,7 +87,6 @@ const entry: TuyaDeviceEntry = {
       musicDevicedata: { dataPoint: "108", kind: "text" },
       buttonSetting: { dataPoint: "109", kind: "text" },
       splitterSetting: { dataPoint: "110", kind: "text" },
-      colorBrightness2: { dataPoint: "111", kind: "number" },
       colorSync: { dataPoint: "116", kind: "text" },
       timerInSeconds: {
         dataPoint: "26",
@@ -110,10 +110,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "fav", value: "Favorite" },
         ],
       },
-      colorSync2: { dataPoint: "118", kind: "switch" },
       reconfigure: { dataPoint: "105", kind: "button" },
     },
     indicator: { on: { dataPoint: "112", kind: "switch" } },
+    device: { colorSync: { dataPoint: "118", kind: "switch" } },
   },
   source: {
     file: "asahom_outdoor_rgbcw_lights.yaml",

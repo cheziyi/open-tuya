@@ -140,14 +140,14 @@ const entry: TuyaDeviceEntry = {
         measures: "temperature",
         unit: "F",
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "113",
         kind: "number",
         measures: "temperature",
         unit: "C",
         scale: 100,
       },
-      minTargetTemperatureInC: {
+      minimumTargetTemperatureInC: {
         dataPoint: "114",
         kind: "number",
         measures: "temperature",
@@ -182,8 +182,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "select",
         values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
+          { raw: false, value: "C" },
+          { raw: true, value: "F" },
         ],
       },
       heatBoost: { dataPoint: "102", kind: "switch" },
@@ -206,7 +206,7 @@ const entry: TuyaDeviceEntry = {
       filterBlockage: {
         dataPoint: "110",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       aiEco: { dataPoint: "111", kind: "switch" },
@@ -239,7 +239,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "rpm",
       },
-      compressorFanSpeedInRpm2: {
+      compressorFanSpeedSettingInRpm: {
         dataPoint: "118",
         kind: "number",
         unit: "rpm",
@@ -248,17 +248,17 @@ const entry: TuyaDeviceEntry = {
         scale: 0.1,
       },
       compressorFrequency: { dataPoint: "119", kind: "sensor", readOnly: true },
-      compressorFrequencyTarget: {
-        dataPoint: "120",
-        kind: "sensor",
-        readOnly: true,
-      },
-      compressorFrequency2: {
+      compressorFrequencySetting: {
         dataPoint: "121",
         kind: "number",
         min: 0,
         max: 150,
         scale: 0.1,
+      },
+      compressorFrequencyTarget: {
+        dataPoint: "120",
+        kind: "sensor",
+        readOnly: true,
       },
       compressorEevOpeningInDegrees: {
         dataPoint: "122",
@@ -333,9 +333,9 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "134",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
-        values: [{ raw: 0, value: false }],
+        values: [{ raw: "0", value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
@@ -390,7 +390,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: 100 },
         ],
       },
-      mode: {
+      preset: {
         dataPoint: "106",
         kind: "select",
         values: [

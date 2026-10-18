@@ -47,6 +47,15 @@ const entry: TuyaDeviceEntry = {
         max: 300,
         dependsOn: {
           dataPoint: "2",
+          constraint: {
+            dataPoint: "2",
+            values: [
+              { raw: "auto", value: "program" },
+              { raw: "eco", value: "eco" },
+              { raw: "hot", value: "comfort" },
+              { raw: "only_inside", value: "boost" },
+            ],
+          },
           conditions: [
             {
               when: ["only_inside"],

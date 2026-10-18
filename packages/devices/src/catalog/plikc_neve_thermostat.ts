@@ -85,6 +85,24 @@ const entry: TuyaDeviceEntry = {
         max: 350,
         dependsOn: {
           dataPoint: "2",
+          constraint: {
+            dataPoint: "2",
+            values: [
+              { raw: "auto", value: "program" },
+              { raw: "manual", value: "manual" },
+              { raw: "temporary", value: "temp_override", readOnly: true },
+              {
+                raw: "holiday",
+                value: "away",
+                dependsOn: {
+                  dataPoint: "33",
+                  conditions: [
+                    { when: [0], value: "Set holiday length!", readOnly: true },
+                  ],
+                },
+              },
+            ],
+          },
           conditions: [
             {
               when: ["holiday"],
@@ -94,7 +112,7 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 10,
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
@@ -109,7 +127,7 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      minTargetTemperatureInC: {
+      minimumTargetTemperatureInC: {
         dataPoint: "26",
         kind: "number",
         measures: "temperature",
@@ -151,7 +169,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "45",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },

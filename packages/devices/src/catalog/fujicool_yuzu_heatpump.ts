@@ -103,6 +103,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "1", value: "on" },
         ],
         otherwise: "on",
+        ownRuleReadOnly: true,
       },
       horizontalSwingMode: {
         dataPoint: "114",
@@ -112,6 +113,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "1", value: "on" },
         ],
         otherwise: "on",
+        ownRuleReadOnly: true,
       },
       electricityManagement: { dataPoint: "119", kind: "text" },
       genMode: { dataPoint: "120", kind: "text" },
@@ -125,7 +127,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "20",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -184,6 +186,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       pm25InUgPerM3: {
@@ -197,7 +200,7 @@ const entry: TuyaDeviceEntry = {
       filter: {
         dataPoint: "131",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
     },
@@ -210,6 +213,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
     },

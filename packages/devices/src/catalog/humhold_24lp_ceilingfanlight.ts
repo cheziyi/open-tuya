@@ -34,8 +34,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "119", kind: "switch" },
-      on2: {
+      on: {
         dataPoint: "107",
         kind: "select",
         values: [
@@ -130,7 +129,7 @@ const entry: TuyaDeviceEntry = {
     },
     fan: {
       on: { dataPoint: "60", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "61",
         kind: "select",
         values: [
@@ -141,6 +140,7 @@ const entry: TuyaDeviceEntry = {
       speed: { dataPoint: "62", kind: "number", min: 1, max: 100 },
       direction: { dataPoint: "63", kind: "text" },
     },
+    device: { on: { dataPoint: "119", kind: "switch" } },
   },
   source: {
     file: "humhold_24lp_ceilingfanlight.yaml",

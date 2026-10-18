@@ -32,13 +32,18 @@ export interface DecodedFrames {
   errors: TuyaError[];
   /** The bytes of a frame not yet whole, to put in front of the next read. */
   remainder: Buffer;
+  /** A `TuyaError` with code `MALFORMED_FRAME`, set for a length field out of
+   * range. The whole frames before it are in `frames`, and the bytes from it
+   * on are dropped, as the reader has lost its place in the stream. */
+  malformed?: TuyaError;
 }
 
 type Sign = (bytes: Uint8Array) => Buffer;
 
 // Source: The length field counts the payload, the CRC and the suffix, and
 // the CRC32 covers every byte before it, in
-// https://github.com/codetheweb/tuyapi/commit/9ea40d76dbc8721a174b427edf738d8f2f338c60
+// https://github.com/codetheweb/tuyapi/commit/4839c78af67572f3b6238f1271916cbc4e646f5a,
+// https://github.com/codetheweb/tuyapi/commit/2312fd40e3896d791c7cbc1687d2212e671fad62
 // and https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/466664ff8845b76c7ed227682f6665e2a6cf8e36.
 /** Frames a payload for a 3.1 to 3.3 device, with a CRC32 and no return
  * code. */
@@ -62,9 +67,8 @@ export function encodeV34Frame(frame: TuyaFrame, key: Uint8Array): Buffer {
 /** Splits the bytes read from a 3.1 to 3.3 device into whole frames. A
  * payload and the remainder are views of `bytes`, not copies. A frame whose
  * CRC is wrong goes in `errors` as a `TuyaError` with code `MALFORMED_FRAME`.
- * It throws a `TuyaError` with code `MALFORMED_FRAME` for a length field under
- * 12 or over 102,400. It does not check the suffix: see
- * DESIGN.md#received-frames. */
+ * A length field under 12 or over 102,400 sets `malformed`. It does not check
+ * the suffix: see DESIGN.md#received-frames. */
 export function decodeFrames(bytes: Uint8Array): DecodedFrames {
   return decode55aaFrames(
     bytes,
@@ -78,8 +82,8 @@ export function decodeFrames(bytes: Uint8Array): DecodedFrames {
  * HMAC under `key`: the local key during the session key negotiation, and the
  * session key after it. A payload and the remainder are views of `bytes`,
  * not copies. A frame whose HMAC is wrong goes in `errors` as a `TuyaError`
- * with code `DECRYPTION_FAILED`. It throws a `TuyaError` with code
- * `MALFORMED_FRAME` for a length field under 40 or over 102,400. */
+ * with code `DECRYPTION_FAILED`. A length field under 40 or over 102,400 sets
+ * `malformed`. */
 export function decodeV34Frames(
   bytes: Uint8Array,
   key: Uint8Array,
@@ -122,13 +126,18 @@ function decode55aaFrames(
   sign: Sign,
   signatureError: () => TuyaError,
 ): DecodedFrames {
-  const { frames, remainder } = splitFrames(bytes, {
+  const { frames, remainder, malformed } = splitFrames(bytes, {
     prefix: PREFIX_BYTES,
     lengthOffset: 12,
     uncountedLength: HEADER_LENGTH,
     minLength: RETURN_CODE_LENGTH + signatureLength + SUFFIX_LENGTH,
   });
-  const decoded: DecodedFrames = { frames: [], errors: [], remainder };
+  const decoded: DecodedFrames = {
+    frames: [],
+    errors: [],
+    remainder,
+    ...(malformed && { malformed }),
+  };
   for (const frame of frames) {
     const signatureOffset = frame.length - SUFFIX_LENGTH - signatureLength;
     const signature = frame.subarray(

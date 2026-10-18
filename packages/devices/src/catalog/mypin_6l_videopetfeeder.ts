@@ -37,7 +37,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      cameraRecord: { dataPoint: "150", kind: "switch" },
+      recording: { dataPoint: "150", kind: "switch" },
       motionDetection: { dataPoint: "113", kind: "switch" },
       watermark: { dataPoint: "104", kind: "switch" },
       nightVision: {
@@ -132,13 +132,13 @@ const entry: TuyaDeviceEntry = {
       blocked: {
         dataPoint: "240",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       jammed: {
         dataPoint: "241",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       voiceRecording: {
@@ -155,6 +155,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "243",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "feed",
       },
       manualFeedGrams: {
@@ -167,6 +168,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "244",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "feed",
       },
       autoFeedGrams: {
@@ -188,6 +190,7 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [{ raw: 0, value: "fail" }],
+        whenAbsent: { value: null },
         otherwise: "feed",
       },
       feedPortions: { dataPoint: "246", kind: "sensor", readOnly: true },

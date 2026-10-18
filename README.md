@@ -131,9 +131,8 @@ await using client = await createTuyaClient({
 
 One gateway client serves every device behind it: create it once and close it
 yourself, as `createTuyaClient` leaves it open. The devices behind it follow
-it to a new address. On 3.4 and 3.5 it asks the
-gateway every 30 s which devices are online, so a device the gateway reports
-offline goes to the next route.
+it to a new address. It asks the gateway every 30 s which devices are online,
+so a device the gateway reports offline goes to the next route.
 
 `client.entry` is the catalog entry the controls are named by, the best of
 `client.entries`. Save its `source.file` and pass the entry next time, so the
@@ -164,7 +163,8 @@ Pass `writeControls` the data points the device reports now: a control with a
 the rest from them, and a control that depends on another data point, such as
 a thermostat's mode, reads it there. Such a write can set that data point
 too, or throw a `TuyaError` with code `VALUE_UNAVAILABLE` while the device
-holds it at a value the write cannot change. A control's range, scale and
+holds it at a value the write cannot change. A value the data point cannot
+hold, such as a mode the device lacks, throws a `TypeError`. A control's range, scale and
 step can change with the device's state, such as a thermostat's in eco mode:
 `resolveControl(entry, control, dataPoints)` gives them as they are now. A value is the device's own, in the unit its name carries. A name the
 catalog gives alike across devices is in `CONTROL_NAMES`; any other is the

@@ -53,7 +53,13 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      ph: { dataPoint: "10", kind: "sensor", readOnly: true, scale: 100 },
+      ph: {
+        dataPoint: "10",
+        kind: "sensor",
+        readOnly: true,
+        values: [{ raw: 1500, value: null }],
+        scale: 100,
+      },
       electricalConductivityInMsPerCm: {
         dataPoint: "11",
         kind: "sensor",

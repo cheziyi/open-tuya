@@ -25,7 +25,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      cameraRecord: { dataPoint: "150", kind: "switch" },
+      recording: { dataPoint: "150", kind: "switch" },
       motionDetection: { dataPoint: "134", kind: "switch" },
       siren: { dataPoint: "159", kind: "switch" },
       batteryInPercent: {
@@ -38,13 +38,14 @@ const entry: TuyaDeviceEntry = {
       plug: {
         dataPoint: "146",
         kind: "sensor",
-        measures: "plug",
+        measures: "plugged",
         readOnly: true,
         values: [
           { raw: "0", value: false },
           { raw: "1", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       running: {

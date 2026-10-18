@@ -55,6 +55,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "off", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       on: { dataPoint: "1", kind: "switch" },

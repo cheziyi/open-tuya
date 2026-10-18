@@ -36,12 +36,18 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 12,
       },
-      manualFeedInPortions: {
+      manualFeedSettingInPortions: {
         dataPoint: "105",
         kind: "number",
         unit: "portions",
         min: 0,
         max: 12,
+      },
+      manualFeedInPortions: {
+        dataPoint: "106",
+        kind: "sensor",
+        readOnly: true,
+        unit: "portions",
       },
       weightInG: {
         dataPoint: "110",
@@ -55,18 +61,12 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "102",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
       faultCode: { dataPoint: "102", kind: "sensor", readOnly: true },
-      manualFeedInPortions2: {
-        dataPoint: "106",
-        kind: "sensor",
-        readOnly: true,
-        unit: "portions",
-      },
       expressResultInPortions: {
         dataPoint: "107",
         kind: "sensor",

@@ -34,6 +34,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "open", value: true },
           { raw: "closed", value: false },
         ],
+        otherwise: null,
       },
       windAndRain: {
         dataPoint: "104",
@@ -45,12 +46,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "fine", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       fault: {
         dataPoint: "105",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: "", value: false }],
         otherwise: true,

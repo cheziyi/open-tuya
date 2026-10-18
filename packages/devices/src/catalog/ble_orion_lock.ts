@@ -19,8 +19,8 @@ const entry: TuyaDeviceEntry = {
     lock: {
       unlockMethodRegister: { dataPoint: "1", kind: "text" },
       unlockMethodDelete: { dataPoint: "2", kind: "text" },
-      unlockFingerprint: { dataPoint: "12", kind: "number" },
-      unlockApp: { dataPoint: "19", kind: "number" },
+      unlockFingerprint: { dataPoint: "12", kind: "sensor", readOnly: true },
+      unlockApp: { dataPoint: "19", kind: "sensor", readOnly: true },
       locked: { dataPoint: "33", kind: "switch" },
       syncMethod: { dataPoint: "54", kind: "text" },
       batteryInPercent: {

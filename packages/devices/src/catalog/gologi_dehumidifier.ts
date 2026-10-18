@@ -26,8 +26,9 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: 100 },
         ],
         otherwise: 0,
+        ownRuleReadOnly: true,
       },
-      mode: {
+      preset: {
         dataPoint: "5",
         kind: "select",
         values: [
@@ -35,6 +36,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "n", value: "dehumidify" },
         ],
         otherwise: "purify",
+        ownRuleReadOnly: true,
       },
     },
     device: {
@@ -47,6 +49,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "4H", value: "4h" },
         ],
         otherwise: "cancel",
+        ownRuleReadOnly: true,
       },
       timeRemainingInMinutes: {
         dataPoint: "18",
@@ -58,7 +61,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "19",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

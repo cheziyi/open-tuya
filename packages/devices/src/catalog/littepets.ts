@@ -35,7 +35,7 @@ const entry: TuyaDeviceEntry = {
       manualClean: { dataPoint: "3", kind: "switch" },
       sleep: { dataPoint: "10", kind: "switch" },
       deodorise: { dataPoint: "17", kind: "switch" },
-      numberOfTimesUsedInTimes: {
+      numberOfTimesUsed: {
         dataPoint: "7",
         kind: "sensor",
         readOnly: true,

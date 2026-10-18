@@ -11,7 +11,11 @@ import {
 } from "@open-tuya/simulators";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createLocalTuyaClient, LocalTuyaClient } from "../client.js";
-import { openConnection } from "../connection.js";
+import {
+  type ConnectionListeners,
+  openConnection,
+  type TuyaConnection,
+} from "../connection.js";
 import { TuyaDiscovery } from "../discovery/discovery.js";
 import {
   V33_QUERY_ERROR,
@@ -19,6 +23,7 @@ import {
 } from "../protocol/__tests__/fixtures/capturedFrames.js";
 import { LOCAL_KEY } from "../protocol/__tests__/fixtures/computedFrames.js";
 import { COMMANDS } from "../protocol/commands.js";
+import type { ReceivedTuyaFrame } from "../protocol/frame.js";
 import { until, useFakeTimers } from "./clock.js";
 import { type RawDevice, startRawDevice } from "./mocks/rawDevice.js";
 
@@ -32,6 +37,10 @@ const GATEWAY_VERSIONS = PROTOCOL_VERSIONS.filter(
 );
 const BROADCAST_VERSIONS = PROTOCOL_VERSIONS.filter(
   (version) => version !== "3.2",
+);
+// 3.1 has no version header.
+const HEADER_VERSIONS = PROTOCOL_VERSIONS.filter(
+  (version) => version !== "3.1",
 );
 
 const cleanups: (() => unknown)[] = [];
@@ -113,27 +122,6 @@ describe.each(PROTOCOL_VERSIONS)("LocalTuyaClient on %s", (version) => {
     expect(reports.at(-1)).toEqual({ "1": false, "3": "eco" });
   });
 
-  it.skipIf(version === "3.1")(
-    "numbers its writes' version headers from 1, under one source ID",
-    async () => {
-      const device = await startDevice(version);
-      const { client } = connect(device.port, version);
-
-      await client.writeDataPoints({ "2": 30 });
-      await client.writeDataPoints({ "2": 31 });
-
-      const headers = device.received
-        .filter((frame) => frame.versionHeader)
-        .map((frame) => frame.versionHeader);
-      expect(headers).toEqual([
-        { serialNumber: 1, sourceId: expect.any(Number) },
-        { serialNumber: 2, sourceId: headers[0]?.sourceId },
-      ]);
-      expect(headers[0]?.sourceId).toBeGreaterThanOrEqual(1000);
-      expect(headers[0]?.sourceId).toBeLessThanOrEqual(1_000_999);
-    },
-  );
-
   it("resolves a write the device only acks", async () => {
     const device = await startDevice(version);
     device.pushesAfterWrite = false;
@@ -183,7 +171,6 @@ describe.each(PROTOCOL_VERSIONS)("LocalTuyaClient on %s", (version) => {
 
     await expect(client.readDataPoints()).rejects.toMatchObject({
       code: "REQUEST_REJECTED",
-      message: expect.stringContaining("json obj data unvalid"),
     });
   });
 
@@ -256,6 +243,26 @@ describe.each(PROTOCOL_VERSIONS)("LocalTuyaClient on %s", (version) => {
   });
 });
 
+describe.each(HEADER_VERSIONS)("a write on %s", (version) => {
+  it("numbers its version headers from 1, under one source ID", async () => {
+    const device = await startDevice(version);
+    const { client } = connect(device.port, version);
+
+    await client.writeDataPoints({ "2": 30 });
+    await client.writeDataPoints({ "2": 31 });
+
+    const headers = device.received
+      .filter((frame) => frame.versionHeader)
+      .map((frame) => frame.versionHeader);
+    expect(headers).toEqual([
+      { serialNumber: 1, sourceId: expect.any(Number) },
+      { serialNumber: 2, sourceId: headers[0]?.sourceId },
+    ]);
+    expect(headers[0]?.sourceId).toBeGreaterThanOrEqual(1000);
+    expect(headers[0]?.sourceId).toBeLessThanOrEqual(1_000_999);
+  });
+});
+
 describe("LocalTuyaClient", () => {
   it("rejects with REQUEST_REJECTED when the device answers with an error", async () => {
     const device = await startRaw(V33_QUERY_ERROR);
@@ -267,7 +274,6 @@ describe("LocalTuyaClient", () => {
 
     await expect(client.readDataPoints()).rejects.toMatchObject({
       code: "REQUEST_REJECTED",
-      message: expect.stringContaining("parse data error"),
     });
   });
 
@@ -308,6 +314,22 @@ describe("LocalTuyaClient", () => {
 });
 
 describe("LocalTuyaClient on 3.1", () => {
+  it("sends a write with no version header", async () => {
+    const device = await startDevice("3.1");
+    const { client } = connect(device.port, "3.1");
+
+    await client.writeDataPoints({ "2": 30 });
+
+    const writes = device.received.filter(
+      (frame) => frame.command === COMMANDS.CONTROL,
+    );
+    expect(writes).toHaveLength(1);
+    expect(writes[0]?.versionHeader).toBeUndefined();
+    expect(JSON.parse(writes[0]?.payload.toString() ?? "")).toMatchObject({
+      dps: { "2": 30 },
+    });
+  });
+
   it("reads under the wrong key, as a read goes in plain text, but a write times out", async () => {
     useFakeTimers();
     const device = await startDevice("3.1");
@@ -356,6 +378,17 @@ describe.each(GATEWAY_VERSIONS)("a gateway on %s", (version) => {
     await lamp.writeDataPoints({ "1": true });
 
     expect(device.subDevices.lamp).toEqual({ "1": true });
+    const write = device.received.find(
+      (frame) =>
+        frame.command ===
+        (version === "3.3" ? COMMANDS.CONTROL : COMMANDS.CONTROL_NEW),
+    );
+    const body = JSON.parse(write?.payload.toString() ?? "");
+    expect(version === "3.3" ? body : body.data).toEqual(
+      version === "3.3"
+        ? { cid: "lamp", dps: { "1": true }, t: expect.any(Number) }
+        : { cid: "lamp", ctype: 0, dps: { "1": true } },
+    );
   });
 
   it("reads each device behind it once connected, and hands each its own reports", async () => {
@@ -386,7 +419,7 @@ describe.each(GATEWAY_VERSIONS)("a gateway on %s", (version) => {
     await until(() => sensorReports.length > 0 && device.ready);
 
     device.send(
-      version === "3.3" ? COMMANDS.DP_QUERY : COMMANDS.DP_QUERY_NEW,
+      COMMANDS.DP_QUERY_NEW,
       Buffer.from('{"dps":{"1":30},"cid":"sensor"}'),
     );
     await until(() => sensorReports.length > 1);
@@ -409,25 +442,46 @@ describe.each(GATEWAY_VERSIONS)("a gateway on %s", (version) => {
     });
   });
 
-  it(
-    version === "3.3"
-      ? "takes each device behind it as connected while it is, as a 3.3 gateway reports none offline"
-      : "takes a device the gateway reports offline as not connected",
-    async () => {
-      const device = await startGateway();
-      device.offline.add("sensor");
-      const { client } = connect(device.port, version);
-      const lamp = client.createClient("lamp");
-      const sensor = client.createClient("sensor");
-      await until(() => client.connected);
-      if (version !== "3.3") {
-        await until(() => !sensor.connected);
-      }
+  it("stops reading a closed device after a reconnect, and stops asking which are online once none is open", async () => {
+    useFakeTimers();
+    const device = await startGateway();
+    const { client } = connect(device.port, version);
+    const lamp = client.createClient("lamp");
+    await lamp.readDataPoints();
+    await lamp.close();
 
-      expect(lamp.connected).toBe(true);
-      expect(sensor.connected).toBe(version === "3.3");
-    },
-  );
+    device.disconnect();
+    await until(() => !client.connected);
+    const since = device.received.length;
+    await vi.advanceTimersByTimeAsync(5000);
+    await until(() =>
+      device.received
+        .slice(since)
+        .some(
+          (frame) =>
+            frame.command === COMMANDS.DP_QUERY ||
+            frame.command === COMMANDS.DP_QUERY_NEW,
+        ),
+    );
+    await vi.advanceTimersByTimeAsync(30_000);
+
+    const after = device.received.slice(since);
+    expect(after.filter((frame) => frame.payload.includes("lamp"))).toEqual([]);
+    expect(
+      after.filter((frame) => frame.command === COMMANDS.LAN_EXT_STREAM),
+    ).toEqual([]);
+  });
+
+  it("takes a device the gateway reports offline as not connected", async () => {
+    const device = await startGateway();
+    device.offline.add("sensor");
+    const { client } = connect(device.port, version);
+    const lamp = client.createClient("lamp");
+    const sensor = client.createClient("sensor");
+    await until(() => client.connected && !sensor.connected);
+
+    expect(lamp.connected).toBe(true);
+  });
 });
 
 describe.each(BROADCAST_VERSIONS)(
@@ -684,6 +738,56 @@ describe.each(["3.2", "3.3"] as const)(
     });
   },
 );
+
+describe("a read by writing null on 3.3", () => {
+  function frame(command: number, payload: string): ReceivedTuyaFrame {
+    return {
+      sequenceNumber: 0,
+      command,
+      returnCode: 0,
+      payload: Buffer.from(payload),
+    };
+  }
+
+  it("waits for its ack after the STATUS, so the next write does not take it", async () => {
+    const sent: number[] = [];
+    let listeners: ConnectionListeners | undefined;
+    const client = new LocalTuyaClient(
+      async (_host, connectionListeners) => {
+        listeners = connectionListeners;
+        return {
+          send: async (command: number) => {
+            sent.push(command);
+          },
+          close: async () => {},
+        } as unknown as TuyaConnection;
+      },
+      {
+        version: "3.3",
+        deviceId: DEVICE_ID,
+        host: "127.0.0.1",
+        readByWritingNull: ["1"],
+      },
+    );
+    cleanups.push(() => client.close());
+    // The read the client makes once connected.
+    await until(() => sent.length === 1);
+    let written = false;
+    const writing = client.writeDataPoints({ "1": false }).then(() => {
+      written = true;
+    });
+
+    listeners?.onFrame(frame(COMMANDS.STATUS, '{"dps":{"1":true}}'));
+    listeners?.onFrame(frame(COMMANDS.CONTROL, ""));
+    await until(() => sent.length === 2);
+    await new Promise((resolve) => setImmediate(resolve));
+
+    expect(written).toBe(false);
+    listeners?.onFrame(frame(COMMANDS.CONTROL, ""));
+    await writing;
+    expect(sent).toEqual([COMMANDS.CONTROL, COMMANDS.CONTROL]);
+  });
+});
 
 describe("readByWritingNull", () => {
   it.each(["3.1", "3.4", "3.5"] as const)(

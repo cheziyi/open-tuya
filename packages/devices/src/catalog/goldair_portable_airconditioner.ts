@@ -61,6 +61,11 @@ const entry: TuyaDeviceEntry = {
         max: 31,
         dependsOn: {
           dataPoint: "109",
+          constraint: {
+            dataPoint: "109",
+            values: [{ raw: 32, value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             {
               when: [32],
@@ -79,6 +84,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "109",
+          constraint: {
+            dataPoint: "109",
+            values: [{ raw: 32, value: "F" }],
+            otherwise: "C",
+          },
           conditions: [{ when: [32], redirect: { dataPoint: "108" } }],
         },
       },
@@ -328,7 +338,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "20",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },

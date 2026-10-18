@@ -49,21 +49,21 @@ const entry: TuyaDeviceEntry = {
         max: 450,
         scale: 10,
       },
-      maxTargetTemperatureInF: {
+      maximumTargetTemperatureInF: {
         dataPoint: "18",
         kind: "number",
         measures: "temperature",
         unit: "F",
         scale: 10,
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
         unit: "C",
         scale: 10,
       },
-      minTargetTemperatureInF: {
+      minimumTargetTemperatureInF: {
         dataPoint: "20",
         kind: "number",
         measures: "temperature",
@@ -78,7 +78,7 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      minTargetTemperatureInC: {
+      minimumTargetTemperatureInC: {
         dataPoint: "26",
         kind: "number",
         measures: "temperature",
@@ -121,6 +121,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "close", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       sensor: {

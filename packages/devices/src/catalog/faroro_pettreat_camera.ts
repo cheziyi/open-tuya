@@ -23,9 +23,9 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "select",
         values: [
-          { raw: 0, value: "auto" },
-          { raw: 1, value: "on" },
-          { raw: 2, value: "off" },
+          { raw: "0", value: "auto" },
+          { raw: "1", value: "on" },
+          { raw: "2", value: "off" },
         ],
       },
       motionDetection: { dataPoint: "134", kind: "switch" },

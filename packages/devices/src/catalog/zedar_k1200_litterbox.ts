@@ -43,7 +43,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "g",
       },
-      dailyExcretionsInTimes: {
+      dailyExcretions: {
         dataPoint: "7",
         kind: "sensor",
         readOnly: true,
@@ -61,7 +61,7 @@ const entry: TuyaDeviceEntry = {
       motorFault: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -69,7 +69,7 @@ const entry: TuyaDeviceEntry = {
       gSensorFault: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,
@@ -77,7 +77,7 @@ const entry: TuyaDeviceEntry = {
       bagFull: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
@@ -85,7 +85,7 @@ const entry: TuyaDeviceEntry = {
       boxOpen: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 8, value: true }],
         otherwise: false,
@@ -93,7 +93,7 @@ const entry: TuyaDeviceEntry = {
       filterFault: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 16, value: true }],
         otherwise: false,

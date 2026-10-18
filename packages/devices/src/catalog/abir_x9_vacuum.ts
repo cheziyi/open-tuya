@@ -79,6 +79,20 @@ const entry: TuyaDeviceEntry = {
             value: "smart",
             dependsOn: {
               dataPoint: "1",
+              constraint: {
+                dataPoint: "1",
+                values: [
+                  { raw: true, value: true },
+                  {
+                    raw: false,
+                    value: false,
+                    dependsOn: {
+                      dataPoint: "2",
+                      conditions: [{ when: [true], value: false }],
+                    },
+                  },
+                ],
+              },
               conditions: [{ when: [false], value: "stop" }],
             },
           },
@@ -143,7 +157,6 @@ const entry: TuyaDeviceEntry = {
       deviceInfo: { dataPoint: "34", kind: "text" },
       voiceData: { dataPoint: "35", kind: "text" },
       charge: { dataPoint: "3", kind: "switch" },
-      command2: { dataPoint: "15", kind: "text" },
       fetchRequest: {
         dataPoint: "16",
         kind: "select",
@@ -292,7 +305,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "28",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -314,6 +327,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
+    device: { command: { dataPoint: "15", kind: "text" } },
   },
   source: {
     file: "abir_x9_vacuum.yaml",

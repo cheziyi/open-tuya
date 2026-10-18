@@ -117,6 +117,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "2", value: "off" },
         ],
         otherwise: "off",
+        ownRuleReadOnly: true,
       },
     },
   },

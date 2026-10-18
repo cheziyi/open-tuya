@@ -21,7 +21,7 @@ const entry: TuyaDeviceEntry = {
       speed: { dataPoint: "53", kind: "number", min: 1, max: 6 },
       direction: { dataPoint: "54", kind: "text" },
       on: { dataPoint: "101", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "102",
         kind: "select",
         values: [

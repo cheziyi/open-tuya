@@ -113,13 +113,29 @@ describe("decodeFrames", () => {
   });
 
   it.each([11, 102_401])(
-    "throws a TuyaError with code MALFORMED_FRAME for a length field of %i",
+    "sets malformed to a TuyaError with code MALFORMED_FRAME for a length field of %i, and drops the bytes from it on",
     (length) => {
-      expect(() => decodeFrames(withLengthField(length))).toThrow(
-        expect.objectContaining({ name: "TuyaError", code: "MALFORMED_FRAME" }),
+      const { frames, malformed, remainder } = decodeFrames(
+        Buffer.concat([withLengthField(length), V33_BROADCAST]),
       );
+
+      expect(frames).toEqual([]);
+      expect(malformed).toMatchObject({
+        name: "TuyaError",
+        code: "MALFORMED_FRAME",
+      });
+      expect(remainder).toHaveLength(0);
     },
   );
+
+  it("reads the whole frames before a length field out of range", () => {
+    const { frames, malformed } = decodeFrames(
+      Buffer.concat([V33_BROADCAST, withLengthField(102_401)]),
+    );
+
+    expect(frames).toHaveLength(1);
+    expect(malformed).toMatchObject({ code: "MALFORMED_FRAME" });
+  });
 });
 
 describe("encodeFrame", () => {
@@ -212,12 +228,12 @@ describe("decodeV34Frames", () => {
     ]);
   });
 
-  it("throws a TuyaError with code MALFORMED_FRAME for a length field under 40", () => {
+  it("sets malformed to a TuyaError with code MALFORMED_FRAME for a length field under 40", () => {
     const frame = Buffer.from(V34_STATUS);
     frame.writeUInt32BE(39, 12);
 
-    expect(() => decodeV34Frames(frame, LOCAL_KEY)).toThrow(
-      expect.objectContaining({ code: "MALFORMED_FRAME" }),
-    );
+    expect(decodeV34Frames(frame, LOCAL_KEY).malformed).toMatchObject({
+      code: "MALFORMED_FRAME",
+    });
   });
 });

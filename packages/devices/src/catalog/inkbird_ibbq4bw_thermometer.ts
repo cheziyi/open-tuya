@@ -62,7 +62,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "13",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -72,8 +72,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "select",
         values: [
-          { raw: "F", value: "fahrenheit" },
-          { raw: "C", value: "celsius" },
+          { raw: "F", value: "F" },
+          { raw: "C", value: "C" },
         ],
       },
       batteryInPercent: {
@@ -108,7 +108,14 @@ const entry: TuyaDeviceEntry = {
         max: 126,
         scale: 10,
       },
-      calibrationProbe1Unit: { dataPoint: "19", kind: "text" },
+      calibrationProbe1Unit: {
+        dataPoint: "19",
+        kind: "select",
+        values: [
+          { raw: "F", value: "F" },
+          { raw: "C", value: "C" },
+        ],
+      },
       calibrationProbe2: {
         dataPoint: "117",
         kind: "number",
@@ -118,7 +125,14 @@ const entry: TuyaDeviceEntry = {
         max: 126,
         scale: 10,
       },
-      calibrationProbe2Unit: { dataPoint: "19", kind: "text" },
+      calibrationProbe2Unit: {
+        dataPoint: "19",
+        kind: "select",
+        values: [
+          { raw: "F", value: "F" },
+          { raw: "C", value: "C" },
+        ],
+      },
       calibrationProbe3: {
         dataPoint: "118",
         kind: "number",
@@ -128,7 +142,14 @@ const entry: TuyaDeviceEntry = {
         max: 126,
         scale: 10,
       },
-      calibrationProbe3Unit: { dataPoint: "19", kind: "text" },
+      calibrationProbe3Unit: {
+        dataPoint: "19",
+        kind: "select",
+        values: [
+          { raw: "F", value: "F" },
+          { raw: "C", value: "C" },
+        ],
+      },
       calibrationProbe4: {
         dataPoint: "119",
         kind: "number",
@@ -138,7 +159,14 @@ const entry: TuyaDeviceEntry = {
         max: 126,
         scale: 10,
       },
-      calibrationProbe4Unit: { dataPoint: "19", kind: "text" },
+      calibrationProbe4Unit: {
+        dataPoint: "19",
+        kind: "select",
+        values: [
+          { raw: "F", value: "F" },
+          { raw: "C", value: "C" },
+        ],
+      },
     },
     backlight: { on: { dataPoint: "111", kind: "switch" } },
   },

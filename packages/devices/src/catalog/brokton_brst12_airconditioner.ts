@@ -161,14 +161,14 @@ const entry: TuyaDeviceEntry = {
           { raw: "2", value: "AI eco PID" },
         ],
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "113",
         kind: "number",
         measures: "temperature",
         unit: "C",
         scale: 100,
       },
-      minTargetTemperatureInC: {
+      minimumTargetTemperatureInC: {
         dataPoint: "114",
         kind: "number",
         measures: "temperature",
@@ -226,8 +226,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "select",
         values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
+          { raw: false, value: "C" },
+          { raw: true, value: "F" },
         ],
       },
       eightStageHeating: { dataPoint: "102", kind: "switch" },
@@ -245,13 +245,13 @@ const entry: TuyaDeviceEntry = {
       ventilationBlocked: {
         dataPoint: "108",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       filterBlocked: {
         dataPoint: "110",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       filterBlockedVoiceAlert: {
@@ -279,7 +279,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "rpm",
       },
-      outdoorFanSpeedInRpm2: {
+      outdoorFanSpeedSettingInRpm: {
         dataPoint: "118",
         kind: "number",
         unit: "rpm",
@@ -294,18 +294,18 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "Hz",
       },
-      compressorFrequencyTarget: {
-        dataPoint: "120",
-        kind: "sensor",
-        readOnly: true,
-      },
-      compressorFrequencyInHz2: {
+      compressorFrequencySettingInHz: {
         dataPoint: "121",
         kind: "number",
         measures: "frequency",
         unit: "Hz",
         min: 0,
         max: 150,
+      },
+      compressorFrequencyTarget: {
+        dataPoint: "120",
+        kind: "sensor",
+        readOnly: true,
       },
       eevOpening: { dataPoint: "122", kind: "number", min: 0, max: 500 },
       softWind: {
@@ -316,6 +316,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "1", value: true },
         ],
         otherwise: true,
+        ownRuleReadOnly: true,
       },
       reportingMode: {
         dataPoint: "125",
@@ -364,7 +365,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "134",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: "", value: false },

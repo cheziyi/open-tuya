@@ -63,8 +63,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "17",
         kind: "select",
         values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
         ],
       },
       setTemperatureDecimal: {
@@ -77,7 +77,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         mask: "0F0000000000000000000000000000000000",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 7, value: true }],
         otherwise: false,

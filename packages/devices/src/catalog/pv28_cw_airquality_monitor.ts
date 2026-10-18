@@ -38,16 +38,21 @@ const entry: TuyaDeviceEntry = {
       co2Levels: {
         dataPoint: "1",
         kind: "sensor",
-        measures: "safety",
+        measures: "hazard",
         readOnly: true,
         values: [
           { raw: "alarm", value: true },
           { raw: "normal", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
-      alarmSwitch: { dataPoint: "13", kind: "switch" },
+      alarmSwitch: {
+        dataPoint: "13",
+        kind: "switch",
+        values: [{ raw: true }, { raw: false }],
+      },
       powerState: {
         dataPoint: "14",
         kind: "sensor",
@@ -113,8 +118,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "31",
         kind: "select",
         values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
         ],
       },
       pm10InUgPerM3: {
@@ -142,16 +147,21 @@ const entry: TuyaDeviceEntry = {
       pm25Levels: {
         dataPoint: "106",
         kind: "sensor",
-        measures: "safety",
+        measures: "hazard",
         readOnly: true,
         values: [
           { raw: "alarm", value: true },
           { raw: "normal", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
-      screenTimeout: { dataPoint: "108", kind: "switch" },
+      screenTimeout: {
+        dataPoint: "108",
+        kind: "switch",
+        values: [{ raw: true }, { raw: false }],
+      },
       timeoutPeriodInSeconds: {
         dataPoint: "105",
         kind: "number",

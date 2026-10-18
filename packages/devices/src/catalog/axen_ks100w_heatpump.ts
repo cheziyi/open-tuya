@@ -44,7 +44,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "6",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -77,6 +77,102 @@ const entry: TuyaDeviceEntry = {
         max: 650,
         dependsOn: {
           dataPoint: "109",
+          constraint: {
+            dataPoint: "109",
+            values: [
+              {
+                raw: "cool",
+                value: "cool",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [
+                    { raw: "cool", value: true },
+                    { raw: "heat", value: true },
+                    { raw: "auto", value: true },
+                  ],
+                  otherwise: false,
+                },
+              },
+              {
+                raw: "heat",
+                value: "heat",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [
+                    { raw: "cool", value: true },
+                    { raw: "heat", value: true },
+                    { raw: "auto", value: true },
+                  ],
+                  otherwise: false,
+                },
+              },
+              {
+                raw: "auto",
+                value: "heat_cool",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [
+                    { raw: "cool", value: true },
+                    { raw: "heat", value: true },
+                    { raw: "auto", value: true },
+                  ],
+                  otherwise: false,
+                },
+              },
+              {
+                raw: "hot_water",
+                value: "off",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [
+                    { raw: "cool", value: false },
+                    { raw: "heat", value: false },
+                    { raw: "auto", value: false },
+                  ],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "cool_hot_water",
+                value: "cool",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [
+                    { raw: "cool", value: false },
+                    { raw: "heat", value: false },
+                    { raw: "auto", value: false },
+                  ],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "heat_hot_water",
+                value: "heat",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [
+                    { raw: "cool", value: false },
+                    { raw: "heat", value: false },
+                    { raw: "auto", value: false },
+                  ],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "auto_dhw",
+                value: "heat_cool",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [
+                    { raw: "cool", value: false },
+                    { raw: "heat", value: false },
+                    { raw: "auto", value: false },
+                  ],
+                  otherwise: true,
+                },
+              },
+            ],
+          },
           conditions: [
             {
               when: ["cool", "cool_hot_water"],
@@ -223,11 +319,107 @@ const entry: TuyaDeviceEntry = {
             raw: true,
             dependsOn: {
               dataPoint: "109",
+              constraint: {
+                dataPoint: "109",
+                values: [
+                  {
+                    raw: "cool",
+                    value: "cool",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [
+                        { raw: "cool", value: true },
+                        { raw: "heat", value: true },
+                        { raw: "auto", value: true },
+                      ],
+                      otherwise: false,
+                    },
+                  },
+                  {
+                    raw: "heat",
+                    value: "heat",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [
+                        { raw: "cool", value: true },
+                        { raw: "heat", value: true },
+                        { raw: "auto", value: true },
+                      ],
+                      otherwise: false,
+                    },
+                  },
+                  {
+                    raw: "auto",
+                    value: "heat_cool",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [
+                        { raw: "cool", value: true },
+                        { raw: "heat", value: true },
+                        { raw: "auto", value: true },
+                      ],
+                      otherwise: false,
+                    },
+                  },
+                  {
+                    raw: "hot_water",
+                    value: "off",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [
+                        { raw: "cool", value: false },
+                        { raw: "heat", value: false },
+                        { raw: "auto", value: false },
+                      ],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "cool_hot_water",
+                    value: "cool",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [
+                        { raw: "cool", value: false },
+                        { raw: "heat", value: false },
+                        { raw: "auto", value: false },
+                      ],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "heat_hot_water",
+                    value: "heat",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [
+                        { raw: "cool", value: false },
+                        { raw: "heat", value: false },
+                        { raw: "auto", value: false },
+                      ],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "auto_dhw",
+                    value: "heat_cool",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [
+                        { raw: "cool", value: false },
+                        { raw: "heat", value: false },
+                        { raw: "auto", value: false },
+                      ],
+                      otherwise: true,
+                    },
+                  },
+                ],
+              },
               conditions: [
                 { when: ["cool", "cool_hot_water"], value: "cooling" },
                 { when: ["heat", "heat_hot_water"], value: "heating" },
                 { when: ["hot_water"], value: "idle" },
-                { when: ["auto", "auto_dhw"] },
+                { when: ["auto", "auto_dhw"], value: null },
               ],
             },
           },

@@ -31,9 +31,9 @@ export type ControlValue = boolean | number | string;
 /** How a raw value converts: what a mapping, a condition and the rule for
  * an absent data point share. */
 export interface ControlRule {
-  /** The control's value. Without one, the raw value is the control's,
-   * unless a condition gives another. */
-  value?: ControlValue;
+  /** The control's value, `null` for none. Without one, the raw value is
+   * the control's, unless a condition gives another. */
+  value?: ControlValue | null;
   /** Read, but never written: another raw value is written for `value`. */
   readOnly?: true;
   /** Conditions that change this rule by another data point's value. */
@@ -66,10 +66,13 @@ export interface ControlDependency {
   /** The data point whose raw value the conditions match. It can be the
    * control's own. */
   dataPoint: DataPointId;
-  /** The conditions match the data point's value as this converts it, in
-   * place of its raw value: a base64 or hex data point read through a mask
-   * or a mapping. Such a data point is never written. */
-  reads?: ControlTarget;
+  /** How the data point converts, where it has a mapping or a mask. A write
+   * that sets it reads the condition's raw value through this, and writes
+   * the value back through it, which can set the data points it depends on
+   * in turn. The conditions on a base64 or hex data point match its value
+   * as this converts it, in place of its raw value, and such a data point is
+   * never written. */
+  constraint?: ControlTarget;
   /** Never written: a value that needs it to change cannot be set. */
   readOnly?: true;
   conditions: readonly ControlCondition[];
@@ -103,7 +106,8 @@ export interface ControlCondition extends Omit<ControlRule, "dependsOn"> {
  * the control's value. A read takes the bits `mask` covers, finds the raw
  * value in `values`, then takes `otherwise`, then converts a number:
  * `invert`, `targetRange`, then divides by `scale`. A write reverses it,
- * rounds the raw value to `step`, and sets the bits `mask` covers. */
+ * rounds the raw value to `step`, half to even, sets the bits `mask` covers,
+ * and gives the raw value its data point's type. */
 export interface TuyaControl {
   dataPoint: DataPointId;
   /** The type it reads its data point as, where it is not the data point's
@@ -130,14 +134,22 @@ export interface TuyaControl {
   max?: number;
   /** Raw values with a meaning of their own. */
   values?: readonly ControlMapping[];
-  /** The control's value for any raw value `values` does not name. */
-  otherwise?: ControlValue;
+  /** The control's value for any raw value `values` does not name, and
+   * while the device leaves the data point out, unless `whenAbsent` says
+   * otherwise. `null` for none. */
+  otherwise?: ControlValue | null;
+  /** A write never takes the control's own rule: a value no mapping takes
+   * is written as it is, unscaled, or to the data point the current value's
+   * rule redirects to. */
+  ownRuleReadOnly?: true;
   /** The value to write when a command needs the control set and names no
    * value: the tone that turns on a siren with no switch, the effect that
    * turns on a light with no switch or brightness, or the mode a water heater
    * leaving away returns to. */
   defaultValue?: ControlValue;
-  /** How the control reads while the device leaves the data point out. */
+  /** How the control reads while the device leaves the data point out.
+   * Without one, the control's own rule applies, as to a raw value `values`
+   * does not name. */
   whenAbsent?: ControlRule;
   /** The raw value is the control's value times this. */
   scale?: number;

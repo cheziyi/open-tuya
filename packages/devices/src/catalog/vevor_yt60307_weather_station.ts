@@ -59,10 +59,13 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit: {
         dataPoint: "9",
-        kind: "sensor",
-        readOnly: true,
-        values: [{ raw: "f", value: "F" }],
+        kind: "select",
+        values: [
+          { raw: "f", value: "F" },
+          { raw: "c", value: "C" },
+        ],
         otherwise: "C",
+        ownRuleReadOnly: true,
       },
       humidityInPercent: {
         dataPoint: "120",
@@ -96,13 +99,14 @@ const entry: TuyaDeviceEntry = {
       },
       atmosphericPressureUnit: {
         dataPoint: "11",
-        kind: "sensor",
-        readOnly: true,
+        kind: "select",
         values: [
           { raw: "inhg", value: "inHg" },
           { raw: "mmhg", value: "mmHg" },
+          { raw: "hpa", value: "hPa" },
         ],
         otherwise: "hPa",
+        ownRuleReadOnly: true,
       },
       windSpeed: {
         dataPoint: "112",
@@ -114,14 +118,15 @@ const entry: TuyaDeviceEntry = {
       },
       windSpeedUnit: {
         dataPoint: "10",
-        kind: "sensor",
-        readOnly: true,
+        kind: "select",
         values: [
           { raw: "mph", value: "mph" },
           { raw: "mps", value: "m/s" },
           { raw: "knot", value: "kn" },
+          { raw: "kmph", value: "km/h" },
         ],
         otherwise: "km/h",
+        ownRuleReadOnly: true,
       },
       windGust: {
         dataPoint: "132",
@@ -186,33 +191,6 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
       },
-      temperatureUnit2: {
-        dataPoint: "9",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
-      windSpeedUnit2: {
-        dataPoint: "10",
-        kind: "select",
-        values: [
-          { raw: "kmph", value: "km/h" },
-          { raw: "mph", value: "mph" },
-          { raw: "mps", value: "m/s" },
-          { raw: "knot", value: "kn" },
-        ],
-      },
-      atmosphericPressureUnit2: {
-        dataPoint: "11",
-        kind: "select",
-        values: [
-          { raw: "hpa", value: "hPa" },
-          { raw: "inhg", value: "inHg" },
-          { raw: "mmhg", value: "mmHg" },
-        ],
-      },
       precipitationUnit: {
         dataPoint: "12",
         kind: "select",
@@ -243,14 +221,14 @@ const entry: TuyaDeviceEntry = {
       channel1Alerts: { dataPoint: "105", kind: "text" },
       alarm1: { dataPoint: "106", kind: "switch" },
       alarm2: { dataPoint: "107", kind: "switch" },
-      alarmXTimeInMinutes: {
+      alarm1TimeInMinutes: {
         dataPoint: "108",
         kind: "number",
         unit: "min",
         min: 0,
         max: 1439,
       },
-      alarmXTimeInMinutes2: {
+      alarm2TimeInMinutes: {
         dataPoint: "109",
         kind: "number",
         unit: "min",
@@ -368,7 +346,7 @@ const entry: TuyaDeviceEntry = {
       volatileOrganicCompoundsPartsInPpm: {
         dataPoint: "133",
         kind: "sensor",
-        measures: "volatileOrganicCompoundsParts",
+        measures: "volatileOrganicCompounds",
         readOnly: true,
         unit: "ppm",
       },

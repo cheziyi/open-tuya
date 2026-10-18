@@ -127,7 +127,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "19",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 1, value: true },
@@ -142,7 +142,7 @@ const entry: TuyaDeviceEntry = {
       hepaFilterReplacement: {
         dataPoint: "19",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 128, value: true }],
         otherwise: false,
@@ -150,7 +150,7 @@ const entry: TuyaDeviceEntry = {
       highHumidity: {
         dataPoint: "106",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -158,7 +158,7 @@ const entry: TuyaDeviceEntry = {
       lowHumidity: {
         dataPoint: "107",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

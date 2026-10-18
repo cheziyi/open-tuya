@@ -216,8 +216,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "132",
         kind: "select",
         values: [
-          { raw: 0, value: "Manual" },
-          { raw: 1, value: "Eco" },
+          { raw: "0", value: "Manual" },
+          { raw: "1", value: "Eco" },
         ],
       },
       outletTemperatureInC: {
@@ -268,7 +268,7 @@ const entry: TuyaDeviceEntry = {
         min: -30,
         max: 99,
       },
-      eevOpeningInP: {
+      eevOpening: {
         dataPoint: "109",
         kind: "sensor",
         readOnly: true,
@@ -276,7 +276,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 500,
       },
-      eev2OpeningInP: {
+      eev2Opening: {
         dataPoint: "111",
         kind: "sensor",
         readOnly: true,
@@ -391,8 +391,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "138",
         kind: "select",
         values: [
-          { raw: 0, value: "Immediate stop" },
-          { raw: 1, value: "Ramp down" },
+          { raw: "0", value: "Immediate stop" },
+          { raw: "1", value: "Ramp down" },
         ],
       },
       defrostStartTemperatureInC: {

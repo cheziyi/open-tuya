@@ -57,6 +57,14 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
+      outputSettingInPercent: {
+        dataPoint: "107",
+        kind: "number",
+        unit: "%",
+        min: 20,
+        max: 100,
+        step: 20,
+      },
       volumeInM3: {
         dataPoint: "103",
         kind: "number",
@@ -83,14 +91,6 @@ const entry: TuyaDeviceEntry = {
         step: 2,
       },
       boost: { dataPoint: "106", kind: "switch" },
-      outputInPercent2: {
-        dataPoint: "107",
-        kind: "number",
-        unit: "%",
-        min: 20,
-        max: 100,
-        step: 20,
-      },
       salinityInGPerL: {
         dataPoint: "108",
         kind: "sensor",
@@ -108,7 +108,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "110",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           {
@@ -134,7 +134,7 @@ const entry: TuyaDeviceEntry = {
       saltNeeded: {
         dataPoint: "113",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       notifications: { dataPoint: "112", kind: "switch" },
@@ -145,7 +145,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "mV",
       },
-      orpInMillivolts2: {
+      orpSettingInMillivolts: {
         dataPoint: "116",
         kind: "number",
         measures: "voltage",
@@ -160,7 +160,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         scale: 10,
       },
-      ph2: {
+      phSetting: {
         dataPoint: "118",
         kind: "number",
         measures: "ph",
@@ -196,6 +196,7 @@ const entry: TuyaDeviceEntry = {
         unit: "W",
       },
       pump: { dataPoint: "122", kind: "sensor", readOnly: true },
+      pumpEnabled: { dataPoint: "136", kind: "switch" },
       flow: {
         dataPoint: "127",
         kind: "sensor",
@@ -213,19 +214,19 @@ const entry: TuyaDeviceEntry = {
       phChange: {
         dataPoint: "130",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       orpChange: {
         dataPoint: "131",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       saltChange: {
         dataPoint: "132",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       pumpRuntimeInMinutes: {
@@ -244,7 +245,6 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 24,
       },
-      pump2: { dataPoint: "136", kind: "switch" },
       timer1Period1InHours: {
         dataPoint: "137",
         kind: "number",
