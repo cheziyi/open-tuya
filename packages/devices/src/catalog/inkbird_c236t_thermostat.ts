@@ -303,16 +303,16 @@ const entry: TuyaDeviceEntry = {
           { raw: true, value: "fahrenheit" },
         ],
       },
-      highTempAlarmLimit: {
+      highTemperatureAlarmLimit: {
         dataPoint: "109",
         kind: "number",
-        unitFrom: "highTempAlarmLimitUnit",
+        unitFrom: "highTemperatureAlarmLimitUnit",
         min: -4000,
         max: 21200,
         scale: 100,
         step: 10,
       },
-      highTempAlarmLimitUnit: {
+      highTemperatureAlarmLimitUnit: {
         dataPoint: "106",
         kind: "select",
         values: [
@@ -320,16 +320,16 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "C" },
         ],
       },
-      lowTempAlarmLimit: {
+      lowTemperatureAlarmLimit: {
         dataPoint: "110",
         kind: "number",
-        unitFrom: "lowTempAlarmLimitUnit",
+        unitFrom: "lowTemperatureAlarmLimitUnit",
         min: -4000,
         max: 21200,
         scale: 100,
         step: 10,
       },
-      lowTempAlarmLimitUnit: {
+      lowTemperatureAlarmLimitUnit: {
         dataPoint: "106",
         kind: "select",
         values: [

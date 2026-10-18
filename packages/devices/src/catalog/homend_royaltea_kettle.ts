@@ -58,9 +58,10 @@ const entry: TuyaDeviceEntry = {
           },
         },
       },
-      quickTemp: {
+      quickTemperatureInC: {
         dataPoint: "4",
         kind: "select",
+        unit: "C",
         values: [
           { raw: "50", value: 50 },
           { raw: "65", value: 65 },

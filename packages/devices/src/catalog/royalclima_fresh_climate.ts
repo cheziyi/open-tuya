@@ -113,7 +113,7 @@ const entry: TuyaDeviceEntry = {
       airQuality: { dataPoint: "125", kind: "text" },
       modelCode: { dataPoint: "128", kind: "text" },
       energy: { dataPoint: "129", kind: "text" },
-      ecoTemp: { dataPoint: "130", kind: "number" },
+      ecoTemperatureInC: { dataPoint: "130", kind: "number", unit: "C" },
       hotCool: { dataPoint: "132", kind: "switch" },
       swingAction: { dataPoint: "133", kind: "text" },
     },

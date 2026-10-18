@@ -54,7 +54,7 @@ const entry: TuyaDeviceEntry = {
       onFirmwareVersion: { dataPoint: "127", kind: "text" },
       onDeviceNumber: { dataPoint: "152", kind: "text" },
       onStationCode: { dataPoint: "113", kind: "text" },
-      voltageAInV: {
+      voltagePhaseAInV: {
         dataPoint: "103",
         kind: "sensor",
         measures: "voltage",
@@ -62,7 +62,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 100,
       },
-      voltageBInV: {
+      voltagePhaseBInV: {
         dataPoint: "104",
         kind: "sensor",
         measures: "voltage",
@@ -70,7 +70,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 100,
       },
-      voltageCInV: {
+      voltagePhaseCInV: {
         dataPoint: "105",
         kind: "sensor",
         measures: "voltage",
@@ -78,7 +78,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 100,
       },
-      currentAInA: {
+      currentPhaseAInA: {
         dataPoint: "106",
         kind: "sensor",
         measures: "current",
@@ -86,7 +86,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 100,
       },
-      currentBInA: {
+      currentPhaseBInA: {
         dataPoint: "107",
         kind: "sensor",
         measures: "current",
@@ -94,7 +94,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 100,
       },
-      currentCInA: {
+      currentPhaseCInA: {
         dataPoint: "108",
         kind: "sensor",
         measures: "current",

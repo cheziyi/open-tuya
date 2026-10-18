@@ -49,7 +49,13 @@ const entry: TuyaDeviceEntry = {
         max: 450,
         scale: 10,
       },
-      maxTempF: { dataPoint: "18", kind: "number", scale: 10 },
+      maxTargetTemperatureInF: {
+        dataPoint: "18",
+        kind: "number",
+        measures: "temperature",
+        unit: "F",
+        scale: 10,
+      },
       maxTargetTemperatureInC: {
         dataPoint: "19",
         kind: "number",
@@ -57,7 +63,13 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      minTempF: { dataPoint: "20", kind: "number", scale: 10 },
+      minTargetTemperatureInF: {
+        dataPoint: "20",
+        kind: "number",
+        measures: "temperature",
+        unit: "F",
+        scale: 10,
+      },
       currentTemperatureInC: {
         dataPoint: "24",
         kind: "sensor",

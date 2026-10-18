@@ -123,7 +123,7 @@ const entry: TuyaDeviceEntry = {
         kind: "number",
         unitFrom: "temperatureUnit",
       },
-      extTempDisplay: { dataPoint: "108", kind: "switch" },
+      externalTemperatureDisplay: { dataPoint: "108", kind: "switch" },
       maxTargetTemperature: {
         dataPoint: "114",
         kind: "number",

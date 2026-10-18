@@ -107,7 +107,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 32, value: "Ball bunker not installed" },
         ],
       },
-      totalVisitsInVisits: {
+      totalVisits: {
         dataPoint: "7",
         kind: "sensor",
         readOnly: true,

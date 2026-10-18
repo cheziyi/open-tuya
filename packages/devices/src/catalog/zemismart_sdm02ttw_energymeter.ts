@@ -45,21 +45,21 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "W",
       },
-      powerAInW: {
+      powerPhaseAInW: {
         dataPoint: "105",
         kind: "sensor",
         measures: "power",
         readOnly: true,
         unit: "W",
       },
-      powerBInW: {
+      powerPhaseBInW: {
         dataPoint: "114",
         kind: "sensor",
         measures: "power",
         readOnly: true,
         unit: "W",
       },
-      voltageAInV: {
+      voltagePhaseAInV: {
         dataPoint: "103",
         kind: "sensor",
         measures: "voltage",
@@ -67,7 +67,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      voltageBInV: {
+      voltagePhaseBInV: {
         dataPoint: "112",
         kind: "sensor",
         measures: "voltage",
@@ -75,7 +75,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      currentAInA: {
+      currentPhaseAInA: {
         dataPoint: "104",
         kind: "sensor",
         measures: "current",
@@ -83,7 +83,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      currentBInA: {
+      currentPhaseBInA: {
         dataPoint: "113",
         kind: "sensor",
         measures: "current",

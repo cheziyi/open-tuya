@@ -135,7 +135,7 @@ const entry: TuyaDeviceEntry = {
       disturbTimeSet: { dataPoint: "33", kind: "text" },
       deviceInfo: { dataPoint: "34", kind: "text" },
       voiceData: { dataPoint: "35", kind: "text" },
-      msgUnseen: { dataPoint: "104", kind: "number" },
+      messageUnseen: { dataPoint: "104", kind: "number" },
       charge: { dataPoint: "3", kind: "switch" },
       command2: { dataPoint: "15", kind: "text" },
       fetchRequest: {

@@ -155,9 +155,10 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      tempC: {
+      temperatureInC: {
         dataPoint: "103",
         kind: "number",
+        unit: "C",
         min: 0,
         max: 370,
         dependsOn: {
@@ -180,9 +181,10 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
         step: 5,
       },
-      tempF: {
+      temperatureInF: {
         dataPoint: "103",
         kind: "number",
+        unit: "F",
         min: 32,
         max: 99,
         dependsOn: {
@@ -197,15 +199,22 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      heatTempC: {
+      heatTemperatureInC: {
         dataPoint: "104",
         kind: "number",
+        unit: "C",
         min: 0,
         max: 320,
         scale: 10,
         step: 5,
       },
-      heatTempF: { dataPoint: "104", kind: "number", min: 32, max: 90 },
+      heatTemperatureInF: {
+        dataPoint: "104",
+        kind: "number",
+        unit: "F",
+        min: 32,
+        max: 90,
+      },
       hvacAction: {
         dataPoint: "118",
         mask: "00000300",

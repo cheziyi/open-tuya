@@ -200,7 +200,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "f", value: "fahrenheit" },
         ],
       },
-      holidayDaysInDays: {
+      holidayInDays: {
         dataPoint: "33",
         kind: "number",
         unit: "d",

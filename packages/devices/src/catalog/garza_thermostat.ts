@@ -155,28 +155,32 @@ const entry: TuyaDeviceEntry = {
       program6: { dataPoint: "109", kind: "text" },
       program7: { dataPoint: "110", kind: "text" },
       weeklyHistory: { dataPoint: "116", kind: "sensor", readOnly: true },
-      weeklyHistorySetTemp: {
+      weeklyHistorySetTemperature: {
         dataPoint: "112",
         kind: "sensor",
         readOnly: true,
       },
       weeklyHistoryPower: { dataPoint: "120", kind: "sensor", readOnly: true },
       monthlyHistory: { dataPoint: "117", kind: "sensor", readOnly: true },
-      monthlyHistorySetTemp: {
+      monthlyHistorySetTemperature: {
         dataPoint: "113",
         kind: "sensor",
         readOnly: true,
       },
       monthlyHistoryPower: { dataPoint: "121", kind: "sensor", readOnly: true },
       yearlyHistory: { dataPoint: "118", kind: "sensor", readOnly: true },
-      yearlyHistorySetTemp: {
+      yearlyHistorySetTemperature: {
         dataPoint: "114",
         kind: "sensor",
         readOnly: true,
       },
       yearlyHistoryPower: { dataPoint: "122", kind: "sensor", readOnly: true },
       dailyHistory: { dataPoint: "115", kind: "sensor", readOnly: true },
-      dailyHistorySetTemp: { dataPoint: "123", kind: "sensor", readOnly: true },
+      dailyHistorySetTemperature: {
+        dataPoint: "123",
+        kind: "sensor",
+        readOnly: true,
+      },
       dailyHistoryPower: { dataPoint: "119", kind: "sensor", readOnly: true },
       schedule: { dataPoint: "124", kind: "text" },
       scheduleNumber: { dataPoint: "129", kind: "text" },

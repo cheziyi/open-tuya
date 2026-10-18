@@ -64,7 +64,7 @@ const entry: TuyaDeviceEntry = {
       },
       clean: { dataPoint: "9", kind: "button" },
       factoryReset: { dataPoint: "23", kind: "button" },
-      cleaningTimesInTimes: {
+      cleaningTimes: {
         dataPoint: "103",
         kind: "sensor",
         readOnly: true,

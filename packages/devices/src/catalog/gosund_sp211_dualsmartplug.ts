@@ -61,13 +61,17 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
       },
       powerCalibration: { dataPoint: "24", kind: "sensor", readOnly: true },
-      powerAddEle: {
+      powerAddElectricity: {
         dataPoint: "17",
         kind: "sensor",
         readOnly: true,
         scale: 1000,
       },
-      powerEleCalibration: { dataPoint: "25", kind: "sensor", readOnly: true },
+      powerElectricityCalibration: {
+        dataPoint: "25",
+        kind: "sensor",
+        readOnly: true,
+      },
       voltageInV: {
         dataPoint: "20",
         kind: "sensor",

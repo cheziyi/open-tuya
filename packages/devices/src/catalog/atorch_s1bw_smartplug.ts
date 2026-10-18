@@ -200,7 +200,7 @@ const entry: TuyaDeviceEntry = {
         min: 1,
         max: 999,
       },
-      timeMinutesInMinutes: {
+      timeInMinutes: {
         dataPoint: "120",
         kind: "number",
         measures: "duration",
@@ -215,7 +215,7 @@ const entry: TuyaDeviceEntry = {
         min: 1,
         max: 9999,
       },
-      timeHoursInHours: {
+      timeInHours: {
         dataPoint: "122",
         kind: "number",
         measures: "duration",

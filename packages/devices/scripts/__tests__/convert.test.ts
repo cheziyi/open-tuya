@@ -235,6 +235,80 @@ entities:
     });
   });
 
+  it("names controls in full words, with each unit after In and each phase named", () => {
+    const { components } = entry(`name: Meter
+entities:
+  - entity: climate
+    dps:
+      - id: 1
+        type: integer
+        name: temperature
+      - id: 2
+        type: integer
+        name: temp_set_f
+      - id: 3
+        type: integer
+        name: temp_cur_f
+      - id: 4
+        type: integer
+        name: current_temperature_in_c
+      - id: 5
+        type: integer
+        name: std_color_temp
+  - entity: sensor
+    translation_key: current_x
+    translation_placeholders:
+      x: A
+    dps:
+      - id: 6
+        type: integer
+        name: sensor
+        unit: A
+      - id: 7
+        type: integer
+        name: alt
+  - entity: sensor
+    name: UV index
+    dps:
+      - id: 8
+        type: integer
+        name: sensor
+        unit: UV index
+  - entity: number
+    name: Time hours
+    dps:
+      - id: 9
+        type: integer
+        name: value
+        unit: h
+  - entity: number
+    name: Unlock temp pwd
+    dps:
+      - id: 10
+        type: integer
+        name: value
+  - entity: number
+    name: Battery ch1
+    dps:
+      - id: 11
+        type: integer
+        name: value
+`);
+    expect(Object.keys(components.climate ?? {})).toEqual([
+      "targetTemperatureInC",
+      "targetTemperatureInF",
+      "currentTemperatureInF",
+      "currentTemperatureInC",
+      "standardColorTemperature",
+      "currentPhaseAInA",
+      "currentPhaseAAlt",
+      "uvIndex",
+      "timeInHours",
+      "unlockTemporaryPassword",
+      "batteryChannel1",
+    ]);
+  });
+
   it("gives a data point read as two types both, and a control the type it reads", () => {
     const converted = entry(`name: Light
 entities:
@@ -490,7 +564,7 @@ entities:
         min: 0,
         max: 255,
       },
-      stdRgbhsvColorBrightness: {
+      standardRgbhsvColorBrightness: {
         dataPoint: "25",
         mask: "FF",
         kind: "number",

@@ -66,28 +66,28 @@ const entry: TuyaDeviceEntry = {
         min: 8,
         max: 32,
       },
-      voltageAPhaseData: {
+      voltagePhaseAPhaseData: {
         dataPoint: "6",
         mask: "FFFF000000000000",
         kind: "sensor",
         readOnly: true,
         scale: 10,
       },
-      voltageAInV: {
+      voltagePhaseAInV: {
         dataPoint: "109",
         kind: "sensor",
         measures: "voltage",
         readOnly: true,
         unit: "V",
       },
-      currentAPhaseData: {
+      currentPhaseAPhaseData: {
         dataPoint: "6",
         mask: "0000FFFFFF000000",
         kind: "sensor",
         readOnly: true,
         scale: 1000,
       },
-      currentAInA: {
+      currentPhaseAInA: {
         dataPoint: "103",
         kind: "sensor",
         measures: "current",
@@ -95,7 +95,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 10,
       },
-      powerAInKw: {
+      powerPhaseAInKw: {
         dataPoint: "6",
         mask: "0000000000FFFFFF",
         kind: "sensor",
@@ -104,28 +104,28 @@ const entry: TuyaDeviceEntry = {
         unit: "kW",
         scale: 1000,
       },
-      voltageBPhaseData: {
+      voltagePhaseBPhaseData: {
         dataPoint: "7",
         mask: "FFFF000000000000",
         kind: "sensor",
         readOnly: true,
         scale: 10,
       },
-      voltageBInV: {
+      voltagePhaseBInV: {
         dataPoint: "104",
         kind: "sensor",
         measures: "voltage",
         readOnly: true,
         unit: "V",
       },
-      currentBPhaseData: {
+      currentPhaseBPhaseData: {
         dataPoint: "7",
         mask: "0000FFFFFF000000",
         kind: "sensor",
         readOnly: true,
         scale: 1000,
       },
-      currentBInA: {
+      currentPhaseBInA: {
         dataPoint: "106",
         kind: "sensor",
         measures: "current",
@@ -133,7 +133,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 10,
       },
-      powerBInKw: {
+      powerPhaseBInKw: {
         dataPoint: "7",
         mask: "0000000000FFFFFF",
         kind: "sensor",
@@ -142,28 +142,28 @@ const entry: TuyaDeviceEntry = {
         unit: "kW",
         scale: 1000,
       },
-      voltageCPhaseData: {
+      voltagePhaseCPhaseData: {
         dataPoint: "8",
         mask: "FFFF000000000000",
         kind: "sensor",
         readOnly: true,
         scale: 10,
       },
-      voltageCInV: {
+      voltagePhaseCInV: {
         dataPoint: "105",
         kind: "sensor",
         measures: "voltage",
         readOnly: true,
         unit: "V",
       },
-      currentCPhaseData: {
+      currentPhaseCPhaseData: {
         dataPoint: "8",
         mask: "0000FFFFFF000000",
         kind: "sensor",
         readOnly: true,
         scale: 1000,
       },
-      currentCInA: {
+      currentPhaseCInA: {
         dataPoint: "107",
         kind: "sensor",
         measures: "current",
@@ -171,7 +171,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 10,
       },
-      powerCInKw: {
+      powerPhaseCInKw: {
         dataPoint: "8",
         mask: "0000000000FFFFFF",
         kind: "sensor",
@@ -188,7 +188,12 @@ const entry: TuyaDeviceEntry = {
         unit: "kW",
         scale: 1000,
       },
-      powerStd: { dataPoint: "9", kind: "sensor", readOnly: true, scale: 1000 },
+      powerStandard: {
+        dataPoint: "9",
+        kind: "sensor",
+        readOnly: true,
+        scale: 1000,
+      },
       fault: {
         dataPoint: "10",
         kind: "sensor",

@@ -34,7 +34,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "5", value: "Tone 5" },
         ],
       },
-      alarmMsg: { dataPoint: "26", kind: "text" },
+      alarmMessage: { dataPoint: "26", kind: "text" },
     },
   },
   source: {

@@ -57,7 +57,7 @@ const entry: TuyaDeviceEntry = {
         min: 6,
         max: 32,
       },
-      voltageAInV: {
+      voltagePhaseAInV: {
         dataPoint: "6",
         mask: "FFFF000000000000",
         kind: "sensor",
@@ -66,7 +66,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      currentAInA: {
+      currentPhaseAInA: {
         dataPoint: "6",
         mask: "0000FFFFFF000000",
         kind: "sensor",
@@ -75,7 +75,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      powerAInKw: {
+      powerPhaseAInKw: {
         dataPoint: "6",
         mask: "0000000000FFFFFF",
         kind: "sensor",

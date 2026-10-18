@@ -75,7 +75,7 @@ const entry: TuyaDeviceEntry = {
       },
       batteryPowerPacks: { dataPoint: "112", kind: "sensor", readOnly: true },
       acPower: { dataPoint: "6", kind: "switch" },
-      acPowerSwVersion: { dataPoint: "102", kind: "text" },
+      acPowerSoftwareVersion: { dataPoint: "102", kind: "text" },
       acPowerInverterVersion: { dataPoint: "146", kind: "text" },
       acPowerBmsVersion: { dataPoint: "147", kind: "text" },
       acPowerMpptVersion: { dataPoint: "148", kind: "text" },

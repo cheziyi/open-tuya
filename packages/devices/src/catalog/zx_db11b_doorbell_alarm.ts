@@ -92,7 +92,7 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: false },
         otherwise: true,
       },
-      ringingAlarmMsg: { dataPoint: "26", kind: "sensor", readOnly: true },
+      ringingAlarmMessage: { dataPoint: "26", kind: "sensor", readOnly: true },
       doorbellNotify: { dataPoint: "27", kind: "switch" },
       entryDelayInSeconds: {
         dataPoint: "28",

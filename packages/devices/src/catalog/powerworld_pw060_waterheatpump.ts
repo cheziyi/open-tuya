@@ -371,9 +371,10 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      heatTemp: {
+      heatTemperature: {
         dataPoint: "111",
         kind: "number",
+        unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "6",
           conditions: [
@@ -382,9 +383,10 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      coolTemp: {
+      coolTemperature: {
         dataPoint: "112",
         kind: "number",
+        unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "6",
           conditions: [

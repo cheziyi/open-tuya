@@ -67,7 +67,7 @@ const entry: TuyaDeviceEntry = {
         unit: "W",
         scale: 10,
       },
-      energyConsumedAInKwh: {
+      energyConsumedPhaseAInKwh: {
         dataPoint: "56",
         kind: "sensor",
         measures: "energy",
@@ -75,7 +75,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 100,
       },
-      energyConsumedBInKwh: {
+      energyConsumedPhaseBInKwh: {
         dataPoint: "57",
         kind: "sensor",
         measures: "energy",
@@ -83,7 +83,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 100,
       },
-      energyProducedAInKwh: {
+      energyProducedPhaseAInKwh: {
         dataPoint: "59",
         kind: "sensor",
         measures: "energy",
@@ -91,7 +91,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 100,
       },
-      energyProducedBInKwh: {
+      energyProducedPhaseBInKwh: {
         dataPoint: "60",
         kind: "sensor",
         measures: "energy",
@@ -107,7 +107,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      currentAInA: {
+      currentPhaseAInA: {
         dataPoint: "102",
         kind: "sensor",
         measures: "current",
@@ -115,7 +115,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      currentBInA: {
+      currentPhaseBInA: {
         dataPoint: "103",
         kind: "sensor",
         measures: "current",
@@ -123,7 +123,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      powerAInW: {
+      powerPhaseAInW: {
         dataPoint: "104",
         kind: "sensor",
         measures: "power",
@@ -131,7 +131,7 @@ const entry: TuyaDeviceEntry = {
         unit: "W",
         scale: 10,
       },
-      powerBInW: {
+      powerPhaseBInW: {
         dataPoint: "105",
         kind: "sensor",
         measures: "power",
@@ -139,14 +139,14 @@ const entry: TuyaDeviceEntry = {
         unit: "W",
         scale: 10,
       },
-      powerFactorA: {
+      powerFactorPhaseA: {
         dataPoint: "106",
         kind: "sensor",
         measures: "powerFactor",
         readOnly: true,
         scale: 100,
       },
-      powerFactorB: {
+      powerFactorPhaseB: {
         dataPoint: "107",
         kind: "sensor",
         measures: "powerFactor",
@@ -183,14 +183,14 @@ const entry: TuyaDeviceEntry = {
         measures: "problem",
         readOnly: true,
       },
-      forwardEnergyAHourInKwh: {
+      forwardEnergyPhaseAHourInKwh: {
         dataPoint: "112",
         kind: "sensor",
         readOnly: true,
         unit: "kWh",
         scale: 100,
       },
-      forwardEnergyBHourInKwh: {
+      forwardEnergyPhaseBHourInKwh: {
         dataPoint: "113",
         kind: "sensor",
         readOnly: true,
@@ -204,14 +204,14 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 100,
       },
-      reverseEnergyAHourInKwh: {
+      reverseEnergyPhaseAHourInKwh: {
         dataPoint: "115",
         kind: "sensor",
         readOnly: true,
         unit: "kWh",
         scale: 100,
       },
-      reverseEnergyBHourInKwh: {
+      reverseEnergyPhaseBHourInKwh: {
         dataPoint: "116",
         kind: "sensor",
         readOnly: true,
@@ -225,7 +225,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 100,
       },
-      energyConsumedATotalInKwh: {
+      energyConsumedPhaseATotalInKwh: {
         dataPoint: "118",
         kind: "sensor",
         measures: "energy",
@@ -233,7 +233,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 100,
       },
-      energyProducedATotalInKwh: {
+      energyProducedPhaseATotalInKwh: {
         dataPoint: "119",
         kind: "sensor",
         measures: "energy",
@@ -241,7 +241,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 100,
       },
-      energyConsumedBTotalInKwh: {
+      energyConsumedPhaseBTotalInKwh: {
         dataPoint: "120",
         kind: "sensor",
         measures: "energy",
@@ -249,7 +249,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 100,
       },
-      energyProducedBTotalInKwh: {
+      energyProducedPhaseBTotalInKwh: {
         dataPoint: "121",
         kind: "sensor",
         measures: "energy",
@@ -265,7 +265,7 @@ const entry: TuyaDeviceEntry = {
         min: -50,
         max: 50,
       },
-      currentACalibrationInA: {
+      currentPhaseACalibrationInA: {
         dataPoint: "123",
         kind: "number",
         measures: "current",
@@ -274,7 +274,7 @@ const entry: TuyaDeviceEntry = {
         max: 200,
         scale: 1000,
       },
-      currentBCalibrationInA: {
+      currentPhaseBCalibrationInA: {
         dataPoint: "124",
         kind: "number",
         measures: "current",
@@ -283,7 +283,7 @@ const entry: TuyaDeviceEntry = {
         max: 200,
         scale: 1000,
       },
-      powerACalibrationInW: {
+      powerPhaseACalibrationInW: {
         dataPoint: "125",
         kind: "number",
         measures: "power",
@@ -291,7 +291,7 @@ const entry: TuyaDeviceEntry = {
         min: -50,
         max: 50,
       },
-      powerBCalibrationInW: {
+      powerPhaseBCalibrationInW: {
         dataPoint: "126",
         kind: "number",
         measures: "power",

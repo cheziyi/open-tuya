@@ -70,7 +70,12 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
         step: 5,
       },
-      tempSetF: { dataPoint: "17", kind: "number" },
+      targetTemperatureInF: {
+        dataPoint: "17",
+        kind: "number",
+        measures: "temperature",
+        unit: "F",
+      },
       maxF: { dataPoint: "18", kind: "number" },
       maxTargetTemperatureInC: {
         dataPoint: "19",
@@ -143,10 +148,11 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      externalTemperatureTempF: {
+      externalTemperatureInF: {
         dataPoint: "103",
         kind: "sensor",
         readOnly: true,
+        unit: "F",
       },
       ecoTemperatureInC: {
         dataPoint: "105",

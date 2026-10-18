@@ -102,7 +102,7 @@ const entry: TuyaDeviceEntry = {
       },
       locate: { dataPoint: "112", kind: "switch" },
       pathComm: { dataPoint: "123", kind: "text" },
-      cmdComm: { dataPoint: "124", kind: "text" },
+      commandComm: { dataPoint: "124", kind: "text" },
       requestData: { dataPoint: "125", kind: "text" },
       commFlag: { dataPoint: "126", kind: "text" },
       commRaw: { dataPoint: "127", kind: "text" },

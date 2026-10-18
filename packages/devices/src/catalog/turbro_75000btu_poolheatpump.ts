@@ -405,9 +405,10 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      setHeatingTemp: {
+      setHeatingTemperature: {
         dataPoint: "101",
         kind: "number",
+        unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "6",
           conditions: [
@@ -416,9 +417,10 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      setColdTemp: {
+      setColdTemperature: {
         dataPoint: "102",
         kind: "number",
+        unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "6",
           conditions: [
@@ -427,9 +429,10 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      setAutoTemp: {
+      setAutoTemperature: {
         dataPoint: "104",
         kind: "number",
+        unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "5",
           conditions: [
@@ -488,9 +491,10 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      setRealAutoTemp: {
+      setRealAutoTemperature: {
         dataPoint: "104",
         kind: "number",
+        unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "6",
           conditions: [
@@ -499,9 +503,9 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      setHeatingTempF: { dataPoint: "105", kind: "number" },
-      setColdTempF: { dataPoint: "106", kind: "number" },
-      setAutoTempF: { dataPoint: "108", kind: "number" },
+      setHeatingTemperatureInF: { dataPoint: "105", kind: "number", unit: "F" },
+      setColdTemperatureInF: { dataPoint: "106", kind: "number", unit: "F" },
+      setAutoTemperatureInF: { dataPoint: "108", kind: "number", unit: "F" },
       unitType: {
         dataPoint: "109",
         kind: "select",
@@ -623,7 +627,7 @@ const entry: TuyaDeviceEntry = {
           conditions: [{ when: ["f"], value: 104 }],
         },
       },
-      minTempFromPreset: {
+      minTemperatureFromPreset: {
         dataPoint: "6",
         kind: "select",
         values: [
@@ -652,7 +656,7 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      maxTempFromPreset: {
+      maxTemperatureFromPreset: {
         dataPoint: "6",
         kind: "select",
         values: [

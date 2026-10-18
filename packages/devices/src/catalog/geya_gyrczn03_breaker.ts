@@ -33,7 +33,7 @@ const entry: TuyaDeviceEntry = {
         kind: "button",
         values: [{ raw: "online", value: true }],
       },
-      voltageAInV: {
+      voltagePhaseAInV: {
         dataPoint: "102",
         kind: "sensor",
         measures: "voltage",
@@ -41,7 +41,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      voltageBInV: {
+      voltagePhaseBInV: {
         dataPoint: "103",
         kind: "sensor",
         measures: "voltage",
@@ -49,7 +49,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      voltageCInV: {
+      voltagePhaseCInV: {
         dataPoint: "104",
         kind: "sensor",
         measures: "voltage",

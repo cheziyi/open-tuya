@@ -117,7 +117,12 @@ const entry: TuyaDeviceEntry = {
         otherwise: true,
       },
       workMode: { dataPoint: "21", kind: "text" },
-      stdBrightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
+      standardBrightness: {
+        dataPoint: "22",
+        kind: "number",
+        min: 10,
+        max: 1000,
+      },
       brightness: {
         dataPoint: "51",
         mask: "0000000000000000FFFF0000",
@@ -126,7 +131,7 @@ const entry: TuyaDeviceEntry = {
         max: 1000,
         whenAbsent: { mirror: { dataPoint: "22", min: 10, max: 1000 } },
       },
-      stdColorTemp: {
+      standardColorTemperature: {
         dataPoint: "23",
         kind: "number",
         min: 0,
@@ -165,21 +170,21 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: false },
         otherwise: true,
       },
-      stdRgbhsvHue: {
+      standardRgbhsvHue: {
         dataPoint: "24",
         mask: "FFFF00000000",
         kind: "number",
         min: 0,
         max: 360,
       },
-      stdRgbhsvSaturation: {
+      standardRgbhsvSaturation: {
         dataPoint: "24",
         mask: "0000FFFF0000",
         kind: "number",
         min: 0,
         max: 1000,
       },
-      stdRgbhsvColorBrightness: {
+      standardRgbhsvColorBrightness: {
         dataPoint: "24",
         mask: "00000000FFFF",
         kind: "number",

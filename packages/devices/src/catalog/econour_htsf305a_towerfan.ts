@@ -56,7 +56,12 @@ const entry: TuyaDeviceEntry = {
           conditions: [{ when: ["f"], redirect: { dataPoint: "101" } }],
         },
       },
-      temperatureTempF: { dataPoint: "101", kind: "sensor", readOnly: true },
+      temperatureInF: {
+        dataPoint: "101",
+        kind: "sensor",
+        readOnly: true,
+        unit: "F",
+      },
       temperatureUnit: {
         dataPoint: "28",
         kind: "sensor",

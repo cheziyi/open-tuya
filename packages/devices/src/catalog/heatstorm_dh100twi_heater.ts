@@ -103,7 +103,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "f", value: "F" },
         ],
       },
-      heatingSw: { dataPoint: "101", kind: "text" },
+      heatingSwitch: { dataPoint: "101", kind: "text" },
       currentHumidityInPercent: {
         dataPoint: "106",
         kind: "sensor",
@@ -206,10 +206,11 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         whenAbsent: { value: "C" },
       },
-      externalTemperatureTempExternalF: {
+      externalTemperatureExternalInF: {
         dataPoint: "110",
         kind: "sensor",
         readOnly: true,
+        unit: "F",
       },
     },
     indicator: { on: { dataPoint: "10", kind: "switch" } },

@@ -47,7 +47,12 @@ const entry: TuyaDeviceEntry = {
     light: {
       on: { dataPoint: "15", kind: "switch" },
       brightness: { dataPoint: "16", kind: "number", min: 10, max: 100 },
-      reservedColorTemp: { dataPoint: "17", kind: "number", min: 0, max: 100 },
+      reservedColorTemperature: {
+        dataPoint: "17",
+        kind: "number",
+        min: 0,
+        max: 100,
+      },
     },
   },
   source: {

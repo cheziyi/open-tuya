@@ -61,7 +61,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 1000,
       },
-      lengthCm: { dataPoint: "46", kind: "number" },
+      lengthInCm: { dataPoint: "46", kind: "number", unit: "cm" },
       pixels: { dataPoint: "47", kind: "number" },
       timerInSeconds: {
         dataPoint: "26",

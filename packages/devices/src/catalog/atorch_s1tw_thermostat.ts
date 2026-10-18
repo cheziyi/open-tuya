@@ -226,7 +226,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 1000,
       },
-      energyConsumedAddEle: {
+      energyConsumedAddElectricity: {
         dataPoint: "127",
         kind: "sensor",
         readOnly: true,

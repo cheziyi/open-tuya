@@ -157,7 +157,7 @@ const entry: TuyaDeviceEntry = {
       resetMapComplexCommand: { dataPoint: "105", kind: "text" },
       resetMapPathData: { dataPoint: "106", kind: "text" },
       resetMapSmartRooms: { dataPoint: "108", kind: "text" },
-      resetMapRoomsMsg: {
+      resetMapRoomsMessage: {
         dataPoint: "109",
         kind: "select",
         values: [
