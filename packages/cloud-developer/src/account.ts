@@ -112,11 +112,11 @@ interface Token {
 // and https://github.com/tuya/tuya-connector-nodejs/commit/e619df60109ac4f06e9b44de7fa15bf4d1b24690.
 /** A Tuya developer platform project. It takes a token a minute before the
  * last expires, and once more when the cloud refuses it. Its clients share
- * one MQTT connection for the devices' pushes. Each request rejects with
- * `PERMISSION_DENIED` when the project lacks a subscription or permission,
- * `REQUEST_TIMED_OUT` when the cloud does not answer within 10 s,
- * `RATE_LIMITED` on HTTP 429, and `REQUEST_REJECTED` when the cloud answers
- * with another error. */
+ * one MQTT connection for the devices' pushes, open while any client has a
+ * listener. Each request rejects with `PERMISSION_DENIED` when the project
+ * lacks a subscription or permission, `REQUEST_TIMED_OUT` when the cloud does
+ * not answer within 10 s, `RATE_LIMITED` on HTTP 429, and `REQUEST_REJECTED`
+ * when the cloud answers with another error or without a field it needs. */
 export class DeveloperCloudAccount implements TuyaCloudAccount {
   private token: Token | undefined;
   private fetchingToken: Promise<Token> | undefined;

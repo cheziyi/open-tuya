@@ -663,6 +663,7 @@ does not say which.
 | One connection per account, through `MqttSession`, on the project's one topic | Every device of the project is pushed on it |
 | `msg_encrypted_version` 2.0 | AES-GCM, whose tag shows the message came under the connection's password |
 | A message whose tag is wrong is dropped | Its bytes are not what the cloud sealed |
+| A client subscribes with its first listener and unsubscribes with its last | A client made to read or write alone opens no connection and asks for no credentials |
 
 ## Routes
 

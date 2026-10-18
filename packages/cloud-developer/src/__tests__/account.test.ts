@@ -471,11 +471,46 @@ describe("DeveloperCloudAccount", () => {
   });
 
   describe("pushes", () => {
+    it("connects with a client's first listener, not before", async () => {
+      const { cloud, account } = setUp();
+      const broker = await serveBroker(cloud);
+      const client = await account.createClient(DEVICE_ID);
+      await client.readDataPoints();
+
+      expect(cloud.requests.some(({ path }) => path.includes("open-hub"))).toBe(
+        false,
+      );
+      client.onDataPoints(() => {});
+      await until(() => broker.subscriptions.length > 0);
+
+      expect(broker.connects).toHaveLength(1);
+    });
+
+    it("disconnects with a client's last listener", async () => {
+      const { cloud, account } = setUp();
+      const broker = await serveBroker(cloud);
+      let disconnects = 0;
+      broker.aedes.on("clientDisconnect", () => disconnects++);
+      const client = await account.createClient(DEVICE_ID);
+      const removeFirst = client.onDataPoints(() => {});
+      const removeSecond = client.onDataPoints(() => {});
+      await until(() => broker.subscriptions.length > 0);
+
+      removeFirst();
+      removeFirst();
+      expect(disconnects).toBe(0);
+      removeSecond();
+      await until(() => disconnects > 0);
+
+      expect(client.connected).toBe(true);
+    });
+
     it("asks for the project's MQTT credentials with the token's uid", async () => {
       const { cloud, account } = setUp();
       const broker = await serveBroker(cloud);
 
-      await account.createClient(DEVICE_ID);
+      const client = await account.createClient(DEVICE_ID);
+      client.onDataPoints(() => {});
       await until(() => broker.subscriptions.length > 0);
 
       expect(
@@ -556,6 +591,8 @@ describe("DeveloperCloudAccount", () => {
       broker.aedes.on("clientDisconnect", () => disconnects++);
       const first = await account.createClient(DEVICE_ID);
       const second = await account.createClient(DEVICE_ID);
+      first.onDataPoints(() => {});
+      second.onDataPoints(() => {});
       await until(() => broker.subscriptions.length > 0);
 
       await first.close();
