@@ -19,6 +19,7 @@ import {
   buildSubDeviceControl,
   buildSubDeviceQuery,
   type DataPointRequest,
+  type GatewayProtocolVersion,
   parseDataPoints,
   parseReport,
 } from "./protocol/dataPoints.js";
@@ -173,8 +174,11 @@ export class LocalTuyaClient implements TuyaClient {
   /** A client for the device behind this gateway with `nodeId`, reached over
    * this client's connection, under its local key. It reads the device once
    * connected, and after each reconnect. On 3.4 and 3.5, it asks the gateway
-   * every 30 s which devices behind it are online. */
+   * every 30 s which devices behind it are online. It throws a `TypeError` on
+   * 3.1, as no source shows how a 3.1 gateway reaches the devices behind
+   * it. */
   createClient(nodeId: string): SubDeviceTuyaClient {
+    this.gatewayVersion();
     const client = new SubDeviceTuyaClient({
       connected: () => this.connected && !this.offline.has(nodeId),
       read: () => this.readSubDevice(nodeId),
@@ -284,9 +288,18 @@ export class LocalTuyaClient implements TuyaClient {
       : this.connectedHost;
   }
 
+  private gatewayVersion(): GatewayProtocolVersion {
+    if (this.version === "3.1") {
+      throw new TypeError(
+        "A 3.1 gateway cannot reach the devices behind it: no source shows how",
+      );
+    }
+    return this.version;
+  }
+
   private async readSubDevice(nodeId: string): Promise<DataPoints> {
     const reply = await this.request(
-      buildSubDeviceQuery(this.version, nodeId, Date.now() / 1000),
+      buildSubDeviceQuery(this.gatewayVersion(), nodeId, Date.now() / 1000),
       undefined,
       nodeId,
     );
@@ -304,7 +317,7 @@ export class LocalTuyaClient implements TuyaClient {
   ): Promise<void> {
     const ack = await this.request(
       buildSubDeviceControl(
-        this.version,
+        this.gatewayVersion(),
         nodeId,
         dataPoints,
         Date.now() / 1000,

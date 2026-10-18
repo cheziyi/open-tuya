@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  V31_BROADCAST,
   V33_BROADCAST,
   V34_BROADCAST,
   V35_BROADCAST,
@@ -14,6 +15,17 @@ const NO_IV = Buffer.alloc(0);
 
 describe("sealBroadcast", () => {
   it.each([
+    [
+      "3.1",
+      {
+        ip: "192.168.2.81",
+        gwId: "012001865ccf7f598277",
+        uuid: "",
+        productKey: "qHLNAzmrRdA9EMXl",
+      },
+      NO_IV,
+      V31_BROADCAST,
+    ],
     [
       "3.3",
       {

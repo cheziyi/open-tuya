@@ -33,6 +33,9 @@ export interface DiscoveredTuyaDevice {
 // https://github.com/xZetsubou/hass-localtuya/commit/aeb5f9ce4c07c57e7868f296978fed4a2a5e9f18.
 // A 3.4 broadcast carries a CRC32 where its TCP frames carry an HMAC, in
 // https://github.com/codetheweb/tuyapi/commit/45e0ae8cb3064a89edf57255f42efcc9fc338769.
+// Source: A 3.1 device broadcasts a 0x55AA frame with command UDP and return
+// code 0, its JSON in plain text, captured in
+// https://github.com/codetheweb/tuyapi/issues/17#issuecomment-361135781.
 // Source: A 3.5 device broadcasts, and answers a REQ_DEVINFO with, a 0x6699
 // frame with command UDP_NEW and return code 0 in front of its JSON, in
 // https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
@@ -63,7 +66,10 @@ export function decodeBroadcast(
       if (!frame || !isBroadcastCommand(frame.command)) {
         return undefined;
       }
-      payload = decryptAesEcb(frame.payload, BROADCAST_KEY);
+      payload =
+        frame.command === COMMANDS.UDP
+          ? frame.payload
+          : decryptAesEcb(frame.payload, BROADCAST_KEY);
     }
   } catch {
     return undefined;
@@ -73,11 +79,14 @@ export function decodeBroadcast(
 
 // Source: A device broadcasts with UDP, UDP_NEW or BOARDCAST_LPV34 alone, in
 // https://github.com/codetheweb/tuyapi/commit/45e0ae8cb3064a89edf57255f42efcc9fc338769.
-// UDP is 3.1's, which this package does not speak. A client's REQ_DEVINFO
-// arrives on the same port as a device's answer, sealed under the same key,
-// and is left out here.
+// A client's REQ_DEVINFO arrives on the same port as a device's answer,
+// sealed under the same key, and is left out here.
 function isBroadcastCommand(command: number): boolean {
-  return command === COMMANDS.UDP_NEW || command === COMMANDS.BOARDCAST_LPV34;
+  return (
+    command === COMMANDS.UDP ||
+    command === COMMANDS.UDP_NEW ||
+    command === COMMANDS.BOARDCAST_LPV34
+  );
 }
 
 function parseDevice(payload: Uint8Array): DiscoveredTuyaDevice | undefined {

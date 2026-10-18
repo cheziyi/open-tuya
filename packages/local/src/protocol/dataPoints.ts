@@ -1,6 +1,10 @@
 import type { DataPoints, ProtocolVersion } from "@open-tuya/core";
 import { COMMANDS } from "./commands.js";
 
+/** The versions a gateway reaches the devices behind it on: no source shows
+ * a 3.1 gateway. */
+export type GatewayProtocolVersion = Exclude<ProtocolVersion, "3.1">;
+
 export interface DataPointRequest {
   command: number;
   plaintext: Buffer;
@@ -12,7 +16,10 @@ export interface DataPointRequest {
 // https://github.com/codetheweb/tuyapi/commit/e125a2e17f3043ed6263f092d154c72bf6d1ecdb,
 // https://github.com/iRayanKhan/homebridge-tuya/commit/ea1d903fb467dd8c296326db130630308113167a
 // and https://github.com/jasonacox/tinytuya/commit/a60ffc61484b164f588e2e6685810cfbd262de8f.
-// Source: The 3.3 body is {"gwId":…,"devId":…}, both the device ID, in
+// Source: 3.1 reads with DP_QUERY and writes with CONTROL, in
+// https://github.com/clach04/python-tuya/commit/25d8b0846d9ca8857c99f9ff4c93a11fe64b9674
+// and https://github.com/clach04/python-tuya/commit/1b0785424ab34c540acb168443aa521a8a2d774b.
+// Source: The 3.1 and 3.3 body is {"gwId":…,"devId":…}, both the device ID, in
 // https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/800ade32914c66a60566efbb485268283c8ca86a
 // and https://github.com/clach04/python-tuya/commit/25d8b0846d9ca8857c99f9ff4c93a11fe64b9674.
 // Source: The 3.4 and 3.5 body is {} in
@@ -22,7 +29,7 @@ export function buildQuery(
   version: ProtocolVersion,
   deviceId: string,
 ): DataPointRequest {
-  return version === "3.3"
+  return version === "3.1" || version === "3.3"
     ? {
         command: COMMANDS.DP_QUERY,
         plaintext: json({ devId: deviceId, gwId: deviceId }),
@@ -30,12 +37,17 @@ export function buildQuery(
     : { command: COMMANDS.DP_QUERY_NEW, plaintext: json({}) };
 }
 
-// Source: The 3.3 body is {"devId":…,"uid":"","t":…,"dps":…} in
+// Source: The 3.1 and 3.3 body is {"devId":…,"uid":"","t":…,"dps":…} in
 // https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/800ade32914c66a60566efbb485268283c8ca86a
 // and https://github.com/codetheweb/tuyapi/commit/68b164d5c62e902eb7407945aef71e3a3f2cb065,
 // with "t" an integer of seconds in
 // https://github.com/codetheweb/tuyapi/commit/461f0b3ea7887ec240c4c191dc3036b8f47981cb:
-// see DESIGN.md#data-points.
+// see DESIGN.md#data-points. On 3.1, "t" is a string, in
+// https://github.com/clach04/python-tuya/commit/ba17258746effadadc0e8e990d05b54efffabfe8
+// and https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/800ade32914c66a60566efbb485268283c8ca86a,
+// and captured acked in
+// https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247544765:
+// see DESIGN.md#protocol-31.
 // Source: The 3.4 and 3.5 body is {"data":{"dps":…},"protocol":5,"t":…},
 // with "t" an integer, in
 // https://github.com/jasonacox/tinytuya/commit/d59fdf9546969d0cb57faede60b82424c09d4a7b,
@@ -49,13 +61,13 @@ export function buildControl(
   timeInSeconds: number,
 ): DataPointRequest {
   const t = Math.floor(timeInSeconds);
-  return version === "3.3"
+  return version === "3.1" || version === "3.3"
     ? {
         command: COMMANDS.CONTROL,
         plaintext: json({
           devId: deviceId,
           dps: dataPoints,
-          t,
+          t: version === "3.1" ? String(t) : t,
           uid: "",
         }),
       }
@@ -80,7 +92,7 @@ export function buildControl(
 /** Builds the request that reads the data points of the device behind a
  * gateway with `nodeId`. */
 export function buildSubDeviceQuery(
-  version: ProtocolVersion,
+  version: GatewayProtocolVersion,
   nodeId: string,
   timeInSeconds: number,
 ): DataPointRequest {
@@ -107,7 +119,7 @@ export function buildSubDeviceQuery(
 /** Builds the request that writes `dataPoints` to the device behind a
  * gateway with `nodeId`, stamped `timeInSeconds`. */
 export function buildSubDeviceControl(
-  version: ProtocolVersion,
+  version: GatewayProtocolVersion,
   nodeId: string,
   dataPoints: DataPoints,
   timeInSeconds: number,

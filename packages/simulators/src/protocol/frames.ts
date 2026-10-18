@@ -1,6 +1,7 @@
 import {
   createCipheriv,
   createDecipheriv,
+  createHash,
   createHmac,
   timingSafeEqual,
 } from "node:crypto";
@@ -23,6 +24,11 @@ import type { ProtocolVersion } from "@open-tuya/core";
 // https://github.com/clach04/python-tuya/commit/25d8b0846d9ca8857c99f9ff4c93a11fe64b9674,
 // and inside the plaintext on 0x6699 frames, little-endian, in
 // https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
+// Source: On 3.1, a client seals CONTROL and a device seals STATUS as "3.1",
+// 16 hex digits of the MD5 of "data=" + base64 + "||lpv=3.1||" + key from
+// the 8th, and the base64 of the AES-128-ECB ciphertext; everything else
+// goes as plain text, captured in
+// https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247544765.
 // Source: The version header, the version and 12 more bytes, goes ahead of
 // the ciphertext on 3.3, in
 // https://github.com/codetheweb/tuyapi/commit/ab5c85e568d992f13107dbf684e6bec6df9bb7db,
@@ -36,6 +42,11 @@ const SUFFIX_6699 = Buffer.from([0x00, 0x00, 0x99, 0x66]);
 const VERSION_HEADER_LENGTH = 15;
 const GCM_TAG_LENGTH = 16;
 const GCM_IV_LENGTH = 12;
+const V31_PREFIX = Buffer.from("3.1");
+const V31_SIGNATURE_LENGTH = 16;
+// Source: 8 is STATUS, in
+// https://github.com/codetheweb/tuyapi/commit/a0c412245dfe8aed089d20d4f512aef2348af8da.
+const STATUS = 0x08;
 
 /** The two numbers after the version in a version header: the sender's
  * serial number and its source ID. */
@@ -105,11 +116,18 @@ export function sealDeviceFrame(
       SUFFIX_6699,
     ]);
   }
-  const body =
-    version === "3.3"
-      ? Buffer.concat([header, ecb(key, frame.plaintext)])
-      : ecb(key, Buffer.concat([header, frame.plaintext]));
-  const checkLength = version === "3.3" ? 4 : 32;
+  let body: Buffer;
+  if (version === "3.1") {
+    body =
+      frame.command === STATUS
+        ? sealV31(key, frame.plaintext)
+        : Buffer.from(frame.plaintext);
+  } else if (version === "3.3") {
+    body = Buffer.concat([header, ecb(key, frame.plaintext)]);
+  } else {
+    body = ecb(key, Buffer.concat([header, frame.plaintext]));
+  }
+  const checkLength = checkLengthOf(version);
   const signed = Buffer.concat([
     PREFIX_55AA,
     uint32(frame.sequenceNumber),
@@ -136,7 +154,7 @@ export function openClientFrame(
 }
 
 function open55aa(
-  version: "3.3" | "3.4",
+  version: "3.1" | "3.3" | "3.4",
   bytes: Buffer,
   key: Uint8Array,
 ): { frame: ClientFrame; length: number } | undefined {
@@ -150,7 +168,7 @@ function open55aa(
   if (bytes.length < length) {
     return undefined;
   }
-  const checkLength = version === "3.3" ? 4 : 32;
+  const checkLength = checkLengthOf(version);
   const checkOffset = length - SUFFIX_55AA.length - checkLength;
   const signed = bytes.subarray(0, checkOffset);
   if (
@@ -163,7 +181,9 @@ function open55aa(
   }
   const body = signed.subarray(16);
   let opened: OpenedPayload;
-  if (version === "3.3") {
+  if (version === "3.1") {
+    opened = { payload: openV31(key, body) };
+  } else if (version === "3.3") {
     opened = splitVersionHeader(version, body);
     opened.payload = decryptEcb(key, opened.payload);
   } else {
@@ -221,9 +241,43 @@ function check(
   key: Uint8Array,
   signed: Buffer,
 ): Buffer {
-  return version === "3.3"
+  return version === "3.1" || version === "3.3"
     ? uint32(crc32(signed))
     : createHmac("sha256", key).update(signed).digest();
+}
+
+function checkLengthOf(version: ProtocolVersion): number {
+  return version === "3.1" || version === "3.3" ? 4 : 32;
+}
+
+function sealV31(key: Uint8Array, plaintext: Uint8Array): Buffer {
+  const data = ecb(key, plaintext).toString("base64");
+  return Buffer.concat([
+    V31_PREFIX,
+    Buffer.from(signV31(key, data)),
+    Buffer.from(data),
+  ]);
+}
+
+function openV31(key: Uint8Array, body: Buffer): Buffer {
+  if (!body.subarray(0, V31_PREFIX.length).equals(V31_PREFIX)) {
+    return body;
+  }
+  const start = V31_PREFIX.length + V31_SIGNATURE_LENGTH;
+  const data = body.subarray(start).toString();
+  if (
+    body.subarray(V31_PREFIX.length, start).toString() !== signV31(key, data)
+  ) {
+    throw new Error("A client payload's signature is wrong");
+  }
+  return decryptEcb(key, Buffer.from(data, "base64"));
+}
+
+function signV31(key: Uint8Array, data: string): string {
+  return createHash("md5")
+    .update(Buffer.concat([Buffer.from(`data=${data}||lpv=3.1||`), key]))
+    .digest("hex")
+    .substring(8, 24);
 }
 
 function ecb(key: Uint8Array, plaintext: Uint8Array): Buffer {

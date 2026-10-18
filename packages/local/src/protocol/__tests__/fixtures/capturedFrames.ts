@@ -178,3 +178,87 @@ export const V34_SUB_DEVICE_CONTROL_PLAINTEXT =
 // https://github.com/xZetsubou/hass-localtuya/issues/730.
 export const SUB_DEVICE_STATUS_REPORT_PLAINTEXT =
   '{"reqType":"subdev_online_stat_report","data":{"online":["0070","0068","0058"],"offline":[]}}';
+
+// Source: A 3.1 plug's frames, with its local key and device ID, captured in
+// https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247504813
+// and https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247544765.
+export const V31_KEY = Buffer.from("78c2e271b3dcfae4");
+export const V31_DEVICE_ID = "03200160ecfabc8d9700";
+
+/** The DP_QUERY a client sent, in plain text. */
+export const V31_QUERY = Buffer.from(
+  "000055aa000000010000000a000000747b2267774964223a2230333230303136306563" +
+    "66616263386439373030222c226465764964223a2230333230303136306563666162" +
+    "63386439373030222c22756964223a22303332303031363065636661626338643937" +
+    "3030222c2274223a2231363633323037313838227d4db799a10000aa55",
+  "hex",
+);
+
+/** The plug's reply to V31_QUERY, in plain text. */
+export const V31_QUERY_REPLY = Buffer.from(
+  "000055aa000000010000000a0000005c000000007b226465764964223a2230333230" +
+    "3031363065636661626338643937303022" +
+    "2c22647073223a7b2231223a747275652c2232223a302c2234223a3136312c223522" +
+    "3a3136382c2236223a313139347d7dafacce430000aa55",
+  "hex",
+);
+export const V31_QUERY_REPLY_PLAINTEXT =
+  '{"devId":"03200160ecfabc8d9700","dps":{"1":true,"2":0,"4":161,"5":168,"6":1194}}';
+
+/** The plug's reply to an empty DP_QUERY: return code 1, in plain text. */
+export const V31_QUERY_ERROR = Buffer.from(
+  "000055aa000000010000000a0000001d000000016461746120666f726d6174206572" +
+    "726f7271bf61a40000aa55",
+  "hex",
+);
+
+/** A CONTROL a client sent, sealed under V31_KEY. */
+export const V31_CONTROL = Buffer.from(
+  "000055aa00000002000000070000009b332e3137303538653333666338656336393461" +
+    "702f726c75342b76564c422b5450505234462b36557333397a387a5268697470555043" +
+    "4d4f6945732f752f5042454c6357776a417463575249684c745661624d317047417936" +
+    "327278466b5a7158617669365247727047374f4d5963764f76317457724e446d333647" +
+    "3947593455586979564a477641446d6e70366636645363f4f1925a0000aa55",
+  "hex",
+);
+export const V31_CONTROL_PLAINTEXT =
+  '{"devId":"03200160ecfabc8d9700","uid":"03200160ecfabc8d9700","t":"1663212818","dps":{"1":true}}';
+
+/** The plug's ack to V31_CONTROL. */
+export const V31_CONTROL_ACK = Buffer.from(
+  "000055aa00000002000000070000000c0000000018cfc5da0000aa55",
+  "hex",
+);
+
+/** The STATUS the plug sent after V31_CONTROL, sealed under V31_KEY. */
+export const V31_STATUS = Buffer.from(
+  "000055aa00000000000000080000008b00000000332e3132366633613532613762636539" +
+    "393838702f726c75342b76564c422b5450505234462b36557333397a387a5268697470" +
+    "5550434d4f6945732f752f3770525844687a4236775550712f6b5572643136684b5833" +
+    "634d336e526b6267715372736f526d6e6b6a5a5474515a665a5747614f496979664b6f" +
+    "546d4c6e383da0e8c8fd0000aa55",
+  "hex",
+);
+export const V31_STATUS_PLAINTEXT =
+  '{"devId":"03200160ecfabc8d9700","dps":{"1":true},"t":1663212814,"s":86361}';
+
+// Source: A 3.1 STATUS payload from tuyapi's tests, sealed under TUYAPI_KEY,
+// in https://github.com/codetheweb/tuyapi/commit/e31602729fd3919990a370ee792bb67d471fbf95.
+// It opens to TUYAPI_PLAINTEXT.
+export const TUYAPI_V31_PAYLOAD = Buffer.from(
+  "3.133ed3d4a21effe90zrA8OK3r3JMiUXpXDWauNppY4Am2c8rZ6sb4Yf15MjM8n5ByDx+QWeCZtcrPqddxLrhm906bSKbQAFtT1uCp+zP5AxlqJf5d0Pp2OxyXyjg=",
+);
+
+// Source: A 3.1 device's UDP broadcast, in plain text with command 0, captured
+// in https://github.com/codetheweb/tuyapi/issues/17#issuecomment-361135781.
+export const V31_BROADCAST = Buffer.from(
+  "000055aa00000000000000000000009e000000007b226970223a223139322e3136382e" +
+    "322e3831222c2267774964223a223031323030313836356363663766353938323737" +
+    "222c22616374697665223a322c226162696c697479223a302c226d6f6465223a302c" +
+    "22656e6372797074223a747275652c2270726f647563744b6579223a2271484c4e41" +
+    "7a6d7252644139454d586c222c2276657273696f6e223a22332e31227dabd0b19100" +
+    "00aa55",
+  "hex",
+);
+export const V31_BROADCAST_PLAINTEXT =
+  '{"ip":"192.168.2.81","gwId":"012001865ccf7f598277","active":2,"ability":0,"mode":0,"encrypt":true,"productKey":"qHLNAzmrRdA9EMXl","version":"3.1"}';

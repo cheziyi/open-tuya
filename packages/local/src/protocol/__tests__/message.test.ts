@@ -3,6 +3,15 @@ import { COMMANDS } from "../commands.js";
 import { encodeFrame } from "../frame.js";
 import { decodeMessages, encodeMessage } from "../message.js";
 import {
+  V31_CONTROL,
+  V31_CONTROL_ACK,
+  V31_CONTROL_PLAINTEXT,
+  V31_KEY,
+  V31_QUERY_ERROR,
+  V31_QUERY_REPLY,
+  V31_QUERY_REPLY_PLAINTEXT,
+  V31_STATUS,
+  V31_STATUS_PLAINTEXT,
   V33_QUERY_ERROR,
   V33_QUERY_ERROR_KEY,
   V33_QUERY_ERROR_PLAINTEXT,
@@ -202,5 +211,62 @@ describe("encodeMessage, against a captured frame", () => {
         V35_QUERY_IV,
       ),
     ).toEqual(V35_QUERY);
+  });
+});
+
+describe("encodeMessage, against a captured 3.1 exchange", () => {
+  it("writes the CONTROL a client sent byte for byte", () => {
+    expect(
+      encodeMessage(
+        "3.1",
+        {
+          sequenceNumber: 2,
+          command: COMMANDS.CONTROL,
+          payload: Buffer.from(V31_CONTROL_PLAINTEXT),
+        },
+        V31_KEY,
+        Buffer.alloc(0),
+      ),
+    ).toEqual(V31_CONTROL);
+  });
+
+  it("reads the plug's reply, error, ack and STATUS", () => {
+    const { frames, errors } = decodeMessages(
+      "3.1",
+      Buffer.concat([
+        V31_QUERY_REPLY,
+        V31_QUERY_ERROR,
+        V31_CONTROL_ACK,
+        V31_STATUS,
+      ]),
+      V31_KEY,
+    );
+
+    expect(errors).toEqual([]);
+    expect(
+      frames.map(({ command, returnCode, payload }) => [
+        command,
+        returnCode,
+        Buffer.from(payload).toString(),
+      ]),
+    ).toEqual([
+      [COMMANDS.DP_QUERY, 0, V31_QUERY_REPLY_PLAINTEXT],
+      [COMMANDS.DP_QUERY, 1, "data format error"],
+      [COMMANDS.CONTROL, 0, ""],
+      [COMMANDS.STATUS, 0, V31_STATUS_PLAINTEXT],
+    ]);
+  });
+
+  it("leaves out a STATUS sealed under another key", () => {
+    const { frames, errors } = decodeMessages(
+      "3.1",
+      V31_STATUS,
+      Buffer.from("0123456789abcdef"),
+    );
+
+    expect(frames).toEqual([]);
+    expect(errors).toEqual([
+      expect.objectContaining({ code: "DECRYPTION_FAILED" }),
+    ]);
   });
 });
