@@ -37,6 +37,10 @@ const HEART_BEAT = 0x09;
 const DP_QUERY = 0x0a;
 const CONTROL_NEW = 0x0d;
 const DP_QUERY_NEW = 0x10;
+// Source: 0x40 is LAN_EXT_STREAM, which carries a gateway's sub-device
+// status, in
+// https://github.com/jasonacox/tinytuya/commit/92bcfc53740f1aa9a9e2ce265d5636120f2228e5.
+const LAN_EXT_STREAM = 0x40;
 const NONCE_LENGTH = 16;
 const IV_LENGTH = 12;
 // Source: A 3.5 device answers a request to UDP port 7000, in
@@ -60,6 +64,9 @@ export interface StartSimulatedDeviceOptions {
   /** The UDP port a 3.5 device answers a discovery request to. Defaults to
    * 7000. */
   answerPort?: number;
+  /** The data points of each device behind the gateway the device is, by
+   * node ID. Defaults to none. */
+  subDevices?: Readonly<Record<string, DataPoints>>;
 }
 
 /** Starts a device listening on free ports of 127.0.0.1: TCP for a client,
@@ -103,6 +110,11 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
   readonly received: ClientFrame[] = [];
   /** The data points the device holds, as writes and `report` leave them. */
   readonly dataPoints: Record<string, DataPointValue>;
+  /** The data points each device behind the gateway holds, by node ID, as
+   * writes and `report` leave them. */
+  readonly subDevices: Record<string, Record<string, DataPointValue>>;
+  /** The node IDs the gateway reports offline. A read of one fails. */
+  readonly offline = new Set<string>();
   /** Defaults to true. */
   answersHeartbeats = true;
   /** Whether a write is followed by a STATUS frame of the data points it set:
@@ -130,6 +142,12 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
     this.localKey = Buffer.from(options.localKey);
     this.key = this.localKey;
     this.dataPoints = { ...options.dataPoints };
+    this.subDevices = Object.fromEntries(
+      Object.entries(options.subDevices ?? {}).map(([nodeId, dataPoints]) => [
+        nodeId,
+        { ...dataPoints },
+      ]),
+    );
     this.deviceId = options.deviceId ?? randomBytes(11).toString("hex");
     this.productKey = options.productKey ?? randomBytes(8).toString("hex");
     server.on("connection", (socket) => this.accept(socket));
@@ -161,12 +179,16 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
     );
   }
 
-  /** Sets `dataPoints` and reports them to the connected client in a STATUS
-   * frame, as the device does when a data point changes. It throws when no
-   * client is connected. */
-  report(dataPoints: DataPoints): void {
-    Object.assign(this.dataPoints, dataPoints);
-    this.send(STATUS, this.status(dataPoints));
+  /** Sets `dataPoints`, of the device behind the gateway with `nodeId` if
+   * given, and reports them to the connected client in a STATUS frame, as the
+   * device does when a data point changes. It throws when no client is
+   * connected, or for a node ID it does not hold. */
+  report(dataPoints: DataPoints, nodeId?: string): void {
+    Object.assign(
+      nodeId === undefined ? this.dataPoints : this.subDevice(nodeId),
+      dataPoints,
+    );
+    this.send(STATUS, this.status(dataPoints, nodeId));
   }
 
   /** Pushes a frame to the connected client, with return code 0. STATUS gets
@@ -334,15 +356,74 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
       case CONTROL_NEW:
         this.answerControl(frame);
         return;
+      case LAN_EXT_STREAM:
+        this.answerSubDeviceQuery(frame);
+        return;
     }
+  }
+
+  // Source: A gateway answers {"reqType":"subdev_online_stat_query",…} with
+  // {"reqType":"subdev_online_stat_report","data":{"online":[…],"offline":[…]}}
+  // on 3.4 and 3.5, in
+  // https://github.com/jasonacox/tinytuya/commit/d59fdf9546969d0cb57faede60b82424c09d4a7b,
+  // a 3.4 gateway after an empty frame, captured in
+  // https://github.com/jasonacox/tinytuya/issues/677, and a 3.3 gateway not
+  // at all, in https://github.com/xZetsubou/hass-localtuya/issues/293.
+  private answerSubDeviceQuery(frame: ClientFrame): void {
+    const { version } = this.options;
+    if (
+      version === "3.3" ||
+      field(parseJson(frame.payload), "reqType") !== "subdev_online_stat_query"
+    ) {
+      return;
+    }
+    if (version === "3.4") {
+      this.reply(frame, 0, Buffer.alloc(0));
+    }
+    const nodeIds = Object.keys(this.subDevices);
+    this.reply(
+      frame,
+      0,
+      json({
+        reqType: "subdev_online_stat_report",
+        data: {
+          online: nodeIds.filter((nodeId) => !this.offline.has(nodeId)),
+          offline: nodeIds.filter((nodeId) => this.offline.has(nodeId)),
+        },
+      }),
+    );
+  }
+
+  private subDevice(nodeId: string): Record<string, DataPointValue> {
+    const dataPoints = this.subDevices[nodeId];
+    if (!dataPoints) {
+      throw new Error(`The gateway holds no device ${nodeId}`);
+    }
+    return dataPoints;
   }
 
   // Source: A device answers a query with its own command: return code 0 and
   // {"dps":…}, or return code 1 and "json obj data unvalid" when it holds no
   // data point, or "data format error" when the query is not JSON, in
   // https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
+  // Source: A gateway answers a query naming a device behind it with that
+  // device's data points and its node ID, {"dps":…,"cid":…}, captured on 3.3
+  // in https://github.com/make-all/tuya-local/issues/3827, and on 3.5 in
+  // https://github.com/jasonacox/tinytuya/issues/266, and with
+  // "json obj data unvalid" for one it cannot read, in the same issue.
   private answerQuery(frame: ClientFrame): void {
-    if (parseJson(frame.payload) === undefined) {
+    const message = parseJson(frame.payload);
+    const nodeId = field(message, "cid");
+    if (typeof nodeId === "string") {
+      const dataPoints = this.subDevices[nodeId];
+      if (!dataPoints || this.offline.has(nodeId)) {
+        this.reply(frame, 1, Buffer.from("json obj data unvalid"));
+      } else {
+        this.reply(frame, 0, json({ dps: dataPoints, cid: nodeId }));
+      }
+      return;
+    }
+    if (message === undefined) {
       this.reply(frame, 1, Buffer.from("data format error"));
     } else if (Object.keys(this.dataPoints).length === 0) {
       this.reply(frame, 1, Buffer.from("json obj data unvalid"));
@@ -379,13 +460,30 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
       this.reply(frame, returnCode, Buffer.from("data format error"));
       return;
     }
+    const nodeId = field(data, "cid");
+    // Source: A 3.3 gateway acks a write naming a device behind it beside a
+    // devId or uid, and does nothing, captured in
+    // https://github.com/xZetsubou/hass-localtuya/issues/37.
+    const ignored =
+      typeof nodeId === "string" &&
+      version === "3.3" &&
+      (field(data, "devId") !== undefined || field(data, "uid") !== undefined);
+    const target =
+      typeof nodeId === "string" ? this.subDevices[nodeId] : this.dataPoints;
+    if (!target || ignored) {
+      this.reply(frame, returnCode, Buffer.alloc(0));
+      return;
+    }
     const set = Object.fromEntries(
-      Object.entries(written).filter(([id]) => id in this.dataPoints),
+      Object.entries(written).filter(([id]) => id in target),
     ) as DataPoints;
-    Object.assign(this.dataPoints, set);
+    Object.assign(target, set);
     this.reply(frame, returnCode, Buffer.alloc(0));
     if (this.pushesAfterWrite && Object.keys(set).length > 0) {
-      this.send(STATUS, this.status(set));
+      this.send(
+        STATUS,
+        this.status(set, typeof nodeId === "string" ? nodeId : undefined),
+      );
     }
   }
 
@@ -393,11 +491,16 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
   // https://github.com/xZetsubou/hass-localtuya/issues/775, and a 3.4 or 3.5
   // device {"protocol":4,"t":…,"data":{"dps":…}}, captured in
   // https://github.com/jasonacox/tinytuya/discussions/260#discussioncomment-14066063.
-  private status(dataPoints: DataPoints): Buffer {
+  // Source: A gateway names the device behind it a report is from at "cid",
+  // beside "dps": on 3.3 at the top, {"dps":…,"cid":…,"t":…}, captured in
+  // https://github.com/xZetsubou/hass-localtuya/issues/37, and on 3.4 in
+  // "data", captured in https://github.com/make-all/tuya-local/issues/6400.
+  private status(dataPoints: DataPoints, nodeId?: string): Buffer {
     const t = Math.floor(Date.now() / 1000);
+    const cid = nodeId === undefined ? {} : { cid: nodeId };
     return this.options.version === "3.3"
-      ? json({ dps: dataPoints, t })
-      : json({ protocol: 4, t, data: { dps: dataPoints } });
+      ? json({ dps: dataPoints, ...cid, t })
+      : json({ protocol: 4, t, data: { dps: dataPoints, ...cid } });
   }
 
   private reply(

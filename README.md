@@ -76,8 +76,35 @@ client.onControls((values) => update(values)); // the controls each push carries
 | Two routes push the same change | Hands on the first connected route's push alone |
 
 The LAN route keeps its `host`: when discovery reports a new one, create a
-new client. A device with a `nodeId`, reached through a gateway, takes a cloud
-route alone: `@open-tuya/local` does not address a gateway's devices yet.
+new client.
+
+### A device behind a gateway
+
+A device with a `nodeId`, such as a Zigbee or Bluetooth device, is reached
+through its gateway's connection, under the gateway's local key. The cloud
+names no gateway for it: take the device it lists with the same local key and
+no `nodeId`.
+
+```ts
+const gateway = devices.find((candidate) => !candidate.nodeId && candidate.localKey === device.localKey);
+const found = discovered.get(gateway.deviceId);
+await using hub = createLocalTuyaClient({
+  deviceId: gateway.deviceId,
+  host: found.host,
+  version: found.version,
+  localKey: gateway.localKey,
+});
+await using client = await createTuyaClient({
+  deviceId: device.deviceId,
+  productKey: device.productKey,
+  routes: [{ gateway: hub, nodeId: device.nodeId }, { cloud: account }],
+});
+```
+
+One gateway client serves every device behind it: create it once and close it
+yourself, as `createTuyaClient` leaves it open. On 3.4 and 3.5 it asks the
+gateway every 30 s which devices are online, so a device the gateway reports
+offline goes to the next route.
 
 `client.entry` is the catalog entry the controls are named by, the best of
 `client.entries`. Save its `source.file` and pass the entry next time, so the

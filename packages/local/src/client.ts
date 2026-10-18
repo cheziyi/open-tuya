@@ -15,15 +15,26 @@ import { COMMANDS } from "./protocol/commands.js";
 import {
   buildControl,
   buildQuery,
+  buildSubDeviceControl,
+  buildSubDeviceQuery,
   type DataPointRequest,
   parseDataPoints,
+  parseReport,
 } from "./protocol/dataPoints.js";
 import type { ReceivedTuyaFrame } from "./protocol/frame.js";
+import {
+  buildSubDeviceStatusQuery,
+  parseSubDeviceStatus,
+} from "./protocol/subDevices.js";
 import type { VersionHeaderFields } from "./protocol/versionHeader.js";
+import { SubDeviceTuyaClient } from "./subDevice.js";
 
 const REPLY_TIMEOUT_IN_MS = 5000;
 const FIRST_RECONNECT_DELAY_IN_MS = 5000;
 const MAX_RECONNECT_DELAY_IN_MS = 60_000;
+// How often a 3.4 or 3.5 gateway is asked which devices behind it are online:
+// see DESIGN.md#gateways.
+const SUB_DEVICE_STATUS_INTERVAL_IN_MS = 30_000;
 // The range of the source ID a write carries: see DESIGN.md#client.
 const MIN_SOURCE_ID = 1000;
 const MAX_SOURCE_ID = 1_000_999;
@@ -49,6 +60,8 @@ export function createLocalTuyaClient(
 
 interface PendingRequest {
   command: number;
+  /** The device behind the gateway the request is for. */
+  nodeId?: string;
   settle: (frame: ReceivedTuyaFrame) => void;
   fail: (error: unknown) => void;
 }
@@ -73,6 +86,12 @@ export class LocalTuyaClient implements TuyaClient {
   private pending: PendingRequest | undefined;
   private queue: Promise<unknown> = Promise.resolve();
   private readonly listeners = new Set<(dataPoints: DataPoints) => void>();
+  private readonly subDeviceListeners = new Map<
+    string,
+    Set<(dataPoints: DataPoints) => void>
+  >();
+  private readonly offline = new Set<string>();
+  private statusTimer: NodeJS.Timeout | undefined;
   private reconnectDelayInMs = FIRST_RECONNECT_DELAY_IN_MS;
   private reconnectTimer: NodeJS.Timeout | undefined;
   private closed = false;
@@ -120,6 +139,9 @@ export class LocalTuyaClient implements TuyaClient {
     }
   }
 
+  /** Calls `listener` with the data points the device reports, as
+   * `TuyaClient.onDataPoints` does. A gateway's report for a device behind it
+   * goes to that device's client instead. */
   onDataPoints(listener: (dataPoints: DataPoints) => void): () => void {
     this.listeners.add(listener);
     return () => {
@@ -127,9 +149,46 @@ export class LocalTuyaClient implements TuyaClient {
     };
   }
 
+  /** A client for the device behind this gateway with `nodeId`, reached over
+   * this client's connection, under its local key. It reads the device once
+   * connected, and after each reconnect. On 3.4 and 3.5, it asks the gateway
+   * every 30 s which devices behind it are online. */
+  createClient(nodeId: string): SubDeviceTuyaClient {
+    const client = new SubDeviceTuyaClient({
+      connected: () => this.connected && !this.offline.has(nodeId),
+      read: () => this.readSubDevice(nodeId),
+      write: (dataPoints) => this.writeSubDevice(nodeId, dataPoints),
+      subscribe: (listener) => {
+        let listeners = this.subDeviceListeners.get(nodeId);
+        if (!listeners) {
+          listeners = new Set();
+          this.subDeviceListeners.set(nodeId, listeners);
+        }
+        listeners.add(listener);
+        return () => {
+          listeners.delete(listener);
+        };
+      },
+    });
+    if (this.version !== "3.3" && !this.closed) {
+      this.statusTimer ??= setInterval(
+        () => this.querySubDeviceStatus(),
+        SUB_DEVICE_STATUS_INTERVAL_IN_MS,
+      );
+    }
+    if (this.connected) {
+      this.readSubDevice(nodeId).then(
+        (dataPoints) => this.report(dataPoints, nodeId),
+        () => {},
+      );
+    }
+    return client;
+  }
+
   async close(): Promise<void> {
     this.closed = true;
     clearTimeout(this.reconnectTimer);
+    clearInterval(this.statusTimer);
     const connection = await this.connection?.catch(() => undefined);
     await connection?.close();
   }
@@ -153,6 +212,15 @@ export class LocalTuyaClient implements TuyaClient {
           (dataPoints) => this.report(dataPoints),
           () => {},
         );
+        for (const nodeId of this.subDeviceListeners.keys()) {
+          this.readSubDevice(nodeId).then(
+            (dataPoints) => this.report(dataPoints, nodeId),
+            () => {},
+          );
+        }
+        if (this.statusTimer) {
+          this.querySubDeviceStatus();
+        }
       },
       (error: unknown) => this.lose(error),
     );
@@ -178,13 +246,60 @@ export class LocalTuyaClient implements TuyaClient {
     }
   }
 
-  // One request at a time: a reply is matched by its command alone, as a 3.4
-  // or 3.5 device numbers its frames from a counter of its own.
+  private async readSubDevice(nodeId: string): Promise<DataPoints> {
+    const reply = await this.request(
+      buildSubDeviceQuery(this.version, nodeId, Date.now() / 1000),
+      undefined,
+      nodeId,
+    );
+    const dataPoints =
+      reply.returnCode === 0 ? parseDataPoints(reply.payload) : undefined;
+    if (!dataPoints) {
+      throw rejected(reply);
+    }
+    return dataPoints;
+  }
+
+  private async writeSubDevice(
+    nodeId: string,
+    dataPoints: DataPoints,
+  ): Promise<void> {
+    const ack = await this.request(
+      buildSubDeviceControl(
+        this.version,
+        nodeId,
+        dataPoints,
+        Date.now() / 1000,
+      ),
+      { serialNumber: this.serialNumber++, sourceId: this.sourceId },
+      nodeId,
+    );
+    if (ack.payload.length > 0) {
+      throw rejected(ack);
+    }
+  }
+
+  // Its report is a frame of its own command, which no request waits on, so
+  // it goes out beside the request in flight.
+  private querySubDeviceStatus(): void {
+    if (!this.connected) {
+      return;
+    }
+    const { command, plaintext } = buildSubDeviceStatusQuery();
+    this.connection
+      ?.then((connection) => connection.send(command, plaintext))
+      .catch(() => {});
+  }
+
+  // One request at a time: a reply is matched by its command, and by the node
+  // ID it names, as a 3.4 or 3.5 device numbers its frames from a counter of
+  // its own.
   private request(
     request: DataPointRequest,
     fields?: VersionHeaderFields,
+    nodeId?: string,
   ): Promise<ReceivedTuyaFrame> {
-    const send = () => this.send(request, fields);
+    const send = () => this.send(request, fields, nodeId);
     const reply = this.queue.then(send, send);
     this.queue = reply.catch(() => {});
     return reply;
@@ -193,6 +308,7 @@ export class LocalTuyaClient implements TuyaClient {
   private async send(
     { command, plaintext }: DataPointRequest,
     fields?: VersionHeaderFields,
+    nodeId?: string,
   ): Promise<ReceivedTuyaFrame> {
     if (this.closed) {
       throw new TuyaError("CONNECTION_LOST", "The client is closed");
@@ -208,6 +324,7 @@ export class LocalTuyaClient implements TuyaClient {
       };
       const pending: PendingRequest = {
         command,
+        ...(nodeId !== undefined && { nodeId }),
         settle: (frame) => {
           end();
           resolve(frame);
@@ -232,21 +349,48 @@ export class LocalTuyaClient implements TuyaClient {
     });
   }
 
+  // Source: A gateway reports which devices behind it are online in a frame
+  // of LAN_EXT_STREAM, in
+  // https://github.com/jasonacox/tinytuya/commit/d59fdf9546969d0cb57faede60b82424c09d4a7b.
+  // A reply naming another device than the request's goes to that device, as
+  // hass-localtuya found replies filed under the wrong one in
+  // https://github.com/xZetsubou/hass-localtuya/commit/842778d51581f41306d1bff3dcac9247b16a4e61.
   private receive(frame: ReceivedTuyaFrame): void {
-    if (frame.command === this.pending?.command) {
-      this.pending.settle(frame);
+    if (frame.command === COMMANDS.LAN_EXT_STREAM) {
+      const status = parseSubDeviceStatus(frame.payload);
+      for (const nodeId of status?.online ?? []) {
+        this.offline.delete(nodeId);
+      }
+      for (const nodeId of status?.offline ?? []) {
+        this.offline.add(nodeId);
+      }
       return;
     }
-    if (frame.command === COMMANDS.STATUS) {
-      const dataPoints = parseDataPoints(frame.payload);
-      if (dataPoints && Object.keys(dataPoints).length > 0) {
-        this.report(dataPoints);
-      }
+    const report = parseReport(frame.payload);
+    const pending = this.pending;
+    if (
+      pending &&
+      frame.command === pending.command &&
+      (report?.nodeId === undefined || report.nodeId === pending.nodeId)
+    ) {
+      pending.settle(frame);
+      return;
+    }
+    if (
+      report &&
+      Object.keys(report.dataPoints).length > 0 &&
+      (frame.command === COMMANDS.STATUS || report.nodeId !== undefined)
+    ) {
+      this.report(report.dataPoints, report.nodeId);
     }
   }
 
-  private report(dataPoints: DataPoints): void {
-    for (const listener of this.listeners) {
+  private report(dataPoints: DataPoints, nodeId?: string): void {
+    const listeners =
+      nodeId === undefined
+        ? this.listeners
+        : (this.subDeviceListeners.get(nodeId) ?? []);
+    for (const listener of listeners) {
       listener(dataPoints);
     }
   }

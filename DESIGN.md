@@ -342,6 +342,34 @@ What `discoverDevices` does with what it receives is its own design:
 | An error after the ports are bound, and a failed send, are ignored | A UDP socket has no connection to lose: an error costs one datagram, and a send to an interface that went away fails alone |
 | `TuyaDiscovery` takes its two sockets and the function that lists where requests go | A test binds loopback sockets, so no request leaves the machine and no device on the LAN answers one |
 
+## Gateways
+
+A gateway carries the devices behind it, each named by its node ID (`cid`),
+over its own connection. tinytuya, tuyapi and hass-localtuya, where it changed
+tinytuya's code, address them independently; ioBroker.tuya and TuyaAPI/cli
+are built on tuyapi, and Tuya's firmware (TuyaOpen) handles no devices behind
+it, so neither counts.
+
+| Question | Chosen | For | Against |
+| --- | --- | --- | --- |
+| A 3.3 write | `CONTROL` `{"cid","dps","t"}`, no `devId`, `gwId` or `uid` | tinytuya [`1312824`](https://github.com/jasonacox/tinytuya/commit/1312824e486159c1e6da3229e44a0633c0533669), tuyapi [`43b2929`](https://github.com/codetheweb/tuyapi/commit/43b2929447b237265b930e172550fbd47fd5acd6), hass-localtuya [`3b726e0`](https://github.com/xZetsubou/hass-localtuya/commit/3b726e005dad32718c6dbf9d4fbd43c4885be900). A gateway acks one with a `devId` and `uid` and ignores it ([hass-localtuya#37](https://github.com/xZetsubou/hass-localtuya/issues/37)) | — |
+| A 3.4 or 3.5 write | `CONTROL_NEW` `{"data":{"cid","ctype":0,"dps"},"protocol":5,"t"}`, acked in [tinytuya#677](https://github.com/jasonacox/tinytuya/issues/677) | `ctype`: tinytuya [`d59fdf9`](https://github.com/jasonacox/tinytuya/commit/d59fdf9546969d0cb57faede60b82424c09d4a7b), tuyapi [`c2b5e48`](https://github.com/codetheweb/tuyapi/commit/c2b5e48e805699969827affbfc11e893aeef701e) | hass-localtuya omits `ctype`; tinytuya alone repeats `cid` at the top |
+| A 3.3 read | `DP_QUERY` `{"cid","t"}` | tinytuya, hass-localtuya | tuyapi sends the full 3.3 body with `cid` |
+| A 3.4 or 3.5 read | `DP_QUERY_NEW` `{"cid"}`, as the official app sends it ([tinytuya#302](https://github.com/jasonacox/tinytuya/issues/302)) | tinytuya [`d59fdf9`](https://github.com/jasonacox/tinytuya/commit/d59fdf9546969d0cb57faede60b82424c09d4a7b) | hass-localtuya adds `t`; tuyapi sends its full body |
+| Where a report names its device | `cid` at the top of a reply and a 3.3 push, in `data` on a 3.4 push: both are read | Captured in [tinytuya#266](https://github.com/jasonacox/tinytuya/issues/266), [hass-localtuya#37](https://github.com/xZetsubou/hass-localtuya/issues/37) and [tuya-local#6400](https://github.com/make-all/tuya-local/issues/6400) | — |
+| Which devices are online | `LAN_EXT_STREAM` `{"data":{"cids":[]},"reqType":"subdev_online_stat_query"}`, answered by one or more `subdev_online_stat_report` frames, on 3.4 and 3.5 | tinytuya [`d59fdf9`](https://github.com/jasonacox/tinytuya/commit/d59fdf9546969d0cb57faede60b82424c09d4a7b); captured in [tinytuya#677](https://github.com/jasonacox/tinytuya/issues/677) and [hass-localtuya#227](https://github.com/xZetsubou/hass-localtuya/issues/227#issuecomment-2112020068) | A 3.3 gateway did not answer ([hass-localtuya#293](https://github.com/xZetsubou/hass-localtuya/issues/293)), where one did ([tinytuya#302](https://github.com/jasonacox/tinytuya/issues/302)) |
+
+What `@open-tuya/local` does with them is its own design:
+
+| Choice | Why |
+| --- | --- |
+| A gateway is a `LocalTuyaClient`, and `createClient(nodeId)` gives a `SubDeviceTuyaClient` over its connection | A gateway is a device on the LAN whose connection carries others: its own data points, in frames with no `cid`, go to its own listeners. One connection serves them all, as every source does, and a 3.5 gateway takes one session at a time ([tuya-local#1054](https://github.com/make-all/tuya-local/issues/1054)) |
+| One request at a time across the gateway, matched by command and by the `cid` a reply names | A reply naming another device goes to that device as a report: hass-localtuya filed replies under the wrong device ([`842778d`](https://github.com/xZetsubou/hass-localtuya/commit/842778d51581f41306d1bff3dcac9247b16a4e61)) |
+| The gateway reads each device behind it after each connect | As `LocalTuyaClient` reads itself: a listener learns what it missed |
+| On 3.4 and 3.5, the online query every 30 s, beside the request in flight; a device it reports offline is not `connected` | `createTuyaClient` then takes the next route without waiting for a timeout. 30 s notices a dropped device soon enough, and stays rare on a gateway with many; its report is a command no request waits on. A 3.3 gateway's devices are connected while it is, as most do not answer |
+| A device's client closing leaves the gateway's connection open | The gateway's client belongs to the caller, as a cloud account does |
+| A read answered "json obj data unvalid" rejects with `REQUEST_REJECTED` | A gateway answers so after it restarts, until each device is written once ([tinytuya#307](https://github.com/jasonacox/tinytuya/issues/307)); a write the caller did not ask for could change the device |
+
 ## Cloud app sources
 
 Every protocol fact in `@open-tuya/cloud-app` comes from

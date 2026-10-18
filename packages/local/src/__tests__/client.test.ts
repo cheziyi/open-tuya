@@ -14,6 +14,7 @@ import {
   V33_QUERY_ERROR_KEY,
 } from "../protocol/__tests__/fixtures/capturedFrames.js";
 import { LOCAL_KEY } from "../protocol/__tests__/fixtures/computedFrames.js";
+import { COMMANDS } from "../protocol/commands.js";
 import { until, useFakeTimers } from "./clock.js";
 import { type RawDevice, startRawDevice } from "./mocks/rawDevice.js";
 
@@ -289,4 +290,98 @@ describe("LocalTuyaClient", () => {
     await expect(client.readDataPoints()).rejects.toThrow(RangeError);
     expect(vi.getTimerCount()).toBe(0);
   });
+});
+
+describe.each(PROTOCOL_VERSIONS)("a gateway on %s", (version) => {
+  async function startGateway(): Promise<SimulatedTuyaDevice> {
+    const device = await startSimulatedDevice({
+      version,
+      localKey: LOCAL_KEY_TEXT,
+      subDevices: { lamp: { "1": false }, sensor: { "1": 21 } },
+    });
+    cleanups.push(() => device.close());
+    return device;
+  }
+
+  it("reads and writes a device behind it by its node ID", async () => {
+    const device = await startGateway();
+    const { client } = connect(device.port, version);
+    const lamp = client.createClient("lamp");
+
+    await expect(lamp.readDataPoints()).resolves.toEqual({ "1": false });
+    await lamp.writeDataPoints({ "1": true });
+
+    expect(device.subDevices.lamp).toEqual({ "1": true });
+  });
+
+  it("reads each device behind it once connected, and hands each its own reports", async () => {
+    const device = await startGateway();
+    const { client, reports } = connect(device.port, version);
+    const lamp = client.createClient("lamp");
+    const sensor = client.createClient("sensor");
+    const lampReports: DataPoints[] = [];
+    const sensorReports: DataPoints[] = [];
+    lamp.onDataPoints((dataPoints) => lampReports.push(dataPoints));
+    sensor.onDataPoints((dataPoints) => sensorReports.push(dataPoints));
+    await until(() => lampReports.length > 0 && sensorReports.length > 0);
+
+    device.report({ "1": 22 }, "sensor");
+    await until(() => sensorReports.length > 1);
+
+    expect(lampReports).toEqual([{ "1": false }]);
+    expect(sensorReports).toEqual([{ "1": 21 }, { "1": 22 }]);
+    expect(reports).toEqual([]);
+  });
+
+  it("hands a reply naming another device to that device", async () => {
+    const device = await startGateway();
+    const { client } = connect(device.port, version);
+    const sensor = client.createClient("sensor");
+    const sensorReports: DataPoints[] = [];
+    sensor.onDataPoints((dataPoints) => sensorReports.push(dataPoints));
+    await until(() => sensorReports.length > 0 && device.ready);
+
+    device.send(
+      version === "3.3" ? COMMANDS.DP_QUERY : COMMANDS.DP_QUERY_NEW,
+      Buffer.from('{"dps":{"1":30},"cid":"sensor"}'),
+    );
+    await until(() => sensorReports.length > 1);
+
+    expect(sensorReports.at(-1)).toEqual({ "1": 30 });
+  });
+
+  it("closes a device's client without closing the gateway's connection", async () => {
+    const device = await startGateway();
+    const { client } = connect(device.port, version);
+    const lamp = client.createClient("lamp");
+    await lamp.readDataPoints();
+
+    await lamp.close();
+
+    expect(lamp.connected).toBe(false);
+    expect(client.connected).toBe(true);
+    await expect(lamp.readDataPoints()).rejects.toMatchObject({
+      code: "CONNECTION_LOST",
+    });
+  });
+
+  it(
+    version === "3.3"
+      ? "takes each device behind it as connected while it is, as a 3.3 gateway reports none offline"
+      : "takes a device the gateway reports offline as not connected",
+    async () => {
+      const device = await startGateway();
+      device.offline.add("sensor");
+      const { client } = connect(device.port, version);
+      const lamp = client.createClient("lamp");
+      const sensor = client.createClient("sensor");
+      await until(() => client.connected);
+      if (version !== "3.3") {
+        await until(() => !sensor.connected);
+      }
+
+      expect(lamp.connected).toBe(true);
+      expect(sensor.connected).toBe(version === "3.3");
+    },
+  );
 });

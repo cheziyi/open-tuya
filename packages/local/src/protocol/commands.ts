@@ -6,8 +6,11 @@
 // SESS_KEY_NEG_START, SESS_KEY_NEG_RESP, SESS_KEY_NEG_FINISH and
 // BOARDCAST_LPV34 in
 // https://github.com/codetheweb/tuyapi/commit/c2b5e48e805699969827affbfc11e893aeef701e,
-// and REQ_DEVINFO in
-// https://github.com/jasonacox/tinytuya/commit/831f1131f17e6110c814c7d912e44a192fddb002.
+// REQ_DEVINFO in
+// https://github.com/jasonacox/tinytuya/commit/831f1131f17e6110c814c7d912e44a192fddb002,
+// and LAN_EXT_STREAM in
+// https://github.com/jasonacox/tinytuya/commit/92bcfc53740f1aa9a9e2ce265d5636120f2228e5
+// and https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
 export const COMMANDS = {
   SESS_KEY_NEG_START: 0x03,
   SESS_KEY_NEG_RESP: 0x04,
@@ -22,4 +25,5 @@ export const COMMANDS = {
   UDP_NEW: 0x13,
   BOARDCAST_LPV34: 0x23,
   REQ_DEVINFO: 0x25,
+  LAN_EXT_STREAM: 0x40,
 } as const;

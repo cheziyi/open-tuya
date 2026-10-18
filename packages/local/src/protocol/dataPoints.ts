@@ -69,22 +69,106 @@ export function buildControl(
       };
 }
 
+// Source: A gateway takes a read of a device behind it as DP_QUERY
+// {"t":…,"cid":…} on 3.3, in
+// https://github.com/jasonacox/tinytuya/commit/1312824e486159c1e6da3229e44a0633c0533669
+// and https://github.com/xZetsubou/hass-localtuya/commit/3b726e005dad32718c6dbf9d4fbd43c4885be900,
+// and as DP_QUERY_NEW {"cid":…} on 3.4 and 3.5, in
+// https://github.com/jasonacox/tinytuya/commit/d59fdf9546969d0cb57faede60b82424c09d4a7b,
+// as the official app sends it in
+// https://github.com/jasonacox/tinytuya/issues/302: see DESIGN.md#gateways.
+/** Builds the request that reads the data points of the device behind a
+ * gateway with `nodeId`. */
+export function buildSubDeviceQuery(
+  version: ProtocolVersion,
+  nodeId: string,
+  timeInSeconds: number,
+): DataPointRequest {
+  return version === "3.3"
+    ? {
+        command: COMMANDS.DP_QUERY,
+        plaintext: json({ cid: nodeId, t: Math.floor(timeInSeconds) }),
+      }
+    : { command: COMMANDS.DP_QUERY_NEW, plaintext: json({ cid: nodeId }) };
+}
+
+// Source: A gateway takes a write to a device behind it as CONTROL
+// {"t":…,"cid":…,"dps":…} on 3.3, with no devId, gwId or uid, in
+// https://github.com/jasonacox/tinytuya/commit/1312824e486159c1e6da3229e44a0633c0533669,
+// https://github.com/codetheweb/tuyapi/commit/43b2929447b237265b930e172550fbd47fd5acd6
+// and https://github.com/xZetsubou/hass-localtuya/commit/3b726e005dad32718c6dbf9d4fbd43c4885be900,
+// a capture in https://github.com/xZetsubou/hass-localtuya/issues/37 showing
+// one with a devId and uid acked and ignored. On 3.4 and 3.5 it is
+// CONTROL_NEW {"data":{"cid":…,"ctype":0,"dps":…},"protocol":5,"t":…}, in
+// https://github.com/jasonacox/tinytuya/commit/d59fdf9546969d0cb57faede60b82424c09d4a7b
+// and https://github.com/codetheweb/tuyapi/commit/c2b5e48e805699969827affbfc11e893aeef701e,
+// as captured acked in https://github.com/jasonacox/tinytuya/issues/677:
+// see DESIGN.md#gateways.
+/** Builds the request that writes `dataPoints` to the device behind a
+ * gateway with `nodeId`, stamped `timeInSeconds`. */
+export function buildSubDeviceControl(
+  version: ProtocolVersion,
+  nodeId: string,
+  dataPoints: DataPoints,
+  timeInSeconds: number,
+): DataPointRequest {
+  const t = Math.floor(timeInSeconds);
+  return version === "3.3"
+    ? {
+        command: COMMANDS.CONTROL,
+        plaintext: json({ cid: nodeId, dps: dataPoints, t }),
+      }
+    : {
+        command: COMMANDS.CONTROL_NEW,
+        plaintext: json({
+          data: { cid: nodeId, ctype: 0, dps: dataPoints },
+          protocol: 5,
+          t,
+        }),
+      };
+}
+
 // Source: A reply carries {"dps":…} and a 3.4 or 3.5 push {"data":{"dps":…}},
 // in https://github.com/jasonacox/tinytuya/commit/a60ffc61484b164f588e2e6685810cfbd262de8f
 // and https://github.com/codetheweb/tuyapi/commit/c2b5e48e805699969827affbfc11e893aeef701e.
+// Source: A gateway names the device behind it a report is from at "cid",
+// at the top on a reply, captured in
+// https://github.com/jasonacox/tinytuya/issues/266 and
+// https://github.com/make-all/tuya-local/issues/3827, and on a 3.3 push,
+// captured in https://github.com/xZetsubou/hass-localtuya/issues/37, and in
+// "data" on a 3.4 push, captured in
+// https://github.com/make-all/tuya-local/issues/6400; tinytuya reads both in
+// https://github.com/jasonacox/tinytuya/commit/d59fdf9546969d0cb57faede60b82424c09d4a7b.
 /** Reads the data points out of a decrypted payload, at `dps` or
- * `data.dps`. It returns `undefined` for a payload that is not JSON or holds
- * neither. */
-export function parseDataPoints(payload: Uint8Array): DataPoints | undefined {
+ * `data.dps`, with the node ID of the device behind a gateway they are from,
+ * at `cid` or `data.cid`. It returns `undefined` for a payload that is not
+ * JSON or holds no data points. */
+export function parseReport(
+  payload: Uint8Array,
+): { dataPoints: DataPoints; nodeId?: string } | undefined {
   let message: unknown;
   try {
     message = JSON.parse(Buffer.from(payload).toString());
   } catch {
     return undefined;
   }
-  const dataPoints =
-    field(message, "dps") ?? field(field(message, "data"), "dps");
-  return isObject(dataPoints) ? (dataPoints as DataPoints) : undefined;
+  const data = field(message, "data");
+  const dataPoints = field(message, "dps") ?? field(data, "dps");
+  if (!isObject(dataPoints)) {
+    return undefined;
+  }
+  const nodeId = field(message, "cid") ?? field(data, "cid");
+  return {
+    dataPoints: dataPoints as DataPoints,
+    ...(typeof nodeId === "string" && { nodeId }),
+  };
+}
+
+/** Reads the data points out of a decrypted payload, at `dps` or
+ * `data.dps`. It returns `undefined` for a payload that is not JSON or holds
+ * neither. */
+export function parseDataPoints(payload: Uint8Array): DataPoints | undefined {
+  return parseReport(payload)?.dataPoints;
 }
 
 // Source: A device does not answer a body with spaces between its tokens, in

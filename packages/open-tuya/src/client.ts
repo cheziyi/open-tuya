@@ -18,6 +18,7 @@ import {
 import {
   type CreateLocalTuyaClientOptions,
   createLocalTuyaClient,
+  type LocalTuyaClient,
 } from "@open-tuya/local";
 import { CloudRoute } from "./cloudRoute.js";
 
@@ -34,12 +35,14 @@ const UNDELIVERED_WRITE_CODES: ReadonlySet<TuyaErrorCode> = new Set([
 ]);
 
 /** One way to reach a device: over the LAN, with what discovery reports and
- * a cloud's local key, or through a cloud account. The LAN route keeps its
- * `host`: when discovery reports a new one, create a new client. A device
- * reached through a gateway, one with a `nodeId`, takes a cloud route alone,
- * as `@open-tuya/local` does not address a gateway's devices. */
+ * a cloud's local key; over the LAN through the client of the gateway a
+ * device with a `nodeId` is behind; or through a cloud account. The LAN route
+ * keeps its `host`: when discovery reports a new one, create a new client.
+ * The gateway's client and the account belong to the caller, who closes
+ * them. */
 export type TuyaRoute =
   | { lan: Omit<CreateLocalTuyaClientOptions, "deviceId"> }
+  | { gateway: LocalTuyaClient; nodeId: string }
   | { cloud: TuyaCloudAccount };
 
 export interface CreateTuyaClientOptions {
@@ -72,7 +75,9 @@ export async function createTuyaClient(
   const routes = options.routes.map((route) =>
     "lan" in route
       ? createLocalTuyaClient({ ...route.lan, deviceId })
-      : new CloudRoute(() => route.cloud.createClient(deviceId)),
+      : "gateway" in route
+        ? route.gateway.createClient(route.nodeId)
+        : new CloudRoute(() => route.cloud.createClient(deviceId)),
   );
   if (options.entry) {
     return new RoutedTuyaClient(routes, [options.entry]);
@@ -210,7 +215,8 @@ export class RoutedTuyaClient implements TuyaClient {
   }
 
   /** Closes the client of every route, and resolves once they are released.
-   * It leaves the cloud accounts open: they belong to the caller. */
+   * It leaves the gateways' clients and the cloud accounts open: they belong
+   * to the caller. */
   close(): Promise<void> {
     this.listeners.clear();
     this.closing ??= Promise.all(

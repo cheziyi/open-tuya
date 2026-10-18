@@ -151,3 +151,30 @@ export const V35_STATUS_VERSION_HEADER = Buffer.from(
   "332e35000000000000356100000001",
   "hex",
 );
+
+// Source: A 3.3 gateway's STATUS for the device behind it with node ID
+// a4c1382403f05cc6, decrypted, captured in
+// https://github.com/xZetsubou/hass-localtuya/issues/37.
+export const V33_SUB_DEVICE_STATUS_PLAINTEXT =
+  '{"dps":{"1":"manual"},"cid":"a4c1382403f05cc6","t":1697030461}';
+
+// Source: A 3.4 gateway's STATUS, the node ID in "data", decrypted, captured
+// in https://github.com/make-all/tuya-local/issues/6400.
+export const V34_SUB_DEVICE_STATUS_PLAINTEXT =
+  '{"protocol":4,"data":{"dps":{"1":"scene"},"cid":"child-b"}}';
+
+// Source: A 3.5 gateway's reply to DP_QUERY_NEW for the device behind it,
+// decrypted, captured in https://github.com/jasonacox/tinytuya/issues/266.
+export const V35_SUB_DEVICE_QUERY_REPLY_PLAINTEXT =
+  '{"dps":{"1":232,"2":569},"cid":"a4c138ad1d974d89"}';
+
+// Source: A CONTROL_NEW to the device behind a 3.4 gateway, which it acked,
+// captured in https://github.com/jasonacox/tinytuya/issues/677.
+export const V34_SUB_DEVICE_CONTROL_PLAINTEXT =
+  '{"protocol":5,"t":1770818185,"data":{"cid":"lamp2SubDev","ctype":0,"dps":{"1":false}},"cid":"lamp2SubDev"}';
+
+// Source: A gateway's report of which devices behind it are online,
+// decrypted, captured in
+// https://github.com/xZetsubou/hass-localtuya/issues/730.
+export const SUB_DEVICE_STATUS_REPORT_PLAINTEXT =
+  '{"reqType":"subdev_online_stat_report","data":{"online":["0070","0068","0058"],"offline":[]}}';
