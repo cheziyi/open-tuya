@@ -102,7 +102,11 @@ const entry: TuyaDeviceEntry = {
       powerDisplay: { dataPoint: "122", kind: "switch" },
       coolEnable: { dataPoint: "123", kind: "switch" },
       overclockMode: { dataPoint: "124", kind: "text" },
-      childLock: { dataPoint: "103", kind: "switch", absent: false },
+      childLock: {
+        dataPoint: "103",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       temperatureUnit2: {
         dataPoint: "106",
         kind: "select",

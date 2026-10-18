@@ -74,7 +74,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 4, value: "formatting" },
           { raw: 5, value: "missing" },
         ],
-        absent: "normal",
+        whenAbsent: { value: "normal" },
       },
       sdStatusMemoryCardCapacity: {
         dataPoint: "109",
@@ -141,8 +141,16 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: "7", value: true }],
         otherwise: false,
       },
-      ptzCalibration: { dataPoint: "132", kind: "switch", absent: false },
-      soundDetection: { dataPoint: "139", kind: "switch", absent: false },
+      ptzCalibration: {
+        dataPoint: "132",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
+      soundDetection: {
+        dataPoint: "139",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       soundSensitivity: {
         dataPoint: "140",
         kind: "select",
@@ -159,7 +167,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "2", value: "continuous" },
         ],
       },
-      alarm: { dataPoint: "159", kind: "switch", absent: false },
+      alarm: { dataPoint: "159", kind: "switch", whenAbsent: { value: false } },
       alarm2: {
         dataPoint: "185",
         kind: "event",

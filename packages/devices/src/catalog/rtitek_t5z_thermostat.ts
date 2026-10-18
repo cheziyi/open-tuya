@@ -99,7 +99,11 @@ const entry: TuyaDeviceEntry = {
         max: 99,
         scale: 10,
       },
-      antiFrost: { dataPoint: "10", kind: "switch", absent: false },
+      antiFrost: {
+        dataPoint: "10",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       childLock: { dataPoint: "40", kind: "switch" },
       fault: {
         dataPoint: "45",

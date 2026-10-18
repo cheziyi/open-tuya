@@ -203,7 +203,7 @@ const entry: TuyaDeviceEntry = {
         unit: "d",
         min: 1,
         max: 100,
-        absent: 0,
+        whenAbsent: { value: 0 },
       },
       selfCheckDueInMinutes: {
         dataPoint: "122",

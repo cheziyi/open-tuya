@@ -39,7 +39,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "start", value: "Start" },
           { raw: "end", value: "End" },
         ],
-        absent: "Normal operation",
+        whenAbsent: { value: "Normal operation" },
       },
       motorReverseMode: {
         dataPoint: "8",

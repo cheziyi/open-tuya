@@ -69,7 +69,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 2000, value: 0, readOnly: true },
           { raw: 0, value: 0, readOnly: true },
         ],
-        absent: 0,
+        whenAbsent: { value: 0 },
       },
       portionSizeInG: {
         dataPoint: "202",

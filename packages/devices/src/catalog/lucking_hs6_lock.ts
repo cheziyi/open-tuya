@@ -33,7 +33,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     lock: {
-      locked: { dataPoint: "28", kind: "switch", absent: false },
+      locked: { dataPoint: "28", kind: "switch", whenAbsent: { value: false } },
       lockState: { dataPoint: "40", kind: "sensor", readOnly: true },
       unlockFingerprint: { dataPoint: "10", kind: "text" },
       unlockPassword: { dataPoint: "11", kind: "text" },

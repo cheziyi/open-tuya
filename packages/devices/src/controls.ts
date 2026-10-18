@@ -8,6 +8,8 @@ import type {
   ControlCondition,
   ControlDependency,
   ControlMapping,
+  ControlRule,
+  ControlTarget,
   ControlValue,
   TuyaControl,
   TuyaDataPointType,
@@ -35,8 +37,9 @@ const NUMERIC_TYPES: ReadonlySet<TuyaDataPointType> = new Set([
 
 /** Converts a device's data points to the entry's control values. It leaves
  * out a control whose data point the device did not report, unless the
- * control has a value for its absence. A control that depends on another
- * data point reads it from the same `dataPoints`. */
+ * control has a rule for its absence. A control that depends on another data
+ * point, or reads one instead of its own, reads it from the same
+ * `dataPoints`. */
 export function readControls(
   entry: TuyaDeviceEntry,
   dataPoints: DataPoints,
@@ -61,13 +64,15 @@ export function readControls(
  * `current`, the data points the device reports now, what a control needs
  * of them. A control with a `mask` sets some bits of its data point and
  * keeps the rest. A control that depends on another data point that can be
- * written may set it too, to the value its condition needs.
+ * written may set it too, to the value its condition needs, and one that
+ * redirects writes the data point it redirects to instead of its own.
  *
  * It throws a `TypeError` for a control the entry does not have, a
  * read-only one, or a masked one whose data point `current` lacks, a
  * `RangeError` for a value outside the data point's range, and a
  * `TuyaError` with code `VALUE_UNAVAILABLE` for a value that needs a
- * read-only data point to hold another value than it does in `current`. */
+ * read-only data point to hold another value than it does in `current`, or
+ * that redirects to a read-only data point. */
 export function writeControls(
   entry: TuyaDeviceEntry,
   values: ControlValues,
@@ -85,67 +90,124 @@ export function writeControls(
       if (control.readOnly) {
         throw new TypeError(`${componentName}.${name} is read-only`);
       }
-      const id = control.dataPoint;
-      const type = entry.dataPoints[id]?.type;
-      const { raw, constraint } = writeControl(entry, control, value, current);
-      if (constraint) {
-        dataPoints[constraint.dataPoint] = constraint.raw;
-      }
-      if (!isMasked(control)) {
-        dataPoints[id] = raw;
-        continue;
-      }
-      // Several controls can set bits of one data point: each sets its own
-      // on what the ones before it set.
-      const base = dataPoints[id] ?? current[id];
-      if (base === undefined) {
-        throw new TypeError(
-          `${componentName}.${name} sets some bits of data point ${id}, so it needs the data point's current value`,
-        );
-      }
-      dataPoints[id] = writeMask(control, type, base, raw);
+      writeControl(entry, control, value, current, dataPoints);
     }
   }
   return dataPoints;
 }
 
-/** The data points other than its own that a control's value depends on. */
-export function listDependencies(control: TuyaControl): DataPointId[] {
-  const dependencies = [
-    control.dependsOn,
-    ...(control.values ?? []).map((mapping) => mapping.dependsOn),
-  ].flatMap((dependency) =>
-    dependency && dependency.dataPoint !== control.dataPoint
-      ? [dependency.dataPoint]
-      : [],
-  );
-  return [...new Set(dependencies)];
-}
-
-/** The rule a raw value or a written value falls under: one of the control's
- * mappings, or the control's own for any other value. */
-interface Rule {
-  mapping?: ControlMapping;
-  dependency?: ControlDependency;
-}
-
-// Source: A raw value matches the first mapping whose dps_val equals it, a
-// bitfield's when they share a bit, or else the mapping with no dps_val. The
-// last of its conditions that holds replaces its value, its nested mapping,
-// invert, target_range and scale, and a number then has invert, target_range
-// and scale applied, in that order, in
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L558-L566,
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L683-L691
-// and https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L780-L856.
-function readControl(
+/** The control as the device's data points make it now: with the condition
+ * that holds applied, and the data point it redirects to followed. Its
+ * `min`, `max`, `scale` and `step` are the ones a value takes now. */
+export function resolveControl(
   entry: TuyaDeviceEntry,
   control: TuyaControl,
   dataPoints: DataPoints,
-): ControlValue | undefined {
+): TuyaControl {
+  const rule = currentRule(entry, control, dataPoints) ?? ownRule(control);
+  const condition = holdingCondition(entry, rule.dependsOn, dataPoints);
+  const redirect = condition?.redirect ?? rule.redirect;
+  if (redirect) {
+    const { kind, measures, unit, unitFrom } = control;
+    return resolveControl(
+      entry,
+      {
+        ...redirect,
+        kind,
+        ...(measures && { measures }),
+        ...(unit !== undefined && { unit }),
+        ...(unitFrom !== undefined && { unitFrom }),
+      },
+      dataPoints,
+    );
+  }
+  if (rule.mapping || !condition) {
+    return control;
+  }
+  const { scale, step, invert, targetRange, min, max } = condition;
+  return {
+    ...control,
+    ...(scale !== undefined && { scale }),
+    ...(step !== undefined && { step }),
+    ...(invert && { invert }),
+    ...(targetRange && { targetRange }),
+    ...(min !== undefined && { min }),
+    ...(max !== undefined && { max }),
+  };
+}
+
+/** The data points other than its own that a control's value depends on or
+ * reads instead, through every data point it redirects or mirrors to. */
+export function listDependencies(control: ControlTarget): DataPointId[] {
+  const found = new Set<DataPointId>();
+  const visit = (target: ControlTarget) => {
+    for (const rule of rulesOf(target)) {
+      if (rule.dependsOn) {
+        found.add(rule.dependsOn.dataPoint);
+      }
+      const targets = [
+        rule.redirect,
+        rule.mirror,
+        ...(rule.dependsOn?.conditions ?? []).flatMap((condition) => [
+          condition.redirect,
+          condition.mirror,
+        ]),
+      ];
+      for (const next of targets) {
+        if (next) {
+          found.add(next.dataPoint);
+          visit(next);
+        }
+      }
+    }
+  };
+  visit(control);
+  found.delete(control.dataPoint);
+  return [...found];
+}
+
+/** The rule a raw value or a written value falls under: one of the control's
+ * mappings, its rule for an absent data point, or its own for any other
+ * value, which alone converts numbers. */
+interface Rule extends ControlRule {
+  mapping?: ControlMapping;
+  own?: true;
+}
+
+function rulesOf(control: ControlTarget): ControlRule[] {
+  return [
+    ownRule(control),
+    ...(control.whenAbsent ? [control.whenAbsent] : []),
+    ...(control.values ?? []),
+  ];
+}
+
+function ownRule(control: ControlTarget): Rule {
+  return {
+    own: true,
+    ...(control.otherwise !== undefined && { value: control.otherwise }),
+    ...(control.dependsOn && { dependsOn: control.dependsOn }),
+    ...(control.redirect && { redirect: control.redirect }),
+    ...(control.mirror && { mirror: control.mirror }),
+  };
+}
+
+function mappingRule(mapping: ControlMapping): Rule {
+  return { ...mapping, mapping };
+}
+
+// The rule the data point's value falls under now, with the value it read:
+// the rule for an absent data point while the device leaves it out, and
+// undefined while it has none, or the value does not decode.
+function currentRule(
+  entry: TuyaDeviceEntry,
+  control: ControlTarget,
+  dataPoints: DataPoints,
+): (Rule & { raw?: DataPointValue }) | undefined {
   const type = entry.dataPoints[control.dataPoint]?.type;
   const raw = dataPoints[control.dataPoint];
   if (raw === undefined) {
-    return control.absent;
+    return control.whenAbsent;
   }
   const value = isMasked(control)
     ? readMask(control, type, raw)
@@ -156,13 +218,38 @@ function readControl(
   const mapping = control.values?.find((candidate) =>
     matches(fieldType(control, type), candidate.raw, value),
   );
-  const condition = holdingCondition(
-    entry,
-    mapping ? mapping.dependsOn : control.dependsOn,
-    dataPoints,
-  );
-  let result: ControlValue =
-    condition?.value ?? (mapping ? mapping.value : control.otherwise) ?? value;
+  return { ...(mapping ? mappingRule(mapping) : ownRule(control)), raw: value };
+}
+
+// Source: A raw value matches the first mapping whose dps_val equals it, a
+// bitfield's when they share a bit, the one whose dps_val is null while the
+// data point is absent, or else the mapping with no dps_val. The last of its
+// conditions that holds replaces its value, its redirect, its mirror, its
+// nested mapping, invert, target_range and scale. A redirect or a mirror
+// reads the other data point as it converts; a number then has invert,
+// target_range and scale applied, in that order, in
+// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L558-L566,
+// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L683-L691
+// and https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L780-L856.
+function readControl(
+  entry: TuyaDeviceEntry,
+  control: ControlTarget,
+  dataPoints: DataPoints,
+): ControlValue | undefined {
+  const rule = currentRule(entry, control, dataPoints);
+  if (!rule) {
+    return undefined;
+  }
+  const condition = holdingCondition(entry, rule.dependsOn, dataPoints);
+  const target =
+    condition?.redirect ?? rule.redirect ?? condition?.mirror ?? rule.mirror;
+  if (target) {
+    return readControl(entry, target, dataPoints);
+  }
+  let result = condition?.value ?? rule.value ?? rule.raw;
+  if (result === undefined) {
+    return undefined;
+  }
   for (const nested of condition?.values ?? []) {
     if (nested.value !== undefined && String(nested.raw) === String(result)) {
       result = nested.value;
@@ -171,8 +258,7 @@ function readControl(
   if (typeof result !== "number") {
     return result;
   }
-  // A mapping converts no number of its own: only a condition on it does.
-  const conversion = { ...(mapping ? {} : control), ...condition };
+  const conversion = { ...(rule.own ? control : {}), ...condition };
   const min = control.min ?? 0;
   if (conversion.invert && control.max !== undefined) {
     result = min + control.max - result;
@@ -189,11 +275,13 @@ function readControl(
 
 // Source: A value written takes the raw value of the mapping whose value
 // equals it, or one of whose conditions gives it while its constraint can be
-// set or already holds, or else of the nearest numeric one; otherwise it is
-// multiplied by scale, mapped back from target_range, inverted, rounded to
-// step and checked against the range, in that order. A condition giving the
-// value, on a constraint that can be set and that it names one value of, sets
-// the constraint to it, in
+// set or already holds, or whose mirror reads it, or else of the nearest
+// numeric one; otherwise it is multiplied by scale, mapped back from
+// target_range, inverted, rounded to step and checked against the range, in
+// that order. A condition giving the value, on a constraint that can be set
+// and that it names one value of, sets the constraint to it. A redirect
+// writes the other data point as it converts, as does the redirect of the
+// rule the current value falls under when no rule takes the value, in
 // https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L876-L976
 // and https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L978-L1128.
 // A value only a condition on a read-only constraint gives, while it does
@@ -202,17 +290,34 @@ function readControl(
 // so it throws rather than writes the value as it is.
 function writeControl(
   entry: TuyaDeviceEntry,
-  control: TuyaControl,
+  control: ControlTarget,
   value: ControlValue,
   current: DataPoints,
-): {
-  raw: DataPointValue;
-  constraint?: { dataPoint: DataPointId; raw: DataPointValue };
-} {
-  const rule = findRule(entry, control, value, current);
-  const condition = writingCondition(entry, rule.dependency, value, current);
-  const dependency = rule.dependency;
-  const constraint =
+  dataPoints: Record<string, DataPointValue>,
+): void {
+  if (control.readOnly) {
+    throw new TuyaError(
+      "VALUE_UNAVAILABLE",
+      `${value} cannot be set: it is written to data point ${control.dataPoint}, which is read-only`,
+    );
+  }
+  const found = findRule(entry, control, value, current);
+  const rule = found ?? ownRule(control);
+  if (!found) {
+    const redirect = currentRule(entry, control, current)?.redirect;
+    if (redirect) {
+      writeControl(entry, redirect, value, current, dataPoints);
+      return;
+    }
+  }
+  const condition = writingCondition(entry, rule.dependsOn, value, current);
+  const redirect = condition?.redirect ?? rule.redirect;
+  if (redirect) {
+    writeControl(entry, redirect, value, current, dataPoints);
+    return;
+  }
+  const dependency = rule.dependsOn;
+  if (
     condition &&
     dependency &&
     !dependency.readOnly &&
@@ -221,31 +326,46 @@ function writeControl(
     condition.when.length === 1 &&
     condition.when[0] !== null &&
     condition.when[0] !== undefined
-      ? { dataPoint: dependency.dataPoint, raw: condition.when[0] }
-      : undefined;
+  ) {
+    dataPoints[dependency.dataPoint] = condition.when[0];
+  }
   let raw: DataPointValue | undefined;
   for (const nested of condition?.values ?? []) {
     if (!nested.readOnly && String(nested.value) === String(value)) {
       raw = nested.raw;
     }
   }
+  const id = control.dataPoint;
+  const type = entry.dataPoints[id]?.type;
   raw ??=
     rule.mapping?.raw ??
-    toRaw(
-      control,
-      fieldType(control, entry.dataPoints[control.dataPoint]?.type),
-      value,
-      { ...control, ...condition },
+    toRaw(control, fieldType(control, type), value, {
+      ...control,
+      ...condition,
+    });
+  if (!isMasked(control)) {
+    dataPoints[id] = raw;
+    return;
+  }
+  // Several controls can set bits of one data point: each sets its own on
+  // what the ones before it set.
+  const base = dataPoints[id] ?? current[id];
+  if (base === undefined) {
+    throw new TypeError(
+      `${value} sets some bits of data point ${id}, so it needs the data point's current value`,
     );
-  return { raw, ...(constraint && { constraint }) };
+  }
+  dataPoints[id] = writeMask(control, type, base, raw);
 }
 
+// The rule a written value falls under, or undefined when no mapping takes
+// it and the control has no rule of its own for any other value.
 function findRule(
   entry: TuyaDeviceEntry,
-  control: TuyaControl,
+  control: ControlTarget,
   value: ControlValue,
   current: DataPoints,
-): Rule {
+): Rule | undefined {
   let nearest: ControlMapping | undefined;
   let distance = Number.POSITIVE_INFINITY;
   let unavailable: ControlDependency | undefined;
@@ -253,27 +373,9 @@ function findRule(
     if (mapping.readOnly) {
       continue;
     }
-    if (
-      mapping.value !== undefined &&
-      String(mapping.value) === String(value)
-    ) {
-      return {
-        mapping,
-        ...(mapping.dependsOn && { dependency: mapping.dependsOn }),
-      };
-    }
-    const reach = reachThroughCondition(
-      entry,
-      control,
-      mapping.dependsOn,
-      value,
-      current,
-    );
+    const reach = reachOf(entry, control, mapping, value, current);
     if (reach === "reachable") {
-      return {
-        mapping,
-        ...(mapping.dependsOn && { dependency: mapping.dependsOn }),
-      };
+      return mappingRule(mapping);
     }
     if (reach === "unavailable") {
       unavailable ??= mapping.dependsOn;
@@ -287,25 +389,13 @@ function findRule(
       nearest = mapping;
     }
   }
-  const own = control.dependsOn && { dependency: control.dependsOn };
-  if (
-    control.otherwise !== undefined &&
-    String(control.otherwise) === String(value)
-  ) {
-    return { ...own };
-  }
-  const reach = reachThroughCondition(
-    entry,
-    control,
-    control.dependsOn,
-    value,
-    current,
-  );
+  const own = ownRule(control);
+  const reach = reachOf(entry, control, own, value, current);
   if (reach === "reachable") {
-    return { ...own };
+    return own;
   }
   if (reach === "unavailable") {
-    unavailable ??= control.dependsOn;
+    unavailable ??= own.dependsOn;
   }
   if (unavailable) {
     throw new TuyaError(
@@ -314,26 +404,40 @@ function findRule(
     );
   }
   if (nearest) {
-    return {
-      mapping: nearest,
-      ...(nearest.dependsOn && { dependency: nearest.dependsOn }),
-    };
+    return mappingRule(nearest);
   }
-  return { ...own };
+  return hasOwnRule(control) ? own : undefined;
 }
 
-// Whether a condition of `dependency` gives `value`, and can be made to hold:
-// its constraint can be set, or already holds.
-function reachThroughCondition(
+// Whether a rule takes `value`: its value is it, its mirror reads it, or one
+// of its conditions gives it and can be made to hold, because its constraint
+// can be set or already holds.
+function reachOf(
   entry: TuyaDeviceEntry,
-  control: TuyaControl,
-  dependency: ControlDependency | undefined,
+  control: ControlTarget,
+  rule: ControlRule,
   value: ControlValue,
   current: DataPoints,
 ): "reachable" | "unavailable" | undefined {
+  if (rule.value !== undefined && String(rule.value) === String(value)) {
+    return "reachable";
+  }
+  if (rule.value === undefined && mirrors(entry, rule.mirror, value, current)) {
+    return "reachable";
+  }
+  const dependency = rule.dependsOn;
   let reach: "unavailable" | undefined;
   for (const condition of dependency?.conditions ?? []) {
-    if (condition.readOnly || String(condition.value) !== String(value)) {
+    if (condition.readOnly) {
+      continue;
+    }
+    if (condition.value === undefined) {
+      if (mirrors(entry, condition.mirror, value, current)) {
+        return "reachable";
+      }
+      continue;
+    }
+    if (String(condition.value) !== String(value)) {
       continue;
     }
     if (
@@ -345,6 +449,32 @@ function reachThroughCondition(
     reach = "unavailable";
   }
   return reach;
+}
+
+function mirrors(
+  entry: TuyaDeviceEntry,
+  mirror: ControlTarget | undefined,
+  value: ControlValue,
+  current: DataPoints,
+): boolean {
+  if (!mirror) {
+    return false;
+  }
+  const read = readControl(entry, mirror, current);
+  return read !== undefined && String(read) === String(value);
+}
+
+function hasOwnRule(control: ControlTarget): boolean {
+  return (
+    control.otherwise !== undefined ||
+    control.scale !== undefined ||
+    control.step !== undefined ||
+    control.invert !== undefined ||
+    control.targetRange !== undefined ||
+    control.dependsOn !== undefined ||
+    control.redirect !== undefined ||
+    control.mirror !== undefined
+  );
 }
 
 // The condition a write applies: the first giving the value written, or else
@@ -399,13 +529,16 @@ function holds(
 }
 
 // A number's raw value through the rule's conversion: multiplied by scale,
-// mapped back from target_range, inverted, rounded to step and checked
-// against the range.
+// mapped back from target_range and inverted over the control's range,
+// rounded to step, and checked against the rule's range.
 function toRaw(
-  control: TuyaControl,
+  control: ControlTarget,
   type: TuyaDataPointType | undefined,
   value: ControlValue,
-  conversion: Pick<TuyaControl, "scale" | "step" | "invert" | "targetRange">,
+  conversion: Pick<
+    TuyaControl,
+    "scale" | "step" | "invert" | "targetRange" | "min" | "max"
+  >,
 ): DataPointValue {
   if (typeof value !== "number") {
     return value;
@@ -430,11 +563,11 @@ function toRaw(
     result = Math.round(result);
   }
   if (
-    (control.min !== undefined && result < control.min) ||
-    (control.max !== undefined && result > control.max)
+    (conversion.min !== undefined && result < conversion.min) ||
+    (conversion.max !== undefined && result > conversion.max)
   ) {
     throw new RangeError(
-      `${value} sets data point ${control.dataPoint} to ${result}, outside ${control.min ?? "…"} to ${control.max ?? "…"}`,
+      `${value} sets data point ${control.dataPoint} to ${result}, outside ${conversion.min ?? "…"} to ${conversion.max ?? "…"}`,
     );
   }
   return result;

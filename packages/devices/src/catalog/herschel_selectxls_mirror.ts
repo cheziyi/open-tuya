@@ -62,7 +62,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "holiday", value: "away" },
           { raw: "auto", value: "program" },
         ],
-        absent: "manual",
+        whenAbsent: { value: "manual" },
       },
       hvacAction: {
         dataPoint: "111",
@@ -93,7 +93,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "c", value: "celsius" },
           { raw: "f", value: "fahrenheit" },
         ],
-        absent: "celsius",
+        whenAbsent: { value: "celsius" },
       },
       on: { dataPoint: "114", kind: "switch" },
       brightness: { dataPoint: "105", kind: "number", min: 1, max: 100 },

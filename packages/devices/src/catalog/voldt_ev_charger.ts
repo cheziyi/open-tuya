@@ -95,7 +95,7 @@ const entry: TuyaDeviceEntry = {
         measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
-        absent: false,
+        whenAbsent: { value: false },
         otherwise: true,
       },
       faultCode: { dataPoint: "10", kind: "sensor", readOnly: true },
@@ -123,7 +123,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 32768, value: "Leakage current fault" },
           { raw: 65536, value: "PCB over temperature" },
         ],
-        absent: "No data",
+        whenAbsent: { value: "No data" },
       },
       chargingMode: {
         dataPoint: "14",

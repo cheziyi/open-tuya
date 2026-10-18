@@ -27,7 +27,7 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "off" },
           { raw: true, value: "electric" },
         ],
-        absent: "electric",
+        whenAbsent: { value: "electric" },
       },
       currentTemperatureInC: {
         dataPoint: "2",
@@ -47,7 +47,11 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      keepWarm: { dataPoint: "13", kind: "switch", absent: false },
+      keepWarm: {
+        dataPoint: "13",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       warmTimeInMinutes: {
         dataPoint: "14",
         kind: "number",

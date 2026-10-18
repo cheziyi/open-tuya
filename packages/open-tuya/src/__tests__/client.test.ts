@@ -428,6 +428,42 @@ describe("createTuyaClient", () => {
     });
   });
 
+  describe("controls that read another data point", () => {
+    it("reports a control that reads another data point while its own is absent", async () => {
+      const account = new FakeTuyaCloudAccount();
+      const client = await createTuyaClient({
+        deviceId: DEVICE_ID,
+        routes: [{ cloud: account }],
+        entry: {
+          name: "Meter",
+          productKeys: [],
+          dataPoints: {
+            "4": { type: "integer", optional: true },
+            "8": { type: "integer", optional: true },
+          },
+          components: {
+            device: {
+              powerInW: {
+                dataPoint: "4",
+                kind: "sensor",
+                readOnly: true,
+                whenAbsent: { redirect: { dataPoint: "8", scale: 10 } },
+              },
+            },
+          },
+          source: { file: "meter.yaml", commit: "0".repeat(40) },
+        },
+      });
+      await vi.waitFor(() => expect(account.clients).toHaveLength(1));
+      const reports: ControlValues[] = [];
+      client.onControls((values) => reports.push(values));
+
+      account.clients[0]?.push({ "8": 2300 });
+
+      expect(reports).toEqual([{ device: { powerInW: 230 } }]);
+    });
+  });
+
   describe("controls", () => {
     async function create(): Promise<{
       client: RoutedTuyaClient;

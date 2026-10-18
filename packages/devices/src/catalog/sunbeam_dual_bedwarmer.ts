@@ -29,7 +29,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      combinedSwitch: { dataPoint: "1", kind: "switch", absent: false },
+      combinedSwitch: {
+        dataPoint: "1",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       combinedSwitchSchedule: { dataPoint: "101", kind: "text" },
       combinedSwitchConfirmation: { dataPoint: "104", kind: "text" },
       combinedLevel: {
@@ -55,7 +59,7 @@ const entry: TuyaDeviceEntry = {
         measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
-        absent: false,
+        whenAbsent: { value: false },
         otherwise: true,
       },
       faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },

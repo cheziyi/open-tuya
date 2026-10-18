@@ -87,7 +87,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 4, value: "formatting" },
           { raw: 5, value: "missing" },
         ],
-        absent: "normal",
+        whenAbsent: { value: "normal" },
       },
       activationMode: {
         dataPoint: "231",

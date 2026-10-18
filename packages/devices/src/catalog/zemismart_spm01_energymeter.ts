@@ -100,7 +100,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "online", value: "Real time" },
           { raw: "offline", value: "Power saving" },
         ],
-        absent: "Power saving",
+        whenAbsent: { value: "Power saving" },
       },
       frequencyInHz: {
         dataPoint: "101",

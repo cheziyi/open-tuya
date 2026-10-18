@@ -3,6 +3,8 @@ import type {
   ControlCondition,
   ControlDependency,
   ControlMapping,
+  ControlRule,
+  ControlTarget,
   TuyaControl,
   TuyaDataPointSpec,
   TuyaDataPointType,
@@ -67,6 +69,9 @@ interface MappingRule {
   constraint?: string;
   conditions?: MappingRule[];
   mapping?: MappingRule[];
+  range?: { min?: number; max?: number };
+  value_redirect?: string;
+  value_mirror?: string;
   [key: string]: unknown;
 }
 
@@ -74,19 +79,18 @@ export type Conversion =
   | { entry: Omit<TuyaDeviceEntry, "source"> }
   | { unsupported: string };
 
+// A feature found while converting, which keeps the file out.
+class UnsupportedFeature extends Error {}
+
 // The tuya-local features a file can use that this conversion does not, each
 // with what it means, in the order a file is reported by.
 const UNSUPPORTED_MAPPING_KEYS: Record<string, string> = {
-  value_redirect:
-    "`value_redirect` and `value_mirror`: a value read from another data point",
-  value_mirror:
-    "`value_redirect` and `value_mirror`: a value read from another data point",
   available:
     "`available`: a value offered only while another data point allows it",
   invalid: "`invalid`: a value that cannot be written in some states",
   default: "`default`: the value a bare turn-on writes",
-  range: "a mapping's own `range`",
 };
+const RANGE_ON_RAW = "a mapping's own `range` on one raw value";
 const DATA_POINT_TYPES: ReadonlySet<string> = new Set([
   "boolean",
   "integer",
@@ -397,16 +401,23 @@ export function convertDeviceFile(text: string): Conversion {
   if (reason) {
     return { unsupported: reason };
   }
-  return {
-    entry: {
-      name: file.name,
-      productKeys: (file.products ?? []).flatMap((product) =>
-        product.id ? [String(product.id)] : [],
-      ),
-      dataPoints: dataPointSpecs(file),
-      components: components(file),
-    },
-  };
+  try {
+    return {
+      entry: {
+        name: file.name,
+        productKeys: (file.products ?? []).flatMap((product) =>
+          product.id ? [String(product.id)] : [],
+        ),
+        dataPoints: dataPointSpecs(file),
+        components: components(file),
+      },
+    };
+  } catch (error) {
+    if (error instanceof UnsupportedFeature) {
+      return { unsupported: error.message };
+    }
+    throw error;
+  }
 }
 
 function unsupportedFeature(file: DeviceFile): string | undefined {
@@ -447,15 +458,20 @@ function unsupportedRule(
 ): string[] {
   const reasons = unsupportedKeys(rule);
   const conditions = rule.conditions ?? [];
-  const onRaw = "dps_val" in rule;
+  // A rule that redirects reads and writes through the other data point: its
+  // own step and range only stand in for the other's, see redirectTarget.
+  const onRaw = "dps_val" in rule && rule.value_redirect === undefined;
   if (onRaw && NUMBER_CONVERSIONS.some((key) => key in rule)) {
     reasons.push("a number conversion on one raw value");
   }
+  if (onRaw && "range" in rule) {
+    reasons.push(RANGE_ON_RAW);
+  }
+  if (!onRaw && "range" in rule && (rule.invert || rule.target_range)) {
+    reasons.push("a mapping's own `range` beside `invert` or `target_range`");
+  }
   if (conditions.length === 0) {
     return reasons;
-  }
-  if (onRaw && rule.dps_val === null) {
-    reasons.push("conditions on the value while the data point is absent");
   }
   const constraint = entity.dps.find(
     (candidate) => candidate.name === (rule.constraint ?? dp.name),
@@ -473,11 +489,22 @@ function unsupportedRule(
     if ("conditions" in condition || "constraint" in condition) {
       reasons.push("conditions inside a condition");
     }
-    if (onRaw && NUMBER_CONVERSIONS.some((key) => key in condition)) {
+    const redirects = condition.value_redirect !== undefined;
+    if (
+      "dps_val" in rule &&
+      !redirects &&
+      NUMBER_CONVERSIONS.some((key) => key in condition)
+    ) {
       reasons.push("a number conversion on one raw value");
+    }
+    if ("dps_val" in rule && !redirects && "range" in condition) {
+      reasons.push(RANGE_ON_RAW);
     }
     for (const nested of condition.mapping ?? []) {
       reasons.push(...unsupportedKeys(nested));
+      if (nested.dps_val === null) {
+        reasons.push("a condition's mapping of the value while absent");
+      }
     }
   }
   return reasons;
@@ -808,46 +835,104 @@ function addControl(
     dp.readonly ||
     READ_ONLY_ENTITIES.has(entity.entity) ||
     READ_ONLY_CONTROLS.has(base);
-  const rules = dp.mapping ?? [];
+  const { target, booleanMask } = convertDataPoint(entity, dp, []);
+  const {
+    dataPoint,
+    mask,
+    maskSigned,
+    littleEndian,
+    readOnly: _,
+    ...conversion
+  } = target;
+  // A masked data point's bits are read as an integer.
+  const type =
+    mask !== undefined && dp.type !== "bitfield" ? "integer" : dp.type;
+  const kind: ControlKind =
+    options.kind ??
+    (readOnly
+      ? "sensor"
+      : booleanMask
+        ? "switch"
+        : (target.values?.length ?? 0) > 0
+          ? "select"
+          : type === "boolean"
+            ? "switch"
+            : NUMBER_TYPES.has(type)
+              ? "number"
+              : "text");
+  component[name] = {
+    dataPoint,
+    ...(mask !== undefined && { mask }),
+    ...(maskSigned && { maskSigned }),
+    ...(littleEndian && { littleEndian }),
+    kind,
+    ...(options.measures && { measures: options.measures }),
+    ...(readOnly && { readOnly: true as const }),
+    ...(dp.unit !== undefined && { unit: String(dp.unit) }),
+    ...(unitFrom && { unitFrom }),
+    ...conversion,
+  };
+}
+
+// The conversion of a data point's raw values, as a control takes it, or a
+// control that redirects to the data point. `trail` holds the data points a
+// redirect came through, to find one that loops.
+function convertDataPoint(
+  entity: EntityConfig,
+  dp: DataPointConfig,
+  trail: readonly string[],
+): { target: ControlTarget; booleanMask: boolean } {
   const values: ControlMapping[] = [];
-  let absent: unknown;
-  const conversion: Partial<TuyaControl> = {};
-  for (const rule of rules) {
-    const dependsOn = dependency(entity, dp, rule);
-    const hasValue = "value" in rule && rule.value !== null;
+  const own: Partial<ControlTarget> = {};
+  let whenAbsent: ControlRule | undefined;
+  let range = dp.range;
+  for (const rule of dp.mapping ?? []) {
+    const converted = convertRule(entity, dp, rule, trail);
     if ("dps_val" in rule) {
-      if (!hasValue && !dependsOn) {
+      const { value, dependsOn, redirect, mirror } = converted;
+      if (value === undefined && !dependsOn && !redirect && !mirror) {
         continue;
       }
       if (rule.dps_val === null) {
-        absent = rule.value;
+        // A write never takes the rule for an absent data point, so whether
+        // it is hidden says nothing.
+        const { readOnly: _, ...absent } = converted;
+        whenAbsent = absent;
       } else {
         values.push({
           raw: rule.dps_val as ControlMapping["raw"],
-          ...(hasValue && { value: rule.value as ControlMapping["value"] }),
-          ...(rule.hidden && { readOnly: true as const }),
-          ...(dependsOn && { dependsOn }),
+          ...converted,
         });
       }
       continue;
     }
-    if (dependsOn) {
-      conversion.dependsOn = dependsOn;
+    const { value, dependsOn, redirect, mirror } = converted;
+    if (value !== undefined) {
+      own.otherwise = value;
     }
-    if (hasValue) {
-      conversion.otherwise = rule.value as TuyaControl["otherwise"];
+    if (dependsOn) {
+      own.dependsOn = dependsOn;
+    }
+    if (redirect) {
+      own.redirect = redirect;
+    }
+    if (mirror) {
+      own.mirror = mirror;
+    }
+    if (rule.range) {
+      range = rule.range;
     }
     if (typeof rule.scale === "number" && rule.scale !== 1) {
-      conversion.scale = rule.scale;
+      own.scale = rule.scale;
     }
     if (typeof rule.step === "number") {
-      conversion.step = rule.step;
+      own.step = rule.step;
     }
     if (rule.invert) {
-      conversion.invert = true;
+      own.invert = true;
     }
     if (rule.target_range?.max !== undefined) {
-      conversion.targetRange = {
+      own.targetRange = {
         min: rule.target_range.min ?? 0,
         max: rule.target_range.max,
       };
@@ -857,45 +942,83 @@ function addControl(
   const booleanMask =
     masked &&
     values.length === 0 &&
-    conversion.otherwise === undefined &&
+    own.otherwise === undefined &&
     (BOOLEAN_DATA_POINTS.has(dp.name) ||
       BOOLEAN_DATA_POINTS.has(`${entity.entity}.${dp.name}`));
   if (booleanMask) {
     values.push({ raw: 0, value: false }, { raw: 1, value: true });
-    conversion.otherwise = true;
+    own.otherwise = true;
   }
-  // A masked data point's bits are read as an integer.
-  const type = masked && dp.type !== "bitfield" ? "integer" : dp.type;
-  const kind: ControlKind =
-    options.kind ??
-    (readOnly
-      ? "sensor"
-      : booleanMask
-        ? "switch"
-        : values.length > 0
-          ? "select"
-          : type === "boolean"
-            ? "switch"
-            : NUMBER_TYPES.has(type)
-              ? "number"
-              : "text");
-  component[name] = {
-    dataPoint: String(dp.id),
-    ...(masked && { mask: String(dp.mask) }),
-    ...(dp.mask_signed && { maskSigned: true as const }),
-    ...(dp.endianness === "little" && { littleEndian: true as const }),
-    kind,
-    ...(options.measures && { measures: options.measures }),
-    ...(readOnly && { readOnly: true as const }),
-    ...(dp.unit !== undefined && { unit: String(dp.unit) }),
-    ...(unitFrom && { unitFrom }),
-    ...(dp.range?.min !== undefined && { min: dp.range.min }),
-    ...(dp.range?.max !== undefined && { max: dp.range.max }),
-    ...(values.length > 0 && { values }),
-    ...(absent !== undefined && {
-      absent: absent as TuyaControl["absent"],
-    }),
-    ...conversion,
+  return {
+    target: {
+      dataPoint: String(dp.id),
+      ...(masked && { mask: String(dp.mask) }),
+      ...(dp.mask_signed && { maskSigned: true as const }),
+      ...(dp.endianness === "little" && { littleEndian: true as const }),
+      ...(dp.readonly && { readOnly: true as const }),
+      ...(range?.min !== undefined && { min: range.min }),
+      ...(range?.max !== undefined && { max: range.max }),
+      ...(values.length > 0 && { values }),
+      ...(whenAbsent && { whenAbsent }),
+      ...own,
+    },
+    booleanMask,
+  };
+}
+
+// What a mapping rule gives, but its raw value and its conversion of numbers.
+function convertRule(
+  entity: EntityConfig,
+  dp: DataPointConfig,
+  rule: MappingRule,
+  trail: readonly string[],
+): ControlRule {
+  const dependsOn = dependency(entity, dp, rule, trail);
+  const redirect = redirectTarget(entity, dp, rule, rule.value_redirect, trail);
+  const mirror = redirectTarget(entity, dp, rule, rule.value_mirror, trail);
+  return {
+    ...("value" in rule &&
+      rule.value !== null && { value: rule.value as ControlRule["value"] }),
+    ...(rule.hidden && { readOnly: true as const }),
+    ...(dependsOn && { dependsOn }),
+    ...(redirect && { redirect }),
+    ...(mirror && { mirror }),
+  };
+}
+
+// Source: A value_redirect or value_mirror names a data point of the same
+// entity, whose value is read, as that data point converts it, in its place,
+// in
+// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L810-L818.
+// The rule's own step and range, which tuya-local shows for the control, go
+// to the other data point when it has none: see DESIGN.md#catalog.
+function redirectTarget(
+  entity: EntityConfig,
+  dp: DataPointConfig,
+  rule: MappingRule,
+  name: string | undefined,
+  trail: readonly string[],
+): ControlTarget | undefined {
+  if (name === undefined) {
+    return undefined;
+  }
+  const next = entity.dps.find((candidate) => candidate.name === name);
+  if (!next) {
+    throw new UnsupportedFeature("a `value_redirect` the entity lacks");
+  }
+  const path = [...trail, dp.name];
+  if (path.includes(next.name)) {
+    throw new UnsupportedFeature("a `value_redirect` that loops");
+  }
+  const { target } = convertDataPoint(entity, next, path);
+  return {
+    ...target,
+    ...(target.min === undefined &&
+      rule.range?.min !== undefined && { min: rule.range.min }),
+    ...(target.max === undefined &&
+      rule.range?.max !== undefined && { max: rule.range.max }),
+    ...(target.step === undefined &&
+      typeof rule.step === "number" && { step: rule.step }),
   };
 }
 
@@ -908,6 +1031,7 @@ function dependency(
   entity: EntityConfig,
   dp: DataPointConfig,
   rule: MappingRule,
+  trail: readonly string[],
 ): ControlDependency | undefined {
   const conditions = rule.conditions ?? [];
   const constraint = entity.dps.find(
@@ -919,11 +1043,18 @@ function dependency(
   return {
     dataPoint: String(constraint.id),
     ...(constraint.readonly && { readOnly: true as const }),
-    conditions: conditions.map(condition),
+    conditions: conditions.map((rule) => condition(entity, dp, rule, trail)),
   };
 }
 
-function condition(rule: MappingRule): ControlCondition {
+function condition(
+  entity: EntityConfig,
+  dp: DataPointConfig,
+  rule: MappingRule,
+  trail: readonly string[],
+): ControlCondition {
+  const redirect = redirectTarget(entity, dp, rule, rule.value_redirect, trail);
+  const mirror = redirectTarget(entity, dp, rule, rule.value_mirror, trail);
   // A condition with no dps_val never holds.
   const when =
     "dps_val" in rule
@@ -959,6 +1090,10 @@ function condition(rule: MappingRule): ControlCondition {
         max: rule.target_range.max,
       },
     }),
+    ...(rule.range?.min !== undefined && { min: rule.range.min }),
+    ...(rule.range?.max !== undefined && { max: rule.range.max }),
+    ...(redirect && { redirect }),
+    ...(mirror && { mirror }),
   };
 }
 

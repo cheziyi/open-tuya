@@ -29,7 +29,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "tongue_bad", value: true },
           { raw: "tongue_not_out", value: true },
         ],
-        absent: false,
+        whenAbsent: { value: false },
         otherwise: false,
       },
       locked: { dataPoint: "46", kind: "switch" },
@@ -70,7 +70,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "defense", value: "Defense" },
           { raw: "wrong_unlock", value: "Wrong Unlock" },
         ],
-        absent: "ok",
+        whenAbsent: { value: "ok" },
       },
       autoLock: {
         dataPoint: "33",

@@ -72,7 +72,7 @@ const entry: TuyaDeviceEntry = {
         max: 1440,
         step: 10,
       },
-      sleep: { dataPoint: "107", kind: "switch", absent: false },
+      sleep: { dataPoint: "107", kind: "switch", whenAbsent: { value: false } },
       plantType: {
         dataPoint: "108",
         kind: "select",

@@ -32,7 +32,7 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "Forward" },
           { raw: true, value: "Reverse" },
         ],
-        absent: "Forward",
+        whenAbsent: { value: "Forward" },
       },
     },
   },

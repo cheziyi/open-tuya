@@ -78,7 +78,7 @@ const entry: TuyaDeviceEntry = {
             },
           },
         ],
-        absent: false,
+        whenAbsent: { value: false },
       },
       command: {
         dataPoint: "4",

@@ -293,8 +293,8 @@ async function sendThroughRoutes<T>(
 
 // A push carries some data points alone, so the controls are read from the
 // latest of every data point, and a control is reported when the push carries
-// its data point or one it depends on: a change of unit changes how a
-// temperature reads.
+// its data point or one it depends on or reads instead: a change of unit
+// changes how a temperature reads.
 function readReportedControls(
   entry: TuyaDeviceEntry,
   latest: DataPoints,
@@ -309,7 +309,6 @@ function readReportedControls(
       const control = entry.components[componentName]?.[name];
       if (
         control &&
-        control.dataPoint in latest &&
         [control.dataPoint, ...listDependencies(control)].some(
           (id) => id in pushed,
         )

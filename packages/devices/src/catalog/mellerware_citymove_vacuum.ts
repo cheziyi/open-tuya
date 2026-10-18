@@ -44,7 +44,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "CHARGING_STA", value: "charging" },
           { raw: "CHARGING_DC", value: "charging" },
         ],
-        absent: "standby",
+        whenAbsent: { value: "standby" },
       },
       command: {
         dataPoint: "102",
@@ -105,7 +105,7 @@ const entry: TuyaDeviceEntry = {
         measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
-        absent: false,
+        whenAbsent: { value: false },
         otherwise: true,
       },
       faultCode: { dataPoint: "17", kind: "sensor", readOnly: true },

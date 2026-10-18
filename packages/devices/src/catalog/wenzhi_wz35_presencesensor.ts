@@ -126,7 +126,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "force", value: "Force" },
           { raw: "none", value: "Sensor only" },
         ],
-        absent: "Sensor only",
+        whenAbsent: { value: "Sensor only" },
       },
       relay: {
         dataPoint: "108",

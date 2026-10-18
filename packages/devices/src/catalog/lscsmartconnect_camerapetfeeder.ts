@@ -36,7 +36,11 @@ const entry: TuyaDeviceEntry = {
       },
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
       motionDetection: { dataPoint: "134", kind: "switch" },
-      flipImage: { dataPoint: "103", kind: "switch", absent: false },
+      flipImage: {
+        dataPoint: "103",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       motionSensitivity: {
         dataPoint: "106",
         kind: "select",
@@ -66,7 +70,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 4, value: "formatting" },
           { raw: 5, value: "missing" },
         ],
-        absent: "normal",
+        whenAbsent: { value: "normal" },
       },
       sdStatusMemoryCardCapacity: {
         dataPoint: "109",
@@ -98,7 +102,7 @@ const entry: TuyaDeviceEntry = {
         unit: "portions",
         min: 0,
         max: 20,
-        absent: 0,
+        whenAbsent: { value: 0 },
       },
       manualFeedHistoryData: { dataPoint: "234", kind: "switch" },
       portionWeightInG: {
@@ -108,7 +112,7 @@ const entry: TuyaDeviceEntry = {
         unit: "g",
         min: 1,
         max: 100,
-        absent: 1,
+        whenAbsent: { value: 1 },
       },
       feedProblem: {
         dataPoint: "233",

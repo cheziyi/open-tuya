@@ -39,7 +39,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "4h", value: "4h" },
           { raw: "8h", value: "8h" },
         ],
-        absent: "cancel",
+        whenAbsent: { value: "cancel" },
       },
       timeRemainingInMinutes: {
         dataPoint: "106",

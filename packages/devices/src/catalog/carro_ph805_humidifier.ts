@@ -43,7 +43,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      sleep: { dataPoint: "16", kind: "switch", absent: false },
+      sleep: { dataPoint: "16", kind: "switch", whenAbsent: { value: false } },
       timer: {
         dataPoint: "19",
         kind: "select",

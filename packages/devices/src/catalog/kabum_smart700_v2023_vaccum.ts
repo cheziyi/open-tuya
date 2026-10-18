@@ -67,7 +67,7 @@ const entry: TuyaDeviceEntry = {
             },
           },
         ],
-        absent: false,
+        whenAbsent: { value: false },
       },
       command: {
         dataPoint: "4",
@@ -172,7 +172,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "middle", value: "medium" },
           { raw: "high", value: "high" },
         ],
-        absent: "off",
+        whenAbsent: { value: "off" },
       },
       resetMap: { dataPoint: "13", kind: "button" },
       edgeBrushLifeInMinutes: {
@@ -207,7 +207,11 @@ const entry: TuyaDeviceEntry = {
         unit: "min",
       },
       mopReset: { dataPoint: "24", kind: "button" },
-      doNotDisturb: { dataPoint: "25", kind: "switch", absent: false },
+      doNotDisturb: {
+        dataPoint: "25",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       volumeInPercent: {
         dataPoint: "26",
         kind: "number",

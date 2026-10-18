@@ -224,7 +224,11 @@ const entry: TuyaDeviceEntry = {
         max: 10,
         scale: 10,
       },
-      motionTracking: { dataPoint: "161", kind: "switch", absent: false },
+      motionTracking: {
+        dataPoint: "161",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       restart: { dataPoint: "162", kind: "button" },
       zoomOut: {
         dataPoint: "163",
@@ -240,7 +244,11 @@ const entry: TuyaDeviceEntry = {
       cryDetection: { dataPoint: "167", kind: "switch" },
       motionMasking: { dataPoint: "168", kind: "switch" },
       motionMaskingArea: { dataPoint: "169", kind: "text" },
-      humanFilter: { dataPoint: "170", kind: "switch", absent: false },
+      humanFilter: {
+        dataPoint: "170",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       alarm: {
         dataPoint: "185",
         kind: "event",
@@ -248,7 +256,11 @@ const entry: TuyaDeviceEntry = {
         otherwise: "alarm",
       },
       alarmMessage: { dataPoint: "185", kind: "sensor", readOnly: true },
-      aiFaceRecognition: { dataPoint: "186", kind: "switch", absent: false },
+      aiFaceRecognition: {
+        dataPoint: "186",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       antiFlicker: {
         dataPoint: "188",
         kind: "select",
@@ -257,7 +269,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "1", value: "50Hz" },
           { raw: "2", value: "60Hz" },
         ],
-        absent: "off",
+        whenAbsent: { value: "off" },
       },
       muteRecording: { dataPoint: "197", kind: "switch" },
       markObjects: { dataPoint: "198", kind: "switch" },

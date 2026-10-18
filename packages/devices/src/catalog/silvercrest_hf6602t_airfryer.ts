@@ -125,7 +125,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "c", value: "celsius" },
           { raw: "f", value: "fahrenheit" },
         ],
-        absent: "celsius",
+        whenAbsent: { value: "celsius" },
       },
       preheat: { dataPoint: "15", kind: "switch" },
       notification: {

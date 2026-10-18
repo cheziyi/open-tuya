@@ -29,7 +29,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "closed", value: "off" },
           { raw: "ordinary", value: "normal" },
         ],
-        absent: "off",
+        whenAbsent: { value: "off" },
       },
       speed: {
         dataPoint: "3",

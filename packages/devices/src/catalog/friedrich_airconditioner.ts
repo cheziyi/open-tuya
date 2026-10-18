@@ -70,7 +70,7 @@ const entry: TuyaDeviceEntry = {
           { raw: true, value: "eco" },
           { raw: false, value: "comfort" },
         ],
-        absent: "comfort",
+        whenAbsent: { value: "comfort" },
       },
       infoTempUnit: {
         dataPoint: "102",

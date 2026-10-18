@@ -180,7 +180,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "E5", value: "Waste bin missing" },
         ],
       },
-      kittenMode: { dataPoint: "108", kind: "switch", absent: false },
+      kittenMode: {
+        dataPoint: "108",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       deodorizerReminder: { dataPoint: "111", kind: "switch" },
     },
     indicator: { on: { dataPoint: "109", kind: "switch" } },

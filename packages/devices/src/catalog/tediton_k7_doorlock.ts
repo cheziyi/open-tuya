@@ -86,7 +86,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "stay_alarm", value: "stay_alarm" },
           { raw: "doorbell", value: "doorbell" },
         ],
-        absent: "ok",
+        whenAbsent: { value: "ok" },
       },
       batteryInPercent: {
         dataPoint: "12",

@@ -59,7 +59,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 9, value: "Cloudy and snowy" },
           { raw: 10, value: "Cloudy, rainy and snowy" },
         ],
-        absent: "None",
+        whenAbsent: { value: "None" },
       },
       weatherIconPayload: { dataPoint: "103", kind: "sensor", readOnly: true },
       localHumidityInPercent: {
@@ -230,7 +230,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         measures: "problem",
         readOnly: true,
-        absent: true,
+        whenAbsent: { value: true },
         otherwise: false,
       },
       displaySettingsPayload: {

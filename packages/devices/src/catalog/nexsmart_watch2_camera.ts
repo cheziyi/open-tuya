@@ -83,7 +83,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 4, value: "formatting" },
           { raw: 5, value: "missing" },
         ],
-        absent: "normal",
+        whenAbsent: { value: "normal" },
       },
       sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
       sdFormat: { dataPoint: "111", kind: "button" },
@@ -97,7 +97,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 2002, value: "Card missing" },
           { raw: 2003, value: "Card error" },
         ],
-        absent: "Formatted",
+        whenAbsent: { value: "Formatted" },
       },
       recordingMode: {
         dataPoint: "151",

@@ -67,7 +67,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "mode_7", value: "Scene 7" },
           { raw: "mode_8", value: "Scene 8" },
         ],
-        absent: "None",
+        whenAbsent: { value: "None" },
       },
       childLock: { dataPoint: "101", kind: "switch" },
       timeRemainingInSeconds: {

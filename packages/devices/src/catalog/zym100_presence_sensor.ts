@@ -57,7 +57,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "check_success", value: false },
           { raw: "checking", value: false },
         ],
-        absent: false,
+        whenAbsent: { value: false },
         otherwise: true,
       },
       faultDescription: { dataPoint: "6", kind: "sensor", readOnly: true },

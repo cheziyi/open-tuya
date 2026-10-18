@@ -61,7 +61,7 @@ describe("convertDeviceFile", () => {
             kind: "sensor",
             measures: "problem",
             readOnly: true,
-            absent: false,
+            whenAbsent: { value: false },
           },
           timerInSeconds: {
             dataPoint: "2",
@@ -154,10 +154,10 @@ describe("convertDeviceFile", () => {
       "a `format` field of other than 1, 2 or 4 bytes",
     ],
     [
-      "conditions on the value while absent",
+      "a redirect that loops",
       "sensor",
-      "        type: integer\n        name: sensor\n        mapping:\n          - dps_val: null\n            value: 0\n            constraint: sensor\n            conditions:\n              - dps_val: 1\n                value: 2",
-      "conditions on the value while the data point is absent",
+      "        type: integer\n        name: sensor\n        mapping:\n          - dps_val: null\n            value_redirect: other\n      - id: 2\n        type: integer\n        name: other\n        mapping:\n          - dps_val: null\n            value_redirect: sensor",
+      "a `value_redirect` that loops",
     ],
     [
       "a constraint the entity lacks",
@@ -166,10 +166,10 @@ describe("convertDeviceFile", () => {
       "a `constraint` the entity lacks",
     ],
     [
-      "a range in a condition",
+      "a range in a condition on one raw value",
       "sensor",
-      "        type: integer\n        name: sensor\n        mapping:\n          - constraint: sensor\n            conditions:\n              - dps_val: 1\n                range:\n                  min: 0\n                  max: 5",
-      "a mapping's own `range`",
+      "        type: integer\n        name: sensor\n        mapping:\n          - dps_val: 2\n            constraint: sensor\n            conditions:\n              - dps_val: 1\n                range:\n                  min: 0\n                  max: 5",
+      "a mapping's own `range` on one raw value",
     ],
     [
       "a number conversion in a condition on one raw value",
@@ -239,6 +239,78 @@ entities:
         { when: [], value: "away" },
       ],
     });
+  });
+
+  it("embeds the data point a value redirects or mirrors to, as it converts", () => {
+    const { components } = entry(`name: Heater
+entities:
+  - entity: climate
+    dps:
+      - id: 2
+        type: integer
+        name: temperature
+        unit: C
+        mapping:
+          - scale: 10
+            step: 5
+            range:
+              min: 50
+              max: 300
+            constraint: preset_mode
+            conditions:
+              - dps_val: eco
+                value_redirect: eco_temperature
+                step: 10
+                range:
+                  min: 50
+                  max: 160
+      - id: 3
+        type: integer
+        name: eco_temperature
+        hidden: true
+        mapping:
+          - scale: 10
+      - id: 4
+        type: string
+        name: preset_mode
+      - id: 5
+        type: integer
+        name: current_temperature
+        mapping:
+          - dps_val: null
+            value_mirror: temperature
+`);
+    expect(components.climate?.targetTemperatureInC).toEqual({
+      dataPoint: "2",
+      kind: "number",
+      measures: "temperature",
+      unit: "C",
+      min: 50,
+      max: 300,
+      scale: 10,
+      step: 5,
+      dependsOn: {
+        dataPoint: "4",
+        conditions: [
+          {
+            when: ["eco"],
+            step: 10,
+            min: 50,
+            max: 160,
+            redirect: {
+              dataPoint: "3",
+              scale: 10,
+              min: 50,
+              max: 160,
+              step: 10,
+            },
+          },
+        ],
+      },
+    });
+    expect(components.climate?.currentTemperatureInC?.whenAbsent).toMatchObject(
+      { mirror: { dataPoint: "2", scale: 10, min: 50, max: 300 } },
+    );
   });
 
   it("gives a masked data point's controls their bits, and reads a masked switch as a boolean", () => {
@@ -606,7 +678,7 @@ entities:
           { raw: "high", value: "boost" },
           { raw: "af", value: "away", readOnly: true },
         ],
-        absent: "eco",
+        whenAbsent: { value: "eco" },
       },
       target: {
         dataPoint: "5",
