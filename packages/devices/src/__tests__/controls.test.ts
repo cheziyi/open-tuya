@@ -756,3 +756,123 @@ describe("resolveControl", () => {
     ).toEqual(["1", "3"]);
   });
 });
+
+// A rule or a condition applies only while another data point allows it, and
+// a condition can make the control unreadable and unwritable, as tuya-local's
+// available and invalid describe at
+// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/devices/README.md#L466-L489.
+const AVAILABLE: TuyaDeviceEntry = {
+  name: "Dehumidifier",
+  productKeys: [],
+  dataPoints: {
+    "1": { type: "string" },
+    "2": { type: "string" },
+    "3": { type: "boolean" },
+    "4": { type: "integer" },
+  },
+  components: {
+    fan: {
+      speed: {
+        dataPoint: "2",
+        kind: "select",
+        values: [
+          {
+            raw: "4",
+            value: "turbo",
+            availableWhile: {
+              dataPoint: "1",
+              values: [{ raw: "pro", value: true }],
+              otherwise: false,
+            },
+          },
+          { raw: "4", value: "boost" },
+        ],
+      },
+      temperature: {
+        dataPoint: "4",
+        kind: "number",
+        dependsOn: {
+          dataPoint: "1",
+          conditions: [
+            { when: ["laundry"], invalid: true },
+            { when: ["pro"], scale: 2, availableWhile: { dataPoint: "3" } },
+          ],
+        },
+      },
+    },
+  },
+  source: { file: "dehumidifier.yaml", commit: "0".repeat(40) },
+};
+
+describe("readControls with availability", () => {
+  it("passes over a mapping while the data point it needs reads false", () => {
+    expect(readControls(AVAILABLE, { "1": "pro", "2": "4" }).fan).toEqual({
+      speed: "turbo",
+    });
+    expect(readControls(AVAILABLE, { "1": "lite", "2": "4" }).fan).toEqual({
+      speed: "boost",
+    });
+  });
+
+  it("passes over a condition while the data point it needs reads false", () => {
+    expect(
+      readControls(AVAILABLE, { "1": "pro", "3": true, "4": 40 }).fan
+        ?.temperature,
+    ).toBe(20);
+    expect(
+      readControls(AVAILABLE, { "1": "pro", "3": false, "4": 40 }).fan
+        ?.temperature,
+    ).toBe(40);
+  });
+
+  it("leaves out a control while an invalid condition holds", () => {
+    expect(readControls(AVAILABLE, { "1": "laundry", "4": 40 })).toEqual({});
+  });
+});
+
+describe("writeControls with availability", () => {
+  it("writes through a mapping only while it is available", () => {
+    expect(
+      writeControls(AVAILABLE, { fan: { speed: "turbo" } }, { "1": "pro" }),
+    ).toEqual({ "2": "4" });
+    expect(
+      writeControls(AVAILABLE, { fan: { speed: "boost" } }, { "1": "lite" }),
+    ).toEqual({ "2": "4" });
+  });
+
+  it("converts by a condition only while it is available", () => {
+    expect(
+      writeControls(
+        AVAILABLE,
+        { fan: { temperature: 20 } },
+        { "1": "pro", "3": true },
+      ),
+    ).toEqual({ "4": 40 });
+    expect(
+      writeControls(
+        AVAILABLE,
+        { fan: { temperature: 20 } },
+        { "1": "pro", "3": false },
+      ),
+    ).toEqual({ "4": 20 });
+  });
+
+  it("throws VALUE_UNAVAILABLE while an invalid condition holds", () => {
+    expect(() =>
+      writeControls(
+        AVAILABLE,
+        { fan: { temperature: 20 } },
+        { "1": "laundry" },
+      ),
+    ).toThrow(expect.objectContaining({ code: "VALUE_UNAVAILABLE" }));
+  });
+
+  it("lists the data point a rule's availability reads among the dependencies", () => {
+    const { fan } = AVAILABLE.components;
+    expect(fan?.speed && listDependencies(fan.speed)).toEqual(["1"]);
+    expect(fan?.temperature && listDependencies(fan.temperature)).toEqual([
+      "1",
+      "3",
+    ]);
+  });
+});

@@ -241,6 +241,50 @@ entities:
     });
   });
 
+  it("converts availability and invalid conditions, and drops what tuya-local ignores", () => {
+    const { components } = entry(`name: Dehumidifier
+entities:
+  - entity: select
+    name: Speed
+    dps:
+      - id: 2
+        type: string
+        name: option
+        mapping:
+          - dps_val: "4"
+            value: turbo
+            available: is_pro
+          - dps_val: "4"
+            value: boost
+            available: is_missing
+            invalid: true
+          - constraint: mode
+            conditions:
+              - dps_val: laundry
+                invalid: true
+      - id: 1
+        type: string
+        name: mode
+        hidden: true
+      - id: 3
+        type: boolean
+        name: is_pro
+        hidden: true
+`);
+    expect(components.device?.speed).toEqual({
+      dataPoint: "2",
+      kind: "select",
+      values: [
+        { raw: "4", value: "turbo", availableWhile: { dataPoint: "3" } },
+        { raw: "4", value: "boost" },
+      ],
+      dependsOn: {
+        dataPoint: "1",
+        conditions: [{ when: ["laundry"], invalid: true }],
+      },
+    });
+  });
+
   it("embeds the data point a value redirects or mirrors to, as it converts", () => {
     const { components } = entry(`name: Heater
 entities:
