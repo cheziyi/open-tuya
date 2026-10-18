@@ -32,11 +32,20 @@ export interface ControlMapping {
 }
 
 /** One thing a device does, and how its data point's raw value converts to
- * the control's value. A read finds the raw value in `values`, then takes
- * `otherwise`, then converts a number: `invert`, `targetRange`, then divides
- * by `scale`. A write reverses it, and rounds the raw value to `step`. */
+ * the control's value. A read takes the bits `mask` covers, finds the raw
+ * value in `values`, then takes `otherwise`, then converts a number:
+ * `invert`, `targetRange`, then divides by `scale`. A write reverses it,
+ * rounds the raw value to `step`, and sets the bits `mask` covers. */
 export interface TuyaControl {
   dataPoint: DataPointId;
+  /** The raw value is these bits of the data point's value, in hex: the
+   * value's bytes, or its integer, read as one unsigned number. A write
+   * keeps the other bits, so it needs the data point's current value. */
+  mask?: string;
+  /** The bits `mask` covers are a signed number, in two's complement. */
+  maskSigned?: true;
+  /** The value's bytes are read little-endian. Defaults to big-endian. */
+  littleEndian?: true;
   kind: ControlKind;
   measures?: Measure;
   readOnly?: true;

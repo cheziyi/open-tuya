@@ -95,7 +95,13 @@ Each entry is a TypeScript file, `const entry: TuyaDeviceEntry = { … }`, so
 | A name of a control's own stays a `string` | It comes from the device file's text, so no fixed list holds it |
 | Every control has a `kind`, `switch`, `button`, `number`, `select`, `sensor`, `event` or `text`, and many say what they `measure` | A caller that meets a name it does not know handles the control by these: a button acts when written, where a switch toggles, though both take a boolean. `measures` turns tuya-local's class into the catalog's own words, so a free-form `poolTemperatureInC` still reads as a temperature |
 | A device file is converted whole or left out, and the script lists those it leaves out in `UNSUPPORTED.md` with the feature they use | `AGENTS.md` forbids converting part of a device |
-| The conversion takes tuya-local's mapping as `values`, `otherwise` and `absent`, and its `scale`, `step`, `invert`, `range` and `target_range` | 1,038 of 1,772 files use nothing more. `format` and `mask`, then `constraint` and `conditions`, are the next features to convert |
+| The conversion takes tuya-local's mapping as `values`, `otherwise` and `absent`, its `scale`, `step`, `invert`, `range` and `target_range`, and its `mask` and `format` | 1,172 of 1,772 files use nothing more. `constraint` and `conditions` are the next features to convert |
+| A `format` field becomes a control with a `mask` over the bytes it covers | A format packs fields one after another, big-endian, so each field is a mask over the value's bytes, and one conversion carries both |
+| A colour field is named for what it drives: `hue`, `saturation`, `red`, `green`, `blue`, and `colorBrightness` for `v`, which is not the white `brightness` data point. A field tuya-local names without saying what it drives is `color` and its name, such as `colorWb` | HomeKit and Matter name hue and saturation so. A guess at what `wb` drives would be a guess |
+| A masked switch or binary sensor with no mapping reads 0 as false, 1 as true, and any other value as true | tuya-local takes its value as truthy, and every other switch reads a boolean |
+| A masked write keeps the other bits from the data point's current value, and `writeControls` takes the current data points to keep them from | tuya-local writes so; a device reads the whole value |
+| A masked write to a value of another length than the mask throws a `RangeError` | tuya-local writes the mask's length, which drops or fails on the bytes of a longer value. A length the mask does not fit most likely means the device file does not fit the device, and a field written into the wrong bytes is worse than none. In tuya-local's files, 29 data points carry masks of different lengths, so a value longer than one of them; the one written is in a file left out for `constraint` |
+| A device file with an odd-length mask on a control that can be written is left out | A hex value with an odd number of digits is padded to read it, and no source shows what a device takes back |
 | Presentation is dropped: icons, translation keys, entity categories, `hidden` entities, `deprecated` entities, `available` flags, and data points tuya-local itself calls `unknown_…` | None changes what a value means or what may be written. A data point given no control stays in `dataPoints`, which matching reads |
 | Lookup scores entries as tuya-local does: a product key match scores 101, and otherwise the share of reported data points the entry names | One product key appears in more than one file, so lookup returns candidates, best first |
 | Each entry records the tuya-local commit that last changed its file | A run then changes only the entries whose files changed |
@@ -512,6 +518,8 @@ connected.
 | `onControls` hands on the controls of the data points a push carries alone | A push carries some data points, and `readControls` would read the rest as absent |
 | No timeout of its own | Each route bounds its own requests |
 | `close()` closes the clients it built, never the accounts | The caller made the account, and may share it between devices |
+| It keeps the data points it last read, was pushed or wrote, and a masked control's write keeps the other bits from them, reading the device first when it has none | Reading before every such write would spend a request, and a cloud read just after a write can return the old value |
+| `writeControls` calls run one at a time | HomeKit writes hue and saturation as two calls. Run together, each would keep the other's old value |
 
 Rejected:
 

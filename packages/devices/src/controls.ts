@@ -5,6 +5,7 @@ import type {
   TuyaDataPointType,
   TuyaDeviceEntry,
 } from "./entry.js";
+import { fieldType, isMasked, readMask, writeMask } from "./mask.js";
 import type { KnownControlName } from "./vocabulary.js";
 
 /** Control values by component, then by control name. */
@@ -51,12 +52,16 @@ export function readControls(
   return values;
 }
 
-/** Converts control values to the data points that set them. It throws a
- * `TypeError` for a control the entry does not have or a read-only one, and
- * a `RangeError` for a value outside the data point's range. */
+/** Converts control values to the data points that set them. A control with
+ * a `mask` sets some bits of its data point and keeps the rest from
+ * `current`, the data points the device reports now. It throws a `TypeError`
+ * for a control the entry does not have, a read-only one, or a masked one
+ * whose data point `current` lacks, and a `RangeError` for a value outside
+ * the data point's range. */
 export function writeControls(
   entry: TuyaDeviceEntry,
   values: ControlValues,
+  current: DataPoints = {},
 ): DataPoints {
   const dataPoints: Record<string, DataPointValue> = {};
   for (const [componentName, controls] of Object.entries(values)) {
@@ -70,11 +75,22 @@ export function writeControls(
       if (control.readOnly) {
         throw new TypeError(`${componentName}.${name} is read-only`);
       }
-      dataPoints[control.dataPoint] = writeControl(
-        control,
-        entry.dataPoints[control.dataPoint]?.type,
-        value,
-      );
+      const id = control.dataPoint;
+      const type = entry.dataPoints[id]?.type;
+      const raw = writeControl(control, fieldType(control, type), value);
+      if (!isMasked(control)) {
+        dataPoints[id] = raw;
+        continue;
+      }
+      // Several controls can set bits of one data point: each sets its own
+      // on what the ones before it set.
+      const base = dataPoints[id] ?? current[id];
+      if (base === undefined) {
+        throw new TypeError(
+          `${componentName}.${name} sets some bits of data point ${id}, so it needs the data point's current value`,
+        );
+      }
+      dataPoints[id] = writeMask(control, type, base, raw);
     }
   }
   return dataPoints;
@@ -93,9 +109,14 @@ function readControl(
   if (raw === undefined) {
     return control.absent;
   }
-  const value = numericFromString(type, raw);
+  const value = isMasked(control)
+    ? readMask(control, type, raw)
+    : numericFromString(type, raw);
+  if (value === undefined) {
+    return undefined;
+  }
   const mapping = control.values?.find((candidate) =>
-    matches(type, candidate.raw, value),
+    matches(fieldType(control, type), candidate.raw, value),
   );
   if (mapping) {
     return mapping.value;

@@ -41,7 +41,17 @@ interface DataPointConfig {
   range?: { min?: number; max?: number };
   unit?: string;
   mapping?: MappingRule[];
+  mask?: string;
+  mask_signed?: boolean;
+  endianness?: string;
+  format?: FormatField[];
   [key: string]: unknown;
+}
+
+interface FormatField {
+  name: string;
+  bytes?: number;
+  range?: { min?: number; max?: number };
 }
 
 interface MappingRule {
@@ -61,12 +71,6 @@ export type Conversion =
 
 // The tuya-local features a file can use that this conversion does not, each
 // with what it means, in the order a file is reported by.
-const UNSUPPORTED_DATA_POINT_KEYS: Record<string, string> = {
-  format: "`format`: a value packed into raw bytes",
-  mask: "`mask`: a value packed into raw bytes",
-  endianness: "`mask`: a value packed into raw bytes",
-  mask_signed: "`mask`: a value packed into raw bytes",
-};
 const UNSUPPORTED_MAPPING_KEYS: Record<string, string> = {
   constraint:
     "`constraint` and `conditions`: a value whose meaning depends on another data point",
@@ -93,6 +97,17 @@ const DATA_POINT_TYPES: ReadonlySet<string> = new Set([
   "unixtime",
 ]);
 const NUMBER_CONVERSIONS = ["scale", "step", "invert", "target_range"];
+const PACKED_TYPES: ReadonlySet<string> = new Set(["base64", "hex"]);
+const MASKED_TYPES: ReadonlySet<string> = new Set([
+  "base64",
+  "bitfield",
+  "hex",
+  "integer",
+]);
+// Source: A format field of 1, 2 or 4 bytes unpacks as a number, and one of
+// 3 bytes as bytes, in
+// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L49-L71.
+const FORMAT_FIELD_BYTES: ReadonlySet<number> = new Set([1, 2, 4]);
 const NUMBER_TYPES: ReadonlySet<string> = new Set([
   "bitfield",
   "integer",
@@ -257,6 +272,28 @@ const READ_ONLY_ENTITIES: ReadonlySet<string> = new Set([
   "sensor",
 ]);
 
+// A light's colour field, by tuya-local's name for it. Any other field is
+// named for its data point and its own name.
+const COLOR_FIELDS: Record<string, ControlName> = {
+  h: "hue",
+  s: "saturation",
+  v: "colorBrightness",
+  r: "red",
+  g: "green",
+  b: "blue",
+};
+
+// Source: A switch or a binary sensor is on while its data point's value is
+// truthy, in
+// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/switch.py#L58-L63,
+// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/binary_sensor.py#L64-L66
+// and https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/light.py#L154-L157,
+// so masked bits with no mapping read as a boolean.
+const BOOLEAN_DATA_POINTS: ReadonlySet<string> = new Set([
+  "binary_sensor.sensor",
+  "switch",
+]);
+
 // The kind of control an entity of one data point is, by entity.
 const SIMPLE_KINDS: Record<string, ControlKind> = {
   binary_sensor: "sensor",
@@ -384,11 +421,9 @@ function unsupportedFeature(file: DeviceFile): string | undefined {
         reasons.add("one data point given two types");
       }
       types.set(String(dp.id), dp.type);
-      for (const key of Object.keys(dp)) {
-        const reason = UNSUPPORTED_DATA_POINT_KEYS[key];
-        if (reason) {
-          reasons.add(reason);
-        }
+      const reason = unsupportedPacking(entity, dp);
+      if (reason) {
+        reasons.add(reason);
       }
       const rules = dp.mapping ?? [];
       if (rules.filter((rule) => !("dps_val" in rule)).length > 1) {
@@ -411,6 +446,43 @@ function unsupportedFeature(file: DeviceFile): string | undefined {
     }
   }
   return [...reasons].sort()[0];
+}
+
+function unsupportedPacking(
+  entity: EntityConfig,
+  dp: DataPointConfig,
+): string | undefined {
+  if (dp.format) {
+    if (entity.entity !== "light") {
+      return "`format` outside a light";
+    }
+    if (!PACKED_TYPES.has(dp.type)) {
+      return "`format` on a data point that is not hex or base64";
+    }
+    if (dp.format.some((field) => !FORMAT_FIELD_BYTES.has(field.bytes ?? 1))) {
+      return "a `format` field of other than 1, 2 or 4 bytes";
+    }
+  }
+  if (
+    dp.endianness !== undefined &&
+    !["big", "little"].includes(dp.endianness)
+  ) {
+    return "an `endianness` other than big or little";
+  }
+  if (dp.mask === undefined || !isControl(dp)) {
+    return undefined;
+  }
+  if (typeof dp.mask !== "string" || !/^[0-9A-Fa-f]+$/.test(dp.mask)) {
+    return "a `mask` that is not a string of hex digits";
+  }
+  if (!MASKED_TYPES.has(dp.type)) {
+    return "`mask` on a data point that is not hex, base64 or an integer";
+  }
+  const writable = !dp.readonly && !READ_ONLY_ENTITIES.has(entity.entity);
+  if (writable && dp.mask.length % 2 !== 0) {
+    return "a `mask` of an odd number of hex digits on a control that can be written";
+  }
+  return undefined;
 }
 
 function dataPointSpecs(file: DeviceFile): Record<string, TuyaDataPointSpec> {
@@ -488,6 +560,10 @@ function addCompositeControls(
     if (!isControl(dp)) {
       continue;
     }
+    if (dp.format) {
+      addFormatControls(component, entity, dp, dp.format);
+      continue;
+    }
     const base =
       COMPOSITE_CONTROLS[`${entity.entity}.${dp.name}`] ?? camelCase(dp.name);
     const temperature =
@@ -507,6 +583,53 @@ function addCompositeControls(
       kelvin(entity, { ...dp, ...(unit !== undefined && { unit }) }),
       entity,
       { ...(unitFrom && { unitFrom }), ...(measures && { measures }) },
+    );
+  }
+}
+
+// Source: A format packs fields of 1, 2 or 4 bytes one after another,
+// big-endian, each signed when its range starts below 0 and otherwise
+// running over every value its bytes hold, in
+// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L450-L474
+// and https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/light.py#L210-L228.
+// Each field becomes a control over the bytes it covers.
+function addFormatControls(
+  component: Record<string, TuyaControl>,
+  entity: EntityConfig,
+  dp: DataPointConfig,
+  fields: readonly FormatField[],
+): void {
+  const length = fields.reduce((sum, field) => sum + (field.bytes ?? 1), 0);
+  let offset = 0;
+  for (const field of fields) {
+    const bytes = field.bytes ?? 1;
+    const mask =
+      "00".repeat(offset) +
+      "FF".repeat(bytes) +
+      "00".repeat(length - offset - bytes);
+    offset += bytes;
+    const fieldName =
+      COLOR_FIELDS[field.name] ?? camelCase(`color_${field.name}`);
+    const min = field.range?.min ?? 0;
+    const max = field.range?.max ?? 256 ** bytes - 1;
+    addControl(
+      component,
+      dp.name === "rgbhsv"
+        ? fieldName
+        : camelCase(dp.name) +
+            fieldName.charAt(0).toUpperCase() +
+            fieldName.slice(1),
+      {
+        id: dp.id,
+        name: dp.name,
+        type: dp.type,
+        ...(dp.readonly && { readonly: true }),
+        range: { min, max },
+        mask,
+        ...(min < 0 && { mask_signed: true }),
+      },
+      entity,
+      { kind: "number" },
     );
   }
 }
@@ -682,19 +805,37 @@ function addControl(
       };
     }
   }
+  const masked = dp.mask !== undefined;
+  const booleanMask =
+    masked &&
+    values.length === 0 &&
+    conversion.otherwise === undefined &&
+    (BOOLEAN_DATA_POINTS.has(dp.name) ||
+      BOOLEAN_DATA_POINTS.has(`${entity.entity}.${dp.name}`));
+  if (booleanMask) {
+    values.push({ raw: 0, value: false }, { raw: 1, value: true });
+    conversion.otherwise = true;
+  }
+  // A masked data point's bits are read as an integer.
+  const type = masked && dp.type !== "bitfield" ? "integer" : dp.type;
   const kind: ControlKind =
     options.kind ??
     (readOnly
       ? "sensor"
-      : values.length > 0
-        ? "select"
-        : dp.type === "boolean"
-          ? "switch"
-          : NUMBER_TYPES.has(dp.type)
-            ? "number"
-            : "text");
+      : booleanMask
+        ? "switch"
+        : values.length > 0
+          ? "select"
+          : type === "boolean"
+            ? "switch"
+            : NUMBER_TYPES.has(type)
+              ? "number"
+              : "text");
   component[name] = {
     dataPoint: String(dp.id),
+    ...(masked && { mask: String(dp.mask) }),
+    ...(dp.mask_signed && { maskSigned: true as const }),
+    ...(dp.endianness === "little" && { littleEndian: true as const }),
     kind,
     ...(options.measures && { measures: options.measures }),
     ...(readOnly && { readOnly: true as const }),

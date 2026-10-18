@@ -89,26 +89,172 @@ describe("convertDeviceFile", () => {
 
   it.each([
     [
-      "a mask",
-      "    dps:\n      - id: 1\n        type: base64\n        name: sensor\n        mask: FF00",
-      "`mask`: a value packed into raw bytes",
-    ],
-    [
       "a number conversion on one raw value",
-      "    dps:\n      - id: 1\n        type: integer\n        name: sensor\n        mapping:\n          - dps_val: 1\n            scale: 10",
+      "sensor",
+      "        type: integer\n        name: sensor\n        mapping:\n          - dps_val: 1\n            scale: 10",
       "a number conversion on one raw value",
     ],
     [
       "a data point given two types",
-      "    dps:\n      - id: 1\n        type: integer\n        name: sensor\n      - id: 1\n        type: string\n        name: description",
+      "sensor",
+      "        type: integer\n        name: sensor\n      - id: 1\n        type: string\n        name: description",
       "one data point given two types",
     ],
-  ])("keeps out a device with %s", (_name, dps, reason) => {
+    [
+      "a mask of an odd number of hex digits on a control that can be written",
+      "switch",
+      '        type: hex\n        name: switch\n        mask: "100"',
+      "a `mask` of an odd number of hex digits on a control that can be written",
+    ],
+    [
+      "a mask that is not a string of hex digits",
+      "sensor",
+      "        type: base64\n        name: sensor\n        mask: 1000",
+      "a `mask` that is not a string of hex digits",
+    ],
+    [
+      "a mask on a string",
+      "sensor",
+      "        type: string\n        name: sensor\n        mask: FF00",
+      "`mask` on a data point that is not hex, base64 or an integer",
+    ],
+    [
+      "a format outside a light",
+      "sensor",
+      "        type: hex\n        name: sensor\n        format:\n          - name: h\n            bytes: 2",
+      "`format` outside a light",
+    ],
+    [
+      "a format on a string",
+      "light",
+      "        type: string\n        name: rgbhsv\n        format:\n          - name: h\n            bytes: 2",
+      "`format` on a data point that is not hex or base64",
+    ],
+    [
+      "a format field of 3 bytes",
+      "light",
+      "        type: hex\n        name: rgbhsv\n        format:\n          - name: h\n            bytes: 3",
+      "a `format` field of other than 1, 2 or 4 bytes",
+    ],
+  ])("keeps out a device with %s", (_name, entity, dp, reason) => {
     expect(
       convertDeviceFile(
-        `name: Device\nentities:\n  - entity: sensor\n${dps}\n`,
+        `name: Device\nentities:\n  - entity: ${entity}\n    dps:\n      - id: 1\n${dp}\n`,
       ),
     ).toEqual({ unsupported: reason });
+  });
+
+  it("gives a masked data point's controls their bits, and reads a masked switch as a boolean", () => {
+    const { components } = entry(`name: Meter
+entities:
+  - entity: switch
+    dps:
+      - id: 1
+        type: base64
+        name: switch
+        mask: "00FF"
+  - entity: sensor
+    class: current
+    dps:
+      - id: 2
+        type: base64
+        name: sensor
+        unit: A
+        mask: "FFFF0000"
+        mask_signed: true
+        endianness: little
+        mapping:
+          - scale: 1000
+  - entity: number
+    name: Limit
+    dps:
+      - id: 2
+        type: base64
+        name: value
+        mask: "0000FFFF"
+`);
+    expect(components.device).toEqual({
+      on: {
+        dataPoint: "1",
+        mask: "00FF",
+        kind: "switch",
+        values: [
+          { raw: 0, value: false },
+          { raw: 1, value: true },
+        ],
+        otherwise: true,
+      },
+      currentInA: {
+        dataPoint: "2",
+        mask: "FFFF0000",
+        maskSigned: true,
+        littleEndian: true,
+        kind: "sensor",
+        measures: "current",
+        readOnly: true,
+        unit: "A",
+        scale: 1000,
+      },
+      limit: { dataPoint: "2", mask: "0000FFFF", kind: "number" },
+    });
+  });
+
+  it("gives each field of a light's colour a control over its bytes", () => {
+    const { components } = entry(`name: Bulb
+entities:
+  - entity: light
+    dps:
+      - id: 24
+        type: hex
+        name: rgbhsv
+        format:
+          - name: h
+            bytes: 2
+            range:
+              min: 0
+              max: 360
+          - name: s
+            bytes: 2
+            range:
+              min: 0
+              max: 1000
+          - name: wb
+      - id: 25
+        type: base64
+        name: std_rgbhsv
+        format:
+          - name: v
+`);
+    expect(components.light).toEqual({
+      hue: {
+        dataPoint: "24",
+        mask: "FFFF000000",
+        kind: "number",
+        min: 0,
+        max: 360,
+      },
+      saturation: {
+        dataPoint: "24",
+        mask: "0000FFFF00",
+        kind: "number",
+        min: 0,
+        max: 1000,
+      },
+      colorWb: {
+        dataPoint: "24",
+        mask: "00000000FF",
+        kind: "number",
+        min: 0,
+        max: 255,
+      },
+      stdRgbhsvColorBrightness: {
+        dataPoint: "25",
+        mask: "FF",
+        kind: "number",
+        min: 0,
+        max: 255,
+      },
+    });
   });
 
   it("gives a climate device that switches unit at runtime unit-less temperatures", () => {
