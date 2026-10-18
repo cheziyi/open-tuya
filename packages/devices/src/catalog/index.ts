@@ -349,6 +349,7 @@ import device_della_airconditioner from "./della_airconditioner.js";
 import device_delonghi_pinguino_airconditioner from "./delonghi_pinguino_airconditioner.js";
 import device_deltaco_shlw5m_ledstrip from "./deltaco_shlw5m_ledstrip.js";
 import device_denver_shp200mk2_dualsmartplug from "./denver_shp200mk2_dualsmartplug.js";
+import device_depuley_smart_ceiling_fan from "./depuley_smart_ceiling_fan.js";
 import device_desk_lamp from "./desk_lamp.js";
 import device_deta_6914ha_fancontroller from "./deta_6914ha_fancontroller.js";
 import device_deta_dimmer_switch from "./deta_dimmer_switch.js";
@@ -773,6 +774,7 @@ import device_inkbird_bbq4t_thermometerv2 from "./inkbird_bbq4t_thermometerv2.js
 import device_inkbird_c236t_thermostat from "./inkbird_c236t_thermostat.js";
 import device_inkbird_iaqm129w_airqualitymonitor from "./inkbird_iaqm129w_airqualitymonitor.js";
 import device_inkbird_ibbq4bw_thermometer from "./inkbird_ibbq4bw_thermometer.js";
+import device_inkbird_ibs_m1s from "./inkbird_ibs_m1s.js";
 import device_inkbird_ibs_m2 from "./inkbird_ibs_m2.js";
 import device_inkbird_ibt_26s_thermometer from "./inkbird_ibt_26s_thermometer.js";
 import device_inkbird_ihc200_humiditycontroller from "./inkbird_ihc200_humiditycontroller.js";
@@ -1108,6 +1110,7 @@ import device_nedis_htpl20f_heater from "./nedis_htpl20f_heater.js";
 import device_nedis_openclose_sensor from "./nedis_openclose_sensor.js";
 import device_nedis_outdoor_camera from "./nedis_outdoor_camera.js";
 import device_nedis_pet_feeder from "./nedis_pet_feeder.js";
+import device_nedis_pilldispenser from "./nedis_pilldispenser.js";
 import device_nedis_ptc_fan_heater from "./nedis_ptc_fan_heater.js";
 import device_nedis_zbrc10wt_remotecontrol from "./nedis_zbrc10wt_remotecontrol.js";
 import device_neo_coolcam_16zone_sprinkler_controller from "./neo_coolcam_16zone_sprinkler_controller.js";
@@ -1155,6 +1158,7 @@ import device_omni_x_duplex_waterheater from "./omni_x_duplex_waterheater.js";
 import device_omnibreeze_5speed_towerfan from "./omnibreeze_5speed_towerfan.js";
 import device_omnibreeze_tower_fan from "./omnibreeze_tower_fan.js";
 import device_oneisall_pfd002pro_petfeeder from "./oneisall_pfd002pro_petfeeder.js";
+import device_orbegozo_rrw_emisor_termico from "./orbegozo_rrw_emisor_termico.js";
 import device_orion_dl033ha_lock from "./orion_dl033ha_lock.js";
 import device_orion_indoor_siren from "./orion_indoor_siren.js";
 import device_orion_outdoor_siren from "./orion_outdoor_siren.js";
@@ -1173,6 +1177,7 @@ import device_outdoor_inc_zipblind from "./outdoor_inc_zipblind.js";
 import device_outon_smart_lamp from "./outon_smart_lamp.js";
 import device_ovlaim_809_ceiling_fanlight from "./ovlaim_809_ceiling_fanlight.js";
 import device_ovlaim_ceiling_fan_light from "./ovlaim_ceiling_fan_light.js";
+import device_owon_pc341_energymeter from "./owon_pc341_energymeter.js";
 import device_owon_pct513_thermostat from "./owon_pct513_thermostat.js";
 import device_palicy_ecpro4_chlorinegenerator from "./palicy_ecpro4_chlorinegenerator.js";
 import device_papifeed_pet_feeder from "./papifeed_pet_feeder.js";
@@ -1306,6 +1311,7 @@ import device_raddy_pt5_poolthermometer from "./raddy_pt5_poolthermometer.js";
 import device_rainpoint_water_timer from "./rainpoint_water_timer.js";
 import device_raykube_a1promax_lock from "./raykube_a1promax_lock.js";
 import device_rcu16_relaymodule from "./rcu16_relaymodule.js";
+import device_realme_techlife_vacuum from "./realme_techlife_vacuum.js";
 import device_rectec_rt700_grill from "./rectec_rt700_grill.js";
 import device_recteq_rt800db_grill from "./recteq_rt800db_grill.js";
 import device_recteq_rt1250f_grill from "./recteq_rt1250f_grill.js";
@@ -1522,6 +1528,7 @@ import device_techinc_smart_3m_neon_strip from "./techinc_smart_3m_neon_strip.js
 import device_teckin_ss42_sockets from "./teckin_ss42_sockets.js";
 import device_tecxerllon_panel_heater from "./tecxerllon_panel_heater.js";
 import device_tediton_k7_doorlock from "./tediton_k7_doorlock.js";
+import device_tefal_xplorer_vacuum from "./tefal_xplorer_vacuum.js";
 import device_tellur_thermostat from "./tellur_thermostat.js";
 import device_tellur_tll331501_watervalve from "./tellur_tll331501_watervalve.js";
 import device_templeandwebster_alina_fan from "./templeandwebster_alina_fan.js";
@@ -2116,6 +2123,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_delonghi_pinguino_airconditioner,
   device_deltaco_shlw5m_ledstrip,
   device_denver_shp200mk2_dualsmartplug,
+  device_depuley_smart_ceiling_fan,
   device_desk_lamp,
   device_deta_6914ha_fancontroller,
   device_deta_dimmer_switch,
@@ -2539,6 +2547,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_inkbird_c236t_thermostat,
   device_inkbird_iaqm129w_airqualitymonitor,
   device_inkbird_ibbq4bw_thermometer,
+  device_inkbird_ibs_m1s,
   device_inkbird_ibs_m2,
   device_inkbird_ibt_26s_thermometer,
   device_inkbird_ihc200_humiditycontroller,
@@ -2874,6 +2883,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_nedis_openclose_sensor,
   device_nedis_outdoor_camera,
   device_nedis_pet_feeder,
+  device_nedis_pilldispenser,
   device_nedis_ptc_fan_heater,
   device_nedis_zbrc10wt_remotecontrol,
   device_neo_coolcam_16zone_sprinkler_controller,
@@ -2921,6 +2931,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_omnibreeze_5speed_towerfan,
   device_omnibreeze_tower_fan,
   device_oneisall_pfd002pro_petfeeder,
+  device_orbegozo_rrw_emisor_termico,
   device_orion_dl033ha_lock,
   device_orion_indoor_siren,
   device_orion_outdoor_siren,
@@ -2939,6 +2950,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_outon_smart_lamp,
   device_ovlaim_809_ceiling_fanlight,
   device_ovlaim_ceiling_fan_light,
+  device_owon_pc341_energymeter,
   device_owon_pct513_thermostat,
   device_palicy_ecpro4_chlorinegenerator,
   device_papifeed_pet_feeder,
@@ -3072,6 +3084,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_rainpoint_water_timer,
   device_raykube_a1promax_lock,
   device_rcu16_relaymodule,
+  device_realme_techlife_vacuum,
   device_rectec_rt700_grill,
   device_recteq_rt1250f_grill,
   device_recteq_rt800db_grill,
@@ -3288,6 +3301,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_teckin_ss42_sockets,
   device_tecxerllon_panel_heater,
   device_tediton_k7_doorlock,
+  device_tefal_xplorer_vacuum,
   device_tellur_thermostat,
   device_tellur_tll331501_watervalve,
   device_templeandwebster_alina_fan,

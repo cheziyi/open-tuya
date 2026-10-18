@@ -72,11 +72,7 @@ catalog until it does.
 
 | tuya-local feature | Devices | Device files |
 | --- | --- | --- |
-| `format` on a data point that is not hex or base64 | 1 | depuley_smart_ceiling_fan |
-| a `constraint` read through a mask or a mapping | 3 | inkbird_ibs_m1s, nedis_pilldispenser, owon_pc341_energymeter |
 | a `mask` of an odd number of hex digits on a control that can be written | 2 | cecotec_congax70_vacuum, mirabella_geniopixel_light |
-| a condition's mapping of the value while absent | 2 | realme_techlife_vacuum, tefal_xplorer_vacuum |
-| more than one default mapping | 1 | orbegozo_rrw_emisor_termico |
 | not valid YAML 1.2 | 1 | poolsana_heatpump |
 
 <!-- End of generated list. -->

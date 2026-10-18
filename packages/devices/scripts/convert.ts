@@ -463,9 +463,6 @@ function unsupportedFeature(file: DeviceFile): string | undefined {
         reasons.add(reason);
       }
       const rules = dp.mapping ?? [];
-      if (rules.filter((rule) => !("dps_val" in rule)).length > 1) {
-        reasons.add("more than one default mapping");
-      }
       for (const rule of rules) {
         for (const reason of unsupportedRule(entity, dp, rule)) {
           reasons.add(reason);
@@ -516,11 +513,10 @@ function unsupportedRule(
   );
   if (!constraint) {
     reasons.push("a `constraint` the entity lacks");
-  } else if (
-    PACKED_TYPES.has(constraint.type) &&
-    (constraint.mask !== undefined || constraint.mapping !== undefined)
-  ) {
-    reasons.push("a `constraint` read through a mask or a mapping");
+  } else if (convertsConstraint(constraint) && canWrite(entity, constraint)) {
+    reasons.push(
+      "a `constraint` read through a mask or a mapping that can be written",
+    );
   }
   for (const condition of conditions) {
     if ("conditions" in condition || "constraint" in condition) {
@@ -537,25 +533,42 @@ function unsupportedRule(
     if ("dps_val" in rule && !redirects && "range" in condition) {
       reasons.push(RANGE_ON_RAW);
     }
-    for (const nested of condition.mapping ?? []) {
-      if (nested.dps_val === null) {
-        reasons.push("a condition's mapping of the value while absent");
-      }
-    }
   }
   return reasons;
+}
+
+// Source: A format is unpacked from the bytes a hex or base64 value decodes
+// to, and a value of any other type is not decoded, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L519-L546,
+// so a format on it is dropped.
+function hasFormat(
+  dp: DataPointConfig,
+): dp is DataPointConfig & { format: FormatField[] } {
+  return dp.format !== undefined && PACKED_TYPES.has(dp.type);
+}
+
+function canWrite(entity: EntityConfig, dp: DataPointConfig): boolean {
+  return !dp.readonly && !READ_ONLY_ENTITIES.has(entity.entity);
+}
+
+// Source: A condition matches a hex or base64 constraint by its value as it
+// converts, and any other by its raw value, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L933-L976.
+// Only a mask or a mapping makes the two differ.
+function convertsConstraint(constraint: DataPointConfig): boolean {
+  return (
+    PACKED_TYPES.has(constraint.type) &&
+    (constraint.mask !== undefined || constraint.mapping !== undefined)
+  );
 }
 
 function unsupportedPacking(
   entity: EntityConfig,
   dp: DataPointConfig,
 ): string | undefined {
-  if (dp.format) {
+  if (hasFormat(dp)) {
     if (entity.entity !== "light") {
       return "`format` outside a light";
-    }
-    if (!PACKED_TYPES.has(dp.type)) {
-      return "`format` on a data point that is not hex or base64";
     }
     if (dp.format.some((field) => !FORMAT_FIELD_BYTES.has(field.bytes ?? 1))) {
       return "a `format` field of other than 1, 2 or 4 bytes";
@@ -576,7 +589,7 @@ function unsupportedPacking(
   if (!MASKED_TYPES.has(dp.type)) {
     return "`mask` on a data point that is not hex, base64 or an integer";
   }
-  const writable = !dp.readonly && !READ_ONLY_ENTITIES.has(entity.entity);
+  const writable = canWrite(entity, dp);
   if (writable && dp.mask.length % 2 !== 0) {
     return "a `mask` of an odd number of hex digits on a control that can be written";
   }
@@ -663,7 +676,7 @@ function addCompositeControls(
     if (!isControl(dp)) {
       continue;
     }
-    if (dp.format) {
+    if (hasFormat(dp)) {
       addFormatControls(component, entity, dp, dp.format);
       continue;
     }
@@ -975,8 +988,15 @@ function convertDataPoint(
   const own: Partial<ControlTarget> = {};
   let whenAbsent: ControlRule | undefined;
   let range = dp.range;
-  for (const rule of dp.mapping ?? []) {
-    if (neverMatches(dp, rule)) {
+  const rules = dp.mapping ?? [];
+  const lastDefault = rules.findLastIndex((rule) => !("dps_val" in rule));
+  for (const [index, rule] of rules.entries()) {
+    // Source: Of several rules with no dps_val, the last applies, in
+    // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L750-L759.
+    if (
+      neverMatches(dp, rule) ||
+      (!("dps_val" in rule) && index !== lastDefault)
+    ) {
       continue;
     }
     const converted = convertRule(entity, dp, rule, trail);
@@ -1200,7 +1220,8 @@ function redirectTarget(
 }
 
 // Source: A rule's conditions match the raw value of its constraint, the
-// data point of that name in the same entity, or else of the rule's own; a
+// data point of that name in the same entity, or else of the rule's own,
+// unless convertsConstraint says they match its value as it converts; a
 // condition's dps_val can be one value or a list, and its nested mapping
 // takes dps_val and value alone, in
 // https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/devices/README.md#L490-L509.
@@ -1217,9 +1238,13 @@ function dependency(
   if (conditions.length === 0 || !constraint) {
     return undefined;
   }
+  const reads = convertsConstraint(constraint)
+    ? convertDataPoint(entity, constraint, [...trail, dp.name]).target
+    : undefined;
   return {
     dataPoint: String(constraint.id),
-    ...(constraint.readonly && { readOnly: true as const }),
+    ...(reads && { reads }),
+    ...((constraint.readonly || reads) && { readOnly: true as const }),
     conditions: conditions.map((rule) => condition(entity, dp, rule, trail)),
   };
 }
@@ -1240,8 +1265,11 @@ function condition(
         ? rule.dps_val
         : [rule.dps_val ?? null]
       : [];
+  const absent = (rule.mapping ?? []).find(
+    (nested) => nested.dps_val === null && "value" in nested,
+  );
   const values = (rule.mapping ?? []).flatMap((nested) =>
-    "value" in nested && nested.value !== null
+    "value" in nested && nested.value !== null && nested.dps_val !== null
       ? [
           {
             raw: nested.dps_val as ControlMapping["raw"],
@@ -1274,6 +1302,9 @@ function condition(
     ...(mirror && { mirror }),
     ...(availableWhile && { availableWhile }),
     ...(rule.invalid && { invalid: true as const }),
+    ...(absent?.value != null && {
+      whenAbsent: { value: absent.value as ControlValue },
+    }),
   };
 }
 

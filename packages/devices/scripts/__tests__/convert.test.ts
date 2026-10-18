@@ -142,12 +142,6 @@ describe("convertDeviceFile", () => {
       "`format` outside a light",
     ],
     [
-      "a format on a string",
-      "light",
-      "        type: string\n        name: rgbhsv\n        format:\n          - name: h\n            bytes: 2",
-      "`format` on a data point that is not hex or base64",
-    ],
-    [
       "a format field of 3 bytes",
       "light",
       "        type: hex\n        name: rgbhsv\n        format:\n          - name: h\n            bytes: 3",
@@ -352,6 +346,147 @@ entities:
 `);
 
     expect(components.device?.fault?.values).toEqual([{ raw: 0, value: "ok" }]);
+  });
+
+  it("drops a format on a string, which tuya-local never decodes", () => {
+    const { components } = entry(`name: Light
+entities:
+  - entity: light
+    dps:
+      - id: 24
+        type: string
+        name: std_rgbhsv
+        format:
+          - name: h
+            bytes: 2
+`);
+
+    expect(components.light?.standardRgbhsv).toEqual({
+      dataPoint: "24",
+      kind: "text",
+    });
+  });
+
+  it("takes the last of several rules with no raw value, as tuya-local does", () => {
+    const { components } = entry(`name: Heater
+entities:
+  - entity: climate
+    dps:
+      - id: 2
+        type: integer
+        name: temperature
+        unit: C
+        range:
+          min: 5
+          max: 35
+        mapping:
+          - constraint: preset_mode
+            conditions:
+              - dps_val: ANTIFROST
+                range:
+                  min: 7
+                  max: 28
+          - constraint: preset_mode
+            conditions:
+              - dps_val: ECONOMY
+                range:
+                  min: 4
+                  max: 32
+      - id: 4
+        type: string
+        name: preset_mode
+`);
+
+    expect(components.climate?.targetTemperatureInC?.dependsOn).toEqual({
+      dataPoint: "4",
+      conditions: [{ when: ["ECONOMY"], min: 4, max: 32 }],
+    });
+  });
+
+  it("reads a condition's value for an absent data point into its whenAbsent", () => {
+    const { components } = entry(`name: Vacuum
+entities:
+  - entity: vacuum
+    dps:
+      - id: 5
+        type: string
+        name: command
+        mapping:
+          - constraint: pause
+            conditions:
+              - dps_val: false
+                mapping:
+                  - dps_val: smart
+                    value: smart
+                  - dps_val: null
+                    value: pause
+                    hidden: true
+      - id: 2
+        type: boolean
+        name: pause
+`);
+
+    expect(components.vacuum?.command?.dependsOn?.conditions).toEqual([
+      {
+        when: [false],
+        values: [{ raw: "smart", value: "smart" }],
+        whenAbsent: { value: "pause" },
+      },
+    ]);
+  });
+
+  it("embeds a masked constraint's conversion, which the conditions match", () => {
+    const { components } = entry(`name: Sensor
+entities:
+  - entity: sensor
+    dps:
+      - id: 1
+        type: base64
+        name: sensor
+        mask: "00FF"
+      - id: 2
+        type: boolean
+        name: probe_present
+        mapping:
+          - value: true
+            constraint: sensor
+            conditions:
+              - dps_val: 255
+                value: false
+`);
+
+    expect(components.device?.sensorProbePresent?.otherwise).toBe(true);
+    expect(components.device?.sensorProbePresent?.dependsOn).toEqual({
+      dataPoint: "1",
+      reads: { dataPoint: "1", mask: "00FF" },
+      readOnly: true,
+      conditions: [{ when: [255], value: false }],
+    });
+  });
+
+  it("keeps out a device whose constraint read through a mask can be written", () => {
+    expect(
+      convertDeviceFile(`name: Switch
+entities:
+  - entity: switch
+    dps:
+      - id: 1
+        type: base64
+        name: mode
+        mask: "00FF"
+      - id: 2
+        type: boolean
+        name: switch
+        mapping:
+          - constraint: mode
+            conditions:
+              - dps_val: 1
+                value: true
+`),
+    ).toEqual({
+      unsupported:
+        "a `constraint` read through a mask or a mapping that can be written",
+    });
   });
 
   it("leaves a binary sensor on a boolean as it is", () => {
