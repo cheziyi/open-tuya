@@ -976,6 +976,9 @@ function convertDataPoint(
   let whenAbsent: ControlRule | undefined;
   let range = dp.range;
   for (const rule of dp.mapping ?? []) {
+    if (neverMatches(dp, rule)) {
+      continue;
+    }
     const converted = convertRule(entity, dp, rule, trail);
     if ("dps_val" in rule) {
       const { value, dependsOn, redirect, mirror } = converted;
@@ -1063,6 +1066,17 @@ function convertDataPoint(
     },
     booleanMask,
   };
+}
+
+// Source: A bitfield's rule matches a raw value it shares a bit with, and
+// one whose dps_val is not a number matches none, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L558-L566.
+function neverMatches(dp: DataPointConfig, rule: MappingRule): boolean {
+  return (
+    dp.type === "bitfield" &&
+    typeof rule.dps_val === "string" &&
+    Number.isNaN(Number(rule.dps_val))
+  );
 }
 
 // A binary sensor is on while its value is truthy, as Python reads it (see

@@ -335,6 +335,25 @@ ${mapping}
     },
   );
 
+  it("drops a bitfield's rule whose raw value is not a number, as it matches none", () => {
+    const { components } = entry(`name: Pump
+entities:
+  - entity: sensor
+    name: Fault
+    dps:
+      - id: 2
+        type: bitfield
+        name: sensor
+        mapping:
+          - dps_val: 0
+            value: ok
+          - dps_val: E001
+            value: Abnormal input voltage
+`);
+
+    expect(components.device?.fault?.values).toEqual([{ raw: 0, value: "ok" }]);
+  });
+
   it("leaves a binary sensor on a boolean as it is", () => {
     const { components } = entry(`name: Sensor
 entities:
