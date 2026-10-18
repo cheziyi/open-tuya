@@ -6,7 +6,8 @@ import {
   TuyaError,
 } from "@open-tuya/core";
 import type { DataPointCodes } from "./dataPointCodes.js";
-import type { DeviceRecord } from "./protocol/records.js";
+import { readDeviceRecords } from "./protocol/records.js";
+import { reportTo } from "./push.js";
 
 export interface RequestParts {
   query?: Readonly<Record<string, unknown>>;
@@ -53,11 +54,11 @@ export class AppCloudTuyaClient implements TuyaClient {
 
   /** It leaves out the data points the cloud does not map. */
   async readDataPoints(): Promise<DataPoints> {
-    const devices = (await this.request(
-      "GET",
-      "/v1.0/m/life/ha/devices/detail",
-      { query: { devIds: this.deviceId } },
-    )) as DeviceRecord[];
+    const devices = readDeviceRecords(
+      await this.request("GET", "/v1.0/m/life/ha/devices/detail", {
+        query: { devIds: this.deviceId },
+      }),
+    );
     const device = devices.find(({ id }) => id === this.deviceId);
     if (!device) {
       throw new TuyaError(
@@ -67,8 +68,8 @@ export class AppCloudTuyaClient implements TuyaClient {
     }
     const dataPoints: Record<string, DataPointValue> = {};
     for (const { code, value } of device.status ?? []) {
-      const id = this.idsByStatusCode.get(code);
-      if (id !== undefined && isDataPointValue(value)) {
+      const id = typeof code === "string" && this.idsByStatusCode.get(code);
+      if (id && isDataPointValue(value)) {
         dataPoints[id] = value;
       }
     }
@@ -127,7 +128,7 @@ export class AppCloudTuyaClient implements TuyaClient {
 
   private report(dataPoints: DataPoints): void {
     for (const listener of this.listeners) {
-      listener(dataPoints);
+      reportTo(listener, dataPoints);
     }
   }
 }

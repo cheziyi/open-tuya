@@ -518,6 +518,7 @@ What `@open-tuya/cloud-app` does with each request is its own design.
 | "sign invalid" or code 1010 refreshes once and sends again, then rejects with `SESSION_EXPIRED` | The cloud also answers "sign invalid" after a rate limit ([core#178266](https://github.com/home-assistant/core/issues/178266#issuecomment-5200735391)) and after a network fault ([core#178338](https://github.com/home-assistant/core/issues/178338)), not only for a dead session |
 | No filter on repeated commands | The SDK drops a command repeated within 10 s without saying so, which a caller would read as a write that worked |
 | `listDevices` lists one home's devices at a time | Users hit the cloud's rate limit ([core#178281](https://github.com/home-assistant/core/issues/178281#issuecomment-5201857057)) |
+| A success whose result lacks a field the request goes on to use rejects with `REQUEST_REJECTED` | The cloud answers some successes with a result of `""` ([`a83b388`](https://github.com/tuya/tuya-device-sharing-sdk/commit/a83b3887e51070be6e799bd48bbd3e9904752d75)). A `TypeError` would carry no `code`, and an `expireTime` that is not a number would schedule the next refresh or MQTT renewal at once |
 
 ## Cloud app login
 
@@ -562,6 +563,8 @@ own values by ID, so it carries every data point.
 | A device's topic is subscribed while it has a client | Each device has a topic of its own |
 | A client subscribes when created | As `LocalTuyaClient` connects when created |
 | No read after a reconnect, unlike `LocalTuyaClient` | Each read costs a request under the cloud's rate limit |
+| A push that is not JSON, or not a report shaped as the SDK reads it, is dropped | `DevicePush.receive` runs inside MQTT.js's handler of the packet, which catches nothing: a throw there can end the process |
+| A listener's throw is rethrown in a microtask, after every other listener has the push | As Node's `EventTarget`: one listener's bug neither starves the others nor reaches MQTT.js, and still surfaces as an uncaught exception. Rejected: swallowing it, which would hide the caller's bug |
 
 ## MQTT
 

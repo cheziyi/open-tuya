@@ -15,12 +15,12 @@ import {
 } from "./client.js";
 import { mapDataPointCodes } from "./dataPointCodes.js";
 import { openMqttConnection } from "./mqtt.js";
-import type {
-  DeviceRecord,
-  HomeRecord,
-  PushConfigRecord,
-  RefreshResult,
-  StatusRelations,
+import {
+  readDeviceRecords,
+  readHomeRecords,
+  readPushConfig,
+  readRefreshResult,
+  readStatusRelations,
 } from "./protocol/records.js";
 import { signRequest } from "./protocol/request.js";
 import { type CloudResponse, parseResponse } from "./protocol/response.js";
@@ -83,7 +83,8 @@ export function createAppCloudAccount(
  * clients share one MQTT connection for the devices' pushes. Each request
  * rejects with `REQUEST_TIMED_OUT` when the cloud does not answer within
  * 10 s, `RATE_LIMITED` when it refuses one over its rate limit, and
- * `REQUEST_REJECTED` when it answers with another error. */
+ * `REQUEST_REJECTED` when it answers with another error or without a field
+ * the request needs. */
 export class AppCloudAccount implements TuyaCloudAccount {
   private session: AppCloudSession;
   private refreshing: Promise<void> | undefined;
@@ -109,18 +110,17 @@ export class AppCloudAccount implements TuyaCloudAccount {
   // https://github.com/tuya/tuya-device-sharing-sdk/commit/3e0d9ae6eb5e23e97ce7697a1bd3b248fe2c75b1.
   /** Lists the devices in every home of the account. */
   async listDevices(): Promise<AppCloudDevice[]> {
-    const homes = (await this.request(
-      "GET",
-      "/v1.0/m/life/users/homes",
-    )) as HomeRecord[];
+    const homes = readHomeRecords(
+      await this.request("GET", "/v1.0/m/life/users/homes"),
+    );
     const devices: AppCloudDevice[] = [];
     for (const home of homes) {
       const homeId = String(home.ownerId);
-      const records = (await this.request(
-        "GET",
-        "/v1.0/m/life/ha/home/devices",
-        { query: { homeId } },
-      )) as DeviceRecord[];
+      const records = readDeviceRecords(
+        await this.request("GET", "/v1.0/m/life/ha/home/devices", {
+          query: { homeId },
+        }),
+      );
       for (const record of records) {
         devices.push({
           deviceId: record.id,
@@ -147,10 +147,9 @@ export class AppCloudAccount implements TuyaCloudAccount {
    * resolves with a client for it. */
   async createClient(deviceId: string): Promise<AppCloudTuyaClient> {
     const id = encodeURIComponent(deviceId);
-    const relations = (await this.request(
-      "GET",
-      `/v1.0/m/life/devices/${id}/status`,
-    )) as StatusRelations;
+    const relations = readStatusRelations(
+      await this.request("GET", `/v1.0/m/life/devices/${id}/status`),
+    );
     const customType = await this.request(
       "GET",
       `/v1.0/m/life/ha/${id}/code/custom-type`,
@@ -163,7 +162,7 @@ export class AppCloudAccount implements TuyaCloudAccount {
       transport,
       deviceId,
       mapDataPointCodes(
-        relations.dpStatusRelationDTOS ?? [],
+        relations,
         customType === true || customType === "true",
       ),
     );
@@ -218,12 +217,14 @@ export class AppCloudAccount implements TuyaCloudAccount {
   // in https://github.com/tuya/tuya-device-sharing-sdk/commit/3e0d9ae6eb5e23e97ce7697a1bd3b248fe2c75b1.
   private async renew(): Promise<void> {
     const session = this.session;
-    const result = (await this.send(
-      "GET",
-      `/v1.0/m/token/${encodeURIComponent(session.refreshToken)}`,
-      {},
-      session,
-    )) as RefreshResult;
+    const result = readRefreshResult(
+      await this.send(
+        "GET",
+        `/v1.0/m/token/${encodeURIComponent(session.refreshToken)}`,
+        {},
+        session,
+      ),
+    );
     this.session = {
       endpoint: session.endpoint,
       accessToken: result.accessToken,
@@ -280,11 +281,11 @@ export class AppCloudAccount implements TuyaCloudAccount {
   // and https://github.com/tuya/tuya-device-sharing-sdk/commit/1496fc3c24643d0045e722698cd34978ce2636d1.
   // No source shows the cloud taking a link ID of another form.
   private async fetchPushConfig(): Promise<PushConfig> {
-    const result = (await this.request(
-      "POST",
-      "/v1.0/m/life/ha/access/config",
-      { body: { linkId: `tuya-device-sharing-sdk-python.${randomUUID()}` } },
-    )) as PushConfigRecord;
+    const result = readPushConfig(
+      await this.request("POST", "/v1.0/m/life/ha/access/config", {
+        body: { linkId: `tuya-device-sharing-sdk-python.${randomUUID()}` },
+      }),
+    );
     return {
       url: result.url,
       clientId: result.clientId,

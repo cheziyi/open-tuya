@@ -1,16 +1,10 @@
-import {
-  type DataPoints,
-  type DataPointValue,
-  isDataPointValue,
-  type MqttCredentials,
-  type MqttMessage,
-  type MqttSession,
+import type {
+  DataPoints,
+  MqttCredentials,
+  MqttMessage,
+  MqttSession,
 } from "@open-tuya/core";
-import type { PushMessage } from "./protocol/records.js";
-
-// Source: A data point report is protocol 4, in
-// https://github.com/tuya/tuya-device-sharing-sdk/commit/3e0d9ae6eb5e23e97ce7697a1bd3b248fe2c75b1.
-const PROTOCOL_DEVICE_REPORT = 4;
+import { readDeviceReport } from "./protocol/records.js";
 
 export interface PushConfig extends MqttCredentials {
   /** A device's topic, with `{devId}` in place of its ID. */
@@ -56,28 +50,15 @@ export class DevicePush {
     };
   }
 
+  /** Never throws: it runs inside MQTT.js's handler of the packet. */
   receive({ payload }: MqttMessage): void {
-    let message: PushMessage;
-    try {
-      message = JSON.parse(new TextDecoder().decode(payload));
-    } catch {
-      return;
-    }
-    const listeners = this.listeners.get(message.data?.devId ?? "");
-    if (message.protocol !== PROTOCOL_DEVICE_REPORT || !listeners) {
-      return;
-    }
-    const dataPoints: Record<string, DataPointValue> = {};
-    for (const { dpId, value } of message.data?.status ?? []) {
-      if (dpId !== undefined && isDataPointValue(value)) {
-        dataPoints[String(dpId)] = value;
-      }
-    }
-    if (Object.keys(dataPoints).length === 0) {
+    const report = readDeviceReport(payload);
+    const listeners = report && this.listeners.get(report.devId);
+    if (!listeners || Object.keys(report.dataPoints).length === 0) {
       return;
     }
     for (const listener of listeners) {
-      listener(dataPoints);
+      reportTo(listener, report.dataPoints);
     }
   }
 
@@ -94,5 +75,18 @@ export class DevicePush {
     const remove = this.removals.get(deviceId);
     this.removals.delete(deviceId);
     await remove?.();
+  }
+}
+
+/** Calls `listener`, and rethrows what it throws once the caller's turn is
+ * over, as Node's `EventTarget` does: the other listeners still run, and the
+ * error never reaches MQTT.js. */
+export function reportTo(listener: Listener, dataPoints: DataPoints): void {
+  try {
+    listener(dataPoints);
+  } catch (error) {
+    queueMicrotask(() => {
+      throw error;
+    });
   }
 }

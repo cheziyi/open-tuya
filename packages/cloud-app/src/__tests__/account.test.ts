@@ -366,7 +366,7 @@ describe("AppCloudAccount", () => {
       expect(reports).toEqual([{ "2": "work", "103": 6 }]);
     });
 
-    it("ignores another protocol, another device and a payload that is not JSON", async () => {
+    it("ignores another protocol, another device and a payload it cannot read", async () => {
       const { cloud, account } = setUp();
       const broker = await serveBroker(cloud);
       const client = await account.createClient(DEVICE_ID);
@@ -375,6 +375,18 @@ describe("AppCloudAccount", () => {
       await until(() => broker.subscriptions.length > 0);
 
       await broker.publish(PUSH_TOPIC, "not json");
+      await broker.publish(PUSH_TOPIC, "null");
+      await broker.publish(
+        PUSH_TOPIC,
+        JSON.stringify({ protocol: 4, data: { devId: DEVICE_ID, status: 5 } }),
+      );
+      await broker.publish(
+        PUSH_TOPIC,
+        JSON.stringify({
+          protocol: 4,
+          data: { devId: DEVICE_ID, status: [null] },
+        }),
+      );
       await broker.publish(
         PUSH_TOPIC,
         JSON.stringify({
@@ -531,6 +543,20 @@ describe("AppCloudAccount", () => {
       await expect(client.writeDataPoints({ "1": true })).rejects.toMatchObject(
         { code: "REQUEST_REJECTED" },
       );
+    });
+
+    it("rejects with REQUEST_REJECTED when a result lacks what the request needs", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", "/v1.0/m/life/users/homes", () => ({ result: null }));
+      const client = await account.createClient(DEVICE_ID);
+      cloud.on("GET", "/v1.0/m/life/ha/devices/detail", () => ({ result: "" }));
+
+      await expect(account.listDevices()).rejects.toMatchObject({
+        code: "REQUEST_REJECTED",
+      });
+      await expect(client.readDataPoints()).rejects.toMatchObject({
+        code: "REQUEST_REJECTED",
+      });
     });
 
     it("rejects with REQUEST_TIMED_OUT when the cloud does not answer within 10 s", async () => {

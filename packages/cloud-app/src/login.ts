@@ -1,5 +1,5 @@
 import { type Fetch, fetchJson, TuyaError } from "@open-tuya/core";
-import type { LoginResult } from "./protocol/records.js";
+import { readLoginResult, readQrCodeResult } from "./protocol/records.js";
 import { parseResponse } from "./protocol/response.js";
 import type { AppCloudSession } from "./session.js";
 
@@ -65,7 +65,7 @@ export class QrLogin {
         `The cloud answered ${response.code}: ${response.message}`,
       );
     }
-    return QR_CODE_PREFIX + (response.result as { qrcode: string }).qrcode;
+    return QR_CODE_PREFIX + readQrCodeResult(response.result).qrcode;
   }
 
   /** Polls the cloud every 2 s until the user confirms the login in the app,
@@ -86,7 +86,7 @@ export class QrLogin {
         ),
       );
       if (response.success) {
-        const result = response.result as LoginResult;
+        const result = readLoginResult(response.result);
         return {
           endpoint: result.endpoint,
           accessToken: result.access_token,
