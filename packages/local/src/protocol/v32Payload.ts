@@ -14,11 +14,12 @@ const VERSION = Buffer.from("3.2");
 // and a CONTROL_NEW so sealed, captured in
 // https://github.com/rospogrigio/localtuya/issues/1232#issuecomment-1387550394,
 // is acked. A 3.2 device answers an encrypted DP_QUERY with "data format
-// error", captured in https://github.com/jasonacox/tinytuya/issues/168, and
-// every other command goes in plain text, as on 3.1.
+// error", captured in https://github.com/jasonacox/tinytuya/issues/168, so
+// every other command goes in plain text, as on 3.1, where tinytuya and
+// homebridge-tuya-lan encrypt every 3.2 command: see DESIGN.md#protocol-32.
 /** Seals a payload for a 3.2 device under the local key, on `CONTROL` and
- * `CONTROL_NEW` alone, with the version header in front holding `fields`:
- * every other command goes as it is. */
+ * `CONTROL_NEW` alone, with the version header in front holding `fields`,
+ * which default to zeros: every other command goes as it is. */
 export function encryptV32Payload(
   command: number,
   plaintext: Uint8Array,

@@ -81,11 +81,12 @@ export function buildControl(
       };
 }
 
-// Source: A device reports the data points a CONTROL names with null values,
-// in a STATUS, on 3.3, in
+// Source: A client reads by writing null with CONTROL in
 // https://github.com/codetheweb/tuyapi/commit/fc0eb599444ff7d129ddd3e76fbad3e5bb2c16a8,
-// captured in https://github.com/TuyaAPI/cli/issues/109#issuecomment-767903303,
-// and on 3.2, captured in
+// and a 3.3 device reported the data points a CONTROL named with null values
+// in a STATUS, captured in
+// https://github.com/TuyaAPI/cli/issues/109#issuecomment-767903303. A 3.2
+// device did the same for a CONTROL_NEW, captured in
 // https://github.com/rospogrigio/localtuya/issues/1232#issuecomment-1387550394:
 // see DESIGN.md#reading-by-writing-null.
 /** Builds the request that reads `dataPoints` of a 3.2 or 3.3 device by

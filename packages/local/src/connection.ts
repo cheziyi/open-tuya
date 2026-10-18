@@ -206,10 +206,13 @@ export class TuyaConnection implements AsyncDisposable {
     }
   }
 
-  // Source: A heartbeat carries an empty payload, encrypted as any other, in
+  // Source: A heartbeat carries an empty payload, in
   // https://github.com/codetheweb/tuyapi/commit/dab81737a350b3f1b8ea85252cc48f472a651e2d,
   // https://github.com/iRayanKhan/homebridge-tuya/commit/ea1d903fb467dd8c296326db130630308113167a
-  // and https://github.com/adrianjagielak/homebridge-tuya-plus/commit/e316a912e5d24d6ad302768d26d5182ed2acef86.
+  // and https://github.com/tuya/TuyaOpen/blob/cd3b764643ba2b3f797dec8b4629b083cc081da1/src/tuya_cloud_service/lan/tuya_lan.c#L967-L974.
+  // Each version's encoder sends an empty payload as no bytes, where tuyapi
+  // and homebridge-tuya encrypt it to a block of padding: see
+  // DESIGN.md#protocol-33 and DESIGN.md#protocol-34-and-35.
   // Source: A device answers HEART_BEAT with an empty HEART_BEAT in
   // https://github.com/jasonacox/tinytuya/commit/dd3ad7f091a26784b53ac37a5ba896be670f346b.
   private beat(): void {

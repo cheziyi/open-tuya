@@ -122,11 +122,12 @@ interface PendingRequest {
 // devices captured in
 // https://github.com/jasonacox/tinytuya/issues/498#issuecomment-2119361833 send 0,
 // so a write fails on its ack's payload alone.
-// Source: A device sends a STATUS for a read by writing null, before its ack
-// on 3.3, captured in
+// Source: A device sends a STATUS for a read by writing null with
+// CONTROL_NEW, before its ack on 3.3, captured in
 // https://github.com/TuyaAPI/cli/issues/109#issuecomment-768668877, and
 // after it on 3.2, captured in
 // https://github.com/rospogrigio/localtuya/issues/1232#issuecomment-1387550394.
+// No capture shows the order for a CONTROL, which the client sends.
 /** A device on the LAN. It connects when created, reads the device's data
  * points once connected and hands them to the `onDataPoints` listeners, and
  * reconnects after a loss: 5 s later, doubling to 60 s. A request fails at
