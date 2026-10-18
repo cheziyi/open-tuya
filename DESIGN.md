@@ -638,7 +638,7 @@ for nothing:
 | Source | Why |
 | --- | --- |
 | rospogrigio/localtuya | Its `cloud_api.py` is Tuya's sample code and tinytuya's string to sign |
-| TuyaAPI/cli | Signs and sends through tuya-connector-nodejs |
+| TuyaAPI/cli | Signs and sends through @tuyapi/openapi ([`d6cdfdc`](https://github.com/TuyaAPI/cli/commit/d6cdfdc24657bff77ea3ae1681aa9e55ed1d3d35)), and from [`a21e5d4`](https://github.com/TuyaAPI/cli/commit/a21e5d41833b88aca36f0183c59c70d162271c8e) through tuya-connector-nodejs |
 | home-assistant/core, before 2024 | Calls tuya-iot-python-sdk |
 
 The signing formula reproduces nine signatures captured with their secrets,
@@ -656,6 +656,9 @@ and the SDK's own code instead, as the captured secrets are other people's.
 | Signed headers | None, two of Tuya's three against one | The connector, the SDK | tuya-homebridge signs `client_id`; tinytuya signs `Content-type` on a POST |
 | The query in the signature | Its keys sorted, its values unencoded, two of Tuya's three against one | The connector [`05c611c`](https://github.com/tuya/tuya-connector-nodejs/commit/05c611c4f38c89e1a6f9b38a560028162d783540), the SDK; tinytuya [`8393e6c`](https://github.com/jasonacox/tinytuya/commit/8393e6c71446feb92c4df77f7bd11af0ed1ab777) | tuya-homebridge signs it as written |
 | A pushed message's additional data | `t` as decimal text, and the tag checked. Tuya's two projects tie, both from 2021-04-24; a client that checked tuya-homebridge's form dropped every real message, and dropped the check ([`fd6e195`](https://github.com/adrianjagielak/homebridge-tuya-plus/commit/fd6e195a1c4dda58b95c4a0673722ebed5449b10)) | The SDK [`f97d9ea`](https://github.com/tuya/tuya-iot-python-sdk/commit/f97d9ea73226efcac36eebf74b080c4d4738518e), which checks the tag, and on which Home Assistant ran for years | tuya-homebridge [`b530a71`](https://github.com/tuya/tuya-homebridge/commit/b530a71ae78afc9672c2ce42345749d38605f31c) writes `t` as 6 bytes and never checks the tag |
+| `properties` issued to `/v2.0/cloud/thing/{id}/shadow/properties/issue` | An object, Tuya's one source against one. tuya-openclaw-skills documents JSON text ([`b746d2b`](https://github.com/tuya/tuya-openclaw-skills/commit/b746d2b288fa953fb6faff46da8447066037b2ad), renamed in [`016cb18`](https://github.com/tuya/tuya-openclaw-skills/commit/016cb18098bb5302e24a9a33c1bcb665445eda7c)), but for `/v1.0/end-user/devices/{id}/shadow/properties/issue`, another API, so it counts on neither side | The connector [`25424c5`](https://github.com/tuya/tuya-connector/commit/25424c594135e8c5f4c684a0b7cce8fc7b4fcca6) sends a map of code to value | homebridge-tuya-plus [`1579a21`](https://github.com/adrianjagielak/homebridge-tuya-plus/commit/1579a219964751ed40629074b7c7e0067eeac6f2) sends its JSON text |
+| A pushed message with no `protocol` | Read as a report, three against two: its data still has to carry status entries by data point ID | tuya-homebridge [`b530a71`](https://github.com/tuya/tuya-homebridge/commit/b530a71ae78afc9672c2ce42345749d38605f31c) reads every message's status and never looks at `protocol`; homebridge-tuya-plus [`0c5cc66`](https://github.com/adrianjagielak/homebridge-tuya-plus/commit/0c5cc665272c9510ad7bc382aafda3ee4ea26017) says some firmwares leave it out | The SDK [`927f095`](https://github.com/tuya/tuya-iot-python-sdk/commit/927f095469a5acf09ff1c55f90f22fa8ad8ae5b1) reads protocol 4 alone, and a missing one as 0 |
+| The MQTT credentials of a project's own token | `POST /v1.0/iot-03/open-hub/access-config` with `msg_encrypted_version` 2.0. The SDK asks `/v1.0/open-hub/access/config` with 1.0, AES-ECB, for a token of a linked app account's login alone ([`d07c511`](https://github.com/tuya/tuya-iot-python-sdk/commit/d07c511aac41ab04a2579ec60358b39093cc9677)), a login this package does not offer; tuya-homebridge asks iot-03 for that login too, and the cloud answers it ([tuya-homebridge#339](https://github.com/tuya/tuya-homebridge/issues/339)) | tuya-homebridge [`a0da33f`](https://github.com/tuya/tuya-homebridge/commit/a0da33fb0bf046fef5b915c07c78098dd068809f), the SDK [`f97d9ea`](https://github.com/tuya/tuya-iot-python-sdk/commit/f97d9ea73226efcac36eebf74b080c4d4738518e); homebridge-tuya-plus [`0c5cc66`](https://github.com/adrianjagielak/homebridge-tuya-plus/commit/0c5cc665272c9510ad7bc382aafda3ee4ea26017), with the project's own token, for the Smart Home projects it tells its users to create | tuya-homebridge [`b530a71`](https://github.com/tuya/tuya-homebridge/commit/b530a71ae78afc9672c2ce42345749d38605f31c) asked `/v1.0/open-hub/access/config`, until [`a0da33f`](https://github.com/tuya/tuya-homebridge/commit/a0da33fb0bf046fef5b915c07c78098dd068809f) |
 
 ## Cloud developer requests
 
@@ -665,6 +668,10 @@ and the SDK's own code instead, as the captured secrets are other people's.
 | No session to persist | A project takes a token from its credentials whenever it needs one |
 | A new `grant_type=1` token a minute before the last expires, and once on 1010, never `/v1.0/token/{refresh_token}` | Both requests are Tuya's: the connector refreshes on 1010 and takes a new token when that fails ([`e619df6`](https://github.com/tuya/tuya-connector-nodejs/commit/e619df60109ac4f06e9b44de7fa15bf4d1b24690)), signing the refresh the old way. Taking a new token at once skips that request, as tinytuya does ([`4e553ee`](https://github.com/jasonacox/tinytuya/commit/4e553eedaa279403278f0b402d2efbc9ece5a7a0)) |
 | `listDevices()` lists every linked account's devices; `viaDeviceId` lists one account's | Some projects are refused the first with 1106, and tinytuya then lists through a known device ([tinytuya#330](https://github.com/jasonacox/tinytuya/issues/330)) |
+| A local key the list of every account leaves out is taken from `/v1.3/iot-03/devices` of that device's account, listed only for an account with such a device | tinytuya lists every account again ([`74c0b19`](https://github.com/jasonacox/tinytuya/commit/74c0b19adcc08eae31ff2a56557e3dbb409a0490)); an account whose keys all came spends no request |
+| That second list refused with `PERMISSION_DENIED` leaves the key out; any other failure rejects | The first list already answered, and a project refused the second stays refused. A timeout or a rate limit clears, and the caller retries |
+| A page whose `last_row_key` came before rejects with `REQUEST_REJECTED` | The loop would never end, and stopping there would hide the devices after it |
+| An answer without a field the package reads rejects with `REQUEST_REJECTED` | As `fetchJson` does for a body that is not JSON. A `TypeError` would carry no `code`, and `MqttSession` stops for good after an error that is not a `TuyaError` |
 | 1106, 1114, 2007 and the 2884 codes reject with `PERMISSION_DENIED` | The caller's fix for each is on the platform: renew the trial, authorize the API, or pick the data center |
 | 1010 takes a new token and sends once more; a wrong secret rejects with `REQUEST_REJECTED` | A token lapses; a secret does not mend itself |
 | 10 s for an answer, no other retry | As the cloud app |
@@ -679,6 +686,8 @@ thing model, which keys them by ID with the device's own values, as
 | --- | --- |
 | Read `/v2.0/cloud/thing/{id}/shadow/properties` | It carries each `dp_id` and the device's own value ([`25424c5`](https://github.com/tuya/tuya-connector/commit/25424c594135e8c5f4c684a0b7cce8fc7b4fcca6)), as captured in [tinytuya#391](https://github.com/jasonacox/tinytuya/issues/391) and [hass-localtuya#782](https://github.com/xZetsubou/hass-localtuya/issues/782#issuecomment-3958114610) |
 | Write `/v2.0/cloud/thing/{id}/shadow/properties/issue`, by the thing model's code | It addresses the properties the shadow reads, in the thing model's own terms: an integer before its scale ([`79292c5`](https://github.com/tuya/tuya-openclaw-skills/commit/79292c594cfba383555b4f465e835132136f0ea6)), as the device holds it |
+| `properties` as an object, not its JSON text | [Cloud developer sources](#cloud-developer-sources) weighs the two |
+| A shadow property with no `dp_id` is left out | Nothing keys it on the LAN |
 | Map an ID to its code through `/v2.0/cloud/thing/{id}/model`, once per client | The model lists every property, where the shadow lists those with a value |
 | Push hands on the value under each data point's ID, never `value` | `value` holds the cloud's converted value, such as `{"h":23,…}` where the device sent `001703de0017` ([tuya-home-assistant#591](https://github.com/tuya/tuya-home-assistant/issues/591)) |
 
@@ -694,6 +703,14 @@ does not say which.
 | One connection per account, through `MqttSession`, on the project's one topic | Every device of the project is pushed on it |
 | `msg_encrypted_version` 2.0 | AES-GCM, whose tag shows the message came under the connection's password |
 | A message whose tag is wrong is dropped | Its bytes are not what the cloud sealed |
+| A client subscribes with its first listener and unsubscribes with its last | A client made to read or write alone opens no connection and asks for no credentials |
+| A fresh `link_id` for each credentials request | `MqttSession` opens the new connection before it closes the old, and a broker drops the older of two connections under one client ID. The Smart Life cloud hands out a new client ID for a new link ID ([`6d400c4`](https://github.com/tuya/tuya-device-sharing-sdk/commit/6d400c48b9a123599bd1b96024665adf72447783)). tuya-homebridge ([`b530a71`](https://github.com/tuya/tuya-homebridge/commit/b530a71ae78afc9672c2ce42345749d38605f31c)) and the SDK ([`f97d9ea`](https://github.com/tuya/tuya-iot-python-sdk/commit/f97d9ea73226efcac36eebf74b080c4d4738518e)) keep one for the life of the process |
+| A subscription the broker refuses closes the connection with `CONNECTION_LOST` | The session then connects again with fresh credentials, as after a loss. A connection left open on a refused topic would never push |
+| A message with no `protocol` is read | [Cloud developer sources](#cloud-developer-sources) weighs the sources |
+
+Rejected: `msg_encrypted_version` 1.0, AES-128-ECB, as the SDK asks for an
+app account's login. It carries no tag, and this package signs in with the
+project's own token, for which homebridge-tuya-plus asks 2.0.
 
 ## Routes
 

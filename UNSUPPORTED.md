@@ -58,11 +58,13 @@ does until a source or a capture settles it.
 
 | What | Unknown | Until then |
 | --- | --- | --- |
-| A captured `shadow/properties/issue` request and its answer | Tuya calls the endpoint ([tuya-connector](https://github.com/tuya/tuya-connector/commit/25424c594135e8c5f4c684a0b7cce8fc7b4fcca6)) and documents its values in the thing model's own terms ([tuya-openclaw-skills](https://github.com/tuya/tuya-openclaw-skills/commit/79292c594cfba383555b4f465e835132136f0ea6)), but no capture shows one | A write sends the caller's values as they are |
+| A captured `shadow/properties/issue` request and its answer | Tuya calls the endpoint ([tuya-connector](https://github.com/tuya/tuya-connector/commit/25424c594135e8c5f4c684a0b7cce8fc7b4fcca6)) and documents its values in the thing model's own terms ([tuya-openclaw-skills](https://github.com/tuya/tuya-openclaw-skills/commit/79292c594cfba383555b4f465e835132136f0ea6)), but no capture shows one | A write sends `properties` as an object of the caller's values as they are |
 | A device's protocol version and LAN address | No response carries the version, and `ip` is the address the cloud sees | `listDevices` reports neither; `discoverDevices` does |
 | A pushed message's `sign` | No source computes it | It is ignored; the GCM tag stands for it |
-| A push other than protocol 4 | Protocol 20 carries `online`, `offline` and other events ([tuya-homebridge#401](https://github.com/tuya/tuya-homebridge/issues/401)); `TuyaClient` has nothing to hand them to | They are ignored |
+| A push other than protocol 4 | Protocol 20 carries `online`, `offline` and other events ([tuya-homebridge#401](https://github.com/tuya/tuya-homebridge/issues/401)); `TuyaClient` has nothing to hand them to | They are ignored; a push with no protocol is read as a report |
 | Whether `/v1.0/users/{uid}/devices` pages | No source or capture shows a page past the first | `listDevices` with `viaDeviceId` reads one page |
+| A captured `/v1.3/iot-03/devices` answer | tinytuya reads the devices from `list` and each one's `local_key` ([`74c0b19`](https://github.com/jasonacox/tinytuya/commit/74c0b19adcc08eae31ff2a56557e3dbb409a0490)), but no capture shows one | `listDevices` takes a missing key from it by those names |
+| Whether the developer platform hands out a broker client ID by `link_id` | The Smart Life cloud does ([`6d400c4`](https://github.com/tuya/tuya-device-sharing-sdk/commit/6d400c48b9a123599bd1b96024665adf72447783)); the developer platform's sources keep one link ID per process | The account sends a fresh one with each credentials request |
 
 ## Device catalog
 

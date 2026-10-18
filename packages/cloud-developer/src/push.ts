@@ -10,7 +10,10 @@ import { decryptPushData } from "./protocol/message.js";
 import type { PushData, PushEnvelope } from "./protocol/records.js";
 
 // Source: A data point report is protocol 4, in
-// https://github.com/tuya/tuya-iot-python-sdk/commit/927f095469a5acf09ff1c55f90f22fa8ad8ae5b1.
+// https://github.com/tuya/tuya-iot-python-sdk/commit/927f095469a5acf09ff1c55f90f22fa8ad8ae5b1,
+// and some firmwares send it with no protocol, in
+// https://github.com/adrianjagielak/homebridge-tuya-plus/commit/0c5cc665272c9510ad7bc382aafda3ee4ea26017.
+// DESIGN.md#cloud-developer-push says why a message without one is read.
 const PROTOCOL_DEVICE_REPORT = 4;
 const DATA_POINT_ID = /^\d+$/;
 
@@ -55,12 +58,16 @@ export class DevicePush {
   }
 
   receive({ payload }: MqttMessage, config: PushConfig): void {
-    let data: PushData;
+    let data: PushData | null;
     try {
       const envelope: PushEnvelope = JSON.parse(
         new TextDecoder().decode(payload),
       );
-      if (envelope.protocol !== PROTOCOL_DEVICE_REPORT || !envelope.data) {
+      if (
+        (envelope.protocol != null &&
+          envelope.protocol !== PROTOCOL_DEVICE_REPORT) ||
+        !envelope.data
+      ) {
         return;
       }
       data = JSON.parse(
@@ -69,13 +76,14 @@ export class DevicePush {
     } catch {
       return;
     }
-    const listeners = this.listeners.get(data.devId ?? "");
+    const listeners = this.listeners.get(data?.devId ?? "");
     if (!listeners) {
       return;
     }
     const dataPoints: Record<string, DataPointValue> = {};
-    for (const entry of data.status ?? []) {
-      for (const [key, value] of Object.entries(entry)) {
+    const status = data?.status;
+    for (const entry of Array.isArray(status) ? status : []) {
+      for (const [key, value] of Object.entries(entry ?? {})) {
         if (DATA_POINT_ID.test(key) && isDataPointValue(value)) {
           dataPoints[key] = value;
         }

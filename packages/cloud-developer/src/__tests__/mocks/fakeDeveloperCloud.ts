@@ -139,11 +139,12 @@ export class FakeDeveloperCloud {
 
 /** A pushed message as the broker sends it: `data` encrypted under the
  * password's 9th to 24th characters, with `t` as decimal text for the
- * additional data. */
+ * additional data. A `protocol` of null leaves the field out. */
 export function encryptPushMessage(
   data: unknown,
   password: string,
   t: number,
+  protocol: number | null = 4,
 ): string {
   const iv = randomBytes(12);
   const cipher = createCipheriv(
@@ -163,7 +164,7 @@ export function encryptPushMessage(
   ]);
   return JSON.stringify({
     data: sealed.toString("base64"),
-    protocol: 4,
+    ...(protocol !== null && { protocol }),
     pv: "2.0",
     sign: "00000000000000000000000000000000",
     t,

@@ -227,7 +227,9 @@ fix on the platform:
 | The cloud's answer | Fix |
 | --- | --- |
 | 28841002, "subscription to cloud development plan has expired" | Extend the project's IoT Core trial |
+| 28841004, "Your quota of Trial Edition is used up" | Upgrade the project's IoT Core plan from the trial |
 | 28841101, 28841105, 28841106 | Authorize the API service the message names |
+| 28841107, "your datacenter is suspended" | Remove the data center from the project, save, and add it again |
 | 1106 to `listDevices()` | Pass `{ viaDeviceId }` with any device of the account |
 | 2007, or no devices | Pick the data center the app account is in |
 
@@ -268,6 +270,7 @@ engineering.
 | [tuya/tuya-homebridge](https://github.com/tuya/tuya-homebridge) | MIT | Developer platform API and its pushed device updates, Homebridge, by Tuya |
 | [TuyaAPI/cli](https://github.com/TuyaAPI/cli) | MIT | Fetching local keys from the developer platform API |
 | [tuya/tuya-iot-python-sdk](https://github.com/tuya/tuya-iot-python-sdk) | MIT, Copyright (c) 2014-2021 Tuya Inc. | Developer platform API and its pushed device updates, Python, by Tuya |
+| [tuya/tuya-home-assistant](https://github.com/tuya/tuya-home-assistant) | MIT, Copyright (c) 2014-2021 Tuya Inc. | Issues capturing developer platform requests, responses and pushed device updates, by Tuya |
 | [tuya/tuya-connector](https://github.com/tuya/tuya-connector) | Apache-2.0 | Developer platform API and its thing model, Java, by Tuya |
 | [tuya/tuya-openclaw-skills](https://github.com/tuya/tuya-openclaw-skills) | MIT | The thing model and issuing its properties, documented by Tuya |
 | [tuya/tuya-device-sharing-sdk](https://github.com/tuya/tuya-device-sharing-sdk) | MIT, Copyright (c) 2023 Tuya | Smart Life app QR login and its pushed device updates, by Tuya |

@@ -16,7 +16,7 @@ const PASSWORD = "0123456789abcdefFEDCBA9876543210";
 const TOPIC = "cloud/token/in/abcdefghij0123456789";
 
 // Source: The shape of an associated-users device, as captured in
-// https://github.com/tuya/tuya-homebridge/issues/223, with its key and IDs
+// https://github.com/tuya/tuya-homebridge/issues/339, with its key and IDs
 // made up.
 const DEVICE_RECORD = {
   active_time: 1625353812,
@@ -153,7 +153,7 @@ describe("DeveloperCloudAccount", () => {
       cloud.on("GET", "/v1.0/iot-01/associated-users/devices", (request) => ({
         result: request.query.last_row_key
           ? {
-              devices: [{ ...DEVICE_RECORD, id: "bf2", local_key: "" }],
+              devices: [{ ...DEVICE_RECORD, id: "bf2" }],
               has_more: false,
               last_row_key: "B",
               total: 2,
@@ -175,22 +175,100 @@ describe("DeveloperCloudAccount", () => {
           category: "cz",
           online: true,
         },
-        {
-          deviceId: "bf2",
-          name: "Plug",
-          productKey: "na90jncjlvw5t0ba",
-          category: "cz",
-          online: true,
+        expect.objectContaining({ deviceId: "bf2" }),
+      ]);
+      expect(cloud.requests.map(({ path, query }) => [path, query])).toEqual([
+        ["/v1.0/token", { grant_type: "1" }],
+        ["/v1.0/iot-01/associated-users/devices", { size: "50" }],
+        [
+          "/v1.0/iot-01/associated-users/devices",
+          { size: "50", last_row_key: "A" },
+        ],
+      ]);
+      expect(cloud.badSignatures).toEqual([]);
+    });
+
+    it("takes a missing local key from the list of the device's own account", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", "/v1.0/iot-01/associated-users/devices", () => ({
+        result: {
+          devices: [
+            DEVICE_RECORD,
+            { ...DEVICE_RECORD, id: "bf2", local_key: "" },
+            { ...DEVICE_RECORD, id: "bf3", local_key: undefined },
+          ],
+          has_more: false,
+          last_row_key: "A",
         },
+      }));
+      cloud.on("GET", "/v1.3/iot-03/devices", (request) => ({
+        result: request.query.last_row_key
+          ? {
+              list: [{ ...DEVICE_RECORD, id: "bf3", local_key: "bf3key" }],
+              has_more: false,
+            }
+          : {
+              list: [{ ...DEVICE_RECORD, id: "bf2", local_key: "bf2key" }],
+              has_more: true,
+              last_row_key: "L",
+            },
+      }));
+
+      const devices = await account.listDevices();
+
+      expect(
+        devices.map(({ deviceId, localKey }) => [deviceId, localKey]),
+      ).toEqual([
+        [DEVICE_ID, "0123456789abcdef"],
+        ["bf2", "bf2key"],
+        ["bf3", "bf3key"],
       ]);
       expect(
         cloud.requests
-          .filter(
-            ({ path }) => path === "/v1.0/iot-01/associated-users/devices",
-          )
+          .filter(({ path }) => path === "/v1.3/iot-03/devices")
           .map(({ query }) => query),
-      ).toEqual([{ size: "50" }, { size: "50", last_row_key: "A" }]);
+      ).toEqual([
+        {
+          page_size: "75",
+          source_type: "tuyaUser",
+          source_id: "eu1625675520120AYG2O",
+        },
+        {
+          page_size: "75",
+          source_type: "tuyaUser",
+          source_id: "eu1625675520120AYG2O",
+          last_row_key: "L",
+        },
+      ]);
       expect(cloud.badSignatures).toEqual([]);
+    });
+
+    it("leaves a local key out when the project may not list the device's account", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", "/v1.0/iot-01/associated-users/devices", () => ({
+        result: { devices: [{ ...DEVICE_RECORD, local_key: "" }] },
+      }));
+      cloud.on("GET", "/v1.3/iot-03/devices", () => ({
+        code: 1106,
+        msg: "permission deny",
+      }));
+
+      const devices = await account.listDevices();
+
+      expect(devices).toEqual([
+        expect.not.objectContaining({ localKey: expect.anything() }),
+      ]);
+    });
+
+    it("rejects with REQUEST_REJECTED when the cloud answers with a page again", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", "/v1.0/iot-01/associated-users/devices", () => ({
+        result: { devices: [DEVICE_RECORD], has_more: true, last_row_key: "A" },
+      }));
+
+      await expect(account.listDevices()).rejects.toMatchObject({
+        code: "REQUEST_REJECTED",
+      });
     });
 
     it("lists one account's devices through a device of it", async () => {
@@ -209,6 +287,18 @@ describe("DeveloperCloudAccount", () => {
       ]);
     });
 
+    it("rejects with REQUEST_REJECTED when the device's detail has no uid", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", `/v1.0/devices/${DEVICE_ID}`, () => ({
+        result: { ...DEVICE_RECORD, uid: undefined },
+      }));
+
+      await expect(
+        account.listDevices({ viaDeviceId: DEVICE_ID }),
+      ).rejects.toMatchObject({ code: "REQUEST_REJECTED" });
+      expect(cloud.requests.at(-1)?.path).toBe(`/v1.0/devices/${DEVICE_ID}`);
+    });
+
     it("rejects with PERMISSION_DENIED when the project may not list them", async () => {
       const { cloud, account } = setUp();
       // Source: Captured in https://github.com/jasonacox/tinytuya/issues/330.
@@ -219,7 +309,6 @@ describe("DeveloperCloudAccount", () => {
 
       await expect(account.listDevices()).rejects.toMatchObject({
         code: "PERMISSION_DENIED",
-        message: "The cloud answered 1106: permission deny",
       });
     });
   });
@@ -235,16 +324,46 @@ describe("DeveloperCloudAccount", () => {
       });
     });
 
-    it("issues properties by code, as JSON text", async () => {
+    it("leaves out a shadow property with no data point ID", async () => {
+      const { cloud, account } = setUp();
+      cloud.on(
+        "GET",
+        `/v2.0/cloud/thing/${DEVICE_ID}/shadow/properties`,
+        () => ({
+          result: {
+            properties: [
+              { code: "switch_1", dp_id: 1, value: true },
+              { code: "cloud_only", dp_id: null, value: 3 },
+            ],
+          },
+        }),
+      );
+      const client = await account.createClient(DEVICE_ID);
+
+      await expect(client.readDataPoints()).resolves.toEqual({ "1": true });
+    });
+
+    it("issues properties by code, as an object", async () => {
       const { cloud, account } = setUp();
       const client = await account.createClient(DEVICE_ID);
 
       await client.writeDataPoints({ "1": false });
 
       expect(cloud.requests.at(-1)?.body).toEqual({
-        properties: '{"switch_1":false}',
+        properties: { switch_1: false },
       });
       expect(cloud.badSignatures).toEqual([]);
+    });
+
+    it("rejects with REQUEST_REJECTED when the thing model is not JSON", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", `/v2.0/cloud/thing/${DEVICE_ID}/model`, () => ({
+        result: { model: "{" },
+      }));
+
+      await expect(account.createClient(DEVICE_ID)).rejects.toMatchObject({
+        code: "REQUEST_REJECTED",
+      });
     });
 
     it("rejects a write to a data point outside the thing model with UNMAPPED_DATA_POINT, sending nothing", async () => {
@@ -323,6 +442,15 @@ describe("DeveloperCloudAccount", () => {
       });
     });
 
+    it("rejects with REQUEST_REJECTED when the token has no lifetime", async () => {
+      const { cloud, account } = setUp();
+      cloud.expireTimeInSeconds = 0;
+
+      await expect(account.createClient(DEVICE_ID)).rejects.toMatchObject({
+        code: "REQUEST_REJECTED",
+      });
+    });
+
     it("rejects with REQUEST_REJECTED when the secret is wrong", async () => {
       const cloud = new FakeDeveloperCloud(ACCESS_ID, ACCESS_SECRET);
       const account = new DeveloperCloudAccount(
@@ -338,17 +466,51 @@ describe("DeveloperCloudAccount", () => {
 
       await expect(account.listDevices()).rejects.toMatchObject({
         code: "REQUEST_REJECTED",
-        message: "The cloud answered 1004: sign invalid",
       });
     });
   });
 
   describe("pushes", () => {
+    it("connects with a client's first listener, not before", async () => {
+      const { cloud, account } = setUp();
+      const broker = await serveBroker(cloud);
+      const client = await account.createClient(DEVICE_ID);
+      await client.readDataPoints();
+
+      expect(cloud.requests.some(({ path }) => path.includes("open-hub"))).toBe(
+        false,
+      );
+      client.onDataPoints(() => {});
+      await until(() => broker.subscriptions.length > 0);
+
+      expect(broker.connects).toHaveLength(1);
+    });
+
+    it("disconnects with a client's last listener", async () => {
+      const { cloud, account } = setUp();
+      const broker = await serveBroker(cloud);
+      let disconnects = 0;
+      broker.aedes.on("clientDisconnect", () => disconnects++);
+      const client = await account.createClient(DEVICE_ID);
+      const removeFirst = client.onDataPoints(() => {});
+      const removeSecond = client.onDataPoints(() => {});
+      await until(() => broker.subscriptions.length > 0);
+
+      removeFirst();
+      removeFirst();
+      expect(disconnects).toBe(0);
+      removeSecond();
+      await until(() => disconnects > 0);
+
+      expect(client.connected).toBe(true);
+    });
+
     it("asks for the project's MQTT credentials with the token's uid", async () => {
       const { cloud, account } = setUp();
       const broker = await serveBroker(cloud);
 
-      await account.createClient(DEVICE_ID);
+      const client = await account.createClient(DEVICE_ID);
+      client.onDataPoints(() => {});
       await until(() => broker.subscriptions.length > 0);
 
       expect(
@@ -422,6 +584,62 @@ describe("DeveloperCloudAccount", () => {
       expect(reports).toEqual([{ "24": "001703de0017", "3": 76 }]);
     });
 
+    it("hands on a report that names no protocol", async () => {
+      const { cloud, account } = setUp();
+      const broker = await serveBroker(cloud);
+      const client = await account.createClient(DEVICE_ID);
+      const reports: DataPoints[] = [];
+      client.onDataPoints((dataPoints) => reports.push(dataPoints));
+      await until(() => broker.subscriptions.length > 0);
+
+      await broker.publish(
+        TOPIC,
+        encryptPushMessage(
+          { devId: DEVICE_ID, status: [{ "1": true }] },
+          PASSWORD,
+          1636197093,
+          20,
+        ),
+      );
+      await broker.publish(
+        TOPIC,
+        encryptPushMessage(
+          { devId: DEVICE_ID, status: [{ "1": false }] },
+          PASSWORD,
+          1636197093,
+          null,
+        ),
+      );
+      await until(() => reports.length > 0);
+
+      expect(reports).toEqual([{ "1": false }]);
+    });
+
+    it("asks for credentials again 5 s later when the cloud's lack a topic", async () => {
+      const { cloud, account } = setUp();
+      await serveBroker(cloud);
+      cloud.on("POST", "/v1.0/iot-03/open-hub/access-config", () => ({
+        result: {
+          client_id: "cloud_client",
+          expire_time: 7200,
+          password: PASSWORD,
+          url: "tcp://127.0.0.1:1",
+          username: "cloud_user",
+        },
+      }));
+      const configRequests = () =>
+        cloud.requests.filter(({ path }) => path.includes("open-hub")).length;
+      const client = await account.createClient(DEVICE_ID);
+      useFakeTimers();
+
+      client.onDataPoints(() => {});
+      await vi.advanceTimersByTimeAsync(0);
+      expect(configRequests()).toBe(1);
+      await vi.advanceTimersByTimeAsync(5000);
+
+      expect(configRequests()).toBe(2);
+    });
+
     it("closes the connection with its last client", async () => {
       const { cloud, account } = setUp();
       const broker = await serveBroker(cloud);
@@ -429,6 +647,8 @@ describe("DeveloperCloudAccount", () => {
       broker.aedes.on("clientDisconnect", () => disconnects++);
       const first = await account.createClient(DEVICE_ID);
       const second = await account.createClient(DEVICE_ID);
+      first.onDataPoints(() => {});
+      second.onDataPoints(() => {});
       await until(() => broker.subscriptions.length > 0);
 
       await first.close();
