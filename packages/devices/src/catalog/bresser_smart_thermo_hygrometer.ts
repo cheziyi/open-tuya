@@ -50,7 +50,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "c", value: "celsius" },
         ],
       },
-      ch1TemperatureInC: {
+      channel1TemperatureInC: {
         dataPoint: "102",
         kind: "sensor",
         measures: "temperature",
@@ -58,14 +58,14 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      ch1HumidityInPercent: {
+      channel1HumidityInPercent: {
         dataPoint: "103",
         kind: "sensor",
         measures: "humidity",
         readOnly: true,
         unit: "%",
       },
-      ch2TemperatureInC: {
+      channel2TemperatureInC: {
         dataPoint: "104",
         kind: "sensor",
         measures: "temperature",
@@ -73,14 +73,14 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      ch2HumidityInPercent: {
+      channel2HumidityInPercent: {
         dataPoint: "105",
         kind: "sensor",
         measures: "humidity",
         readOnly: true,
         unit: "%",
       },
-      ch3TemperatureInC: {
+      channel3TemperatureInC: {
         dataPoint: "106",
         kind: "sensor",
         measures: "temperature",
@@ -88,14 +88,14 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      ch3HumidityInPercent: {
+      channel3HumidityInPercent: {
         dataPoint: "107",
         kind: "sensor",
         measures: "humidity",
         readOnly: true,
         unit: "%",
       },
-      ch4TemperatureInC: {
+      channel4TemperatureInC: {
         dataPoint: "108",
         kind: "sensor",
         measures: "temperature",
@@ -103,14 +103,14 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      ch4HumidityInPercent: {
+      channel4HumidityInPercent: {
         dataPoint: "109",
         kind: "sensor",
         measures: "humidity",
         readOnly: true,
         unit: "%",
       },
-      ch5TemperatureInC: {
+      channel5TemperatureInC: {
         dataPoint: "110",
         kind: "sensor",
         measures: "temperature",
@@ -118,14 +118,14 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      ch5HumidityInPercent: {
+      channel5HumidityInPercent: {
         dataPoint: "111",
         kind: "sensor",
         measures: "humidity",
         readOnly: true,
         unit: "%",
       },
-      ch6TemperatureInC: {
+      channel6TemperatureInC: {
         dataPoint: "112",
         kind: "sensor",
         measures: "temperature",
@@ -133,14 +133,14 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      ch6HumidityInPercent: {
+      channel6HumidityInPercent: {
         dataPoint: "113",
         kind: "sensor",
         measures: "humidity",
         readOnly: true,
         unit: "%",
       },
-      ch7TemperatureInC: {
+      channel7TemperatureInC: {
         dataPoint: "114",
         kind: "sensor",
         measures: "temperature",
@@ -148,7 +148,7 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      ch7HumidityInPercent: {
+      channel7HumidityInPercent: {
         dataPoint: "115",
         kind: "sensor",
         measures: "humidity",

@@ -141,7 +141,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: false },
         ],
       },
-      batteryCh1: {
+      batteryChannel1: {
         dataPoint: "31",
         kind: "sensor",
         measures: "battery",
@@ -151,7 +151,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: false },
         ],
       },
-      batteryCh2: {
+      batteryChannel2: {
         dataPoint: "32",
         kind: "sensor",
         measures: "battery",
@@ -161,7 +161,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: false },
         ],
       },
-      batteryCh3: {
+      batteryChannel3: {
         dataPoint: "33",
         kind: "sensor",
         measures: "battery",
@@ -186,7 +186,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      temperatureCh1InC: {
+      temperatureChannel1InC: {
         dataPoint: "40",
         kind: "sensor",
         measures: "temperature",
@@ -194,14 +194,14 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      humidityCh1InPercent: {
+      humidityChannel1InPercent: {
         dataPoint: "41",
         kind: "sensor",
         measures: "humidity",
         readOnly: true,
         unit: "%",
       },
-      temperatureCh2InC: {
+      temperatureChannel2InC: {
         dataPoint: "42",
         kind: "sensor",
         measures: "temperature",
@@ -209,14 +209,14 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      humidityCh2InPercent: {
+      humidityChannel2InPercent: {
         dataPoint: "43",
         kind: "sensor",
         measures: "humidity",
         readOnly: true,
         unit: "%",
       },
-      temperatureCh3InC: {
+      temperatureChannel3InC: {
         dataPoint: "44",
         kind: "sensor",
         measures: "temperature",
@@ -224,7 +224,7 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      humidityCh3InPercent: {
+      humidityChannel3InPercent: {
         dataPoint: "45",
         kind: "sensor",
         measures: "humidity",
@@ -278,7 +278,7 @@ const entry: TuyaDeviceEntry = {
         unit: "mm/h",
         scale: 1000,
       },
-      uvIndexInUvIndex: {
+      uvIndex: {
         dataPoint: "62",
         kind: "sensor",
         readOnly: true,

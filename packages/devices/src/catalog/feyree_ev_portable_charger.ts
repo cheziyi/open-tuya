@@ -234,7 +234,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      voltageBInV: {
+      voltagePhaseBInV: {
         dataPoint: "103",
         kind: "sensor",
         measures: "voltage",
@@ -242,7 +242,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      voltageCInV: {
+      voltagePhaseCInV: {
         dataPoint: "104",
         kind: "sensor",
         measures: "voltage",
@@ -258,7 +258,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 10,
       },
-      currentBInA: {
+      currentPhaseBInA: {
         dataPoint: "106",
         kind: "sensor",
         measures: "current",
@@ -266,7 +266,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 10,
       },
-      currentCInA: {
+      currentPhaseCInA: {
         dataPoint: "107",
         kind: "sensor",
         measures: "current",

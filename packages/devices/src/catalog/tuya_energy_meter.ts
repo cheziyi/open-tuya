@@ -41,7 +41,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "warning", value: "warning" },
         ],
       },
-      powerAInW: {
+      powerPhaseAInW: {
         dataPoint: "105",
         kind: "sensor",
         measures: "power",
@@ -49,7 +49,7 @@ const entry: TuyaDeviceEntry = {
         unit: "W",
         scale: 10,
       },
-      currentAInA: {
+      currentPhaseAInA: {
         dataPoint: "106",
         kind: "sensor",
         measures: "current",
@@ -57,7 +57,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      voltageAInV: {
+      voltagePhaseAInV: {
         dataPoint: "107",
         kind: "sensor",
         measures: "voltage",
@@ -65,7 +65,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      totalEnergyAInKwh: {
+      totalEnergyPhaseAInKwh: {
         dataPoint: "108",
         kind: "sensor",
         measures: "energy",
@@ -73,7 +73,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 1000,
       },
-      todayEnergyAInKwh: {
+      todayEnergyPhaseAInKwh: {
         dataPoint: "109",
         kind: "sensor",
         measures: "energy",
@@ -81,7 +81,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 1000,
       },
-      powerBInW: {
+      powerPhaseBInW: {
         dataPoint: "115",
         kind: "sensor",
         measures: "power",
@@ -89,7 +89,7 @@ const entry: TuyaDeviceEntry = {
         unit: "W",
         scale: 10,
       },
-      currentBInA: {
+      currentPhaseBInA: {
         dataPoint: "116",
         kind: "sensor",
         measures: "current",
@@ -97,7 +97,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      voltageBInV: {
+      voltagePhaseBInV: {
         dataPoint: "117",
         kind: "sensor",
         measures: "voltage",
@@ -105,7 +105,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      totalEnergyBInKwh: {
+      totalEnergyPhaseBInKwh: {
         dataPoint: "118",
         kind: "sensor",
         measures: "energy",
@@ -113,7 +113,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 1000,
       },
-      todayEnergyBInKwh: {
+      todayEnergyPhaseBInKwh: {
         dataPoint: "119",
         kind: "sensor",
         measures: "energy",

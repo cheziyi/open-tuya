@@ -144,28 +144,28 @@ const entry: TuyaDeviceEntry = {
           { raw: "error", value: "fault" },
         ],
       },
-      voltageAInV: {
+      voltagePhaseAInV: {
         dataPoint: "102",
         kind: "sensor",
         measures: "voltage",
         readOnly: true,
         unit: "V",
       },
-      voltageBInV: {
+      voltagePhaseBInV: {
         dataPoint: "103",
         kind: "sensor",
         measures: "voltage",
         readOnly: true,
         unit: "V",
       },
-      voltageCInV: {
+      voltagePhaseCInV: {
         dataPoint: "104",
         kind: "sensor",
         measures: "voltage",
         readOnly: true,
         unit: "V",
       },
-      currentAInA: {
+      currentPhaseAInA: {
         dataPoint: "105",
         kind: "sensor",
         measures: "current",
@@ -173,7 +173,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 10,
       },
-      currentBInA: {
+      currentPhaseBInA: {
         dataPoint: "106",
         kind: "sensor",
         measures: "current",
@@ -181,7 +181,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 10,
       },
-      currentCInA: {
+      currentPhaseCInA: {
         dataPoint: "107",
         kind: "sensor",
         measures: "current",

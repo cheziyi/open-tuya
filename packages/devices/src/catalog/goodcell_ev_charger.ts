@@ -151,7 +151,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 10,
       },
-      voltageL1InV: {
+      voltagePhaseL1InV: {
         dataPoint: "102",
         kind: "sensor",
         measures: "voltage",
@@ -159,7 +159,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      voltageL2InV: {
+      voltagePhaseL2InV: {
         dataPoint: "103",
         kind: "sensor",
         measures: "voltage",
@@ -167,7 +167,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      voltageL3InV: {
+      voltagePhaseL3InV: {
         dataPoint: "104",
         kind: "sensor",
         measures: "voltage",
@@ -175,7 +175,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      currentL1InA: {
+      currentPhaseL1InA: {
         dataPoint: "105",
         kind: "sensor",
         measures: "current",
@@ -183,7 +183,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 10,
       },
-      currentL2InA: {
+      currentPhaseL2InA: {
         dataPoint: "106",
         kind: "sensor",
         measures: "current",
@@ -191,7 +191,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 10,
       },
-      currentL3InA: {
+      currentPhaseL3InA: {
         dataPoint: "107",
         kind: "sensor",
         measures: "current",

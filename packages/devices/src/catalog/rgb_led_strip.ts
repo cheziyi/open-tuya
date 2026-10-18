@@ -225,7 +225,7 @@ const entry: TuyaDeviceEntry = {
           },
         },
       },
-      doNotDisturbRemoteSw: {
+      doNotDisturbRemoteSwitch: {
         dataPoint: "41",
         kind: "select",
         values: [

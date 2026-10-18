@@ -355,7 +355,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "C",
       },
-      lowPressureTempInC: {
+      lowPressureTemperatureInC: {
         dataPoint: "36",
         kind: "sensor",
         measures: "temperature",
@@ -429,28 +429,28 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 100,
       },
-      economizerInletTempInC: {
+      economizerInletTemperatureInC: {
         dataPoint: "107",
         kind: "sensor",
         measures: "temperature",
         readOnly: true,
         unit: "C",
       },
-      economyInletTempInC: {
+      economyInletTemperatureInC: {
         dataPoint: "108",
         kind: "sensor",
         measures: "temperature",
         readOnly: true,
         unit: "C",
       },
-      currentBInA: {
+      currentPhaseBInA: {
         dataPoint: "109",
         kind: "sensor",
         readOnly: true,
         unit: "A",
         scale: 1000,
       },
-      voltageBInV: {
+      voltagePhaseBInV: {
         dataPoint: "111",
         kind: "sensor",
         measures: "voltage",
@@ -458,7 +458,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      voltageCInV: {
+      voltagePhaseCInV: {
         dataPoint: "112",
         kind: "sensor",
         measures: "voltage",

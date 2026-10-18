@@ -79,7 +79,7 @@ const entry: TuyaDeviceEntry = {
         max: 1000,
       },
       musicData: { dataPoint: "27", kind: "text" },
-      lengthCm: { dataPoint: "46", kind: "number" },
+      lengthInCm: { dataPoint: "46", kind: "number", unit: "cm" },
       pixels: { dataPoint: "47", kind: "number" },
       paintColourData: { dataPoint: "61", kind: "text" },
       timerInSeconds: {

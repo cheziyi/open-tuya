@@ -102,7 +102,7 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
       },
       temperatureCalibrationUnit: { dataPoint: "101", kind: "text" },
-      continuousHeatHoursInHours: {
+      continuousHeatInHours: {
         dataPoint: "108",
         kind: "number",
         unit: "h",

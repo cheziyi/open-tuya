@@ -191,7 +191,7 @@ const entry: TuyaDeviceEntry = {
         max: 25000,
         step: 10,
       },
-      energyAInKwh: {
+      energyPhaseAInKwh: {
         dataPoint: "125",
         kind: "sensor",
         measures: "energy",

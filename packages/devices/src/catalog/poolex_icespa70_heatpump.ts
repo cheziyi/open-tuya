@@ -124,7 +124,12 @@ const entry: TuyaDeviceEntry = {
       busVoltage: { dataPoint: "134", kind: "number", scale: 100 },
       compressorCurrent: { dataPoint: "135", kind: "number", scale: 100 },
       fanCurrent: { dataPoint: "136", kind: "number", scale: 100 },
-      ipmTemp: { dataPoint: "137", kind: "number", scale: 100 },
+      ipmTemperatureInC: {
+        dataPoint: "137",
+        kind: "number",
+        unit: "C",
+        scale: 100,
+      },
       fourWayValve: { dataPoint: "138", kind: "switch" },
     },
     device: {

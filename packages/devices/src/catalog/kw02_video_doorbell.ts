@@ -42,7 +42,7 @@ const entry: TuyaDeviceEntry = {
       sdFormat: { dataPoint: "111", kind: "button" },
       sdFormatCapacity: { dataPoint: "109", kind: "text" },
       sdFormatSdStatus: { dataPoint: "110", kind: "number" },
-      sdFormattingStatus: { dataPoint: "117", kind: "number" },
+      sdFormatFormattingStatus: { dataPoint: "117", kind: "number" },
       motion: {
         dataPoint: "115",
         kind: "event",

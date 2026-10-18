@@ -124,12 +124,12 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
       },
-      faultSenSysErrorCode1: {
+      faultSenSystemErrorCode1: {
         dataPoint: "113",
         kind: "sensor",
         readOnly: true,
       },
-      faultSenSysErrorCode2: {
+      faultSenSystemErrorCode2: {
         dataPoint: "114",
         kind: "sensor",
         readOnly: true,

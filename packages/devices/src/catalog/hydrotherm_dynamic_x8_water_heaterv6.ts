@@ -80,7 +80,7 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         whenAbsent: { redirect: { dataPoint: "21" } },
       },
-      inletTemp: { dataPoint: "21", kind: "number" },
+      inletTemperatureInC: { dataPoint: "21", kind: "number", unit: "C" },
       awayMode: { dataPoint: "7", kind: "switch" },
       eev: { dataPoint: "14", kind: "number" },
       modelNumber: { dataPoint: "40", kind: "number" },
@@ -129,7 +129,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "C",
       },
-      inletTemperatureInC: {
+      inletTemperatureInC2: {
         dataPoint: "21",
         kind: "sensor",
         measures: "temperature",

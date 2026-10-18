@@ -47,7 +47,11 @@ const entry: TuyaDeviceEntry = {
       },
       energyStateFlag: { dataPoint: "116", kind: "sensor", readOnly: true },
       energyFlagSave: { dataPoint: "117", kind: "sensor", readOnly: true },
-      energyAddEle: { dataPoint: "123", kind: "sensor", readOnly: true },
+      energyAddElectricity: {
+        dataPoint: "123",
+        kind: "sensor",
+        readOnly: true,
+      },
       on: { dataPoint: "16", kind: "switch" },
       voltageInV: {
         dataPoint: "101",

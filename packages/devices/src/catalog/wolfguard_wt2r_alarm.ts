@@ -126,7 +126,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
       },
       pushNotifications: { dataPoint: "27", kind: "switch" },
-      pushNotificationsAlarmMsg: { dataPoint: "26", kind: "text" },
+      pushNotificationsAlarmMessage: { dataPoint: "26", kind: "text" },
       alarmDelayInSeconds: {
         dataPoint: "28",
         kind: "number",

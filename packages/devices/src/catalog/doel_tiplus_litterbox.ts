@@ -60,7 +60,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         scale: 10,
       },
-      dailyVisitsInVisits: {
+      dailyVisits: {
         dataPoint: "7",
         kind: "sensor",
         readOnly: true,

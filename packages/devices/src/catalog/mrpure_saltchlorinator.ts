@@ -116,7 +116,7 @@ const entry: TuyaDeviceEntry = {
         max: 150,
         step: 5,
       },
-      phInPh: {
+      ph: {
         dataPoint: "110",
         kind: "number",
         measures: "ph",
@@ -132,7 +132,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "mV",
       },
-      phInPh2: {
+      phInPh: {
         dataPoint: "112",
         kind: "sensor",
         measures: "ph",

@@ -53,7 +53,7 @@ const entry: TuyaDeviceEntry = {
         unit: "g",
       },
       weightLbs: { dataPoint: "129", kind: "sensor", readOnly: true },
-      weightCfgUnit: { dataPoint: "116", kind: "sensor", readOnly: true },
+      weightConfigUnit: { dataPoint: "116", kind: "sensor", readOnly: true },
       dailyUsesInTimes: {
         dataPoint: "7",
         kind: "sensor",
@@ -118,7 +118,7 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: false },
       },
       scheduledCleaningCleanTaste: { dataPoint: "108", kind: "text" },
-      scheduledCleaningCleanTasteSw: { dataPoint: "109", kind: "switch" },
+      scheduledCleaningCleanTasteSwitch: { dataPoint: "109", kind: "switch" },
       doNotDisturbSchedule: { dataPoint: "110", kind: "text" },
       toilet: {
         dataPoint: "112",

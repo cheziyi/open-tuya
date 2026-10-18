@@ -54,7 +54,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 1000,
       },
-      lengthCm: { dataPoint: "46", kind: "number" },
+      lengthInCm: { dataPoint: "46", kind: "number", unit: "cm" },
       pixels: { dataPoint: "47", kind: "number" },
       dreamlightScene: { dataPoint: "51", kind: "text" },
       control: { dataPoint: "28", kind: "text" },

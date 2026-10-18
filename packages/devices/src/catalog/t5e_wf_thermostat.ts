@@ -207,7 +207,13 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 10,
       },
-      currTempF: { dataPoint: "29", kind: "number" },
+      currentTemperatureInF: {
+        dataPoint: "29",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "F",
+      },
       temperatureUnit: {
         dataPoint: "43",
         kind: "select",

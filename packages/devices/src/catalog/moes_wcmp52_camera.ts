@@ -245,9 +245,9 @@ const entry: TuyaDeviceEntry = {
       },
       markObjects: { dataPoint: "198", kind: "switch" },
       onvif: { dataPoint: "237", kind: "switch" },
-      onvifPasswdChanged: { dataPoint: "239", kind: "switch" },
+      onvifPasswordChanged: { dataPoint: "239", kind: "switch" },
       onvifIpAddress: { dataPoint: "240", kind: "text" },
-      onvifChangePasswd: { dataPoint: "238", kind: "text" },
+      onvifChangePassword: { dataPoint: "238", kind: "text" },
       onvifIpType: {
         dataPoint: "241",
         kind: "select",

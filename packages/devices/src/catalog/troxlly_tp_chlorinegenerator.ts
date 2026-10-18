@@ -110,7 +110,7 @@ const entry: TuyaDeviceEntry = {
         otherwise: true,
       },
       faultCode: { dataPoint: "112", kind: "sensor", readOnly: true },
-      faultVersionNum: { dataPoint: "134", kind: "sensor", readOnly: true },
+      faultVersionNumber: { dataPoint: "134", kind: "sensor", readOnly: true },
       faultVersion: { dataPoint: "139", kind: "sensor", readOnly: true },
       flow2: {
         dataPoint: "113",

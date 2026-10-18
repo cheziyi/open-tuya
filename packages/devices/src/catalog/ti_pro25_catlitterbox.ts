@@ -62,7 +62,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         scale: 10,
       },
-      totalVisitsInVisits: {
+      totalVisits: {
         dataPoint: "7",
         kind: "sensor",
         readOnly: true,
@@ -159,7 +159,7 @@ const entry: TuyaDeviceEntry = {
         min: 15,
         max: 35,
       },
-      numberOfCleaningsInCleanings: {
+      numberOfCleanings: {
         dataPoint: "124",
         kind: "sensor",
         readOnly: true,

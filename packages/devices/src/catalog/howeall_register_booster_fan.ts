@@ -67,7 +67,13 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      heatingTemp: { dataPoint: "106", kind: "number", min: 60, max: 90 },
+      heatingTemperatureInF: {
+        dataPoint: "106",
+        kind: "number",
+        unit: "F",
+        min: 60,
+        max: 90,
+      },
       preset: {
         dataPoint: "2",
         kind: "select",

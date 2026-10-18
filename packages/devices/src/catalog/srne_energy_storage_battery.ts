@@ -87,7 +87,7 @@ const entry: TuyaDeviceEntry = {
         unit: "Ah",
         scale: 10,
       },
-      dischargeCyclesInCycles: {
+      dischargeCycles: {
         dataPoint: "108",
         kind: "sensor",
         readOnly: true,
