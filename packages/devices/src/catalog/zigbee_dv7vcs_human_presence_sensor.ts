@@ -28,6 +28,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "none", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       sensitivity: { dataPoint: "106", kind: "number", min: 1, max: 10 },

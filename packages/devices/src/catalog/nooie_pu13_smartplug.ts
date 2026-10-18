@@ -27,9 +27,9 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "39",
         kind: "select",
         values: [
-          { raw: 1, value: "on" },
-          { raw: 0, value: "off" },
-          { raw: 2, value: "memory" },
+          { raw: "1", value: "on" },
+          { raw: "0", value: "off" },
+          { raw: "2", value: "memory" },
         ],
       },
     },

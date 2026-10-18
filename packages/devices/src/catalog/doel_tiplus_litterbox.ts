@@ -76,7 +76,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -152,7 +152,7 @@ const entry: TuyaDeviceEntry = {
       sleep: { dataPoint: "120", kind: "switch" },
       thinFecesDetection: { dataPoint: "127", kind: "switch" },
       bagChange: { dataPoint: "138", kind: "button" },
-      bagChangeCountInUses: {
+      bagChangeCount: {
         dataPoint: "139",
         kind: "sensor",
         readOnly: true,

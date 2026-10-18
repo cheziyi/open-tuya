@@ -41,6 +41,13 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "catWeightUnit",
         dependsOn: {
           dataPoint: "116",
+          constraint: {
+            dataPoint: "116",
+            values: [
+              { raw: "kilogram", value: "lb" },
+              { raw: "pound", value: "kg" },
+            ],
+          },
           conditions: [
             { when: ["kilogram"], redirect: { dataPoint: "134", scale: 10 } },
           ],
@@ -78,7 +85,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -152,7 +159,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 120,
       },
-      binFullCalibrationInCleanings: {
+      binFullCalibration: {
         dataPoint: "123",
         kind: "number",
         unit: "cleanings",

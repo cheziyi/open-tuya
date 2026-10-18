@@ -133,14 +133,6 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 10,
       },
-      temperatureUnit2: {
-        dataPoint: "101",
-        kind: "select",
-        values: [
-          { raw: "C", value: "celsius" },
-          { raw: "F", value: "fahrenheit" },
-        ],
-      },
       highTemperature: {
         dataPoint: "111",
         kind: "sensor",
@@ -156,13 +148,13 @@ const entry: TuyaDeviceEntry = {
       continuousHeat: {
         dataPoint: "120",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       fault: {
         dataPoint: "12",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -171,25 +163,25 @@ const entry: TuyaDeviceEntry = {
       unbalanced: {
         dataPoint: "113",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       probe1Fault: {
         dataPoint: "117",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       probe2Fault: {
         dataPoint: "118",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       heatingFault: {
         dataPoint: "119",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
     },

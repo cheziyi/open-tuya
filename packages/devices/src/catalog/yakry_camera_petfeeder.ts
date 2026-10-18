@@ -38,12 +38,13 @@ const entry: TuyaDeviceEntry = {
     device: {
       flipImage: { dataPoint: "103", kind: "switch" },
       watermark: { dataPoint: "104", kind: "switch" },
-      cameraRecord: { dataPoint: "150", kind: "switch" },
-      cameraRecordMacAddress: { dataPoint: "254", kind: "text" },
+      recording: { dataPoint: "150", kind: "switch" },
+      recordingMacAddress: { dataPoint: "254", kind: "text" },
       motion: {
         dataPoint: "115",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "detected",
       },
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
@@ -120,6 +121,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "212",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "message",
       },
       notificationMessage: { dataPoint: "212", kind: "sensor", readOnly: true },

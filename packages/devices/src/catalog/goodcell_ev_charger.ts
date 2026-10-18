@@ -74,7 +74,17 @@ const entry: TuyaDeviceEntry = {
       },
       statusAlarmSet1: { dataPoint: "11", kind: "sensor", readOnly: true },
       statusAlarmSet2: { dataPoint: "12", kind: "sensor", readOnly: true },
-      statusMode: { dataPoint: "14", kind: "sensor", readOnly: true },
+      statusMode: {
+        dataPoint: "14",
+        kind: "sensor",
+        readOnly: true,
+        values: [
+          { raw: "charge_now" },
+          { raw: "charge_pct" },
+          { raw: "charge_energy" },
+          { raw: "charge_schedule" },
+        ],
+      },
       statusBalanceEnergyInKwh: {
         dataPoint: "15",
         kind: "sensor",
@@ -93,7 +103,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "10",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -109,6 +119,13 @@ const entry: TuyaDeviceEntry = {
         max: 32,
         dependsOn: {
           dataPoint: "113",
+          constraint: {
+            dataPoint: "113",
+            values: [
+              { raw: "Max16A", value: "Max16A" },
+              { raw: "Max32A", value: "Max32A" },
+            ],
+          },
           conditions: [
             {
               when: ["Max16A"],

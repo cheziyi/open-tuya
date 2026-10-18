@@ -69,7 +69,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "11",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -81,7 +81,7 @@ const entry: TuyaDeviceEntry = {
       filterCleanRequired: {
         dataPoint: "108",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       liftPump: { dataPoint: "109", kind: "switch" },

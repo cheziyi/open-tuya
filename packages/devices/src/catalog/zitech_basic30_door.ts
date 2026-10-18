@@ -41,6 +41,15 @@ const entry: TuyaDeviceEntry = {
             raw: false,
             dependsOn: {
               dataPoint: "2",
+              constraint: {
+                dataPoint: "2",
+                values: [{ raw: true, value: "close" }],
+                redirect: {
+                  dataPoint: "3",
+                  values: [{ raw: true, value: "stop" }],
+                  otherwise: null,
+                },
+              },
               conditions: [
                 {
                   when: [true],
@@ -51,6 +60,7 @@ const entry: TuyaDeviceEntry = {
                     redirect: {
                       dataPoint: "3",
                       values: [{ raw: true, value: "stop" }],
+                      otherwise: null,
                     },
                   },
                 },
@@ -60,6 +70,7 @@ const entry: TuyaDeviceEntry = {
                   redirect: {
                     dataPoint: "3",
                     values: [{ raw: true, value: "stop" }],
+                    otherwise: null,
                   },
                 },
               ],
@@ -72,13 +83,19 @@ const entry: TuyaDeviceEntry = {
         kind: "number",
         min: 0,
         max: 100,
-        dependsOn: { dataPoint: "116", conditions: [{ when: [false] }] },
+        dependsOn: {
+          dataPoint: "116",
+          conditions: [{ when: [false], value: null }],
+        },
       },
       currentPosition: {
         dataPoint: "114",
         kind: "sensor",
         readOnly: true,
-        dependsOn: { dataPoint: "116", conditions: [{ when: [false] }] },
+        dependsOn: {
+          dataPoint: "116",
+          conditions: [{ when: [false], value: null }],
+        },
       },
       alarmNotifications: { dataPoint: "6", kind: "switch" },
       door: {

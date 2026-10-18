@@ -66,6 +66,29 @@ does until a source or a capture settles it.
 
 ## Device catalog
 
+The catalog drops two keys of tuya-local's device files that say how a client
+polls a data point, as its
+[README](https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/devices/README.md#L199-L218)
+describes them:
+
+| tuya-local key | Data points | Files | What a client misses |
+| --- | --- | --- | --- |
+| `force: true` | 319 | 69 | The device reports the data point only on an explicit update request, as an energy plug its power: without one, rarely or never |
+| `persist: false` | 293 | 93 | The data point signals an event, so its value is forgotten when a full poll leaves it out, and the same value sent again is a new event |
+
+tuya-local's files give 10 controls in 9 files nothing that tells them from
+another control of their name, so each takes an ordinal by its place in the
+file, as [DESIGN.md](DESIGN.md#catalog) decides:
+
+| Control | Device files | Unknown |
+| --- | --- | --- |
+| `secondAlarm` | aixishs_big_siren, gautone_pg103_alarm, kerui_120db_sirenalarm | How an alarm event differs from the alarm binary sensor on another data point: both are named "Alarm", and where the sensor's class is sound, `alarmSound` already names the alarm sound switch |
+| `secondStatus` | ipengen_goe3116a_evcharger, ipengen_goe3132a_evcharger | What a status sensor's `status` data point reports beside its own value |
+| `secondColorBrightness` | asahom_outdoor_rgbcw_lights | How a light's `color_brightness` data point differs from the brightness in its colour |
+| `secondWaterTemperature` | kogan_bidet | What a water temperature number's `temperature` data point holds beside its value |
+| `secondFault`, `secondFaultCode` | rohnson_r9530_dehumidifier | How a fault event and its fault code differ from the fault binary sensor and its fault code |
+| `secondRealTime` | single_phase_clamp_meter | How a "Real time" event differs from the "Real time" select beside it |
+
 `@open-tuya/devices` converts a tuya-local device file whole or not at all.
 These use a feature the conversion does not take yet, and are left out of the
 catalog until it does.
@@ -75,6 +98,6 @@ catalog until it does.
 | tuya-local feature | Devices | Device files |
 | --- | --- | --- |
 | a `mask` of an odd number of hex digits on a control that can be written | 2 | cecotec_congax70_vacuum, mirabella_geniopixel_light |
-| not valid YAML 1.2 | 1 | poolsana_heatpump |
+| not valid YAML | 1 | poolsana_heatpump |
 
 <!-- End of generated list. -->

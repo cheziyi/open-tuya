@@ -23,6 +23,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Comfort", value: "heat" },
         ],
         otherwise: "heat",
+        ownRuleReadOnly: true,
       },
       targetTemperatureInC: {
         dataPoint: "125",

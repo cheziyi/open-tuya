@@ -32,6 +32,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
         values: [{ raw: "double_click", value: 2 }],
+        otherwise: null,
       },
       button2: {
         dataPoint: "2",
@@ -48,6 +49,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
         values: [{ raw: "double_click", value: 2 }],
+        otherwise: null,
       },
       button3: {
         dataPoint: "3",
@@ -64,6 +66,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
         values: [{ raw: "double_click", value: 2 }],
+        otherwise: null,
       },
       button4: {
         dataPoint: "4",
@@ -80,6 +83,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
         values: [{ raw: "double_click", value: 2 }],
+        otherwise: null,
       },
       button5: {
         dataPoint: "5",
@@ -96,6 +100,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
         values: [{ raw: "double_click", value: 2 }],
+        otherwise: null,
       },
       button6: {
         dataPoint: "6",
@@ -112,6 +117,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
         values: [{ raw: "double_click", value: 2 }],
+        otherwise: null,
       },
       batteryInPercent: {
         dataPoint: "10",

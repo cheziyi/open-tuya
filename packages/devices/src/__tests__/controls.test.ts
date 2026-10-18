@@ -142,8 +142,10 @@ describe("readControls", () => {
     });
   });
 
-  it("leaves out a control whose data point is missing, unless it has a value for that", () => {
-    expect(readControls(ENTRY, {})).toEqual({ device: { childLock: false } });
+  it("reads a missing data point by its rule for that, else by its own rule", () => {
+    expect(readControls(ENTRY, {})).toEqual({
+      device: { fault: true, overheat: false, childLock: false },
+    });
   });
 });
 
@@ -195,8 +197,8 @@ describe("writeControls", () => {
 // The expected values are tuya-local's: its tests' for data points 1 and 2,
 // and for data points 3 and 5 computed by the expressions of its get_value
 // and get_values_to_set at
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L486-L514
-// and https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L1129-L1161.
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L486-L514
+// and https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L1129-L1161.
 const PACKED: TuyaDeviceEntry = {
   name: "Meter",
   productKeys: [],
@@ -242,6 +244,7 @@ const PACKED: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       brightness: {
@@ -348,7 +351,7 @@ describe("writeControls with a mask", () => {
 
 // Each control depends on another data point, as tuya-local's constraint and
 // conditions describe at
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/devices/README.md#L490-L578.
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/devices/README.md#L488-L576.
 const DEPENDENT: TuyaDeviceEntry = {
   name: "Thermostat",
   productKeys: [],
@@ -537,10 +540,10 @@ describe("writeControls with conditions", () => {
     ).toThrow(expect.objectContaining({ code: "VALUE_UNAVAILABLE" }));
   });
 
-  it("passes on a value only a read-only condition gives, as given", () => {
-    expect(
+  it("throws a TypeError for a value only a read-only condition gives, which its boolean cannot hold", () => {
+    expect(() =>
       writeControls(DEPENDENT, { climate: { hvacMode: "boost" } }),
-    ).toEqual({ "1": "boost" });
+    ).toThrow(TypeError);
   });
 });
 
@@ -555,7 +558,7 @@ describe("listDependencies", () => {
 
 // Each control reads, and most write, another data point in some states, as
 // tuya-local's value_redirect, value_mirror and range describe at
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/devices/README.md#L438-L465.
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/devices/README.md#L436-L463.
 const REDIRECTING: TuyaDeviceEntry = {
   name: "Heater",
   productKeys: [],
@@ -704,6 +707,48 @@ describe("writeControls with redirects", () => {
     ).toThrow(expect.objectContaining({ code: "VALUE_UNAVAILABLE" }));
   });
 
+  it("follows the current raw value's redirect for a value only an unreachable condition gives", () => {
+    // aquaviva_avh15s_heatpump.yaml: off is a condition on the mode's own
+    // data point, so while it is hot, the power switch takes off.
+    const entry: TuyaDeviceEntry = {
+      name: "Heat pump",
+      productKeys: [],
+      dataPoints: { "1": { type: "boolean" }, "4": { type: "string" } },
+      components: {
+        waterHeater: {
+          mode: {
+            dataPoint: "4",
+            kind: "select",
+            values: [
+              {
+                raw: "hot",
+                dependsOn: {
+                  dataPoint: "4",
+                  conditions: [
+                    { when: ["hot"], value: "heat_pump" },
+                    { when: ["cool"], value: "off" },
+                  ],
+                },
+                redirect: {
+                  dataPoint: "1",
+                  values: [
+                    { raw: false, value: "off" },
+                    { raw: true, value: "heat_pump" },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      },
+      source: { file: "heatpump.yaml", commit: "0".repeat(40) },
+    };
+
+    expect(
+      writeControls(entry, { waterHeater: { mode: "off" } }, { "4": "hot" }),
+    ).toEqual({ "1": false });
+  });
+
   it("checks a value against the range of the condition that holds", () => {
     expect(
       writeControls(
@@ -760,7 +805,7 @@ describe("resolveControl", () => {
 // A rule or a condition applies only while another data point allows it, and
 // a condition can make the control unreadable and unwritable, as tuya-local's
 // available and invalid describe at
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/devices/README.md#L466-L489.
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/devices/README.md#L464-L487.
 const AVAILABLE: TuyaDeviceEntry = {
   name: "Dehumidifier",
   productKeys: [],
@@ -938,7 +983,7 @@ describe("readControls with a constraint read through its conversion", () => {
           whenAbsent: {
             dependsOn: {
               dataPoint: "1",
-              reads: {
+              constraint: {
                 dataPoint: "1",
                 mask: "0700",
                 values: [
@@ -961,7 +1006,7 @@ describe("readControls with a constraint read through its conversion", () => {
           scale: 1000,
           dependsOn: {
             dataPoint: "1",
-            reads: { dataPoint: "1", mask: "0001" },
+            constraint: { dataPoint: "1", mask: "0001" },
             readOnly: true,
             conditions: [{ when: [1], scale: -1000 }],
           },
@@ -1021,5 +1066,339 @@ describe("readControls with a condition's value for an absent data point", () =>
 
   it("leaves the control out while the condition does not hold", () => {
     expect(readControls(entry, { "2": true })).toEqual({});
+  });
+});
+
+// Each value below is the one tuya-local's TuyaDpsConfig gives for the same
+// rules, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L750-L1162,
+// as in its device files named beside each case.
+describe("readControls and writeControls as tuya-local converts", () => {
+  const entry: TuyaDeviceEntry = {
+    name: "Heat pump",
+    productKeys: [],
+    dataPoints: {
+      "1": { type: "boolean" },
+      "2": { type: "integer", optional: true },
+      "3": { type: "string" },
+      "4": { type: "integer" },
+      "5": { type: "string" },
+      "6": { type: "string", optional: true },
+      "7": { type: "integer", optional: true },
+      "8": { type: "integer" },
+      "9": { type: "integer" },
+    },
+    components: {
+      climate: {
+        // advancedfires_1500_fireplace.yaml: a firmware that leaves the set
+        // point out sets it in Fahrenheit on another data point.
+        targetTemperature: {
+          dataPoint: "2",
+          kind: "number",
+          dependsOn: {
+            dataPoint: "3",
+            conditions: [{ when: ["f"], redirect: { dataPoint: "4" } }],
+          },
+        },
+        // zephir_zmw4000vsmart_heater.yaml: a hidden mapping's condition
+        // still takes the value it gives.
+        hvacMode: {
+          dataPoint: "1",
+          kind: "select",
+          values: [
+            { raw: false, value: "off" },
+            {
+              raw: true,
+              readOnly: true,
+              dependsOn: {
+                dataPoint: "5",
+                conditions: [
+                  { when: ["off"], value: "fan_only" },
+                  { when: ["auto"], value: "heat" },
+                ],
+              },
+            },
+          ],
+        },
+        // fairland_x20_poolheatpump.yaml: a mapping is available while a
+        // data point the device leaves out reads its own rule's true.
+        mode: {
+          dataPoint: "6",
+          kind: "select",
+          values: [
+            {
+              raw: "c",
+              value: "cool",
+              availableWhile: { dataPoint: "7", otherwise: true },
+            },
+          ],
+        },
+        // sundream_lcseries_chlorinator.yaml: a hidden rule with no dps_val
+        // gives way to the redirect of the rule for an absent data point.
+        levelInPercent: {
+          dataPoint: "7",
+          kind: "number",
+          whenAbsent: { redirect: { dataPoint: "8", min: 5, max: 100 } },
+          step: 50,
+          ownRuleReadOnly: true,
+        },
+        // avatto_curtain_light.yaml: a step rounds half to even.
+        positionInPercent: { dataPoint: "9", kind: "number", step: 10 },
+      },
+    },
+    source: { file: "heatpump.yaml", commit: "0".repeat(40) },
+  };
+
+  it("reads a data point the device leaves out by its own rule's redirect", () => {
+    expect(readControls(entry, { "3": "f", "4": 75 }).climate).toEqual({
+      targetTemperature: 75,
+    });
+  });
+
+  it("writes a hidden mapping's raw value through the condition giving the value", () => {
+    expect(
+      writeControls(
+        entry,
+        { climate: { hvacMode: "fan_only" } },
+        { "5": "auto" },
+      ),
+    ).toEqual({ "1": true, "5": "off" });
+  });
+
+  it("takes a mapping whose availability reads true from an absent data point's rule", () => {
+    expect(writeControls(entry, { climate: { mode: "cool" } }, {})).toEqual({
+      "6": "c",
+    });
+  });
+
+  it("writes through the absent rule's redirect where the own rule is hidden", () => {
+    expect(
+      writeControls(entry, { climate: { levelInPercent: 55 } }, {}),
+    ).toEqual({ "8": 55 });
+  });
+
+  it("rounds a step half to even", () => {
+    expect(
+      writeControls(entry, { climate: { positionInPercent: 25 } }, {}),
+    ).toEqual({ "9": 20 });
+    expect(
+      writeControls(entry, { climate: { positionInPercent: 35 } }, {}),
+    ).toEqual({ "9": 40 });
+  });
+
+  it("throws a TypeError for text no rule takes, on a boolean", () => {
+    expect(() =>
+      writeControls(entry, { climate: { hvacMode: "dry" } }, { "5": "eco" }),
+    ).toThrow(TypeError);
+  });
+});
+
+describe("readControls with no value", () => {
+  const entry: TuyaDeviceEntry = {
+    name: "Doorbell",
+    productKeys: [],
+    dataPoints: {
+      "1": { type: "string" },
+      "2": { type: "boolean" },
+      "3": { type: "string" },
+      "4": { type: "string", optional: true },
+      "5": { type: "string" },
+    },
+    components: {
+      device: {
+        // bcom_intercom_camera.yaml: an empty event has no value.
+        doorbell: {
+          dataPoint: "1",
+          kind: "event",
+          readOnly: true,
+          values: [{ raw: "", value: null }],
+          otherwise: "ring",
+        },
+        // axen_ks100w_heatpump.yaml: a condition with no value.
+        hvacAction: {
+          dataPoint: "2",
+          kind: "sensor",
+          readOnly: true,
+          values: [
+            {
+              raw: true,
+              dependsOn: {
+                dataPoint: "5",
+                conditions: [
+                  { when: ["heat"], value: "heating" },
+                  { when: ["auto"], value: null },
+                ],
+              },
+            },
+          ],
+        },
+        // ble_hu06_lock.yaml: a mapping with no value reads its raw value
+        // rather than the rule for any other.
+        battery: {
+          dataPoint: "3",
+          kind: "sensor",
+          readOnly: true,
+          values: [{ raw: "low_battery_keypad" }],
+          otherwise: "normal",
+        },
+        // hiniso_rm10s_dehumidifier.yaml: a dps_val of the text None matches
+        // a data point the device leaves out.
+        timer: {
+          dataPoint: "4",
+          kind: "select",
+          values: [{ raw: "None", value: "cancel" }],
+        },
+      },
+    },
+    source: { file: "doorbell.yaml", commit: "0".repeat(40) },
+  };
+
+  it("reads nothing for a value of null, and a raw value for a mapping with no value", () => {
+    expect(
+      readControls(entry, {
+        "1": "",
+        "2": true,
+        "3": "low_battery_keypad",
+        "5": "auto",
+      }),
+    ).toEqual({ device: { battery: "low_battery_keypad", timer: "cancel" } });
+    expect(
+      readControls(entry, { "1": "x", "2": true, "3": "low", "5": "heat" })
+        .device,
+    ).toEqual({
+      doorbell: "ring",
+      hvacAction: "heating",
+      battery: "normal",
+      timer: "cancel",
+    });
+  });
+});
+
+describe("writeControls with the data point's type", () => {
+  const entry: TuyaDeviceEntry = {
+    name: "Dehumidifier",
+    productKeys: [],
+    dataPoints: {
+      "1": { type: "string" },
+      "2": { type: "integer" },
+      "3": { type: "string" },
+      "4": { type: "boolean" },
+      "5": { type: "boolean" },
+      "6": { type: "string" },
+      "7": { type: "boolean" },
+    },
+    components: {
+      device: {
+        // breville_lad208_dehumidifier.yaml: a number on a string.
+        mode: {
+          dataPoint: "1",
+          kind: "select",
+          values: [{ raw: 0, value: "auto" }],
+        },
+        // aygrochy_inline_wifi_air_vent.yaml: a lock on an integer.
+        childLock: { dataPoint: "2", kind: "switch" },
+        // abir_x9_vacuum.yaml: stopping sets activate, whose own condition
+        // sets pause.
+        command: {
+          dataPoint: "3",
+          kind: "select",
+          values: [
+            {
+              raw: "smart",
+              value: "smart",
+              dependsOn: {
+                dataPoint: "4",
+                constraint: {
+                  dataPoint: "4",
+                  values: [
+                    { raw: true, value: true },
+                    {
+                      raw: false,
+                      value: false,
+                      dependsOn: {
+                        dataPoint: "5",
+                        conditions: [{ when: [true], value: false }],
+                      },
+                    },
+                  ],
+                },
+                conditions: [{ when: [false], value: "stop" }],
+              },
+            },
+          ],
+        },
+        // eurom_sani_heater.yaml: C is the rule for any other raw value,
+        // which on a boolean is false alone.
+        temperatureUnit: {
+          dataPoint: "4",
+          kind: "select",
+          values: [{ raw: true, value: "F" }],
+          otherwise: "C",
+        },
+        name: { dataPoint: "6", kind: "text" },
+        // poolex_icespa70_heatpump.yaml: any mode but off is on, and sets
+        // the mode.
+        hvacMode: {
+          dataPoint: "5",
+          kind: "select",
+          values: [{ raw: false, value: "off" }],
+          dependsOn: {
+            dataPoint: "1",
+            conditions: [{ when: ["0"], value: "heat_cool" }],
+          },
+        },
+        // A boolean no mapping names leaves its own rule both values.
+        heating: { dataPoint: "7", kind: "select", otherwise: "on" },
+      },
+    },
+    source: { file: "dehumidifier.yaml", commit: "0".repeat(40) },
+  };
+
+  it("writes a raw value as its data point's type", () => {
+    expect(
+      writeControls(entry, { device: { mode: "auto", childLock: true } }, {}),
+    ).toEqual({ "1": "0", "2": 1 });
+  });
+
+  it("sets a constraint through the constraint's own conditions", () => {
+    expect(
+      writeControls(entry, { device: { command: "stop" } }, { "4": true }),
+    ).toEqual({ "3": "smart", "4": false, "5": true });
+  });
+
+  it("writes a boolean's rule for any other raw value as the value no mapping names", () => {
+    expect(
+      writeControls(entry, { device: { temperatureUnit: "C" } }, {}),
+    ).toEqual({ "4": false });
+    expect(
+      writeControls(entry, { device: { hvacMode: "heat_cool" } }, {}),
+    ).toEqual({ "1": "0", "5": true });
+  });
+
+  it("throws a TypeError for a value its data point's type cannot hold", () => {
+    expect(() =>
+      writeControls(entry, { device: { heating: "on" } }, {}),
+    ).toThrow(TypeError);
+    expect(() => writeControls(entry, { device: { name: true } }, {})).toThrow(
+      TypeError,
+    );
+  });
+});
+
+describe("writeControls with a mask, as tuya-local truncates", () => {
+  const entry: TuyaDeviceEntry = {
+    name: "Meter",
+    productKeys: [],
+    dataPoints: { "1": { type: "integer" } },
+    components: {
+      device: { nibble: { dataPoint: "1", mask: "00F0", kind: "number" } },
+    },
+    source: { file: "meter.yaml", commit: "0".repeat(40) },
+  };
+
+  it("drops what a value has below the mask's lowest bit", () => {
+    expect(
+      writeControls(entry, { device: { nibble: 2.75 } }, { "1": 0 }),
+    ).toEqual({ "1": 0x20 });
   });
 });

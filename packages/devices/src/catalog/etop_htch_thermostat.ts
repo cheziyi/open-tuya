@@ -42,6 +42,13 @@ const entry: TuyaDeviceEntry = {
             raw: true,
             dependsOn: {
               dataPoint: "6",
+              constraint: {
+                dataPoint: "6",
+                values: [
+                  { raw: true, value: "cool" },
+                  { raw: false, value: "heat" },
+                ],
+              },
               conditions: [
                 { when: [true], value: "cool" },
                 { when: [false], value: "heat" },
@@ -69,6 +76,13 @@ const entry: TuyaDeviceEntry = {
             raw: "working",
             dependsOn: {
               dataPoint: "6",
+              constraint: {
+                dataPoint: "6",
+                values: [
+                  { raw: true, value: "cool" },
+                  { raw: false, value: "heat" },
+                ],
+              },
               conditions: [
                 { when: [true], value: "cooling" },
                 { when: [false], value: "heating" },

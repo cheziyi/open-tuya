@@ -20,11 +20,15 @@ const entry: TuyaDeviceEntry = {
     device: {
       manualFeed: { dataPoint: "3", kind: "number", min: 1, max: 6 },
       mealPlan: { dataPoint: "1", kind: "text" },
-      slowFeeding: { dataPoint: "6", kind: "switch" },
+      slowFeeding: {
+        dataPoint: "6",
+        kind: "switch",
+        values: [{ raw: false }, { raw: true }],
+      },
       fault: {
         dataPoint: "14",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },

@@ -27,8 +27,9 @@ const entry: TuyaDeviceEntry = {
           { raw: "normal", value: false },
         ],
         otherwise: false,
+        ownRuleReadOnly: true,
       },
-      mode: {
+      preset: {
         dataPoint: "2",
         kind: "select",
         values: [

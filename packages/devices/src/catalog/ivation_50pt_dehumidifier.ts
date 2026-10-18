@@ -61,7 +61,7 @@ const entry: TuyaDeviceEntry = {
       tankFull: {
         dataPoint: "110",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       defrost: { dataPoint: "111", kind: "sensor", readOnly: true },
@@ -74,9 +74,10 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "11",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },

@@ -24,23 +24,28 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     lock: {
-      unlockFingerprint: { dataPoint: "1", kind: "number" },
-      unlockPassword: { dataPoint: "2", kind: "number" },
-      unlockTemporaryPassword: { dataPoint: "3", kind: "number" },
-      unlockDynamicPassword: { dataPoint: "4", kind: "number" },
-      unlockCard: { dataPoint: "5", kind: "number" },
+      unlockFingerprint: { dataPoint: "1", kind: "sensor", readOnly: true },
+      unlockPassword: { dataPoint: "2", kind: "sensor", readOnly: true },
+      unlockTemporaryPassword: {
+        dataPoint: "3",
+        kind: "sensor",
+        readOnly: true,
+      },
+      unlockDynamicPassword: { dataPoint: "4", kind: "sensor", readOnly: true },
+      unlockCard: { dataPoint: "5", kind: "sensor", readOnly: true },
       jammed: {
         dataPoint: "8",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [
           { raw: 16, value: true },
           { raw: 128, value: true },
         ],
         otherwise: false,
       },
-      requestUnlock: { dataPoint: "9", kind: "number" },
+      requestUnlock: { dataPoint: "9", kind: "sensor", readOnly: true },
       approveUnlock: { dataPoint: "10", kind: "switch" },
-      unlockApp: { dataPoint: "15", kind: "number" },
+      unlockApp: { dataPoint: "15", kind: "sensor", readOnly: true },
       fingersEnrolled: { dataPoint: "25", kind: "text" },
       passwordsEnrolled: { dataPoint: "26", kind: "text" },
       cardsEnrolled: { dataPoint: "27", kind: "text" },
@@ -74,7 +79,7 @@ const entry: TuyaDeviceEntry = {
       duress: {
         dataPoint: "16",
         kind: "sensor",
-        measures: "safety",
+        measures: "hazard",
         readOnly: true,
       },
       tampered: {

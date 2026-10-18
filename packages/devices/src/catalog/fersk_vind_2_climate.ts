@@ -82,12 +82,20 @@ const entry: TuyaDeviceEntry = {
           { raw: 3, value: "high" },
         ],
       },
-      temperatureUnit: { dataPoint: "19", kind: "text" },
+      temperatureUnit: {
+        dataPoint: "19",
+        kind: "select",
+        values: [
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
+        ],
+      },
       hvacAction: {
         dataPoint: "102",
         kind: "sensor",
         readOnly: true,
         values: [{ raw: true, value: "defrosting" }],
+        otherwise: null,
       },
       swingMode: {
         dataPoint: "104",
@@ -102,14 +110,6 @@ const entry: TuyaDeviceEntry = {
         kind: "select",
         values: [{ raw: 1, value: false }],
         otherwise: true,
-      },
-      temperatureUnit2: {
-        dataPoint: "19",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
       },
       sleep: { dataPoint: "101", kind: "switch" },
       timerInHours: {
@@ -130,7 +130,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "106",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },

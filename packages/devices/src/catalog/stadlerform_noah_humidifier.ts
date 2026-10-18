@@ -62,7 +62,7 @@ const entry: TuyaDeviceEntry = {
       filterChange: {
         dataPoint: "104",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: false, value: false },

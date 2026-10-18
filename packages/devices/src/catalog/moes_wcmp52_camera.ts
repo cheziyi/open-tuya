@@ -54,7 +54,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       cameraPrivacy: { dataPoint: "105", kind: "switch" },
-      cameraRecord: { dataPoint: "150", kind: "switch" },
+      recording: { dataPoint: "150", kind: "switch" },
       motionDetection: { dataPoint: "134", kind: "switch" },
       flipImage: { dataPoint: "103", kind: "switch" },
       watermark: { dataPoint: "104", kind: "switch" },
@@ -97,6 +97,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "115",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "detected",
       },
       motionSnapshot: {
@@ -180,9 +181,9 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "141",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "detected",
       },
-      sound2: { dataPoint: "141", kind: "sensor", readOnly: true },
       recordingMode: {
         dataPoint: "151",
         kind: "select",
@@ -225,6 +226,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "185",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "alarm",
       },
       alarmMessage: {
@@ -256,7 +258,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "1", value: "static" },
         ],
       },
-      zoomInX: {
+      zoom: {
         dataPoint: "231",
         kind: "number",
         unit: "x",

@@ -44,8 +44,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 1000,
       },
-      scene: { dataPoint: "101", kind: "text" },
-      scene2: {
+      scene: {
         dataPoint: "101",
         kind: "select",
         type: "string",

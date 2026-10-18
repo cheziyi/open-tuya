@@ -32,6 +32,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         measures: "ph",
         readOnly: true,
+        values: [{ raw: 1500, value: null }],
         scale: 100,
       },
       oxidationReductionPotentialInMillivolts: {

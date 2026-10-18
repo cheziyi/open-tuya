@@ -28,6 +28,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "nobody", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       presenceState: {

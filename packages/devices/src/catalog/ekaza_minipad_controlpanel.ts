@@ -44,6 +44,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "order", value: false },
         ],
         otherwise: false,
+        ownRuleReadOnly: true,
       },
       repeat: {
         dataPoint: "87",
@@ -54,6 +55,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "order", value: "off" },
         ],
         otherwise: "off",
+        ownRuleReadOnly: true,
       },
       microphone: { dataPoint: "81", kind: "switch" },
       bluetooth: { dataPoint: "84", kind: "switch" },

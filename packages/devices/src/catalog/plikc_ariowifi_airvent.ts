@@ -31,8 +31,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     humidifier: {
-      on: { dataPoint: "1", kind: "switch" },
-      on2: { dataPoint: "104", kind: "switch" },
+      on: { dataPoint: "104", kind: "switch" },
       currentHumidityInPercent: {
         dataPoint: "101",
         kind: "sensor",
@@ -110,7 +109,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "45",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -121,6 +120,7 @@ const entry: TuyaDeviceEntry = {
       workingWeekSchedule: { dataPoint: "111", kind: "text" },
       daySchedule: { dataPoint: "112", kind: "text" },
     },
+    device: { on: { dataPoint: "1", kind: "switch" } },
   },
   source: {
     file: "plikc_ariowifi_airvent.yaml",

@@ -49,6 +49,13 @@ const entry: TuyaDeviceEntry = {
         max: 30,
         dependsOn: {
           dataPoint: "19",
+          constraint: {
+            dataPoint: "19",
+            values: [
+              { raw: "f", value: "F" },
+              { raw: "c", value: "C" },
+            ],
+          },
           conditions: [
             {
               when: ["f"],
@@ -67,6 +74,13 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "19",
+          constraint: {
+            dataPoint: "19",
+            values: [
+              { raw: "f", value: "F" },
+              { raw: "c", value: "C" },
+            ],
+          },
           conditions: [{ when: ["f"], redirect: { dataPoint: "23" } }],
         },
       },
@@ -78,6 +92,24 @@ const entry: TuyaDeviceEntry = {
             raw: "f1",
             dependsOn: {
               dataPoint: "1",
+              constraint: {
+                dataPoint: "1",
+                values: [
+                  {
+                    raw: true,
+                    dependsOn: {
+                      dataPoint: "4",
+                      conditions: [
+                        { when: ["cool"], value: "cool" },
+                        { when: ["fan"], value: "fan_only" },
+                        { when: ["smartcool"], value: "auto" },
+                        { when: ["dry"], value: "dry" },
+                      ],
+                    },
+                  },
+                  { raw: false, value: "off" },
+                ],
+              },
               conditions: [
                 { when: [false], value: "off" },
                 { when: [true], value: "low" },
@@ -88,6 +120,24 @@ const entry: TuyaDeviceEntry = {
             raw: "f2",
             dependsOn: {
               dataPoint: "1",
+              constraint: {
+                dataPoint: "1",
+                values: [
+                  {
+                    raw: true,
+                    dependsOn: {
+                      dataPoint: "4",
+                      conditions: [
+                        { when: ["cool"], value: "cool" },
+                        { when: ["fan"], value: "fan_only" },
+                        { when: ["smartcool"], value: "auto" },
+                        { when: ["dry"], value: "dry" },
+                      ],
+                    },
+                  },
+                  { raw: false, value: "off" },
+                ],
+              },
               conditions: [
                 { when: [false], value: "off" },
                 { when: [true], value: "diffuse" },
@@ -98,6 +148,24 @@ const entry: TuyaDeviceEntry = {
             raw: "f3",
             dependsOn: {
               dataPoint: "1",
+              constraint: {
+                dataPoint: "1",
+                values: [
+                  {
+                    raw: true,
+                    dependsOn: {
+                      dataPoint: "4",
+                      conditions: [
+                        { when: ["cool"], value: "cool" },
+                        { when: ["fan"], value: "fan_only" },
+                        { when: ["smartcool"], value: "auto" },
+                        { when: ["dry"], value: "dry" },
+                      ],
+                    },
+                  },
+                  { raw: false, value: "off" },
+                ],
+              },
               conditions: [
                 { when: [false], value: "off" },
                 { when: [true], value: "medium" },
@@ -108,6 +176,24 @@ const entry: TuyaDeviceEntry = {
             raw: "f4",
             dependsOn: {
               dataPoint: "1",
+              constraint: {
+                dataPoint: "1",
+                values: [
+                  {
+                    raw: true,
+                    dependsOn: {
+                      dataPoint: "4",
+                      conditions: [
+                        { when: ["cool"], value: "cool" },
+                        { when: ["fan"], value: "fan_only" },
+                        { when: ["smartcool"], value: "auto" },
+                        { when: ["dry"], value: "dry" },
+                      ],
+                    },
+                  },
+                  { raw: false, value: "off" },
+                ],
+              },
               conditions: [
                 { when: [false], value: "off" },
                 { when: [true], value: "high" },
@@ -118,6 +204,24 @@ const entry: TuyaDeviceEntry = {
             raw: "f5",
             dependsOn: {
               dataPoint: "1",
+              constraint: {
+                dataPoint: "1",
+                values: [
+                  {
+                    raw: true,
+                    dependsOn: {
+                      dataPoint: "4",
+                      conditions: [
+                        { when: ["cool"], value: "cool" },
+                        { when: ["fan"], value: "fan_only" },
+                        { when: ["smartcool"], value: "auto" },
+                        { when: ["dry"], value: "dry" },
+                      ],
+                    },
+                  },
+                  { raw: false, value: "off" },
+                ],
+              },
               conditions: [
                 { when: [false], value: "off" },
                 { when: [true], value: "top" },
@@ -143,14 +247,6 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       sleepMode: { dataPoint: "102", kind: "switch" },
-      temperatureUnit2: {
-        dataPoint: "19",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       sleep: { dataPoint: "102", kind: "switch" },
       timerInHours: {
         dataPoint: "22",

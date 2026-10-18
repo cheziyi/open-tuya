@@ -25,11 +25,16 @@ const entry: TuyaDeviceEntry = {
   components: {
     fan: {
       on: { dataPoint: "1", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "5",
         kind: "text",
         dependsOn: {
           dataPoint: "106",
+          constraint: {
+            dataPoint: "106",
+            values: [{ raw: "dehumidify", value: true }],
+            otherwise: false,
+          },
           conditions: [
             {
               when: ["fan_only"],
@@ -88,7 +93,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "19",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -108,7 +113,7 @@ const entry: TuyaDeviceEntry = {
       replaceFilter: {
         dataPoint: "19",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 8, value: true }],
         otherwise: false,

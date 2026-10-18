@@ -28,7 +28,7 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      mode: {
+      preset: {
         dataPoint: "2",
         kind: "select",
         values: [
@@ -55,7 +55,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "9",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

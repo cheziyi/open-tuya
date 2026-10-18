@@ -53,7 +53,13 @@ const entry: TuyaDeviceEntry = {
         min: 60,
         max: 1800,
       },
-      uvSterilization: { dataPoint: "104", kind: "switch" },
+      uvSterilizationEnabled: { dataPoint: "104", kind: "switch" },
+      uvSterilization: {
+        dataPoint: "115",
+        kind: "sensor",
+        measures: "running",
+        readOnly: true,
+      },
       uvTimeInSeconds: {
         dataPoint: "105",
         kind: "number",
@@ -90,7 +96,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "118",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -113,12 +119,6 @@ const entry: TuyaDeviceEntry = {
         measures: "duration",
         readOnly: true,
         unit: "s",
-      },
-      uvSterilization2: {
-        dataPoint: "115",
-        kind: "sensor",
-        measures: "running",
-        readOnly: true,
       },
       deodorizing: {
         dataPoint: "116",

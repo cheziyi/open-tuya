@@ -36,6 +36,11 @@ const entry: TuyaDeviceEntry = {
         max: 37,
         dependsOn: {
           dataPoint: "13",
+          constraint: {
+            dataPoint: "13",
+            values: [{ raw: "1", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [{ when: ["1"], min: 63, max: 99 }],
         },
       },
@@ -58,16 +63,11 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "13",
         kind: "select",
-        values: [{ raw: "1", value: "F" }],
-        otherwise: "C",
-      },
-      temperatureUnit2: {
-        dataPoint: "13",
-        kind: "select",
         values: [
-          { raw: "0", value: "celsius" },
-          { raw: "1", value: "fahrenheit" },
+          { raw: "1", value: "F" },
+          { raw: "0", value: "C" },
         ],
+        otherwise: "C",
       },
       timer: {
         dataPoint: "19",
@@ -88,7 +88,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "23",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -126,6 +126,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "F01", value: "off" },
         ],
         otherwise: "off",
+        ownRuleReadOnly: true,
       },
     },
     embers: {
@@ -158,6 +159,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "C01", value: "off" },
         ],
         otherwise: "off",
+        ownRuleReadOnly: true,
       },
     },
   },

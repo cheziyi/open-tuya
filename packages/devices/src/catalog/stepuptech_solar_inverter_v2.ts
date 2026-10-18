@@ -117,10 +117,13 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit: {
         dataPoint: "113",
-        kind: "sensor",
-        readOnly: true,
-        values: [{ raw: "fahrenheit_degree", value: "F" }],
+        kind: "select",
+        values: [
+          { raw: "fahrenheit_degree", value: "F" },
+          { raw: "centigrade", value: "C" },
+        ],
         otherwise: "C",
+        ownRuleReadOnly: true,
       },
       acVoltageInV: {
         dataPoint: "104",
@@ -142,20 +145,12 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "7",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
       faultCode: { dataPoint: "7", kind: "sensor", readOnly: true },
-      temperatureUnit2: {
-        dataPoint: "113",
-        kind: "select",
-        values: [
-          { raw: "centigrade", value: "celsius" },
-          { raw: "fahrenheit_degree", value: "fahrenheit" },
-        ],
-      },
       currency: {
         dataPoint: "109",
         kind: "select",

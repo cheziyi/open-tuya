@@ -77,8 +77,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "select",
         values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
+          { raw: false, value: "C" },
+          { raw: true, value: "F" },
         ],
       },
       chassisTemperatureInC: {
@@ -98,7 +98,7 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
       },
       turbo: { dataPoint: "107", kind: "switch" },
-      orpInMillivolts: {
+      orpSettingInMillivolts: {
         dataPoint: "108",
         kind: "number",
         measures: "voltage",
@@ -106,6 +106,13 @@ const entry: TuyaDeviceEntry = {
         min: 650,
         max: 800,
         step: 10,
+      },
+      orpInMillivolts: {
+        dataPoint: "111",
+        kind: "sensor",
+        measures: "voltage",
+        readOnly: true,
+        unit: "mV",
       },
       poolVolumeInM3: {
         dataPoint: "109",
@@ -124,13 +131,6 @@ const entry: TuyaDeviceEntry = {
         min: 72,
         max: 76,
         scale: 10,
-      },
-      orpInMillivolts2: {
-        dataPoint: "111",
-        kind: "sensor",
-        measures: "voltage",
-        readOnly: true,
-        unit: "mV",
       },
       phInPh: {
         dataPoint: "112",
@@ -157,7 +157,7 @@ const entry: TuyaDeviceEntry = {
       lowAcidity: {
         dataPoint: "115",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: true, value: true }],
         otherwise: false,
@@ -165,7 +165,7 @@ const entry: TuyaDeviceEntry = {
       calibrationRequired: {
         dataPoint: "116",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: true, value: true }],
         otherwise: false,
@@ -173,7 +173,7 @@ const entry: TuyaDeviceEntry = {
       lowSalt: {
         dataPoint: "117",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: true, value: true }],
         otherwise: false,
@@ -181,7 +181,7 @@ const entry: TuyaDeviceEntry = {
       sensorFault: {
         dataPoint: "118",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: true, value: true }],
         otherwise: false,
@@ -259,7 +259,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "129",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -275,6 +275,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       timer2: {
@@ -285,6 +286,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       timer1OnInHours: {

@@ -78,8 +78,8 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "high" },
         ],
       },
+      heatingEnabled: { dataPoint: "107", kind: "switch" },
       humiditySetting: { dataPoint: "106", kind: "switch" },
-      heating2: { dataPoint: "107", kind: "switch" },
       temperatureInF: {
         dataPoint: "12",
         kind: "sensor",
@@ -97,7 +97,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -153,7 +153,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: 100 },
         ],
       },
-      mode: {
+      preset: {
         dataPoint: "104",
         kind: "select",
         values: [

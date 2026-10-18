@@ -81,4 +81,23 @@ describe("findDeviceEntries", () => {
       [],
     );
   });
+
+  it("matches by any of the product keys a device is known by", () => {
+    expect(
+      findDeviceEntries(
+        { productKeys: ["cloudProductId", "37mnhia3pojleqfh"] },
+        CATALOG,
+      ),
+    ).toEqual([PLUG, LIGHT]);
+  });
+
+  it("takes a whole number or a string Python's int() reads as an integer, and nothing else", () => {
+    const reported = (value: number | string) =>
+      findDeviceEntries({ dataPoints: { "1": true, "9": value } }, [PLUG]);
+
+    expect(reported(12)).toEqual([PLUG]);
+    expect(reported(" 1_000 ")).toEqual([PLUG]);
+    expect(reported(1.5)).toEqual([]);
+    expect(reported("1e3")).toEqual([]);
+  });
 });

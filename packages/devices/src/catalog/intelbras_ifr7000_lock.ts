@@ -29,12 +29,16 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     lock: {
-      unlockFingerprint: { dataPoint: "1", kind: "number" },
-      unlockPassword: { dataPoint: "2", kind: "number" },
-      unlockTemporaryPassword: { dataPoint: "3", kind: "number" },
-      unlockDynamicPassword: { dataPoint: "4", kind: "number" },
-      unlockCard: { dataPoint: "5", kind: "number" },
-      unlockKey: { dataPoint: "7", kind: "number" },
+      unlockFingerprint: { dataPoint: "1", kind: "sensor", readOnly: true },
+      unlockPassword: { dataPoint: "2", kind: "sensor", readOnly: true },
+      unlockTemporaryPassword: {
+        dataPoint: "3",
+        kind: "sensor",
+        readOnly: true,
+      },
+      unlockDynamicPassword: { dataPoint: "4", kind: "sensor", readOnly: true },
+      unlockCard: { dataPoint: "5", kind: "sensor", readOnly: true },
+      unlockKey: { dataPoint: "7", kind: "sensor", readOnly: true },
       lockState: {
         dataPoint: "8",
         kind: "sensor",
@@ -46,10 +50,10 @@ const entry: TuyaDeviceEntry = {
       },
       alarm: { dataPoint: "9", kind: "text" },
       remoteResult: { dataPoint: "22", kind: "switch" },
-      unlockApp: { dataPoint: "41", kind: "number" },
+      unlockApp: { dataPoint: "41", kind: "sensor", readOnly: true },
       lockRaw: { dataPoint: "47", kind: "text" },
       lockMotorStatus: { dataPoint: "57", kind: "switch" },
-      unlockVoice: { dataPoint: "62", kind: "number" },
+      unlockVoice: { dataPoint: "62", kind: "sensor", readOnly: true },
       batteryInPercent: {
         dataPoint: "10",
         kind: "sensor",

@@ -65,6 +65,15 @@ const entry: TuyaDeviceEntry = {
         max: 700,
         dependsOn: {
           dataPoint: "4",
+          constraint: {
+            dataPoint: "4",
+            values: [
+              { raw: "Manual", value: "manual" },
+              { raw: "Program", value: "program" },
+              { raw: "Holiday", value: "away" },
+              { raw: "TempProg", value: "temp_override" },
+            ],
+          },
           conditions: [{ when: ["Holiday"], redirect: { dataPoint: "105" } }],
         },
         scale: 10,
@@ -124,13 +133,13 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
       },
       externalTemperatureDisplay: { dataPoint: "108", kind: "switch" },
-      maxTargetTemperature: {
+      maximumTargetTemperature: {
         dataPoint: "114",
         kind: "number",
         measures: "temperature",
         unitFrom: "temperatureUnit",
       },
-      minTargetTemperature: {
+      minimumTargetTemperature: {
         dataPoint: "115",
         kind: "number",
         measures: "temperature",
@@ -142,7 +151,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "12",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -152,8 +161,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "select",
         values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
+          { raw: false, value: "C" },
+          { raw: true, value: "F" },
         ],
       },
       holidayLengthInDays: {

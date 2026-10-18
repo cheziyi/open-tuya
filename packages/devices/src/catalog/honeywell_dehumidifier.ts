@@ -44,13 +44,13 @@ const entry: TuyaDeviceEntry = {
       filterCleaningReminder: {
         dataPoint: "25",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       fault: {
         dataPoint: "15",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

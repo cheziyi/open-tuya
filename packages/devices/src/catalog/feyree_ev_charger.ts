@@ -53,7 +53,17 @@ const entry: TuyaDeviceEntry = {
       statusChargerStatus: { dataPoint: "3", kind: "sensor", readOnly: true },
       statusAlarmSet1: { dataPoint: "11", kind: "sensor", readOnly: true },
       statusAlarmSet2: { dataPoint: "12", kind: "sensor", readOnly: true },
-      statusMode: { dataPoint: "14", kind: "sensor", readOnly: true },
+      statusMode: {
+        dataPoint: "14",
+        kind: "sensor",
+        readOnly: true,
+        values: [
+          { raw: "charge_now" },
+          { raw: "charge_pct" },
+          { raw: "charge_energy" },
+          { raw: "charge_schedule" },
+        ],
+      },
       statusBalanceEnergyInKwh: {
         dataPoint: "15",
         kind: "sensor",

@@ -21,7 +21,7 @@ const entry: TuyaDeviceEntry = {
       foodShortage: {
         dataPoint: "14",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,
@@ -29,7 +29,7 @@ const entry: TuyaDeviceEntry = {
       foodBlockage: {
         dataPoint: "14",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
@@ -40,6 +40,7 @@ const entry: TuyaDeviceEntry = {
         measures: "running",
         readOnly: true,
         values: [{ raw: "feeding", value: true }],
+        whenAbsent: { value: null },
         otherwise: false,
       },
     },

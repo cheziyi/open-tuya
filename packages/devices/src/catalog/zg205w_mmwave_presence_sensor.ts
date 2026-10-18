@@ -45,6 +45,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "none", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       motionSensitivity: { dataPoint: "2", kind: "number", min: 0, max: 10 },

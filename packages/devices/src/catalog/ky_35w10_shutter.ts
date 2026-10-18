@@ -74,7 +74,11 @@ const entry: TuyaDeviceEntry = {
           { raw: true, value: "Reverse" },
         ],
       },
-      handPulled: { dataPoint: "108", kind: "switch" },
+      handPulled: {
+        dataPoint: "108",
+        kind: "switch",
+        values: [{ raw: false }],
+      },
     },
   },
   source: {

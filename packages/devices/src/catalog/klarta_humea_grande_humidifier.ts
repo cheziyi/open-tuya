@@ -81,7 +81,7 @@ const entry: TuyaDeviceEntry = {
       tankRemoved: {
         dataPoint: "102",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: "Tank_removed", value: true }],
         otherwise: false,

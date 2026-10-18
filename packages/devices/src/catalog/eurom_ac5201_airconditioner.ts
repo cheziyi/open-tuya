@@ -28,6 +28,11 @@ const entry: TuyaDeviceEntry = {
             raw: true,
             dependsOn: {
               dataPoint: "7",
+              constraint: {
+                dataPoint: "7",
+                values: [{ raw: "Carvan", value: true }],
+                otherwise: false,
+              },
               conditions: [
                 { when: ["Standby"], value: "off", readOnly: true },
                 {
@@ -103,7 +108,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "15",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

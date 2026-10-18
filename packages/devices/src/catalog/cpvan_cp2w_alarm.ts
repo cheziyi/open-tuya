@@ -82,7 +82,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "26",
         kind: "event",
         readOnly: true,
+        values: [{ raw: "", value: null }],
+        whenAbsent: { value: null },
         otherwise: "triggered",
+      },
+      alarmSound: {
+        dataPoint: "32",
+        kind: "sensor",
+        measures: "sound",
+        readOnly: true,
+        values: [{ raw: "alarm", value: true }],
+        otherwise: false,
       },
       alarmMessage: {
         dataPoint: "26",
@@ -122,14 +132,6 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         readOnly: true,
-      },
-      alarm2: {
-        dataPoint: "32",
-        kind: "sensor",
-        measures: "sound",
-        readOnly: true,
-        values: [{ raw: "alarm", value: true }],
-        otherwise: false,
       },
       subClass: {
         dataPoint: "36",

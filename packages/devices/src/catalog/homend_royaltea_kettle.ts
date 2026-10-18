@@ -54,7 +54,6 @@ const entry: TuyaDeviceEntry = {
             ],
             min: 50,
             max: 90,
-            step: 13,
           },
         },
       },

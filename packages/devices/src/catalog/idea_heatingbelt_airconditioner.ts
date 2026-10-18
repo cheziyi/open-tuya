@@ -92,6 +92,7 @@ const entry: TuyaDeviceEntry = {
           { raw: true, value: "on" },
         ],
         otherwise: "off",
+        ownRuleReadOnly: true,
       },
       horizontalSwingMode: {
         dataPoint: "33",
@@ -101,13 +102,14 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "off" },
         ],
         otherwise: "off",
+        ownRuleReadOnly: true,
       },
       auxHeat: { dataPoint: "12", kind: "switch" },
       sleep: { dataPoint: "25", kind: "switch" },
       fault: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           {

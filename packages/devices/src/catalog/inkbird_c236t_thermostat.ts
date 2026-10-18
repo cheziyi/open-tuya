@@ -74,6 +74,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 3, value: "off" },
         ],
         otherwise: "off",
+        ownRuleReadOnly: true,
       },
       temperatureUnit: {
         dataPoint: "106",
@@ -101,6 +102,34 @@ const entry: TuyaDeviceEntry = {
                 max: 21200,
                 dependsOn: {
                   dataPoint: "103",
+                  constraint: {
+                    dataPoint: "103",
+                    values: [
+                      {
+                        raw: 0,
+                        dependsOn: {
+                          dataPoint: "117",
+                          conditions: [
+                            { when: [true], value: "cool" },
+                            { when: [false], value: "heat" },
+                          ],
+                        },
+                      },
+                      {
+                        raw: 1,
+                        dependsOn: {
+                          dataPoint: "117",
+                          conditions: [
+                            { when: [true], value: "cool", readOnly: true },
+                            { when: [false], value: "heat", readOnly: true },
+                          ],
+                        },
+                      },
+                      { raw: 3, value: "off" },
+                    ],
+                    otherwise: "off",
+                    ownRuleReadOnly: true,
+                  },
                   conditions: [
                     {
                       when: [2],
@@ -126,6 +155,34 @@ const entry: TuyaDeviceEntry = {
                 max: 21200,
                 dependsOn: {
                   dataPoint: "103",
+                  constraint: {
+                    dataPoint: "103",
+                    values: [
+                      {
+                        raw: 0,
+                        dependsOn: {
+                          dataPoint: "117",
+                          conditions: [
+                            { when: [true], value: "cool" },
+                            { when: [false], value: "heat" },
+                          ],
+                        },
+                      },
+                      {
+                        raw: 1,
+                        dependsOn: {
+                          dataPoint: "117",
+                          conditions: [
+                            { when: [true], value: "cool", readOnly: true },
+                            { when: [false], value: "heat", readOnly: true },
+                          ],
+                        },
+                      },
+                      { raw: 3, value: "off" },
+                    ],
+                    otherwise: "off",
+                    ownRuleReadOnly: true,
+                  },
                   conditions: [
                     {
                       when: [2],
@@ -166,6 +223,34 @@ const entry: TuyaDeviceEntry = {
                 max: 21200,
                 dependsOn: {
                   dataPoint: "103",
+                  constraint: {
+                    dataPoint: "103",
+                    values: [
+                      {
+                        raw: 0,
+                        dependsOn: {
+                          dataPoint: "117",
+                          conditions: [
+                            { when: [true], value: "cool" },
+                            { when: [false], value: "heat" },
+                          ],
+                        },
+                      },
+                      {
+                        raw: 1,
+                        dependsOn: {
+                          dataPoint: "117",
+                          conditions: [
+                            { when: [true], value: "cool", readOnly: true },
+                            { when: [false], value: "heat", readOnly: true },
+                          ],
+                        },
+                      },
+                      { raw: 3, value: "off" },
+                    ],
+                    otherwise: "off",
+                    ownRuleReadOnly: true,
+                  },
                   conditions: [
                     {
                       when: [2],
@@ -191,6 +276,34 @@ const entry: TuyaDeviceEntry = {
                 max: 21200,
                 dependsOn: {
                   dataPoint: "103",
+                  constraint: {
+                    dataPoint: "103",
+                    values: [
+                      {
+                        raw: 0,
+                        dependsOn: {
+                          dataPoint: "117",
+                          conditions: [
+                            { when: [true], value: "cool" },
+                            { when: [false], value: "heat" },
+                          ],
+                        },
+                      },
+                      {
+                        raw: 1,
+                        dependsOn: {
+                          dataPoint: "117",
+                          conditions: [
+                            { when: [true], value: "cool", readOnly: true },
+                            { when: [false], value: "heat", readOnly: true },
+                          ],
+                        },
+                      },
+                      { raw: 3, value: "off" },
+                    ],
+                    otherwise: "off",
+                    ownRuleReadOnly: true,
+                  },
                   conditions: [
                     {
                       when: [2],
@@ -240,7 +353,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "131",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: "no", value: false },
@@ -299,8 +412,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "select",
         values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
+          { raw: false, value: "C" },
+          { raw: true, value: "F" },
         ],
       },
       highTemperatureAlarmLimit: {
@@ -373,6 +486,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "145",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "alarm",
       },
       alarmNotificationMessage: {

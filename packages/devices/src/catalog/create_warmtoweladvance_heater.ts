@@ -34,6 +34,21 @@ const entry: TuyaDeviceEntry = {
             raw: true,
             dependsOn: {
               dataPoint: "4",
+              constraint: {
+                dataPoint: "4",
+                values: [
+                  { raw: "CF", value: "comfort" },
+                  { raw: "EC", value: "eco" },
+                  { raw: "P1", value: "Daytime" },
+                  { raw: "P2", value: "Morning+Evening" },
+                  { raw: "P3", value: "Program" },
+                  { raw: "AF", value: "away" },
+                  { raw: "ST", value: "ST", readOnly: true },
+                  { raw: "D2", value: "Dry 2" },
+                  { raw: "D3", value: "Dry 3" },
+                  { raw: "D4", value: "Dry 4" },
+                ],
+              },
               conditions: [
                 { when: ["P1"], value: "auto" },
                 { when: ["P2", "P3"], value: "auto", readOnly: true },
@@ -56,6 +71,21 @@ const entry: TuyaDeviceEntry = {
         max: 35,
         dependsOn: {
           dataPoint: "4",
+          constraint: {
+            dataPoint: "4",
+            values: [
+              { raw: "CF", value: "comfort" },
+              { raw: "EC", value: "eco" },
+              { raw: "P1", value: "Daytime" },
+              { raw: "P2", value: "Morning+Evening" },
+              { raw: "P3", value: "Program" },
+              { raw: "AF", value: "away" },
+              { raw: "ST", value: "ST", readOnly: true },
+              { raw: "D2", value: "Dry 2" },
+              { raw: "D3", value: "Dry 3" },
+              { raw: "D4", value: "Dry 4" },
+            ],
+          },
           conditions: [
             { when: ["EC"], min: 1, max: 31 },
             { when: ["AF"], invalid: true },
@@ -96,6 +126,21 @@ const entry: TuyaDeviceEntry = {
             value: "heating",
             dependsOn: {
               dataPoint: "4",
+              constraint: {
+                dataPoint: "4",
+                values: [
+                  { raw: "CF", value: "comfort" },
+                  { raw: "EC", value: "eco" },
+                  { raw: "P1", value: "Daytime" },
+                  { raw: "P2", value: "Morning+Evening" },
+                  { raw: "P3", value: "Program" },
+                  { raw: "AF", value: "away" },
+                  { raw: "ST", value: "ST", readOnly: true },
+                  { raw: "D2", value: "Dry 2" },
+                  { raw: "D3", value: "Dry 3" },
+                  { raw: "D4", value: "Dry 4" },
+                ],
+              },
               conditions: [{ when: ["D2", "D3", "D4"], value: "drying" }],
             },
           },
@@ -152,7 +197,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "21",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },

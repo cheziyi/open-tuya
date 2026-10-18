@@ -198,7 +198,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "9",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -244,6 +244,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "alert",
       },
       alarmMessage: { dataPoint: "23", kind: "sensor", readOnly: true },

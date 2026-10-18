@@ -64,7 +64,7 @@ const entry: TuyaDeviceEntry = {
       },
       musicData: { dataPoint: "27", kind: "text" },
       scene: { dataPoint: "56", kind: "text" },
-      stringLengthInLeds: {
+      stringLength: {
         dataPoint: "58",
         kind: "number",
         unit: "leds",

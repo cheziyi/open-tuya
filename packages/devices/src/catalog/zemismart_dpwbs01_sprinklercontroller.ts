@@ -208,8 +208,16 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "unavailable" },
       },
-      weather: { dataPoint: "42", kind: "switch" },
-      skip: { dataPoint: "43", kind: "switch" },
+      weather: {
+        dataPoint: "42",
+        kind: "switch",
+        values: [{ raw: true }, { raw: false }],
+      },
+      skip: {
+        dataPoint: "43",
+        kind: "switch",
+        values: [{ raw: true }, { raw: false }, { raw: false, readOnly: true }],
+      },
       irrigationMode: {
         dataPoint: "44",
         kind: "select",

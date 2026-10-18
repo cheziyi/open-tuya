@@ -29,6 +29,13 @@ const entry: TuyaDeviceEntry = {
             raw: true,
             dependsOn: {
               dataPoint: "4",
+              constraint: {
+                dataPoint: "4",
+                values: [
+                  { raw: "r", value: "room" },
+                  { raw: "t", value: "towel" },
+                ],
+              },
               conditions: [
                 { when: ["r"], value: "heat" },
                 { when: ["t"], value: "dry" },
@@ -46,6 +53,13 @@ const entry: TuyaDeviceEntry = {
         max: 37,
         dependsOn: {
           dataPoint: "4",
+          constraint: {
+            dataPoint: "4",
+            values: [
+              { raw: "r", value: "room" },
+              { raw: "t", value: "towel" },
+            ],
+          },
           conditions: [
             {
               when: ["t"],
@@ -64,6 +78,13 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         dependsOn: {
           dataPoint: "4",
+          constraint: {
+            dataPoint: "4",
+            values: [
+              { raw: "r", value: "room" },
+              { raw: "t", value: "towel" },
+            ],
+          },
           conditions: [{ when: ["t"], mirror: { dataPoint: "105" } }],
         },
       },
@@ -76,6 +97,13 @@ const entry: TuyaDeviceEntry = {
             raw: true,
             dependsOn: {
               dataPoint: "4",
+              constraint: {
+                dataPoint: "4",
+                values: [
+                  { raw: "r", value: "room" },
+                  { raw: "t", value: "towel" },
+                ],
+              },
               conditions: [
                 { when: ["r"], value: "heating" },
                 { when: ["t"], value: "drying" },
@@ -121,7 +149,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "12",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

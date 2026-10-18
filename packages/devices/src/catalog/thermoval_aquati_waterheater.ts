@@ -121,7 +121,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "20",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -142,15 +142,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "fangdong", value: "anti_freeze" },
         ],
       },
-      schedule: {
+      scheduleEnabled: {
         dataPoint: "2",
         kind: "switch",
         values: [
           { raw: "jiheat", value: false },
           { raw: "yuyue", value: true },
         ],
+        otherwise: null,
       },
-      schedule2: { dataPoint: "16", kind: "text" },
+      schedule: { dataPoint: "16", kind: "text" },
     },
   },
   source: {

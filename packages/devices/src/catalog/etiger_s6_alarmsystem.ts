@@ -104,14 +104,14 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 300,
       },
-      ringCountInTimes: {
+      ringCount: {
         dataPoint: "109",
         kind: "number",
         unit: "times",
         min: 1,
         max: 9,
       },
-      dialAttemptsInTimes: {
+      dialAttempts: {
         dataPoint: "110",
         kind: "number",
         unit: "times",
@@ -134,6 +134,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "127",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "alarm",
       },
       alarmMessage: { dataPoint: "127", kind: "sensor", readOnly: true },

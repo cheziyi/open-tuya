@@ -52,6 +52,11 @@ const entry: TuyaDeviceEntry = {
         max: 45,
         dependsOn: {
           dataPoint: "23",
+          constraint: {
+            dataPoint: "23",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             {
               when: ["f"],
@@ -70,6 +75,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "23",
+          constraint: {
+            dataPoint: "23",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             { when: ["f"], redirect: { dataPoint: "29" } },
             { when: ["c"], scale: 10 },
@@ -110,17 +120,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "select",
         values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
         ],
       },
       scheduleDays: {
         dataPoint: "31",
         kind: "select",
         values: [
-          { raw: "5_2", value: "Weekdays+Weekend" },
-          { raw: "6_1", value: "Mon-Sat+Sun" },
-          { raw: 7, value: "Daily" },
+          { raw: "52", value: "Weekdays+Weekend" },
+          { raw: "61", value: "Mon-Sat+Sun" },
+          { raw: "7", value: "Daily" },
         ],
       },
       manualOverride: {
@@ -134,7 +144,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "45",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -158,6 +168,11 @@ const entry: TuyaDeviceEntry = {
         max: 5,
         dependsOn: {
           dataPoint: "23",
+          constraint: {
+            dataPoint: "23",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             {
               when: ["f"],

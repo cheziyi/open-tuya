@@ -97,12 +97,13 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "HotWater", value: "Hot water" },
           { raw: "Hot", value: "Heating" },
+          { raw: "Cooling" },
         ],
       },
       fault: {
         dataPoint: "13",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

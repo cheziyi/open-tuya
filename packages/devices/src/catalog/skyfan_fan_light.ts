@@ -19,7 +19,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     fan: {
       on: { dataPoint: "1", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "2",
         kind: "select",
         values: [
@@ -62,6 +62,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Naturalwhite", value: 4200 },
           { raw: "Warmwhite", value: 3000 },
         ],
+        ownRuleReadOnly: true,
         targetRange: { min: 3000, max: 6500 },
       },
     },

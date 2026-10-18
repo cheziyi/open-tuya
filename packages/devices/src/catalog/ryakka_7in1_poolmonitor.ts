@@ -32,6 +32,13 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "113",
+          constraint: {
+            dataPoint: "113",
+            values: [
+              { raw: "c", value: "C" },
+              { raw: "f", value: "F" },
+            ],
+          },
           conditions: [
             { when: ["f"], redirect: { dataPoint: "129", scale: 10 } },
           ],
@@ -40,8 +47,7 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit: {
         dataPoint: "113",
-        kind: "sensor",
-        readOnly: true,
+        kind: "select",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -94,14 +100,6 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
         scale: 1000,
-      },
-      temperatureUnit2: {
-        dataPoint: "113",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
       },
       volumeFlowRateInLPerMin: {
         dataPoint: "122",

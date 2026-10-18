@@ -41,6 +41,15 @@ const entry: TuyaDeviceEntry = {
             raw: true,
             dependsOn: {
               dataPoint: "4",
+              constraint: {
+                dataPoint: "4",
+                values: [
+                  { raw: "leave", value: "away" },
+                  { raw: "home", value: "manual" },
+                  { raw: "auto", value: "program" },
+                  { raw: "temporary", value: "temp_override" },
+                ],
+              },
               conditions: [
                 { when: ["auto"], value: "auto" },
                 { when: ["temporary"], value: "auto", readOnly: true },
@@ -89,7 +98,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "1", value: "heating" },
         ],
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "15",
         kind: "number",
         measures: "temperature",
@@ -99,7 +108,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "11",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

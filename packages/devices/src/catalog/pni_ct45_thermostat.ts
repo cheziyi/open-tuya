@@ -88,7 +88,7 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
         step: 5,
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
@@ -102,7 +102,7 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      minTargetTemperatureInC: {
+      minimumTargetTemperatureInC: {
         dataPoint: "26",
         kind: "number",
         measures: "temperature",
@@ -144,7 +144,7 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
         step: 5,
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
@@ -158,7 +158,7 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      minTargetTemperatureInC: {
+      minimumTargetTemperatureInC: {
         dataPoint: "26",
         kind: "number",
         measures: "temperature",
@@ -233,15 +233,6 @@ const entry: TuyaDeviceEntry = {
         max: 400,
       },
       override: { dataPoint: "40", kind: "switch" },
-      mode2: {
-        dataPoint: "41",
-        kind: "select",
-        values: [
-          { raw: "program", value: "schedule" },
-          { raw: "manual", value: "manual" },
-          { raw: "boost", value: "high" },
-        ],
-      },
       timeRemainingInMinutes: {
         dataPoint: "42",
         kind: "sensor",
@@ -252,7 +243,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "45",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -410,6 +401,17 @@ const entry: TuyaDeviceEntry = {
       },
     },
     valve: { open: { dataPoint: "7", kind: "switch" } },
+    device: {
+      mode: {
+        dataPoint: "41",
+        kind: "select",
+        values: [
+          { raw: "program", value: "schedule" },
+          { raw: "manual", value: "manual" },
+          { raw: "boost", value: "high" },
+        ],
+      },
+    },
   },
   source: {
     file: "pni_ct45_thermostat.yaml",

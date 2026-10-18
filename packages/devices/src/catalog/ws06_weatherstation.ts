@@ -121,6 +121,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "alert",
       },
       temperatureAlarmData: {
@@ -132,6 +133,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "alert",
       },
       humidityAlarmData: { dataPoint: "111", kind: "sensor", readOnly: true },

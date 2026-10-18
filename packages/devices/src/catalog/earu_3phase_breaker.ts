@@ -106,7 +106,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "W",
       },
-      sensorThresholdInV: {
+      overvoltageThresholdInV: {
         dataPoint: "101",
         kind: "number",
         measures: "voltage",
@@ -114,7 +114,7 @@ const entry: TuyaDeviceEntry = {
         min: 220,
         max: 300,
       },
-      sensorThresholdInV2: {
+      undervoltageThresholdInV: {
         dataPoint: "102",
         kind: "number",
         measures: "voltage",
@@ -122,7 +122,7 @@ const entry: TuyaDeviceEntry = {
         min: 140,
         max: 210,
       },
-      sensorThresholdInA: {
+      overcurrentThresholdInA: {
         dataPoint: "103",
         kind: "number",
         measures: "current",
@@ -130,7 +130,7 @@ const entry: TuyaDeviceEntry = {
         min: 1,
         max: 63,
       },
-      sensorThresholdInMilliamps: {
+      leakageThresholdInMilliamps: {
         dataPoint: "104",
         kind: "number",
         measures: "current",

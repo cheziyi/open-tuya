@@ -55,7 +55,7 @@ const entry: TuyaDeviceEntry = {
       },
       filterReset: { dataPoint: "5", kind: "button" },
       cleanInterval: { dataPoint: "8", kind: "number", min: 0, max: 20 },
-      cleanInInDays: {
+      cleanInDays: {
         dataPoint: "4",
         kind: "sensor",
         measures: "duration",
@@ -93,7 +93,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "23",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

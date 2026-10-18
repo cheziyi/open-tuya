@@ -317,7 +317,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "104",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           {
@@ -327,6 +327,7 @@ const entry: TuyaDeviceEntry = {
               values: [{ raw: "eorr0", value: false }],
               otherwise: true,
             },
+            value: true,
           },
         ],
         otherwise: true,

@@ -64,6 +64,14 @@ const entry: TuyaDeviceEntry = {
             raw: true,
             dependsOn: {
               dataPoint: "101",
+              constraint: {
+                dataPoint: "101",
+                values: [
+                  { raw: "socket", value: "off" },
+                  { raw: "hot", value: "heat" },
+                  { raw: "colding", value: "cool" },
+                ],
+              },
               conditions: [
                 { when: ["hot"], value: "heating" },
                 { when: ["colding"], value: "cooling" },
@@ -82,6 +90,14 @@ const entry: TuyaDeviceEntry = {
         max: 1200,
         dependsOn: {
           dataPoint: "101",
+          constraint: {
+            dataPoint: "101",
+            values: [
+              { raw: "socket", value: "off" },
+              { raw: "hot", value: "heat" },
+              { raw: "colding", value: "cool" },
+            ],
+          },
           conditions: [
             {
               when: ["colding"],
@@ -100,6 +116,14 @@ const entry: TuyaDeviceEntry = {
         max: 1200,
         dependsOn: {
           dataPoint: "101",
+          constraint: {
+            dataPoint: "101",
+            values: [
+              { raw: "socket", value: "off" },
+              { raw: "hot", value: "heat" },
+              { raw: "colding", value: "cool" },
+            ],
+          },
           conditions: [
             {
               when: ["colding"],
@@ -197,8 +221,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "118",
         kind: "select",
         values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
         ],
       },
       temperatureUnitTemperatureCalibrationInF: {
@@ -235,7 +259,7 @@ const entry: TuyaDeviceEntry = {
       sensor: {
         dataPoint: "126",
         kind: "sensor",
-        measures: "plug",
+        measures: "plugged",
         readOnly: true,
       },
     },

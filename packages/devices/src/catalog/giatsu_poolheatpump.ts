@@ -24,6 +24,20 @@ const entry: TuyaDeviceEntry = {
             raw: true,
             dependsOn: {
               dataPoint: "4",
+              constraint: {
+                dataPoint: "4",
+                values: [
+                  { raw: "heat", value: "smart_heat" },
+                  { raw: "h_powerful", value: "quick_heat" },
+                  { raw: "h_silent", value: "quiet_heat" },
+                  { raw: "cool", value: "smart_cool" },
+                  { raw: "c_powerful", value: "quick_cool" },
+                  { raw: "c_silent", value: "quiet_cool" },
+                  { raw: "auto", value: "smart" },
+                  { raw: "a_powerful", value: "quick" },
+                  { raw: "a_silent", value: "quiet" },
+                ],
+              },
               conditions: [
                 { when: ["heat"], value: "heat" },
                 { when: ["cool"], value: "cool" },
@@ -57,6 +71,20 @@ const entry: TuyaDeviceEntry = {
         max: 40,
         dependsOn: {
           dataPoint: "4",
+          constraint: {
+            dataPoint: "4",
+            values: [
+              { raw: "heat", value: "smart_heat" },
+              { raw: "h_powerful", value: "quick_heat" },
+              { raw: "h_silent", value: "quiet_heat" },
+              { raw: "cool", value: "smart_cool" },
+              { raw: "c_powerful", value: "quick_cool" },
+              { raw: "c_silent", value: "quiet_cool" },
+              { raw: "auto", value: "smart" },
+              { raw: "a_powerful", value: "quick" },
+              { raw: "a_silent", value: "quiet" },
+            ],
+          },
           conditions: [
             { when: ["heat", "h_powerful", "h_silent"], min: 15, max: 40 },
             { when: ["cool", "c_powerful", "c_silent"], min: 7, max: 28 },
@@ -89,7 +117,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "9",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

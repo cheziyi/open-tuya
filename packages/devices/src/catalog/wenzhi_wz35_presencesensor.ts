@@ -64,7 +64,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "6",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: "check_failure", value: true },
@@ -146,6 +146,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "on", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       lightThresholdInLux: {

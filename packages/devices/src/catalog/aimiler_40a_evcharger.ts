@@ -46,7 +46,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       statusSystemVersion: { dataPoint: "23", kind: "sensor", readOnly: true },
-      currentInA: {
+      currentSettingInA: {
         dataPoint: "4",
         kind: "number",
         measures: "current",
@@ -54,10 +54,19 @@ const entry: TuyaDeviceEntry = {
         min: 8,
         max: 40,
       },
+      currentInA: {
+        dataPoint: "6",
+        mask: "0000FFFFFF000000",
+        kind: "sensor",
+        measures: "current",
+        readOnly: true,
+        unit: "A",
+        scale: 1000,
+      },
       fault: {
         dataPoint: "10",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -151,15 +160,6 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "V",
         scale: 10,
-      },
-      currentInA2: {
-        dataPoint: "6",
-        mask: "0000FFFFFF000000",
-        kind: "sensor",
-        measures: "current",
-        readOnly: true,
-        unit: "A",
-        scale: 1000,
       },
       chargingDurationInMinutes: {
         dataPoint: "104",

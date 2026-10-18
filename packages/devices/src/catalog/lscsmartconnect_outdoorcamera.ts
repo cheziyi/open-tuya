@@ -35,11 +35,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      cameraRecord: { dataPoint: "150", kind: "switch" },
+      recording: { dataPoint: "150", kind: "switch" },
       motion: {
         dataPoint: "115",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "detected",
       },
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
@@ -123,7 +124,18 @@ const entry: TuyaDeviceEntry = {
           { raw: "2", value: "continuous" },
         ],
       },
-      alarm: { dataPoint: "159", kind: "switch", whenAbsent: { value: false } },
+      alarmEnabled: {
+        dataPoint: "159",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
+      alarm: {
+        dataPoint: "185",
+        kind: "event",
+        readOnly: true,
+        whenAbsent: { value: null },
+        otherwise: "alert",
+      },
       humanDetection: { dataPoint: "170", kind: "switch" },
       antiFlicker: {
         dataPoint: "188",
@@ -135,8 +147,8 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       restart: { dataPoint: "162", kind: "button" },
-      motionLimitArea: { dataPoint: "168", kind: "switch" },
-      motionLimitArea2: { dataPoint: "169", kind: "text" },
+      motionLimitAreaEnabled: { dataPoint: "168", kind: "switch" },
+      motionLimitArea: { dataPoint: "169", kind: "text" },
       detectionMode: {
         dataPoint: "127",
         kind: "select",
@@ -149,15 +161,10 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "141",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "detected",
       },
       soundMessage: { dataPoint: "141", kind: "sensor", readOnly: true },
-      alarm2: {
-        dataPoint: "185",
-        kind: "event",
-        readOnly: true,
-        otherwise: "alert",
-      },
       alarmMessage: {
         dataPoint: "185",
         kind: "sensor",
@@ -168,6 +175,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "212",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "notification",
       },
       notificationMessage: {

@@ -35,6 +35,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "pir", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       batteryInPercent: {
@@ -47,7 +48,7 @@ const entry: TuyaDeviceEntry = {
       plug: {
         dataPoint: "102",
         kind: "sensor",
-        measures: "plug",
+        measures: "plugged",
         readOnly: true,
       },
       alarmDurationInSeconds: {

@@ -49,7 +49,7 @@ const entry: TuyaDeviceEntry = {
       childLock: { dataPoint: "9", kind: "switch" },
       autoClean: { dataPoint: "11", kind: "switch" },
       autoLight: { dataPoint: "103", kind: "switch" },
-      volumeInMl: {
+      volumeSettingInMl: {
         dataPoint: "101",
         kind: "number",
         measures: "volume",
@@ -58,7 +58,7 @@ const entry: TuyaDeviceEntry = {
         max: 2500,
         step: 50,
       },
-      volumeInMl2: {
+      volumeInMl: {
         dataPoint: "26",
         kind: "sensor",
         measures: "volume",
@@ -68,7 +68,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "6",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

@@ -159,6 +159,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       softWind: {
@@ -170,6 +171,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       antiMildew: {
@@ -181,6 +183,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       evaporatorDrying: {
@@ -192,6 +195,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       health: {
@@ -203,6 +207,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       antiFrost: {
@@ -214,6 +219,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       ecoMode: {
@@ -225,6 +231,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       selfCleaning: {
@@ -236,12 +243,13 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       fault: {
         dataPoint: "20",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -396,11 +404,11 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "129",
         kind: "select",
         values: [
-          { raw: 1, value: "1 kWh" },
-          { raw: 2, value: "2 kWh" },
-          { raw: 3, value: "3 kWh" },
-          { raw: 4, value: "4 kWh" },
-          { raw: 5, value: "5 kWh" },
+          { raw: "1", value: "1 kWh" },
+          { raw: "2", value: "2 kWh" },
+          { raw: "3", value: "3 kWh" },
+          { raw: "4", value: "4 kWh" },
+          { raw: "5", value: "5 kWh" },
         ],
       },
       powerTotalN: { dataPoint: "115", kind: "number" },
@@ -416,7 +424,7 @@ const entry: TuyaDeviceEntry = {
       dirtyFilter: {
         dataPoint: "131",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       hotColdWind: {
@@ -459,7 +467,7 @@ const entry: TuyaDeviceEntry = {
       freshAirFilter: {
         dataPoint: "103",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       workTime: { dataPoint: "134", kind: "sensor", readOnly: true },
@@ -474,6 +482,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
     },

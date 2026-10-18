@@ -43,7 +43,7 @@ const entry: TuyaDeviceEntry = {
       overcurrentAlarm: {
         dataPoint: "7",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         whenAbsent: { value: false },
       },

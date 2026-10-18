@@ -84,8 +84,7 @@ const entry: TuyaDeviceEntry = {
       },
       brightnessMin1: { dataPoint: "58", kind: "number", min: 10, max: 1000 },
       controlData: { dataPoint: "28", kind: "text" },
-      scene: { dataPoint: "25", kind: "text" },
-      scene2: {
+      scene: {
         dataPoint: "25",
         kind: "select",
         type: "string",
@@ -178,7 +177,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "56",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -245,7 +244,7 @@ const entry: TuyaDeviceEntry = {
     },
     fan: {
       on: { dataPoint: "60", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "52",
         kind: "select",
         values: [

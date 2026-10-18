@@ -16,9 +16,8 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "101", kind: "switch" },
+      on: { dataPoint: "104", kind: "switch" },
       pump: { dataPoint: "102", kind: "switch" },
-      on2: { dataPoint: "104", kind: "switch" },
       nutrientTimerInDays: {
         dataPoint: "106",
         kind: "number",
@@ -44,6 +43,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
+    device: { on: { dataPoint: "101", kind: "switch" } },
   },
   source: {
     file: "echief_sgh01_planter.yaml",

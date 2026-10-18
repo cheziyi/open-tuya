@@ -164,7 +164,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "10",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -217,6 +217,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "charge_delay", value: "delayed_charge" },
         ],
       },
+      chargingModeData: { dataPoint: "33", kind: "text" },
       on: { dataPoint: "18", kind: "switch" },
       temperatureInC: {
         dataPoint: "24",
@@ -240,6 +241,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "online", value: true },
         ],
         otherwise: false,
+        ownRuleReadOnly: true,
       },
       timerInHours: {
         dataPoint: "28",
@@ -249,7 +251,6 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 15,
       },
-      chargingMode2: { dataPoint: "33", kind: "text" },
       chargeTimeInHours: {
         dataPoint: "101",
         mask: "FF00",

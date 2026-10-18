@@ -60,7 +60,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "13",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -85,10 +85,12 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "event",
         readOnly: true,
+        values: [{ raw: 0, value: null }],
+        whenAbsent: { value: null },
         otherwise: "fed",
       },
       feedReportPortions: { dataPoint: "14", kind: "sensor", readOnly: true },
-      voicePlaybackCountInTimes: {
+      voicePlaybackCount: {
         dataPoint: "16",
         kind: "number",
         unit: "times",
@@ -116,7 +118,10 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "130",
         kind: "event",
         readOnly: true,
-        values: [{ raw: "stuck", value: "stuck" }],
+        values: [
+          { raw: "normal", value: null },
+          { raw: "stuck", value: "stuck" },
+        ],
       },
     },
     indicator: { on: { dataPoint: "17", kind: "switch" } },
