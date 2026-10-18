@@ -50,7 +50,7 @@ does until a source or a capture settles it.
 | The response's `sign` | No source computes it | It is ignored |
 | Whether the cloud reads the MQTT link ID | The SDK sends `tuya-device-sharing-sdk-python.` and a UUID; no source sends another | The account sends the same form |
 | A signed request whole | A log shows the response, never the request ID and refresh token that sign it | Tests use requests computed by the SDK's own code |
-| A push other than protocol 4 | No capture shows one | It is ignored |
+| A push other than protocol 4 or 20 | No source shows one | It is ignored. A protocol 20 push is known and dropped: [DESIGN.md](DESIGN.md#cloud-app-push) says why |
 
 ## Tuya developer platform
 
