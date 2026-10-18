@@ -55,7 +55,7 @@ const entry: TuyaDeviceEntry = {
       },
       statusVersion: { dataPoint: "23", kind: "sensor", readOnly: true },
       statusIpAddress: { dataPoint: "32", kind: "sensor", readOnly: true },
-      targetCurrentInA: {
+      currentSettingInA: {
         dataPoint: "4",
         kind: "number",
         measures: "current",

@@ -106,7 +106,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "mode_3", value: "mode 3" },
         ],
       },
-      targetLoadVoltageInV: {
+      loadVoltageSettingInV: {
         dataPoint: "3",
         kind: "number",
         measures: "voltage",
@@ -124,7 +124,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      targetLoadPowerInW: {
+      loadPowerSettingInW: {
         dataPoint: "5",
         kind: "number",
         measures: "power",

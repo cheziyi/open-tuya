@@ -104,7 +104,7 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
       },
       turbo: { dataPoint: "107", kind: "switch" },
-      targetOrpInMillivolts: {
+      orpSettingInMillivolts: {
         dataPoint: "108",
         kind: "number",
         unit: "mv",
@@ -126,7 +126,7 @@ const entry: TuyaDeviceEntry = {
         max: 150,
         step: 5,
       },
-      targetPh: {
+      phSetting: {
         dataPoint: "110",
         kind: "number",
         measures: "ph",

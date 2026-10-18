@@ -366,7 +366,7 @@ const entry: TuyaDeviceEntry = {
         type: "base64",
         scale: 10,
       },
-      targetPumpSpeed: {
+      pumpSpeedSetting: {
         dataPoint: "140",
         mask: "000000000000000000000000000000000000000000000000FFFFFFFF00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
         kind: "number",

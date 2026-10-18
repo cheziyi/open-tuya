@@ -36,7 +36,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 12,
       },
-      targetManualFeedInPortions: {
+      manualFeedSettingInPortions: {
         dataPoint: "105",
         kind: "number",
         unit: "portions",

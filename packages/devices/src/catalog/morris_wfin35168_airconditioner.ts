@@ -239,7 +239,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "rpm",
       },
-      targetCompressorFanSpeedInRpm: {
+      compressorFanSpeedSettingInRpm: {
         dataPoint: "118",
         kind: "number",
         unit: "rpm",
@@ -248,7 +248,7 @@ const entry: TuyaDeviceEntry = {
         scale: 0.1,
       },
       compressorFrequency: { dataPoint: "119", kind: "sensor", readOnly: true },
-      targetCompressorFrequency: {
+      compressorFrequencySetting: {
         dataPoint: "121",
         kind: "number",
         min: 0,

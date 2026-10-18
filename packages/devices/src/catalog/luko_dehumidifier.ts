@@ -44,7 +44,7 @@ const entry: TuyaDeviceEntry = {
         max: 80,
         step: 5,
       },
-      targetTemperatureInC: {
+      temperatureSettingInC: {
         dataPoint: "45",
         kind: "number",
         measures: "temperature",

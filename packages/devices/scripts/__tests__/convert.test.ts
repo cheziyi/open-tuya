@@ -1678,7 +1678,7 @@ entities:
         ]),
       ),
     ).toEqual({
-      targetCurrentInA: "4",
+      currentSettingInA: "4",
       currentInA: "6",
       scheduleEnabled: "2",
       schedule: "16",
@@ -1718,6 +1718,80 @@ entities:
         on: { dataPoint: "7", kind: "switch" },
       },
       device: { on: { dataPoint: "1", kind: "switch" } },
+    });
+  });
+
+  it("passes over a setting's name another control holds", () => {
+    const { components } = entry(`name: Pool monitor
+entities:
+  - entity: number
+    name: pH
+    dps:
+      - id: 1
+        type: integer
+        name: value
+  - entity: sensor
+    name: pH
+    dps:
+      - id: 2
+        type: integer
+        name: sensor
+  - entity: switch
+    name: pH setting
+    dps:
+      - id: 3
+        type: boolean
+        name: switch
+`);
+
+    expect(
+      Object.fromEntries(
+        Object.entries(components.device ?? {}).map(([name, control]) => [
+          name,
+          control.dataPoint,
+        ]),
+      ),
+    ).toEqual({ ph: "1", secondPh: "2", phSetting: "3" });
+  });
+
+  it("reads a unit another control reads its unit from as C and F", () => {
+    const { components } = entry(`name: Heater
+entities:
+  - entity: climate
+    dps:
+      - id: 2
+        type: integer
+        name: temperature
+      - id: 19
+        type: string
+        name: temperature_unit
+        mapping:
+          - dps_val: c
+            value: celsius
+          - dps_val: f
+            value: fahrenheit
+  - entity: sensor
+    name: Floor temperature
+    class: temperature
+    dps:
+      - id: 3
+        type: integer
+        name: sensor
+      - id: 19
+        type: string
+        name: unit
+`);
+
+    const units = [
+      { raw: "c", value: "C" },
+      { raw: "f", value: "F" },
+    ];
+    expect(components.climate?.temperatureUnit?.values).toEqual(units);
+    expect(components.climate?.floorTemperatureUnit).toEqual({
+      dataPoint: "19",
+      kind: "sensor",
+      readOnly: true,
+      values: units,
     });
   });
 

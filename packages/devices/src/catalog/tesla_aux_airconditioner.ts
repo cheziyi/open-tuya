@@ -78,7 +78,14 @@ const entry: TuyaDeviceEntry = {
           { raw: "strength", value: "strong" },
         ],
       },
-      temperatureUnit: { dataPoint: "19", kind: "text" },
+      temperatureUnit: {
+        dataPoint: "19",
+        kind: "select",
+        values: [
+          { raw: "C", value: "C" },
+          { raw: "F", value: "F" },
+        ],
+      },
       swingMode: {
         dataPoint: "105",
         kind: "select",

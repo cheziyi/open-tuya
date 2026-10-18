@@ -73,7 +73,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
       },
       wateringDelay: { dataPoint: "136", kind: "switch" },
-      targetWateringDelayInDays: {
+      wateringDelaySettingInDays: {
         dataPoint: "126",
         kind: "number",
         measures: "duration",

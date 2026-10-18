@@ -279,7 +279,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "rpm",
       },
-      targetOutdoorFanSpeedInRpm: {
+      outdoorFanSpeedSettingInRpm: {
         dataPoint: "118",
         kind: "number",
         unit: "rpm",
@@ -294,7 +294,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "Hz",
       },
-      targetCompressorFrequencyInHz: {
+      compressorFrequencySettingInHz: {
         dataPoint: "121",
         kind: "number",
         measures: "frequency",

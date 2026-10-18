@@ -49,7 +49,7 @@ const entry: TuyaDeviceEntry = {
       childLock: { dataPoint: "9", kind: "switch" },
       autoClean: { dataPoint: "11", kind: "switch" },
       autoLight: { dataPoint: "103", kind: "switch" },
-      targetVolumeInMl: {
+      volumeSettingInMl: {
         dataPoint: "101",
         kind: "number",
         measures: "volume",

@@ -201,7 +201,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "C",
       },
-      targetChargeEnergyInKwh: {
+      chargeEnergySettingInKwh: {
         dataPoint: "17",
         kind: "number",
         measures: "energyStorage",

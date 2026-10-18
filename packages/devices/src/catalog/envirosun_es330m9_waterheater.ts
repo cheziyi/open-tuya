@@ -207,8 +207,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "119",
         kind: "select",
         values: [
-          { raw: "0", value: "celsius" },
-          { raw: "1", value: "fahrenheit" },
+          { raw: "0", value: "C" },
+          { raw: "1", value: "F" },
         ],
       },
       coolingLock: {

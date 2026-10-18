@@ -91,8 +91,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "select",
         values: [
-          { raw: true, value: "celsius" },
-          { raw: false, value: "fahrenheit" },
+          { raw: true, value: "C" },
+          { raw: false, value: "F" },
         ],
       },
       recipe: { dataPoint: "109", kind: "number", min: 0, max: 1000 },

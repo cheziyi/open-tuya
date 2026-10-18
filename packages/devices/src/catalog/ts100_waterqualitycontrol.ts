@@ -39,7 +39,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         scale: 100,
       },
-      targetPh: {
+      phSetting: {
         dataPoint: "112",
         kind: "number",
         measures: "ph",

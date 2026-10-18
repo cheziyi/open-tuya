@@ -67,7 +67,14 @@ const entry: TuyaDeviceEntry = {
           { raw: true, value: "heating" },
         ],
       },
-      temperatureUnit: { dataPoint: "103", kind: "text" },
+      temperatureUnit: {
+        dataPoint: "103",
+        kind: "select",
+        values: [
+          { raw: "C", value: "C" },
+          { raw: "F", value: "F" },
+        ],
+      },
     },
     display: {
       on: {

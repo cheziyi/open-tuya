@@ -52,7 +52,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "d",
       },
-      targetFilterLifeInDays: {
+      filterLifeSettingInDays: {
         dataPoint: "7",
         kind: "number",
         unit: "d",

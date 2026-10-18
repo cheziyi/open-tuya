@@ -286,6 +286,25 @@ const TEMPERATURE_UNIT_DATA_POINTS = [
   "current_temperature",
 ];
 
+// Source: tuya-local names a temperature unit select's options celsius and
+// fahrenheit, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/translations/en.json#L880-L886,
+// and reads C and F as °C and °F, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/entity.py#L143-L148.
+// A control another reads its unit from gives the catalog's symbol for each.
+const UNIT_SYMBOLS: Record<string, string> = {
+  celsius: "C",
+  fahrenheit: "F",
+  "°C": "C",
+  "°F": "F",
+  "℃": "C",
+};
+const TEMPERATURE_UNITS: ReadonlySet<string> = new Set(["C", "F", "K"]);
+
+function unitSymbol<T>(value: T): T | string {
+  return typeof value === "string" ? (UNIT_SYMBOLS[value] ?? value) : value;
+}
+
 // Home Assistant takes a climate or humidifier entity's humidity as a
 // percentage, whatever its data point says.
 const HUMIDITY_CONTROLS: ReadonlySet<string> = new Set<ControlName>([
@@ -817,7 +836,54 @@ function components(
       result[name] = controls;
     }
   }
+  nameUnits(result);
   return result;
+}
+
+// A control another reads its unit from, which passes its raw value on,
+// takes the temperature units another control of the file maps the same
+// data point to: a kettle's quick-set unit passes on `c`, which its climate
+// maps to C. What it writes stays as it was.
+function nameUnits(
+  components: Record<string, Record<string, TuyaControl>>,
+): void {
+  const all = Object.values(components).flatMap((controls) =>
+    Object.values(controls),
+  );
+  for (const controls of Object.values(components)) {
+    for (const control of Object.values(controls)) {
+      const unit = control.unitFrom && controls[control.unitFrom];
+      if (
+        !control.unitFrom ||
+        !unit ||
+        unit.values ||
+        unit.otherwise !== undefined ||
+        !isPlain(unit)
+      ) {
+        continue;
+      }
+      const source = all.find(
+        (other) =>
+          other.dataPoint === unit.dataPoint &&
+          isPlain(other) &&
+          other.type === unit.type &&
+          (other.values ?? []).length > 0 &&
+          (other.values ?? []).every((mapping) =>
+            TEMPERATURE_UNITS.has(String(unitSymbol(mapping.value))),
+          ),
+      );
+      if (source?.values) {
+        controls[control.unitFrom] = {
+          ...unit,
+          kind: unit.readOnly ? unit.kind : "select",
+          values: source.values.map(({ raw, value }) => ({
+            raw,
+            value: unitSymbol(value),
+          })),
+        };
+      }
+    }
+  }
 }
 
 // Two entities that expose one data point, as a climate's unit and a select
@@ -836,6 +902,9 @@ function mergeDataPoints(
     byValue.set(key, [...(byValue.get(key) ?? []), candidate]);
   }
   // A control another of its entity reads its unit from.
+  const isUnit = Object.values(draft).some((others) =>
+    others.some((other) => other.control.unitFrom === name),
+  );
   const givesUnit = (candidate: Candidate) =>
     Object.values(draft).some((others) =>
       others.some(
@@ -862,7 +931,10 @@ function mergeDataPoints(
       ...kept,
       control: group
         .filter((candidate) => candidate !== kept)
-        .reduce((control, other) => absorb(control, other), kept.control),
+        .reduce(
+          (control, other) => absorb(control, other, isUnit),
+          kept.control,
+        ),
     };
   });
 }
@@ -899,14 +971,35 @@ function isPlain(control: TuyaControl): boolean {
 // the other never writes stays so. Where that would not be exact, as where
 // two raw values read alike, the kept control stays as it was. An attribute
 // gives no writes: tuya-local never writes one.
-function absorb(kept: TuyaControl, other: Candidate): TuyaControl {
+function absorb(
+  kept: TuyaControl,
+  other: Candidate,
+  isUnit: boolean,
+): TuyaControl {
   if (other.attribute || other.control.readOnly) {
     return kept;
   }
   const keptValues = kept.values ?? [];
-  const written = (other.control.values ?? [])
-    .filter((mapping) => !mapping.readOnly && mapping.value != null)
-    .map((mapping) => mapping.raw);
+  const otherWrites = (other.control.values ?? []).filter(
+    (mapping) => !mapping.readOnly && mapping.value != null,
+  );
+  const written = otherWrites.map((mapping) => mapping.raw);
+  // A unit the kept control reads a raw value as only by passing it on, or
+  // by `otherwise`, gives way to the unit the other names for it: a
+  // climate's unit passes on `c`, which its select names celsius.
+  const unitOf = (raw: ControlMapping["raw"]) => {
+    const meant = unitSymbol(
+      otherWrites.find((mapping) => mapping.raw === raw)?.value,
+    );
+    const read = kept.otherwise === undefined ? raw : kept.otherwise;
+    return isUnit &&
+      typeof meant === "string" &&
+      TEMPERATURE_UNITS.has(meant) &&
+      meant !== read &&
+      !keptValues.some((mapping) => mapping.raw === raw)
+      ? meant
+      : undefined;
+  };
   // A raw value no mapping names, and no mapping reads as, is written as it
   // is by a control without `otherwise`.
   const writable = (raw: ControlMapping["raw"]) =>
@@ -915,7 +1008,9 @@ function absorb(kept: TuyaControl, other: Candidate): TuyaControl {
       !keptValues.some(
         (mapping) => mapping.raw === raw || mapping.value === raw,
       ));
-  const missing = written.filter((raw) => !writable(raw));
+  const missing = written.filter(
+    (raw) => !writable(raw) || unitOf(raw) !== undefined,
+  );
   if (
     (!kept.readOnly && missing.length === 0) ||
     !isPlain(kept) ||
@@ -932,7 +1027,8 @@ function absorb(kept: TuyaControl, other: Candidate): TuyaControl {
     ),
     ...missing.map((raw) => ({
       raw,
-      value: kept.otherwise === undefined ? raw : kept.otherwise,
+      value:
+        unitOf(raw) ?? (kept.otherwise === undefined ? raw : kept.otherwise),
     })),
   ];
   const writes = values
@@ -1052,15 +1148,37 @@ function settle(draft: Draft): Record<string, TuyaControl> {
         ? { ...candidate.control, unitFrom: unitName }
         : candidate.control;
   }
+  for (const unitFrom of new Set(
+    Object.values(controls).map((control) => control.unitFrom),
+  )) {
+    const unit = unitFrom === undefined ? undefined : controls[unitFrom];
+    if (unitFrom !== undefined && unit) {
+      controls[unitFrom] = unitSymbols(unit);
+    }
+  }
   return controls;
 }
 
+function unitSymbols(control: TuyaControl): TuyaControl {
+  const { values, otherwise } = control;
+  return {
+    ...control,
+    ...(values && {
+      values: values.map((mapping) => ({
+        ...mapping,
+        value: unitSymbol(mapping.value),
+      })),
+    }),
+    ...(otherwise !== undefined && { otherwise: unitSymbol(otherwise) }),
+  };
+}
+
 // Words that tell a control from another of its name by the kind of each: a
-// number set beside the reading of its name is the target the reading
-// follows, as `targetTemperature` beside `currentTemperature`; a switch
-// beside another kind of control turns that feature on; a text beside a
-// select or a number holds the raw data of what they choose; and a reading
-// beside a button or a select is the state they act on, as `lockState`.
+// number set beside the reading of its name is its setting, which can be a
+// set point, a threshold or an amount alike; a switch beside another kind of
+// control turns that feature on; a text beside a select or a number holds
+// the raw data of what they choose; and a reading beside a button or a
+// select is the state they act on, as `lockState`.
 function byKind(
   candidate: Candidate,
   rivals: readonly Candidate[],
@@ -1072,7 +1190,7 @@ function byKind(
     !readOnly &&
     rivals.some((rival) => rival.control.readOnly)
   ) {
-    return `target${candidate.base.charAt(0).toUpperCase()}${candidate.base.slice(1)}`;
+    return join(candidate.base, "setting");
   }
   if (kind === "switch" && [...kinds].some((other) => other !== "switch")) {
     return join(candidate.base, "enabled");

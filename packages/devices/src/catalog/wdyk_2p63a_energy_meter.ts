@@ -131,7 +131,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "mA",
       },
-      targetLeakageCurrentInMilliamps: {
+      leakageCurrentSettingInMilliamps: {
         dataPoint: "104",
         kind: "number",
         measures: "current",

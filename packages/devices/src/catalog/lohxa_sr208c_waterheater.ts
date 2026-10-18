@@ -67,8 +67,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "select",
         values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
         ],
       },
       instantHeating: { dataPoint: "8", kind: "switch" },

@@ -70,7 +70,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "preheat_done", value: "at_temperature" },
         ],
       },
-      targetTemperatureInC: {
+      temperatureSettingInC: {
         dataPoint: "6",
         kind: "number",
         measures: "temperature",

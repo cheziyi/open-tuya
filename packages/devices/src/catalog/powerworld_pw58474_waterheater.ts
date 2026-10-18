@@ -31,7 +31,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         readOnly: true,
-        otherwise: "°C",
+        otherwise: "C",
       },
       outletTemperature: {
         dataPoint: "101",
@@ -45,7 +45,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         readOnly: true,
-        otherwise: "°C",
+        otherwise: "C",
       },
       ambientTemperature: {
         dataPoint: "101",
@@ -59,7 +59,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         readOnly: true,
-        otherwise: "°C",
+        otherwise: "C",
       },
       exhaustTemperature: {
         dataPoint: "101",
@@ -73,7 +73,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         readOnly: true,
-        otherwise: "°C",
+        otherwise: "C",
       },
       returnGasTemperature: {
         dataPoint: "101",
@@ -87,7 +87,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         readOnly: true,
-        otherwise: "°C",
+        otherwise: "C",
       },
       evaporatorCoilTemperature: {
         dataPoint: "101",
@@ -101,7 +101,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         readOnly: true,
-        otherwise: "°C",
+        otherwise: "C",
       },
       innerCoilTemperature: {
         dataPoint: "101",
@@ -115,7 +115,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         readOnly: true,
-        otherwise: "°C",
+        otherwise: "C",
       },
       refrigerantGasConcentration: {
         dataPoint: "101",
@@ -143,7 +143,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         readOnly: true,
-        otherwise: "°C",
+        otherwise: "C",
       },
       compressorCurrent: {
         dataPoint: "101",
@@ -169,7 +169,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         readOnly: true,
-        otherwise: "°C",
+        otherwise: "C",
       },
       dcBusVoltage: {
         dataPoint: "101",

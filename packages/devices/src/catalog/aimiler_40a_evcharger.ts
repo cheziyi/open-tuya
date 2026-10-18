@@ -46,7 +46,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       statusSystemVersion: { dataPoint: "23", kind: "sensor", readOnly: true },
-      targetCurrentInA: {
+      currentSettingInA: {
         dataPoint: "4",
         kind: "number",
         measures: "current",

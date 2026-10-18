@@ -57,7 +57,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      targetOutputInPercent: {
+      outputSettingInPercent: {
         dataPoint: "107",
         kind: "number",
         unit: "%",
@@ -145,7 +145,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "mV",
       },
-      targetOrpInMillivolts: {
+      orpSettingInMillivolts: {
         dataPoint: "116",
         kind: "number",
         measures: "voltage",
@@ -160,7 +160,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         scale: 10,
       },
-      targetPh: {
+      phSetting: {
         dataPoint: "118",
         kind: "number",
         measures: "ph",

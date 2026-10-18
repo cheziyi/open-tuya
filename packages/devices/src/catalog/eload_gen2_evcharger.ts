@@ -110,7 +110,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "error", value: "fault" },
         ],
       },
-      targetCurrentInA: {
+      currentSettingInA: {
         dataPoint: "102",
         kind: "number",
         measures: "current",

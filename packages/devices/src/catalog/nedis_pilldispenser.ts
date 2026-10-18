@@ -155,7 +155,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
       },
-      targetLoadedCompartments: {
+      loadedCompartmentsSetting: {
         dataPoint: "127",
         kind: "number",
         min: 0,

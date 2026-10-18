@@ -82,7 +82,14 @@ const entry: TuyaDeviceEntry = {
           { raw: 3, value: "high" },
         ],
       },
-      temperatureUnit: { dataPoint: "19", kind: "text" },
+      temperatureUnit: {
+        dataPoint: "19",
+        kind: "select",
+        values: [
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
+        ],
+      },
       hvacAction: {
         dataPoint: "102",
         kind: "sensor",
