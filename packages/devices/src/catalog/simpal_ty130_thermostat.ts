@@ -37,8 +37,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "select",
         values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
         ],
       },
       temperatureHysteresis: {
@@ -116,6 +116,11 @@ const entry: TuyaDeviceEntry = {
         max: 1050,
         dependsOn: {
           dataPoint: "20",
+          constraint: {
+            dataPoint: "20",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             {
               when: ["f"],
@@ -142,6 +147,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "20",
+          constraint: {
+            dataPoint: "20",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             { when: ["f"], redirect: { dataPoint: "28", scale: 10 } },
           ],

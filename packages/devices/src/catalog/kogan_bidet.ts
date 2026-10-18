@@ -27,11 +27,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "45", kind: "switch" },
-      onAmbientTemperature: { dataPoint: "103", kind: "number" },
-      onCleanTime: { dataPoint: "56", kind: "number" },
-      onWindTemperature: { dataPoint: "57", kind: "text" },
-      onDryingTime: { dataPoint: "59", kind: "number" },
+      on: { dataPoint: "64", kind: "switch" },
       bidetMode: {
         dataPoint: "50",
         kind: "select",
@@ -53,7 +49,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "level_4", value: 4 },
         ],
       },
-      waterTemperature2: { dataPoint: "53", kind: "number" },
+      secondWaterTemperature: { dataPoint: "53", kind: "number" },
       waterTemperaturePressure: { dataPoint: "54", kind: "text" },
       position: {
         dataPoint: "55",
@@ -80,12 +76,11 @@ const entry: TuyaDeviceEntry = {
       },
       seatWarmthTemperature: { dataPoint: "61", kind: "number" },
       deodorize: { dataPoint: "62", kind: "switch" },
-      on2: { dataPoint: "64", kind: "switch" },
       ecoMode: { dataPoint: "65", kind: "switch" },
       fault: {
         dataPoint: "68",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -99,6 +94,13 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         whenAbsent: { value: false },
       },
+    },
+    device: {
+      on: { dataPoint: "45", kind: "switch" },
+      onAmbientTemperature: { dataPoint: "103", kind: "number" },
+      onCleanTime: { dataPoint: "56", kind: "number" },
+      onWindTemperature: { dataPoint: "57", kind: "text" },
+      onDryingTime: { dataPoint: "59", kind: "number" },
     },
   },
   source: {

@@ -65,7 +65,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "12",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -106,19 +106,19 @@ const entry: TuyaDeviceEntry = {
       rinseAidLevel: {
         dataPoint: "104",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       saltLevel: {
         dataPoint: "105",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       waterFlow: {
         dataPoint: "106",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       pause: {

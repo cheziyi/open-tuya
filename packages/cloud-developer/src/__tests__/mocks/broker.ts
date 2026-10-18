@@ -20,6 +20,8 @@ export interface StartBrokerOptions {
   /** The password the broker takes, which it refuses any other. Any password
    * by default. */
   password?: string;
+  /** Refuses every subscription, with QoS 128 in its SUBACK. */
+  refuseSubscriptions?: boolean;
 }
 
 /** An aedes MQTT broker on 127.0.0.1, written by others than this
@@ -43,6 +45,8 @@ export async function startBroker(
       }
       done(null, true);
     },
+    authorizeSubscribe: (_client, subscription, done) =>
+      done(null, options.refuseSubscriptions ? null : subscription),
   });
   const subscriptions: string[] = [];
   const unsubscriptions: string[] = [];

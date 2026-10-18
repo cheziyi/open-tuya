@@ -30,6 +30,92 @@ const entry: TuyaDeviceEntry = {
             raw: true,
             dependsOn: {
               dataPoint: "4",
+              constraint: {
+                dataPoint: "4",
+                values: [
+                  { raw: "heat_low", value: "fan_only" },
+                  {
+                    raw: "heat_high",
+                    dependsOn: {
+                      dataPoint: "5",
+                      constraint: {
+                        dataPoint: "5",
+                        values: [
+                          {
+                            raw: "NatureWind_Low",
+                            dependsOn: {
+                              dataPoint: "4",
+                              conditions: [
+                                { when: ["heat_low"], value: "low" },
+                              ],
+                            },
+                          },
+                          {
+                            raw: "NatureWind_High",
+                            dependsOn: {
+                              dataPoint: "4",
+                              conditions: [
+                                { when: ["heat_low"], value: "medium" },
+                              ],
+                            },
+                          },
+                          {
+                            raw: "CoolWind_0",
+                            dependsOn: {
+                              dataPoint: "4",
+                              conditions: [
+                                { when: ["heat_low"], value: "high" },
+                              ],
+                            },
+                          },
+                          { raw: "SleepWind", value: "auto", readOnly: true },
+                        ],
+                      },
+                      conditions: [{ when: ["SleepWind"], value: "low" }],
+                    },
+                  },
+                  {
+                    raw: "heat_0",
+                    dependsOn: {
+                      dataPoint: "5",
+                      constraint: {
+                        dataPoint: "5",
+                        values: [
+                          {
+                            raw: "NatureWind_Low",
+                            dependsOn: {
+                              dataPoint: "4",
+                              conditions: [
+                                { when: ["heat_low"], value: "low" },
+                              ],
+                            },
+                          },
+                          {
+                            raw: "NatureWind_High",
+                            dependsOn: {
+                              dataPoint: "4",
+                              conditions: [
+                                { when: ["heat_low"], value: "medium" },
+                              ],
+                            },
+                          },
+                          {
+                            raw: "CoolWind_0",
+                            dependsOn: {
+                              dataPoint: "4",
+                              conditions: [
+                                { when: ["heat_low"], value: "high" },
+                              ],
+                            },
+                          },
+                          { raw: "SleepWind", value: "auto", readOnly: true },
+                        ],
+                      },
+                      conditions: [{ when: ["SleepWind"], value: "high" }],
+                    },
+                  },
+                ],
+              },
               conditions: [
                 { when: ["heat_low"], value: "fan_only" },
                 { when: ["heat_high"], value: "heat" },
@@ -63,6 +149,33 @@ const entry: TuyaDeviceEntry = {
             raw: "heat_high",
             dependsOn: {
               dataPoint: "5",
+              constraint: {
+                dataPoint: "5",
+                values: [
+                  {
+                    raw: "NatureWind_Low",
+                    dependsOn: {
+                      dataPoint: "4",
+                      conditions: [{ when: ["heat_low"], value: "low" }],
+                    },
+                  },
+                  {
+                    raw: "NatureWind_High",
+                    dependsOn: {
+                      dataPoint: "4",
+                      conditions: [{ when: ["heat_low"], value: "medium" }],
+                    },
+                  },
+                  {
+                    raw: "CoolWind_0",
+                    dependsOn: {
+                      dataPoint: "4",
+                      conditions: [{ when: ["heat_low"], value: "high" }],
+                    },
+                  },
+                  { raw: "SleepWind", value: "auto", readOnly: true },
+                ],
+              },
               conditions: [{ when: ["SleepWind"], value: "low" }],
             },
           },
@@ -70,6 +183,33 @@ const entry: TuyaDeviceEntry = {
             raw: "heat_0",
             dependsOn: {
               dataPoint: "5",
+              constraint: {
+                dataPoint: "5",
+                values: [
+                  {
+                    raw: "NatureWind_Low",
+                    dependsOn: {
+                      dataPoint: "4",
+                      conditions: [{ when: ["heat_low"], value: "low" }],
+                    },
+                  },
+                  {
+                    raw: "NatureWind_High",
+                    dependsOn: {
+                      dataPoint: "4",
+                      conditions: [{ when: ["heat_low"], value: "medium" }],
+                    },
+                  },
+                  {
+                    raw: "CoolWind_0",
+                    dependsOn: {
+                      dataPoint: "4",
+                      conditions: [{ when: ["heat_low"], value: "high" }],
+                    },
+                  },
+                  { raw: "SleepWind", value: "auto", readOnly: true },
+                ],
+              },
               conditions: [{ when: ["SleepWind"], value: "high" }],
             },
           },
@@ -83,6 +223,26 @@ const entry: TuyaDeviceEntry = {
             raw: "NatureWind_Low",
             dependsOn: {
               dataPoint: "4",
+              constraint: {
+                dataPoint: "4",
+                values: [
+                  { raw: "heat_low", value: "fan_only" },
+                  {
+                    raw: "heat_high",
+                    dependsOn: {
+                      dataPoint: "5",
+                      conditions: [{ when: ["SleepWind"], value: "low" }],
+                    },
+                  },
+                  {
+                    raw: "heat_0",
+                    dependsOn: {
+                      dataPoint: "5",
+                      conditions: [{ when: ["SleepWind"], value: "high" }],
+                    },
+                  },
+                ],
+              },
               conditions: [{ when: ["heat_low"], value: "low" }],
             },
           },
@@ -90,6 +250,26 @@ const entry: TuyaDeviceEntry = {
             raw: "NatureWind_High",
             dependsOn: {
               dataPoint: "4",
+              constraint: {
+                dataPoint: "4",
+                values: [
+                  { raw: "heat_low", value: "fan_only" },
+                  {
+                    raw: "heat_high",
+                    dependsOn: {
+                      dataPoint: "5",
+                      conditions: [{ when: ["SleepWind"], value: "low" }],
+                    },
+                  },
+                  {
+                    raw: "heat_0",
+                    dependsOn: {
+                      dataPoint: "5",
+                      conditions: [{ when: ["SleepWind"], value: "high" }],
+                    },
+                  },
+                ],
+              },
               conditions: [{ when: ["heat_low"], value: "medium" }],
             },
           },
@@ -97,6 +277,26 @@ const entry: TuyaDeviceEntry = {
             raw: "CoolWind_0",
             dependsOn: {
               dataPoint: "4",
+              constraint: {
+                dataPoint: "4",
+                values: [
+                  { raw: "heat_low", value: "fan_only" },
+                  {
+                    raw: "heat_high",
+                    dependsOn: {
+                      dataPoint: "5",
+                      conditions: [{ when: ["SleepWind"], value: "low" }],
+                    },
+                  },
+                  {
+                    raw: "heat_0",
+                    dependsOn: {
+                      dataPoint: "5",
+                      conditions: [{ when: ["SleepWind"], value: "high" }],
+                    },
+                  },
+                ],
+              },
               conditions: [{ when: ["heat_low"], value: "high" }],
             },
           },
@@ -147,7 +347,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "23",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

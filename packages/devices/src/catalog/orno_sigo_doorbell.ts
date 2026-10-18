@@ -94,6 +94,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "ring",
       },
       doorbellMessage: {

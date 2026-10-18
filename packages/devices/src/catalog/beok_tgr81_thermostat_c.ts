@@ -34,6 +34,13 @@ const entry: TuyaDeviceEntry = {
             raw: true,
             dependsOn: {
               dataPoint: "2",
+              constraint: {
+                dataPoint: "2",
+                values: [
+                  { raw: "auto", value: "program" },
+                  { raw: "manual", value: "manual" },
+                ],
+              },
               conditions: [
                 { when: ["auto"], value: "auto" },
                 { when: ["manual"], value: "heat" },
@@ -59,7 +66,7 @@ const entry: TuyaDeviceEntry = {
         min: 5,
         max: 90,
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
@@ -73,7 +80,7 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      minTargetTemperatureInC: {
+      minimumTargetTemperatureInC: {
         dataPoint: "26",
         kind: "number",
         measures: "temperature",
@@ -114,7 +121,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "45",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -155,6 +162,7 @@ const entry: TuyaDeviceEntry = {
               { raw: "61", value: "6 days" },
               { raw: "70", value: "7 days" },
             ],
+            whenAbsent: {},
           },
         },
       },
@@ -167,6 +175,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "61", value: "6 days" },
           { raw: "70", value: "7 days" },
         ],
+        whenAbsent: {},
       },
       hysteresisInC: {
         dataPoint: "101",

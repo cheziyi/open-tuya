@@ -27,7 +27,7 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: true },
         ],
       },
-      mode: {
+      preset: {
         dataPoint: "2",
         kind: "select",
         values: [
@@ -74,8 +74,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "select",
         values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
         ],
       },
       temperatureCalibrationInC: {

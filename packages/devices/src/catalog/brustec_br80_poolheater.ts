@@ -38,6 +38,18 @@ const entry: TuyaDeviceEntry = {
             raw: true,
             dependsOn: {
               dataPoint: "4",
+              constraint: {
+                dataPoint: "4",
+                values: [
+                  { raw: "Heat", value: "smart_heat" },
+                  { raw: "Cool", value: "smart_cool" },
+                  { raw: "Auto", value: "auto" },
+                  { raw: "BoostHeat", value: "quick_heat" },
+                  { raw: "SilentHeat", value: "quiet_heat" },
+                  { raw: "BoostCool", value: "quick_cool" },
+                  { raw: "SilentCool", value: "quiet_cool" },
+                ],
+              },
               conditions: [
                 { when: ["Heat"], value: "heat" },
                 { when: ["Cool"], value: "cool" },
@@ -66,6 +78,11 @@ const entry: TuyaDeviceEntry = {
         max: 40,
         dependsOn: {
           dataPoint: "13",
+          constraint: {
+            dataPoint: "13",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             {
               when: ["f"],
@@ -84,6 +101,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "13",
+          constraint: {
+            dataPoint: "13",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [{ when: ["f"], redirect: { dataPoint: "15" } }],
         },
       },
@@ -112,14 +134,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "select",
         values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
         ],
       },
       fault: {
         dataPoint: "21",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -223,7 +245,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "Hz",
       },
-      mainValveInP: {
+      mainValve: {
         dataPoint: "109",
         kind: "sensor",
         readOnly: true,

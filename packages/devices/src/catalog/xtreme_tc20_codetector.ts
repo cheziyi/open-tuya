@@ -24,10 +24,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "normal", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       selfCheck: { dataPoint: "8", kind: "button" },
-      selfCheck2: {
+      selfCheckState: {
         dataPoint: "9",
         kind: "sensor",
         readOnly: true,
@@ -41,7 +42,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "11",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

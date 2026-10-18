@@ -68,6 +68,17 @@ const entry: TuyaDeviceEntry = {
             raw: true,
             dependsOn: {
               dataPoint: "2",
+              constraint: {
+                dataPoint: "2",
+                values: [
+                  { raw: "wind", value: "fan_only" },
+                  { raw: "cold", value: "cool" },
+                  { raw: "hea", value: "heat" },
+                  { raw: "floorhea", value: "floor_heat" },
+                  { raw: "heat_floorheat", value: "air_floor_heat" },
+                  { raw: "cold_floorcold", value: "air_floor_cool" },
+                ],
+              },
               conditions: [
                 { when: ["wind"], value: "fan_only" },
                 { when: ["cold"], value: "cool" },
@@ -124,6 +135,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "all_off", value: "idle" },
           { raw: "cold_on", value: "cooling" },
           { raw: "heat_on", value: "heating" },
+          { raw: "all_on", value: null },
         ],
       },
     },
@@ -223,7 +235,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "122",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: "0", value: false },

@@ -26,6 +26,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "pir", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       currentLuminanceInLux: {

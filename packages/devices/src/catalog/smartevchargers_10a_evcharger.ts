@@ -89,7 +89,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "10",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -149,6 +149,13 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: {
           dependsOn: {
             dataPoint: "101",
+            constraint: {
+              dataPoint: "101",
+              values: [
+                { raw: "charge_now", value: "immediate" },
+                { raw: "charge_schedule", value: "scheduled_charge" },
+              ],
+            },
             conditions: [
               {
                 when: ["charge_now"],

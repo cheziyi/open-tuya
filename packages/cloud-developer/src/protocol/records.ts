@@ -13,36 +13,42 @@ export interface Envelope {
 }
 
 export interface TokenResult {
-  access_token: string;
+  access_token?: unknown;
   /** In seconds, from now. */
-  expire_time: number;
-  uid: string;
+  expire_time?: unknown;
+  uid?: unknown;
 }
 
 export interface DeviceRecord {
   id: string;
   name: string;
-  /** Missing on some gateways. */
+  /** Missing or empty on some devices in the list of every linked account,
+   * though the list of their own account carries it. */
   local_key?: string;
   product_id: string;
   category: string;
   online: boolean;
   node_id?: string;
+  /** The app account the device belongs to. */
+  uid?: string;
 }
 
+/** A page of `/v1.0/iot-01/associated-users/devices` in `devices`, or of
+ * `/v1.3/iot-03/devices` in `list`. */
 export interface DevicePage {
   devices?: DeviceRecord[];
+  list?: DeviceRecord[];
   has_more?: boolean;
   last_row_key?: string;
 }
 
 export interface DeviceDetail {
-  uid: string;
+  uid?: unknown;
 }
 
 export interface ThingModel {
   /** JSON text of `{ services: [{ properties: ThingProperty[] }] }`. */
-  model: string;
+  model?: unknown;
 }
 
 export interface ThingProperty {
@@ -51,17 +57,17 @@ export interface ThingProperty {
 }
 
 export interface ShadowProperties {
-  properties?: { dp_id?: number; value?: unknown }[];
+  properties?: { dp_id?: number | null; value?: unknown }[];
 }
 
 export interface PushConfigRecord {
-  url: string;
-  client_id: string;
-  username: string;
-  password: string;
+  url?: unknown;
+  client_id?: unknown;
+  username?: unknown;
+  password?: unknown;
   /** In seconds. */
-  expire_time: number;
-  source_topic: { device: string };
+  expire_time?: unknown;
+  source_topic?: { device?: unknown } | null;
 }
 
 export interface PushEnvelope {

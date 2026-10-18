@@ -57,14 +57,14 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
         step: 5,
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
         unit: "C",
         scale: 10,
       },
-      minTargetTemperatureInC: {
+      minimumTargetTemperatureInC: {
         dataPoint: "26",
         kind: "number",
         measures: "temperature",

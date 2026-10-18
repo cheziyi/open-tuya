@@ -50,6 +50,13 @@ const entry: TuyaDeviceEntry = {
         max: 4500,
         dependsOn: {
           dataPoint: "23",
+          constraint: {
+            dataPoint: "23",
+            values: [
+              { raw: "c", value: "C" },
+              { raw: "f", value: "F" },
+            ],
+          },
           conditions: [
             {
               when: ["f"],
@@ -77,6 +84,13 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "23",
+          constraint: {
+            dataPoint: "23",
+            values: [
+              { raw: "c", value: "C" },
+              { raw: "f", value: "F" },
+            ],
+          },
           conditions: [
             { when: ["f"], scale: 1, redirect: { dataPoint: "29" } },
           ],
@@ -114,6 +128,10 @@ const entry: TuyaDeviceEntry = {
             raw: "followschedule",
             dependsOn: {
               dataPoint: "119",
+              constraint: {
+                dataPoint: "119",
+                values: [{ raw: false, value: "manual" }],
+              },
               conditions: [
                 {
                   when: [false],
@@ -131,6 +149,10 @@ const entry: TuyaDeviceEntry = {
             raw: "temphold",
             dependsOn: {
               dataPoint: "119",
+              constraint: {
+                dataPoint: "119",
+                values: [{ raw: false, value: "manual" }],
+              },
               conditions: [
                 {
                   when: [false],
@@ -147,6 +169,10 @@ const entry: TuyaDeviceEntry = {
             raw: "permhold",
             dependsOn: {
               dataPoint: "119",
+              constraint: {
+                dataPoint: "119",
+                values: [{ raw: false, value: "manual" }],
+              },
               conditions: [
                 {
                   when: [false],
@@ -184,7 +210,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "45",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

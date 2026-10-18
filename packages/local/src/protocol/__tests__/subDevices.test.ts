@@ -22,26 +22,12 @@ function text({ command, plaintext }: { command: number; plaintext: Buffer }) {
 }
 
 describe("buildSubDeviceQuery", () => {
-  it("reads through a 3.3 gateway with DP_QUERY, naming the node and the time", () => {
-    expect(
-      text(buildSubDeviceQuery("3.3", "a4c1382403f05cc6", 1697030197.6)),
-    ).toEqual({
-      command: COMMANDS.DP_QUERY,
-      plaintext: '{"cid":"a4c1382403f05cc6","t":1697030197}',
+  it("reads through a gateway with DP_QUERY_NEW, naming the node alone", () => {
+    expect(text(buildSubDeviceQuery("a4c138ad1d974d89"))).toEqual({
+      command: COMMANDS.DP_QUERY_NEW,
+      plaintext: '{"cid":"a4c138ad1d974d89"}',
     });
   });
-
-  it.each(["3.4", "3.5"] as const)(
-    "reads through a %s gateway with DP_QUERY_NEW, naming the node alone",
-    (version) => {
-      expect(text(buildSubDeviceQuery(version, "a4c138ad1d974d89", 0))).toEqual(
-        {
-          command: COMMANDS.DP_QUERY_NEW,
-          plaintext: '{"cid":"a4c138ad1d974d89"}',
-        },
-      );
-    },
-  );
 });
 
 describe("buildSubDeviceControl", () => {

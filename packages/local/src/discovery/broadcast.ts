@@ -39,8 +39,11 @@ export interface DiscoveredTuyaDevice {
 // Source: A 3.5 device broadcasts, and answers a REQ_DEVINFO with, a 0x6699
 // frame with command UDP_NEW and return code 0 in front of its JSON, in
 // https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
-// Source: The JSON carries ip, gwId, productKey and version, in every capture
-// above.
+// Source: The JSON carries ip, gwId, productKey and version, captured in
+// https://github.com/xZetsubou/hass-localtuya/commit/aeb5f9ce4c07c57e7868f296978fed4a2a5e9f18
+// and https://github.com/codetheweb/tuyapi/issues/17#issuecomment-361135781,
+// and written in
+// https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
 /** Reads a datagram a device sent: a broadcast, or a 3.5 device's answer to a
  * request. It returns `undefined` for any other datagram: one that is not a
  * whole frame, whose CRC or tag is wrong, that a client sent, or from a device

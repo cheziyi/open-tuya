@@ -44,11 +44,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     siren: {
-      cameraRecord: { dataPoint: "150", kind: "switch" },
+      recording: { dataPoint: "150", kind: "switch" },
       motion: {
         dataPoint: "115",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "detected",
       },
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
@@ -127,6 +128,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
         ],
+        whenAbsent: { value: null },
       },
       on: { dataPoint: "159", kind: "switch" },
       durationInSeconds: {
@@ -147,6 +149,7 @@ const entry: TuyaDeviceEntry = {
       motionTracking: {
         dataPoint: "161",
         kind: "switch",
+        values: [{ raw: false }],
         whenAbsent: { value: false },
       },
       motionAreaLimit: {
@@ -171,6 +174,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "185",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "alarm",
       },
       alarmMessage: {
@@ -183,6 +187,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "212",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "message",
       },
       notificationMessage: {
@@ -191,7 +196,11 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         type: "utf16b64",
       },
-      pirSensor: { dataPoint: "240", kind: "switch" },
+      pirSensor: {
+        dataPoint: "240",
+        kind: "switch",
+        whenAbsent: { value: null },
+      },
       pirSensitivity: { dataPoint: "241", kind: "number", min: 1, max: 10 },
       sceneLinkage: {
         dataPoint: "244",

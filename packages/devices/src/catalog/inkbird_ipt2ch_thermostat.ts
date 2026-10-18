@@ -34,11 +34,15 @@ const entry: TuyaDeviceEntry = {
     "125": { type: "integer", optional: true },
   },
   components: {
-    thermostat: {
+    probe1: {
       temperatureUnit: {
         dataPoint: "101",
-        kind: "text",
+        kind: "select",
         whenAbsent: { value: "C" },
+        values: [
+          { raw: "C", value: "C" },
+          { raw: "F", value: "F" },
+        ],
       },
       heatingTargetTemperature: {
         dataPoint: "102",
@@ -49,6 +53,7 @@ const entry: TuyaDeviceEntry = {
         max: 1130,
         dependsOn: {
           dataPoint: "101",
+          constraint: { dataPoint: "101", whenAbsent: { value: "C" } },
           conditions: [
             { when: ["C"], min: 0, max: 450 },
             { when: ["F"], min: 320, max: 1130 },
@@ -65,6 +70,7 @@ const entry: TuyaDeviceEntry = {
         max: 1130,
         dependsOn: {
           dataPoint: "101",
+          constraint: { dataPoint: "101", whenAbsent: { value: "C" } },
           conditions: [
             { when: ["C"], min: 0, max: 450 },
             { when: ["F"], min: 320, max: 1130 },
@@ -80,6 +86,7 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "101",
+          constraint: { dataPoint: "101", whenAbsent: { value: "C" } },
           conditions: [
             { when: ["F"], redirect: { dataPoint: "119", scale: 10 } },
           ],
@@ -106,11 +113,15 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    thermostat2: {
+    probe2: {
       temperatureUnit: {
         dataPoint: "101",
-        kind: "text",
+        kind: "select",
         whenAbsent: { value: "C" },
+        values: [
+          { raw: "C", value: "C" },
+          { raw: "F", value: "F" },
+        ],
       },
       heatingTargetTemperature: {
         dataPoint: "108",
@@ -121,6 +132,7 @@ const entry: TuyaDeviceEntry = {
         max: 1130,
         dependsOn: {
           dataPoint: "101",
+          constraint: { dataPoint: "101", whenAbsent: { value: "C" } },
           conditions: [
             { when: ["C"], min: 0, max: 450 },
             { when: ["F"], min: 320, max: 1130 },
@@ -137,6 +149,7 @@ const entry: TuyaDeviceEntry = {
         max: 1130,
         dependsOn: {
           dataPoint: "101",
+          constraint: { dataPoint: "101", whenAbsent: { value: "C" } },
           conditions: [
             { when: ["C"], min: 0, max: 450 },
             { when: ["F"], min: 320, max: 1130 },
@@ -152,6 +165,7 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "101",
+          constraint: { dataPoint: "101", whenAbsent: { value: "C" } },
           conditions: [
             { when: ["F"], redirect: { dataPoint: "125", scale: 10 } },
           ],
@@ -182,7 +196,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "12",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -193,11 +207,11 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "select",
         values: [
-          { raw: "C", value: "celsius" },
-          { raw: "F", value: "fahrenheit" },
+          { raw: "C", value: "C" },
+          { raw: "F", value: "F" },
         ],
       },
-      highTemperatureAlarm1: {
+      highTemperatureAlarm1Setting: {
         dataPoint: "105",
         kind: "number",
         measures: "temperature",
@@ -206,6 +220,7 @@ const entry: TuyaDeviceEntry = {
         max: 1220,
         dependsOn: {
           dataPoint: "101",
+          constraint: { dataPoint: "101", whenAbsent: { value: "C" } },
           conditions: [
             { when: ["C"], min: -50, max: 500 },
             { when: ["F"], min: 230, max: 1220 },
@@ -213,12 +228,22 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 10,
       },
+      highTemperatureAlarm1: {
+        dataPoint: "115",
+        kind: "sensor",
+        measures: "heat",
+        readOnly: true,
+      },
       highTemperatureAlarm1Unit: {
         dataPoint: "101",
-        kind: "text",
+        kind: "select",
         whenAbsent: { value: "C" },
+        values: [
+          { raw: "C", value: "C" },
+          { raw: "F", value: "F" },
+        ],
       },
-      lowTemperatureAlarm1: {
+      lowTemperatureAlarm1Setting: {
         dataPoint: "106",
         kind: "number",
         measures: "temperature",
@@ -227,6 +252,7 @@ const entry: TuyaDeviceEntry = {
         max: 1220,
         dependsOn: {
           dataPoint: "101",
+          constraint: { dataPoint: "101", whenAbsent: { value: "C" } },
           conditions: [
             { when: ["C"], min: -50, max: 500 },
             { when: ["F"], min: 230, max: 1220 },
@@ -234,10 +260,20 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 10,
       },
+      lowTemperatureAlarm1: {
+        dataPoint: "116",
+        kind: "sensor",
+        measures: "cold",
+        readOnly: true,
+      },
       lowTemperatureAlarm1Unit: {
         dataPoint: "101",
-        kind: "text",
+        kind: "select",
         whenAbsent: { value: "C" },
+        values: [
+          { raw: "C", value: "C" },
+          { raw: "F", value: "F" },
+        ],
       },
       temperatureCalibration1: {
         dataPoint: "107",
@@ -250,10 +286,14 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureCalibration1Unit: {
         dataPoint: "101",
-        kind: "text",
+        kind: "select",
         whenAbsent: { value: "C" },
+        values: [
+          { raw: "C", value: "C" },
+          { raw: "F", value: "F" },
+        ],
       },
-      highTemperatureAlarm2: {
+      highTemperatureAlarm2Setting: {
         dataPoint: "110",
         kind: "number",
         measures: "temperature",
@@ -262,12 +302,22 @@ const entry: TuyaDeviceEntry = {
         max: 1220,
         scale: 10,
       },
+      highTemperatureAlarm2: {
+        dataPoint: "117",
+        kind: "sensor",
+        measures: "heat",
+        readOnly: true,
+      },
       highTemperatureAlarm2Unit: {
         dataPoint: "101",
-        kind: "text",
+        kind: "select",
         whenAbsent: { value: "C" },
+        values: [
+          { raw: "C", value: "C" },
+          { raw: "F", value: "F" },
+        ],
       },
-      lowTemperatureAlarm2: {
+      lowTemperatureAlarm2Setting: {
         dataPoint: "111",
         kind: "number",
         measures: "temperature",
@@ -276,10 +326,20 @@ const entry: TuyaDeviceEntry = {
         max: 1220,
         scale: 10,
       },
+      lowTemperatureAlarm2: {
+        dataPoint: "118",
+        kind: "sensor",
+        measures: "cold",
+        readOnly: true,
+      },
       lowTemperatureAlarm2Unit: {
         dataPoint: "101",
-        kind: "text",
+        kind: "select",
         whenAbsent: { value: "C" },
+        values: [
+          { raw: "C", value: "C" },
+          { raw: "F", value: "F" },
+        ],
       },
       temperatureCalibration2: {
         dataPoint: "112",
@@ -292,8 +352,12 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureCalibration2Unit: {
         dataPoint: "101",
-        kind: "text",
+        kind: "select",
         whenAbsent: { value: "C" },
+        values: [
+          { raw: "C", value: "C" },
+          { raw: "F", value: "F" },
+        ],
       },
       probe1Status: {
         dataPoint: "113",
@@ -317,32 +381,8 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "Unknown" },
       },
-      highTemperatureAlarm12: {
-        dataPoint: "115",
-        kind: "sensor",
-        measures: "heat",
-        readOnly: true,
-      },
-      lowTemperatureAlarm12: {
-        dataPoint: "116",
-        kind: "sensor",
-        measures: "cold",
-        readOnly: true,
-      },
-      highTemperatureAlarm22: {
-        dataPoint: "117",
-        kind: "sensor",
-        measures: "heat",
-        readOnly: true,
-      },
-      lowTemperatureAlarm22: {
-        dataPoint: "118",
-        kind: "sensor",
-        measures: "cold",
-        readOnly: true,
-      },
-      alarm: { dataPoint: "122", kind: "switch" },
-      alarm2: {
+      alarmEnabled: { dataPoint: "122", kind: "switch" },
+      alarm: {
         dataPoint: "123",
         kind: "sensor",
         measures: "sound",

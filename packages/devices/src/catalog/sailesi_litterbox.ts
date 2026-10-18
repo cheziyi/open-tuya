@@ -54,7 +54,7 @@ const entry: TuyaDeviceEntry = {
       },
       weightLbs: { dataPoint: "129", kind: "sensor", readOnly: true },
       weightConfigUnit: { dataPoint: "116", kind: "sensor", readOnly: true },
-      dailyUsesInTimes: {
+      dailyUses: {
         dataPoint: "7",
         kind: "sensor",
         readOnly: true,
@@ -71,7 +71,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -125,6 +125,7 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [{ raw: true, value: "used" }],
+        otherwise: null,
       },
       toiletCleanNotice: { dataPoint: "111", kind: "sensor", readOnly: true },
       toiletNetNotice: { dataPoint: "113", kind: "sensor", readOnly: true },
@@ -149,11 +150,12 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [{ raw: true, value: "full" }],
+        otherwise: null,
       },
       deodorize: { dataPoint: "120", kind: "button" },
       smartCleaning: { dataPoint: "121", kind: "switch" },
       doNotDisturb: { dataPoint: "122", kind: "switch" },
-      usageInTimes: {
+      usage: {
         dataPoint: "123",
         kind: "sensor",
         readOnly: true,

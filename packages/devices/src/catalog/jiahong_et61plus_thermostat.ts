@@ -48,6 +48,11 @@ const entry: TuyaDeviceEntry = {
         max: 400,
         dependsOn: {
           dataPoint: "107",
+          constraint: {
+            dataPoint: "107",
+            values: [{ raw: true, value: "F" }],
+            otherwise: "C",
+          },
           conditions: [{ when: [true], min: 410, max: 1040 }],
         },
         scale: 10,
@@ -133,8 +138,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "select",
         values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
+          { raw: false, value: "C" },
+          { raw: true, value: "F" },
         ],
       },
       floorTemperatureLimit: {
@@ -146,6 +151,11 @@ const entry: TuyaDeviceEntry = {
         max: 500,
         dependsOn: {
           dataPoint: "107",
+          constraint: {
+            dataPoint: "107",
+            values: [{ raw: true, value: "F" }],
+            otherwise: "C",
+          },
           conditions: [{ when: [true], min: 680, max: 1220 }],
         },
         scale: 10,
@@ -188,7 +198,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "104",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

@@ -62,7 +62,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         scale: 100,
       },
-      timesUsedInTimes: {
+      timesUsed: {
         dataPoint: "104",
         kind: "sensor",
         readOnly: true,
@@ -84,6 +84,7 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [
+          { raw: 0, value: null },
           { raw: 1, value: "garbage_full" },
           { raw: 2, value: "excessive_use" },
           { raw: 4, value: "flushing" },
@@ -93,7 +94,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -138,7 +139,7 @@ const entry: TuyaDeviceEntry = {
       fanFault: {
         dataPoint: "108",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       binFull: { dataPoint: "109", kind: "sensor", readOnly: true },
@@ -153,19 +154,19 @@ const entry: TuyaDeviceEntry = {
       motorFault: {
         dataPoint: "111",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       sensorFault: {
         dataPoint: "112",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       overweight: {
         dataPoint: "113",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       childLock: { dataPoint: "114", kind: "switch" },

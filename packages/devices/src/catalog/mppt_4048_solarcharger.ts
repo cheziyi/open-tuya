@@ -70,7 +70,7 @@ const entry: TuyaDeviceEntry = {
       saveValue: { dataPoint: "109", kind: "button" },
       readValue: { dataPoint: "107", kind: "button" },
       load: { dataPoint: "15", kind: "switch" },
-      sensorThresholdInV: {
+      overVoltageThresholdInV: {
         dataPoint: "11",
         kind: "number",
         measures: "voltage",
@@ -79,7 +79,7 @@ const entry: TuyaDeviceEntry = {
         max: 9999,
         scale: 10,
       },
-      sensorThresholdInV2: {
+      underVoltageThresholdInV: {
         dataPoint: "12",
         kind: "number",
         measures: "voltage",
@@ -106,7 +106,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "mode_3", value: "mode 3" },
         ],
       },
-      loadVoltageInV: {
+      loadVoltageSettingInV: {
         dataPoint: "3",
         kind: "number",
         measures: "voltage",
@@ -115,13 +115,31 @@ const entry: TuyaDeviceEntry = {
         max: 9999,
         scale: 10,
       },
-      loadPowerInW: {
+      loadVoltageInV: {
+        dataPoint: "106",
+        mask: "FFFF00000000",
+        kind: "sensor",
+        measures: "voltage",
+        readOnly: true,
+        unit: "V",
+        scale: 10,
+      },
+      loadPowerSettingInW: {
         dataPoint: "5",
         kind: "number",
         measures: "power",
         unit: "W",
         min: 0,
         max: 10000,
+        scale: 10,
+      },
+      loadPowerInW: {
+        dataPoint: "106",
+        mask: "00000000FFFF",
+        kind: "sensor",
+        measures: "power",
+        readOnly: true,
+        unit: "W",
         scale: 10,
       },
       loadMode: { dataPoint: "8", kind: "number", min: 1, max: 9999 },
@@ -205,7 +223,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "7",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -300,15 +318,6 @@ const entry: TuyaDeviceEntry = {
         unit: "%",
         scale: 10,
       },
-      loadVoltageInV2: {
-        dataPoint: "106",
-        mask: "FFFF00000000",
-        kind: "sensor",
-        measures: "voltage",
-        readOnly: true,
-        unit: "V",
-        scale: 10,
-      },
       loadCurrentInA: {
         dataPoint: "106",
         mask: "0000FFFF0000",
@@ -316,15 +325,6 @@ const entry: TuyaDeviceEntry = {
         measures: "current",
         readOnly: true,
         unit: "A",
-        scale: 10,
-      },
-      loadPowerInW2: {
-        dataPoint: "106",
-        mask: "00000000FFFF",
-        kind: "sensor",
-        measures: "power",
-        readOnly: true,
-        unit: "W",
         scale: 10,
       },
       balanceVoltageInV: {

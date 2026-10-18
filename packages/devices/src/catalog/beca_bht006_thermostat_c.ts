@@ -39,7 +39,7 @@ const entry: TuyaDeviceEntry = {
                 { when: ["cold"], value: "cool" },
                 { when: ["hot"], value: "heat" },
                 { when: ["wind"], value: "fan_only" },
-                { when: [null], readOnly: true },
+                { when: [null], value: null, readOnly: true },
               ],
             },
           },
@@ -63,14 +63,14 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
         step: 5,
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
         unit: "C",
         scale: 10,
       },
-      minTargetTemperatureInC: {
+      minimumTargetTemperatureInC: {
         dataPoint: "26",
         kind: "number",
         measures: "temperature",
@@ -99,7 +99,7 @@ const entry: TuyaDeviceEntry = {
                 { when: ["hot"], value: "heating" },
                 { when: ["cold"], value: "cooling" },
                 { when: ["wind"], value: "fan" },
-                { when: [null] },
+                { when: [null], value: null },
               ],
             },
           },

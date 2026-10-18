@@ -42,6 +42,13 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         dependsOn: {
           dataPoint: "1",
+          constraint: {
+            dataPoint: "1",
+            values: [
+              { raw: false, value: "off" },
+              { raw: true, value: "heat" },
+            ],
+          },
           conditions: [{ when: [false], invalid: true }],
         },
       },
@@ -62,7 +69,11 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "off" },
         ],
       },
-      flameEffect: { dataPoint: "10", kind: "switch" },
+      flameEffect: {
+        dataPoint: "10",
+        kind: "switch",
+        values: [{ raw: true }, { raw: false }],
+      },
       timer: {
         dataPoint: "19",
         kind: "select",
@@ -85,7 +96,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "21",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

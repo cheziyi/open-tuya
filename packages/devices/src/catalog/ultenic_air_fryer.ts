@@ -106,7 +106,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "12",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -124,8 +124,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "select",
         values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
         ],
       },
       preheat: { dataPoint: "15", kind: "switch" },
@@ -145,6 +145,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "1", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       currentStageRemainingTimeInMinutes: {

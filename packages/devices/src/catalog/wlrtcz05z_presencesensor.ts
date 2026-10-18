@@ -138,6 +138,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "119",
         kind: "event",
         readOnly: true,
+        values: [{ raw: "none", value: null }],
         otherwise: "detected",
       },
       detectionMotionType: { dataPoint: "119", kind: "sensor", readOnly: true },

@@ -110,6 +110,7 @@ const entry: TuyaDeviceEntry = {
           { raw: true, value: "on" },
         ],
         otherwise: "off",
+        ownRuleReadOnly: true,
       },
       preset: {
         dataPoint: "101",
@@ -136,6 +137,7 @@ const entry: TuyaDeviceEntry = {
         min: 35,
         max: 85,
         values: [
+          { raw: "cancel", value: null, readOnly: true },
           { raw: "35", value: 35 },
           { raw: "40", value: 40 },
           { raw: "45", value: 45 },
@@ -153,14 +155,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "select",
         values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
         ],
       },
       fault: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

@@ -56,23 +56,6 @@ const entry: TuyaDeviceEntry = {
       reserve1: { dataPoint: "115", kind: "number" },
       reserve2: { dataPoint: "116", kind: "number" },
       reserve3: { dataPoint: "117", kind: "number" },
-      mode2: {
-        dataPoint: "101",
-        kind: "select",
-        values: [
-          { raw: 0, value: "Mode 0" },
-          { raw: 1, value: "Mode 1" },
-          { raw: 2, value: "Mode 2" },
-          { raw: 3, value: "Mode 3" },
-          { raw: 4, value: "Mode 4" },
-          { raw: 5, value: "Mode 5" },
-          { raw: 6, value: "Mode 6" },
-          { raw: 7, value: "Mode 7" },
-          { raw: 8, value: "Mode 8" },
-          { raw: 9, value: "Mode 9" },
-          { raw: 10, value: "Mode 10" },
-        ],
-      },
       energyInKwh: {
         dataPoint: "10",
         kind: "sensor",
@@ -114,7 +97,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "107",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -165,6 +148,25 @@ const entry: TuyaDeviceEntry = {
       },
       morning: { dataPoint: "118", kind: "switch" },
       afternoon: { dataPoint: "118", kind: "switch" },
+    },
+    device: {
+      mode: {
+        dataPoint: "101",
+        kind: "select",
+        values: [
+          { raw: 0, value: "Mode 0" },
+          { raw: 1, value: "Mode 1" },
+          { raw: 2, value: "Mode 2" },
+          { raw: 3, value: "Mode 3" },
+          { raw: 4, value: "Mode 4" },
+          { raw: 5, value: "Mode 5" },
+          { raw: 6, value: "Mode 6" },
+          { raw: 7, value: "Mode 7" },
+          { raw: 8, value: "Mode 8" },
+          { raw: 9, value: "Mode 9" },
+          { raw: 10, value: "Mode 10" },
+        ],
+      },
     },
   },
   source: {

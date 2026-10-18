@@ -101,13 +101,13 @@ const entry: TuyaDeviceEntry = {
       },
       displayVersion: { dataPoint: "114", kind: "number" },
       mainVersion: { dataPoint: "115", kind: "number" },
-      minTargetTemperature: {
+      minimumTargetTemperature: {
         dataPoint: "121",
         kind: "number",
         measures: "temperature",
         unitFrom: "temperatureUnit",
       },
-      maxTargetTemperature: {
+      maximumTargetTemperature: {
         dataPoint: "122",
         kind: "number",
         measures: "temperature",
@@ -207,8 +207,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "119",
         kind: "select",
         values: [
-          { raw: "0", value: "celsius" },
-          { raw: "1", value: "fahrenheit" },
+          { raw: "0", value: "C" },
+          { raw: "1", value: "F" },
         ],
       },
       coolingLock: {
@@ -223,7 +223,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "149",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         whenAbsent: { value: false },
         otherwise: true,

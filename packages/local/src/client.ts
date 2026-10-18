@@ -36,8 +36,8 @@ import { SubDeviceTuyaClient } from "./subDevice.js";
 const REPLY_TIMEOUT_IN_MS = 5000;
 const FIRST_RECONNECT_DELAY_IN_MS = 5000;
 const MAX_RECONNECT_DELAY_IN_MS = 60_000;
-// How often a 3.4 or 3.5 gateway is asked which devices behind it are online:
-// see DESIGN.md#gateways.
+// How often a gateway is asked which devices behind it are online: see
+// DESIGN.md#gateways.
 const SUB_DEVICE_STATUS_INTERVAL_IN_MS = 30_000;
 // The range of the source ID a write carries: see DESIGN.md#client.
 const MIN_SOURCE_ID = 1000;
@@ -104,6 +104,10 @@ interface RequestOptions {
 interface PendingRequest {
   command: number;
   replyCommand?: number;
+  /** Whether the ack to a request with a `replyCommand` has come. */
+  acked?: boolean;
+  /** The reply to a request with a `replyCommand`, held until its ack. */
+  reply?: ReceivedTuyaFrame;
   /** The device behind the gateway the request is for. */
   nodeId?: string;
   settle: (frame: ReceivedTuyaFrame) => void;
@@ -118,11 +122,12 @@ interface PendingRequest {
 // devices captured in
 // https://github.com/jasonacox/tinytuya/issues/498#issuecomment-2119361833 send 0,
 // so a write fails on its ack's payload alone.
-// Source: A device sends a STATUS for a read by writing null, before its ack
-// on 3.3, captured in
+// Source: A device sends a STATUS for a read by writing null with
+// CONTROL_NEW, before its ack on 3.3, captured in
 // https://github.com/TuyaAPI/cli/issues/109#issuecomment-768668877, and
 // after it on 3.2, captured in
 // https://github.com/rospogrigio/localtuya/issues/1232#issuecomment-1387550394.
+// No capture shows the order for a CONTROL, which the client sends.
 /** A device on the LAN. It connects when created, reads the device's data
  * points once connected and hands them to the `onDataPoints` listeners, and
  * reconnects after a loss: 5 s later, doubling to 60 s. A request fails at
@@ -195,8 +200,9 @@ export class LocalTuyaClient implements TuyaClient {
    * device answers with an error, such as "json obj data unvalid" from a
    * device with nothing to report yet, and `REQUEST_TIMED_OUT` when it does
    * not answer within 5 s. With `readByWritingNull`, it resolves with the
-   * first STATUS the device sends, which also goes to the `onDataPoints`
-   * listeners, and times out when the device has none of the data points. */
+   * first STATUS the device sends, once the device has acked the write too.
+   * The STATUS also goes to the `onDataPoints` listeners. It times out when
+   * the device has none of the data points. */
   async readDataPoints(): Promise<DataPoints> {
     const reply = this.nullRead
       ? await this.request(
@@ -245,9 +251,9 @@ export class LocalTuyaClient implements TuyaClient {
 
   /** A client for the device behind this gateway with `nodeId`, reached over
    * this client's connection, under its local key. It reads the device once
-   * connected, and after each reconnect. On 3.4 and 3.5, it asks the gateway
-   * every 30 s which devices behind it are online. It throws a `TypeError` on
-   * 3.1 and 3.2, as no source shows how a gateway of either reaches the
+   * connected, and after each reconnect. While a device behind it is open,
+   * it asks the gateway every 30 s which are online. It throws a `TypeError`
+   * on 3.1 and 3.2, as no source shows how a gateway of either reaches the
    * devices behind it. */
   createClient(nodeId: string): SubDeviceTuyaClient {
     this.gatewayVersion();
@@ -262,12 +268,10 @@ export class LocalTuyaClient implements TuyaClient {
           this.subDeviceListeners.set(nodeId, listeners);
         }
         listeners.add(listener);
-        return () => {
-          listeners.delete(listener);
-        };
+        return () => this.unsubscribe(nodeId, listener);
       },
     });
-    if (this.version !== "3.3" && !this.closed) {
+    if (!this.closed) {
       this.statusTimer ??= setInterval(
         () => this.querySubDeviceStatus(),
         SUB_DEVICE_STATUS_INTERVAL_IN_MS,
@@ -366,6 +370,23 @@ export class LocalTuyaClient implements TuyaClient {
       : this.connectedHost;
   }
 
+  // A closed device's node ID leaves the map, so a reconnect reads only the
+  // devices still open, and the status query stops with the last of them.
+  private unsubscribe(
+    nodeId: string,
+    listener: (dataPoints: DataPoints) => void,
+  ): void {
+    const listeners = this.subDeviceListeners.get(nodeId);
+    listeners?.delete(listener);
+    if (listeners?.size === 0) {
+      this.subDeviceListeners.delete(nodeId);
+    }
+    if (this.subDeviceListeners.size === 0) {
+      clearInterval(this.statusTimer);
+      this.statusTimer = undefined;
+    }
+  }
+
   private gatewayVersion(): GatewayProtocolVersion {
     if (this.version === "3.1" || this.version === "3.2") {
       throw new TypeError(
@@ -376,10 +397,7 @@ export class LocalTuyaClient implements TuyaClient {
   }
 
   private async readSubDevice(nodeId: string): Promise<DataPoints> {
-    const reply = await this.request(
-      buildSubDeviceQuery(this.gatewayVersion(), nodeId, Date.now() / 1000),
-      { nodeId },
-    );
+    const reply = await this.request(buildSubDeviceQuery(nodeId), { nodeId });
     const dataPoints =
       reply.returnCode === 0 ? parseDataPoints(reply.payload) : undefined;
     if (!dataPoints) {
@@ -498,13 +516,18 @@ export class LocalTuyaClient implements TuyaClient {
     const report = parseReport(frame.payload);
     const pending = this.pending;
     // The ack to a read by writing null: the data points come in a STATUS,
-    // before it or after it.
+    // before it or after it. The read waits for both, so an ack that comes
+    // late is not taken for the next request's.
     if (
       pending?.replyCommand !== undefined &&
       frame.command === pending.command
     ) {
       if (frame.payload.length > 0) {
         pending.fail(rejected(frame));
+      } else if (pending.reply) {
+        pending.settle(pending.reply);
+      } else {
+        pending.acked = true;
       }
       return;
     }
@@ -513,8 +536,16 @@ export class LocalTuyaClient implements TuyaClient {
       frame.command === (pending.replyCommand ?? pending.command) &&
       (report?.nodeId === undefined || report.nodeId === pending.nodeId)
     ) {
-      pending.settle(frame);
-      if (pending.replyCommand === undefined || !report) {
+      if (pending.replyCommand === undefined) {
+        pending.settle(frame);
+        return;
+      }
+      if (pending.acked) {
+        pending.settle(frame);
+      } else {
+        pending.reply ??= frame;
+      }
+      if (!report) {
         return;
       }
     }

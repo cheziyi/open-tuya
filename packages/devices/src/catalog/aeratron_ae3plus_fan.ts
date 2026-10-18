@@ -34,8 +34,9 @@ const entry: TuyaDeviceEntry = {
           { raw: "6", value: 100 },
         ],
         otherwise: 0,
+        ownRuleReadOnly: true,
       },
-      mode: {
+      preset: {
         dataPoint: "101",
         kind: "select",
         values: [
@@ -43,6 +44,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Breeze", value: "nature" },
         ],
         otherwise: "normal",
+        ownRuleReadOnly: true,
       },
       fanValue: { dataPoint: "103", kind: "number" },
       timer: {

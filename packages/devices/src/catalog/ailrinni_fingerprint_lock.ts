@@ -36,10 +36,14 @@ const entry: TuyaDeviceEntry = {
   components: {
     lock: {
       bluetoothUnlock: { dataPoint: "6", kind: "text" },
-      unlockFingerprint: { dataPoint: "12", kind: "number" },
-      unlockPassword: { dataPoint: "13", kind: "number" },
-      unlockDynamicPassword: { dataPoint: "14", kind: "number" },
-      unlockBle: { dataPoint: "19", kind: "number" },
+      unlockFingerprint: { dataPoint: "12", kind: "sensor", readOnly: true },
+      unlockPassword: { dataPoint: "13", kind: "sensor", readOnly: true },
+      unlockDynamicPassword: {
+        dataPoint: "14",
+        kind: "sensor",
+        readOnly: true,
+      },
+      unlockBle: { dataPoint: "19", kind: "sensor", readOnly: true },
       lockState: {
         dataPoint: "47",
         kind: "sensor",
@@ -49,12 +53,22 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: true },
         ],
       },
-      unlockTemporaryPassword: { dataPoint: "55", kind: "number" },
+      unlockTemporaryPassword: {
+        dataPoint: "55",
+        kind: "sensor",
+        readOnly: true,
+      },
       setUnlockCode: { dataPoint: "60", kind: "text" },
       codeUnlock: { dataPoint: "61", kind: "text" },
-      unlockApp: { dataPoint: "62", kind: "number" },
-      unlockVoice: { dataPoint: "63", kind: "number" },
-      unlockOfflinePassword: { dataPoint: "67", kind: "text", otherwise: 1 },
+      unlockApp: { dataPoint: "62", kind: "sensor", readOnly: true },
+      unlockVoice: { dataPoint: "63", kind: "sensor", readOnly: true },
+      unlockOfflinePassword: {
+        dataPoint: "67",
+        kind: "sensor",
+        readOnly: true,
+        whenAbsent: { value: null },
+        otherwise: 1,
+      },
       offlinePasswordDetails: { dataPoint: "67", kind: "text" },
       batteryInPercent: {
         dataPoint: "8",

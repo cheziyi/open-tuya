@@ -36,6 +36,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "manual", value: "heat" },
         ],
         otherwise: "heat",
+        ownRuleReadOnly: true,
       },
       targetTemperatureInC: {
         dataPoint: "2",
@@ -46,6 +47,33 @@ const entry: TuyaDeviceEntry = {
         max: 45,
         dependsOn: {
           dataPoint: "106",
+          constraint: {
+            dataPoint: "106",
+            values: [
+              { raw: true, value: "eco" },
+              {
+                raw: false,
+                dependsOn: {
+                  dataPoint: "4",
+                  conditions: [
+                    { when: [true], value: "boost" },
+                    { when: [false], value: "comfort" },
+                    { when: [null], value: "comfort", readOnly: true },
+                  ],
+                },
+              },
+            ],
+            whenAbsent: {
+              dependsOn: {
+                dataPoint: "4",
+                conditions: [
+                  { when: [true], value: "boost", readOnly: true },
+                  { when: [false], value: "comfort", readOnly: true },
+                  { when: [null], value: "comfort", readOnly: true },
+                ],
+              },
+            },
+          },
           conditions: [
             { when: [true], redirect: { dataPoint: "107", min: 5, max: 35 } },
           ],
@@ -103,13 +131,13 @@ const entry: TuyaDeviceEntry = {
         min: 5,
         max: 35,
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "108",
         kind: "number",
         measures: "temperature",
         unit: "C",
       },
-      minTargetTemperatureInC: {
+      minimumTargetTemperatureInC: {
         dataPoint: "109",
         kind: "number",
         measures: "temperature",
@@ -125,6 +153,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "auto", value: false },
         ],
         otherwise: false,
+        ownRuleReadOnly: true,
       },
       boostTimerRapidCountdownInMinutes: {
         dataPoint: "5",
@@ -154,6 +183,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "closed", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       childLock: { dataPoint: "13", kind: "switch" },

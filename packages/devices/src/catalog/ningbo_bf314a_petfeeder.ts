@@ -46,11 +46,12 @@ const entry: TuyaDeviceEntry = {
     device: {
       flipImage: { dataPoint: "103", kind: "switch" },
       watermark: { dataPoint: "104", kind: "switch" },
-      cameraRecord: { dataPoint: "150", kind: "switch" },
+      recording: { dataPoint: "150", kind: "switch" },
       motion: {
         dataPoint: "115",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "detected",
       },
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
@@ -128,13 +129,15 @@ const entry: TuyaDeviceEntry = {
         max: 100,
       },
       restart: { dataPoint: "162", kind: "button" },
-      motionArea: { dataPoint: "168", kind: "switch" },
-      motionArea2: { dataPoint: "169", kind: "text" },
+      motionAreaEnabled: { dataPoint: "168", kind: "switch" },
+      motionArea: { dataPoint: "169", kind: "text" },
       humanoidFilter: { dataPoint: "170", kind: "switch" },
       alarm: {
         dataPoint: "185",
         kind: "event",
         readOnly: true,
+        values: [{ raw: "", value: null }],
+        whenAbsent: { value: null },
         otherwise: "alarm",
       },
       alarmMessage: {
@@ -157,6 +160,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "212",
         kind: "event",
         readOnly: true,
+        values: [{ raw: "", value: null }],
+        whenAbsent: { value: null },
         otherwise: "notify",
       },
       notificationMessage: {
@@ -179,7 +184,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "234",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         whenAbsent: { value: false },
         otherwise: true,
@@ -212,6 +217,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "237",
         kind: "event",
         readOnly: true,
+        values: [{ raw: 0, value: null }],
+        whenAbsent: { value: null },
         otherwise: "fed",
       },
       feedingPortions: { dataPoint: "237", kind: "sensor", readOnly: true },

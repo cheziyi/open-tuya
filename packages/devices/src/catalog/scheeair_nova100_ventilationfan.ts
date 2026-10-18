@@ -23,7 +23,7 @@ const entry: TuyaDeviceEntry = {
     fan: {
       on: { dataPoint: "1", kind: "switch" },
       speed: { dataPoint: "3", kind: "number", min: 0, max: 2 },
-      mode: {
+      preset: {
         dataPoint: "103",
         kind: "select",
         values: [

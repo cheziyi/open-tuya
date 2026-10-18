@@ -27,11 +27,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      cameraRecord: { dataPoint: "150", kind: "switch" },
+      recording: { dataPoint: "150", kind: "switch" },
       motion: {
         dataPoint: "115",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "detected",
       },
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },

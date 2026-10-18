@@ -34,6 +34,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "closed", value: "closed" },
           { raw: "opening", value: "opening" },
           { raw: "closing", value: "closing" },
+          { raw: "partial_opening" },
         ],
       },
     },

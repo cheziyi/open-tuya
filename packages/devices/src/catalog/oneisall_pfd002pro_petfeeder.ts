@@ -67,12 +67,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "off", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       fault: {
         dataPoint: "13",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -107,7 +108,7 @@ const entry: TuyaDeviceEntry = {
       plug: {
         dataPoint: "13",
         kind: "sensor",
-        measures: "plug",
+        measures: "plugged",
         readOnly: true,
         values: [{ raw: 64, value: false }],
         otherwise: true,
@@ -116,6 +117,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "event",
         readOnly: true,
+        values: [{ raw: 0, value: null }],
         otherwise: "fed",
       },
       feedAmount: { dataPoint: "14", kind: "sensor", readOnly: true },

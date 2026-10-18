@@ -81,14 +81,6 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       modelCode: { dataPoint: "110", kind: "number" },
-      temperatureUnit2: {
-        dataPoint: "19",
-        kind: "select",
-        values: [
-          { raw: "C", value: "celsius" },
-          { raw: "F", value: "fahrenheit" },
-        ],
-      },
       sleep: { dataPoint: "101", kind: "switch" },
       defrost: { dataPoint: "102", kind: "sensor", readOnly: true },
       timerInHours: {
@@ -109,7 +101,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "106",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           {

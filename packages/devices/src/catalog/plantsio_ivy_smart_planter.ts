@@ -139,24 +139,28 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [{ raw: true, value: "press_end" }],
+        otherwise: null,
       },
       rightTouch: {
         dataPoint: "128",
         kind: "event",
         readOnly: true,
         values: [{ raw: true, value: "press_end" }],
+        otherwise: null,
       },
       plantTouch: {
         dataPoint: "129",
         kind: "event",
         readOnly: true,
         values: [{ raw: true, value: "press_end" }],
+        otherwise: null,
       },
       hug: {
         dataPoint: "111",
         kind: "event",
         readOnly: true,
         values: [{ raw: "hug", value: "press_end" }],
+        otherwise: null,
       },
       batteryInPercent: {
         dataPoint: "121",
@@ -176,8 +180,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "130",
         kind: "select",
         values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
+          { raw: false, value: "C" },
+          { raw: true, value: "F" },
         ],
       },
       color: {
@@ -246,7 +250,11 @@ const entry: TuyaDeviceEntry = {
       touchPerception: { dataPoint: "110", kind: "switch" },
       touchPerceptionTouching: { dataPoint: "111", kind: "text" },
       autoBrightness: { dataPoint: "135", kind: "switch" },
-      soundPerception: { dataPoint: "125", kind: "switch" },
+      soundPerception: {
+        dataPoint: "125",
+        kind: "switch",
+        values: [{ raw: false }],
+      },
       soundSensitivity: { dataPoint: "115", kind: "number", min: 0, max: 100 },
       plantDetection: { dataPoint: "123", kind: "switch" },
       plantDetectionSensitivity: {
@@ -256,7 +264,11 @@ const entry: TuyaDeviceEntry = {
         max: 100,
       },
       nightSleep: { dataPoint: "131", kind: "switch" },
-      smartSleep: { dataPoint: "132", kind: "switch" },
+      smartSleep: {
+        dataPoint: "132",
+        kind: "switch",
+        values: [{ raw: false }],
+      },
       manualCalibration: { dataPoint: "124", kind: "button" },
       timeFormat: {
         dataPoint: "136",

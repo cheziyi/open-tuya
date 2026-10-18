@@ -67,6 +67,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "down", value: "closing" },
           { raw: "stop", value: "idle" },
         ],
+        otherwise: null,
       },
       uvSterilization: { dataPoint: "5", kind: "switch" },
       windDry: { dataPoint: "6", kind: "switch" },
@@ -153,7 +154,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "18",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

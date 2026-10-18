@@ -52,7 +52,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "11",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 1, value: true },
@@ -132,7 +132,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "1", value: 50 },
         ],
       },
-      oscillating: { dataPoint: "8", kind: "switch" },
+      oscillating: { dataPoint: "8", kind: "switch", whenAbsent: {} },
     },
   },
   source: {

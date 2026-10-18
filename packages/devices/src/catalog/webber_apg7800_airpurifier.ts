@@ -139,9 +139,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "10", value: 83 },
           { raw: "11", value: 91 },
           { raw: "12", value: 100 },
+          { raw: "Auto", value: null, readOnly: true },
         ],
       },
-      mode: {
+      preset: {
         dataPoint: "3",
         kind: "select",
         values: [
@@ -149,6 +150,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "4", value: "manual" },
         ],
         otherwise: "manual",
+        ownRuleReadOnly: true,
       },
     },
     indicator: { on: { dataPoint: "8", kind: "switch" } },

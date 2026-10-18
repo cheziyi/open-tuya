@@ -47,7 +47,11 @@ const entry: TuyaDeviceEntry = {
         scale: 1000,
         step: 100,
       },
-      storage: { dataPoint: "8", kind: "switch" },
+      storage: {
+        dataPoint: "8",
+        kind: "switch",
+        values: [{ raw: true }, { raw: false }],
+      },
       temperatureLimiter: { dataPoint: "9", kind: "switch" },
       batteryInPercent: {
         dataPoint: "5",
@@ -94,7 +98,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "11",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

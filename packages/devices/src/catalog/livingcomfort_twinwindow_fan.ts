@@ -14,7 +14,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     ventilation: {
       on: { dataPoint: "1", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "2",
         kind: "select",
         values: [

@@ -62,6 +62,7 @@ const entry: TuyaDeviceEntry = {
             value: "opening",
             dependsOn: {
               dataPoint: "3",
+              constraint: { dataPoint: "3", min: 0, max: 100, invert: true },
               conditions: [{ when: [0], value: "opened" }],
             },
           },
@@ -70,6 +71,7 @@ const entry: TuyaDeviceEntry = {
             value: "closing",
             dependsOn: {
               dataPoint: "3",
+              constraint: { dataPoint: "3", min: 0, max: 100, invert: true },
               conditions: [{ when: [100], value: "closed" }],
             },
           },
@@ -86,7 +88,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "12",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },

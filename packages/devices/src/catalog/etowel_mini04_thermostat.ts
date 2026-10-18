@@ -62,6 +62,19 @@ const entry: TuyaDeviceEntry = {
         max: 70,
         dependsOn: {
           dataPoint: "4",
+          constraint: {
+            dataPoint: "4",
+            values: [
+              { raw: "Standby", value: "off" },
+              { raw: "None", value: "off", readOnly: true },
+              { raw: "Manual", value: "heat" },
+              { raw: "Program", value: "auto" },
+              { raw: "RBT", value: "auto", readOnly: true },
+              { raw: "Comfort", value: "heat", readOnly: true },
+              { raw: "Setback", value: "heat", readOnly: true },
+              { raw: "LST", value: "heat", readOnly: true },
+            ],
+          },
           conditions: [
             {
               when: ["Comfort"],

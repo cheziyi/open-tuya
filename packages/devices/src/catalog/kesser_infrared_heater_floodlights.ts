@@ -13,7 +13,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1", kind: "switch" },
+      on: { dataPoint: "10", kind: "switch" },
       mode: {
         dataPoint: "4",
         kind: "select",
@@ -24,8 +24,8 @@ const entry: TuyaDeviceEntry = {
           { raw: "F3", value: "high" },
         ],
       },
-      on2: { dataPoint: "10", kind: "switch" },
     },
+    device: { on: { dataPoint: "1", kind: "switch" } },
   },
   source: {
     file: "kesser_infrared_heater_floodlights.yaml",

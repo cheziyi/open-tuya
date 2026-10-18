@@ -33,6 +33,13 @@ const entry: TuyaDeviceEntry = {
             raw: true,
             dependsOn: {
               dataPoint: "1",
+              constraint: {
+                dataPoint: "1",
+                values: [
+                  { raw: true, value: "open" },
+                  { raw: false, value: "close" },
+                ],
+              },
               conditions: [
                 { when: [true], value: "opening" },
                 { when: [false], value: "closing" },

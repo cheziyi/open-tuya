@@ -6,12 +6,13 @@ import {
   timingSafeEqual,
 } from "node:crypto";
 import { crc32 } from "node:zlib";
-import type { ProtocolVersion } from "@open-tuya/core";
+import { type ProtocolVersion, TuyaError } from "@open-tuya/core";
 
 // Source: The 0x55AA frame: prefix, sequence number, command and a length
 // field counting what follows it, then the payload, a CRC32 of every byte
 // before it and the 0xAA55 suffix, in
-// https://github.com/codetheweb/tuyapi/commit/9ea40d76dbc8721a174b427edf738d8f2f338c60.
+// https://github.com/codetheweb/tuyapi/commit/4839c78af67572f3b6238f1271916cbc4e646f5a
+// and https://github.com/codetheweb/tuyapi/commit/2312fd40e3896d791c7cbc1687d2212e671fad62.
 // Source: 3.4 puts an HMAC-SHA256 under the key where the CRC was, in
 // https://github.com/jasonacox/tinytuya/commit/782b469ee4c38b01703410fcc8f745bb53489c0e.
 // Source: The 0x6699 frame: prefix, two zero bytes, sequence number, command
@@ -37,8 +38,11 @@ import type { ProtocolVersion } from "@open-tuya/core";
 // Source: The version header, the version and 12 more bytes, goes ahead of
 // the ciphertext on 3.3, in
 // https://github.com/codetheweb/tuyapi/commit/ab5c85e568d992f13107dbf684e6bec6df9bb7db,
-// and inside the encrypted bytes on 3.4 and 3.5, in
-// https://github.com/jasonacox/tinytuya/commit/a60ffc61484b164f588e2e6685810cfbd262de8f.
+// inside the encrypted bytes on 3.4, in
+// https://github.com/jasonacox/tinytuya/commit/a60ffc61484b164f588e2e6685810cfbd262de8f,
+// and inside the plaintext GCM encrypts on 3.5, in
+// https://github.com/jasonacox/tinytuya/commit/5742dcb99ef3c17d86b31470ed98b1acaed4e739
+// and https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
 
 const PREFIX_55AA = Buffer.from([0x00, 0x00, 0x55, 0xaa]);
 const SUFFIX_55AA = Buffer.from([0x00, 0x00, 0xaa, 0x55]);
@@ -151,8 +155,10 @@ export function sealDeviceFrame(
 
 /** Reads the first frame in `bytes`, as a client of `version` sends it, and
  * returns it with the bytes after it, or `undefined` while it is not yet
- * whole. It throws on a frame whose CRC, HMAC or tag is wrong, or that does
- * not decrypt. */
+ * whole. It throws a `TuyaError` with code `MALFORMED_FRAME` for bytes that
+ * do not start with the prefix or a frame whose CRC is wrong, and with code
+ * `DECRYPTION_FAILED` for a frame whose HMAC, tag or signature is wrong, or
+ * that does not decrypt. */
 export function openClientFrame(
   version: ProtocolVersion,
   bytes: Buffer,
@@ -172,7 +178,10 @@ function open55aa(
     return undefined;
   }
   if (!bytes.subarray(0, 4).equals(PREFIX_55AA)) {
-    throw new Error("A client frame does not start with 0x000055AA");
+    throw new TuyaError(
+      "MALFORMED_FRAME",
+      "A client frame does not start with 0x000055AA",
+    );
   }
   const length = 16 + bytes.readUInt32BE(12);
   if (bytes.length < length) {
@@ -187,7 +196,9 @@ function open55aa(
       bytes.subarray(checkOffset, checkOffset + checkLength),
     )
   ) {
-    throw new Error("A client frame's CRC or HMAC is wrong");
+    throw version === "3.4"
+      ? new TuyaError("DECRYPTION_FAILED", "A client frame's HMAC is wrong")
+      : new TuyaError("MALFORMED_FRAME", "A client frame's CRC is wrong");
   }
   const body = signed.subarray(16);
   let opened: OpenedPayload;
@@ -222,7 +233,10 @@ function open6699(
     return undefined;
   }
   if (!bytes.subarray(0, 4).equals(PREFIX_6699)) {
-    throw new Error("A client frame does not start with 0x00006699");
+    throw new TuyaError(
+      "MALFORMED_FRAME",
+      "A client frame does not start with 0x00006699",
+    );
   }
   const length = 18 + bytes.readUInt32BE(14) + SUFFIX_6699.length;
   if (bytes.length < length) {
@@ -237,10 +251,12 @@ function open6699(
   );
   decipher.setAAD(bytes.subarray(4, 18));
   decipher.setAuthTag(bytes.subarray(tagStart, tagStart + GCM_TAG_LENGTH));
-  const plaintext = Buffer.concat([
-    decipher.update(bytes.subarray(ivEnd, tagStart)),
-    decipher.final(),
-  ]);
+  const plaintext = decrypt(() =>
+    Buffer.concat([
+      decipher.update(bytes.subarray(ivEnd, tagStart)),
+      decipher.final(),
+    ]),
+  );
   return {
     frame: {
       sequenceNumber: bytes.readUInt32BE(6),
@@ -283,7 +299,10 @@ function openV31(key: Uint8Array, body: Buffer): Buffer {
   if (
     body.subarray(V31_PREFIX.length, start).toString() !== signV31(key, data)
   ) {
-    throw new Error("A client payload's signature is wrong");
+    throw new TuyaError(
+      "DECRYPTION_FAILED",
+      "A client payload's signature is wrong",
+    );
   }
   return decryptEcb(key, Buffer.from(data, "base64"));
 }
@@ -305,7 +324,21 @@ function decryptEcb(key: Uint8Array, ciphertext: Buffer): Buffer {
     return ciphertext;
   }
   const decipher = createDecipheriv("aes-128-ecb", key, null);
-  return Buffer.concat([decipher.update(ciphertext), decipher.final()]);
+  return decrypt(() =>
+    Buffer.concat([decipher.update(ciphertext), decipher.final()]),
+  );
+}
+
+function decrypt(run: () => Buffer): Buffer {
+  try {
+    return run();
+  } catch (error) {
+    throw new TuyaError(
+      "DECRYPTION_FAILED",
+      "A client payload does not decrypt",
+      { cause: error },
+    );
+  }
 }
 
 // Source: A sender puts a zero CRC, its serial number and its source ID after

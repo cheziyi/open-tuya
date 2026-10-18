@@ -51,7 +51,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "10",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -171,6 +171,16 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         dependsOn: {
           dataPoint: "113",
+          constraint: {
+            dataPoint: "113",
+            values: [
+              { raw: "Max16A", value: 16 },
+              { raw: "Max32A", value: 32 },
+              { raw: "Max40A", value: 40 },
+              { raw: "Max50A", value: 50 },
+            ],
+            otherwise: 16,
+          },
           conditions: [
             {
               when: ["Max32A"],

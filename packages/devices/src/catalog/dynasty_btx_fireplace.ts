@@ -135,6 +135,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "1", value: true },
         ],
         otherwise: true,
+        ownRuleReadOnly: true,
       },
       colorName: {
         dataPoint: "106",

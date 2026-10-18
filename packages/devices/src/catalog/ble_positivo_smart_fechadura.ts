@@ -36,7 +36,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     lock: {
       openInside: { dataPoint: "18", kind: "switch" },
-      unlockBle: { dataPoint: "19", kind: "number" },
+      unlockBle: { dataPoint: "19", kind: "sensor", readOnly: true },
       rtcLock: { dataPoint: "44", kind: "switch" },
       locked: { dataPoint: "46", kind: "switch" },
       lockState: {
@@ -50,8 +50,8 @@ const entry: TuyaDeviceEntry = {
       },
       setUnlockCode: { dataPoint: "60", kind: "text" },
       codeUnlock: { dataPoint: "61", kind: "text" },
-      unlockApp: { dataPoint: "62", kind: "number" },
-      unlockVoice: { dataPoint: "63", kind: "number" },
+      unlockApp: { dataPoint: "62", kind: "sensor", readOnly: true },
+      unlockVoice: { dataPoint: "63", kind: "sensor", readOnly: true },
       record: { dataPoint: "69", kind: "text" },
       checkCodeSet: { dataPoint: "70", kind: "text" },
       bleUnlockCheck: { dataPoint: "71", kind: "text" },

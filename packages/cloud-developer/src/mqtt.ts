@@ -66,9 +66,17 @@ class MqttJsConnection implements MqttConnection {
     });
   }
 
+  /** A subscription the broker refuses closes the connection with
+   * `CONNECTION_LOST`, its refusal as the cause, so the session connects
+   * again with fresh credentials. */
   subscribe(topic: string): void {
     if (!this.closed) {
-      this.client.subscribe(topic);
+      this.client.subscribe(topic, (error) => {
+        if (error && !this.closed) {
+          this.lastError = error;
+          this.client.end();
+        }
+      });
     }
   }
 

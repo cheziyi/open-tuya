@@ -26,9 +26,10 @@ export function fieldType(
 // Source: A masked value is the data point's bytes, from hex padded to whole
 // bytes or from base64, or its integer, read as one number in the control's
 // byte order; the bits the mask covers are shifted down to its lowest, and
-// read in two's complement over the mask's bit count with mask_signed, in
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L486-L546
-// and https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L91-L95.
+// on bytes, read in two's complement over the mask's bit count with
+// mask_signed, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L486-L546
+// and https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L91-L95.
 /** Reads the bits `control.mask` covers, or `undefined` when the value does
  * not decode. */
 export function readMask(
@@ -52,7 +53,7 @@ export function readMask(
 // Source: A write keeps the bits outside the mask from the current value,
 // writes a boolean as 1 or 0, and encodes the result as the current value
 // was: lowercase hex, base64, or an integer, in
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L1129-L1161.
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L1129-L1161.
 // No source shows a device taking a value of another length than its mask,
 // so one is refused: see DESIGN.md#catalog.
 /** Sets the bits `control.mask` covers in `current` to `raw`. It throws a
@@ -63,7 +64,7 @@ export function writeMask(
   control: MaskedControl,
   type: TuyaDataPointType | undefined,
   current: DataPointValue,
-  raw: DataPointValue,
+  raw: number,
 ): DataPointValue {
   const packed = unpack(control, type, current);
   if (!packed) {
@@ -77,11 +78,13 @@ export function writeMask(
   }
   const mask = BigInt(`0x${control.mask}`);
   const bits = bitCount(mask);
-  const number = Number(raw);
-  if (!Number.isInteger(number)) {
-    throw new TypeError(`${String(raw)} cannot be set in the bits of a mask`);
-  }
-  const field = BigInt(number);
+  const shift = shiftOf(mask);
+  // Source: The value is multiplied by the mask's lowest bit and truncated
+  // before the mask drops the bits below it, in
+  // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L1149-L1159.
+  const field = Number.isInteger(raw)
+    ? BigInt(raw)
+    : BigInt(Math.trunc(raw * 2 ** Number(shift))) >> shift;
   const [min, max] = control.maskSigned
     ? [-(1n << (bits - 1n)), (1n << (bits - 1n)) - 1n]
     : [0n, (1n << bits) - 1n];
@@ -91,10 +94,16 @@ export function writeMask(
     );
   }
   const value = (packed.value & ~mask) | ((field << shiftOf(mask)) & mask);
-  if (packed.length === undefined) {
+  if (type !== "hex" && type !== "base64") {
     return Number(value);
   }
-  const bytes = toBytes(value, packed.length, control.littleEndian);
+  // A hex or base64 data point a device reported as a number is written as
+  // bytes, the mask's length of them.
+  const bytes = toBytes(
+    value,
+    packed.length ?? maskLength,
+    control.littleEndian,
+  );
   return type === "hex"
     ? Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("")
     : btoa(String.fromCharCode(...bytes));
@@ -119,6 +128,11 @@ function unpack(
     }
     bytes = hex.match(/../g)?.map((pair) => Number.parseInt(pair, 16)) ?? [];
   } else if (type === "base64") {
+    // atob takes base64 without its padding, which Python's b64decode
+    // refuses.
+    if (raw.length % 4 !== 0) {
+      return undefined;
+    }
     try {
       bytes = Array.from(atob(raw), (character) => character.charCodeAt(0));
     } catch {

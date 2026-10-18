@@ -1,7 +1,7 @@
 import { createDecipheriv } from "node:crypto";
 import { TuyaError } from "@open-tuya/core";
 
-const IV_LENGTH_BYTES = 4;
+const IV_LENGTH_FIELD_LENGTH = 4;
 const TAG_LENGTH = 16;
 const KEY_START = 8;
 const KEY_END = 24;
@@ -9,7 +9,7 @@ const KEY_END = 24;
 // Source: A pushed message's data is the base64 of a 4-byte big-endian IV
 // length, the IV, the ciphertext and a 16-byte tag, under AES-128-GCM with the
 // 9th to 24th characters of the broker password as the key, in
-// https://github.com/tuya/tuya-iot-python-sdk/commit/a7856ac4c05cf6ff15251ce87c8a48222bc28e07
+// https://github.com/tuya/tuya-iot-python-sdk/commit/f97d9ea73226efcac36eebf74b080c4d4738518e
 // and https://github.com/tuya/tuya-homebridge/commit/b530a71ae78afc9672c2ce42345749d38605f31c.
 // Source: The additional data is the message's `t` as decimal text, which the
 // SDK checks the tag against, in
@@ -23,8 +23,10 @@ export function decryptPushData(
 ): string {
   const bytes = Buffer.from(data, "base64");
   const ivLength =
-    bytes.length >= IV_LENGTH_BYTES ? bytes.readUInt32BE(0) : bytes.length;
-  const ivEnd = IV_LENGTH_BYTES + ivLength;
+    bytes.length >= IV_LENGTH_FIELD_LENGTH
+      ? bytes.readUInt32BE(0)
+      : bytes.length;
+  const ivEnd = IV_LENGTH_FIELD_LENGTH + ivLength;
   if (bytes.length < ivEnd + TAG_LENGTH) {
     throw new TuyaError(
       "DECRYPTION_FAILED",
@@ -35,7 +37,7 @@ export function decryptPushData(
     const decipher = createDecipheriv(
       "aes-128-gcm",
       Buffer.from(password.slice(KEY_START, KEY_END)),
-      bytes.subarray(IV_LENGTH_BYTES, ivEnd),
+      bytes.subarray(IV_LENGTH_FIELD_LENGTH, ivEnd),
     );
     decipher.setAAD(Buffer.from(String(t)));
     decipher.setAuthTag(bytes.subarray(-TAG_LENGTH));

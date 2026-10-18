@@ -103,7 +103,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "snowy", value: "snowy" },
         ],
       },
-      weather2: { dataPoint: "42", kind: "switch" },
+      weatherEnabled: { dataPoint: "42", kind: "switch" },
       skip: { dataPoint: "43", kind: "button" },
       irrigationMode: {
         dataPoint: "44",

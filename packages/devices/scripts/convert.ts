@@ -1,4 +1,4 @@
-import { parse, YAMLParseError } from "yaml";
+import { parse, type Tags, YAMLParseError } from "yaml";
 import type {
   ControlCondition,
   ControlDependency,
@@ -11,6 +11,7 @@ import type {
   TuyaDataPointType,
   TuyaDeviceEntry,
 } from "../src/entry.js";
+import { pyStr } from "../src/python.ts";
 import {
   type ControlKind,
   type ControlName,
@@ -89,6 +90,8 @@ export type Conversion =
 // A feature found while converting, which keeps the file out.
 class UnsupportedFeature extends Error {}
 
+class LoopingRedirect extends UnsupportedFeature {}
+
 const RANGE_ON_RAW = "a mapping's own `range` on one raw value";
 const DATA_POINT_TYPES: ReadonlySet<string> = new Set([
   "boolean",
@@ -103,6 +106,14 @@ const DATA_POINT_TYPES: ReadonlySet<string> = new Set([
 ]);
 const NUMBER_CONVERSIONS = ["scale", "step", "invert", "target_range"];
 const PACKED_TYPES: ReadonlySet<string> = new Set(["base64", "hex"]);
+// The types tuya-local reads as text.
+const STRING_TYPES: ReadonlySet<string> = new Set([
+  "base64",
+  "hex",
+  "json",
+  "string",
+  "utf16b64",
+]);
 const MASKED_TYPES: ReadonlySet<string> = new Set([
   "base64",
   "bitfield",
@@ -111,7 +122,7 @@ const MASKED_TYPES: ReadonlySet<string> = new Set([
 ]);
 // Source: A format field of 1, 2 or 4 bytes unpacks as a number, and one of
 // 3 bytes as bytes, in
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L49-L71.
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L49-L71.
 const FORMAT_FIELD_BYTES: ReadonlySet<number> = new Set([1, 2, 4]);
 const NUMBER_TYPES: ReadonlySet<string> = new Set([
   "bitfield",
@@ -178,15 +189,15 @@ const COMPOSITE_CONTROLS: Record<string, ControlName> = {
   "climate.current_temperature": "currentTemperature",
   "climate.target_temp_low": "heatingTargetTemperature",
   "climate.target_temp_high": "coolingTargetTemperature",
-  "climate.min_temperature": "minTargetTemperature",
-  "climate.min_temp": "minTargetTemperature",
-  "climate.max_temp": "maxTargetTemperature",
+  "climate.min_temperature": "minimumTargetTemperature",
+  "climate.min_temp": "minimumTargetTemperature",
+  "climate.max_temp": "maximumTargetTemperature",
   "climate.temp_set": "targetTemperature",
   "climate.temp_current": "currentTemperature",
   "climate.temp_cur": "currentTemperature",
   "climate.current_temp": "currentTemperature",
   "climate.cur_temp": "currentTemperature",
-  "climate.max_temperature": "maxTargetTemperature",
+  "climate.max_temperature": "maximumTargetTemperature",
   "climate.temperature_unit": "temperatureUnit",
   "climate.preset_mode": "preset",
   "climate.fan_mode": "fanMode",
@@ -197,13 +208,13 @@ const COMPOSITE_CONTROLS: Record<string, ControlName> = {
   "water_heater.operation_mode": "mode",
   "water_heater.temperature": "targetTemperature",
   "water_heater.current_temperature": "currentTemperature",
-  "water_heater.min_temperature": "minTargetTemperature",
-  "water_heater.max_temperature": "maxTargetTemperature",
+  "water_heater.min_temperature": "minimumTargetTemperature",
+  "water_heater.max_temperature": "maximumTargetTemperature",
   "water_heater.temperature_unit": "temperatureUnit",
   "water_heater.away_mode": "awayMode",
   "fan.switch": "on",
   "fan.speed": "speed",
-  "fan.preset_mode": "mode",
+  "fan.preset_mode": "preset",
   "fan.oscillate": "oscillating",
   "fan.direction": "direction",
   "humidifier.switch": "on",
@@ -253,6 +264,7 @@ const DEFAULT_VALUE_DATA_POINTS: ReadonlySet<string> = new Set([
 const SIMPLE_CONTROLS: Record<string, ControlName> = {
   "switch/": "on",
   "lock/child_lock": "childLock",
+  "switch/camera_record": "recording",
   "binary_sensor/class:problem": "fault",
   "sensor/class:temperature": "temperature",
   "sensor/class:humidity": "humidity",
@@ -266,13 +278,31 @@ const SIMPLE_CONTROLS: Record<string, ControlName> = {
 // Source: A climate entity's temperatures share one unit: the one its unit
 // data point reports, or else the first of these data points that names one,
 // or else Celsius, in
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/climate.py#L127-L156.
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/climate.py#L127-L156.
 const TEMPERATURE_UNIT_DATA_POINTS = [
   "temperature",
   "target_temp_high",
   "target_temp_low",
   "current_temperature",
 ];
+
+// Source: tuya-local names a temperature unit select's options celsius and
+// fahrenheit, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/translations/en.json#L880-L886,
+// and reads C and F as °C and °F, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/entity.py#L143-L148.
+const UNIT_SYMBOLS: Record<string, string> = {
+  celsius: "C",
+  fahrenheit: "F",
+  "°C": "C",
+  "°F": "F",
+  "℃": "C",
+};
+const TEMPERATURE_UNITS: ReadonlySet<string> = new Set(["C", "F", "K"]);
+
+function unitSymbol<T>(value: T): T | string {
+  return typeof value === "string" ? (UNIT_SYMBOLS[value] ?? value) : value;
+}
 
 // Home Assistant takes a climate or humidifier entity's humidity as a
 // percentage, whatever its data point says.
@@ -291,6 +321,27 @@ const READ_ONLY_CONTROLS: ReadonlySet<string> = new Set<ControlName>([
   "hvacAction",
   "lockState",
   "movement",
+]);
+
+// Source: A lock reads these data points, and never writes them, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/lock.py#L74-L96.
+const READ_ONLY_DATA_POINTS: ReadonlySet<string> = new Set([
+  "lock.jammed",
+  "lock.request_intercom",
+  "lock.request_unlock",
+  "lock.unlock_app",
+  "lock.unlock_ble",
+  "lock.unlock_card",
+  "lock.unlock_dynamic_pwd",
+  "lock.unlock_face",
+  "lock.unlock_fingerprint",
+  "lock.unlock_ibeacon",
+  "lock.unlock_key",
+  "lock.unlock_multi",
+  "lock.unlock_offline_pwd",
+  "lock.unlock_password",
+  "lock.unlock_temp_pwd",
+  "lock.unlock_voice",
 ]);
 
 const READ_ONLY_ENTITIES: ReadonlySet<string> = new Set([
@@ -312,9 +363,9 @@ const COLOR_FIELDS: Record<string, ControlName> = {
 
 // Source: A switch or a binary sensor is on while its data point's value is
 // truthy, in
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/switch.py#L58-L63,
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/binary_sensor.py#L64-L66
-// and https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/light.py#L154-L157,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/switch.py#L58-L63,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/binary_sensor.py#L64-L66
+// and https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/light.py#L154-L157,
 // so masked bits with no mapping read as a boolean.
 const BOOLEAN_DATA_POINTS: ReadonlySet<string> = new Set([
   "binary_sensor.sensor",
@@ -355,8 +406,8 @@ const COMPOSITE_MEASURES: Partial<Record<ControlName, Measure>> = {
   currentHumidity: "humidity",
   currentTemperature: "temperature",
   heatingTargetTemperature: "temperature",
-  maxTargetTemperature: "temperature",
-  minTargetTemperature: "temperature",
+  maximumTargetTemperature: "temperature",
+  minimumTargetTemperature: "temperature",
   targetHumidity: "humidity",
   targetTemperature: "temperature",
 };
@@ -367,6 +418,32 @@ const TIME_UNITS: Record<string, string> = {
   minute: "min",
   second: "s",
 };
+
+const TIME_SUFFIXES: ReadonlySet<string> = new Set<UnitSuffix>([
+  "Days",
+  "Hours",
+  "Minutes",
+  "Ms",
+  "Seconds",
+]);
+
+// Units that count something, which a name does not spell as a unit: a
+// count of uses, a valve's steps or pulses, a zoom factor.
+const COUNTED_UNITS: ReadonlySet<string> = new Set([
+  "cleanings",
+  "controllers",
+  "cycles",
+  "doses",
+  "leds",
+  "P",
+  "pulse",
+  "step",
+  "times",
+  "uses",
+  "visits",
+  "x",
+  "X",
+]);
 
 // Name suffixes for the units tuya-local writes most: AGENTS.md spells a unit
 // after `In`, abbreviating only where the abbreviation is well known.
@@ -407,15 +484,82 @@ const UNIT_SUFFIXES: Record<string, UnitSuffix> = {
   portions: "Portions",
 };
 
+// Source: tuya-local reads its device files with PyYAML, as YAML 1.1, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L101-L109.
+// These are PyYAML's resolvers where the yaml library's YAML 1.1 schema
+// differs: no y or n as a boolean, a float only with a dot, and no decimal
+// integer with a leading zero.
+const PYYAML_TESTS: Record<string, RegExp> = {
+  true: /^(?:yes|Yes|YES|true|True|TRUE|on|On|ON)$/,
+  false: /^(?:no|No|NO|false|False|FALSE|off|Off|OFF)$/,
+  float:
+    /^(?:[-+]?[0-9][0-9_]*\.[0-9_]*(?:[eE][-+][0-9]+)?|\.[0-9][0-9_]*(?:[eE][-+][0-9]+)?)$/,
+  int: /^[-+]?(?:0|[1-9][0-9_]*)$/,
+};
+
+function pyYamlTags(tags: Tags): Tags {
+  return tags.flatMap((tag) => {
+    if (typeof tag === "string" || !("test" in tag) || !tag.test) {
+      return [tag];
+    }
+    if (tag.tag === "tag:yaml.org,2002:bool") {
+      const value = tag.test.test("true") ? "true" : "false";
+      return [{ ...tag, test: PYYAML_TESTS[value] }];
+    }
+    if (tag.tag === "tag:yaml.org,2002:float" && tag.format === "EXP") {
+      return [];
+    }
+    if (
+      tag.tag === "tag:yaml.org,2002:float" &&
+      !tag.format &&
+      !tag.test.test(".nan")
+    ) {
+      return [{ ...tag, test: PYYAML_TESTS.float }];
+    }
+    if (tag.tag === "tag:yaml.org,2002:int" && !tag.format) {
+      return [{ ...tag, test: PYYAML_TESTS.int }];
+    }
+    return [tag];
+  }) as Tags;
+}
+
+/** Parses a device file as tuya-local does. An integer too large for a
+ * JavaScript number stays a bigint. */
+function parseDeviceFile(text: string): unknown {
+  return toSafeNumbers(
+    parse(text, {
+      version: "1.1",
+      customTags: pyYamlTags,
+      intAsBigInt: true,
+    }),
+  );
+}
+
+function toSafeNumbers(value: unknown): unknown {
+  if (typeof value === "bigint") {
+    const number = Number(value);
+    return Number.isSafeInteger(number) ? number : value;
+  }
+  if (Array.isArray(value)) {
+    return value.map(toSafeNumbers);
+  }
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [key, toSafeNumbers(item)]),
+    );
+  }
+  return value;
+}
+
 /** Converts one tuya-local device file, or names the feature it uses that
  * the catalog does not convert. */
 export function convertDeviceFile(text: string): Conversion {
   let file: DeviceFile;
   try {
-    file = parse(text) as DeviceFile;
+    file = parseDeviceFile(text) as DeviceFile;
   } catch (error) {
     if (error instanceof YAMLParseError) {
-      return { unsupported: "not valid YAML 1.2" };
+      return { unsupported: "not valid YAML" };
     }
     throw error;
   }
@@ -424,7 +568,7 @@ export function convertDeviceFile(text: string): Conversion {
     return { unsupported: reason };
   }
   // Source: Each declaration of a data point reads it as its own type, in
-  // https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L408-L428.
+  // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L408-L428.
   const specTypes = new Map<string, string>();
   for (const dp of file.entities.flatMap((entity) => entity.dps)) {
     if (!specTypes.has(String(dp.id))) {
@@ -481,7 +625,8 @@ function unsupportedRule(
   const reasons: string[] = [];
   const conditions = rule.conditions ?? [];
   // A rule that redirects reads and writes through the other data point: its
-  // own step and range only stand in for the other's, see redirectTarget.
+  // own range only stands in for the other's, see redirectTarget, and its
+  // step sizes Home Assistant's slider alone.
   const onRaw = "dps_val" in rule && rule.value_redirect === undefined;
   // Source: A write rounds to a rule's step only a raw value that is a
   // number, in
@@ -623,46 +768,499 @@ function dataPointSpecs(file: DeviceFile): Record<string, TuyaDataPointSpec> {
   );
 }
 
+// A control before its name is settled, by the name it asks for: several
+// can ask for one, see settle.
+interface Candidate {
+  /** The name before its unit. */
+  base: string;
+  /** The unit the name spells, where it spells one. */
+  unit?: string;
+  control: TuyaControl;
+  entity: EntityConfig;
+  composite: boolean;
+  /** An extra data point of its entity, which tuya-local shows as an
+   * attribute, not one the entity acts on. */
+  attribute: boolean;
+}
+
+type Draft = Record<string, Candidate[]>;
+
+function isComposite(entity: EntityConfig): boolean {
+  return (
+    COMPOSITE_ENTITIES.has(entity.entity) &&
+    !(entity.entity === "lock" && entity.translation_key === "child_lock")
+  );
+}
+
 function components(
   file: DeviceFile,
 ): Record<string, Record<string, TuyaControl>> {
   const entities = file.entities.filter((entity) => !entity.deprecated);
-  const isComposite = (entity: EntityConfig) =>
-    COMPOSITE_ENTITIES.has(entity.entity) &&
-    !(entity.entity === "lock" && entity.translation_key === "child_lock");
   const main = entities.find(
     (entity) => isComposite(entity) && !entity.name && !entity.translation_key,
   );
-  const result: Record<string, Record<string, TuyaControl>> = {};
+  const drafts: Record<string, Draft> = {};
   const mainName = main ? camelCase(main.entity) : "device";
   const unitSelect = entities.some(
     (entity) =>
       entity.entity === "select" &&
       entity.translation_key === "temperature_unit",
   );
+  const componentNames = nameComponents(
+    entities.filter((entity) => isComposite(entity) && entity !== main),
+    mainName,
+  );
   for (const entity of entities) {
-    let componentName = mainName;
-    if (isComposite(entity) && entity !== main) {
-      componentName = unique(result, camelCase(componentKey(entity)));
-    }
-    result[componentName] ??= {};
-    const component = result[componentName];
+    const componentName = componentNames.get(entity) ?? mainName;
+    drafts[componentName] ??= {};
+    const draft = drafts[componentName];
     if (isComposite(entity)) {
-      addCompositeControls(component, entity, unitSelect && entity === main);
+      addCompositeControls(draft, entity, unitSelect && entity === main);
     } else {
-      addSimpleControls(component, entity);
+      addSimpleControls(draft, entity, entities);
     }
   }
-  for (const [name, controls] of Object.entries(result)) {
-    if (Object.keys(controls).length === 0) {
-      delete result[name];
+  for (const draft of Object.values(drafts)) {
+    for (const [name, candidates] of Object.entries(draft)) {
+      draft[name] = mergeDataPoints(draft, name, candidates);
+    }
+  }
+  if (main) {
+    leaveMain(drafts, mainName);
+  }
+  const result: Record<string, Record<string, TuyaControl>> = {};
+  for (const [name, draft] of Object.entries(drafts)) {
+    const controls = settle(draft);
+    if (Object.keys(controls).length > 0) {
+      result[name] = controls;
+    }
+  }
+  nameUnits(result);
+  for (const controls of Object.values(result)) {
+    for (const [name, control] of Object.entries(controls)) {
+      controls[name] = unitSymbols(control);
     }
   }
   return result;
 }
 
+// A control another reads its unit from, which passes its raw value on,
+// takes the temperature units another control of the file maps the same
+// data point to: a kettle's quick-set unit passes on `c`, which its climate
+// maps to C. What it writes stays as it was.
+function nameUnits(
+  components: Record<string, Record<string, TuyaControl>>,
+): void {
+  const all = Object.values(components).flatMap((controls) =>
+    Object.values(controls),
+  );
+  for (const controls of Object.values(components)) {
+    for (const control of Object.values(controls)) {
+      const unit = control.unitFrom && controls[control.unitFrom];
+      if (
+        !control.unitFrom ||
+        !unit ||
+        unit.values ||
+        unit.otherwise !== undefined ||
+        !isPlain(unit)
+      ) {
+        continue;
+      }
+      const source = all.find(
+        (other) =>
+          other.dataPoint === unit.dataPoint &&
+          isPlain(other) &&
+          other.type === unit.type &&
+          (other.values ?? []).length > 0 &&
+          (other.values ?? []).every((mapping) =>
+            TEMPERATURE_UNITS.has(String(unitSymbol(mapping.value))),
+          ),
+      );
+      if (source?.values) {
+        controls[control.unitFrom] = {
+          ...unit,
+          kind: unit.readOnly ? unit.kind : "select",
+          values: source.values.map(({ raw, value }) => ({
+            raw,
+            value: unitSymbol(value),
+          })),
+        };
+      }
+    }
+  }
+}
+
+// Two entities that expose one data point, as a climate's unit and a select
+// for it, give it one control: the one ranked first below, which takes the
+// writes of the other where it can do so exactly (see absorb).
+function mergeDataPoints(
+  draft: Draft,
+  name: string,
+  candidates: readonly Candidate[],
+): Candidate[] {
+  // A mask makes its bits a value of their own.
+  const byValue = new Map<string, Candidate[]>();
+  for (const candidate of candidates) {
+    const { dataPoint, mask } = candidate.control;
+    const key = `${dataPoint}/${mask ?? ""}`;
+    byValue.set(key, [...(byValue.get(key) ?? []), candidate]);
+  }
+  // A control another of its entity reads its unit from.
+  const isUnit = Object.values(draft).some((others) =>
+    others.some((other) => other.control.unitFrom === name),
+  );
+  const givesUnit = (candidate: Candidate) =>
+    Object.values(draft).some((others) =>
+      others.some(
+        (other) =>
+          other.entity === candidate.entity && other.control.unitFrom === name,
+      ),
+    );
+  const rank = (candidate: Candidate) => [
+    candidate.attribute ? 0 : 1,
+    candidate.composite ? 1 : 0,
+    givesUnit(candidate) ? 1 : 0,
+    candidate.control.readOnly ? 0 : 1,
+    candidate.control.values?.length ?? 0,
+  ];
+  return [...byValue.values()].map((group) => {
+    const kept = group.reduce((best, candidate) => {
+      const [a, b] = [rank(best), rank(candidate)];
+      const index = a.findIndex((value, at) => value !== b[at]);
+      return index !== -1 && (b[index] ?? 0) > (a[index] ?? 0)
+        ? candidate
+        : best;
+    });
+    return {
+      ...kept,
+      control: group
+        .filter((candidate) => candidate !== kept)
+        .reduce(
+          (control, other) => absorb(control, other, isUnit),
+          kept.control,
+        ),
+    };
+  });
+}
+
+// The fields of a control that converts a raw value by its mappings and
+// `otherwise` alone.
+const PLAIN_FIELDS: ReadonlySet<string> = new Set([
+  "dataPoint",
+  "type",
+  "kind",
+  "measures",
+  "readOnly",
+  "unit",
+  "unitFrom",
+  "values",
+  "otherwise",
+  "whenAbsent",
+]);
+
+function isPlain(control: TuyaControl): boolean {
+  return (
+    Object.keys(control).every((key) => PLAIN_FIELDS.has(key)) &&
+    (control.values ?? []).every((mapping) =>
+      Object.keys(mapping).every((key) => key === "raw" || key === "value"),
+    )
+  );
+}
+
+// The kept control takes the writes of another entity's control: each raw
+// value the other writes, and the kept control cannot, maps to the kept
+// control's reading of it. A sensor's unit, F for f and C for anything else,
+// beside a select writing c for celsius, then writes c for C. The kept
+// control's reads stay as they were, and where it was read-only, a mapping
+// the other never writes stays so. Where that would not be exact, as where
+// two raw values read alike, the kept control stays as it was. An attribute
+// gives no writes: tuya-local never writes one.
+function absorb(
+  kept: TuyaControl,
+  other: Candidate,
+  isUnit: boolean,
+): TuyaControl {
+  if (other.attribute || other.control.readOnly) {
+    return kept;
+  }
+  const keptValues = kept.values ?? [];
+  const otherWrites = (other.control.values ?? []).filter(
+    (mapping) => !mapping.readOnly && mapping.value != null,
+  );
+  const written = otherWrites.map((mapping) => mapping.raw);
+  // A unit the kept control reads a raw value as only by passing it on, or
+  // by `otherwise`, gives way to the unit the other names for it: a
+  // climate's unit passes on `c`, which its select names celsius.
+  const unitOf = (raw: ControlMapping["raw"]) => {
+    const meant = unitSymbol(
+      otherWrites.find((mapping) => mapping.raw === raw)?.value,
+    );
+    const read = kept.otherwise === undefined ? raw : kept.otherwise;
+    return isUnit &&
+      typeof meant === "string" &&
+      TEMPERATURE_UNITS.has(meant) &&
+      meant !== read &&
+      !keptValues.some((mapping) => mapping.raw === raw)
+      ? meant
+      : undefined;
+  };
+  // A raw value no mapping names, and no mapping reads as, is written as it
+  // is by a control without `otherwise`.
+  const writable = (raw: ControlMapping["raw"]) =>
+    keptValues.some((mapping) => mapping.raw === raw && !mapping.readOnly) ||
+    (kept.otherwise === undefined &&
+      !keptValues.some(
+        (mapping) => mapping.raw === raw || mapping.value === raw,
+      ));
+  const missing = written.filter(
+    (raw) => !writable(raw) || unitOf(raw) !== undefined,
+  );
+  if (
+    (!kept.readOnly && missing.length === 0) ||
+    !isPlain(kept) ||
+    !isPlain(other.control) ||
+    kept.type !== other.control.type
+  ) {
+    return kept;
+  }
+  const values: ControlMapping[] = [
+    ...keptValues.map((mapping) =>
+      kept.readOnly && !written.includes(mapping.raw)
+        ? { ...mapping, readOnly: true as const }
+        : mapping,
+    ),
+    ...missing.map((raw) => ({
+      raw,
+      value:
+        unitOf(raw) ?? (kept.otherwise === undefined ? raw : kept.otherwise),
+    })),
+  ];
+  const writes = values
+    .filter((mapping) => !mapping.readOnly)
+    .map((mapping) => mapping.value);
+  if (writes.includes(null) || new Set(writes).size !== writes.length) {
+    return kept;
+  }
+  const { readOnly: _, ...rest } = kept;
+  return {
+    ...rest,
+    kind: kept.readOnly
+      ? other.control.kind
+      : values.length > 0
+        ? "select"
+        : kept.kind,
+    ...(values.length > 0 && { values }),
+    ...(kept.readOnly &&
+      kept.otherwise !== undefined && { ownRuleReadOnly: true as const }),
+  };
+}
+
+// An entity that joins the main component, but asks for a name a control of
+// the main entity holds, goes to a component of the device's own instead:
+// an aroma diffuser's switch beside its light's.
+function leaveMain(drafts: Record<string, Draft>, mainName: string): void {
+  const main = drafts[mainName] ?? {};
+  const leaving = new Set<EntityConfig>();
+  for (const candidates of Object.values(main)) {
+    if (
+      candidates.length > 1 &&
+      candidates.some((candidate) => candidate.composite)
+    ) {
+      for (const candidate of candidates) {
+        if (!candidate.composite) {
+          leaving.add(candidate.entity);
+        }
+      }
+    }
+  }
+  if (leaving.size === 0) {
+    return;
+  }
+  const device: Draft = {};
+  for (const [name, candidates] of Object.entries(main)) {
+    const staying = candidates.filter(
+      (candidate) => !leaving.has(candidate.entity),
+    );
+    const left = candidates.filter((candidate) =>
+      leaving.has(candidate.entity),
+    );
+    if (left.length > 0) {
+      device[name] = left;
+    }
+    if (staying.length > 0) {
+      main[name] = staying;
+    } else {
+      delete main[name];
+    }
+  }
+  drafts[unique(drafts, "device")] = device;
+}
+
+// Names each control of a component. A name distinguish leaves shared goes
+// to an entity's own data point before an attribute, then to the first in
+// the file, and the rest take an ordinal.
+function settle(draft: Draft): Record<string, TuyaControl> {
+  const named = Object.entries(draft).flatMap(([name, candidates]) =>
+    candidates.length === 1 && candidates[0]
+      ? [{ name, candidate: candidates[0] }]
+      : distinguish(name, candidates, draft),
+  );
+  const holders = new Set<Candidate>();
+  for (const name of new Set(named.map((item) => item.name))) {
+    const [holder] = named
+      .filter((item) => item.name === name)
+      .sort(
+        (a, b) => Number(a.candidate.attribute) - Number(b.candidate.attribute),
+      );
+    if (holder) {
+      holders.add(holder.candidate);
+    }
+  }
+  const finalNames = new Map<Candidate, string>();
+  const taken: Record<string, true> = {};
+  for (const item of named) {
+    if (item.name in draft && holders.has(item.candidate)) {
+      finalNames.set(item.candidate, item.name);
+      taken[item.name] = true;
+    }
+  }
+  for (const pass of [true, false]) {
+    for (const item of named) {
+      if (
+        !finalNames.has(item.candidate) &&
+        holders.has(item.candidate) === pass
+      ) {
+        const name = unique(taken, item.name);
+        finalNames.set(item.candidate, name);
+        taken[name] = true;
+      }
+    }
+  }
+  const controls: Record<string, TuyaControl> = {};
+  for (const { candidate } of named) {
+    const name = finalNames.get(candidate) ?? "";
+    const unitFrom = candidate.control.unitFrom;
+    const unitHolder =
+      unitFrom === undefined
+        ? undefined
+        : (draft[unitFrom]?.find(
+            (other) => other.entity === candidate.entity,
+          ) ?? draft[unitFrom]?.[0]);
+    const unitName = unitHolder && finalNames.get(unitHolder);
+    controls[name] =
+      unitName && unitName !== unitFrom
+        ? { ...candidate.control, unitFrom: unitName }
+        : candidate.control;
+  }
+  return controls;
+}
+
+// A control whose every value is a temperature unit reads the catalog's
+// symbol for each.
+function unitSymbols(control: TuyaControl): TuyaControl {
+  const { values, otherwise } = control;
+  const read = [
+    ...(values ?? []).map((mapping) => mapping.value),
+    ...(otherwise === undefined ? [] : [otherwise]),
+  ].filter((value) => value != null);
+  if (
+    read.length === 0 ||
+    !read.every((value) => TEMPERATURE_UNITS.has(String(unitSymbol(value))))
+  ) {
+    return control;
+  }
+  return {
+    ...control,
+    ...(values && {
+      values: values.map((mapping) => ({
+        ...mapping,
+        value: unitSymbol(mapping.value),
+      })),
+    }),
+    ...(otherwise !== undefined && { otherwise: unitSymbol(otherwise) }),
+  };
+}
+
+// Words that tell a control from another of its name by the kind of each: a
+// number set beside the reading of its name is its setting, which can be a
+// set point, a threshold or an amount alike; a switch beside another kind of
+// control turns that feature on; a text beside a select or a number holds
+// the raw data of what they choose; and a reading beside a button or a
+// select is the state they act on, as `lockState`.
+function byKind(
+  candidate: Candidate,
+  rivals: readonly Candidate[],
+): string | undefined {
+  const { kind, readOnly } = candidate.control;
+  const kinds = new Set(rivals.map((rival) => rival.control.kind));
+  if (
+    kind === "number" &&
+    !readOnly &&
+    rivals.some((rival) => rival.control.readOnly)
+  ) {
+    return join(candidate.base, "setting");
+  }
+  if (kind === "switch" && [...kinds].some((other) => other !== "switch")) {
+    return join(candidate.base, "enabled");
+  }
+  if (kind === "text" && (kinds.has("select") || kinds.has("number"))) {
+    return join(candidate.base, "data");
+  }
+  if (kind === "sensor" && (kinds.has("button") || kinds.has("select"))) {
+    return join(candidate.base, "state");
+  }
+  return undefined;
+}
+
+// A reading whose class its rivals do not share, and its name does not say,
+// takes the class's word: a doorbell's connectivity beside its ring.
+function byMeasure(
+  candidate: Candidate,
+  rivals: readonly Candidate[],
+): string | undefined {
+  const { measures } = candidate.control;
+  if (
+    !measures ||
+    rivals.some((rival) => rival.control.measures === measures) ||
+    candidate.base.toLowerCase().includes(measures.toLowerCase())
+  ) {
+    return undefined;
+  }
+  return candidate.base + measures.charAt(0).toUpperCase() + measures.slice(1);
+}
+
+// Tells apart controls of different values that ask for one name, by byKind
+// and then byMeasure. A name another control of the component asks for
+// tells nothing apart.
+function distinguish(
+  name: string,
+  candidates: readonly Candidate[],
+  draft: Draft,
+): { name: string; candidate: Candidate }[] {
+  let names = candidates.map(() => name);
+  for (const qualify of [byKind, byMeasure]) {
+    const current = names;
+    names = candidates.map((candidate, index) => {
+      const own = current[index] ?? name;
+      const rivals = candidates.filter(
+        (_, other) => other !== index && current[other] === own,
+      );
+      const base = rivals.length > 0 ? qualify(candidate, rivals) : undefined;
+      const qualified =
+        base === undefined || candidate.unit === undefined
+          ? base
+          : controlName(base, candidate.unit);
+      return qualified === undefined || qualified in draft ? own : qualified;
+    });
+  }
+  return candidates.map((candidate, index) => ({
+    name: names[index] ?? name,
+    candidate,
+  }));
+}
+
 function addCompositeControls(
-  component: Record<string, TuyaControl>,
+  draft: Draft,
   entity: EntityConfig,
   unitSelect: boolean,
 ): void {
@@ -673,11 +1271,11 @@ function addCompositeControls(
     (name) => entity.dps.find((dp) => dp.name === name)?.unit,
   ).find((unit) => unit !== undefined);
   for (const dp of entity.dps) {
-    if (!isControl(dp)) {
+    if (!isControl(dp) || isShadowed(entity, dp)) {
       continue;
     }
     if (hasFormat(dp)) {
-      addFormatControls(component, entity, dp, dp.format);
+      addFormatControls(draft, entity, dp, dp.format);
       continue;
     }
     const named = splitUnit(dp);
@@ -704,11 +1302,14 @@ function addCompositeControls(
       ? defaultValueOf(dp)
       : undefined;
     addControl(
-      component,
+      draft,
       base,
       kelvin(entity, { ...dp, ...(unit !== undefined && { unit }) }),
       entity,
       {
+        ...(!(`${entity.entity}.${named.name}` in COMPOSITE_CONTROLS) && {
+          attribute: true,
+        }),
         ...(unitFrom && { unitFrom }),
         ...(measures && { measures }),
         ...(defaultValue !== undefined && { defaultValue }),
@@ -720,11 +1321,11 @@ function addCompositeControls(
 // Source: A format packs fields of 1, 2 or 4 bytes one after another,
 // big-endian, each signed when its range starts below 0 and otherwise
 // running over every value its bytes hold, in
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L450-L474
-// and https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/light.py#L210-L228.
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L450-L474
+// and https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/light.py#L210-L228.
 // Each field becomes a control over the bytes it covers.
 function addFormatControls(
-  component: Record<string, TuyaControl>,
+  draft: Draft,
   entity: EntityConfig,
   dp: DataPointConfig,
   fields: readonly FormatField[],
@@ -744,7 +1345,7 @@ function addFormatControls(
     const min = field.range?.min ?? 0;
     const max = field.range?.max ?? 256 ** bytes - 1;
     addControl(
-      component,
+      draft,
       dp.name === "rgbhsv"
         ? fieldName
         : camelCase(dp.name) +
@@ -761,7 +1362,12 @@ function addFormatControls(
         ...(min < 0 && { mask_signed: true }),
       },
       entity,
-      { kind: "number" },
+      {
+        kind: "number",
+        ...(!(`${entity.entity}.${dp.name}` in COMPOSITE_CONTROLS) && {
+          attribute: true,
+        }),
+      },
     );
   }
 }
@@ -779,52 +1385,58 @@ function kelvin(entity: EntityConfig, dp: DataPointConfig): DataPointConfig {
 }
 
 function addSimpleControls(
-  component: Record<string, TuyaControl>,
+  draft: Draft,
   entity: EntityConfig,
+  entities: readonly EntityConfig[],
 ): void {
-  const base = simpleBase(entity);
+  const base = simpleBase(entity, entities);
   const primary = PRIMARY_DATA_POINTS[entity.entity];
   const kind = SIMPLE_KINDS[entity.entity];
   const measures = entityMeasures(entity);
   const unitDp = entity.dps.find((dp) => dp.name === "unit" && isControl(dp));
   const unitName = unitDp ? `${base}Unit` : undefined;
   for (const dp of entity.dps) {
-    if (!isControl(dp)) {
+    if (!isControl(dp) || isShadowed(entity, dp)) {
       continue;
     }
     if (entity.entity === "time" && TIME_UNITS[dp.name]) {
-      addControl(
-        component,
-        base,
-        { ...dp, unit: TIME_UNITS[dp.name] },
-        entity,
-        {
-          ...(kind && { kind }),
-        },
-      );
+      addControl(draft, base, { ...dp, unit: TIME_UNITS[dp.name] }, entity, {
+        ...(kind && { kind }),
+      });
     } else if (
       dp.name === primary ||
       (entity.entity === "lock" && dp.name === "lock")
     ) {
-      addControl(component, base, dp, entity, {
+      addControl(draft, base, dp, entity, {
         ...(unitName && { unitFrom: unitName }),
         ...(kind && { kind }),
         ...(measures && { measures }),
       });
     } else if (dp === unitDp && unitName) {
-      addControl(component, unitName, dp, entity, {});
+      addControl(draft, unitName, dp, entity, {});
     } else {
       const named = splitUnit(dp);
       addControl(
-        component,
+        draft,
         join(base, named.name),
         { ...dp, ...(named.unit !== undefined && { unit: named.unit }) },
         entity,
-        {},
+        { attribute: true },
       );
     }
   }
 }
+
+// Home Assistant's classes whose name says what they detect in its own terms,
+// by the catalog's words for it: a problem is a fault, as the control that
+// detects one is named, a plug is plugged in, safety is a hazard, and
+// volatile organic compounds are one measure whatever their unit.
+const CLASS_MEASURES: Record<string, Measure> = {
+  plug: "plugged",
+  problem: "fault",
+  safety: "hazard",
+  volatile_organic_compounds_parts: "volatileOrganicCompounds",
+};
 
 // What an entity measures or detects, by its class: the catalog's own words,
 // so a class tuya-local adds stops the run until MEASURES names it.
@@ -836,16 +1448,20 @@ function entityMeasures(entity: EntityConfig): Measure | undefined {
   ) {
     return undefined;
   }
-  const measures = camelCase(entity.class, false);
+  const measures =
+    CLASS_MEASURES[entity.class] ?? camelCase(entity.class, false);
   if (!(MEASURES as readonly string[]).includes(measures)) {
     throw new Error(`Add "${measures}" to MEASURES in src/vocabulary.ts`);
   }
   return measures as Measure;
 }
 
-function simpleBase(entity: EntityConfig): string {
+function simpleBase(
+  entity: EntityConfig,
+  entities: readonly EntityConfig[],
+): string {
   if (entity.name) {
-    return camelCase(entity.name);
+    return camelCase(flowName(entity, entities));
   }
   const key = translationKey(entity);
   if (key) {
@@ -864,6 +1480,47 @@ function simpleBase(entity: EntityConfig): string {
   return camelCase(entity.entity);
 }
 
+// Composite entities that ask for one component name, as two thermostats of
+// one translation key, are told apart by their names, then their classes,
+// then their kinds, where that tells them all apart; and else by an ordinal.
+function nameComponents(
+  entities: readonly EntityConfig[],
+  mainName: string,
+): Map<EntityConfig, string> {
+  const names = new Map(
+    entities.map((entity) => [entity, camelCase(componentKey(entity))]),
+  );
+  for (const name of new Set(names.values())) {
+    const group = entities.filter((entity) => names.get(entity) === name);
+    const taken = name === mainName ? [mainName] : [];
+    if (group.length + taken.length < 2) {
+      continue;
+    }
+    for (const field of ["name", "class", "entity"] as const) {
+      const next = group.map((entity) => {
+        const value = entity[field];
+        return value === undefined ? name : camelCase(value);
+      });
+      if (
+        next.some((other) => other !== name) &&
+        new Set([...next, ...taken]).size === next.length + taken.length
+      ) {
+        group.forEach((entity, index) => {
+          names.set(entity, next[index] ?? name);
+        });
+        break;
+      }
+    }
+  }
+  const taken: Record<string, true> = { [mainName]: true };
+  for (const entity of entities) {
+    const name = unique(taken, names.get(entity) ?? "");
+    taken[name] = true;
+    names.set(entity, name);
+  }
+  return names;
+}
+
 function componentKey(entity: EntityConfig): string {
   const key = translationKey(entity);
   if (key && !CAPABILITY_KEYS.has(key)) {
@@ -872,23 +1529,70 @@ function componentKey(entity: EntityConfig): string {
   return entity.name ?? entity.entity;
 }
 
-// A key ending in `_x` names one of several, with `x` among its placeholders:
-// `valve_x` with `x: 1` is the first valve.
+// Source: A translation key names one of several by its placeholders: a
+// word of the key a placeholder names is its value, `valve_x` with `x: 1` the
+// first valve, and the value of a placeholder the key does not name follows
+// it, as tuya-local names the entity, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L322-L338.
 function translationKey(entity: EntityConfig): string | undefined {
   const key = entity.translation_key ?? entity.translation_only_key;
-  const placeholder = entity.translation_placeholders?.x;
-  if (key?.endsWith("_x") && placeholder !== undefined) {
-    return `${key.slice(0, -1)}${placeholder}`;
+  if (key === undefined) {
+    return undefined;
   }
-  return key;
+  let parts = key.split("_");
+  for (const [name, value] of Object.entries(
+    entity.translation_placeholders ?? {},
+  )) {
+    const slug = String(value)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/^_|_$/g, "");
+    parts = parts.includes(name)
+      ? parts.map((part) => (part === name ? slug : part))
+      : [...parts, slug];
+  }
+  return parts.join("_");
+}
+
+// A measurement named for "in" or "out", beside another of the device's
+// measurements named for the other word, is one end of a flow: "TDS in" and
+// "TDS out" are the inlet's and the outlet's. A control with no unit, such
+// as a camera's "Zoom in" button, keeps its words, and so does any other
+// "in", which a time's unit marker spells, as "pump cleaning in" minutes.
+function flowName(
+  entity: EntityConfig,
+  entities: readonly EntityConfig[],
+): string {
+  const name = entity.name ?? "";
+  const match = /^(.*\S)\s+(in|out)$/i.exec(name);
+  if (!match) {
+    return name;
+  }
+  const [, stem = "", end = ""] = match;
+  const other = `${stem} ${end.toLowerCase() === "in" ? "out" : "in"}`;
+  const measured = (candidate: EntityConfig) =>
+    candidate.dps.some((dp) => dp.unit !== undefined);
+  const paired = entities.some(
+    (candidate) =>
+      candidate.name?.toLowerCase() === other.toLowerCase() &&
+      measured(candidate),
+  );
+  return paired && measured(entity) ? `${stem} ${end.toLowerCase()}let` : name;
 }
 
 function isControl(dp: DataPointConfig): boolean {
   return !dp.hidden && dp.name !== "available" && !/^unknown/.test(dp.name);
 }
 
+// Source: An entity keeps the last of its data points of one name, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/entity.py#L24-L33,
+// though a redirect or a constraint finds the first.
+function isShadowed(entity: EntityConfig, dp: DataPointConfig): boolean {
+  return entity.dps.findLast((other) => other.name === dp.name) !== dp;
+}
+
 function addControl(
-  component: Record<string, TuyaControl>,
+  draft: Draft,
   base: string,
   dp: DataPointConfig,
   entity: EntityConfig,
@@ -897,23 +1601,27 @@ function addControl(
     kind?: ControlKind;
     measures?: Measure;
     defaultValue?: ControlValue;
+    attribute?: true;
   },
 ): void {
   const { unitFrom } = options;
   const shortest =
     unitFrom || dp.unit === undefined ? base : controlName(base, dp.unit);
+  const longest =
+    unitFrom ||
+    dp.unit === undefined ||
+    COUNTED_UNITS.has(dp.unit) ||
+    base.endsWith(`In${unitSuffix(dp.unit)}`)
+      ? shortest
+      : `${base}In${unitSuffix(dp.unit)}`;
   // A name that dropped its unit's word keeps it where another control
   // already has the shorter name.
-  const name = unique(
-    component,
-    shortest in component && dp.unit !== undefined && !unitFrom
-      ? `${base}In${unitSuffix(dp.unit)}`
-      : shortest,
-  );
+  const name = shortest in draft && !(longest in draft) ? longest : shortest;
   const readOnly =
     dp.readonly ||
     READ_ONLY_ENTITIES.has(entity.entity) ||
-    READ_ONLY_CONTROLS.has(base);
+    READ_ONLY_CONTROLS.has(base) ||
+    READ_ONLY_DATA_POINTS.has(`${entity.entity}.${dp.name}`);
   const { target, booleanMask } = convertDataPoint(entity, dp, []);
   const {
     dataPoint,
@@ -939,7 +1647,7 @@ function addControl(
             : NUMBER_TYPES.has(type)
               ? "number"
               : "text");
-  component[name] = {
+  const control: TuyaControl = {
     dataPoint,
     ...(mask !== undefined && { mask }),
     ...(maskSigned && { maskSigned }),
@@ -954,6 +1662,15 @@ function addControl(
       defaultValue: options.defaultValue,
     }),
   };
+  draft[name] ??= [];
+  draft[name].push({
+    base,
+    ...(!unitFrom && dp.unit !== undefined && { unit: String(dp.unit) }),
+    control,
+    entity,
+    composite: isComposite(entity),
+    attribute: options.attribute ?? false,
+  });
 }
 
 // Source: The default is the first rule, or a rule's condition, marked
@@ -1000,27 +1717,29 @@ function convertDataPoint(
       continue;
     }
     const converted = convertRule(entity, dp, rule, trail);
+    // Source: A mapping with a dps_val but no value reads the raw value, and
+    // takes it from the rule with no dps_val, in
+    // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L801-L807.
     if ("dps_val" in rule) {
-      const { value, dependsOn, redirect, mirror } = converted;
-      if (value === undefined && !dependsOn && !redirect && !mirror) {
-        continue;
-      }
       if (rule.dps_val === null) {
         // A write never takes the rule for an absent data point, so whether
         // it is hidden says nothing.
         const { readOnly: _, ...absent } = converted;
-        whenAbsent = absent;
+        whenAbsent ??= absent;
       } else {
-        values.push({
-          raw: rule.dps_val as ControlMapping["raw"],
-          ...converted,
-        });
+        values.push({ raw: rawOf(dp, rule.dps_val), ...converted });
       }
       continue;
     }
-    const { value, dependsOn, redirect, mirror, availableWhile } = converted;
+    const { value, readOnly, dependsOn, redirect, mirror, availableWhile } =
+      converted;
     if (value !== undefined) {
       own.otherwise = value;
+    }
+    // Source: A write never takes a hidden rule with no dps_val, in
+    // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L880-L885.
+    if (readOnly) {
+      own.ownRuleReadOnly = true;
     }
     if (availableWhile) {
       own.availableWhile = availableWhile;
@@ -1060,14 +1779,21 @@ function convertDataPoint(
     own.otherwise === undefined &&
     (BOOLEAN_DATA_POINTS.has(dp.name) ||
       BOOLEAN_DATA_POINTS.has(`${entity.entity}.${dp.name}`));
+  // A rule the conversion adds for raw values the file does not map leaves
+  // an absent data point without a value, as tuya-local reads it.
+  const ownAdded = own.otherwise === undefined;
   if (booleanMask) {
     values.push({ raw: 0, value: false }, { raw: 1, value: true });
     own.otherwise = true;
   } else if (entity.entity === "binary_sensor" && dp.name === "sensor") {
     readAsTruth(dp, values, own);
-    if (whenAbsent?.value !== undefined) {
+    if (whenAbsent?.value != null) {
       whenAbsent.value = truthy(whenAbsent.value);
     }
+  }
+  if (ownAdded && own.otherwise !== undefined && !whenAbsent) {
+    whenAbsent =
+      own.dependsOn || own.redirect || own.mirror ? undefined : { value: null };
   }
   return {
     target: {
@@ -1075,7 +1801,10 @@ function convertDataPoint(
       ...(dp.specType !== undefined &&
         dp.type !== dp.specType && { type: dp.type as TuyaDataPointType }),
       ...(masked && { mask: String(dp.mask) }),
-      ...(dp.mask_signed && { maskSigned: true as const }),
+      // Source: tuya-local reads masked bits as signed on bytes alone, in
+      // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L493-L510.
+      ...(dp.mask_signed &&
+        PACKED_TYPES.has(dp.type) && { maskSigned: true as const }),
       ...(dp.endianness === "little" && { littleEndian: true as const }),
       ...(dp.readonly && { readOnly: true as const }),
       ...(range?.min !== undefined && { min: range.min }),
@@ -1108,12 +1837,14 @@ function readAsTruth(
   own: Partial<ControlTarget>,
 ): void {
   for (const mapping of values) {
-    if (mapping.value !== undefined) {
-      mapping.value = truthy(mapping.value);
+    if (mapping.value !== null) {
+      mapping.value = truthy(mapping.value ?? mapping.raw);
     }
   }
-  if (own.otherwise !== undefined) {
+  if (own.otherwise != null) {
     own.otherwise = truthy(own.otherwise);
+  }
+  if (own.otherwise !== undefined) {
     return;
   }
   const named = values.map((mapping) => mapping.raw);
@@ -1139,6 +1870,29 @@ function truthy(value: ControlValue): boolean {
   return value !== false && value !== 0 && value !== "";
 }
 
+// Source: tuya-local writes a raw value as its data point's type, a number
+// on a string data point as Python's text for it, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L761-L778.
+// That text matches a raw value as the number did, and keeps an integer too
+// large for a JavaScript number whole.
+function rawOf(dp: DataPointConfig, raw: unknown): ControlMapping["raw"] {
+  if (
+    STRING_TYPES.has(dp.type) &&
+    dp.mask === undefined &&
+    (typeof raw === "number" ||
+      typeof raw === "bigint" ||
+      typeof raw === "boolean")
+  ) {
+    return pyStr(raw);
+  }
+  if (typeof raw === "bigint") {
+    throw new UnsupportedFeature(
+      "an integer too large for a JavaScript number",
+    );
+  }
+  return raw as ControlMapping["raw"];
+}
+
 // What a mapping rule gives, but its raw value and its conversion of numbers.
 function convertRule(
   entity: EntityConfig,
@@ -1153,8 +1907,7 @@ function convertRule(
   // An `invalid` on a rule does nothing: tuya-local reads it from the
   // condition that holds alone, see DESIGN.md#catalog.
   return {
-    ...("value" in rule &&
-      rule.value !== null && { value: rule.value as ControlRule["value"] }),
+    ...("value" in rule && { value: rule.value as ControlRule["value"] }),
     ...(rule.hidden && { readOnly: true as const }),
     ...(dependsOn && { dependsOn }),
     ...(redirect && { redirect }),
@@ -1166,7 +1919,7 @@ function convertRule(
 // Source: An `available` names a data point of the same entity whose value,
 // as it converts, makes the rule apply while truthy, and one the entity
 // lacks leaves the rule always available, in
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L578-L585.
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L578-L585.
 function availabilityTarget(
   entity: EntityConfig,
   dp: DataPointConfig,
@@ -1186,8 +1939,8 @@ function availabilityTarget(
 // Source: A value_redirect or value_mirror names a data point of the same
 // entity, whose value is read, as that data point converts it, in its place,
 // in
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L810-L818.
-// The rule's own step and range, which tuya-local shows for the control, go
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L810-L818.
+// The rule's own range, which tuya-local shows for the control, goes
 // to the other data point when it has none: see DESIGN.md#catalog.
 function redirectTarget(
   entity: EntityConfig,
@@ -1205,7 +1958,7 @@ function redirectTarget(
   }
   const path = [...trail, dp.name];
   if (path.includes(next.name)) {
-    throw new UnsupportedFeature("a `value_redirect` that loops");
+    throw new LoopingRedirect("a `value_redirect` that loops");
   }
   const { target } = convertDataPoint(entity, next, path);
   return {
@@ -1214,8 +1967,6 @@ function redirectTarget(
       rule.range?.min !== undefined && { min: rule.range.min }),
     ...(target.max === undefined &&
       rule.range?.max !== undefined && { max: rule.range.max }),
-    ...(target.step === undefined &&
-      typeof rule.step === "number" && { step: rule.step }),
   };
 }
 
@@ -1224,7 +1975,7 @@ function redirectTarget(
 // unless convertsConstraint says they match its value as it converts; a
 // condition's dps_val can be one value or a list, and its nested mapping
 // takes dps_val and value alone, in
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/devices/README.md#L490-L509.
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/devices/README.md#L488-L507.
 function dependency(
   entity: EntityConfig,
   dp: DataPointConfig,
@@ -1238,15 +1989,38 @@ function dependency(
   if (conditions.length === 0 || !constraint) {
     return undefined;
   }
-  const reads = convertsConstraint(constraint)
-    ? convertDataPoint(entity, constraint, [...trail, dp.name]).target
-    : undefined;
+  const embedded =
+    (constraint.mapping !== undefined || constraint.mask !== undefined) &&
+    constraint.name !== dp.name &&
+    !trail.includes(constraint.name)
+      ? embedConstraint(entity, constraint, [...trail, dp.name])
+      : undefined;
   return {
     dataPoint: String(constraint.id),
-    ...(reads && { reads }),
-    ...((constraint.readonly || reads) && { readOnly: true as const }),
+    ...(embedded && { constraint: embedded }),
+    ...((constraint.readonly || convertsConstraint(constraint)) && {
+      readOnly: true as const,
+    }),
     conditions: conditions.map((rule) => condition(entity, dp, rule, trail)),
   };
+}
+
+// A constraint whose conversion leads back to the data point that names it
+// is not embedded: writing through it would loop, as tuya-local's does, so
+// a write sets its raw value alone.
+function embedConstraint(
+  entity: EntityConfig,
+  constraint: DataPointConfig,
+  trail: readonly string[],
+): ControlTarget | undefined {
+  try {
+    return convertDataPoint(entity, constraint, trail).target;
+  } catch (error) {
+    if (error instanceof LoopingRedirect) {
+      return undefined;
+    }
+    throw error;
+  }
 }
 
 function condition(
@@ -1269,10 +2043,10 @@ function condition(
     (nested) => nested.dps_val === null && "value" in nested,
   );
   const values = (rule.mapping ?? []).flatMap((nested) =>
-    "value" in nested && nested.value !== null && nested.dps_val !== null
+    "value" in nested && nested.dps_val !== null
       ? [
           {
-            raw: nested.dps_val as ControlMapping["raw"],
+            raw: rawOf(dp, nested.dps_val),
             value: nested.value as ControlMapping["value"],
             ...(nested.hidden && { readOnly: true as const }),
           },
@@ -1281,10 +2055,9 @@ function condition(
   );
   return {
     when: when as ControlCondition["when"],
-    ...("value" in rule &&
-      rule.value !== null && {
-        value: rule.value as ControlCondition["value"],
-      }),
+    ...("value" in rule && {
+      value: rule.value as ControlCondition["value"],
+    }),
     ...(rule.hidden && { readOnly: true as const }),
     ...(values.length > 0 && { values }),
     ...(typeof rule.scale === "number" && { scale: rule.scale }),
@@ -1302,8 +2075,8 @@ function condition(
     ...(mirror && { mirror }),
     ...(availableWhile && { availableWhile }),
     ...(rule.invalid && { invalid: true as const }),
-    ...(absent?.value != null && {
-      whenAbsent: { value: absent.value as ControlValue },
+    ...(absent && {
+      whenAbsent: { value: absent.value as ControlValue | null },
     }),
   };
 }
@@ -1324,15 +2097,34 @@ function join(base: string, name: string): string {
   return base + pascal;
 }
 
+// A second control or component of one name that nothing else tells apart
+// takes an ordinal before it, `secondCurrentInA`: a digit after it would
+// read as part of the name or its unit, as in `cleanedAreaInM2` or `pm25`.
+const ORDINALS = [
+  "second",
+  "third",
+  "fourth",
+  "fifth",
+  "sixth",
+  "seventh",
+  "eighth",
+  "ninth",
+  "tenth",
+];
+
 function unique(taken: Record<string, unknown>, name: string): string {
   if (!(name in taken)) {
     return name;
   }
-  let index = 2;
-  while (`${name}${index}` in taken) {
-    index++;
+  for (const ordinal of ORDINALS) {
+    const candidate = ordinal + name.charAt(0).toUpperCase() + name.slice(1);
+    if (!(candidate in taken)) {
+      return candidate;
+    }
   }
-  return `${name}${index}`;
+  throw new Error(
+    `More than ${ORDINALS.length + 1} controls are named ${name}`,
+  );
 }
 
 // A name carrying its unit after "In", as AGENTS.md#names asks. A name
@@ -1340,8 +2132,20 @@ function unique(taken: Record<string, unknown>, name: string): string {
 // unit that is no unit of measure, which a name already ends in, such as "UV
 // index", none. A unit of one letter is never taken from a name, where the
 // letter can be a phase, as "current A".
-function controlName(base: string, unit: string): string {
+function controlName(name: string, unit: string): string {
+  if (COUNTED_UNITS.has(unit)) {
+    return name;
+  }
   const suffix = unitSuffix(unit);
+  if (name.endsWith(`In${suffix}`)) {
+    return name;
+  }
+  // A name ending in the word "in" before a time, as "pump cleaning in"
+  // minutes, takes the unit's "In" alone.
+  const base =
+    /[a-z0-9]In$/.test(name) && TIME_SUFFIXES.has(suffix)
+      ? name.slice(0, -2)
+      : name;
   const ending =
     base.length > suffix.length &&
     base.endsWith(suffix) &&
@@ -1360,7 +2164,7 @@ function controlName(base: string, unit: string): string {
 // Source: tuya-local names some data points for their unit alone, as
 // temp_set_f for a set point in Fahrenheit beside one in the climate's unit,
 // in
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/devices/amantii_trdlumina_fireplace.yaml#L18-L76.
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/devices/amantii_trdlumina_fireplace.yaml#L18-L76.
 // A data point that declares no unit takes it from its name's last word: F or
 // C on a temperature, cm or mm. See DESIGN.md#catalog.
 function splitUnit(dp: DataPointConfig): { name: string; unit?: string } {

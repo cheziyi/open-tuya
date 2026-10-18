@@ -38,8 +38,12 @@ const entry: TuyaDeviceEntry = {
       temporaryPasswordDelete: { dataPoint: "5", kind: "text" },
       temporaryPasswordModify: { dataPoint: "6", kind: "text" },
       synchMethod: { dataPoint: "7", kind: "text" },
-      unlockPassword: { dataPoint: "51", kind: "text" },
-      unlockTemporaryPassword: { dataPoint: "58", kind: "text" },
+      unlockPassword: { dataPoint: "51", kind: "sensor", readOnly: true },
+      unlockTemporaryPassword: {
+        dataPoint: "58",
+        kind: "sensor",
+        readOnly: true,
+      },
       alarmLock: {
         dataPoint: "60",
         kind: "sensor",
@@ -52,8 +56,16 @@ const entry: TuyaDeviceEntry = {
       passwordOfflineTime: { dataPoint: "70", kind: "text" },
       unlockOfflineClearSingle: { dataPoint: "71", kind: "text" },
       unlockOfflineClear: { dataPoint: "72", kind: "text" },
-      unlockOfflinePassword: { dataPoint: "73", kind: "text" },
-      unlockDynamicPassword: { dataPoint: "74", kind: "number" },
+      unlockOfflinePassword: {
+        dataPoint: "73",
+        kind: "sensor",
+        readOnly: true,
+      },
+      unlockDynamicPassword: {
+        dataPoint: "74",
+        kind: "sensor",
+        readOnly: true,
+      },
       message: { dataPoint: "91", kind: "switch" },
       keytone: {
         dataPoint: "22",

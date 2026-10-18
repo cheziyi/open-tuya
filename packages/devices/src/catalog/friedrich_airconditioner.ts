@@ -76,15 +76,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "select",
         values: [
-          { raw: true, value: "°F" },
-          { raw: false, value: "°C" },
+          { raw: true, value: "F" },
+          { raw: false, value: "C" },
         ],
       },
       sleep: { dataPoint: "101", kind: "switch" },
       fault: {
         dataPoint: "20",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

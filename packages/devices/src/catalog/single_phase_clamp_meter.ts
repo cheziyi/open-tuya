@@ -58,7 +58,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "request", value: "request" },
         ],
       },
-      realTime2: {
+      secondRealTime: {
         dataPoint: "102",
         kind: "select",
         values: [
@@ -105,13 +105,14 @@ const entry: TuyaDeviceEntry = {
       powerWarning: {
         dataPoint: "110",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: "normal", value: false },
           { raw: "warn", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       warningPowerLevelInW: {

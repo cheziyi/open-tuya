@@ -24,13 +24,21 @@ const entry: TuyaDeviceEntry = {
         max: 12,
         dependsOn: {
           dataPoint: "3",
+          constraint: {
+            dataPoint: "3",
+            values: [
+              { raw: "normal", value: "normal" },
+              { raw: "nature", value: "nature" },
+              { raw: "sleep", value: "sleep" },
+            ],
+          },
           conditions: [
             { when: ["nature"], step: 4 },
             { when: ["sleep"], step: 4 },
           ],
         },
       },
-      mode: {
+      preset: {
         dataPoint: "3",
         kind: "select",
         values: [

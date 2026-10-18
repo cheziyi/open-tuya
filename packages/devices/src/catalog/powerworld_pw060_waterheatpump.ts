@@ -222,6 +222,11 @@ const entry: TuyaDeviceEntry = {
         max: 80,
         dependsOn: {
           dataPoint: "6",
+          constraint: {
+            dataPoint: "6",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [{ when: ["f"], min: 82, max: 176 }],
         },
       },
@@ -329,7 +334,10 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "6",
         kind: "select",
-        values: [{ raw: "f", value: "F" }],
+        values: [
+          { raw: "f", value: "F" },
+          { raw: "c", value: "C" },
+        ],
         otherwise: "C",
       },
       targetTemperature: {
@@ -348,6 +356,11 @@ const entry: TuyaDeviceEntry = {
                 dataPoint: "111",
                 dependsOn: {
                   dataPoint: "6",
+                  constraint: {
+                    dataPoint: "6",
+                    values: [{ raw: "f", value: "F" }],
+                    otherwise: "C",
+                  },
                   conditions: [
                     { when: ["f"], min: 59, max: 176 },
                     { when: ["c"], min: 15, max: 80 },
@@ -361,6 +374,11 @@ const entry: TuyaDeviceEntry = {
                 dataPoint: "112",
                 dependsOn: {
                   dataPoint: "6",
+                  constraint: {
+                    dataPoint: "6",
+                    values: [{ raw: "f", value: "F" }],
+                    otherwise: "C",
+                  },
                   conditions: [
                     { when: ["f"], min: 45, max: 86 },
                     { when: ["c"], min: 7, max: 30 },
@@ -377,6 +395,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "6",
+          constraint: {
+            dataPoint: "6",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             { when: ["f"], min: 59, max: 176 },
             { when: ["c"], min: 15, max: 80 },
@@ -389,24 +412,21 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "6",
+          constraint: {
+            dataPoint: "6",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             { when: ["f"], min: 45, max: 86 },
             { when: ["c"], min: 7, max: 30 },
           ],
         },
       },
-      temperatureUnit2: {
-        dataPoint: "6",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       fault: {
         dataPoint: "15",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },

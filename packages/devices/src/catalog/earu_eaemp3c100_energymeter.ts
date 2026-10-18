@@ -280,7 +280,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "9",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -356,7 +356,7 @@ const entry: TuyaDeviceEntry = {
         min: 1,
         max: 99,
       },
-      autoResetLimitInTimes: {
+      autoResetLimit: {
         dataPoint: "102",
         kind: "number",
         unit: "times",
@@ -577,19 +577,19 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 100,
       },
-      overcurrentCountInTimes: {
+      overcurrentCount: {
         dataPoint: "131",
         kind: "sensor",
         readOnly: true,
         unit: "times",
       },
-      lostCurrentCountInTimes: {
+      lostCurrentCount: {
         dataPoint: "132",
         kind: "sensor",
         readOnly: true,
         unit: "times",
       },
-      leakageCountInTimes: {
+      leakageCount: {
         dataPoint: "133",
         kind: "sensor",
         readOnly: true,

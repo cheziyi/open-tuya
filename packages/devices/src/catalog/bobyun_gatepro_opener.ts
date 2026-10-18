@@ -41,6 +41,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "opening", value: "opening" },
           { raw: "closing", value: "closing" },
         ],
+        otherwise: null,
       },
       command: {
         dataPoint: "103",
@@ -56,6 +57,7 @@ const entry: TuyaDeviceEntry = {
               redirect: {
                 dataPoint: "107",
                 values: [{ raw: true, value: "close" }],
+                otherwise: null,
               },
             },
           },
@@ -65,6 +67,7 @@ const entry: TuyaDeviceEntry = {
             redirect: {
               dataPoint: "107",
               values: [{ raw: true, value: "close" }],
+              otherwise: null,
             },
           },
         ],
@@ -73,12 +76,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "select",
         values: [{ raw: true, value: "open" }],
-        redirect: { dataPoint: "107", values: [{ raw: true, value: "close" }] },
+        redirect: {
+          dataPoint: "107",
+          values: [{ raw: true, value: "close" }],
+          otherwise: null,
+        },
       },
       controlClose: {
         dataPoint: "107",
         kind: "select",
         values: [{ raw: true, value: "close" }],
+        otherwise: null,
       },
       info: { dataPoint: "142", kind: "text" },
       brand: { dataPoint: "150", kind: "text" },
@@ -89,6 +97,7 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [
+          { raw: "No", value: null },
           { raw: "openLongTime", value: "Left open" },
           { raw: "systemError", value: "Fault" },
           { raw: "temperatureError", value: "Overheat" },

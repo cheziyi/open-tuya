@@ -32,6 +32,18 @@ const entry: TuyaDeviceEntry = {
             raw: true,
             dependsOn: {
               dataPoint: "4",
+              constraint: {
+                dataPoint: "4",
+                values: [
+                  { raw: "CF", value: "comfort" },
+                  { raw: "EC", value: "eco" },
+                  { raw: "P1", value: "program_1" },
+                  { raw: "P2", value: "program_2" },
+                  { raw: "P3", value: "program_3" },
+                  { raw: "AF", value: "away" },
+                  { raw: "ST", value: "standby" },
+                ],
+              },
               conditions: [
                 { when: ["CF"], value: "heat" },
                 { when: ["P2"], value: "auto" },
@@ -52,6 +64,18 @@ const entry: TuyaDeviceEntry = {
         max: 35,
         dependsOn: {
           dataPoint: "4",
+          constraint: {
+            dataPoint: "4",
+            values: [
+              { raw: "CF", value: "comfort" },
+              { raw: "EC", value: "eco" },
+              { raw: "P1", value: "program_1" },
+              { raw: "P2", value: "program_2" },
+              { raw: "P3", value: "program_3" },
+              { raw: "AF", value: "away" },
+              { raw: "ST", value: "standby" },
+            ],
+          },
           conditions: [{ when: ["AF"], value: 7, min: 7, max: 7 }],
         },
       },

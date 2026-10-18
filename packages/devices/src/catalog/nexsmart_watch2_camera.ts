@@ -32,11 +32,12 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       motionDetection: { dataPoint: "134", kind: "switch" },
-      cameraRecord: { dataPoint: "150", kind: "switch" },
+      recording: { dataPoint: "150", kind: "switch" },
       camera: {
         dataPoint: "115",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "captured",
       },
       cameraSnapshotData: { dataPoint: "115", kind: "sensor", readOnly: true },
@@ -60,8 +61,8 @@ const entry: TuyaDeviceEntry = {
           { raw: "2", value: "high" },
         ],
       },
-      motionAlarmArea: { dataPoint: "168", kind: "switch" },
-      motionAlarmArea2: { dataPoint: "169", kind: "text" },
+      motionAlarmAreaEnabled: { dataPoint: "168", kind: "switch" },
+      motionAlarmArea: { dataPoint: "169", kind: "text" },
       soundDetection: { dataPoint: "139", kind: "switch" },
       soundDetectionUploadTimestamp: { dataPoint: "141", kind: "text" },
       soundSensitivity: {

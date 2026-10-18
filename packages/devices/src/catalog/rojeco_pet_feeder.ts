@@ -46,7 +46,7 @@ const entry: TuyaDeviceEntry = {
       emptyFood: {
         dataPoint: "13",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,
@@ -54,7 +54,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "13",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },

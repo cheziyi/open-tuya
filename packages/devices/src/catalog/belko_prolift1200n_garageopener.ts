@@ -23,6 +23,10 @@ const entry: TuyaDeviceEntry = {
             raw: false,
             dependsOn: {
               dataPoint: "102",
+              constraint: {
+                dataPoint: "102",
+                values: [{ raw: true, value: "close" }],
+              },
               conditions: [
                 {
                   when: [true],

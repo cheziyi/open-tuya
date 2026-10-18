@@ -25,8 +25,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "select",
         values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
         ],
       },
       temperatureProbe1InC: {
@@ -55,6 +55,7 @@ const entry: TuyaDeviceEntry = {
         measures: "humidity",
         readOnly: true,
         unit: "%",
+        values: [{ raw: 65535, value: null }],
         scale: 10,
       },
       temperatureProbe2InC: {
@@ -83,6 +84,7 @@ const entry: TuyaDeviceEntry = {
         measures: "humidity",
         readOnly: true,
         unit: "%",
+        values: [{ raw: 65535, value: null }],
         scale: 10,
       },
       temperatureProbe3InC: {
@@ -111,6 +113,7 @@ const entry: TuyaDeviceEntry = {
         measures: "humidity",
         readOnly: true,
         unit: "%",
+        values: [{ raw: 65535, value: null }],
         scale: 10,
       },
       temperatureProbe4InC: {
@@ -139,6 +142,7 @@ const entry: TuyaDeviceEntry = {
         measures: "humidity",
         readOnly: true,
         unit: "%",
+        values: [{ raw: 65535, value: null }],
         scale: 10,
       },
       temperatureProbe5InC: {
@@ -167,6 +171,7 @@ const entry: TuyaDeviceEntry = {
         measures: "humidity",
         readOnly: true,
         unit: "%",
+        values: [{ raw: 65535, value: null }],
         scale: 10,
       },
       temperatureProbe6InC: {
@@ -195,6 +200,7 @@ const entry: TuyaDeviceEntry = {
         measures: "humidity",
         readOnly: true,
         unit: "%",
+        values: [{ raw: 65535, value: null }],
         scale: 10,
       },
       temperatureProbe7InC: {
@@ -223,6 +229,7 @@ const entry: TuyaDeviceEntry = {
         measures: "humidity",
         readOnly: true,
         unit: "%",
+        values: [{ raw: 65535, value: null }],
         scale: 10,
       },
       temperatureProbe8InC: {
@@ -251,6 +258,7 @@ const entry: TuyaDeviceEntry = {
         measures: "humidity",
         readOnly: true,
         unit: "%",
+        values: [{ raw: 65535, value: null }],
         scale: 10,
       },
       temperatureProbe9InC: {
@@ -279,6 +287,7 @@ const entry: TuyaDeviceEntry = {
         measures: "humidity",
         readOnly: true,
         unit: "%",
+        values: [{ raw: 65535, value: null }],
         scale: 10,
       },
       temperatureProbe10InC: {
@@ -307,6 +316,7 @@ const entry: TuyaDeviceEntry = {
         measures: "humidity",
         readOnly: true,
         unit: "%",
+        values: [{ raw: 65535, value: null }],
         scale: 10,
       },
     },

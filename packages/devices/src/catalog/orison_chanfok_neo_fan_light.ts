@@ -26,7 +26,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     fan: {
       on: { dataPoint: "107", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "106",
         kind: "select",
         values: [
@@ -53,8 +53,7 @@ const entry: TuyaDeviceEntry = {
         max: 540,
       },
       keytone: { dataPoint: "101", kind: "switch" },
-      scene: { dataPoint: "36", kind: "text" },
-      scene2: {
+      scene: {
         dataPoint: "36",
         kind: "select",
         type: "string",
