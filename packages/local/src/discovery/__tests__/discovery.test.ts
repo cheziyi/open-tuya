@@ -173,6 +173,35 @@ describe("TuyaDiscovery", () => {
     );
   });
 
+  it("keeps each device's latest report, by its ID", async () => {
+    const { discovery, broadcastPort } = await startDiscovery();
+    const other = await startDevice("3.3");
+    const moved = await startSimulatedDevice({
+      version: "3.3",
+      localKey: LOCAL_KEY,
+      deviceId: other.deviceId,
+      productKey: other.productKey,
+      ip: "192.168.1.20",
+    });
+    cleanups.push(() => moved.close());
+    const device = await startDevice("3.4");
+
+    await other.broadcast(broadcastPort);
+    await until(() => discovery.devices.has(other.deviceId));
+    await device.broadcast(broadcastPort);
+    await moved.broadcast(broadcastPort);
+    await until(
+      () =>
+        discovery.devices.get(other.deviceId)?.host === "192.168.1.20" &&
+        discovery.devices.has(device.deviceId),
+    );
+
+    expect(Object.fromEntries(discovery.devices)).toEqual({
+      [other.deviceId]: { ...described(other, "3.3"), host: "192.168.1.20" },
+      [device.deviceId]: described(device, "3.4"),
+    });
+  });
+
   it("leaves out a client's request, and datagrams that are not broadcasts", async () => {
     const { devices, broadcastPort, answerPort } = await startDiscovery();
     const socket = await bind(0, "127.0.0.1");

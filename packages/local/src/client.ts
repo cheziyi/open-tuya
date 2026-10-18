@@ -11,6 +11,7 @@ import {
   openConnection,
   type TuyaConnection,
 } from "./connection.js";
+import type { TuyaDiscovery } from "./discovery/discovery.js";
 import { COMMANDS } from "./protocol/commands.js";
 import {
   buildControl,
@@ -43,6 +44,11 @@ export interface CreateLocalTuyaClientOptions
   extends Omit<OpenConnectionOptions, keyof ConnectionListeners> {
   /** The device's ID, as the Tuya cloud gives it. */
   deviceId: string;
+  /** A discovery the caller keeps open, to follow the device to a new
+   * address: after a failed connect or a lost connection, the client tries
+   * the address the discovery last heard the device at. Defaults to none:
+   * the client keeps `host`. */
+  discovery?: TuyaDiscovery;
 }
 
 /** Connects to a device on the LAN, and keeps connecting: see
@@ -50,11 +56,14 @@ export interface CreateLocalTuyaClientOptions
 export function createLocalTuyaClient(
   options: CreateLocalTuyaClientOptions,
 ): LocalTuyaClient {
-  const { deviceId, ...connectionOptions } = options;
+  const { deviceId, host, discovery, ...connectionOptions } = options;
   return new LocalTuyaClient(
-    (listeners) => openConnection({ ...connectionOptions, ...listeners }),
+    (address, listeners) =>
+      openConnection({ ...connectionOptions, host: address, ...listeners }),
     options.version,
     deviceId,
+    host,
+    discovery,
   );
 }
 
@@ -78,7 +87,13 @@ interface PendingRequest {
  * points once connected and hands them to the `onDataPoints` listeners, and
  * reconnects after a loss: 5 s later, doubling to 60 s. A request fails at
  * once while the client waits to reconnect, with the error that ended the last
- * connection. */
+ * connection.
+ *
+ * It connects first to `host`. After a failed connect or a lost connection,
+ * it tries the address its `discovery` last heard the device at, unless that
+ * is the address that just failed, and otherwise the last address it
+ * connected to. While connected it stays where it is, whatever discovery
+ * hears. */
 export class LocalTuyaClient implements TuyaClient {
   private connection: Promise<TuyaConnection> | undefined;
   private connectionOpen = false;
@@ -94,17 +109,23 @@ export class LocalTuyaClient implements TuyaClient {
   private statusTimer: NodeJS.Timeout | undefined;
   private reconnectDelayInMs = FIRST_RECONNECT_DELAY_IN_MS;
   private reconnectTimer: NodeJS.Timeout | undefined;
+  private connectedHost: string;
+  private failedHost: string | undefined;
   private closed = false;
   private serialNumber = 1;
   private readonly sourceId = randomInt(MIN_SOURCE_ID, MAX_SOURCE_ID + 1);
 
   constructor(
     private readonly connect: (
+      host: string,
       listeners: ConnectionListeners,
     ) => Promise<TuyaConnection>,
     private readonly version: ProtocolVersion,
     private readonly deviceId: string,
+    host: string,
+    private readonly discovery?: TuyaDiscovery,
   ) {
+    this.connectedHost = host;
     this.open();
   }
 
@@ -198,15 +219,18 @@ export class LocalTuyaClient implements TuyaClient {
   }
 
   private open(): void {
-    const connection = this.connect({
+    const host = this.nextHost();
+    const connection = this.connect(host, {
       onFrame: (frame) => this.receive(frame),
       onDroppedFrame: (error) => this.pending?.fail(error),
-      onClose: (error) => this.lose(error),
+      onClose: (error) => this.lose(error, host),
     });
     this.connection = connection;
     connection.then(
       () => {
         this.connectionOpen = true;
+        this.connectedHost = host;
+        this.failedHost = undefined;
         this.reconnectDelayInMs = FIRST_RECONNECT_DELAY_IN_MS;
         this.readDataPoints().then(
           (dataPoints) => this.report(dataPoints),
@@ -222,13 +246,14 @@ export class LocalTuyaClient implements TuyaClient {
           this.querySubDeviceStatus();
         }
       },
-      (error: unknown) => this.lose(error),
+      (error: unknown) => this.lose(error, host),
     );
   }
 
-  private lose(error: unknown): void {
+  private lose(error: unknown, host: string): void {
     this.connection = undefined;
     this.connectionOpen = false;
+    this.failedHost = host;
     this.lastError =
       error ?? new TuyaError("CONNECTION_LOST", "The client is closed");
     this.pending?.fail(this.lastError);
@@ -244,6 +269,19 @@ export class LocalTuyaClient implements TuyaClient {
         MAX_RECONNECT_DELAY_IN_MS,
       );
     }
+  }
+
+  // Discovery is trusted only once the address in hand fails, and never in
+  // place of the address that just failed, so a wrong report costs one
+  // attempt before the client returns to the address that last worked: see
+  // DESIGN.md#moved-devices.
+  private nextHost(): string {
+    const heard = this.discovery?.devices.get(this.deviceId)?.host;
+    return this.failedHost !== undefined &&
+      heard !== undefined &&
+      heard !== this.failedHost
+      ? heard
+      : this.connectedHost;
   }
 
   private async readSubDevice(nodeId: string): Promise<DataPoints> {

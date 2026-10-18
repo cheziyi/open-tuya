@@ -174,6 +174,11 @@ publishes in a separate job that runs no build script.
   ports with Home Assistant or tinytuya. The other packages need nothing
   later than 22.0, but CI tests the latest 22.x alone, and one floor for
   every package is one statement for a caller. vitest 5 needs 22.12.0 too.
+- `@types/node` is pinned to `22.12.0`, the `engines` floor, so `tsc`
+  rejects a Node API added after it. A caret would take the latest 22.x, whose
+  types accept what a caller on 22.12.0 lacks. An override in
+  `pnpm-workspace.yaml` pins it for every package too: mqtt's types take any
+  version, and would bring the latest into the cloud packages' build.
 - The root's `engines` is `>=22.12.0`, as vitest 5 needs. The catalog's
   import script needs 22.18.0, as it runs as `node scripts/importTuyaLocal.ts`
   and Node strips its types by default from then; the root does not ask for
@@ -323,6 +328,7 @@ device accepts it.
 | A write fails on its ack's payload alone | A device acks a write with return code 0 on 3.3 and 1 on 3.5, success or not: only an error text tells a failure |
 | `LocalTuyaClient` takes the function that opens a connection | It reconnects after a loss, so it needs to open connections, and it passes its own listeners to each |
 | It connects when created, and reconnects 5 s after a loss, doubling to 60 s | A device pushes its changes only down an open connection. A device that is off for a while is not hammered |
+| It reconnects to the address its discovery last heard the device at, as [Moved devices](#moved-devices) decides | A device on DHCP can come back at another address |
 | It reads the data points after each connect, and hands them to the listeners | A listener learns what it missed while the connection was down |
 | One request at a time, matched to its reply by command | A 3.4 or 3.5 device numbers its frames from a counter of its own, so the command is all a reply shares with its request |
 | 5 s for a reply or an ack | A device on the LAN answers in milliseconds |
@@ -348,6 +354,7 @@ What `discoverDevices` does with what it receives is its own design:
 | Choice | Why |
 | --- | --- |
 | `onDevice` is an option, and `close()` stops it | UDP pushes, so an async iterator would buffer without bound behind a slow reader. A scan that resolves after a timeout could not report a device's next broadcast, which a caller waiting to reconnect needs; a caller who wants a scan closes the discovery after a while |
+| `devices` holds the latest report from each device, by `deviceId`, and never drops one | A client reads the address its device was last heard at from it, and only once its own address failed: an old report is still the device's last word on where it is. A caller who wants a list reads it rather than keeping one |
 | Every broadcast and answer is reported | A device repeats its broadcast every few seconds, and each one says it is still there. A caller who wants a list keys it by `deviceId` |
 | Ports 6667 and 7000, not 6666 | 6666 carries 3.1 alone, which `@open-tuya/local` does not speak |
 | A device of another version is left out | `version` then goes to `createLocalTuyaClient` as it is |
@@ -386,6 +393,36 @@ What `@open-tuya/local` does with them is its own design:
 | On 3.4 and 3.5, the online query every 30 s, beside the request in flight; a device it reports offline is not `connected` | `createTuyaClient` then takes the next route without waiting for a timeout. 30 s notices a dropped device soon enough, and stays rare on a gateway with many; its report is a command no request waits on. A 3.3 gateway's devices are connected while it is, as most do not answer |
 | A device's client closing leaves the gateway's connection open | The gateway's client belongs to the caller, as a cloud account does |
 | A read answered "json obj data unvalid" rejects with `REQUEST_REJECTED` | A gateway answers so after it restarts, until each device is written once ([tinytuya#307](https://github.com/jasonacox/tinytuya/issues/307)); a write the caller did not ask for could change the device |
+
+## Moved devices
+
+A device on DHCP can come back at a new address. `LocalTuyaClient` follows it
+through the `TuyaDiscovery` the caller passes. What the open-source projects
+do:
+
+| Project | Who notices | Address from | What it does with it |
+| --- | --- | --- | --- |
+| tuya-local [`69604ce`](https://github.com/make-all/tuya-local/commit/69604ce66a91405b1e9146d3fdb68213105eaa62), turned off in [`9b8b057`](https://github.com/make-all/tuya-local/commit/9b8b05747eccdc89cdb2138bc863c8eb2a295980) | A scan every 60 s for each device it cannot reach | The datagram's source address, through tinytuya | Writes it into the configuration, untried. A NAT that rewrote the source left devices at a Docker bridge's address for good ([tuya-local#5713](https://github.com/make-all/tuya-local/issues/5713)) |
+| localtuya [`439f8ae`](https://github.com/rospogrigio/localtuya/commit/439f8aec0cf3c2c6fd40700229ead10170504a3f), and hass-localtuya after it | Every broadcast whose `ip` differs from the stored host, connected or not | `ip` | Writes it into the configuration and reloads every device of the entry, a gateway's devices with it. A device's stale gateway ID made each broadcast undo the user's fix ([hass-localtuya#194](https://github.com/xZetsubou/hass-localtuya/issues/194)) |
+| tinytuya [`9c3b0d2`](https://github.com/jasonacox/tinytuya/commit/9c3b0d2fee91fa7b7539b5ebdb0e521c0d2accbf) | A client created without an address, after a connect fails | The datagram's source address | Scans before each connect, forgetting the address after each failure |
+| tuyapi, homebridge-tuya-lan, iRayanKhan/homebridge-tuya, homebridge-tuya-plus | Nobody once the device is found | — | — |
+
+| Choice | Why |
+| --- | --- |
+| The caller passes the discovery it runs, and the client reads `devices` from it | A discovery per client loses answers, as [Routes](#routes) says. `createTuyaClient` builds the LAN client itself, so the caller holds nothing to hand a new address to |
+| The client takes an address at each connect alone, and stays at the one it connected to while connected | A connection that opened, with a session key agreed on 3.4 and 3.5, shows the device is there, which a broadcast cannot show. Acting on each broadcast let a stale one undo a working address in hass-localtuya. Some devices stop broadcasting while a client is connected ([tinytuya#731](https://github.com/jasonacox/tinytuya/issues/731#issuecomment-5318435027)) |
+| The first connect goes to `host` | The caller chose it, and may know a broadcast to be wrong |
+| After a failed connect or a loss, the client tries the address discovery last heard, unless it is the address that just failed; otherwise the last address that connected | A wrong report costs one attempt, and the client returns to the address that last worked. tuya-local wrote a wrong address over a working one without trying it ([`9b8b057`](https://github.com/make-all/tuya-local/commit/9b8b05747eccdc89cdb2138bc863c8eb2a295980)) |
+| The address is the broadcast's `ip` | As [Discovery](#discovery) decides. The source address is the one a NAT rewrites |
+| The client keeps the address in memory alone | A wrong address it learned ends with the client. A caller who saves one reads it from `devices` |
+| No lockout of an address, and no count of broadcasts before trusting one | While disconnected, the client alternates between two addresses at most, one attempt per backoff step: a report that flaps costs no more attempts than the backoff already allows |
+| A report heard while the client waits to reconnect waits for the backoff | Reconnecting on it would need listeners on `TuyaDiscovery`. A device back at a new address waits as long as one back at its old address, up to 60 s |
+| `version` stays as the caller gave it | No source shows a device change its protocol version |
+| A gateway's devices hold no address of their own | They are reached over its connection, so they follow it, and none holds an address that goes stale, as each of hass-localtuya's does |
+
+Rejected: `setHost(host)` on `LocalTuyaClient`. A caller of `createTuyaClient`
+holds no LAN client to call it on, and each caller would write the same
+lookup by device ID that `devices` does.
 
 ## Cloud app sources
 
@@ -564,7 +601,7 @@ connected.
 
 | Choice | Why |
 | --- | --- |
-| The caller passes the LAN's `host`, `version` and `localKey`; `createTuyaClient` runs no discovery and lists no cloud | Discovery binds UDP ports shared with other programs, and on Linux a 3.5 device's answer on port 7000 reaches one socket alone, so a discovery per client loses answers. A cloud list per client spends requests against the rate limit |
+| The caller passes the LAN's `host`, `version` and `localKey`, and the discovery it runs; `createTuyaClient` runs no discovery and lists no cloud | Discovery binds UDP ports shared with other programs, and on Linux a 3.5 device's answer on port 7000 reaches one socket alone, so a discovery per client loses answers. A cloud list per client spends requests against the rate limit |
 | Each request starts at the first route, and skips a route that is not connected unless it is the last | A request to a LAN client that is reconnecting waits up to 5 s for the attempt. Starting again at the first route returns to the LAN as soon as `LocalTuyaClient` reconnects |
 | A read moves on to the next route after any failure | A read changes nothing |
 | A write moves on only after `CONNECTION_FAILED`, `SESSION_KEY_NEGOTIATION_FAILED`, `RATE_LIMITED`, `SESSION_EXPIRED`, `PERMISSION_DENIED` or `UNMAPPED_DATA_POINT` | Each shows the route did not deliver the write. After a timeout or a lost connection the device may have taken it, and a button such as a feeder's `manualFeed` would act twice: ioBroker.tuya resends a write that timed out ([`main.js`](https://github.com/Apollon77/ioBroker.tuya/blob/dc8d799a9f292f573ec03ed994ab96a7ff7326f8/main.js#L467-L486)) |

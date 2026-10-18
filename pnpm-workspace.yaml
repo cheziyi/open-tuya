@@ -9,3 +9,8 @@ minimumReleaseAgeExclude:
   - '@vitest/mocker@5.0.5'
   - '@vitest/spy@5.0.5'
   - vitest@5.0.5
+
+# mqtt's types take any @types/node, which would bring in the latest 22.x
+# beside the root's pin to the engines floor: see DESIGN.md#package-manifests.
+overrides:
+  '@types/node': 22.12.0

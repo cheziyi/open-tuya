@@ -36,10 +36,10 @@ const UNDELIVERED_WRITE_CODES: ReadonlySet<TuyaErrorCode> = new Set([
 
 /** One way to reach a device: over the LAN, with what discovery reports and
  * a cloud's local key; over the LAN through the client of the gateway a
- * device with a `nodeId` is behind; or through a cloud account. The LAN route
- * keeps its `host`: when discovery reports a new one, create a new client.
- * The gateway's client and the account belong to the caller, who closes
- * them. */
+ * device with a `nodeId` is behind; or through a cloud account. Pass the LAN
+ * route the discovery, kept open, to follow the device to a new address, as
+ * `CreateLocalTuyaClientOptions.discovery` says. The gateway's client, the
+ * discovery and the account belong to the caller, who closes them. */
 export type TuyaRoute =
   | { lan: Omit<CreateLocalTuyaClientOptions, "deviceId"> }
   | { gateway: LocalTuyaClient; nodeId: string }

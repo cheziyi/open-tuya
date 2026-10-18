@@ -19,7 +19,7 @@ const IV_LENGTH = 12;
 export interface DiscoverDevicesOptions {
   /** Called for each broadcast a device sends and each answer to a request,
    * so again for each device every few seconds. */
-  onDevice: (device: DiscoveredTuyaDevice) => void;
+  onDevice?: (device: DiscoveredTuyaDevice) => void;
 }
 
 /** Where a request goes. */
@@ -36,7 +36,7 @@ export interface DiscoveryRequestTarget {
  * once both ports are bound, and rejects with a `TuyaError` with code
  * `DISCOVERY_FAILED` when one cannot be. */
 export async function discoverDevices(
-  options: DiscoverDevicesOptions,
+  options: DiscoverDevicesOptions = {},
 ): Promise<TuyaDiscovery> {
   const bound = await Promise.allSettled([
     bindSocket(BROADCAST_PORT),
@@ -95,6 +95,7 @@ export async function bindSocket(port: number): Promise<Socket> {
 /** Listens for devices on the LAN. Start one with `discoverDevices`.
  * `await using` closes it at the end of its scope. */
 export class TuyaDiscovery implements AsyncDisposable {
+  private readonly reports = new Map<string, DiscoveredTuyaDevice>();
   private readonly requests: NodeJS.Timeout;
   private closing: Promise<void> | undefined;
 
@@ -102,7 +103,7 @@ export class TuyaDiscovery implements AsyncDisposable {
     private readonly broadcastSocket: Socket,
     private readonly answerSocket: Socket,
     private readonly listRequestTargets: () => DiscoveryRequestTarget[],
-    private readonly options: DiscoverDevicesOptions,
+    private readonly options: DiscoverDevicesOptions = {},
   ) {
     for (const socket of [broadcastSocket, answerSocket]) {
       socket.on("message", (datagram: Buffer) => this.receive(datagram));
@@ -112,6 +113,13 @@ export class TuyaDiscovery implements AsyncDisposable {
     }
     this.request();
     this.requests = setInterval(() => this.request(), REQUEST_INTERVAL_IN_MS);
+  }
+
+  /** The latest report from each device heard, by `deviceId`. A device that
+   * went away stays until another report replaces it. Pass the discovery to
+   * `createLocalTuyaClient` to follow a device to a new address. */
+  get devices(): ReadonlyMap<string, DiscoveredTuyaDevice> {
+    return this.reports;
   }
 
   /** Stops asking and listening, and resolves once both ports are released. */
@@ -131,7 +139,8 @@ export class TuyaDiscovery implements AsyncDisposable {
   private receive(datagram: Buffer): void {
     const device = decodeBroadcast(datagram);
     if (device) {
-      this.options.onDevice(device);
+      this.reports.set(device.deviceId, device);
+      this.options.onDevice?.(device);
     }
   }
 
