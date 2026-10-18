@@ -30,10 +30,22 @@ describe("the result readers", () => {
 
   // Source: A result of "" on a success, in
   // https://github.com/tuya/tuya-device-sharing-sdk/commit/a83b3887e51070be6e799bd48bbd3e9904752d75.
+  it("read a list of an empty string or null as empty", () => {
+    expect(readHomeRecords("")).toEqual([]);
+    expect(readHomeRecords(null)).toEqual([]);
+    expect(readDeviceRecords("")).toEqual([]);
+    expect(readDeviceRecords(null)).toEqual([]);
+    expect(readDeviceRecords([{ id: "bf", status: "" }])).toEqual([
+      { id: "bf", status: [] },
+    ]);
+    expect(readStatusRelations({ dpStatusRelationDTOS: null })).toEqual([]);
+  });
+
   it.each([
-    ["no homes", () => readHomeRecords(null)],
+    ["homes as an object", () => readHomeRecords({})],
+    ["homes as a number", () => readHomeRecords(0)],
     ["a home without an owner", () => readHomeRecords([{ name: "Home" }])],
-    ["devices as an empty string", () => readDeviceRecords("")],
+    ["devices as an object", () => readDeviceRecords({ id: "bf" })],
     ["a device that is null", () => readDeviceRecords([null])],
     ["a device without an ID", () => readDeviceRecords([{ name: "Plug" }])],
     [
@@ -43,7 +55,7 @@ describe("the result readers", () => {
     ["relations that are null", () => readStatusRelations(null)],
     [
       "relations that are not a list",
-      () => readStatusRelations({ dpStatusRelationDTOS: "" }),
+      () => readStatusRelations({ dpStatusRelationDTOS: 5 }),
     ],
     [
       "a refresh without expireTime",

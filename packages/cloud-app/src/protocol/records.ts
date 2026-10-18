@@ -116,7 +116,7 @@ export function readDeviceRecords(result: unknown): DeviceRecord[] {
   for (const device of devices) {
     withStrings(device, ["id"]);
     if (device.status !== undefined) {
-      listOf(device.status, "status");
+      device.status = listOf(device.status, "status");
     }
   }
   return devices as unknown as DeviceRecord[];
@@ -210,7 +210,14 @@ function requireSeconds(fields: Fields, name: string): void {
   }
 }
 
+// Source: The cloud answers some successes with a result of "", in
+// https://github.com/tuya/tuya-device-sharing-sdk/commit/a83b3887e51070be6e799bd48bbd3e9904752d75.
+// A list of "" or null reads as empty, so an account with no homes or a home
+// with no devices lists none.
 function listOf(value: unknown, name: string): Fields[] {
+  if (value === "" || value === null) {
+    return [];
+  }
   if (!Array.isArray(value) || !value.every(isFields)) {
     throw malformed(name);
   }

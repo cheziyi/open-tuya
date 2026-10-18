@@ -574,9 +574,21 @@ describe("AppCloudAccount", () => {
       );
     });
 
+    // Source: A result of "" on a success, in
+    // https://github.com/tuya/tuya-device-sharing-sdk/commit/a83b3887e51070be6e799bd48bbd3e9904752d75.
+    it("lists no devices when the cloud answers a list of an empty string", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", "/v1.0/m/life/users/homes", () => ({
+        result: [{ name: "Home", ownerId: HOME_ID }],
+      }));
+      cloud.on("GET", "/v1.0/m/life/ha/home/devices", () => ({ result: "" }));
+
+      await expect(account.listDevices()).resolves.toEqual([]);
+    });
+
     it("rejects with REQUEST_REJECTED when a result lacks what the request needs", async () => {
       const { cloud, account } = setUp();
-      cloud.on("GET", "/v1.0/m/life/users/homes", () => ({ result: null }));
+      cloud.on("GET", "/v1.0/m/life/users/homes", () => ({ result: {} }));
       const client = await account.createClient(DEVICE_ID);
       cloud.on("GET", "/v1.0/m/life/ha/devices/detail", () => ({ result: "" }));
 
