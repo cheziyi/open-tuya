@@ -2,6 +2,8 @@ import type { Fetch } from "@open-tuya/core";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { QrLogin } from "../login.js";
 
+// Source: Home Assistant's client ID and schema, in
+// https://github.com/home-assistant/core/blob/82e1ed43f85b3254c51e7a8200ece159019743ab/homeassistant/components/tuya/const.py#L39-L40.
 const OPTIONS = {
   clientId: "HA_3y9q4ak7g4ephrvke",
   schema: "haauthorize",
@@ -18,13 +20,18 @@ interface Sent {
 }
 
 // A fetch that answers each request with the next of `answers`, and records
-// it.
+// it. It returns a `Response` as it is, throws an `Error`, and sends anything
+// else as JSON.
 function fakeFetch(answers: unknown[]): { fetch: Fetch; sent: Sent[] } {
   const sent: Sent[] = [];
   const fetch: Fetch = async (input, init) => {
     init?.signal?.throwIfAborted();
     sent.push({ method: init?.method ?? "GET", url: new URL(String(input)) });
-    return Response.json(answers.shift());
+    const answer = answers.shift();
+    if (answer instanceof Error) {
+      throw answer;
+    }
+    return answer instanceof Response ? answer : Response.json(answer);
   };
   return { fetch, sent };
 }
@@ -98,6 +105,37 @@ describe("QrLogin", () => {
         `https://apigw.iotbing.com/v1.0/m/life/home-assistant/qrcode/tokens/${TOKEN}?clientid=HA_3y9q4ak7g4ephrvke&usercode=AbC123`,
       ]),
     );
+  });
+
+  it("polls on through a rate limit and a connection that fails", async () => {
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+    const { fetch, sent } = fakeFetch([
+      new Response("", { status: 429 }),
+      new TypeError("fetch failed"),
+      {
+        success: true,
+        result: {
+          access_token: "access",
+          refresh_token: "refresh",
+          expire_time: 7200,
+          endpoint: "https://apigw.tuyaeu.com",
+        },
+      },
+    ]);
+
+    const session = new QrLogin(fetch, OPTIONS).waitForScan(QR_CODE);
+    await vi.advanceTimersByTimeAsync(4000);
+
+    await expect(session).resolves.toMatchObject({ accessToken: "access" });
+    expect(sent).toHaveLength(3);
+  });
+
+  it("rejects with REQUEST_REJECTED when the cloud answers an HTTP error", async () => {
+    const { fetch } = fakeFetch([new Response("", { status: 500 })]);
+
+    await expect(
+      new QrLogin(fetch, OPTIONS).waitForScan(QR_CODE),
+    ).rejects.toMatchObject({ code: "REQUEST_REJECTED" });
   });
 
   it("rejects with QR_CODE_EXPIRED once the cloud says the QR code expired", async () => {

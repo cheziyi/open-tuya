@@ -1,17 +1,20 @@
 import type { DataPoints } from "@open-tuya/core";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { CloudAppAccount } from "../account.js";
+import { AppCloudAccount } from "../account.js";
 import { openMqttConnection } from "../mqtt.js";
 import {
   COMMAND_NOT_SUPPORTED,
   PUSH_CONFIG,
   RATE_LIMITED,
+  URI_PATH_INVALID,
 } from "../protocol/__tests__/fixtures/capturedResponses.js";
-import type { CloudAppSession } from "../session.js";
+import type { AppCloudSession } from "../session.js";
 import { until, useFakeTimers } from "./clock.js";
 import { type Broker, startBroker } from "./mocks/broker.js";
 import { FakeCloud } from "./mocks/fakeCloud.js";
 
+// Source: Home Assistant's client ID, in
+// https://github.com/home-assistant/core/blob/82e1ed43f85b3254c51e7a8200ece159019743ab/homeassistant/components/tuya/const.py#L39-L40.
 const CLIENT_ID = "HA_3y9q4ak7g4ephrvke";
 const DEVICE_ID = "bf6c8539693b0cdea25thg";
 const HOME_ID = "297928323";
@@ -67,14 +70,14 @@ afterEach(async () => {
 
 interface Setup {
   cloud: FakeCloud;
-  account: CloudAppAccount;
-  sessions: CloudAppSession[];
+  account: AppCloudAccount;
+  sessions: AppCloudSession[];
 }
 
 function setUp(expiresAtInMs = Date.now() + 7_200_000): Setup {
   const cloud = new FakeCloud(CLIENT_ID);
-  const sessions: CloudAppSession[] = [];
-  const account = new CloudAppAccount(cloud.fetch, openMqttConnection, {
+  const sessions: AppCloudSession[] = [];
+  const account = new AppCloudAccount(cloud.fetch, openMqttConnection, {
     clientId: CLIENT_ID,
     session: {
       endpoint: cloud.endpoint,
@@ -124,7 +127,7 @@ async function serveBroker(
 
 const PUSH_TOPIC = `cloud/device/${DEVICE_ID}/in/24d2afb98121974b6505c40a3a980362/pen`;
 
-describe("CloudAppAccount", () => {
+describe("AppCloudAccount", () => {
   describe("listDevices", () => {
     it("lists every home's devices with what a LAN client needs", async () => {
       const { cloud, account } = setUp();
@@ -204,6 +207,75 @@ describe("CloudAppAccount", () => {
         client.writeDataPoints({ "1": false, "2": "eco" }),
       ).rejects.toMatchObject({ code: "UNMAPPED_DATA_POINT" });
       expect(cloud.requests.length).toBe(sent);
+    });
+
+    // Source: Relations whose dpCode, statusCode and statusFormat's key differ,
+    // as captured in https://github.com/home-assistant/core/issues/162625,
+    // with clear_energy's conversion made "default".
+    it("reads by statusFormat's key and writes by statusCode", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", `/v1.0/m/life/devices/${DEVICE_ID}/status`, () => ({
+        result: {
+          dpStatusRelationDTOS: [
+            {
+              ...SWITCH_RELATION,
+              dpCode: "Power",
+              statusCode: "switch",
+              statusFormat: '{"switch":"$"}',
+            },
+            {
+              ...SWITCH_RELATION,
+              dpCode: "clear_energy",
+              dpId: 12,
+              statusCode: "clear_energy",
+              statusFormat: '{"energy_reset":"$"}',
+            },
+          ],
+        },
+      }));
+      cloud.on("GET", "/v1.0/m/life/ha/devices/detail", () => ({
+        result: [
+          {
+            ...DEVICE_RECORD,
+            status: [
+              { code: "switch", value: true },
+              { code: "energy_reset", value: false },
+              { code: "clear_energy", value: true },
+            ],
+          },
+        ],
+      }));
+      const client = await account.createClient(DEVICE_ID);
+
+      await expect(client.readDataPoints()).resolves.toEqual({
+        "1": true,
+        "12": false,
+      });
+      await client.writeDataPoints({ "1": false, "12": true });
+      expect(cloud.requests.at(-1)?.body).toEqual({
+        commands: [
+          { code: "switch", value: false },
+          { code: "clear_energy", value: true },
+        ],
+      });
+    });
+
+    it("leaves out of a read, but writes, a data point whose statusFormat names no one code", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", `/v1.0/m/life/devices/${DEVICE_ID}/status`, () => ({
+        result: {
+          dpStatusRelationDTOS: [
+            { ...SWITCH_RELATION, statusFormat: "not json" },
+          ],
+        },
+      }));
+      const client = await account.createClient(DEVICE_ID);
+
+      await expect(client.readDataPoints()).resolves.toEqual({});
+      await client.writeDataPoints({ "1": false });
+      expect(cloud.requests.at(-1)?.body).toEqual({
+        commands: [{ code: "switch_1", value: false }],
+      });
     });
 
     it("maps nothing on a device of a custom type", async () => {
@@ -295,7 +367,7 @@ describe("CloudAppAccount", () => {
       expect(reports).toEqual([{ "2": "work", "103": 6 }]);
     });
 
-    it("ignores another protocol, another device and a payload that is not JSON", async () => {
+    it("ignores another protocol, another device and a payload it cannot read", async () => {
       const { cloud, account } = setUp();
       const broker = await serveBroker(cloud);
       const client = await account.createClient(DEVICE_ID);
@@ -304,6 +376,18 @@ describe("CloudAppAccount", () => {
       await until(() => broker.subscriptions.length > 0);
 
       await broker.publish(PUSH_TOPIC, "not json");
+      await broker.publish(PUSH_TOPIC, "null");
+      await broker.publish(
+        PUSH_TOPIC,
+        JSON.stringify({ protocol: 4, data: { devId: DEVICE_ID, status: 5 } }),
+      );
+      await broker.publish(
+        PUSH_TOPIC,
+        JSON.stringify({
+          protocol: 4,
+          data: { devId: DEVICE_ID, status: [null] },
+        }),
+      );
       await broker.publish(
         PUSH_TOPIC,
         JSON.stringify({
@@ -337,7 +421,8 @@ describe("CloudAppAccount", () => {
         result: true,
       }));
 
-      await account.createClient(DEVICE_ID);
+      const client = await account.createClient(DEVICE_ID);
+      client.onDataPoints(() => {});
 
       expect(broker.connects).toEqual([]);
       expect(
@@ -347,6 +432,28 @@ describe("CloudAppAccount", () => {
       ).toBe(false);
     });
 
+    it("subscribes while a client has a listener", async () => {
+      const { cloud, account } = setUp();
+      const broker = await serveBroker(cloud);
+      let disconnects = 0;
+      broker.aedes.on("clientDisconnect", () => disconnects++);
+      const client = await account.createClient(DEVICE_ID);
+      await client.readDataPoints();
+      expect(broker.connects).toEqual([]);
+
+      const remove = client.onDataPoints(() => {});
+      const removeAnother = client.onDataPoints(() => {});
+      await until(() => broker.subscriptions.length > 0);
+      remove();
+      remove();
+      expect(disconnects).toBe(0);
+      removeAnother();
+      await until(() => disconnects > 0);
+
+      expect(broker.connects).toHaveLength(1);
+      expect(broker.subscriptions).toEqual([PUSH_TOPIC]);
+    });
+
     it("shares one connection between clients, and closes it with the last", async () => {
       const { cloud, account } = setUp();
       const broker = await serveBroker(cloud);
@@ -354,6 +461,8 @@ describe("CloudAppAccount", () => {
       broker.aedes.on("clientDisconnect", () => disconnects++);
       const first = await account.createClient(DEVICE_ID);
       const second = await account.createClient(DEVICE_ID);
+      first.onDataPoints(() => {});
+      second.onDataPoints(() => {});
       await until(() => broker.subscriptions.length > 0);
 
       await first.close();
@@ -370,13 +479,16 @@ describe("CloudAppAccount", () => {
       const broker = await serveBroker(cloud);
       let disconnects = 0;
       broker.aedes.on("clientDisconnect", () => disconnects++);
-      await account.createClient(DEVICE_ID);
+      const client = await account.createClient(DEVICE_ID);
+      client.onDataPoints(() => {});
       await until(() => broker.subscriptions.length > 0);
 
       await account.close();
       await account.close();
+      client.onDataPoints(() => {});
 
       await until(() => disconnects > 0);
+      expect(broker.connects).toHaveLength(1);
     });
   });
 
@@ -448,7 +560,7 @@ describe("CloudAppAccount", () => {
       });
     });
 
-    it("rejects with REQUEST_REJECTED and the cloud's text on another error", async () => {
+    it("rejects with REQUEST_REJECTED on another error", async () => {
       const { cloud, account } = setUp();
       const client = await account.createClient(DEVICE_ID);
       cloud.on(
@@ -458,11 +570,81 @@ describe("CloudAppAccount", () => {
       );
 
       await expect(client.writeDataPoints({ "1": true })).rejects.toMatchObject(
-        {
-          code: "REQUEST_REJECTED",
-          message: "The cloud answered 2008: command or value not support",
-        },
+        { code: "REQUEST_REJECTED" },
       );
+    });
+
+    // Source: A result of "" on a success, in
+    // https://github.com/tuya/tuya-device-sharing-sdk/commit/a83b3887e51070be6e799bd48bbd3e9904752d75.
+    it("lists no devices when the cloud answers a list of an empty string", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", "/v1.0/m/life/users/homes", () => ({
+        result: [{ name: "Home", ownerId: HOME_ID }],
+      }));
+      cloud.on("GET", "/v1.0/m/life/ha/home/devices", () => ({ result: "" }));
+
+      await expect(account.listDevices()).resolves.toEqual([]);
+    });
+
+    it("rejects with REQUEST_REJECTED when a result lacks what the request needs", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", "/v1.0/m/life/users/homes", () => ({ result: {} }));
+      const client = await account.createClient(DEVICE_ID);
+      cloud.on("GET", "/v1.0/m/life/ha/devices/detail", () => ({ result: "" }));
+
+      await expect(account.listDevices()).rejects.toMatchObject({
+        code: "REQUEST_REJECTED",
+      });
+      await expect(client.readDataPoints()).rejects.toMatchObject({
+        code: "REQUEST_REJECTED",
+      });
+    });
+
+    it("sends a GET answered with 1108 twice more, 500 ms apart", async () => {
+      const { cloud, account } = setUp();
+      const answers = [URI_PATH_INVALID, URI_PATH_INVALID, { result: [] }];
+      cloud.on(
+        "GET",
+        "/v1.0/m/life/users/homes",
+        () => answers.shift() ?? { result: [] },
+      );
+      useFakeTimers();
+
+      const listing = account.listDevices();
+      await until(() => cloud.requests.length === 1);
+      await vi.advanceTimersByTimeAsync(499);
+      expect(cloud.requests).toHaveLength(1);
+      await vi.advanceTimersByTimeAsync(1);
+      await until(() => cloud.requests.length === 2);
+      await vi.advanceTimersByTimeAsync(500);
+
+      await expect(listing).resolves.toEqual([]);
+      expect(cloud.requests).toHaveLength(3);
+    });
+
+    it("rejects with REQUEST_REJECTED on a third 1108 to a GET, and on a first to a POST", async () => {
+      const { cloud, account } = setUp();
+      const client = await account.createClient(DEVICE_ID);
+      cloud.on("GET", "/v1.0/m/life/users/homes", () => URI_PATH_INVALID);
+      cloud.on(
+        "POST",
+        `/v1.1/m/thing/${DEVICE_ID}/commands`,
+        () => URI_PATH_INVALID,
+      );
+      useFakeTimers();
+      const sent = cloud.requests.length;
+
+      await expect(client.writeDataPoints({ "1": true })).rejects.toMatchObject(
+        { code: "REQUEST_REJECTED" },
+      );
+      expect(cloud.requests.length).toBe(sent + 1);
+      const listing = account.listDevices();
+      const rejected = expect(listing).rejects.toMatchObject({
+        code: "REQUEST_REJECTED",
+      });
+      await vi.advanceTimersByTimeAsync(1000);
+      await rejected;
+      expect(cloud.requests.length).toBe(sent + 4);
     });
 
     it("rejects with REQUEST_TIMED_OUT when the cloud does not answer within 10 s", async () => {
@@ -477,6 +659,34 @@ describe("CloudAppAccount", () => {
       await vi.advanceTimersByTimeAsync(10_000);
 
       await rejected;
+    });
+
+    it("rejects createClient with CONNECTION_LOST when the account closes as an answer arrives", async () => {
+      const { cloud } = setUp();
+      const account = new AppCloudAccount(
+        async (input, init) => {
+          const response = await cloud.fetch(input, init);
+          if (String(input).includes("/code/custom-type")) {
+            void account.close();
+          }
+          return response;
+        },
+        openMqttConnection,
+        {
+          clientId: CLIENT_ID,
+          session: {
+            endpoint: cloud.endpoint,
+            accessToken: cloud.accessToken,
+            refreshToken: cloud.refreshToken,
+            expiresAtInMs: Date.now() + 7_200_000,
+          },
+          onSessionChange: () => {},
+        },
+      );
+
+      await expect(account.createClient(DEVICE_ID)).rejects.toMatchObject({
+        code: "CONNECTION_LOST",
+      });
     });
 
     it("rejects a request with CONNECTION_LOST once the account is closed", async () => {

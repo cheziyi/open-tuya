@@ -570,12 +570,15 @@ What `@open-tuya/cloud-app` does with each request is its own design.
 | --- | --- |
 | A nonce of 12 characters drawn by `node:crypto` from the SDK's alphabet | AES-GCM must never take a nonce twice under one key, and the cloud reads the nonce from the payload. The SDK draws from Python's `random`, which is not built for keys; its alphabet is kept, as no source shows the cloud taking other bytes |
 | The response's `sign` is ignored | The GCM tag already proves the result came under the request's key, and no source shows how `sign` is computed |
-| 10 s for an answer, and no retry but the one below | The SDK's 60 s would hold a write for a minute. Whether to retry is the caller's decision |
+| 10 s for an answer, and no retry but the two below | The SDK's 60 s would hold a write for a minute. Whether to retry is otherwise the caller's decision |
+| A GET answered with 1108 "uri path invalid" is sent twice more, 500 ms apart; a POST is not | The cloud refuses about one request in 20 to 25 with 1108 on paths it takes otherwise, and takes the same GET sent again ([sdk#77](https://github.com/tuya/tuya-device-sharing-sdk/issues/77#issuecomment-5851952753)). `createClient` sends two GETs and `listDevices` one per home, so a caller would see a client fail one time in ten for nothing. A GET changes nothing, so sending it again is safe; a command might have reached the device, and no source shows 1108 on one. Three tries leave about one GET in 10,000 refused, and 500 ms apart they spread out the bursts the refusals came in. Rejected: leaving it to the caller, who cannot tell this 1108 from a wrong path without matching the message |
 | A token is refreshed a minute before it expires, measured on the local clock from when it arrived | The SDK measures from the cloud's clock against the local one, so clock skew moves its refresh |
 | One refresh at a time, and a request refused after another one refreshed is sent again without refreshing | The refresh token works once: a second refresh in flight would spend one the first already spent |
-| "sign invalid" or code 1010 refreshes once and sends again, then rejects with `SESSION_EXPIRED` | The cloud also answers "sign invalid" after a rate limit ([core#178266](https://github.com/home-assistant/core/issues/178266#issuecomment-5200735391)) and after a network fault ([core#178338](https://github.com/home-assistant/core/issues/178338)), not only for a dead session |
+| "sign invalid" or code 1010 refreshes once and sends again, then rejects with `SESSION_EXPIRED` | The access token can lapse before the local clock says it does |
+| "sign invalid" on the refresh itself rejects with `SESSION_EXPIRED` at once, and a refresh refused otherwise rejects with that refusal's own code and keeps the session | A refresh is signed under a key drawn from the refresh token, so "sign invalid" on it means the cloud no longer takes that token, which waiting does not mend. The "sign invalid" after a rate limit in [core#178266](https://github.com/home-assistant/core/issues/178266#issuecomment-5200735391) came on a command after the refresh before it was refused for the rate limit: the SDK logs a failed refresh and sends on with the expired access token. The "sign invalid" on writes over a network that timed out in [core#178338](https://github.com/home-assistant/core/issues/178338) fits the same path. Here a rate-limited refresh rejects with `RATE_LIMITED` and one that times out with `REQUEST_TIMED_OUT`, and the next request refreshes again. Rejected: reading the refresh's "sign invalid" as transient, which would retry a dead refresh token for ever |
 | No filter on repeated commands | The SDK drops a command repeated within 10 s without saying so, which a caller would read as a write that worked |
 | `listDevices` lists one home's devices at a time | Users hit the cloud's rate limit ([core#178281](https://github.com/home-assistant/core/issues/178281#issuecomment-5201857057)) |
+| A success whose result lacks a field the request goes on to use rejects with `REQUEST_REJECTED`; a list of `""` or `null` reads as empty | The cloud answers some successes with a result of `""` ([`a83b388`](https://github.com/tuya/tuya-device-sharing-sdk/commit/a83b3887e51070be6e799bd48bbd3e9904752d75)), and an account with no homes or devices must still list. A `TypeError` would carry no `code`, and an `expireTime` that is not a number would schedule the next refresh or MQTT renewal at once |
 
 ## Cloud app login
 
@@ -584,7 +587,8 @@ What `@open-tuya/cloud-app` does with each request is its own design.
 | `clientId` and `schema` are required options | The only pair known to work is Home Assistant's, so a caller who passes it chooses to sign in as Home Assistant |
 | `requestQrCode` and `waitForScan` are separate calls on one `QrLogin` | After `QR_CODE_EXPIRED` the caller requests a new QR code with the same login |
 | `waitForScan` polls every 2 s until it succeeds, until `E0020002`, or until the signal aborts | Home Assistant and tuya-local check once when the user clicks, so no source shows what the cloud answers before the scan: every other answer has to mean "not yet". A scan is noticed within 2 s |
-| `CloudAppSession` holds the endpoint, the tokens and the expiry alone | Nothing built needs the user ID or the terminal ID; logging out, which takes the terminal ID, is not built |
+| `waitForScan` polls on through `REQUEST_TIMED_OUT`, `CONNECTION_FAILED` and `RATE_LIMITED`, and rejects on any other error, such as an HTTP error or a session lacking a field | The user scans within minutes, and a QR code abandoned for one dropped poll makes them start again. A poll that fails the same way every time, which an HTTP error or a malformed session would, ends the wait. Rejected: ending the wait on every failure. A caller bounds the wait with the signal |
+| `AppCloudSession` holds the endpoint, the tokens and the expiry alone | Nothing built needs the user ID or the terminal ID; logging out, which takes the terminal ID, is not built |
 
 ## Cloud app data points
 
@@ -609,7 +613,8 @@ own values by ID, so it carries every data point.
 
 | Question | Chosen | For | Against |
 | --- | --- | --- | --- |
-| Which field of a relation names the code a command takes | `statusCode`. No capture shows it differ from `dpCode` | The SDK [`ae5e3c4`](https://github.com/tuya/tuya-device-sharing-sdk/commit/ae5e3c4c67eaefffd1be79e39d9f411e43515d13) | tuya-local [`c0e9a87`](https://github.com/make-all/tuya-local/commit/c0e9a876451e9c300de163eeea8e4fa7846c29d6) names a data point by `dpCode`, and sends no command |
+| Which code a read finds a data point's value under | The one key of `statusFormat`; a data point whose `statusFormat` is not JSON with one key is left out of a read | The SDK's `"default"` conversion reports the value under that key ([`ae5e3c4`](https://github.com/tuya/tuya-device-sharing-sdk/commit/ae5e3c4c67eaefffd1be79e39d9f411e43515d13)). In [core#162625](https://github.com/home-assistant/core/issues/162625), the relation with `statusCode` `clear_energy` has `statusFormat` `{"energy_reset":"$"}`, and the device's status reports `energy_reset` | tuya-local [`c0e9a87`](https://github.com/make-all/tuya-local/commit/c0e9a876451e9c300de163eeea8e4fa7846c29d6) names a data point by `dpCode`, which core#162625 shows as `Power` and `ChildLock` where the status reports `switch` and `child_lock` |
+| Which code a command takes | `statusCode` | In core#162625, the device's functions are `clear_energy`, `switch` and `child_lock`: the `statusCode` of relations whose `statusFormat` reads `energy_reset` and whose `dpCode` reads `Power` and `ChildLock` | The SDK sends the codes its caller gives and maps none; tuya-local sends no command |
 
 ## Cloud app push
 
@@ -617,8 +622,12 @@ own values by ID, so it carries every data point.
 | --- | --- |
 | One connection per account, through `MqttSession` | One set of credentials serves every device of the account |
 | A device's topic is subscribed while it has a client | Each device has a topic of its own |
-| A client subscribes when created | As `LocalTuyaClient` connects when created |
+| A client subscribes to its device's topic while it has a listener | A client created only to read and write holds no MQTT connection, as the session holds none nobody listens on. `createTuyaClient` adds a listener to every route, so its cloud route subscribes when built |
+| Once the account is closed, `createClient` rejects with `CONNECTION_LOST`, and a client's listener subscribes to nothing | `MqttSession` would fetch credentials, be refused with `CONNECTION_LOST`, and retry for ever |
 | No read after a reconnect, unlike `LocalTuyaClient` | Each read costs a request under the cloud's rate limit |
+| A protocol 20 push is dropped | It says a device went online or offline, was renamed, removed or bound to the account, by `bizCode` and `bizData.devId` ([`3e0d9ae`](https://github.com/tuya/tuya-device-sharing-sdk/commit/3e0d9ae6eb5e23e97ce7697a1bd3b248fe2c75b1)). `TuyaClient` hands on data points alone, and its `connected` says whether a request goes out, not whether the device is online |
+| A push that is not JSON, or not a report shaped as the SDK reads it, is dropped | `DevicePush.receive` runs inside MQTT.js's handler of the packet, which catches nothing: a throw there can end the process |
+| A listener's throw is rethrown in a microtask, after every other listener has the push | As Node's `EventTarget`: one listener's bug neither starves the others nor reaches MQTT.js, and still surfaces as an uncaught exception. Rejected: swallowing it, which would hide the caller's bug |
 
 ## MQTT
 
@@ -779,6 +788,7 @@ connected.
 | No timeout of its own | Each route bounds its own requests |
 | `close()` closes the clients it built, never the accounts | The caller made the account, and may share it between devices |
 | It keeps the data points it last read, was pushed or wrote, and a masked control's write keeps the other bits from them, reading the device first when it has none | Reading before every such write would spend a request, and a cloud read just after a write can return the old value |
+| It listens to every route from the start, so a cloud route holds an MQTT connection with no caller listening | Pushes keep its latest data points current, and a masked write keeps the other bits from them: without them, a masked write over the cloud would overwrite what the device changed since. The one exception to [MQTT](#mqtt)'s "nothing holds a connection nobody listens on" |
 | `writeControls` calls run one at a time | HomeKit writes hue and saturation as two calls. Run together, each would keep the other's old value |
 
 Rejected:

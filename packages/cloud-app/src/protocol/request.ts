@@ -51,6 +51,9 @@ export function deriveRequestKeys(
 // Source: An encrypted payload is the base64 of the 12-byte nonce, the
 // ciphertext and the 16-byte tag, with no additional data, in
 // https://github.com/tuya/tuya-device-sharing-sdk/commit/3e0d9ae6eb5e23e97ce7697a1bd3b248fe2c75b1.
+// The SDK joins the base64 of the nonce to the base64 of the ciphertext and
+// tag, which is the base64 of all three only because 12 bytes divide by 3 and
+// so leave the nonce's base64 unpadded.
 /** Encrypts `plaintext` under `key` with AES-128-GCM. The cloud reads the
  * 12-byte `nonce` from the result, so it must never repeat under one key. */
 export function encryptPayload(

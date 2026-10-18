@@ -6,7 +6,8 @@ import {
   TuyaError,
 } from "@open-tuya/core";
 import type { DataPointCodes } from "./dataPointCodes.js";
-import type { DeviceRecord } from "./protocol/records.js";
+import { readDeviceRecords } from "./protocol/records.js";
+import { reportTo } from "./push.js";
 
 export interface RequestParts {
   query?: Readonly<Record<string, unknown>>;
@@ -14,10 +15,11 @@ export interface RequestParts {
 }
 
 /** What a client reaches the cloud through: its account. */
-export interface CloudAppTransport {
+export interface AppCloudTransport {
   request(method: string, path: string, parts?: RequestParts): Promise<unknown>;
   /** Hands `listener` the data points the device pushes. Returns a function
-   * that removes it, and resolves once what it held is released. */
+   * that removes it, and resolves once what it held is released. Once the
+   * account is closed, it subscribes to nothing. */
   subscribe(listener: (dataPoints: DataPoints) => void): () => Promise<void>;
 }
 
@@ -25,26 +27,26 @@ export interface CloudAppTransport {
 // and written as commands keyed by code, in
 // https://github.com/tuya/tuya-device-sharing-sdk/commit/3e0d9ae6eb5e23e97ce7697a1bd3b248fe2c75b1.
 /** A device reached through the cloud the Smart Life app signs in to. Create
- * one with `CloudAppAccount.createClient`. It reads and writes only the data
+ * one with `AppCloudAccount.createClient`. It reads and writes only the data
  * points whose values the cloud passes through unchanged, and hands its
- * listeners every data point the cloud pushes. */
+ * listeners every data point the cloud pushes. It subscribes to the device's
+ * pushes while it has a listener, so a client that only reads and writes
+ * holds no MQTT connection. */
 export class AppCloudTuyaClient implements TuyaClient {
   private readonly listeners = new Set<(dataPoints: DataPoints) => void>();
-  private readonly idsByCode: ReadonlyMap<string, string>;
-  private readonly unsubscribe: (() => Promise<void>) | undefined;
+  private readonly idsByStatusCode: ReadonlyMap<string, string>;
+  private unsubscribe: (() => Promise<void>) | undefined;
+  private releasing: Promise<void> = Promise.resolve();
   private closed = false;
 
   constructor(
-    private readonly transport: CloudAppTransport,
+    private readonly transport: AppCloudTransport,
     private readonly deviceId: string,
     private readonly codes: DataPointCodes,
   ) {
-    this.idsByCode = new Map(
-      [...codes.byId].map(([id, code]) => [code, id] as const),
+    this.idsByStatusCode = new Map(
+      [...codes.statusCodesById].map(([id, code]) => [code, id] as const),
     );
-    this.unsubscribe = codes.pushedById
-      ? transport.subscribe((dataPoints) => this.report(dataPoints))
-      : undefined;
   }
 
   get connected(): boolean {
@@ -53,11 +55,11 @@ export class AppCloudTuyaClient implements TuyaClient {
 
   /** It leaves out the data points the cloud does not map. */
   async readDataPoints(): Promise<DataPoints> {
-    const devices = (await this.request(
-      "GET",
-      "/v1.0/m/life/ha/devices/detail",
-      { query: { devIds: this.deviceId } },
-    )) as DeviceRecord[];
+    const devices = readDeviceRecords(
+      await this.request("GET", "/v1.0/m/life/ha/devices/detail", {
+        query: { devIds: this.deviceId },
+      }),
+    );
     const device = devices.find(({ id }) => id === this.deviceId);
     if (!device) {
       throw new TuyaError(
@@ -67,8 +69,8 @@ export class AppCloudTuyaClient implements TuyaClient {
     }
     const dataPoints: Record<string, DataPointValue> = {};
     for (const { code, value } of device.status ?? []) {
-      const id = this.idsByCode.get(code);
-      if (id !== undefined && isDataPointValue(value)) {
+      const id = typeof code === "string" && this.idsByStatusCode.get(code);
+      if (id && isDataPointValue(value)) {
         dataPoints[id] = value;
       }
     }
@@ -80,7 +82,7 @@ export class AppCloudTuyaClient implements TuyaClient {
    * data point is one the cloud does not map. */
   async writeDataPoints(dataPoints: DataPoints): Promise<void> {
     const commands = Object.entries(dataPoints).map(([id, value]) => {
-      const code = this.codes.byId.get(id);
+      const code = this.codes.commandCodesById.get(id);
       if (code === undefined) {
         throw new TuyaError(
           "UNMAPPED_DATA_POINT",
@@ -98,14 +100,23 @@ export class AppCloudTuyaClient implements TuyaClient {
 
   onDataPoints(listener: (dataPoints: DataPoints) => void): () => void {
     this.listeners.add(listener);
+    if (this.codes.pushedById && !this.closed && !this.unsubscribe) {
+      this.unsubscribe = this.transport.subscribe((dataPoints) =>
+        this.report(dataPoints),
+      );
+    }
     return () => {
       this.listeners.delete(listener);
+      if (this.listeners.size === 0) {
+        this.release();
+      }
     };
   }
 
   async close(): Promise<void> {
     this.closed = true;
-    await this.unsubscribe?.();
+    this.release();
+    await this.releasing;
   }
 
   async [Symbol.asyncDispose](): Promise<void> {
@@ -125,9 +136,19 @@ export class AppCloudTuyaClient implements TuyaClient {
     return this.transport.request(method, path, parts);
   }
 
+  private release(): void {
+    const unsubscribe = this.unsubscribe;
+    this.unsubscribe = undefined;
+    if (unsubscribe) {
+      this.releasing = Promise.all([this.releasing, unsubscribe()]).then(
+        () => {},
+      );
+    }
+  }
+
   private report(dataPoints: DataPoints): void {
     for (const listener of this.listeners) {
-      listener(dataPoints);
+      reportTo(listener, dataPoints);
     }
   }
 }

@@ -1,16 +1,10 @@
-import {
-  type DataPoints,
-  type DataPointValue,
-  isDataPointValue,
-  type MqttCredentials,
-  type MqttMessage,
-  type MqttSession,
+import type {
+  DataPoints,
+  MqttCredentials,
+  MqttMessage,
+  MqttSession,
 } from "@open-tuya/core";
-import type { PushMessage } from "./protocol/records.js";
-
-// Source: A data point report is protocol 4, in
-// https://github.com/tuya/tuya-device-sharing-sdk/commit/3e0d9ae6eb5e23e97ce7697a1bd3b248fe2c75b1.
-const PROTOCOL_DEVICE_REPORT = 4;
+import { readDeviceReport } from "./protocol/records.js";
 
 export interface PushConfig extends MqttCredentials {
   /** A device's topic, with `{devId}` in place of its ID. */
@@ -19,10 +13,10 @@ export interface PushConfig extends MqttCredentials {
 
 type Listener = (dataPoints: DataPoints) => void;
 
-// Source: A pushed report carries the device's own values by data point ID on
-// the device's topic with "/pen" after it, in
-// https://github.com/tuya/tuya-device-sharing-sdk/commit/179e1a188950a000716c7bea74996169acf9418f
-// and https://github.com/tuya/tuya-device-sharing-sdk/commit/9a80825c4965f4fbdbd8464fe73f2c7af9f31071,
+// Source: A pushed report comes on the device's topic with "/pen" after it, in
+// https://github.com/tuya/tuya-device-sharing-sdk/commit/6877c7fc0350ec5bdbe958f0c84861bd3749abd4,
+// and carries the device's own values by data point ID, in
+// https://github.com/tuya/tuya-device-sharing-sdk/commit/ae5e3c4c67eaefffd1be79e39d9f411e43515d13,
 // as captured in
 // https://github.com/home-assistant-libs/tuya-device-handlers/issues/472#issuecomment-5546380301.
 /** Hands each device's pushed data points to its listeners, subscribing a
@@ -56,28 +50,15 @@ export class DevicePush {
     };
   }
 
+  /** Never throws: it runs inside MQTT.js's handler of the packet. */
   receive({ payload }: MqttMessage): void {
-    let message: PushMessage;
-    try {
-      message = JSON.parse(new TextDecoder().decode(payload));
-    } catch {
-      return;
-    }
-    const listeners = this.listeners.get(message.data?.devId ?? "");
-    if (message.protocol !== PROTOCOL_DEVICE_REPORT || !listeners) {
-      return;
-    }
-    const dataPoints: Record<string, DataPointValue> = {};
-    for (const { dpId, value } of message.data?.status ?? []) {
-      if (dpId !== undefined && isDataPointValue(value)) {
-        dataPoints[String(dpId)] = value;
-      }
-    }
-    if (Object.keys(dataPoints).length === 0) {
+    const report = readDeviceReport(payload);
+    const listeners = report && this.listeners.get(report.devId);
+    if (!listeners || Object.keys(report.dataPoints).length === 0) {
       return;
     }
     for (const listener of listeners) {
-      listener(dataPoints);
+      reportTo(listener, report.dataPoints);
     }
   }
 
@@ -94,5 +75,18 @@ export class DevicePush {
     const remove = this.removals.get(deviceId);
     this.removals.delete(deviceId);
     await remove?.();
+  }
+}
+
+/** Calls `listener`, and rethrows what it throws once the caller's turn is
+ * over, as Node's `EventTarget` does: the other listeners still run, and the
+ * error never reaches MQTT.js. */
+export function reportTo(listener: Listener, dataPoints: DataPoints): void {
+  try {
+    listener(dataPoints);
+  } catch (error) {
+    queueMicrotask(() => {
+      throw error;
+    });
   }
 }
