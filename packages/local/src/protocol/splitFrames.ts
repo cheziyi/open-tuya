@@ -15,6 +15,9 @@ export interface FrameLayout {
 export interface SplitFrames {
   frames: Buffer[];
   remainder: Buffer;
+  /** Set for a length field out of range: the frames before it are in
+   * `frames`, and the bytes from it on are dropped. */
+  malformed?: TuyaError;
 }
 
 // A frame ends where its length field says, not at its suffix: see
@@ -38,10 +41,14 @@ export function splitFrames(
     }
     const length = buffer.readUInt32BE(start + layout.lengthOffset);
     if (length < layout.minLength || length > MAX_LENGTH) {
-      throw new TuyaError(
-        "MALFORMED_FRAME",
-        `A frame's length field is ${length}, outside ${layout.minLength} to ${MAX_LENGTH}`,
-      );
+      return {
+        frames,
+        remainder: Buffer.alloc(0),
+        malformed: new TuyaError(
+          "MALFORMED_FRAME",
+          `A frame's length field is ${length}, outside ${layout.minLength} to ${MAX_LENGTH}`,
+        ),
+      };
     }
     const end = start + layout.uncountedLength + length;
     if (buffer.length < end) {

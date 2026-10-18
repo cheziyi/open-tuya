@@ -299,15 +299,18 @@ describe("openConnection", () => {
     expect(closes).toEqual([]);
   });
 
-  it("closes with CONNECTION_LOST when the device sends a length field out of range", async () => {
+  it("hands on the frames before a length field out of range, then closes with CONNECTION_LOST", async () => {
     const outOfRange = Buffer.from(V33_STATUS);
     outOfRange.writeUInt32BE(102_401, 12);
-    const device = await startRaw(outOfRange);
-    const { connection, closes } = open(device.port, "3.3");
+    const device = await startRaw(Buffer.concat([V33_STATUS, outOfRange]));
+    const { connection, frames, closes } = open(device.port, "3.3");
     await connection;
 
     await until(() => closes.length > 0);
 
+    expect(frames).toEqual([
+      expect.objectContaining({ payload: Buffer.from(STATUS_PLAINTEXT) }),
+    ]);
     expect(closes).toEqual([
       expect.objectContaining({
         code: "CONNECTION_LOST",

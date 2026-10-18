@@ -6,10 +6,11 @@ import {
   type Server,
   type Socket,
 } from "node:net";
-import type {
-  DataPoints,
-  DataPointValue,
-  ProtocolVersion,
+import {
+  type DataPoints,
+  type DataPointValue,
+  type ProtocolVersion,
+  TuyaError,
 } from "@open-tuya/core";
 import { openDiscoveryRequest, sealBroadcast } from "./protocol/broadcast.js";
 import {
@@ -46,6 +47,14 @@ const IV_LENGTH = 12;
 // Source: A 3.5 device answers a request to UDP port 7000, in
 // https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
 const DEFAULT_ANSWER_PORT = 7000;
+// Source: A device serves 3 clients at once, and closes the connection of a
+// client past them, in
+// https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
+const MAX_CLIENTS = 3;
+// Source: A device closes a connection that carries no frame for 30 s, in
+// https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1
+// and https://github.com/jasonacox/tinytuya/commit/bf1eac1494b7a25a817f5a322228914ba5fb69c3.
+const IDLE_TIMEOUT_IN_MS = 30_000;
 
 export type { ClientFrame };
 
@@ -88,17 +97,14 @@ export async function startSimulatedDevice(
   return new SimulatedTuyaDevice(server, discoverySocket, options);
 }
 
-// Source: A device serves one client at a time, and a new client closes the
-// old one's connection, in
-// https://github.com/jasonacox/tinytuya/commit/e8d6aa45e3a281604c027ef24c408c274ef0fa42.
 // Source: On 3.1, a device answers with the request's sequence number, and
 // a heartbeat and a push with sequence number 0, captured in
 // https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247544765
 // and https://github.com/TuyaAPI/cli/issues/80.
 // Source: On 3.3, a device answers with the request's sequence number, in
 // https://github.com/jasonacox/tinytuya/commit/a2486e834cefeec85da7fb012136d9235acc50b3,
-// and sends a push with sequence number 0, in
-// https://github.com/codetheweb/tuyapi/commit/eea26636928ee1cdaafaa207acc85ac74dc7d5a0.
+// and sends a push with sequence number 0, captured in
+// https://github.com/TuyaAPI/cli/issues/109#issuecomment-767903303.
 // Source: On 3.4 and 3.5, a device numbers every frame it sends from a counter
 // of its own, which starts anywhere, in
 // https://github.com/rospogrigio/localtuya/commit/957cf25dd0af995c496a5644c7a773b46a426b04
@@ -109,8 +115,13 @@ export async function startSimulatedDevice(
 // Source: A 3.4 or 3.5 device closes the connection on a frame not sealed
 // under its key, in
 // https://github.com/jasonacox/tinytuya/commit/a474c756c1d310ce452d71a7e1f3f52adff80e64.
-/** A Tuya device answering the LAN protocol, for tests. `await using` closes
- * it at the end of its scope. */
+// Source: A 3.5 device closes the connection on a frame whose sequence number
+// is not above the last one the client sent, in
+// https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
+/** A Tuya device answering the LAN protocol, for tests. It serves 3 clients
+ * at once, closes the connection of a fourth, and closes a connection that
+ * carries no frame for 30 s. `await using` closes it at the end of its
+ * scope. */
 export class SimulatedTuyaDevice implements AsyncDisposable {
   /** Every frame the connected clients sent, in order: decrypted, with the
    * version header removed. */
@@ -134,16 +145,10 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
   readonly deviceId: string;
   readonly productKey: string;
   private readonly uuid = randomBytes(8).toString("hex");
-  private client: Socket | undefined;
-  private sessionKeyAgreed = false;
+  private readonly sessions = new Set<Session>();
   private readonly localKey: Buffer;
-  private key: Buffer;
-  private buffered: Buffer = Buffer.alloc(0);
-  private sequenceNumber = 0;
   private headerSerialNumber = randomInt(0x10000);
-  private deviceNonce: Buffer | undefined;
   private closing: Promise<void> | undefined;
-  private clientNonce: Buffer | undefined;
 
   constructor(
     private readonly server: Server,
@@ -151,7 +156,6 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
     private readonly options: StartSimulatedDeviceOptions,
   ) {
     this.localKey = Buffer.from(options.localKey);
-    this.key = this.localKey;
     this.dataPoints = { ...options.dataPoints };
     this.subDevices = Object.fromEntries(
       Object.entries(options.subDevices ?? {}).map(([nodeId, dataPoints]) => [
@@ -184,16 +188,14 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
   /** A client is connected and, on 3.4 and 3.5, has agreed a session key. A
    * client's connection can open before the device has accepted it. */
   get ready(): boolean {
-    return (
-      this.client !== undefined &&
-      (!negotiatesSessionKey(this.options.version) || this.sessionKeyAgreed)
-    );
+    return [...this.sessions].some((session) => this.isReady(session));
   }
 
   /** Sets `dataPoints`, of the device behind the gateway with `nodeId` if
-   * given, and reports them to the connected client in a STATUS frame, as the
-   * device does when a data point changes. It throws when no client is
-   * connected, or for a node ID it does not hold. */
+   * given, and reports them to each connected client in a STATUS frame, as
+   * the device does when a data point changes. It throws a `TuyaError` with
+   * code `CONNECTION_LOST` when no client is connected, and a `TypeError`
+   * for a node ID it does not hold. */
   report(dataPoints: DataPoints, nodeId?: string): void {
     Object.assign(
       nodeId === undefined ? this.dataPoints : this.subDevice(nodeId),
@@ -202,15 +204,30 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
     this.send(STATUS, this.status(dataPoints, nodeId));
   }
 
-  /** Pushes a frame to the connected client, with return code 0. STATUS gets
-   * the version header. It throws when no client is connected. */
+  /** Pushes a frame to each connected client, with return code 0. STATUS
+   * gets the version header. It throws a `TuyaError` with code
+   * `CONNECTION_LOST` when no client is connected. */
   send(command: number, plaintext: Uint8Array): void {
-    this.write(this.pushSequenceNumber(), command, 0, plaintext);
+    const ready = [...this.sessions].filter((session) => this.isReady(session));
+    if (ready.length === 0) {
+      throw new TuyaError("CONNECTION_LOST", "No client is connected");
+    }
+    for (const session of ready) {
+      this.write(
+        session,
+        this.pushSequenceNumber(session),
+        command,
+        0,
+        plaintext,
+      );
+    }
   }
 
-  /** Closes the connected client's connection, as a device does. */
+  /** Closes every client's connection, as a device does. */
   disconnect(): void {
-    this.client?.destroy();
+    for (const session of this.sessions) {
+      session.socket.destroy();
+    }
   }
 
   /** Sends one broadcast, as the device does every few seconds, to `port`
@@ -224,7 +241,7 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
     );
   }
 
-  /** Disconnects the client, and resolves once both ports are released. */
+  /** Disconnects the clients, and resolves once both ports are released. */
   close(): Promise<void> {
     this.disconnect();
     this.closing ??= Promise.all([
@@ -270,70 +287,100 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
     );
   }
 
+  private isReady(session: Session): boolean {
+    return (
+      !negotiatesSessionKey(this.options.version) || session.sessionKeyAgreed
+    );
+  }
+
   private accept(socket: Socket): void {
-    this.client?.destroy();
-    this.client = socket;
-    this.key = this.localKey;
-    this.sessionKeyAgreed = false;
-    this.buffered = Buffer.alloc(0);
-    this.sequenceNumber = randomInt(0x10000);
-    this.deviceNonce = undefined;
-    this.clientNonce = undefined;
     // A client that resets its connection would otherwise crash the process.
     socket.on("error", () => {});
+    if (this.sessions.size >= MAX_CLIENTS) {
+      socket.destroy();
+      return;
+    }
+    const session: Session = {
+      socket,
+      key: this.localKey,
+      sessionKeyAgreed: false,
+      buffered: Buffer.alloc(0),
+      sequenceNumber: randomInt(0x10000),
+      lastClientSequenceNumber: 0,
+      idleTimer: undefined,
+    };
+    this.sessions.add(session);
+    this.keepAlive(session);
     socket.on("close", () => {
-      if (socket === this.client) {
-        this.client = undefined;
-      }
+      clearTimeout(session.idleTimer);
+      this.sessions.delete(session);
     });
-    socket.on("data", (chunk: Buffer) => {
-      if (socket === this.client) {
-        this.receive(chunk);
-      }
-    });
+    socket.on("data", (chunk: Buffer) => this.receive(session, chunk));
+  }
+
+  private keepAlive(session: Session): void {
+    clearTimeout(session.idleTimer);
+    session.idleTimer = setTimeout(
+      () => session.socket.destroy(),
+      IDLE_TIMEOUT_IN_MS,
+    );
   }
 
   // A frame is answered before the next is read: the frame after
   // SESS_KEY_NEG_FINISH, often in the same read, is under the session key.
-  private receive(chunk: Buffer): void {
-    this.buffered = Buffer.concat([this.buffered, chunk]);
-    for (;;) {
+  private receive(session: Session, chunk: Buffer): void {
+    session.buffered = Buffer.concat([session.buffered, chunk]);
+    while (!session.socket.destroyed) {
       let opened: ReturnType<typeof openClientFrame>;
       try {
-        opened = openClientFrame(this.options.version, this.buffered, this.key);
+        opened = openClientFrame(
+          this.options.version,
+          session.buffered,
+          session.key,
+        );
       } catch {
         // Source: A 3.1 device ignores a write under another key and keeps
         // the connection, captured in
         // https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247544765.
         // What a 3.3 device sends back is unknown: see UNSUPPORTED.md.
-        this.buffered = Buffer.alloc(0);
+        session.buffered = Buffer.alloc(0);
         if (negotiatesSessionKey(this.options.version)) {
-          this.disconnect();
+          session.socket.destroy();
         }
         return;
       }
       if (!opened) {
         return;
       }
-      this.buffered = opened.rest;
-      this.received.push(opened.frame);
-      this.answer(opened.frame);
+      session.buffered = opened.rest;
+      const { frame } = opened;
+      if (this.options.version === "3.5") {
+        if (frame.sequenceNumber <= session.lastClientSequenceNumber) {
+          session.socket.destroy();
+          return;
+        }
+        session.lastClientSequenceNumber = frame.sequenceNumber;
+      }
+      this.keepAlive(session);
+      this.received.push(frame);
+      this.answer(session, frame);
     }
   }
 
-  private answer(frame: ClientFrame): void {
+  private answer(session: Session, frame: ClientFrame): void {
     const { version } = this.options;
     switch (frame.command) {
       case SESS_KEY_NEG_START:
         if (negotiatesSessionKey(version)) {
-          this.clientNonce = frame.payload;
-          this.deviceNonce = randomBytes(NONCE_LENGTH);
+          session.clientNonce = frame.payload;
+          session.deviceNonce = randomBytes(NONCE_LENGTH);
           this.reply(
+            session,
             frame,
             0,
             buildSessionKeyResponse(
-              this.deviceNonce,
-              this.clientNonce,
+              session.deviceNonce,
+              session.clientNonce,
               this.localKey,
             ),
           );
@@ -342,64 +389,67 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
       case SESS_KEY_NEG_FINISH:
         if (
           !negotiatesSessionKey(version) ||
-          !this.deviceNonce ||
-          !this.clientNonce
+          !session.deviceNonce ||
+          !session.clientNonce
         ) {
           return;
         }
         if (
-          !isSessionKeyFinish(frame.payload, this.deviceNonce, this.localKey)
+          !isSessionKeyFinish(frame.payload, session.deviceNonce, this.localKey)
         ) {
-          this.disconnect();
+          session.socket.destroy();
           return;
         }
-        this.key = deriveSessionKey(
+        session.key = deriveSessionKey(
           version,
-          this.clientNonce,
-          this.deviceNonce,
+          session.clientNonce,
+          session.deviceNonce,
           this.localKey,
         );
-        this.sessionKeyAgreed = true;
+        session.sessionKeyAgreed = true;
         return;
       case HEART_BEAT:
         if (this.answersHeartbeats) {
-          this.reply(frame, 0, Buffer.alloc(0));
+          this.reply(session, frame, 0, Buffer.alloc(0));
         }
         return;
       case DP_QUERY:
       case DP_QUERY_NEW:
-        this.answerQuery(frame);
+        this.answerQuery(session, frame);
         return;
       case CONTROL:
       case CONTROL_NEW:
-        this.answerControl(frame);
+        this.answerControl(session, frame);
         return;
       case LAN_EXT_STREAM:
-        this.answerSubDeviceQuery(frame);
+        this.answerSubDeviceQuery(session, frame);
         return;
     }
   }
 
   // Source: A gateway answers {"reqType":"subdev_online_stat_query",…} with
-  // {"reqType":"subdev_online_stat_report","data":{"online":[…],"offline":[…]}}
-  // on 3.4 and 3.5, in
-  // https://github.com/jasonacox/tinytuya/commit/d59fdf9546969d0cb57faede60b82424c09d4a7b,
-  // a 3.4 gateway after an empty frame, captured in
-  // https://github.com/jasonacox/tinytuya/issues/677, and a 3.3 gateway not
-  // at all, in https://github.com/xZetsubou/hass-localtuya/issues/293.
-  private answerSubDeviceQuery(frame: ClientFrame): void {
+  // {"reqType":"subdev_online_stat_report","data":{"online":[…],"offline":[…]}},
+  // captured on 3.3 in
+  // https://github.com/jasonacox/tinytuya/issues/302#issuecomment-1474957230,
+  // on 3.4 after an empty frame, captured in
+  // https://github.com/jasonacox/tinytuya/issues/677, and on 3.4 and 3.5 in
+  // https://github.com/xZetsubou/hass-localtuya/issues/227#issuecomment-2112020068
+  // and https://github.com/jasonacox/tinytuya/issues/435.
+  private answerSubDeviceQuery(session: Session, frame: ClientFrame): void {
     const { version } = this.options;
     if (
-      !negotiatesSessionKey(version) ||
+      version === "3.1" ||
+      version === "3.2" ||
       field(parseJson(frame.payload), "reqType") !== "subdev_online_stat_query"
     ) {
       return;
     }
     if (version === "3.4") {
-      this.reply(frame, 0, Buffer.alloc(0));
+      this.reply(session, frame, 0, Buffer.alloc(0));
     }
     const nodeIds = Object.keys(this.subDevices);
     this.reply(
+      session,
       frame,
       0,
       json({
@@ -415,7 +465,7 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
   private subDevice(nodeId: string): Record<string, DataPointValue> {
     const dataPoints = this.subDevices[nodeId];
     if (!dataPoints) {
-      throw new Error(`The gateway holds no device ${nodeId}`);
+      throw new TypeError(`The gateway holds no device ${nodeId}`);
     }
     return dataPoints;
   }
@@ -430,35 +480,47 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
   // {"dps":…}, or return code 1 and "json obj data unvalid" when it holds no
   // data point, or "data format error" when the query is not JSON, in
   // https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
+  // On 3.5 the same commit adds "devId" after "dps", in
+  // https://github.com/tuya/TuyaOpen/blob/cd3b764643ba2b3f797dec8b4629b083cc081da1/src/tuya_cloud_service/schema/dp_schema.c#L78.
   // Source: A gateway answers a query naming a device behind it with that
   // device's data points and its node ID, {"dps":…,"cid":…}, captured on 3.3
-  // in https://github.com/make-all/tuya-local/issues/3827, and on 3.5 in
-  // https://github.com/jasonacox/tinytuya/issues/266, and with
+  // in https://github.com/make-all/tuya-local/issues/3827 and
+  // https://github.com/jasonacox/tinytuya/issues/302#issuecomment-1474957230,
+  // and on 3.5 in https://github.com/jasonacox/tinytuya/issues/266, and with
   // "json obj data unvalid" for one it cannot read, in the same issue.
-  private answerQuery(frame: ClientFrame): void {
+  private answerQuery(session: Session, frame: ClientFrame): void {
+    const { version } = this.options;
     const message = parseJson(frame.payload);
     const nodeId = field(message, "cid");
     if (typeof nodeId === "string") {
       const dataPoints = this.subDevices[nodeId];
       if (!dataPoints || this.offline.has(nodeId)) {
-        this.reply(frame, 1, Buffer.from("json obj data unvalid"));
+        this.reply(session, frame, 1, Buffer.from("json obj data unvalid"));
       } else {
-        this.reply(frame, 0, json({ dps: dataPoints, cid: nodeId }));
+        this.reply(session, frame, 0, json({ dps: dataPoints, cid: nodeId }));
       }
       return;
     }
     if (message === undefined) {
-      this.reply(frame, 1, Buffer.from("data format error"));
+      this.reply(session, frame, 1, Buffer.from("data format error"));
     } else if (this.refusesReads || Object.keys(this.dataPoints).length === 0) {
-      this.reply(frame, 1, Buffer.from("json obj data unvalid"));
-    } else if (this.options.version === "3.1") {
+      this.reply(session, frame, 1, Buffer.from("json obj data unvalid"));
+    } else if (version === "3.1") {
       this.reply(
+        session,
         frame,
         0,
         json({ devId: this.deviceId, dps: this.dataPoints }),
       );
+    } else if (version === "3.5") {
+      this.reply(
+        session,
+        frame,
+        0,
+        json({ dps: this.dataPoints, devId: this.deviceId }),
+      );
     } else {
-      this.reply(frame, 0, json({ dps: this.dataPoints }));
+      this.reply(session, frame, 0, json({ dps: this.dataPoints }));
     }
   }
 
@@ -473,33 +535,35 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
   // https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247544765.
   // What a 3.4 device sends is unknown: see UNSUPPORTED.md.
   // Source: A device reports in a STATUS each data point it has that a write
-  // names with null, before its ack on 3.3, captured in
-  // https://github.com/TuyaAPI/cli/issues/109#issuecomment-768668877, and
-  // after it on 3.2, captured in
-  // https://github.com/rospogrigio/localtuya/issues/1232#issuecomment-1387550394,
+  // names with null: after a CONTROL on 3.3, captured in
+  // https://github.com/TuyaAPI/cli/issues/109#issuecomment-767903303; before
+  // the ack to a CONTROL_NEW on 3.3, captured in
+  // https://github.com/TuyaAPI/cli/issues/109#issuecomment-768668877; and
+  // after the ack to a CONTROL_NEW on 3.2, captured in
+  // https://github.com/rospogrigio/localtuya/issues/1232#issuecomment-1387550394;
   // and only the ack when it has none, captured in
   // https://github.com/jasonacox/tinytuya/issues/31#issuecomment-1293304131.
   // When a 3.4 or 3.5 device reports is unknown: see UNSUPPORTED.md.
   // Source: A device sets only the data points it has, in
   // https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
-  private answerControl(frame: ClientFrame): void {
+  private answerControl(session: Session, frame: ClientFrame): void {
     const { version } = this.options;
     const returnCode = version === "3.5" ? 1 : 0;
     const message = parseJson(frame.payload);
     if (message === undefined) {
-      this.reply(frame, returnCode, Buffer.from("parse data error"));
+      this.reply(session, frame, returnCode, Buffer.from("parse data error"));
       return;
     }
     const data = negotiatesSessionKey(version)
       ? field(message, "data")
       : message;
     if (data === undefined) {
-      this.reply(frame, returnCode, Buffer.alloc(0));
+      this.reply(session, frame, returnCode, Buffer.alloc(0));
       return;
     }
     const written = field(data, "dps");
     if (!isObject(written)) {
-      this.reply(frame, returnCode, Buffer.from("data format error"));
+      this.reply(session, frame, returnCode, Buffer.from("data format error"));
       return;
     }
     const nodeId = field(data, "cid");
@@ -513,7 +577,7 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
     const target =
       typeof nodeId === "string" ? this.subDevices[nodeId] : this.dataPoints;
     if (!target || ignored) {
-      this.reply(frame, returnCode, Buffer.alloc(0));
+      this.reply(session, frame, returnCode, Buffer.alloc(0));
       return;
     }
     const named = Object.entries(written).filter(([id]) => id in target);
@@ -535,7 +599,7 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
     if (version === "3.3") {
       reportRead();
     }
-    this.reply(frame, returnCode, Buffer.alloc(0));
+    this.reply(session, frame, returnCode, Buffer.alloc(0));
     if (version !== "3.3") {
       reportRead();
     }
@@ -555,7 +619,7 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
   // Source: A gateway names the device behind it a report is from at "cid",
   // beside "dps": on 3.3 at the top, {"dps":…,"cid":…,"t":…}, captured in
   // https://github.com/xZetsubou/hass-localtuya/issues/37, and on 3.4 in
-  // "data", captured in https://github.com/make-all/tuya-local/issues/6400.
+  // "data", in https://github.com/make-all/tuya-local/issues/6400.
   private status(dataPoints: DataPoints, nodeId?: string): Buffer {
     const t = Math.floor(Date.now() / 1000);
     const cid = nodeId === undefined ? {} : { cid: nodeId };
@@ -571,13 +635,15 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
   }
 
   private reply(
+    session: Session,
     request: ClientFrame,
     returnCode: number,
     plaintext: Uint8Array,
   ): void {
     this.write(
+      session,
       negotiatesSessionKey(this.options.version)
-        ? this.nextSequenceNumber()
+        ? nextSequenceNumber(session)
         : request.command === HEART_BEAT && this.options.version === "3.1"
           ? 0
           : request.sequenceNumber,
@@ -589,9 +655,9 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
     );
   }
 
-  private pushSequenceNumber(): number {
+  private pushSequenceNumber(session: Session): number {
     return negotiatesSessionKey(this.options.version)
-      ? this.nextSequenceNumber()
+      ? nextSequenceNumber(session)
       : 0;
   }
 
@@ -601,15 +667,13 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
   // and https://github.com/jasonacox/tinytuya/commit/ee995bf90fc3a676803df94e6bb699b362cdf47a.
   // Which ones is unknown: see UNSUPPORTED.md.
   private write(
+    session: Session,
     sequenceNumber: number,
     command: number,
     returnCode: number,
     plaintext: Uint8Array,
   ): void {
-    if (!this.client) {
-      throw new Error("No client is connected");
-    }
-    this.client.write(
+    session.socket.write(
       sealDeviceFrame(
         this.options.version,
         {
@@ -622,17 +686,32 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
               ? { serialNumber: this.headerSerialNumber++, sourceId: 1 }
               : undefined,
         },
-        this.key,
+        session.key,
         randomBytes(IV_LENGTH),
       ),
     );
   }
+}
 
-  private nextSequenceNumber(): number {
-    const sequenceNumber = this.sequenceNumber;
-    this.sequenceNumber = (sequenceNumber + 1) >>> 0;
-    return sequenceNumber;
-  }
+/** One client's connection, and what the device holds for it. */
+interface Session {
+  socket: Socket;
+  /** The local key, and on 3.4 and 3.5 the session key once agreed. */
+  key: Buffer;
+  sessionKeyAgreed: boolean;
+  buffered: Buffer;
+  /** The device's own counter, which numbers its 3.4 and 3.5 frames. */
+  sequenceNumber: number;
+  lastClientSequenceNumber: number;
+  idleTimer: NodeJS.Timeout | undefined;
+  clientNonce?: Buffer;
+  deviceNonce?: Buffer;
+}
+
+function nextSequenceNumber(session: Session): number {
+  const sequenceNumber = session.sequenceNumber;
+  session.sequenceNumber = (sequenceNumber + 1) >>> 0;
+  return sequenceNumber;
 }
 
 // Source: 3.4 and 3.5 agree a session key before anything else, in

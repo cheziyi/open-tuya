@@ -62,8 +62,8 @@ export function encodeMessage(
 
 /** Splits the bytes read from a device of `version` into whole frames, and
  * decrypts each payload under `key` with its version header removed. A frame
- * that fails its check or does not decrypt goes in `errors`. It throws a
- * `TuyaError` with code `MALFORMED_FRAME` for a length field out of range. */
+ * that fails its check or does not decrypt goes in `errors`, and a length
+ * field out of range sets `malformed`. */
 export function decodeMessages(
   version: ProtocolVersion,
   bytes: Uint8Array,
@@ -104,5 +104,10 @@ function decryptEach(
       errors.push(error as TuyaError);
     }
   }
-  return { frames, errors, remainder: decoded.remainder };
+  return {
+    frames,
+    errors,
+    remainder: decoded.remainder,
+    ...(decoded.malformed && { malformed: decoded.malformed }),
+  };
 }

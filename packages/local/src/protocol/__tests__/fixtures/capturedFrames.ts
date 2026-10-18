@@ -68,11 +68,6 @@ export const V34_BROADCAST = Buffer.from(
   "hex",
 );
 
-export const V34_BROADCAST_PLAINTEXT =
-  '{"ip":"192.168.1.36","gwId":"bf36eb3bd9f27a4264yxu1","active":2,"ablilty":0,' +
-  '"encrypt":true,"productKey":"key5ckdnys3pqgec","version":"3.4","token":true,' +
-  '"wf_cfg":true}';
-
 // Source: A 3.5 bulb's UDP broadcast to port 6667, captured in
 // https://github.com/jasonacox/tinytuya/issues/247#issuecomment-1372462132.
 // It is encrypted under BROADCAST_KEY.
@@ -87,11 +82,6 @@ export const V35_BULB_BROADCAST = Buffer.from(
     "6b73822cff60ad00009966",
   "hex",
 );
-
-export const V35_BULB_BROADCAST_PLAINTEXT =
-  '{"ip":"192.168.2.46","gwId":"ebf310edb88d15f0edyr5i","uuid":"60b308e46e1b5871",' +
-  '"active":2,"ablilty":0,"encrypt":true,"productKey":"key8u54q9dtru5jw",' +
-  '"version":"3.5","token":true,"wf_cfg":true,"clientLink":3}';
 
 // Source: A 3.3 device's error reply to DP_QUERY, sequence number 1, return
 // code 1, with the device's local key, captured in
@@ -158,8 +148,10 @@ export const V35_STATUS_VERSION_HEADER = Buffer.from(
 export const V33_SUB_DEVICE_STATUS_PLAINTEXT =
   '{"dps":{"1":"manual"},"cid":"a4c1382403f05cc6","t":1697030461}';
 
-// Source: A 3.4 gateway's STATUS, the node ID in "data", decrypted, captured
-// in https://github.com/make-all/tuya-local/issues/6400.
+// Source: A 3.4 gateway's STATUS, the node ID in "data", decrypted, after
+// the one in https://github.com/make-all/tuya-local/issues/6400. The issue
+// paraphrases it, so this is its shape with the node ID anonymised, not
+// the gateway's bytes.
 export const V34_SUB_DEVICE_STATUS_PLAINTEXT =
   '{"protocol":4,"data":{"dps":{"1":"scene"},"cid":"child-b"}}';
 
@@ -169,7 +161,9 @@ export const V35_SUB_DEVICE_QUERY_REPLY_PLAINTEXT =
   '{"dps":{"1":232,"2":569},"cid":"a4c138ad1d974d89"}';
 
 // Source: A CONTROL_NEW to the device behind a 3.4 gateway, which it acked,
-// captured in https://github.com/jasonacox/tinytuya/issues/677.
+// after the one captured in https://github.com/jasonacox/tinytuya/issues/677.
+// The node ID is a placeholder for the one the issue hides, so this is not
+// the bytes the client sent.
 export const V34_SUB_DEVICE_CONTROL_PLAINTEXT =
   '{"protocol":5,"t":1770818185,"data":{"cid":"lamp2SubDev","ctype":0,"dps":{"1":false}},"cid":"lamp2SubDev"}';
 
@@ -179,11 +173,10 @@ export const V34_SUB_DEVICE_CONTROL_PLAINTEXT =
 export const SUB_DEVICE_STATUS_REPORT_PLAINTEXT =
   '{"reqType":"subdev_online_stat_report","data":{"online":["0070","0068","0058"],"offline":[]}}';
 
-// Source: A 3.1 plug's frames, with its local key and device ID, captured in
+// Source: A 3.1 plug's frames, with its local key, captured in
 // https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247504813
 // and https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247544765.
 export const V31_KEY = Buffer.from("78c2e271b3dcfae4");
-export const V31_DEVICE_ID = "03200160ecfabc8d9700";
 
 /** The DP_QUERY a client sent, in plain text. */
 export const V31_QUERY = Buffer.from(
@@ -260,8 +253,6 @@ export const V31_BROADCAST = Buffer.from(
     "00aa55",
   "hex",
 );
-export const V31_BROADCAST_PLAINTEXT =
-  '{"ip":"192.168.2.81","gwId":"012001865ccf7f598277","active":2,"ability":0,"mode":0,"encrypt":true,"productKey":"qHLNAzmrRdA9EMXl","version":"3.1"}';
 
 // Source: A 3.2 switch's read by writing null, with its local key and device
 // ID, captured in
