@@ -19,3 +19,4 @@ export * from "./protocol/v34Payload.js";
 export * from "./protocol/v35Frame.js";
 export * from "./protocol/v35Payload.js";
 export type { VersionHeaderFields } from "./protocol/versionHeader.js";
+export * from "./subDevice.js";

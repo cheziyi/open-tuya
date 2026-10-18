@@ -4,6 +4,7 @@ import {
   type TuyaErrorCode,
 } from "@open-tuya/core";
 import { CATALOG, type ControlValues } from "@open-tuya/devices";
+import { createLocalTuyaClient } from "@open-tuya/local";
 import { startSimulatedDevice } from "@open-tuya/simulators";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createTuyaClient, RoutedTuyaClient } from "../client.js";
@@ -532,6 +533,36 @@ describe("createTuyaClient", () => {
       );
       await expect(client.readDataPoints()).resolves.toEqual({ "999": "text" });
     });
+  });
+});
+
+describe("createTuyaClient through a gateway", () => {
+  it("reaches a device behind a gateway over the gateway's connection, and leaves the gateway open", async () => {
+    const device = await startSimulatedDevice({
+      version: "3.5",
+      localKey: LOCAL_KEY,
+      subDevices: { lamp: { ...DATA_POINTS } },
+    });
+    cleanups.push(() => device.close());
+    const gateway = createLocalTuyaClient({
+      host: "127.0.0.1",
+      port: device.port,
+      version: "3.5",
+      localKey: LOCAL_KEY,
+      deviceId: device.deviceId,
+    });
+    cleanups.push(() => gateway.close());
+    const client = await createTuyaClient({
+      deviceId: "bf00000000000000lamp",
+      productKey: PRODUCT_KEY,
+      routes: [{ gateway, nodeId: "lamp" }],
+    });
+
+    await client.writeControls({ backlight: { on: true } });
+    await client.close();
+
+    expect(device.subDevices.lamp?.["16"]).toBe(true);
+    expect(gateway.connected).toBe(true);
   });
 });
 
