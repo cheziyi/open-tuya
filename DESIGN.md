@@ -40,6 +40,13 @@ it. A simulator built on `@open-tuya/local` would share its bugs and pass.
 `TuyaConnection` against a simulated device over loopback, and a caller of
 `@open-tuya/local` never installs it.
 
+| Choice | Why |
+| --- | --- |
+| A device serves 3 clients at once, and closes the connection of a fourth | Tuya's firmware does ([`cd3b764`](https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1), `CLIENT_LMT`), against tinytuya's test device ([`e8d6aa4`](https://github.com/jasonacox/tinytuya/commit/e8d6aa45e3a281604c027ef24c408c274ef0fa42)), where a new client closes the old one's connection: Tuya's firmware knows the device first-hand, and counts twice |
+| A connection that carries no frame for 30 s is closed, on every version | Tuya's firmware closes it after `HEART_BEAT_TIMEOUT` ([`cd3b764`](https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1)), and tinytuya sends its heartbeat for the same 30 s ([`bf1eac1`](https://github.com/jasonacox/tinytuya/commit/bf1eac1494b7a25a817f5a322228914ba5fb69c3)) |
+| A 3.5 device closes the connection on a frame whose sequence number is not above the last one the client sent | Tuya's firmware does ([`cd3b764`](https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1)), and speaks 3.5 alone; no source shows an older device check it |
+| Its tests read `@open-tuya/local`'s captured and computed frames from `local/src/protocol/__tests__/fixtures/` | The frames are bytes from the sources, not `@open-tuya/local`'s code, so sharing them shares no bug. One copy keeps a corrected fixture from going stale in the other package |
+
 ## Cloud logins
 
 Each way of signing in to the Tuya cloud is its own package:
@@ -360,7 +367,7 @@ library's own, decided on its merits.
 | A random nonce for each connection and a random IV for each 3.5 frame | GCM under one key must never take the same IV twice |
 | `setNoDelay(true)` | Each frame is a small request whose reply is awaited, so Nagle's algorithm would only hold it back |
 | No TCP keepalive | The heartbeat already finds a lost device, sooner |
-| Sequence numbers start at 1 for each connection and wrap at 2^32 | The field is 32 bits, and nothing matches on it |
+| Sequence numbers start at 1 for each connection, rise by one with every frame, the session key negotiation's and the heartbeats' included, and wrap at 2^32 | The field is 32 bits. A 3.5 device closes the connection on a frame whose number is not above the last one it took ([`cd3b764`](https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1)). No reply is matched to its request by it, as a 3.4 or 3.5 device numbers its frames from a counter of its own |
 
 ## Data points
 

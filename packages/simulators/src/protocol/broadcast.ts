@@ -27,14 +27,15 @@ export interface BroadcastFields {
 // 0 and sequence number 0, its JSON in plain text, captured in
 // https://github.com/codetheweb/tuyapi/issues/17#issuecomment-361135781.
 /** Builds a broadcast as a device of `version` sends it. `iv` is used on 3.5
- * alone. */
+ * alone. It throws a `TypeError` on 3.2, as no source shows a 3.2 device's
+ * broadcast. */
 export function sealBroadcast(
   version: ProtocolVersion,
   fields: BroadcastFields,
   iv: Uint8Array,
 ): Buffer {
   if (version === "3.2") {
-    throw new Error("No source shows a 3.2 device's broadcast");
+    throw new TypeError("No source shows a 3.2 device's broadcast");
   }
   return sealDeviceFrame(
     version === "3.1" || version === "3.5" ? version : "3.3",
