@@ -227,7 +227,9 @@ fix on the platform:
 | The cloud's answer | Fix |
 | --- | --- |
 | 28841002, "subscription to cloud development plan has expired" | Extend the project's IoT Core trial |
+| 28841004, "Your quota of Trial Edition is used up" | Upgrade the project's IoT Core plan from the trial |
 | 28841101, 28841105, 28841106 | Authorize the API service the message names |
+| 28841107, "your datacenter is suspended" | Remove the data center from the project, save, and add it again |
 | 1106 to `listDevices()` | Pass `{ viaDeviceId }` with any device of the account |
 | 2007, or no devices | Pick the data center the app account is in |
 

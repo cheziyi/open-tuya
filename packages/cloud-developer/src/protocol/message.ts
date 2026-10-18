@@ -1,7 +1,7 @@
 import { createDecipheriv } from "node:crypto";
 import { TuyaError } from "@open-tuya/core";
 
-const IV_LENGTH_BYTES = 4;
+const IV_LENGTH_FIELD_LENGTH = 4;
 const TAG_LENGTH = 16;
 const KEY_START = 8;
 const KEY_END = 24;
@@ -23,8 +23,10 @@ export function decryptPushData(
 ): string {
   const bytes = Buffer.from(data, "base64");
   const ivLength =
-    bytes.length >= IV_LENGTH_BYTES ? bytes.readUInt32BE(0) : bytes.length;
-  const ivEnd = IV_LENGTH_BYTES + ivLength;
+    bytes.length >= IV_LENGTH_FIELD_LENGTH
+      ? bytes.readUInt32BE(0)
+      : bytes.length;
+  const ivEnd = IV_LENGTH_FIELD_LENGTH + ivLength;
   if (bytes.length < ivEnd + TAG_LENGTH) {
     throw new TuyaError(
       "DECRYPTION_FAILED",
@@ -35,7 +37,7 @@ export function decryptPushData(
     const decipher = createDecipheriv(
       "aes-128-gcm",
       Buffer.from(password.slice(KEY_START, KEY_END)),
-      bytes.subarray(IV_LENGTH_BYTES, ivEnd),
+      bytes.subarray(IV_LENGTH_FIELD_LENGTH, ivEnd),
     );
     decipher.setAAD(Buffer.from(String(t)));
     decipher.setAuthTag(bytes.subarray(-TAG_LENGTH));
