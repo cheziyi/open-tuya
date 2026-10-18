@@ -23,7 +23,8 @@ does until a source or a capture settles it.
 | What | Unknown | Until then |
 | --- | --- | --- |
 | A 3.1 or 3.2 gateway | No source shows one reach the devices behind it | `createClient(nodeId)` on a 3.1 or 3.2 client throws a `TypeError` |
-| Whether a 3.4 or 3.5 gateway needs `ctype` in a write | tinytuya and tuyapi send `ctype: 0`; hass-localtuya does not; no capture shows a gateway refuse either | A write sends `ctype: 0` |
+| Whether a gateway needs `ctype` in a write | tinytuya and tuyapi send `ctype: 0` on 3.4 and 3.5; hass-localtuya does not; no capture shows a gateway refuse either | A write sends `ctype: 0` |
+| Whether a 3.3 gateway takes a write as `CONTROL_NEW` `{"cid","ctype":0,"dps"}` | No capture shows one; the sources send `CONTROL` `{"cid","dps","t"}` | A write sends `CONTROL_NEW`: see [DESIGN.md](DESIGN.md#gateways) |
 | A whole 3.5 push from a device behind a gateway | [tinytuya#493](https://github.com/jasonacox/tinytuya/issues/493) shows its end, `…},"cid":"…"}`, cut short | `cid` is read at the top and in `data` |
 | Which 3.3 gateways answer the online query | One did ([tinytuya#302](https://github.com/jasonacox/tinytuya/issues/302#issuecomment-1474957230)); others never answer ([hass-localtuya#293](https://github.com/xZetsubou/hass-localtuya/issues/293)) | A 3.3 gateway is asked as any other; one that never answers leaves its devices connected while it is |
 | How a gateway answers `UPDATEDPS` for a device behind it | No source captures it | Not sent, as for any device |
