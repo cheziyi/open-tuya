@@ -3,7 +3,7 @@ import {
   TuyaError,
   type TuyaErrorCode,
 } from "@open-tuya/core";
-import type { ControlValues } from "@open-tuya/devices";
+import { CATALOG, type ControlValues } from "@open-tuya/devices";
 import { startSimulatedDevice } from "@open-tuya/simulators";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createTuyaClient, RoutedTuyaClient } from "../client.js";
@@ -333,6 +333,61 @@ describe("createTuyaClient", () => {
 
     expect(client.entry).toBe(found.entry);
     expect(account.clients[0]?.requests ?? []).toEqual([]);
+  });
+
+  describe("controls over a mask", () => {
+    // Its colour is data point 24: hue, saturation and brightness, 2 bytes
+    // each.
+    const light = CATALOG.find(
+      (entry) => entry.source.file === "arlec_10_pathlights.yaml",
+    );
+
+    async function create(): Promise<{
+      client: RoutedTuyaClient;
+      cloud: FakeTuyaClient | undefined;
+    }> {
+      const account = new FakeTuyaCloudAccount({ "24": "000003e803e8" });
+      const client = await createTuyaClient({
+        deviceId: DEVICE_ID,
+        routes: [{ cloud: account }],
+        ...(light && { entry: light }),
+      });
+      await vi.waitFor(() => expect(account.clients).toHaveLength(1));
+      return { client, cloud: account.clients[0] };
+    }
+
+    it("reads the device first, and keeps the bits the control does not set", async () => {
+      const { client, cloud } = await create();
+
+      await client.writeControls({ light: { hue: 120 } });
+
+      expect(cloud?.requests).toEqual(["read", "write"]);
+      expect(cloud?.writes.at(-1)).toEqual({ "24": "007803e803e8" });
+    });
+
+    it("builds each write on the one before, when two are sent at once", async () => {
+      const { client, cloud } = await create();
+
+      await Promise.all([
+        client.writeControls({ light: { hue: 120 } }),
+        client.writeControls({ light: { saturation: 500 } }),
+      ]);
+
+      expect(cloud?.writes).toEqual([
+        { "24": "007803e803e8" },
+        { "24": "007801f403e8" },
+      ]);
+    });
+
+    it("builds on what the device pushed, without reading it", async () => {
+      const { client, cloud } = await create();
+
+      cloud?.push({ "24": "00b403e803e8" });
+      await client.writeControls({ light: { saturation: 0 } });
+
+      expect(cloud?.requests).toEqual(["write"]);
+      expect(cloud?.writes.at(-1)).toEqual({ "24": "00b4000003e8" });
+    });
   });
 
   describe("controls", () => {

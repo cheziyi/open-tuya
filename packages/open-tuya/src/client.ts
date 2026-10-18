@@ -1,5 +1,6 @@
 import {
   type DataPoints,
+  type DataPointValue,
   type TuyaClient,
   type TuyaCloudAccount,
   TuyaError,
@@ -116,6 +117,10 @@ export class RoutedTuyaClient implements TuyaClient {
   /** The entry the controls are named by: the first of `entries`. */
   readonly entry: TuyaDeviceEntry | undefined;
   private readonly listeners = new Set<(dataPoints: DataPoints) => void>();
+  // The data points the device reported last, or this client wrote last,
+  // which a masked control's write keeps the other bits of.
+  private readonly latest: Record<string, DataPointValue> = {};
+  private writing: Promise<unknown> = Promise.resolve();
   private closing: Promise<void> | undefined;
 
   constructor(
@@ -127,6 +132,7 @@ export class RoutedTuyaClient implements TuyaClient {
     routes.forEach((route, index) => {
       route.onDataPoints((dataPoints) => {
         if (!routes.slice(0, index).some((earlier) => earlier.connected)) {
+          Object.assign(this.latest, dataPoints);
           for (const listener of this.listeners) {
             listener(dataPoints);
           }
@@ -140,21 +146,24 @@ export class RoutedTuyaClient implements TuyaClient {
     return this.routes.some((route) => route.connected);
   }
 
-  readDataPoints(): Promise<DataPoints> {
-    return sendThroughRoutes(
+  async readDataPoints(): Promise<DataPoints> {
+    const dataPoints = await sendThroughRoutes(
       this.routes,
       (route) => route.readDataPoints(),
       () => true,
     );
+    Object.assign(this.latest, dataPoints);
+    return dataPoints;
   }
 
-  writeDataPoints(dataPoints: DataPoints): Promise<void> {
-    return sendThroughRoutes(
+  async writeDataPoints(dataPoints: DataPoints): Promise<void> {
+    await sendThroughRoutes(
       this.routes,
       (route) => route.writeDataPoints(dataPoints),
       (error) =>
         error instanceof TuyaError && UNDELIVERED_WRITE_CODES.has(error.code),
     );
+    Object.assign(this.latest, dataPoints);
   }
 
   onDataPoints(listener: (dataPoints: DataPoints) => void): () => void {
@@ -174,9 +183,15 @@ export class RoutedTuyaClient implements TuyaClient {
   /** Writes the data points that set `values`, by `entry`. It rejects with a
    * `TuyaError` with code `NO_CATALOG_ENTRY` when there is none, a
    * `TypeError` for a control the entry does not have or a read-only one, and
-   * a `RangeError` for a value outside the data point's range. */
+   * a `RangeError` for a value outside the data point's range. A control with
+   * a `mask` keeps the other bits of its data point as the device last
+   * reported them, read first if it has not, so one write runs at a time:
+   * two writes to one colour's hue and saturation each keep the other's. */
   async writeControls(values: ControlValues): Promise<void> {
-    await this.writeDataPoints(writeControls(this.requireEntry(), values));
+    const entry = this.requireEntry();
+    const write = this.writing.then(() => this.writeNamed(entry, values));
+    this.writing = write.catch(() => {});
+    await write;
   }
 
   /** Calls `listener` with the controls whose data points the device
@@ -205,6 +220,25 @@ export class RoutedTuyaClient implements TuyaClient {
 
   async [Symbol.asyncDispose](): Promise<void> {
     await this.close();
+  }
+
+  private async writeNamed(
+    entry: TuyaDeviceEntry,
+    values: ControlValues,
+  ): Promise<void> {
+    const unknown = Object.entries(values).some(([componentName, controls]) =>
+      Object.keys(controls).some((name) => {
+        const control = entry.components[componentName]?.[name];
+        return (
+          control?.mask !== undefined &&
+          this.latest[control.dataPoint] === undefined
+        );
+      }),
+    );
+    if (unknown) {
+      await this.readDataPoints();
+    }
+    await this.writeDataPoints(writeControls(entry, values, this.latest));
   }
 
   private requireEntry(): TuyaDeviceEntry {

@@ -182,3 +182,157 @@ describe("writeControls", () => {
     );
   });
 });
+
+// The expected values are tuya-local's: its tests' for data points 1 and 2,
+// and for data points 3 and 5 computed by the expressions of its get_value
+// and get_values_to_set at
+// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L486-L514
+// and https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L1129-L1161.
+const PACKED: TuyaDeviceEntry = {
+  name: "Meter",
+  productKeys: [],
+  dataPoints: {
+    "1": { type: "hex" },
+    "2": { type: "base64" },
+    "3": { type: "base64" },
+    "4": { type: "integer" },
+    "5": { type: "hex" },
+  },
+  components: {
+    device: {
+      high: { dataPoint: "1", mask: "ff00", kind: "number" },
+      special: {
+        dataPoint: "2",
+        mask: "ffff",
+        kind: "select",
+        values: [{ raw: 256, value: "special_case" }],
+      },
+      currentInA: {
+        dataPoint: "3",
+        mask: "0000000000FFFFFFFF00000000",
+        maskSigned: true,
+        littleEndian: true,
+        kind: "number",
+        scale: 1000,
+      },
+      voltageInV: {
+        dataPoint: "3",
+        mask: "000000000000000000FFFFFFFF",
+        littleEndian: true,
+        kind: "number",
+        scale: 100,
+      },
+      nibble: { dataPoint: "4", mask: "00F0", kind: "number" },
+    },
+    light: {
+      on: {
+        dataPoint: "5",
+        mask: "000100000000",
+        kind: "switch",
+        values: [
+          { raw: 0, value: false },
+          { raw: 1, value: true },
+        ],
+        otherwise: true,
+      },
+      brightness: {
+        dataPoint: "5",
+        mask: "0000FFFF0000",
+        kind: "number",
+        min: 0,
+        max: 1000,
+      },
+    },
+  },
+  source: { file: "meter.yaml", commit: "0".repeat(40) },
+};
+const METER = "EFoAAMj6//8AAQIDBA==";
+
+describe("readControls with a mask", () => {
+  it("reads the bits a mask covers, then maps and scales them", () => {
+    expect(
+      readControls(PACKED, {
+        "1": "babe",
+        "2": "AQA=",
+        "3": METER,
+        "4": 0x1234,
+        "5": "000101f40000",
+      }),
+    ).toEqual({
+      device: {
+        high: 0xba,
+        special: "special_case",
+        currentInA: -1.336,
+        voltageInV: 230.56,
+        nibble: 3,
+      },
+      light: { on: true, brightness: 500 },
+    });
+  });
+
+  it("pads a hex value of an odd number of digits to whole bytes", () => {
+    expect(readControls(PACKED, { "1": "abe" }).device).toEqual({ high: 0x0a });
+  });
+
+  it("leaves out a control whose value does not decode", () => {
+    expect(readControls(PACKED, { "1": "xyz", "2": "@@" })).toEqual({});
+  });
+});
+
+describe("writeControls with a mask", () => {
+  it("sets the bits a mask covers, and keeps the rest from the current value", () => {
+    expect(
+      writeControls(
+        PACKED,
+        {
+          device: {
+            high: 0xca,
+            special: "special_case",
+            voltageInV: 231,
+            nibble: 9,
+          },
+        },
+        { "1": "babe", "2": "AAA=", "3": METER, "4": 0x1234 },
+      ),
+    ).toEqual({
+      "1": "cabe",
+      "2": "AQA=",
+      "3": "PFoAAMj6//8AAQIDBA==",
+      "4": 0x1294,
+    });
+  });
+
+  it("writes a signed number in two's complement", () => {
+    expect(
+      writeControls(PACKED, { device: { currentInA: -1.5 } }, { "3": METER }),
+    ).toEqual({ "3": "EFoAACT6//8AAQIDBA==" });
+  });
+
+  it("sets each control's bits on those the one before it set", () => {
+    expect(
+      writeControls(
+        PACKED,
+        { light: { on: true, brightness: 500 } },
+        { "5": "000000000000" },
+      ),
+    ).toEqual({ "5": "000101f40000" });
+  });
+
+  it("throws a TypeError without the data point's current value", () => {
+    expect(() => writeControls(PACKED, { device: { high: 1 } })).toThrow(
+      TypeError,
+    );
+  });
+
+  it("throws a RangeError for a current value of another length than the mask", () => {
+    expect(() =>
+      writeControls(PACKED, { device: { high: 1 } }, { "1": "00babe" }),
+    ).toThrow(RangeError);
+  });
+
+  it("throws a RangeError for a value its bits cannot hold", () => {
+    expect(() =>
+      writeControls(PACKED, { device: { nibble: 16 } }, { "4": 0 }),
+    ).toThrow(RangeError);
+  });
+});
