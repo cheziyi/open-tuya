@@ -192,9 +192,10 @@ gets a patch from Changesets once the new version leaves its `^` range.
 - Rejected: hand-made tags, one per package. Nothing would release the
   packages that depend on a changed one.
 
-`open-tuya` re-exports every package but `@open-tuya/simulators`, so a change
-that bumps one of them by more than a patch reaches its callers too, and its
-changeset bumps `open-tuya` the same way, as `AGENTS.md` says. No option of
+`open-tuya` re-exports every package but `@open-tuya/simulators`, so once it
+has published a package's exports, a change that bumps that package by more
+than a patch reaches its callers too, and its changeset bumps `open-tuya` the
+same way, as `AGENTS.md` says. No option of
 `.changeset/config.json` does it:
 
 - `linked` gives every package of a group released together the highest bump
@@ -722,7 +723,7 @@ and the SDK's own code instead, as the captured secrets are other people's.
 | An answer without a field the package reads rejects with `REQUEST_REJECTED` | As `fetchJson` does for a body that is not JSON. A `TypeError` would carry no `code`, and `MqttSession` stops for good after an error that is not a `TuyaError` |
 | 1106, 1114, 2007 and the 2884 codes reject with `PERMISSION_DENIED` | The caller's fix for each is on the platform: renew the trial, authorize the API, or pick the data center |
 | 1010 takes a new token and sends once more; a wrong secret rejects with `REQUEST_REJECTED` | A token lapses; a secret does not mend itself |
-| 10 s for an answer, no other retry | As the cloud app |
+| 10 s for an answer, no other retry | No source shows the developer platform refusing a request it takes when sent again, as the cloud app does with 1108 |
 
 ## Cloud developer data points
 
