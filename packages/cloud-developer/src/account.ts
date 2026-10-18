@@ -47,7 +47,10 @@ export const DEVELOPER_DATA_CENTERS = {
 export type DeveloperDataCenter = keyof typeof DEVELOPER_DATA_CENTERS;
 
 const RENEW_MARGIN_IN_MS = 60_000;
-const DEVICE_PAGE_SIZE = "50";
+// tinytuya's page sizes, which its users have listed with since 2023: no
+// source says how large a page the cloud answers.
+const ASSOCIATED_DEVICES_PAGE_SIZE = "50";
+const USER_DEVICES_PAGE_SIZE = "75";
 // Source: The cloud answers a token it no longer takes with 1010, in
 // https://github.com/tuya/tuya-connector-nodejs/commit/e619df60109ac4f06e9b44de7fa15bf4d1b24690,
 // as captured in https://github.com/jasonacox/tinytuya/issues/94#issuecomment-1004076959.
@@ -144,50 +147,50 @@ export class DeveloperCloudAccount implements TuyaCloudAccount {
   // https://github.com/jasonacox/tinytuya/commit/c9455aebf0294d74eadbd4d758d0fd3ba4d55428
   // and https://github.com/TuyaAPI/cli/commit/d6cdfdc24657bff77ea3ae1681aa9e55ed1d3d35.
   /** Lists the devices of every app account linked to the project, or with
-   * `viaDeviceId`, of that device's account alone. */
+   * `viaDeviceId`, of that device's account alone. The list of every account
+   * leaves out some devices' local keys, so it then lists the account of each
+   * such device for them, and leaves them out when the project is refused
+   * that list. It rejects with `REQUEST_REJECTED` when the cloud's answer
+   * lacks a field it needs, or repeats a page. */
   async listDevices(
     options: ListDevicesOptions = {},
   ): Promise<TuyaCloudDevice[]> {
     let records: DeviceRecord[];
+    let localKeys = new Map<string, string>();
     if (options.viaDeviceId) {
       const detail = (await this.request(
         "GET",
         `/v1.0/devices/${encodeURIComponent(options.viaDeviceId)}`,
-      )) as DeviceDetail;
-      records = (await this.request(
+      )) as DeviceDetail | null;
+      const uid = requireText(detail?.uid, "the device's uid");
+      const result = await this.request(
         "GET",
-        `/v1.0/users/${encodeURIComponent(detail.uid)}/devices`,
-      )) as DeviceRecord[];
-    } else {
-      records = [];
-      let lastRowKey: string | undefined;
-      for (;;) {
-        const page = (await this.request(
-          "GET",
-          "/v1.0/iot-01/associated-users/devices",
-          {
-            query: {
-              size: DEVICE_PAGE_SIZE,
-              ...(lastRowKey && { last_row_key: lastRowKey }),
-            },
-          },
-        )) as DevicePage;
-        records.push(...(page.devices ?? []));
-        if (!page.has_more || !page.last_row_key) {
-          break;
-        }
-        lastRowKey = page.last_row_key;
+        `/v1.0/users/${encodeURIComponent(uid)}/devices`,
+      );
+      if (!Array.isArray(result)) {
+        throw malformed("a list of devices");
       }
+      records = result;
+    } else {
+      records = await this.listPages(
+        "/v1.0/iot-01/associated-users/devices",
+        { size: ASSOCIATED_DEVICES_PAGE_SIZE },
+        "devices",
+      );
+      localKeys = await this.fetchMissingLocalKeys(records);
     }
-    return records.map((record) => ({
-      deviceId: record.id,
-      name: record.name,
-      productKey: record.product_id,
-      ...(record.local_key && { localKey: record.local_key }),
-      category: record.category,
-      online: record.online,
-      ...(record.node_id && { nodeId: record.node_id }),
-    }));
+    return records.map((record) => {
+      const localKey = record.local_key || localKeys.get(record.id);
+      return {
+        deviceId: record.id,
+        name: record.name,
+        productKey: record.product_id,
+        ...(localKey && { localKey }),
+        category: record.category,
+        online: record.online,
+        ...(record.node_id && { nodeId: record.node_id }),
+      };
+    });
   }
 
   // Source: A device's thing model names each data point's ID as `abilityId`
@@ -195,19 +198,20 @@ export class DeveloperCloudAccount implements TuyaCloudAccount {
   // https://github.com/tuya/tuya-connector/commit/25424c594135e8c5f4c684a0b7cce8fc7b4fcca6
   // and https://github.com/xZetsubou/hass-localtuya/commit/2f733ce0dd99076b4936a7ce08642bca87ad4a93,
   // and as captured in https://github.com/jasonacox/tinytuya/issues/537.
-  /** Fetches the device's thing model, and resolves with a client for it. */
+  /** Fetches the device's thing model, and resolves with a client for it. It
+   * rejects with `REQUEST_REJECTED` when the model is not JSON. */
   async createClient(deviceId: string): Promise<DeveloperCloudTuyaClient> {
     const thing = (await this.request(
       "GET",
       `/v2.0/cloud/thing/${encodeURIComponent(deviceId)}/model`,
-    )) as ThingModel;
-    const model = JSON.parse(thing.model) as {
-      services?: { properties?: ThingProperty[] }[];
-    };
+    )) as ThingModel | null;
     const codes = new Map<string, string>();
-    for (const service of model.services ?? []) {
-      for (const property of service.properties ?? []) {
-        codes.set(String(property.abilityId), property.code);
+    const { services } = parseModel(thing?.model);
+    for (const service of listOf<{ properties?: unknown }>(services)) {
+      for (const property of listOf<ThingProperty>(service?.properties)) {
+        if (typeof property?.code === "string") {
+          codes.set(String(property.abilityId), property.code);
+        }
       }
     }
     const transport: DeveloperCloudTransport = {
@@ -270,22 +274,101 @@ export class DeveloperCloudAccount implements TuyaCloudAccount {
   }
 
   private async fetchToken(): Promise<Token> {
-    let result: TokenResult;
+    let result: TokenResult | null;
     try {
       result = (await this.send(
         "GET",
         "/v1.0/token",
         { query: { grant_type: "1" } },
         "",
-      )) as TokenResult;
+      )) as TokenResult | null;
     } catch (error) {
       throw error instanceof TokenInvalid ? error.error : error;
     }
     return {
-      accessToken: result.access_token,
-      uid: result.uid,
-      expiresAtInMs: Date.now() + result.expire_time * 1000,
+      accessToken: requireText(result?.access_token, "an access token"),
+      uid: requireText(result?.uid, "the token's uid"),
+      expiresAtInMs:
+        Date.now() + requireSeconds(result?.expire_time, "the token") * 1000,
     };
+  }
+
+  /** Lists `path` a page at a time after `last_row_key` while `has_more`,
+   * each page's devices in `field`. */
+  private async listPages(
+    path: string,
+    query: Readonly<Record<string, string>>,
+    field: "devices" | "list",
+  ): Promise<DeviceRecord[]> {
+    const records: DeviceRecord[] = [];
+    const lastRowKeys = new Set<string>();
+    let lastRowKey: string | undefined;
+    for (;;) {
+      const page = (await this.request("GET", path, {
+        query: { ...query, ...(lastRowKey && { last_row_key: lastRowKey }) },
+      })) as DevicePage | null;
+      const devices = page?.[field] ?? [];
+      if (!Array.isArray(devices)) {
+        throw malformed("a list of devices");
+      }
+      records.push(...devices);
+      if (!page?.has_more || !page.last_row_key) {
+        return records;
+      }
+      if (lastRowKeys.has(page.last_row_key)) {
+        throw new TuyaError(
+          "REQUEST_REJECTED",
+          `The cloud answered with the page before ${page.last_row_key} again`,
+        );
+      }
+      lastRowKeys.add(page.last_row_key);
+      lastRowKey = page.last_row_key;
+    }
+  }
+
+  // Source: The list of every linked account leaves out some devices' local
+  // keys, which the list of the device's own account,
+  // GET /v1.3/iot-03/devices?source_type=tuyaUser&source_id={uid}, carries in
+  // `list`, a page at a time after `last_row_key` while `has_more`, in
+  // https://github.com/jasonacox/tinytuya/commit/74c0b19adcc08eae31ff2a56557e3dbb409a0490,
+  // as reported in https://github.com/jasonacox/tinytuya/issues/305.
+  /** Resolves with the local key of each device of `records` that lacks one,
+   * by device ID, from the list of its own account. */
+  private async fetchMissingLocalKeys(
+    records: readonly DeviceRecord[],
+  ): Promise<Map<string, string>> {
+    const uids = new Set<string>();
+    for (const record of records) {
+      if (!record.local_key && typeof record.uid === "string" && record.uid) {
+        uids.add(record.uid);
+      }
+    }
+    const localKeys = new Map<string, string>();
+    for (const uid of uids) {
+      let own: DeviceRecord[];
+      try {
+        own = await this.listPages(
+          "/v1.3/iot-03/devices",
+          {
+            page_size: USER_DEVICES_PAGE_SIZE,
+            source_type: "tuyaUser",
+            source_id: uid,
+          },
+          "list",
+        );
+      } catch (error) {
+        if (error instanceof TuyaError && error.code === "PERMISSION_DENIED") {
+          continue;
+        }
+        throw error;
+      }
+      for (const record of own) {
+        if (record?.local_key) {
+          localKeys.set(record.id, record.local_key);
+        }
+      }
+    }
+    return localKeys;
   }
 
   private async send(
@@ -318,7 +401,7 @@ export class DeveloperCloudAccount implements TuyaCloudAccount {
     if (envelope.success) {
       return envelope.result;
     }
-    throw cloudError(envelope);
+    throw readError(envelope);
   }
 
   // Source: A project's MQTT credentials come from
@@ -343,14 +426,20 @@ export class DeveloperCloudAccount implements TuyaCloudAccount {
           msg_encrypted_version: "2.0",
         },
       },
-    )) as PushConfigRecord;
+    )) as PushConfigRecord | null;
     return {
-      url: result.url,
-      clientId: result.client_id,
-      username: result.username,
-      password: result.password,
-      expireTimeInSeconds: result.expire_time,
-      deviceTopic: result.source_topic.device,
+      url: requireText(result?.url, "the broker's URL"),
+      clientId: requireText(result?.client_id, "a client ID"),
+      username: requireText(result?.username, "a username"),
+      password: requireText(result?.password, "a password"),
+      expireTimeInSeconds: requireSeconds(
+        result?.expire_time,
+        "the credentials",
+      ),
+      deviceTopic: requireText(
+        result?.source_topic?.device,
+        "the devices' topic",
+      ),
     };
   }
 }
@@ -363,7 +452,7 @@ class TokenInvalid extends Error {
   }
 }
 
-function cloudError(envelope: Envelope): Error {
+function readError(envelope: Envelope): Error {
   const code = String(envelope.code ?? "");
   const text = `The cloud answered ${code}: ${envelope.msg ?? ""}`;
   if (code === TOKEN_INVALID) {
@@ -373,4 +462,44 @@ function cloudError(envelope: Envelope): Error {
     return new TuyaError("PERMISSION_DENIED", text);
   }
   return new TuyaError("REQUEST_REJECTED", text);
+}
+
+function malformed(what: string): TuyaError {
+  return new TuyaError("REQUEST_REJECTED", `The cloud's answer lacks ${what}`);
+}
+
+function requireText(value: unknown, what: string): string {
+  if (typeof value !== "string" || value === "") {
+    throw malformed(what);
+  }
+  return value;
+}
+
+function requireSeconds(value: unknown, what: string): number {
+  if (typeof value !== "number" || !Number.isFinite(value) || value <= 0) {
+    throw malformed(`a lifetime for ${what}`);
+  }
+  return value;
+}
+
+function listOf<T>(value: unknown): readonly (T | undefined)[] {
+  return Array.isArray(value) ? value : [];
+}
+
+function parseModel(text: unknown): { services?: unknown } {
+  if (typeof text !== "string") {
+    throw malformed("a thing model");
+  }
+  let model: unknown;
+  try {
+    model = JSON.parse(text);
+  } catch (error) {
+    throw new TuyaError("REQUEST_REJECTED", "The thing model is not JSON", {
+      cause: error,
+    });
+  }
+  if (typeof model !== "object" || model === null) {
+    throw malformed("a thing model");
+  }
+  return model;
 }

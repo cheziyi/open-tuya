@@ -61,6 +61,7 @@ does until a source or a capture settles it.
 | A pushed message's `sign` | No source computes it | It is ignored; the GCM tag stands for it |
 | A push other than protocol 4 | Protocol 20 carries `online`, `offline` and other events ([tuya-homebridge#401](https://github.com/tuya/tuya-homebridge/issues/401)); `TuyaClient` has nothing to hand them to | They are ignored |
 | Whether `/v1.0/users/{uid}/devices` pages | No source or capture shows a page past the first | `listDevices` with `viaDeviceId` reads one page |
+| A captured `/v1.3/iot-03/devices` answer | tinytuya reads the devices from `list` and each one's `local_key` ([`74c0b19`](https://github.com/jasonacox/tinytuya/commit/74c0b19adcc08eae31ff2a56557e3dbb409a0490)), but no capture shows one | `listDevices` takes a missing key from it by those names |
 
 ## Device catalog
 

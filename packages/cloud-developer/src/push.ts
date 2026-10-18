@@ -55,7 +55,7 @@ export class DevicePush {
   }
 
   receive({ payload }: MqttMessage, config: PushConfig): void {
-    let data: PushData;
+    let data: PushData | null;
     try {
       const envelope: PushEnvelope = JSON.parse(
         new TextDecoder().decode(payload),
@@ -69,13 +69,14 @@ export class DevicePush {
     } catch {
       return;
     }
-    const listeners = this.listeners.get(data.devId ?? "");
+    const listeners = this.listeners.get(data?.devId ?? "");
     if (!listeners) {
       return;
     }
     const dataPoints: Record<string, DataPointValue> = {};
-    for (const entry of data.status ?? []) {
-      for (const [key, value] of Object.entries(entry)) {
+    const status = data?.status;
+    for (const entry of Array.isArray(status) ? status : []) {
+      for (const [key, value] of Object.entries(entry ?? {})) {
         if (DATA_POINT_ID.test(key) && isDataPointValue(value)) {
           dataPoints[key] = value;
         }

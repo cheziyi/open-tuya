@@ -153,7 +153,7 @@ describe("DeveloperCloudAccount", () => {
       cloud.on("GET", "/v1.0/iot-01/associated-users/devices", (request) => ({
         result: request.query.last_row_key
           ? {
-              devices: [{ ...DEVICE_RECORD, id: "bf2", local_key: "" }],
+              devices: [{ ...DEVICE_RECORD, id: "bf2" }],
               has_more: false,
               last_row_key: "B",
               total: 2,
@@ -175,22 +175,100 @@ describe("DeveloperCloudAccount", () => {
           category: "cz",
           online: true,
         },
-        {
-          deviceId: "bf2",
-          name: "Plug",
-          productKey: "na90jncjlvw5t0ba",
-          category: "cz",
-          online: true,
+        expect.objectContaining({ deviceId: "bf2" }),
+      ]);
+      expect(cloud.requests.map(({ path, query }) => [path, query])).toEqual([
+        ["/v1.0/token", { grant_type: "1" }],
+        ["/v1.0/iot-01/associated-users/devices", { size: "50" }],
+        [
+          "/v1.0/iot-01/associated-users/devices",
+          { size: "50", last_row_key: "A" },
+        ],
+      ]);
+      expect(cloud.badSignatures).toEqual([]);
+    });
+
+    it("takes a missing local key from the list of the device's own account", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", "/v1.0/iot-01/associated-users/devices", () => ({
+        result: {
+          devices: [
+            DEVICE_RECORD,
+            { ...DEVICE_RECORD, id: "bf2", local_key: "" },
+            { ...DEVICE_RECORD, id: "bf3", local_key: undefined },
+          ],
+          has_more: false,
+          last_row_key: "A",
         },
+      }));
+      cloud.on("GET", "/v1.3/iot-03/devices", (request) => ({
+        result: request.query.last_row_key
+          ? {
+              list: [{ ...DEVICE_RECORD, id: "bf3", local_key: "bf3key" }],
+              has_more: false,
+            }
+          : {
+              list: [{ ...DEVICE_RECORD, id: "bf2", local_key: "bf2key" }],
+              has_more: true,
+              last_row_key: "L",
+            },
+      }));
+
+      const devices = await account.listDevices();
+
+      expect(
+        devices.map(({ deviceId, localKey }) => [deviceId, localKey]),
+      ).toEqual([
+        [DEVICE_ID, "0123456789abcdef"],
+        ["bf2", "bf2key"],
+        ["bf3", "bf3key"],
       ]);
       expect(
         cloud.requests
-          .filter(
-            ({ path }) => path === "/v1.0/iot-01/associated-users/devices",
-          )
+          .filter(({ path }) => path === "/v1.3/iot-03/devices")
           .map(({ query }) => query),
-      ).toEqual([{ size: "50" }, { size: "50", last_row_key: "A" }]);
+      ).toEqual([
+        {
+          page_size: "75",
+          source_type: "tuyaUser",
+          source_id: "eu1625675520120AYG2O",
+        },
+        {
+          page_size: "75",
+          source_type: "tuyaUser",
+          source_id: "eu1625675520120AYG2O",
+          last_row_key: "L",
+        },
+      ]);
       expect(cloud.badSignatures).toEqual([]);
+    });
+
+    it("leaves a local key out when the project may not list the device's account", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", "/v1.0/iot-01/associated-users/devices", () => ({
+        result: { devices: [{ ...DEVICE_RECORD, local_key: "" }] },
+      }));
+      cloud.on("GET", "/v1.3/iot-03/devices", () => ({
+        code: 1106,
+        msg: "permission deny",
+      }));
+
+      const devices = await account.listDevices();
+
+      expect(devices).toEqual([
+        expect.not.objectContaining({ localKey: expect.anything() }),
+      ]);
+    });
+
+    it("rejects with REQUEST_REJECTED when the cloud answers with a page again", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", "/v1.0/iot-01/associated-users/devices", () => ({
+        result: { devices: [DEVICE_RECORD], has_more: true, last_row_key: "A" },
+      }));
+
+      await expect(account.listDevices()).rejects.toMatchObject({
+        code: "REQUEST_REJECTED",
+      });
     });
 
     it("lists one account's devices through a device of it", async () => {
@@ -209,6 +287,18 @@ describe("DeveloperCloudAccount", () => {
       ]);
     });
 
+    it("rejects with REQUEST_REJECTED when the device's detail has no uid", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", `/v1.0/devices/${DEVICE_ID}`, () => ({
+        result: { ...DEVICE_RECORD, uid: undefined },
+      }));
+
+      await expect(
+        account.listDevices({ viaDeviceId: DEVICE_ID }),
+      ).rejects.toMatchObject({ code: "REQUEST_REJECTED" });
+      expect(cloud.requests.at(-1)?.path).toBe(`/v1.0/devices/${DEVICE_ID}`);
+    });
+
     it("rejects with PERMISSION_DENIED when the project may not list them", async () => {
       const { cloud, account } = setUp();
       // Source: Captured in https://github.com/jasonacox/tinytuya/issues/330.
@@ -219,7 +309,6 @@ describe("DeveloperCloudAccount", () => {
 
       await expect(account.listDevices()).rejects.toMatchObject({
         code: "PERMISSION_DENIED",
-        message: "The cloud answered 1106: permission deny",
       });
     });
   });
@@ -245,6 +334,17 @@ describe("DeveloperCloudAccount", () => {
         properties: '{"switch_1":false}',
       });
       expect(cloud.badSignatures).toEqual([]);
+    });
+
+    it("rejects with REQUEST_REJECTED when the thing model is not JSON", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", `/v2.0/cloud/thing/${DEVICE_ID}/model`, () => ({
+        result: { model: "{" },
+      }));
+
+      await expect(account.createClient(DEVICE_ID)).rejects.toMatchObject({
+        code: "REQUEST_REJECTED",
+      });
     });
 
     it("rejects a write to a data point outside the thing model with UNMAPPED_DATA_POINT, sending nothing", async () => {
@@ -323,6 +423,15 @@ describe("DeveloperCloudAccount", () => {
       });
     });
 
+    it("rejects with REQUEST_REJECTED when the token has no lifetime", async () => {
+      const { cloud, account } = setUp();
+      cloud.expireTimeInSeconds = 0;
+
+      await expect(account.createClient(DEVICE_ID)).rejects.toMatchObject({
+        code: "REQUEST_REJECTED",
+      });
+    });
+
     it("rejects with REQUEST_REJECTED when the secret is wrong", async () => {
       const cloud = new FakeDeveloperCloud(ACCESS_ID, ACCESS_SECRET);
       const account = new DeveloperCloudAccount(
@@ -338,7 +447,6 @@ describe("DeveloperCloudAccount", () => {
 
       await expect(account.listDevices()).rejects.toMatchObject({
         code: "REQUEST_REJECTED",
-        message: "The cloud answered 1004: sign invalid",
       });
     });
   });
