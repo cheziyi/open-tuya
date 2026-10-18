@@ -551,7 +551,8 @@ own values by ID, so it carries every data point.
 
 | Question | Chosen | For | Against |
 | --- | --- | --- | --- |
-| Which field of a relation names the code a command takes | `statusCode`. No capture shows it differ from `dpCode` | The SDK [`ae5e3c4`](https://github.com/tuya/tuya-device-sharing-sdk/commit/ae5e3c4c67eaefffd1be79e39d9f411e43515d13) | tuya-local [`c0e9a87`](https://github.com/make-all/tuya-local/commit/c0e9a876451e9c300de163eeea8e4fa7846c29d6) names a data point by `dpCode`, and sends no command |
+| Which code a read finds a data point's value under | The one key of `statusFormat`; a data point whose `statusFormat` is not JSON with one key is left out of a read | The SDK's `"default"` conversion reports the value under that key ([`ae5e3c4`](https://github.com/tuya/tuya-device-sharing-sdk/commit/ae5e3c4c67eaefffd1be79e39d9f411e43515d13)). In [core#162625](https://github.com/home-assistant/core/issues/162625), the relation with `statusCode` `clear_energy` has `statusFormat` `{"energy_reset":"$"}`, and the device's status reports `energy_reset` | tuya-local [`c0e9a87`](https://github.com/make-all/tuya-local/commit/c0e9a876451e9c300de163eeea8e4fa7846c29d6) names a data point by `dpCode`, which core#162625 shows as `Power` and `ChildLock` where the status reports `switch` and `child_lock` |
+| Which code a command takes | `statusCode` | In core#162625, the device's functions are `clear_energy`, `switch` and `child_lock`: the `statusCode` of relations whose `statusFormat` reads `energy_reset` and whose `dpCode` reads `Power` and `ChildLock` | The SDK sends the codes its caller gives and maps none; tuya-local sends no command |
 
 ## Cloud app push
 

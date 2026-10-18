@@ -208,6 +208,75 @@ describe("AppCloudAccount", () => {
       expect(cloud.requests.length).toBe(sent);
     });
 
+    // Source: Relations whose dpCode, statusCode and statusFormat's key differ,
+    // as captured in https://github.com/home-assistant/core/issues/162625,
+    // with clear_energy's conversion made "default".
+    it("reads by statusFormat's key and writes by statusCode", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", `/v1.0/m/life/devices/${DEVICE_ID}/status`, () => ({
+        result: {
+          dpStatusRelationDTOS: [
+            {
+              ...SWITCH_RELATION,
+              dpCode: "Power",
+              statusCode: "switch",
+              statusFormat: '{"switch":"$"}',
+            },
+            {
+              ...SWITCH_RELATION,
+              dpCode: "clear_energy",
+              dpId: 12,
+              statusCode: "clear_energy",
+              statusFormat: '{"energy_reset":"$"}',
+            },
+          ],
+        },
+      }));
+      cloud.on("GET", "/v1.0/m/life/ha/devices/detail", () => ({
+        result: [
+          {
+            ...DEVICE_RECORD,
+            status: [
+              { code: "switch", value: true },
+              { code: "energy_reset", value: false },
+              { code: "clear_energy", value: true },
+            ],
+          },
+        ],
+      }));
+      const client = await account.createClient(DEVICE_ID);
+
+      await expect(client.readDataPoints()).resolves.toEqual({
+        "1": true,
+        "12": false,
+      });
+      await client.writeDataPoints({ "1": false, "12": true });
+      expect(cloud.requests.at(-1)?.body).toEqual({
+        commands: [
+          { code: "switch", value: false },
+          { code: "clear_energy", value: true },
+        ],
+      });
+    });
+
+    it("leaves out of a read, but writes, a data point whose statusFormat names no one code", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", `/v1.0/m/life/devices/${DEVICE_ID}/status`, () => ({
+        result: {
+          dpStatusRelationDTOS: [
+            { ...SWITCH_RELATION, statusFormat: "not json" },
+          ],
+        },
+      }));
+      const client = await account.createClient(DEVICE_ID);
+
+      await expect(client.readDataPoints()).resolves.toEqual({});
+      await client.writeDataPoints({ "1": false });
+      expect(cloud.requests.at(-1)?.body).toEqual({
+        commands: [{ code: "switch_1", value: false }],
+      });
+    });
+
     it("maps nothing on a device of a custom type", async () => {
       const { cloud, account } = setUp();
       cloud.on("GET", `/v1.0/m/life/ha/${DEVICE_ID}/code/custom-type`, () => ({

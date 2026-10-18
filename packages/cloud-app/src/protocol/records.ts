@@ -39,6 +39,8 @@ export interface DeviceRecord {
 export interface StatusRelation {
   dpId: number;
   statusCode: string;
+  /** JSON, such as `{"switch_1":"$"}`. */
+  statusFormat: string;
   supportLocal: boolean;
   valueConvert: string;
 }
