@@ -27,6 +27,7 @@ export const CONTROL_NAMES = [
   "colorName",
   "colorTemperature",
   "command",
+  "control",
   "coolingTargetTemperature",
   "current",
   "currentCalibration",

@@ -919,3 +919,107 @@ describe("utf16b64", () => {
     ).toEqual({ "1": HI, "2": HI });
   });
 });
+
+describe("readControls with a constraint read through its conversion", () => {
+  const entry: TuyaDeviceEntry = {
+    name: "Meter",
+    productKeys: [],
+    dataPoints: {
+      "1": { type: "base64" },
+      "2": { type: "boolean", optional: true },
+      "3": { type: "integer" },
+    },
+    components: {
+      device: {
+        lowBattery: {
+          dataPoint: "2",
+          kind: "sensor",
+          readOnly: true,
+          whenAbsent: {
+            dependsOn: {
+              dataPoint: "1",
+              reads: {
+                dataPoint: "1",
+                mask: "0700",
+                values: [
+                  { raw: 0, value: "normal" },
+                  { raw: 2, value: "low" },
+                ],
+              },
+              readOnly: true,
+              conditions: [
+                { when: ["low"], value: true },
+                { when: ["normal"], value: false },
+              ],
+            },
+          },
+        },
+        powerInKw: {
+          dataPoint: "3",
+          kind: "sensor",
+          readOnly: true,
+          scale: 1000,
+          dependsOn: {
+            dataPoint: "1",
+            reads: { dataPoint: "1", mask: "0001" },
+            readOnly: true,
+            conditions: [{ when: [1], scale: -1000 }],
+          },
+        },
+      },
+    },
+    source: { file: "meter.yaml", commit: "0".repeat(40) },
+  };
+
+  it.each([
+    ["AgA=", true, 1.5],
+    ["AAE=", false, -1.5],
+  ])(
+    "matches the conditions against the value the mask and mapping read from %s",
+    (status, lowBattery, powerInKw) => {
+      expect(readControls(entry, { "1": status, "3": 1500 })).toEqual({
+        device: { lowBattery, powerInKw },
+      });
+    },
+  );
+});
+
+describe("readControls with a condition's value for an absent data point", () => {
+  const entry: TuyaDeviceEntry = {
+    name: "Vacuum",
+    productKeys: [],
+    dataPoints: {
+      "2": { type: "boolean" },
+      "5": { type: "string", optional: true },
+    },
+    components: {
+      vacuum: {
+        command: {
+          dataPoint: "5",
+          kind: "select",
+          dependsOn: {
+            dataPoint: "2",
+            conditions: [
+              {
+                when: [false],
+                values: [{ raw: "smart", value: "smart" }],
+                whenAbsent: { value: "pause" },
+              },
+            ],
+          },
+        },
+      },
+    },
+    source: { file: "vacuum.yaml", commit: "0".repeat(40) },
+  };
+
+  it("reads it while the condition holds and the device leaves the data point out", () => {
+    expect(readControls(entry, { "2": false })).toEqual({
+      vacuum: { command: "pause" },
+    });
+  });
+
+  it("leaves the control out while the condition does not hold", () => {
+    expect(readControls(entry, { "2": true })).toEqual({});
+  });
+});

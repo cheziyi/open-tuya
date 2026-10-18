@@ -147,6 +147,7 @@ export function listDependencies(control: ControlTarget): DataPointId[] {
         found.add(rule.dependsOn.dataPoint);
       }
       const targets = [
+        rule.dependsOn?.reads,
         rule.redirect,
         rule.mirror,
         rule.availableWhile,
@@ -254,7 +255,8 @@ function currentRule(
 
 // Source: A raw value matches the first mapping whose dps_val equals it, a
 // bitfield's when they share a bit, the one whose dps_val is null while the
-// data point is absent, or else the mapping with no dps_val. The last of its
+// data point is absent, or else the mapping with no dps_val, whose holding
+// condition's nested mapping can name a value for an absent one. The last of its
 // conditions that holds replaces its value, its redirect, its mirror, its
 // nested mapping, invert, target_range and scale. A redirect or a mirror
 // reads the other data point as it converts; a number then has invert,
@@ -269,7 +271,10 @@ function readControl(
 ): ControlValue | undefined {
   const rule = currentRule(entry, control, dataPoints);
   if (!rule) {
-    return undefined;
+    return dataPoints[control.dataPoint] === undefined
+      ? holdingCondition(entry, control.dependsOn, dataPoints)?.whenAbsent
+          ?.value
+      : undefined;
   }
   const condition = holdingCondition(entry, rule.dependsOn, dataPoints);
   if (condition?.invalid) {
@@ -559,9 +564,10 @@ function holdingCondition(
   return holding;
 }
 
-// Source: A condition holds while its constraint's raw value equals or is in
-// its dps_val, while the constraint is absent for a dps_val of null, or on a
-// bitfield while every bit of its dps_val is set, in
+// Source: A condition holds while its constraint's raw value, or a hex or
+// base64 constraint's value as it converts, equals or is in its dps_val,
+// while the constraint is absent for a dps_val of null, or on a bitfield while
+// every bit of its dps_val is set, in
 // https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L933-L976.
 function holds(
   entry: TuyaDeviceEntry,
@@ -569,7 +575,9 @@ function holds(
   condition: ControlCondition,
   dataPoints: DataPoints,
 ): boolean {
-  const raw = dataPoints[dependency.dataPoint];
+  const raw = dependency.reads
+    ? readControl(entry, dependency.reads, dataPoints)
+    : dataPoints[dependency.dataPoint];
   if (raw === undefined) {
     return condition.when.includes(null);
   }

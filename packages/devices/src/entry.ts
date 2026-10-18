@@ -66,6 +66,10 @@ export interface ControlDependency {
   /** The data point whose raw value the conditions match. It can be the
    * control's own. */
   dataPoint: DataPointId;
+  /** The conditions match the data point's value as this converts it, in
+   * place of its raw value: a base64 or hex data point read through a mask
+   * or a mapping. Such a data point is never written. */
+  reads?: ControlTarget;
   /** Never written: a value that needs it to change cannot be set. */
   readOnly?: true;
   conditions: readonly ControlCondition[];
@@ -90,6 +94,9 @@ export interface ControlCondition extends Omit<ControlRule, "dependsOn"> {
   max?: number;
   /** While it holds, the control has no value, and cannot be written. */
   invalid?: true;
+  /** How the control reads while it holds and the device leaves the
+   * control's data point out. */
+  whenAbsent?: ControlRule;
 }
 
 /** One thing a device does, and how its data point's raw value converts to
