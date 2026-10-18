@@ -127,6 +127,10 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
   /** Whether a write is followed by a STATUS frame of the data points it set:
    * some devices only ack. Defaults to true. */
   pushesAfterWrite = true;
+  /** Whether a read is answered with return code 1 and "json obj data
+   * unvalid", as some devices answer one: the device is then read by writing
+   * null to its data points. Defaults to false. */
+  refusesReads = false;
   readonly deviceId: string;
   readonly productKey: string;
   private readonly uuid = randomBytes(8).toString("hex");
@@ -386,8 +390,7 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
   private answerSubDeviceQuery(frame: ClientFrame): void {
     const { version } = this.options;
     if (
-      version === "3.1" ||
-      version === "3.3" ||
+      !negotiatesSessionKey(version) ||
       field(parseJson(frame.payload), "reqType") !== "subdev_online_stat_query"
     ) {
       return;
@@ -420,6 +423,9 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
   // Source: A 3.1 device answers a query with {"devId":…,"dps":…} in plain
   // text, and an empty one with return code 1 and "data format error",
   // captured in https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247504813.
+  // Source: Some 3.3 devices answer every query with return code 1 and "json
+  // obj data unvalid", captured in
+  // https://github.com/TuyaAPI/cli/issues/109#issuecomment-767903303.
   // Source: A device answers a query with its own command: return code 0 and
   // {"dps":…}, or return code 1 and "json obj data unvalid" when it holds no
   // data point, or "data format error" when the query is not JSON, in
@@ -443,7 +449,7 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
     }
     if (message === undefined) {
       this.reply(frame, 1, Buffer.from("data format error"));
-    } else if (Object.keys(this.dataPoints).length === 0) {
+    } else if (this.refusesReads || Object.keys(this.dataPoints).length === 0) {
       this.reply(frame, 1, Buffer.from("json obj data unvalid"));
     } else if (this.options.version === "3.1") {
       this.reply(
@@ -466,6 +472,14 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
   // and a 3.1 device the same, captured in
   // https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247544765.
   // What a 3.4 device sends is unknown: see UNSUPPORTED.md.
+  // Source: A device reports in a STATUS each data point it has that a write
+  // names with null, before its ack on 3.3, captured in
+  // https://github.com/TuyaAPI/cli/issues/109#issuecomment-768668877, and
+  // after it on 3.2, captured in
+  // https://github.com/rospogrigio/localtuya/issues/1232#issuecomment-1387550394,
+  // and only the ack when it has none, captured in
+  // https://github.com/jasonacox/tinytuya/issues/31#issuecomment-1293304131.
+  // When a 3.4 or 3.5 device reports is unknown: see UNSUPPORTED.md.
   // Source: A device sets only the data points it has, in
   // https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
   private answerControl(frame: ClientFrame): void {
@@ -476,8 +490,9 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
       this.reply(frame, returnCode, Buffer.from("parse data error"));
       return;
     }
-    const data =
-      version === "3.1" || version === "3.3" ? message : field(message, "data");
+    const data = negotiatesSessionKey(version)
+      ? field(message, "data")
+      : message;
     if (data === undefined) {
       this.reply(frame, returnCode, Buffer.alloc(0));
       return;
@@ -501,24 +516,40 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
       this.reply(frame, returnCode, Buffer.alloc(0));
       return;
     }
+    const named = Object.entries(written).filter(([id]) => id in target);
     const set = Object.fromEntries(
-      Object.entries(written).filter(([id]) => id in target),
+      named.filter(([, value]) => value !== null),
     ) as DataPoints;
     Object.assign(target, set);
+    const read = Object.fromEntries(
+      named
+        .filter(([, value]) => value === null)
+        .map(([id]) => [id, target[id] as DataPointValue]),
+    );
+    const cid = typeof nodeId === "string" ? nodeId : undefined;
+    const reportRead = () => {
+      if (Object.keys(read).length > 0) {
+        this.send(STATUS, this.status(read, cid));
+      }
+    };
+    if (version === "3.3") {
+      reportRead();
+    }
     this.reply(frame, returnCode, Buffer.alloc(0));
+    if (version !== "3.3") {
+      reportRead();
+    }
     if (this.pushesAfterWrite && Object.keys(set).length > 0) {
-      this.send(
-        STATUS,
-        this.status(set, typeof nodeId === "string" ? nodeId : undefined),
-      );
+      this.send(STATUS, this.status(set, cid));
     }
   }
 
   // Source: A 3.1 device reports {"devId":…,"dps":…,"t":…,"s":…}, captured
   // in https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247504813.
   // What "s" counts is unknown, and a client reads none of it.
-  // Source: A 3.3 device reports {"dps":…,"t":…}, captured in
-  // https://github.com/xZetsubou/hass-localtuya/issues/775, and a 3.4 or 3.5
+  // Source: A 3.2 or 3.3 device reports {"dps":…,"t":…}, captured in
+  // https://github.com/rospogrigio/localtuya/issues/1232#issuecomment-1387550394
+  // and https://github.com/xZetsubou/hass-localtuya/issues/775, and a 3.4 or 3.5
   // device {"protocol":4,"t":…,"data":{"dps":…}}, captured in
   // https://github.com/jasonacox/tinytuya/discussions/260#discussioncomment-14066063.
   // Source: A gateway names the device behind it a report is from at "cid",
@@ -531,6 +562,7 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
     switch (this.options.version) {
       case "3.1":
         return json({ devId: this.deviceId, dps: dataPoints, t });
+      case "3.2":
       case "3.3":
         return json({ dps: dataPoints, ...cid, t });
       default:

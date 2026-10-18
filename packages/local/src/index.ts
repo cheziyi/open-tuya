@@ -15,6 +15,7 @@ export * from "./protocol/commands.js";
 export * from "./protocol/frame.js";
 export * from "./protocol/sessionKey.js";
 export * from "./protocol/v31Payload.js";
+export * from "./protocol/v32Payload.js";
 export * from "./protocol/v33Payload.js";
 export * from "./protocol/v34Payload.js";
 export * from "./protocol/v35Frame.js";

@@ -61,10 +61,10 @@ code of the login they do not use, and a fix to one would release both.
 
 ## Protocol versions
 
-`@open-tuya/local` speaks 3.1, 3.3, 3.4 and 3.5. 3.2 frames as 3.3 does,
-but a 3.2 device refuses a read, and is read by writing nulls to the data
-points it has, which the client does not know: it comes with the devices
-that do the same on 3.3 and 3.4.
+`@open-tuya/local` speaks 3.1 to 3.5. A device that refuses a read, as
+every 3.2 device and some 3.3 ones do, is read by writing null to its data
+points when the caller names them: [Reading by writing
+null](#reading-by-writing-null) says why only then.
 
 ## Catalog
 
@@ -285,6 +285,42 @@ What `@open-tuya/local` does with a 3.1 device is its own design:
 | A read under a wrong local key succeeds, and a write times out with `REQUEST_TIMED_OUT` | A read goes in plain text, and a plug ignored writes under a wrong key without closing the connection ([tinytuya#177](https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247544765)). A push under the right key then fails its check, and fails a request waiting on it |
 | `createClient(nodeId)` on a 3.1 gateway throws a `TypeError` | No source shows a 3.1 gateway |
 
+## Protocol 3.2
+
+3.2 frames as 3.3 does, with "3.2" in the version header of a write, and
+otherwise as 3.1 does: a device seals its `STATUS`, and sends a reply or an
+error in plain text. tinytuya, the localtuyas, tuyapi and homebridge-tuya-lan
+run it on their 3.3 code; captures with keys show a switch's exchange
+([localtuya#1232](https://github.com/rospogrigio/localtuya/issues/1232#issuecomment-1387550394))
+and its error ([tinytuya#168](https://github.com/jasonacox/tinytuya/issues/168)).
+
+| Question | Chosen | For | Against |
+| --- | --- | --- | --- |
+| The version in a write's header | "3.2". A switch acked a `CONTROL_NEW` so sealed, in localtuya#1232 | tinytuya [`12483f4`](https://github.com/jasonacox/tinytuya/commit/12483f4847f78079a59a5a54d13ce79c098a8e35), which the localtuyas copy | tuyapi [`c2b5e48`](https://github.com/codetheweb/tuyapi/commit/c2b5e48e805699969827affbfc11e893aeef701e) and homebridge-tuya-lan [`1c4c221`](https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/1c4c2213cf7df46de696e5e00eeb671a6e0da44a) write "3.3", which devices also take |
+| A read | `DP_QUERY` in plain text, as on 3.1. A switch answered an encrypted one with "data format error", in plain text ([tinytuya#168](https://github.com/jasonacox/tinytuya/issues/168)), and no capture shows a 3.2 device answer a query at all: a refusal rejects with `REQUEST_REJECTED`, and the next route reads | — | tinytuya and the localtuyas read by writing null; tuyapi encrypts the query as on 3.3 |
+| A heartbeat | An empty payload in plain text, as on 3.1 | homebridge-tuya-lan [`45ad489`](https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/45ad4893c18bbf308bd44ab286918d49833f2ed6), through its 3.3 code | tinytuya and tuyapi encrypt it as on 3.3 |
+| A 3.2 gateway's devices | `createClient(nodeId)` throws a `TypeError` | — | No source shows a 3.2 gateway |
+
+## Reading by writing null
+
+Some devices answer every read with "json obj data unvalid" or "data format
+error": every 3.2 device, and some 3.3 ones. A write naming a data point with
+null makes them report it in a `STATUS`, captured on 3.2
+([localtuya#1232](https://github.com/rospogrigio/localtuya/issues/1232#issuecomment-1387550394))
+and on 3.3 ([TuyaAPI/cli#109](https://github.com/TuyaAPI/cli/issues/109#issuecomment-768668877)).
+The device ignores a data point it lacks, and sends no `STATUS` when it has
+none of them ([tinytuya#31](https://github.com/jasonacox/tinytuya/issues/31#issuecomment-1293304131)).
+
+| Choice | Why |
+| --- | --- |
+| A client reads so only when the caller names the data points, in `readByWritingNull` | A null write changes some devices: a camera reset its settings and formatted its memory card ([tinytuya#408](https://github.com/jasonacox/tinytuya/issues/408)), a doorbell reset its motion detection ([tuya-local#2319](https://github.com/make-all/tuya-local/issues/2319)), and Tuya's firmware takes a null as an enum's first value or a bitmap of 0 ([`dp_schema.c`](https://github.com/tuya/TuyaOpen/blob/cdc064e78daeeae598157470244e351cd37cbbed/src/tuya_cloud_service/schema/dp_schema.c#L451-L472)) |
+| Never on "json obj data unvalid" alone | Tuya's firmware sends it while it holds no value to report ([`cd3b764`](https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1)), as gateways, IR hubs and devices just powered on do. Switching on it left working devices stuck ([tuya-local#1804](https://github.com/make-all/tuya-local/issues/1804), [tuya-local#5697](https://github.com/make-all/tuya-local/issues/5697)) |
+| Not from the catalog | An entry lists every data point of the device, a memory card's format among them |
+| On 3.2 and 3.3 alone | The captures show those. On 3.4, one shows a device answer tinytuya's 3.3 body ([tinytuya#597](https://github.com/jasonacox/tinytuya/issues/597)) and others none ([tinytuya#589](https://github.com/jasonacox/tinytuya/issues/589)); no source shows a 3.5 device read so |
+| `CONTROL` with the write's own body, each value null | tuyapi sends it ([`fc0eb59`](https://github.com/codetheweb/tuyapi/commit/fc0eb599444ff7d129ddd3e76fbad3e5bb2c16a8)), and a 3.3 device answered it ([TuyaAPI/cli#109](https://github.com/TuyaAPI/cli/issues/109#issuecomment-767903303)). tinytuya sends `CONTROL_NEW`, which 3.2 and 3.3 devices also answer |
+| The read resolves with the first `STATUS`, whether it comes before the ack or after it, and the `STATUS` goes to the listeners too | A 3.3 device sends it first, a 3.2 device after (the captures above). Any `STATUS` holds the device's values, so one that crosses the read loses nothing |
+| No `STATUS` within 5 s rejects with `REQUEST_TIMED_OUT` | The device has none of the data points named |
+
 ## Received frames
 
 What `@open-tuya/local` does with the bytes a device sends is its own design,
@@ -329,10 +365,10 @@ device accepts it.
 
 | Question | Chosen | For | Against |
 | --- | --- | --- | --- |
-| Which command reads and which writes | `DP_QUERY` and `CONTROL` on 3.1 and 3.3; `DP_QUERY_NEW` and `CONTROL_NEW` on 3.4 and 3.5 | tuyapi [`c2b5e48`](https://github.com/codetheweb/tuyapi/commit/c2b5e48e805699969827affbfc11e893aeef701e) and [`e125a2e`](https://github.com/codetheweb/tuyapi/commit/e125a2e17f3043ed6263f092d154c72bf6d1ecdb), tinytuya [`a60ffc6`](https://github.com/jasonacox/tinytuya/commit/a60ffc61484b164f588e2e6685810cfbd262de8f), iRayanKhan [`ea1d903`](https://github.com/iRayanKhan/homebridge-tuya/commit/ea1d903fb467dd8c296326db130630308113167a) | — |
-| A 3.1 or 3.3 read | `{"gwId":id,"devId":id}` | homebridge-tuya-lan [`800ade3`](https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/800ade32914c66a60566efbb485268283c8ca86a), python-tuya [`25d8b08`](https://github.com/clach04/python-tuya/commit/25d8b0846d9ca8857c99f9ff4c93a11fe64b9674) | tinytuya [`9eca3e2`](https://github.com/jasonacox/tinytuya/commit/9eca3e29456ebaadda7247358d9ef3c9e65811d1) adds `uid` and `t`; tuyapi [`d68cafc`](https://github.com/codetheweb/tuyapi/commit/d68cafc05eaa9877c7418ad66c6f02ea7385a197) adds `t`, `dps` and `uid` |
+| Which command reads and which writes | `DP_QUERY` and `CONTROL` on 3.1 to 3.3; `DP_QUERY_NEW` and `CONTROL_NEW` on 3.4 and 3.5 | tuyapi [`c2b5e48`](https://github.com/codetheweb/tuyapi/commit/c2b5e48e805699969827affbfc11e893aeef701e) and [`e125a2e`](https://github.com/codetheweb/tuyapi/commit/e125a2e17f3043ed6263f092d154c72bf6d1ecdb), tinytuya [`a60ffc6`](https://github.com/jasonacox/tinytuya/commit/a60ffc61484b164f588e2e6685810cfbd262de8f), iRayanKhan [`ea1d903`](https://github.com/iRayanKhan/homebridge-tuya/commit/ea1d903fb467dd8c296326db130630308113167a) | — |
+| A 3.1 to 3.3 read | `{"gwId":id,"devId":id}` | homebridge-tuya-lan [`800ade3`](https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/800ade32914c66a60566efbb485268283c8ca86a), python-tuya [`25d8b08`](https://github.com/clach04/python-tuya/commit/25d8b0846d9ca8857c99f9ff4c93a11fe64b9674) | tinytuya [`9eca3e2`](https://github.com/jasonacox/tinytuya/commit/9eca3e29456ebaadda7247358d9ef3c9e65811d1) adds `uid` and `t`; tuyapi [`d68cafc`](https://github.com/codetheweb/tuyapi/commit/d68cafc05eaa9877c7418ad66c6f02ea7385a197) adds `t`, `dps` and `uid` |
 | A 3.4 or 3.5 read | `{}`, on a three-way tie. A device answers it ([tuya-local#5499](https://github.com/make-all/tuya-local/issues/5499#issuecomment-4966649152)), and Tuya's firmware reads any JSON there ([`cd3b764`](https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1)) | tinytuya [`d59fdf9`](https://github.com/jasonacox/tinytuya/commit/d59fdf9546969d0cb57faede60b82424c09d4a7b) | iRayanKhan [`ea1d903`](https://github.com/iRayanKhan/homebridge-tuya/commit/ea1d903fb467dd8c296326db130630308113167a) and homebridge-tuya-plus [`e316a91`](https://github.com/adrianjagielak/homebridge-tuya-plus/commit/e316a912e5d24d6ad302768d26d5182ed2acef86) send `{"gwId","devId"}`; tuyapi the full 3.3-style body |
-| A 3.1 or 3.3 write | `{"devId":id,"uid":"","t":…,"dps":…}` | homebridge-tuya-lan [`800ade3`](https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/800ade32914c66a60566efbb485268283c8ca86a), tuyapi [`68b164d`](https://github.com/codetheweb/tuyapi/commit/68b164d5c62e902eb7407945aef71e3a3f2cb065) | python-tuya [`1b07854`](https://github.com/clach04/python-tuya/commit/1b0785424ab34c540acb168443aa521a8a2d774b) sets `uid` to the device ID; tuyapi adds `gwId` |
+| A 3.1 to 3.3 write | `{"devId":id,"uid":"","t":…,"dps":…}` | homebridge-tuya-lan [`800ade3`](https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/800ade32914c66a60566efbb485268283c8ca86a), tuyapi [`68b164d`](https://github.com/codetheweb/tuyapi/commit/68b164d5c62e902eb7407945aef71e3a3f2cb065) | python-tuya [`1b07854`](https://github.com/clach04/python-tuya/commit/1b0785424ab34c540acb168443aa521a8a2d774b) sets `uid` to the device ID; tuyapi adds `gwId` |
 | `t` in a write | An integer of whole seconds, truncated, against the count on 3.3; a string on 3.1, as [Protocol 3.1](#protocol-31) decides. tuyapi has sent an integer on every version since 2019, and Tuya's firmware never reads `t` ([`cd3b764`](https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1)) | tuyapi [`461f0b3`](https://github.com/codetheweb/tuyapi/commit/461f0b3ea7887ec240c4c191dc3036b8f47981cb); tinytuya [`a60ffc6`](https://github.com/jasonacox/tinytuya/commit/a60ffc61484b164f588e2e6685810cfbd262de8f) on 3.4 and 3.5 | On 3.3, homebridge-tuya-lan rounds a string and python-tuya [`ba17258`](https://github.com/clach04/python-tuya/commit/ba17258746effadadc0e8e990d05b54efffabfe8) truncates one; that commit changed the padding too, which more likely fixed the write it reports failing |
 | A 3.4 or 3.5 write | `{"data":{"dps":…},"protocol":5,"t":…}`, against the count. Tuya's firmware reads only `dps` and `devId` from `data` ([`cd3b764`](https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1)) | tinytuya [`d59fdf9`](https://github.com/jasonacox/tinytuya/commit/d59fdf9546969d0cb57faede60b82424c09d4a7b) | tuyapi [`c2b5e48`](https://github.com/codetheweb/tuyapi/commit/c2b5e48e805699969827affbfc11e893aeef701e), iRayanKhan [`ea1d903`](https://github.com/iRayanKhan/homebridge-tuya/commit/ea1d903fb467dd8c296326db130630308113167a) and homebridge-tuya-plus [`e316a91`](https://github.com/adrianjagielak/homebridge-tuya-plus/commit/e316a912e5d24d6ad302768d26d5182ed2acef86) add `devId`, `uid:""` and `ctype:0` to `data` |
 | Spaces in a request | None between tokens; those inside a string value are kept | tuyapi, homebridge-tuya-lan, both through `JSON.stringify` | python-tuya [`25d8b08`](https://github.com/clach04/python-tuya/commit/25d8b0846d9ca8857c99f9ff4c93a11fe64b9674) removes every space, inside strings too, and tinytuya took it over |

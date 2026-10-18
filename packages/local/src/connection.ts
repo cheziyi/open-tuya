@@ -63,7 +63,7 @@ export async function openConnection(
     );
   }
   const socket = await connect(options.host, options.port ?? DEFAULT_PORT);
-  if (options.version === "3.1" || options.version === "3.3") {
+  if (options.version !== "3.4" && options.version !== "3.5") {
     return new TuyaConnection(socket, options, localKey, FIRST_SEQUENCE_NUMBER);
   }
   const sessionKey = await negotiateSessionKey(

@@ -29,6 +29,11 @@ import type { ProtocolVersion } from "@open-tuya/core";
 // the 8th, and the base64 of the AES-128-ECB ciphertext; everything else
 // goes as plain text, captured in
 // https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247544765.
+// Source: On 3.2, a client seals CONTROL and CONTROL_NEW, and a device its
+// STATUS, as on 3.3, with "3.2" in the version header; everything else goes as
+// plain text, captured in
+// https://github.com/rospogrigio/localtuya/issues/1232#issuecomment-1387550394
+// and https://github.com/jasonacox/tinytuya/issues/168.
 // Source: The version header, the version and 12 more bytes, goes ahead of
 // the ciphertext on 3.3, in
 // https://github.com/codetheweb/tuyapi/commit/ab5c85e568d992f13107dbf684e6bec6df9bb7db,
@@ -122,6 +127,11 @@ export function sealDeviceFrame(
       frame.command === STATUS
         ? sealV31(key, frame.plaintext)
         : Buffer.from(frame.plaintext);
+  } else if (version === "3.2") {
+    body =
+      frame.command === STATUS
+        ? Buffer.concat([header, ecb(key, frame.plaintext)])
+        : Buffer.from(frame.plaintext);
   } else if (version === "3.3") {
     body = Buffer.concat([header, ecb(key, frame.plaintext)]);
   } else {
@@ -154,7 +164,7 @@ export function openClientFrame(
 }
 
 function open55aa(
-  version: "3.1" | "3.3" | "3.4",
+  version: "3.1" | "3.2" | "3.3" | "3.4",
   bytes: Buffer,
   key: Uint8Array,
 ): { frame: ClientFrame; length: number } | undefined {
@@ -183,6 +193,11 @@ function open55aa(
   let opened: OpenedPayload;
   if (version === "3.1") {
     opened = { payload: openV31(key, body) };
+  } else if (version === "3.2") {
+    opened = splitVersionHeader(version, body);
+    if (opened.versionHeader) {
+      opened.payload = decryptEcb(key, opened.payload);
+    }
   } else if (version === "3.3") {
     opened = splitVersionHeader(version, body);
     opened.payload = decryptEcb(key, opened.payload);
@@ -241,13 +256,13 @@ function check(
   key: Uint8Array,
   signed: Buffer,
 ): Buffer {
-  return version === "3.1" || version === "3.3"
-    ? uint32(crc32(signed))
-    : createHmac("sha256", key).update(signed).digest();
+  return version === "3.4"
+    ? createHmac("sha256", key).update(signed).digest()
+    : uint32(crc32(signed));
 }
 
 function checkLengthOf(version: ProtocolVersion): number {
-  return version === "3.1" || version === "3.3" ? 4 : 32;
+  return version === "3.4" ? 32 : 4;
 }
 
 function sealV31(key: Uint8Array, plaintext: Uint8Array): Buffer {

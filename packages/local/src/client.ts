@@ -1,5 +1,6 @@
 import { randomInt } from "node:crypto";
 import {
+  type DataPointId,
   type DataPoints,
   type ProtocolVersion,
   type TuyaClient,
@@ -15,6 +16,7 @@ import type { TuyaDiscovery } from "./discovery/discovery.js";
 import { COMMANDS } from "./protocol/commands.js";
 import {
   buildControl,
+  buildNullRead,
   buildQuery,
   buildSubDeviceControl,
   buildSubDeviceQuery,
@@ -50,26 +52,58 @@ export interface CreateLocalTuyaClientOptions
    * the address the discovery last heard the device at. Defaults to none:
    * the client keeps `host`. */
   discovery?: TuyaDiscovery;
+  /** The data points to read by writing null to each, in place of a read the
+   * device refuses: every 3.2 device that answers a read with an error, and
+   * some 3.3 ones, which answer "json obj data unvalid". A device reports the
+   * ones it has, and ignores the rest. On 3.2 and 3.3 alone.
+   *
+   * A null write changes some devices: a camera reset its settings and
+   * formatted its memory card. List only data points that hold a state, never
+   * one that acts, and only for a device that refuses a read. Defaults to
+   * none: the client reads with a query. */
+  readByWritingNull?: readonly DataPointId[];
 }
 
 /** Connects to a device on the LAN, and keeps connecting: see
- * `LocalTuyaClient`. */
+ * `LocalTuyaClient`. It throws a `TypeError` for `readByWritingNull` on
+ * another version than 3.2 or 3.3, or empty. */
 export function createLocalTuyaClient(
   options: CreateLocalTuyaClientOptions,
 ): LocalTuyaClient {
-  const { deviceId, host, discovery, ...connectionOptions } = options;
+  const { deviceId, host, discovery, readByWritingNull, ...connectionOptions } =
+    options;
   return new LocalTuyaClient(
     (address, listeners) =>
       openConnection({ ...connectionOptions, host: address, ...listeners }),
-    options.version,
-    deviceId,
-    host,
-    discovery,
+    {
+      version: options.version,
+      deviceId,
+      host,
+      ...(discovery && { discovery }),
+      ...(readByWritingNull && { readByWritingNull }),
+    },
   );
+}
+
+/** What a `LocalTuyaClient` reaches its device with, as
+ * `CreateLocalTuyaClientOptions` describes each. */
+export type LocalTuyaClientOptions = Pick<
+  CreateLocalTuyaClientOptions,
+  "version" | "deviceId" | "host" | "discovery" | "readByWritingNull"
+>;
+
+interface RequestOptions {
+  fields?: VersionHeaderFields;
+  /** The device behind the gateway the request is for. */
+  nodeId?: string;
+  /** The command of the frame that answers the request, where it is not the
+   * request's own: a frame of the request's own is then its ack. */
+  replyCommand?: number;
 }
 
 interface PendingRequest {
   command: number;
+  replyCommand?: number;
   /** The device behind the gateway the request is for. */
   nodeId?: string;
   settle: (frame: ReceivedTuyaFrame) => void;
@@ -84,6 +118,11 @@ interface PendingRequest {
 // devices captured in
 // https://github.com/jasonacox/tinytuya/issues/498#issuecomment-2119361833 send 0,
 // so a write fails on its ack's payload alone.
+// Source: A device sends a STATUS for a read by writing null, before its ack
+// on 3.3, captured in
+// https://github.com/TuyaAPI/cli/issues/109#issuecomment-768668877, and
+// after it on 3.2, captured in
+// https://github.com/rospogrigio/localtuya/issues/1232#issuecomment-1387550394.
 /** A device on the LAN. It connects when created, reads the device's data
  * points once connected and hands them to the `onDataPoints` listeners, and
  * reconnects after a loss: 5 s later, doubling to 60 s. A request fails at
@@ -115,18 +154,36 @@ export class LocalTuyaClient implements TuyaClient {
   private closed = false;
   private serialNumber = 1;
   private readonly sourceId = randomInt(MIN_SOURCE_ID, MAX_SOURCE_ID + 1);
+  private readonly version: ProtocolVersion;
+  private readonly deviceId: string;
+  private readonly discovery: TuyaDiscovery | undefined;
+  private readonly nullRead: readonly DataPointId[] | undefined;
 
   constructor(
     private readonly connect: (
       host: string,
       listeners: ConnectionListeners,
     ) => Promise<TuyaConnection>,
-    private readonly version: ProtocolVersion,
-    private readonly deviceId: string,
-    host: string,
-    private readonly discovery?: TuyaDiscovery,
+    options: LocalTuyaClientOptions,
   ) {
-    this.connectedHost = host;
+    const { version, readByWritingNull } = options;
+    if (readByWritingNull) {
+      if (version !== "3.2" && version !== "3.3") {
+        throw new TypeError(
+          `A ${version} device is not read by writing null: no source shows how`,
+        );
+      }
+      if (readByWritingNull.length === 0) {
+        throw new TypeError(
+          "A read by writing null needs a data point: a device answers none",
+        );
+      }
+      this.nullRead = readByWritingNull;
+    }
+    this.version = version;
+    this.deviceId = options.deviceId;
+    this.discovery = options.discovery;
+    this.connectedHost = options.host;
     this.open();
   }
 
@@ -137,9 +194,22 @@ export class LocalTuyaClient implements TuyaClient {
   /** It rejects with a `TuyaError` with code `REQUEST_REJECTED` when the
    * device answers with an error, such as "json obj data unvalid" from a
    * device with nothing to report yet, and `REQUEST_TIMED_OUT` when it does
-   * not answer within 5 s. */
+   * not answer within 5 s. With `readByWritingNull`, it resolves with the
+   * first STATUS the device sends, which also goes to the `onDataPoints`
+   * listeners, and times out when the device has none of the data points. */
   async readDataPoints(): Promise<DataPoints> {
-    const reply = await this.request(buildQuery(this.version, this.deviceId));
+    const reply = this.nullRead
+      ? await this.request(
+          buildNullRead(this.deviceId, this.nullRead, Date.now() / 1000),
+          {
+            fields: {
+              serialNumber: this.serialNumber++,
+              sourceId: this.sourceId,
+            },
+            replyCommand: COMMANDS.STATUS,
+          },
+        )
+      : await this.request(buildQuery(this.version, this.deviceId));
     const dataPoints =
       reply.returnCode === 0 ? parseDataPoints(reply.payload) : undefined;
     if (!dataPoints) {
@@ -154,7 +224,9 @@ export class LocalTuyaClient implements TuyaClient {
   async writeDataPoints(dataPoints: DataPoints): Promise<void> {
     const ack = await this.request(
       buildControl(this.version, this.deviceId, dataPoints, Date.now() / 1000),
-      { serialNumber: this.serialNumber++, sourceId: this.sourceId },
+      {
+        fields: { serialNumber: this.serialNumber++, sourceId: this.sourceId },
+      },
     );
     if (ack.payload.length > 0) {
       throw rejected(ack);
@@ -175,8 +247,8 @@ export class LocalTuyaClient implements TuyaClient {
    * this client's connection, under its local key. It reads the device once
    * connected, and after each reconnect. On 3.4 and 3.5, it asks the gateway
    * every 30 s which devices behind it are online. It throws a `TypeError` on
-   * 3.1, as no source shows how a 3.1 gateway reaches the devices behind
-   * it. */
+   * 3.1 and 3.2, as no source shows how a gateway of either reaches the
+   * devices behind it. */
   createClient(nodeId: string): SubDeviceTuyaClient {
     this.gatewayVersion();
     const client = new SubDeviceTuyaClient({
@@ -236,8 +308,14 @@ export class LocalTuyaClient implements TuyaClient {
         this.connectedHost = host;
         this.failedHost = undefined;
         this.reconnectDelayInMs = FIRST_RECONNECT_DELAY_IN_MS;
+        // A read by writing null is answered by a STATUS, which goes to
+        // the listeners as it arrives.
         this.readDataPoints().then(
-          (dataPoints) => this.report(dataPoints),
+          (dataPoints) => {
+            if (!this.nullRead) {
+              this.report(dataPoints);
+            }
+          },
           () => {},
         );
         for (const nodeId of this.subDeviceListeners.keys()) {
@@ -289,9 +367,9 @@ export class LocalTuyaClient implements TuyaClient {
   }
 
   private gatewayVersion(): GatewayProtocolVersion {
-    if (this.version === "3.1") {
+    if (this.version === "3.1" || this.version === "3.2") {
       throw new TypeError(
-        "A 3.1 gateway cannot reach the devices behind it: no source shows how",
+        `A ${this.version} gateway cannot reach the devices behind it: no source shows how`,
       );
     }
     return this.version;
@@ -300,8 +378,7 @@ export class LocalTuyaClient implements TuyaClient {
   private async readSubDevice(nodeId: string): Promise<DataPoints> {
     const reply = await this.request(
       buildSubDeviceQuery(this.gatewayVersion(), nodeId, Date.now() / 1000),
-      undefined,
-      nodeId,
+      { nodeId },
     );
     const dataPoints =
       reply.returnCode === 0 ? parseDataPoints(reply.payload) : undefined;
@@ -322,8 +399,10 @@ export class LocalTuyaClient implements TuyaClient {
         dataPoints,
         Date.now() / 1000,
       ),
-      { serialNumber: this.serialNumber++, sourceId: this.sourceId },
-      nodeId,
+      {
+        fields: { serialNumber: this.serialNumber++, sourceId: this.sourceId },
+        nodeId,
+      },
     );
     if (ack.payload.length > 0) {
       throw rejected(ack);
@@ -347,10 +426,9 @@ export class LocalTuyaClient implements TuyaClient {
   // its own.
   private request(
     request: DataPointRequest,
-    fields?: VersionHeaderFields,
-    nodeId?: string,
+    options: RequestOptions = {},
   ): Promise<ReceivedTuyaFrame> {
-    const send = () => this.send(request, fields, nodeId);
+    const send = () => this.send(request, options);
     const reply = this.queue.then(send, send);
     this.queue = reply.catch(() => {});
     return reply;
@@ -358,8 +436,7 @@ export class LocalTuyaClient implements TuyaClient {
 
   private async send(
     { command, plaintext }: DataPointRequest,
-    fields?: VersionHeaderFields,
-    nodeId?: string,
+    { fields, nodeId, replyCommand }: RequestOptions,
   ): Promise<ReceivedTuyaFrame> {
     if (this.closed) {
       throw new TuyaError("CONNECTION_LOST", "The client is closed");
@@ -375,6 +452,7 @@ export class LocalTuyaClient implements TuyaClient {
       };
       const pending: PendingRequest = {
         command,
+        ...(replyCommand !== undefined && { replyCommand }),
         ...(nodeId !== undefined && { nodeId }),
         settle: (frame) => {
           end();
@@ -419,13 +497,26 @@ export class LocalTuyaClient implements TuyaClient {
     }
     const report = parseReport(frame.payload);
     const pending = this.pending;
+    // The ack to a read by writing null: the data points come in a STATUS,
+    // before it or after it.
+    if (
+      pending?.replyCommand !== undefined &&
+      frame.command === pending.command
+    ) {
+      if (frame.payload.length > 0) {
+        pending.fail(rejected(frame));
+      }
+      return;
+    }
     if (
       pending &&
-      frame.command === pending.command &&
+      frame.command === (pending.replyCommand ?? pending.command) &&
       (report?.nodeId === undefined || report.nodeId === pending.nodeId)
     ) {
       pending.settle(frame);
-      return;
+      if (pending.replyCommand === undefined || !report) {
+        return;
+      }
     }
     if (
       report &&

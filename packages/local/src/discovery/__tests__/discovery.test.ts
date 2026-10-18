@@ -107,28 +107,32 @@ function described(device: SimulatedTuyaDevice, version: ProtocolVersion) {
   };
 }
 
-describe.each(PROTOCOL_VERSIONS)("TuyaDiscovery on %s", (version) => {
-  it("reports a device's broadcast", async () => {
-    const { devices, broadcastPort } = await startDiscovery();
-    const device = await startDevice(version);
+// No source shows a 3.2 device's broadcast.
+describe.each(PROTOCOL_VERSIONS.filter((version) => version !== "3.2"))(
+  "TuyaDiscovery on %s",
+  (version) => {
+    it("reports a device's broadcast", async () => {
+      const { devices, broadcastPort } = await startDiscovery();
+      const device = await startDevice(version);
 
-    await device.broadcast(broadcastPort);
-    await until(() => devices.length === 1);
+      await device.broadcast(broadcastPort);
+      await until(() => devices.length === 1);
 
-    expect(devices).toEqual([described(device, version)]);
-  });
+      expect(devices).toEqual([described(device, version)]);
+    });
 
-  it("reports every broadcast, as a device repeats them", async () => {
-    const { devices, broadcastPort } = await startDiscovery();
-    const device = await startDevice(version);
+    it("reports every broadcast, as a device repeats them", async () => {
+      const { devices, broadcastPort } = await startDiscovery();
+      const device = await startDevice(version);
 
-    await device.broadcast(broadcastPort);
-    await device.broadcast(broadcastPort);
-    await until(() => devices.length === 2);
+      await device.broadcast(broadcastPort);
+      await device.broadcast(broadcastPort);
+      await until(() => devices.length === 2);
 
-    expect(devices[1]).toEqual(devices[0]);
-  });
-});
+      expect(devices[1]).toEqual(devices[0]);
+    });
+  },
+);
 
 describe("TuyaDiscovery", () => {
   it("asks a 3.5 device, which answers with its broadcast", async () => {

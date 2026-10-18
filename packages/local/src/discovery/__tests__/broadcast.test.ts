@@ -132,7 +132,7 @@ describe("decodeBroadcast", () => {
     ).toMatchObject({ version: "3.3" });
   });
 
-  it.each(["3.2", "3.6", 3.3, undefined])(
+  it.each(["2.2", "3.6", 3.3, undefined])(
     "leaves out a device of version %s",
     (version) => {
       expect(
