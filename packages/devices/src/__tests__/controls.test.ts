@@ -707,6 +707,48 @@ describe("writeControls with redirects", () => {
     ).toThrow(expect.objectContaining({ code: "VALUE_UNAVAILABLE" }));
   });
 
+  it("follows the current raw value's redirect for a value only an unreachable condition gives", () => {
+    // aquaviva_avh15s_heatpump.yaml: off is a condition on the mode's own
+    // data point, so while it is hot, the power switch takes off.
+    const entry: TuyaDeviceEntry = {
+      name: "Heat pump",
+      productKeys: [],
+      dataPoints: { "1": { type: "boolean" }, "4": { type: "string" } },
+      components: {
+        waterHeater: {
+          mode: {
+            dataPoint: "4",
+            kind: "select",
+            values: [
+              {
+                raw: "hot",
+                dependsOn: {
+                  dataPoint: "4",
+                  conditions: [
+                    { when: ["hot"], value: "heat_pump" },
+                    { when: ["cool"], value: "off" },
+                  ],
+                },
+                redirect: {
+                  dataPoint: "1",
+                  values: [
+                    { raw: false, value: "off" },
+                    { raw: true, value: "heat_pump" },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      },
+      source: { file: "heatpump.yaml", commit: "0".repeat(40) },
+    };
+
+    expect(
+      writeControls(entry, { waterHeater: { mode: "off" } }, { "4": "hot" }),
+    ).toEqual({ "1": false });
+  });
+
   it("checks a value against the range of the condition that holds", () => {
     expect(
       writeControls(
@@ -1243,6 +1285,7 @@ describe("writeControls with the data point's type", () => {
       "4": { type: "boolean" },
       "5": { type: "boolean" },
       "6": { type: "string" },
+      "7": { type: "boolean" },
     },
     components: {
       device: {
@@ -1284,8 +1327,8 @@ describe("writeControls with the data point's type", () => {
             },
           ],
         },
-        // eurom_sani_heater.yaml: C is the rule for any other raw value, so
-        // no raw value writes it.
+        // eurom_sani_heater.yaml: C is the rule for any other raw value,
+        // which on a boolean is false alone.
         temperatureUnit: {
           dataPoint: "4",
           kind: "select",
@@ -1293,6 +1336,19 @@ describe("writeControls with the data point's type", () => {
           otherwise: "C",
         },
         name: { dataPoint: "6", kind: "text" },
+        // poolex_icespa70_heatpump.yaml: any mode but off is on, and sets
+        // the mode.
+        hvacMode: {
+          dataPoint: "5",
+          kind: "select",
+          values: [{ raw: false, value: "off" }],
+          dependsOn: {
+            dataPoint: "1",
+            conditions: [{ when: ["0"], value: "heat_cool" }],
+          },
+        },
+        // A boolean no mapping names leaves its own rule both values.
+        heating: { dataPoint: "7", kind: "select", otherwise: "on" },
       },
     },
     source: { file: "dehumidifier.yaml", commit: "0".repeat(40) },
@@ -1310,9 +1366,18 @@ describe("writeControls with the data point's type", () => {
     ).toEqual({ "3": "smart", "4": false, "5": true });
   });
 
+  it("writes a boolean's rule for any other raw value as the value no mapping names", () => {
+    expect(
+      writeControls(entry, { device: { temperatureUnit: "C" } }, {}),
+    ).toEqual({ "4": false });
+    expect(
+      writeControls(entry, { device: { hvacMode: "heat_cool" } }, {}),
+    ).toEqual({ "1": "0", "5": true });
+  });
+
   it("throws a TypeError for a value its data point's type cannot hold", () => {
     expect(() =>
-      writeControls(entry, { device: { temperatureUnit: "C" } }, {}),
+      writeControls(entry, { device: { heating: "on" } }, {}),
     ).toThrow(TypeError);
     expect(() => writeControls(entry, { device: { name: true } }, {})).toThrow(
       TypeError,

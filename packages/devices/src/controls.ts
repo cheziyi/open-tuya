@@ -406,7 +406,16 @@ function writeControl(
   }
   const id = control.dataPoint;
   const currentRule = ruleForRaw(entry, control, current[id], current);
-  const found = findRule(entry, control, value, current, true);
+  // Source: Where no rule takes the value, the current raw value's rule's
+  // redirect takes it before anything else is tried, in
+  // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L1000-L1010.
+  const found = findRule(
+    entry,
+    control,
+    value,
+    current,
+    currentRule?.redirect ? "unlessNone" : true,
+  );
   if (!found && currentRule?.redirect) {
     writeControl(entry, currentRule.redirect, value, current, dataPoints);
     return;
@@ -497,9 +506,28 @@ function writeControl(
       remap();
     }
   }
+  const type = typeOf(entry, control);
+  // A boolean that one mapping names leaves its rule with no dps_val the
+  // other value alone: see DESIGN.md#catalog.
+  if (
+    found?.kind === "own" &&
+    type === "boolean" &&
+    !fromRule &&
+    typeof result !== "boolean" &&
+    !isMasked(control)
+  ) {
+    const named = new Set(
+      (control.values ?? []).flatMap((mapping) =>
+        typeof mapping.raw === "boolean" ? [mapping.raw] : [],
+      ),
+    );
+    if (named.size === 1) {
+      result = !named.has(true);
+      fromRule = true;
+    }
+  }
   checkRange(entry, control, currentRule, value, result, current);
   Object.assign(dataPoints, constraints);
-  const type = typeOf(entry, control);
   if (!isMasked(control)) {
     dataPoints[id] = rawOfType(control, type, result, fromRule);
     return;
@@ -568,13 +596,14 @@ function setConstraint(
 // The rule a written value falls under, or undefined when no mapping takes
 // it and the control has no rule of its own that a write takes. A value
 // only a condition on a read-only data point gives, while it does not hold,
-// throws where `strict`.
+// throws where `strict`, or where it is "unlessNone" and another rule takes
+// the value.
 function findRule(
   entry: TuyaDeviceEntry,
   control: ControlTarget,
   value: DataPointValue,
   current: DataPoints,
-  strict: boolean,
+  strict: boolean | "unlessNone",
 ): Rule | undefined {
   let fallback: Rule | undefined;
   let nearest: Rule | undefined;
@@ -611,13 +640,14 @@ function findRule(
       unavailable ??= rule.dependsOn;
     }
   }
-  if (unavailable && strict) {
+  const rule = nearest ?? fallback;
+  if (unavailable && (strict === true || (strict && rule))) {
     throw new TuyaError(
       "VALUE_UNAVAILABLE",
       `${value} cannot be set while data point ${unavailable.dataPoint} is ${String(current[unavailable.dataPoint])}`,
     );
   }
-  return nearest ?? fallback;
+  return rule;
 }
 
 // Whether one of a rule's conditions gives `value` and can be made to hold,
