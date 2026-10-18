@@ -1795,6 +1795,43 @@ entities:
     });
   });
 
+  it("reads any control whose values are temperature units as C and F, and leaves one with another value", () => {
+    const { components } = entry(`name: Kettle
+entities:
+  - entity: select
+    translation_key: temperature_unit
+    dps:
+      - id: 9
+        type: string
+        name: option
+        mapping:
+          - dps_val: c
+            value: celsius
+          - dps_val: f
+            value: fahrenheit
+  - entity: select
+    name: Display unit
+    dps:
+      - id: 10
+        type: string
+        name: option
+        mapping:
+          - dps_val: c
+            value: C
+          - dps_val: f
+            value: V
+`);
+
+    expect(components.device?.temperatureUnit?.values).toEqual([
+      { raw: "c", value: "C" },
+      { raw: "f", value: "F" },
+    ]);
+    expect(components.device?.displayUnit?.values).toEqual([
+      { raw: "c", value: "C" },
+      { raw: "f", value: "V" },
+    ]);
+  });
+
   it("names two components of one translation key by their names", () => {
     const { components } = entry(`name: Thermostat
 entities:

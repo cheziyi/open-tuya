@@ -136,8 +136,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "114",
         kind: "select",
         values: [
-          { raw: "1", value: "fahrenheit" },
-          { raw: "2", value: "celsius" },
+          { raw: "1", value: "F" },
+          { raw: "2", value: "C" },
         ],
       },
       pressureUnit: {

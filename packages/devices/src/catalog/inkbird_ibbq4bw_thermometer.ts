@@ -72,8 +72,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "select",
         values: [
-          { raw: "F", value: "fahrenheit" },
-          { raw: "C", value: "celsius" },
+          { raw: "F", value: "F" },
+          { raw: "C", value: "C" },
         ],
       },
       batteryInPercent: {

@@ -291,7 +291,6 @@ const TEMPERATURE_UNIT_DATA_POINTS = [
 // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/translations/en.json#L880-L886,
 // and reads C and F as °C and °F, in
 // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/entity.py#L143-L148.
-// A control another reads its unit from gives the catalog's symbol for each.
 const UNIT_SYMBOLS: Record<string, string> = {
   celsius: "C",
   fahrenheit: "F",
@@ -837,6 +836,11 @@ function components(
     }
   }
   nameUnits(result);
+  for (const controls of Object.values(result)) {
+    for (const [name, control] of Object.entries(controls)) {
+      controls[name] = unitSymbols(control);
+    }
+  }
   return result;
 }
 
@@ -1148,19 +1152,23 @@ function settle(draft: Draft): Record<string, TuyaControl> {
         ? { ...candidate.control, unitFrom: unitName }
         : candidate.control;
   }
-  for (const unitFrom of new Set(
-    Object.values(controls).map((control) => control.unitFrom),
-  )) {
-    const unit = unitFrom === undefined ? undefined : controls[unitFrom];
-    if (unitFrom !== undefined && unit) {
-      controls[unitFrom] = unitSymbols(unit);
-    }
-  }
   return controls;
 }
 
+// A control whose every value is a temperature unit reads the catalog's
+// symbol for each.
 function unitSymbols(control: TuyaControl): TuyaControl {
   const { values, otherwise } = control;
+  const read = [
+    ...(values ?? []).map((mapping) => mapping.value),
+    ...(otherwise === undefined ? [] : [otherwise]),
+  ].filter((value) => value != null);
+  if (
+    read.length === 0 ||
+    !read.every((value) => TEMPERATURE_UNITS.has(String(unitSymbol(value))))
+  ) {
+    return control;
+  }
   return {
     ...control,
     ...(values && {

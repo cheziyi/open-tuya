@@ -173,8 +173,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "119",
         kind: "select",
         values: [
-          { raw: "1", value: "celsius" },
-          { raw: "2", value: "fahrenheit" },
+          { raw: "1", value: "C" },
+          { raw: "2", value: "F" },
         ],
       },
       fault: {

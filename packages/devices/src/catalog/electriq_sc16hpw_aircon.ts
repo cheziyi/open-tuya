@@ -29,8 +29,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "8",
         kind: "select",
         values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
         ],
       },
       sleep: { dataPoint: "12", kind: "switch" },

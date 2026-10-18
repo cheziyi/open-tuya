@@ -146,8 +146,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "select",
         values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
+          { raw: false, value: "C" },
+          { raw: true, value: "F" },
         ],
       },
       childLock: { dataPoint: "108", kind: "switch" },
