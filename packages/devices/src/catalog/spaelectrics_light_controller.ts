@@ -142,7 +142,7 @@ const entry: TuyaDeviceEntry = {
       linkOnMainPanel: { dataPoint: "117", kind: "switch" },
       schedulesEnabled: { dataPoint: "130", kind: "switch" },
       schedulesEnabledTemporaryEnable: { dataPoint: "177", kind: "switch" },
-      zone1ScheduleHoursInHours: {
+      zone1ScheduleInHours: {
         dataPoint: "132",
         kind: "number",
         unit: "h",
@@ -153,7 +153,7 @@ const entry: TuyaDeviceEntry = {
           conditions: [{ when: [true], redirect: { dataPoint: "154" } }],
         },
       },
-      zone1ScheduleMinutesInMinutes: {
+      zone1ScheduleInMinutes: {
         dataPoint: "134",
         kind: "number",
         unit: "min",
@@ -189,7 +189,7 @@ const entry: TuyaDeviceEntry = {
         max: 3,
       },
       zone1ScheduleSpeed: { dataPoint: "138", kind: "number", min: 1, max: 3 },
-      zone2ScheduleHoursInHours: {
+      zone2ScheduleInHours: {
         dataPoint: "140",
         kind: "number",
         unit: "h",
@@ -200,7 +200,7 @@ const entry: TuyaDeviceEntry = {
           conditions: [{ when: [true], redirect: { dataPoint: "157" } }],
         },
       },
-      zone2ScheduleMinutesInMinutes: {
+      zone2ScheduleInMinutes: {
         dataPoint: "142",
         kind: "number",
         unit: "min",

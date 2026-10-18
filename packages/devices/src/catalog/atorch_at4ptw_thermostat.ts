@@ -144,7 +144,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 100,
       },
-      energyAddEle: {
+      energyAddElectricity: {
         dataPoint: "127",
         kind: "sensor",
         readOnly: true,
@@ -201,12 +201,36 @@ const entry: TuyaDeviceEntry = {
           { raw: "f", value: "fahrenheit" },
         ],
       },
-      temperatureUnitTempCalibrationF: { dataPoint: "119", kind: "number" },
-      temperatureUnitHeatingTempStartF: { dataPoint: "120", kind: "number" },
-      temperatureUnitCryogenicTempStartF: { dataPoint: "121", kind: "number" },
-      temperatureUnitHeatingTempStopF: { dataPoint: "122", kind: "number" },
-      temperatureUnitCryogenicTempStopF: { dataPoint: "123", kind: "number" },
-      temperatureUnitTempCurrentF: { dataPoint: "124", kind: "number" },
+      temperatureUnitTemperatureCalibrationInF: {
+        dataPoint: "119",
+        kind: "number",
+        unit: "F",
+      },
+      temperatureUnitHeatingTemperatureStartInF: {
+        dataPoint: "120",
+        kind: "number",
+        unit: "F",
+      },
+      temperatureUnitCryogenicTemperatureStartInF: {
+        dataPoint: "121",
+        kind: "number",
+        unit: "F",
+      },
+      temperatureUnitHeatingTemperatureStopInF: {
+        dataPoint: "122",
+        kind: "number",
+        unit: "F",
+      },
+      temperatureUnitCryogenicTemperatureStopInF: {
+        dataPoint: "123",
+        kind: "number",
+        unit: "F",
+      },
+      temperatureUnitTemperatureCurrentInF: {
+        dataPoint: "124",
+        kind: "number",
+        unit: "F",
+      },
       cost: { dataPoint: "125", kind: "sensor", readOnly: true, scale: 100 },
       sensor: {
         dataPoint: "126",

@@ -37,7 +37,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         scale: 1000,
       },
-      energyAddEle: {
+      energyAddElectricity: {
         dataPoint: "104",
         kind: "sensor",
         readOnly: true,

@@ -62,7 +62,7 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 10,
       },
-      floorTempLimit: { dataPoint: "6", kind: "number", scale: 10 },
+      floorTemperatureLimit: { dataPoint: "6", kind: "number", scale: 10 },
       installation: {
         dataPoint: "7",
         kind: "select",

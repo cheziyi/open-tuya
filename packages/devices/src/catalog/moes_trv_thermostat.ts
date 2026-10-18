@@ -96,7 +96,13 @@ const entry: TuyaDeviceEntry = {
           },
         },
       },
-      ecoTemp: { dataPoint: "107", kind: "number", min: 5, max: 35 },
+      ecoTemperatureInC: {
+        dataPoint: "107",
+        kind: "number",
+        unit: "C",
+        min: 5,
+        max: 35,
+      },
       maxTargetTemperatureInC: {
         dataPoint: "108",
         kind: "number",

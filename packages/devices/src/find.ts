@@ -11,9 +11,9 @@ export interface FindDeviceEntriesOptions {
   dataPoints?: DataPoints;
 }
 
-// Source: An entry matches when no data point the device reports has another
-// type, and either its product key matches or the device reports every data
-// point the entry requires; a product key match scores 101, and otherwise the
+// Source: An entry matches when no data point the device reports fails a
+// type it is read as, and either its product key matches or the device
+// reports every data point the entry requires; a product key match scores 101, and otherwise the
 // score is the share of reported data points the entry names, in
 // https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L138-L236.
 /** Finds the entries that fit a device, best first. One product key can
@@ -47,7 +47,12 @@ function score(
   for (const id of ids) {
     const spec = entry.dataPoints[id];
     if (spec) {
-      if (!typeMatches(spec.type, reported[id] as DataPointValue)) {
+      const value = reported[id] as DataPointValue;
+      if (
+        ![spec.type, ...(spec.otherTypes ?? [])].every((type) =>
+          typeMatches(type, value),
+        )
+      ) {
         return 0;
       }
       named++;

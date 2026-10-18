@@ -101,7 +101,7 @@ const entry: TuyaDeviceEntry = {
       request: { dataPoint: "16", kind: "text" },
       voiceData: { dataPoint: "35", kind: "text" },
       smartRoomsUnseen: { dataPoint: "101", kind: "text" },
-      roomsMsgUnseen: { dataPoint: "102", kind: "text" },
+      roomsMessageUnseen: { dataPoint: "102", kind: "text" },
       charge: { dataPoint: "3", kind: "switch" },
       cleaningTimeInMinutes: {
         dataPoint: "6",

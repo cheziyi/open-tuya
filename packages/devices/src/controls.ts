@@ -223,14 +223,16 @@ function currentRule(
   control: ControlTarget,
   dataPoints: DataPoints,
 ): (Rule & { raw?: DataPointValue }) | undefined {
-  const type = entry.dataPoints[control.dataPoint]?.type;
+  const type = typeOf(entry, control);
   const raw = dataPoints[control.dataPoint];
   if (raw === undefined) {
     return control.whenAbsent;
   }
   const value = isMasked(control)
     ? readMask(control, type, raw)
-    : numericFromString(type, raw);
+    : type === "utf16b64"
+      ? decodeUtf16(raw)
+      : numericFromString(type, raw);
   if (value === undefined) {
     return undefined;
   }
@@ -378,7 +380,7 @@ function writeControl(
     }
   }
   const id = control.dataPoint;
-  const type = entry.dataPoints[id]?.type;
+  const type = typeOf(entry, control);
   raw ??=
     rule.mapping?.raw ??
     toRaw(control, fieldType(control, type), value, {
@@ -386,7 +388,8 @@ function writeControl(
       ...condition,
     });
   if (!isMasked(control)) {
-    dataPoints[id] = raw;
+    dataPoints[id] =
+      type === "utf16b64" && typeof raw === "string" ? encodeUtf16(raw) : raw;
     return;
   }
   // Several controls can set bits of one data point: each sets its own on
@@ -651,4 +654,40 @@ function numericFromString(
     return Number(raw);
   }
   return raw;
+}
+
+function typeOf(
+  entry: TuyaDeviceEntry,
+  control: ControlTarget,
+): TuyaDataPointType | undefined {
+  return control.type ?? entry.dataPoints[control.dataPoint]?.type;
+}
+
+// Source: A utf16b64 value is text in UTF-16, big-endian, as base64, decoded
+// before any mapping and read as it came where it does not decode, and
+// encoded back for a write, in
+// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L790-L795
+// and https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L770-L773.
+function decodeUtf16(raw: DataPointValue): DataPointValue {
+  // atob takes base64 without its padding, which Python's b64decode refuses.
+  if (typeof raw !== "string" || raw.length % 4 !== 0) {
+    return raw;
+  }
+  try {
+    const bytes = Uint8Array.from(atob(raw), (character) =>
+      character.charCodeAt(0),
+    );
+    return new TextDecoder("utf-16be", { fatal: true }).decode(bytes);
+  } catch {
+    return raw;
+  }
+}
+
+function encodeUtf16(text: string): string {
+  let binary = "";
+  for (let index = 0; index < text.length; index++) {
+    const unit = text.charCodeAt(index);
+    binary += String.fromCharCode(unit >> 8, unit & 0xff);
+  }
+  return btoa(binary);
 }

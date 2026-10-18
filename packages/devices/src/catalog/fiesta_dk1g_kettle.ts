@@ -75,9 +75,10 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      boilTemperatureBoilTempF: {
+      boilTemperatureInF: {
         dataPoint: "11",
         kind: "number",
+        unit: "F",
         min: 32,
         max: 212,
       },
@@ -206,7 +207,13 @@ const entry: TuyaDeviceEntry = {
           conditions: [{ when: ["f"], redirect: { dataPoint: "3" } }],
         },
       },
-      curTempF: { dataPoint: "3", kind: "number" },
+      currentTemperatureInF: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "F",
+      },
       targetTemperature: {
         dataPoint: "8",
         kind: "number",

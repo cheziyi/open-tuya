@@ -88,7 +88,7 @@ const entry: TuyaDeviceEntry = {
       music: { dataPoint: "121", kind: "text" },
     },
     colorLight: {
-      stdSwitch: { dataPoint: "20", kind: "switch" },
+      standardSwitch: { dataPoint: "20", kind: "switch" },
       on: {
         dataPoint: "108",
         kind: "select",

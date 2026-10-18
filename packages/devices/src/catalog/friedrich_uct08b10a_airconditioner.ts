@@ -44,7 +44,13 @@ const entry: TuyaDeviceEntry = {
           },
         ],
       },
-      currentTemperatureInC: { dataPoint: "3", kind: "number" },
+      currentTemperatureInC: {
+        dataPoint: "3",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "C",
+      },
       currentTemperature: {
         dataPoint: "23",
         kind: "sensor",
@@ -163,7 +169,7 @@ const entry: TuyaDeviceEntry = {
         otherwise: true,
       },
       faultCode: { dataPoint: "20", kind: "sensor", readOnly: true },
-      fault2: { dataPoint: "122", kind: "sensor", readOnly: true },
+      faultFault2: { dataPoint: "122", kind: "sensor", readOnly: true },
       ecoTemperatureInC: {
         dataPoint: "130",
         kind: "number",

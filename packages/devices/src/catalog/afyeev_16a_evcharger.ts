@@ -69,7 +69,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kW",
         scale: 1000,
       },
-      voltageAInV: {
+      voltagePhaseAInV: {
         dataPoint: "6",
         mask: "FFFF000000000000",
         kind: "sensor",
@@ -78,7 +78,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      currentAInA: {
+      currentPhaseAInA: {
         dataPoint: "6",
         mask: "0000FFFFFF000000",
         kind: "sensor",
@@ -87,7 +87,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      powerAInKw: {
+      powerPhaseAInKw: {
         dataPoint: "6",
         mask: "0000000000FFFFFF",
         kind: "sensor",
@@ -177,7 +177,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 15,
       },
-      voltageBInV: {
+      voltagePhaseBInV: {
         dataPoint: "7",
         mask: "FFFF000000000000",
         kind: "sensor",
@@ -186,7 +186,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      currentBInA: {
+      currentPhaseBInA: {
         dataPoint: "7",
         mask: "000000FFFF000000",
         kind: "sensor",
@@ -195,7 +195,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      powerBInKw: {
+      powerPhaseBInKw: {
         dataPoint: "7",
         mask: "000000000000FFFF",
         kind: "sensor",
@@ -204,7 +204,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kW",
         scale: 1000,
       },
-      voltageCInV: {
+      voltagePhaseCInV: {
         dataPoint: "8",
         mask: "FFFF000000000000",
         kind: "sensor",
@@ -213,7 +213,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      currentCInA: {
+      currentPhaseCInA: {
         dataPoint: "8",
         mask: "000000FFFF000000",
         kind: "sensor",
@@ -222,7 +222,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      powerCInKw: {
+      powerPhaseCInKw: {
         dataPoint: "8",
         mask: "000000000000FFFF",
         kind: "sensor",

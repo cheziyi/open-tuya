@@ -58,7 +58,7 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { redirect: { dataPoint: "131", scale: 100 } },
         scale: 100,
       },
-      powerAInW: {
+      powerPhaseAInW: {
         dataPoint: "101",
         kind: "sensor",
         measures: "power",
@@ -70,14 +70,18 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 10,
       },
-      powerADirection: { dataPoint: "102", kind: "sensor", readOnly: true },
-      powerACalibration: {
+      powerPhaseADirection: {
+        dataPoint: "102",
+        kind: "sensor",
+        readOnly: true,
+      },
+      powerPhaseACalibration: {
         dataPoint: "118",
         kind: "sensor",
         readOnly: true,
         scale: 1000,
       },
-      powerBInW: {
+      powerPhaseBInW: {
         dataPoint: "105",
         kind: "sensor",
         measures: "power",
@@ -89,14 +93,18 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 10,
       },
-      powerBDirection: { dataPoint: "104", kind: "sensor", readOnly: true },
-      powerBCalibration: {
+      powerPhaseBDirection: {
+        dataPoint: "104",
+        kind: "sensor",
+        readOnly: true,
+      },
+      powerPhaseBCalibration: {
         dataPoint: "124",
         kind: "sensor",
         readOnly: true,
         scale: 1000,
       },
-      energyConsumedAInKwh: {
+      energyConsumedPhaseAInKwh: {
         dataPoint: "106",
         kind: "sensor",
         measures: "energy",
@@ -104,13 +112,13 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 100,
       },
-      energyConsumedACalibration: {
+      energyConsumedPhaseACalibration: {
         dataPoint: "119",
         kind: "sensor",
         readOnly: true,
         scale: 1000,
       },
-      energyProducedAInKwh: {
+      energyProducedPhaseAInKwh: {
         dataPoint: "107",
         kind: "sensor",
         measures: "energy",
@@ -118,13 +126,13 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 100,
       },
-      energyProducedACalibration: {
+      energyProducedPhaseACalibration: {
         dataPoint: "127",
         kind: "sensor",
         readOnly: true,
         scale: 1000,
       },
-      energyConsumedBInKwh: {
+      energyConsumedPhaseBInKwh: {
         dataPoint: "108",
         kind: "sensor",
         measures: "energy",
@@ -132,13 +140,13 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 100,
       },
-      energyConsumedBCalibration: {
+      energyConsumedPhaseBCalibration: {
         dataPoint: "125",
         kind: "sensor",
         readOnly: true,
         scale: 1000,
       },
-      energyProducedBInKwh: {
+      energyProducedPhaseBInKwh: {
         dataPoint: "109",
         kind: "sensor",
         measures: "energy",
@@ -146,13 +154,13 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 100,
       },
-      energyProducedBCalibration: {
+      energyProducedPhaseBCalibration: {
         dataPoint: "128",
         kind: "sensor",
         readOnly: true,
         scale: 1000,
       },
-      powerFactorAInPercent: {
+      powerFactorPhaseAInPercent: {
         dataPoint: "110",
         kind: "sensor",
         measures: "powerFactor",
@@ -187,7 +195,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         scale: 1000,
       },
-      currentAInA: {
+      currentPhaseAInA: {
         dataPoint: "113",
         kind: "sensor",
         measures: "current",
@@ -199,14 +207,18 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 1000,
       },
-      currentADirection: { dataPoint: "102", kind: "sensor", readOnly: true },
-      currentACalibration: {
+      currentPhaseADirection: {
+        dataPoint: "102",
+        kind: "sensor",
+        readOnly: true,
+      },
+      currentPhaseACalibration: {
         dataPoint: "117",
         kind: "sensor",
         readOnly: true,
         scale: 1000,
       },
-      currentBInA: {
+      currentPhaseBInA: {
         dataPoint: "114",
         kind: "sensor",
         measures: "current",
@@ -218,8 +230,12 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 1000,
       },
-      currentBDirection: { dataPoint: "104", kind: "sensor", readOnly: true },
-      currentBCalibration: {
+      currentPhaseBDirection: {
+        dataPoint: "104",
+        kind: "sensor",
+        readOnly: true,
+      },
+      currentPhaseBCalibration: {
         dataPoint: "123",
         kind: "sensor",
         readOnly: true,
@@ -233,7 +249,7 @@ const entry: TuyaDeviceEntry = {
         unit: "W",
         scale: 10,
       },
-      powerFactorBInPercent: {
+      powerFactorPhaseBInPercent: {
         dataPoint: "121",
         kind: "sensor",
         measures: "powerFactor",

@@ -157,7 +157,7 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "Cancel" },
       },
-      learnSensorsLearned: { dataPoint: "114", kind: "number" },
+      learnSensorSensorsLearned: { dataPoint: "114", kind: "number" },
       plug: {
         dataPoint: "115",
         kind: "sensor",

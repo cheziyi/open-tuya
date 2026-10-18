@@ -33,7 +33,7 @@ const entry: TuyaDeviceEntry = {
       speed: { dataPoint: "3", kind: "number", min: 1, max: 12 },
       direction: { dataPoint: "8", kind: "text" },
       model: { dataPoint: "101", kind: "number" },
-      devNum: { dataPoint: "102", kind: "number" },
+      deviceNumber: { dataPoint: "102", kind: "number" },
       version: { dataPoint: "103", kind: "number" },
     },
     light: {

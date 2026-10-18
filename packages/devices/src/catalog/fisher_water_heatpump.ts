@@ -64,7 +64,13 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "C",
       },
-      tempCurrentF: { dataPoint: "26", kind: "number" },
+      currentTemperatureInF: {
+        dataPoint: "26",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "F",
+      },
       power: { dataPoint: "1", kind: "switch" },
       combinedMode: {
         dataPoint: "2",

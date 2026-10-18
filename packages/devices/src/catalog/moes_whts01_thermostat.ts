@@ -265,9 +265,10 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
-      ecoTemperatureEcoTempF: {
+      ecoTemperatureInF: {
         dataPoint: "109",
         kind: "number",
+        unit: "F",
         min: 41,
         max: 95,
       },

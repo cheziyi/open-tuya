@@ -184,7 +184,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Closed", value: false },
         ],
       },
-      overTempAlarm: {
+      overTemperatureAlarm: {
         dataPoint: "107",
         kind: "switch",
         values: [

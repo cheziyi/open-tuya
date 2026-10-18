@@ -55,7 +55,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       on: { dataPoint: "1", kind: "switch" },
-      onAddEle: { dataPoint: "17", kind: "number" },
+      onAddElectricity: { dataPoint: "17", kind: "number" },
       timerInMinutes: {
         dataPoint: "9",
         kind: "number",

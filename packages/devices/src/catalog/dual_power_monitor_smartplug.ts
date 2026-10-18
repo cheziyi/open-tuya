@@ -19,7 +19,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       outlet1: { dataPoint: "1", kind: "switch" },
-      outlet1AddEle: { dataPoint: "6", kind: "number" },
+      outlet1AddElectricity: { dataPoint: "6", kind: "number" },
       outlet2: { dataPoint: "2", kind: "switch" },
       currentInA: {
         dataPoint: "7",

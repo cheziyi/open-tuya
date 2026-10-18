@@ -89,7 +89,7 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      tempSettingQuick: {
+      temperatureSettingQuick: {
         dataPoint: "4",
         kind: "select",
         values: [
@@ -100,7 +100,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "100", value: 100 },
         ],
       },
-      tempBoilingQuick: {
+      temperatureBoilingQuick: {
         dataPoint: "6",
         kind: "select",
         values: [
@@ -110,8 +110,8 @@ const entry: TuyaDeviceEntry = {
           { raw: "90", value: 90 },
         ],
       },
-      tempSet: { dataPoint: "8", kind: "number", min: 40, max: 100 },
-      tempBoil: { dataPoint: "10", kind: "number", min: 40, max: 90 },
+      temperatureSet: { dataPoint: "8", kind: "number", min: 40, max: 100 },
+      temperatureBoil: { dataPoint: "10", kind: "number", min: 40, max: 90 },
     },
     device: {
       kettleMode: {

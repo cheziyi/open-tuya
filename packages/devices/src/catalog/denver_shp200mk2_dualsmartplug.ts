@@ -28,9 +28,9 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       outlet1: { dataPoint: "1", kind: "switch" },
-      outlet1AddEle: { dataPoint: "17", kind: "number" },
+      outlet1AddElectricity: { dataPoint: "17", kind: "number" },
       outlet1FactoryTest: { dataPoint: "21", kind: "number" },
-      outlet1EleCalibration: { dataPoint: "25", kind: "number" },
+      outlet1ElectricityCalibration: { dataPoint: "25", kind: "number" },
       outlet1Schedule: { dataPoint: "41", kind: "text" },
       outlet1RandomSchedule: { dataPoint: "42", kind: "text" },
       outlet2: { dataPoint: "2", kind: "switch" },

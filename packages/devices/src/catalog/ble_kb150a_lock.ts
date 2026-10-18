@@ -31,7 +31,7 @@ const entry: TuyaDeviceEntry = {
     lock: {
       unlockFingerprint: { dataPoint: "12", kind: "number" },
       unlockPassword: { dataPoint: "13", kind: "number" },
-      unlockDynamicPwd: { dataPoint: "14", kind: "number" },
+      unlockDynamicPassword: { dataPoint: "14", kind: "number" },
       unlockKey: { dataPoint: "16", kind: "number" },
       unlockBle: { dataPoint: "19", kind: "number" },
       lockState: {
@@ -43,7 +43,7 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: true },
         ],
       },
-      unlockTempPwd: { dataPoint: "55", kind: "number" },
+      unlockTemporaryPassword: { dataPoint: "55", kind: "number" },
       codeUnlock: { dataPoint: "61", kind: "text" },
       unlockApp: { dataPoint: "62", kind: "number" },
       alert: {

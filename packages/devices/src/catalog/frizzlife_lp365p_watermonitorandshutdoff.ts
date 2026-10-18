@@ -213,21 +213,21 @@ const entry: TuyaDeviceEntry = {
           },
         ],
       },
-      allowedFlowTimeMode4Val: {
+      allowedFlowTimeMode4Value: {
         dataPoint: "112",
         kind: "number",
         min: 3,
         max: 30,
         scale: 0.1666666667,
       },
-      allowedFlowTimeMode5Val: {
+      allowedFlowTimeMode5Value: {
         dataPoint: "113",
         kind: "number",
         min: 3,
         max: 30,
         scale: 0.1666666667,
       },
-      allowedFlowTimeMode6Val: {
+      allowedFlowTimeMode6Value: {
         dataPoint: "114",
         kind: "number",
         min: 3,
@@ -282,7 +282,7 @@ const entry: TuyaDeviceEntry = {
           },
         ],
       },
-      allowedFlowVolumeMode4Val: {
+      allowedFlowVolumeMode4Value: {
         dataPoint: "115",
         kind: "select",
         min: 0,
@@ -290,7 +290,7 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: 0, value: 50 }],
         scale: 0.01,
       },
-      allowedFlowVolumeMode5Val: {
+      allowedFlowVolumeMode5Value: {
         dataPoint: "116",
         kind: "select",
         min: 0,
@@ -298,7 +298,7 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: 0, value: 50 }],
         scale: 0.01,
       },
-      allowedFlowVolumeMode6Val: {
+      allowedFlowVolumeMode6Value: {
         dataPoint: "117",
         kind: "select",
         min: 0,

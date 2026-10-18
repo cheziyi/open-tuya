@@ -148,8 +148,12 @@ const entry: TuyaDeviceEntry = {
         unit: "W",
         scale: 10,
       },
-      powerAddEle: { dataPoint: "10", kind: "sensor", readOnly: true },
-      powerEleCalibration: { dataPoint: "17", kind: "sensor", readOnly: true },
+      powerAddElectricity: { dataPoint: "10", kind: "sensor", readOnly: true },
+      powerElectricityCalibration: {
+        dataPoint: "17",
+        kind: "sensor",
+        readOnly: true,
+      },
       powerCalibration: { dataPoint: "16", kind: "sensor", readOnly: true },
       powerLimit: {
         dataPoint: "18",

@@ -74,7 +74,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "Hz",
       },
-      energyAInKwh: {
+      energyPhaseAInKwh: {
         dataPoint: "101",
         kind: "sensor",
         measures: "energy",
@@ -90,7 +90,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 100,
       },
-      currentAInA: {
+      currentPhaseAInA: {
         dataPoint: "107",
         kind: "sensor",
         measures: "current",
@@ -98,28 +98,28 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      powerAInW: {
+      powerPhaseAInW: {
         dataPoint: "108",
         kind: "sensor",
         measures: "power",
         readOnly: true,
         unit: "W",
       },
-      powerFactorA: {
+      powerFactorPhaseA: {
         dataPoint: "109",
         kind: "sensor",
         measures: "powerFactor",
         readOnly: true,
         scale: 100,
       },
-      reactivePowerAInVar: {
+      reactivePowerPhaseAInVar: {
         dataPoint: "115",
         kind: "sensor",
         measures: "reactivePower",
         readOnly: true,
         unit: "var",
       },
-      energyBInKwh: {
+      energyPhaseBInKwh: {
         dataPoint: "103",
         kind: "sensor",
         measures: "energy",
@@ -135,7 +135,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 100,
       },
-      currentBInA: {
+      currentPhaseBInA: {
         dataPoint: "110",
         kind: "sensor",
         measures: "current",
@@ -143,21 +143,21 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      powerBInW: {
+      powerPhaseBInW: {
         dataPoint: "111",
         kind: "sensor",
         measures: "power",
         readOnly: true,
         unit: "W",
       },
-      powerFactorB: {
+      powerFactorPhaseB: {
         dataPoint: "112",
         kind: "sensor",
         measures: "powerFactor",
         readOnly: true,
         scale: 100,
       },
-      reactivePowerBInVar: {
+      reactivePowerPhaseBInVar: {
         dataPoint: "116",
         kind: "sensor",
         measures: "reactivePower",

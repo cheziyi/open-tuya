@@ -102,14 +102,21 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 10,
       },
-      tempSetF: {
+      targetTemperatureInF: {
         dataPoint: "17",
         kind: "number",
+        measures: "temperature",
+        unit: "F",
         min: 420,
         max: 1000,
         scale: 10,
       },
-      maxTempF: { dataPoint: "18", kind: "number" },
+      maxTargetTemperatureInF: {
+        dataPoint: "18",
+        kind: "number",
+        measures: "temperature",
+        unit: "F",
+      },
       maxTargetTemperature: {
         dataPoint: "19",
         kind: "number",
@@ -120,7 +127,12 @@ const entry: TuyaDeviceEntry = {
           conditions: [{ when: ["f"], redirect: { dataPoint: "18" } }],
         },
       },
-      minTempF: { dataPoint: "20", kind: "number" },
+      minTargetTemperatureInF: {
+        dataPoint: "20",
+        kind: "number",
+        measures: "temperature",
+        unit: "F",
+      },
       minTargetTemperature: {
         dataPoint: "26",
         kind: "number",
@@ -150,7 +162,13 @@ const entry: TuyaDeviceEntry = {
           conditions: [{ when: ["f"], redirect: { dataPoint: "29" } }],
         },
       },
-      tempCurrentF: { dataPoint: "29", kind: "number" },
+      currentTemperatureInF: {
+        dataPoint: "29",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "F",
+      },
       fanMode: {
         dataPoint: "28",
         kind: "select",
@@ -223,9 +241,10 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      maximumTemperatureMaxTempF: {
+      maximumTemperatureMaxTemperatureInF: {
         dataPoint: "18",
         kind: "number",
+        unit: "F",
         min: 50,
         max: 99,
       },
@@ -256,9 +275,10 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      minimumTemperatureMinTempF: {
+      minimumTemperatureMinTemperatureInF: {
         dataPoint: "20",
         kind: "number",
+        unit: "F",
         min: 40,
         max: 90,
       },

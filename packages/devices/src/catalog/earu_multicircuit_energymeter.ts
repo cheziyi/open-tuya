@@ -36,7 +36,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      voltageAInV: {
+      voltagePhaseAInV: {
         dataPoint: "101",
         mask: "000000000000000000FFFFFFFF",
         littleEndian: true,
@@ -46,7 +46,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      voltageBInV: {
+      voltagePhaseBInV: {
         dataPoint: "102",
         mask: "000000000000000000FFFFFFFF",
         littleEndian: true,
@@ -56,7 +56,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      voltageCInV: {
+      voltagePhaseCInV: {
         dataPoint: "103",
         mask: "000000000000000000FFFFFFFF",
         littleEndian: true,
@@ -66,7 +66,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      currentAInA: {
+      currentPhaseAInA: {
         dataPoint: "101",
         mask: "0000000000FFFFFFFF00000000",
         maskSigned: true,
@@ -77,7 +77,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      currentBInA: {
+      currentPhaseBInA: {
         dataPoint: "102",
         mask: "0000000000FFFFFFFF00000000",
         maskSigned: true,
@@ -88,7 +88,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      currentCInA: {
+      currentPhaseCInA: {
         dataPoint: "103",
         mask: "0000000000FFFFFFFF00000000",
         maskSigned: true,
@@ -270,7 +270,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      powerAInKw: {
+      powerPhaseAInKw: {
         dataPoint: "101",
         mask: "00FFFFFFFF0000000000000000",
         maskSigned: true,
@@ -281,7 +281,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kW",
         scale: 1000,
       },
-      powerBInKw: {
+      powerPhaseBInKw: {
         dataPoint: "102",
         mask: "00FFFFFFFF0000000000000000",
         maskSigned: true,
@@ -292,7 +292,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kW",
         scale: 1000,
       },
-      powerCInKw: {
+      powerPhaseCInKw: {
         dataPoint: "103",
         mask: "00FFFFFFFF0000000000000000",
         maskSigned: true,

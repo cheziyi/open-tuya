@@ -24,7 +24,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      energyConsumedAInKwh: {
+      energyConsumedPhaseAInKwh: {
         dataPoint: "17",
         kind: "sensor",
         measures: "energy",
@@ -34,7 +34,7 @@ const entry: TuyaDeviceEntry = {
       },
       powerAlarmA: { dataPoint: "1", kind: "switch" },
       powerAlarmB: { dataPoint: "2", kind: "switch" },
-      energyConsumedBInKwh: {
+      energyConsumedPhaseBInKwh: {
         dataPoint: "101",
         kind: "sensor",
         measures: "energy",
@@ -42,7 +42,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 1000,
       },
-      voltageAInV: {
+      voltagePhaseAInV: {
         dataPoint: "20",
         kind: "sensor",
         measures: "voltage",
@@ -50,7 +50,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      currentAInA: {
+      currentPhaseAInA: {
         dataPoint: "18",
         kind: "sensor",
         measures: "current",
@@ -58,7 +58,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      powerAInW: {
+      powerPhaseAInW: {
         dataPoint: "19",
         kind: "sensor",
         measures: "power",
@@ -66,7 +66,7 @@ const entry: TuyaDeviceEntry = {
         unit: "W",
         scale: 10,
       },
-      voltageBInV: {
+      voltagePhaseBInV: {
         dataPoint: "104",
         kind: "sensor",
         measures: "voltage",
@@ -74,7 +74,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      currentBInA: {
+      currentPhaseBInA: {
         dataPoint: "102",
         kind: "sensor",
         measures: "current",
@@ -82,7 +82,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      powerBInW: {
+      powerPhaseBInW: {
         dataPoint: "103",
         kind: "sensor",
         measures: "power",
@@ -110,7 +110,7 @@ const entry: TuyaDeviceEntry = {
         otherwise: true,
       },
       faultBFaultCode: { dataPoint: "105", kind: "sensor", readOnly: true },
-      maximumPowerAInW: {
+      maximumPowerPhaseAInW: {
         dataPoint: "107",
         kind: "number",
         measures: "power",
@@ -119,7 +119,7 @@ const entry: TuyaDeviceEntry = {
         max: 500000,
         step: 100,
       },
-      maximumPowerBInW: {
+      maximumPowerPhaseBInW: {
         dataPoint: "108",
         kind: "number",
         measures: "power",
