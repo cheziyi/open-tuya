@@ -59,19 +59,24 @@ export function encodeV35Frame(
  * each under `key`: the local key during the session key negotiation, and
  * the session key after it. The remainder is a view of `bytes`, not a copy. A
  * frame whose tag is wrong goes in `errors` as a `TuyaError` with code
- * `DECRYPTION_FAILED`. It throws a `TuyaError` with code `MALFORMED_FRAME` for
- * a length field under 32 or over 102,400. */
+ * `DECRYPTION_FAILED`. A length field under 32 or over 102,400 sets
+ * `malformed`. */
 export function decodeV35Frames(
   bytes: Uint8Array,
   key: Uint8Array,
 ): DecodedFrames {
-  const { frames, remainder } = splitFrames(bytes, {
+  const { frames, remainder, malformed } = splitFrames(bytes, {
     prefix: PREFIX_BYTES,
     lengthOffset: 14,
     uncountedLength: HEADER_LENGTH + SUFFIX_BYTES.length,
     minLength: IV_LENGTH + RETURN_CODE_LENGTH + TAG_LENGTH,
   });
-  const decoded: DecodedFrames = { frames: [], errors: [], remainder };
+  const decoded: DecodedFrames = {
+    frames: [],
+    errors: [],
+    remainder,
+    ...(malformed && { malformed }),
+  };
   for (const frame of frames) {
     const tagOffset = frame.length - SUFFIX_BYTES.length - TAG_LENGTH;
     let plaintext: Buffer;

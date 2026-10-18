@@ -2,7 +2,7 @@ import { randomBytes } from "node:crypto";
 import { createConnection, type Socket } from "node:net";
 import { type ProtocolVersion, TuyaError } from "@open-tuya/core";
 import { COMMANDS } from "./protocol/commands.js";
-import type { DecodedFrames, ReceivedTuyaFrame } from "./protocol/frame.js";
+import type { ReceivedTuyaFrame } from "./protocol/frame.js";
 import { decodeMessages, encodeMessage } from "./protocol/message.js";
 import {
   buildSessionKeyFinish,
@@ -176,23 +176,11 @@ export class TuyaConnection implements AsyncDisposable {
   }
 
   private receive(chunk: Buffer): void {
-    let decoded: DecodedFrames;
-    try {
-      decoded = decodeMessages(
-        this.options.version,
-        Buffer.concat([this.buffered, chunk]),
-        this.key,
-      );
-    } catch (error) {
-      this.end(
-        new TuyaError(
-          "CONNECTION_LOST",
-          "The device sent bytes that are not a frame",
-          { cause: error },
-        ),
-      );
-      return;
-    }
+    const decoded = decodeMessages(
+      this.options.version,
+      Buffer.concat([this.buffered, chunk]),
+      this.key,
+    );
     this.buffered = decoded.remainder;
     for (const error of decoded.errors) {
       this.options.onDroppedFrame(error);
@@ -203,6 +191,18 @@ export class TuyaConnection implements AsyncDisposable {
       } else {
         this.options.onFrame(frame);
       }
+      if (this.closed) {
+        return;
+      }
+    }
+    if (decoded.malformed) {
+      this.end(
+        new TuyaError(
+          "CONNECTION_LOST",
+          "The device sent bytes that are not a frame",
+          { cause: decoded.malformed },
+        ),
+      );
     }
   }
 
@@ -331,15 +331,16 @@ function negotiateSessionKey(
         socketError,
       );
     const onData = (chunk: Buffer) => {
-      let decoded: DecodedFrames;
-      try {
-        decoded = decodeMessages(
-          version,
-          Buffer.concat([buffered, chunk]),
-          localKey,
+      const decoded = decodeMessages(
+        version,
+        Buffer.concat([buffered, chunk]),
+        localKey,
+      );
+      if (decoded.malformed) {
+        failWith(
+          "The device sent bytes that are not a frame",
+          decoded.malformed,
         );
-      } catch (error) {
-        failWith("The device sent bytes that are not a frame", error);
         return;
       }
       buffered = decoded.remainder;
