@@ -4,6 +4,8 @@ on:
   pull_request:
   push:
     branches: [main]
+  # import-catalog.yml starts it on the pull request it opens.
+  workflow_dispatch:
 
 jobs:
   check:
