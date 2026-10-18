@@ -528,6 +528,7 @@ What `@open-tuya/cloud-app` does with each request is its own design.
 | `clientId` and `schema` are required options | The only pair known to work is Home Assistant's, so a caller who passes it chooses to sign in as Home Assistant |
 | `requestQrCode` and `waitForScan` are separate calls on one `QrLogin` | After `QR_CODE_EXPIRED` the caller requests a new QR code with the same login |
 | `waitForScan` polls every 2 s until it succeeds, until `E0020002`, or until the signal aborts | Home Assistant and tuya-local check once when the user clicks, so no source shows what the cloud answers before the scan: every other answer has to mean "not yet". A scan is noticed within 2 s |
+| `waitForScan` polls on through `REQUEST_TIMED_OUT`, `CONNECTION_FAILED` and `RATE_LIMITED`, and rejects on any other error, such as an HTTP error or a session lacking a field | The user scans within minutes, and a QR code abandoned for one dropped poll makes them start again. A poll that fails the same way every time, which an HTTP error or a malformed session would, ends the wait. Rejected: ending the wait on every failure. A caller bounds the wait with the signal |
 | `AppCloudSession` holds the endpoint, the tokens and the expiry alone | Nothing built needs the user ID or the terminal ID; logging out, which takes the terminal ID, is not built |
 
 ## Cloud app data points

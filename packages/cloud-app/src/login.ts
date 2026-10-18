@@ -1,7 +1,12 @@
-import { type Fetch, fetchJson, TuyaError } from "@open-tuya/core";
+import {
+  type Fetch,
+  fetchJson,
+  TuyaError,
+  type TuyaErrorCode,
+} from "@open-tuya/core";
 import { delay } from "./delay.js";
 import { readLoginResult, readQrCodeResult } from "./protocol/records.js";
-import { parseResponse } from "./protocol/response.js";
+import { type CloudResponse, parseResponse } from "./protocol/response.js";
 import type { AppCloudSession } from "./session.js";
 
 // Source: The login requests go to this host whatever the account's region,
@@ -17,6 +22,11 @@ const QR_CODE_EXPIRED = "E0020002";
 // A scan is noticed within 2 s, at a request every 2 s against the cloud's rate
 // limit: no source polls, so none sets the interval.
 const POLL_INTERVAL_IN_MS = 2000;
+const TRANSIENT_ERROR_CODES: ReadonlySet<TuyaErrorCode> = new Set([
+  "REQUEST_TIMED_OUT",
+  "CONNECTION_FAILED",
+  "RATE_LIMITED",
+]);
 
 export interface CreateQrLoginOptions {
   /** The client ID Tuya issued to the application signing in. The README
@@ -30,7 +40,9 @@ export interface CreateQrLoginOptions {
 }
 
 export interface WaitForScanOptions {
-  /** Stops the wait: `waitForScan` rejects with the signal's reason. */
+  /** Stops the wait: `waitForScan` rejects with the signal's reason. Pass
+   * one to bound the wait, as it polls on while the cloud cannot be
+   * reached. */
   signal?: AbortSignal;
 }
 
@@ -70,23 +82,20 @@ export class QrLogin {
   }
 
   /** Polls the cloud every 2 s until the user confirms the login in the app,
-   * and resolves with the session. It rejects with a `TuyaError` with code
-   * `QR_CODE_EXPIRED` once `qrCode` expires: request a new one. */
+   * and resolves with the session. It polls on through a poll that times
+   * out, cannot connect or is rate limited. It rejects with a `TuyaError`
+   * with code `QR_CODE_EXPIRED` once `qrCode` expires: request a new one;
+   * with code `REQUEST_REJECTED` when the cloud answers an HTTP error, or a
+   * session without a field it needs; and with the signal's reason once it
+   * aborts. */
   async waitForScan(
     qrCode: string,
     options: WaitForScanOptions = {},
   ): Promise<AppCloudSession> {
     const url = this.url(`/${qrCode.slice(QR_CODE_PREFIX.length)}`);
     for (;;) {
-      const response = parseResponse(
-        await fetchJson(
-          this.fetch,
-          url.href,
-          { method: "GET" },
-          options.signal,
-        ),
-      );
-      if (response.success) {
+      const response = await this.poll(url, options.signal);
+      if (response?.success) {
         const result = readLoginResult(response.result);
         return {
           endpoint: result.endpoint,
@@ -97,10 +106,31 @@ export class QrLogin {
       }
       // No source shows what the cloud answers before the scan, so every
       // other answer means "not yet".
-      if (response.code === QR_CODE_EXPIRED) {
+      if (response?.code === QR_CODE_EXPIRED) {
         throw new TuyaError("QR_CODE_EXPIRED", "The QR code expired");
       }
       await delay(POLL_INTERVAL_IN_MS, options.signal);
+    }
+  }
+
+  // Resolves with nothing when the poll failed in a way the next one may not.
+  private async poll(
+    url: URL,
+    signal: AbortSignal | undefined,
+  ): Promise<CloudResponse | undefined> {
+    try {
+      return parseResponse(
+        await fetchJson(this.fetch, url.href, { method: "GET" }, signal),
+      );
+    } catch (error) {
+      if (
+        !signal?.aborted &&
+        error instanceof TuyaError &&
+        TRANSIENT_ERROR_CODES.has(error.code)
+      ) {
+        return undefined;
+      }
+      throw error;
     }
   }
 
