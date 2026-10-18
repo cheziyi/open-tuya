@@ -28,10 +28,10 @@ import { signRequest } from "./protocol/request.js";
 import { DevicePush, type PushConfig } from "./push.js";
 
 // Source: The hosts of each data center, in
+// https://github.com/tuya/tuya-connector/commit/155a9c87ca3981392049e2a025d86619ee0dc311,
+// and the code tinytuya names each with, in
 // https://github.com/jasonacox/tinytuya/commit/5244bdae200734aa2083e65dbc1157fe9d593321
-// and https://github.com/jasonacox/tinytuya/commit/97f608f8cd874a1a00b9b4117205ba632eb1938c,
-// and all but Singapore in
-// https://github.com/tuya/tuya-iot-python-sdk/commit/b1406f17b3b555bb6542f9854da375f2b0bdfa35.
+// and https://github.com/jasonacox/tinytuya/commit/97f608f8cd874a1a00b9b4117205ba632eb1938c.
 /** The origin of each Tuya data center's API, by the code tinytuya names it
  * with. A project reaches only the devices of app accounts in its own. */
 export const DEVELOPER_DATA_CENTERS = {
@@ -138,8 +138,7 @@ export class DeveloperCloudAccount implements TuyaCloudAccount {
   // Source: Every linked app account's devices are listed by
   // GET /v1.0/iot-01/associated-users/devices, a page at a time after
   // `last_row_key` while `has_more`, in
-  // https://github.com/jasonacox/tinytuya/commit/5afef6ebceaf25ebd0fe8718be68371878a35353
-  // and https://github.com/tuya/tuya-homebridge/commit/36afdddebcac4f23abf09f48e1838f8c5fa0c083.
+  // https://github.com/jasonacox/tinytuya/commit/5afef6ebceaf25ebd0fe8718be68371878a35353.
   // Source: A project refused that list takes the account's ID from one of
   // its devices, and lists GET /v1.0/users/{uid}/devices, in
   // https://github.com/jasonacox/tinytuya/commit/c9455aebf0294d74eadbd4d758d0fd3ba4d55428
@@ -324,8 +323,9 @@ export class DeveloperCloudAccount implements TuyaCloudAccount {
 
   // Source: A project's MQTT credentials come from
   // POST /v1.0/iot-03/open-hub/access-config with the token's uid, in
-  // https://github.com/tuya/tuya-homebridge/commit/b530a71ae78afc9672c2ce42345749d38605f31c
-  // and, with a project's own token,
+  // https://github.com/tuya/tuya-homebridge/commit/a0da33fb0bf046fef5b915c07c78098dd068809f
+  // and https://github.com/tuya/tuya-iot-python-sdk/commit/f97d9ea73226efcac36eebf74b080c4d4738518e,
+  // and with a project's own token in
   // https://github.com/adrianjagielak/homebridge-tuya-plus/commit/0c5cc665272c9510ad7bc382aafda3ee4ea26017.
   // Source: `msg_encrypted_version` 2.0 asks for AES-GCM, in
   // https://github.com/tuya/tuya-homebridge/commit/a0da33fb0bf046fef5b915c07c78098dd068809f.

@@ -16,7 +16,7 @@ const PASSWORD = "0123456789abcdefFEDCBA9876543210";
 const TOPIC = "cloud/token/in/abcdefghij0123456789";
 
 // Source: The shape of an associated-users device, as captured in
-// https://github.com/tuya/tuya-homebridge/issues/223, with its key and IDs
+// https://github.com/tuya/tuya-homebridge/issues/339, with its key and IDs
 // made up.
 const DEVICE_RECORD = {
   active_time: 1625353812,

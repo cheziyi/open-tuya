@@ -9,7 +9,7 @@ const KEY_END = 24;
 // Source: A pushed message's data is the base64 of a 4-byte big-endian IV
 // length, the IV, the ciphertext and a 16-byte tag, under AES-128-GCM with the
 // 9th to 24th characters of the broker password as the key, in
-// https://github.com/tuya/tuya-iot-python-sdk/commit/a7856ac4c05cf6ff15251ce87c8a48222bc28e07
+// https://github.com/tuya/tuya-iot-python-sdk/commit/f97d9ea73226efcac36eebf74b080c4d4738518e
 // and https://github.com/tuya/tuya-homebridge/commit/b530a71ae78afc9672c2ce42345749d38605f31c.
 // Source: The additional data is the message's `t` as decimal text, which the
 // SDK checks the tag against, in

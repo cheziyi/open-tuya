@@ -600,7 +600,7 @@ for nothing:
 | Source | Why |
 | --- | --- |
 | rospogrigio/localtuya | Its `cloud_api.py` is Tuya's sample code and tinytuya's string to sign |
-| TuyaAPI/cli | Signs and sends through tuya-connector-nodejs |
+| TuyaAPI/cli | Signs and sends through @tuyapi/openapi ([`d6cdfdc`](https://github.com/TuyaAPI/cli/commit/d6cdfdc24657bff77ea3ae1681aa9e55ed1d3d35)), and from [`a21e5d4`](https://github.com/TuyaAPI/cli/commit/a21e5d41833b88aca36f0183c59c70d162271c8e) through tuya-connector-nodejs |
 | home-assistant/core, before 2024 | Calls tuya-iot-python-sdk |
 
 The signing formula reproduces nine signatures captured with their secrets,
