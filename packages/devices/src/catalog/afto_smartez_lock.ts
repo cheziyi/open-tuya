@@ -20,11 +20,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     lock: {
-      unlockKey: { dataPoint: "16", kind: "number" },
-      unlockBle: { dataPoint: "19", kind: "number" },
+      unlockKey: { dataPoint: "16", kind: "sensor", readOnly: true },
+      unlockBle: { dataPoint: "19", kind: "sensor", readOnly: true },
       jammed: {
         dataPoint: "21",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [
           { raw: "tongue_bad", value: true },
           { raw: "tongue_not_out", value: true },

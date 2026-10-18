@@ -35,6 +35,14 @@ const entry: TuyaDeviceEntry = {
         max: 35,
         dependsOn: {
           dataPoint: "4",
+          constraint: {
+            dataPoint: "4",
+            values: [
+              { raw: "mod_free", value: "comfort" },
+              { raw: "mod_max12h", value: "boost" },
+              { raw: "mod_antiforst", value: "away" },
+            ],
+          },
           conditions: [{ when: ["mod_antiforst"], invalid: true }],
         },
       },

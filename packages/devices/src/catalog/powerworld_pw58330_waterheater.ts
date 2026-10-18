@@ -79,7 +79,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "wth_cool", value: "hotwater_cool" },
         ],
       },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "6",
         kind: "select",
         values: [
@@ -90,7 +90,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "15",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -181,13 +181,13 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
-      mainEevOpeningInP: {
+      mainEevOpening: {
         dataPoint: "109",
         kind: "sensor",
         readOnly: true,
         unit: "P",
       },
-      secondaryEevOpeningInP: {
+      secondaryEevOpening: {
         dataPoint: "111",
         kind: "sensor",
         readOnly: true,

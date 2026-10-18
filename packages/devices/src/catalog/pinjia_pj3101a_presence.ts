@@ -80,7 +80,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "lx",
       },
-      distantMovementSensitivityInX: {
+      distantMovementSensitivity: {
         dataPoint: "105",
         kind: "number",
         unit: "X",
@@ -95,21 +95,21 @@ const entry: TuyaDeviceEntry = {
         min: 10,
         max: 500,
       },
-      nearPresenceSensitivityInX: {
+      nearPresenceSensitivity: {
         dataPoint: "109",
         kind: "number",
         unit: "X",
         min: 0,
         max: 10,
       },
-      nearMovementSensitivityInX: {
+      nearMovementSensitivity: {
         dataPoint: "110",
         kind: "number",
         unit: "X",
         min: 0,
         max: 10,
       },
-      distantPresenceSensitivityInX: {
+      distantPresenceSensitivity: {
         dataPoint: "111",
         kind: "number",
         unit: "X",

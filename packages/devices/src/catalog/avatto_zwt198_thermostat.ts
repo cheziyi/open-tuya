@@ -60,14 +60,14 @@ const entry: TuyaDeviceEntry = {
           { raw: "temporary", value: "temp_override" },
         ],
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "15",
         kind: "number",
         measures: "temperature",
         unit: "C",
         scale: 10,
       },
-      minTargetTemperatureInC: {
+      minimumTargetTemperatureInC: {
         dataPoint: "16",
         kind: "number",
         measures: "temperature",
@@ -89,7 +89,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "11",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -126,7 +126,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "Daily" },
         ],
       },
-      schedule2: { dataPoint: "109", kind: "text" },
+      secondSchedule: { dataPoint: "109", kind: "text" },
       temperatureHysteresisInC: {
         dataPoint: "107",
         kind: "number",

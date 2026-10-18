@@ -96,7 +96,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "4",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -113,7 +113,7 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
         step: 5,
       },
-      installation2: {
+      secondInstallation: {
         dataPoint: "7",
         kind: "select",
         values: [
@@ -129,8 +129,8 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      adaptive2: { dataPoint: "10", kind: "switch" },
-      schedule2: {
+      secondAdaptive: { dataPoint: "10", kind: "switch" },
+      secondSchedule: {
         dataPoint: "12",
         kind: "select",
         values: [

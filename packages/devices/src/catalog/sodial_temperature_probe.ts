@@ -27,7 +27,7 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "9",
         kind: "select",
         values: [

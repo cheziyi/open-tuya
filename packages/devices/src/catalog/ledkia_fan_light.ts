@@ -63,6 +63,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "scene", value: "Scene" },
         ],
         otherwise: "off",
+        ownRuleReadOnly: true,
       },
       brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
       colorTemperatureInK: {

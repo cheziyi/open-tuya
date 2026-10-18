@@ -362,6 +362,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 3600, value: true },
         ],
         otherwise: true,
+        ownRuleReadOnly: true,
       },
       regulatorMode: { dataPoint: "146", kind: "switch" },
     },

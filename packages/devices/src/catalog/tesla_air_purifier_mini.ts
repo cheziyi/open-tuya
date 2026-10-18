@@ -17,7 +17,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     airPurifier: {
       on: { dataPoint: "1", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "4",
         kind: "select",
         values: [

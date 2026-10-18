@@ -74,6 +74,7 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [{ raw: "Doorbell Trigger！\nZone:00", value: "ring" }],
+        otherwise: null,
       },
       doorbellMessage: { dataPoint: "26", kind: "sensor", readOnly: true },
       entryDelayInSeconds: {

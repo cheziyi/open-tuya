@@ -19,7 +19,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     fan: {
       on: { dataPoint: "101", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "2",
         kind: "select",
         values: [
@@ -28,6 +28,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "sleep", value: "sleep" },
         ],
         otherwise: "normal",
+        ownRuleReadOnly: true,
       },
       speed: { dataPoint: "3", kind: "number", min: 1, max: 5 },
       direction: { dataPoint: "8", kind: "text" },

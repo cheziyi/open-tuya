@@ -153,6 +153,13 @@ const entry: TuyaDeviceEntry = {
         max: 400,
         dependsOn: {
           dataPoint: "43",
+          constraint: {
+            dataPoint: "43",
+            values: [
+              { raw: "c", value: "C" },
+              { raw: "f", value: "F" },
+            ],
+          },
           conditions: [
             {
               when: ["f"],
@@ -170,13 +177,20 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
         step: 5,
       },
-      maxTargetTemperature: {
+      maximumTargetTemperature: {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "43",
+          constraint: {
+            dataPoint: "43",
+            values: [
+              { raw: "c", value: "C" },
+              { raw: "f", value: "F" },
+            ],
+          },
           conditions: [
             { when: ["f"], redirect: { dataPoint: "18", scale: 10 } },
           ],
@@ -191,16 +205,30 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "43",
+          constraint: {
+            dataPoint: "43",
+            values: [
+              { raw: "c", value: "C" },
+              { raw: "f", value: "F" },
+            ],
+          },
           conditions: [{ when: ["f"], redirect: { dataPoint: "29" } }],
         },
       },
-      minTargetTemperature: {
+      minimumTargetTemperature: {
         dataPoint: "26",
         kind: "number",
         measures: "temperature",
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "43",
+          constraint: {
+            dataPoint: "43",
+            values: [
+              { raw: "c", value: "C" },
+              { raw: "f", value: "F" },
+            ],
+          },
           conditions: [
             { when: ["f"], redirect: { dataPoint: "20", scale: 10 } },
           ],
@@ -231,6 +259,13 @@ const entry: TuyaDeviceEntry = {
         max: 400,
         dependsOn: {
           dataPoint: "43",
+          constraint: {
+            dataPoint: "43",
+            values: [
+              { raw: "c", value: "C" },
+              { raw: "f", value: "F" },
+            ],
+          },
           conditions: [
             {
               when: ["f"],
@@ -265,6 +300,11 @@ const entry: TuyaDeviceEntry = {
         max: 380,
         dependsOn: {
           dataPoint: "43",
+          constraint: {
+            dataPoint: "43",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             {
               when: ["f"],
@@ -288,7 +328,7 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "43",
         kind: "select",
         values: [
@@ -317,6 +357,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "open", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       temperatureCalibration: {
@@ -337,8 +378,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "31",
         kind: "select",
         values: [
-          { raw: "5_2", value: "5 + 2" },
-          { raw: "6_1", value: "6 + 1" },
+          { raw: "52", value: "5 + 2" },
+          { raw: "61", value: "6 + 1" },
         ],
       },
       factoryReset: { dataPoint: "39", kind: "button" },
@@ -346,7 +387,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "45",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

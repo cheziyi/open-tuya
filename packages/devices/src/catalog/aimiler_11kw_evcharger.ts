@@ -54,7 +54,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "10",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -135,7 +135,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      currentInA2: {
+      secondCurrentInA: {
         dataPoint: "6",
         mask: "0000FFFFFF000000",
         kind: "sensor",

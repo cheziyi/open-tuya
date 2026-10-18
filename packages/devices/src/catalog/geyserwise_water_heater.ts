@@ -64,12 +64,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "On", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       fault: {
         dataPoint: "20",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -102,6 +103,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "On", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       solarTemperatureInC: {

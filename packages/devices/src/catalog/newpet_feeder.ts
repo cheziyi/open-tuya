@@ -36,7 +36,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "13",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -63,6 +63,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "fed",
       },
       feedReportPortions: { dataPoint: "14", kind: "sensor", readOnly: true },

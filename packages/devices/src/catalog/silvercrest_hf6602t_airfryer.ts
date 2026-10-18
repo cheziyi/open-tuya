@@ -79,7 +79,7 @@ const entry: TuyaDeviceEntry = {
         max: 200,
         step: 5,
       },
-      temperatureInC2: {
+      secondTemperatureInC: {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
@@ -112,7 +112,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "12",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -133,6 +133,7 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [
+          { raw: "0", value: null },
           { raw: "1", value: "flip" },
           { raw: "2", value: "done" },
         ],

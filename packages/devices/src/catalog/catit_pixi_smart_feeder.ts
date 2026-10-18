@@ -36,7 +36,7 @@ const entry: TuyaDeviceEntry = {
       foodShortage: {
         dataPoint: "14",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,
@@ -44,7 +44,7 @@ const entry: TuyaDeviceEntry = {
       foodBlockage: {
         dataPoint: "14",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
@@ -55,6 +55,7 @@ const entry: TuyaDeviceEntry = {
         measures: "running",
         readOnly: true,
         values: [{ raw: "feeding", value: true }],
+        whenAbsent: { value: null },
         otherwise: false,
       },
       lastMealDetails: { dataPoint: "104", kind: "sensor", readOnly: true },
@@ -62,7 +63,7 @@ const entry: TuyaDeviceEntry = {
       plug: {
         dataPoint: "105",
         kind: "sensor",
-        measures: "plug",
+        measures: "plugged",
         readOnly: true,
         values: [{ raw: 1, value: false }],
         otherwise: true,

@@ -112,7 +112,7 @@ const entry: TuyaDeviceEntry = {
           },
         ],
       },
-      mode: {
+      preset: {
         dataPoint: "3",
         kind: "select",
         values: [

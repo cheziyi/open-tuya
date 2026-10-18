@@ -64,7 +64,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "Hz",
       },
-      sensorThresholdInV: {
+      overvoltageThresholdInV: {
         dataPoint: "141",
         kind: "number",
         measures: "voltage",
@@ -72,7 +72,7 @@ const entry: TuyaDeviceEntry = {
         min: 250,
         max: 300,
       },
-      sensorThresholdInV2: {
+      undervoltageThresholdInV: {
         dataPoint: "142",
         kind: "number",
         measures: "voltage",
@@ -104,7 +104,7 @@ const entry: TuyaDeviceEntry = {
         min: 1,
         max: 10,
       },
-      breakerTriggerAction: {
+      breakerOvervoltageAction: {
         dataPoint: "161",
         kind: "select",
         values: [
@@ -113,7 +113,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction2: {
+      breakerUndervoltageAction: {
         dataPoint: "162",
         kind: "select",
         values: [
@@ -122,7 +122,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction3: {
+      breakerPhaseLossAction: {
         dataPoint: "163",
         kind: "select",
         values: [

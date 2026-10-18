@@ -35,6 +35,11 @@ const entry: TuyaDeviceEntry = {
         max: 350,
         dependsOn: {
           dataPoint: "19",
+          constraint: {
+            dataPoint: "19",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [{ when: ["f"], step: 10, min: 410, max: 950 }],
         },
         scale: 10,
@@ -57,6 +62,15 @@ const entry: TuyaDeviceEntry = {
             value: "cool",
             dependsOn: {
               dataPoint: "112",
+              constraint: {
+                dataPoint: "112",
+                values: [
+                  { raw: "1", value: "cooling" },
+                  { raw: "2", value: "heating" },
+                  { raw: "3", value: "heat/cool" },
+                  { raw: "5", value: "heatpump" },
+                ],
+              },
               conditions: [{ when: ["2"], invalid: true }],
             },
           },
@@ -65,6 +79,15 @@ const entry: TuyaDeviceEntry = {
             value: "heat",
             dependsOn: {
               dataPoint: "112",
+              constraint: {
+                dataPoint: "112",
+                values: [
+                  { raw: "1", value: "cooling" },
+                  { raw: "2", value: "heating" },
+                  { raw: "3", value: "heat/cool" },
+                  { raw: "5", value: "heatpump" },
+                ],
+              },
               conditions: [{ when: ["1"], invalid: true }],
             },
           },
@@ -165,7 +188,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "F",
       },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "19",
         kind: "select",
         values: [
@@ -173,7 +196,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "c", value: "celsius" },
         ],
       },
-      configuration2: {
+      secondConfiguration: {
         dataPoint: "112",
         kind: "select",
         values: [

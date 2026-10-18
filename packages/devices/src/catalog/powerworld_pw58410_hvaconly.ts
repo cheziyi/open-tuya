@@ -94,7 +94,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "wth_cool", value: "hotwater_cool" },
         ],
       },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "6",
         kind: "select",
         values: [
@@ -105,7 +105,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "15",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -379,7 +379,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 100,
       },
-      pumpSpeed2: {
+      secondPumpSpeed: {
         dataPoint: "140",
         mask: "00000000000000000000000000000000000000000000000000000000FFFFFFFF000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
         kind: "sensor",

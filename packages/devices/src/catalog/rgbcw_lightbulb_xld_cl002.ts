@@ -79,7 +79,7 @@ const entry: TuyaDeviceEntry = {
       },
       doNotDisturb: { dataPoint: "34", kind: "switch" },
       scene: { dataPoint: "51", kind: "text" },
-      scene2: {
+      secondScene: {
         dataPoint: "51",
         kind: "select",
         type: "string",

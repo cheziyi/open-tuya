@@ -50,18 +50,20 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [{ raw: true, value: "empty" }],
+        otherwise: null,
       },
       plug: {
         dataPoint: "102",
         mask: "0000000000000000000000000000000000000000000000000000000000000001",
         littleEndian: true,
         kind: "sensor",
-        measures: "plug",
+        measures: "plugged",
         readOnly: true,
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       battery: {
@@ -72,7 +74,7 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: {
           dependsOn: {
             dataPoint: "102",
-            reads: {
+            constraint: {
               dataPoint: "102",
               mask: "0000000000000000000000000000000000000000000000000000000000000700",
               littleEndian: true,
@@ -136,6 +138,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       totalCompartments: {
@@ -172,6 +175,7 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [
+          { raw: 0, value: null },
           { raw: 1, value: "ready" },
           { raw: 2, value: "late" },
           { raw: 3, value: "taken_early" },
@@ -193,29 +197,33 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [{ raw: true, value: "due" }],
+        otherwise: null,
       },
       lateReminder: {
         dataPoint: "106",
         kind: "event",
         readOnly: true,
         values: [{ raw: true, value: "past_due" }],
+        otherwise: null,
       },
       missedNotification: {
         dataPoint: "107",
         kind: "event",
         readOnly: true,
         values: [{ raw: true, value: "missed_dose" }],
+        otherwise: null,
       },
       refill: {
         dataPoint: "108",
         kind: "event",
         readOnly: true,
         values: [{ raw: true, value: "refill" }],
+        otherwise: null,
       },
       fault: {
         dataPoint: "109",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -247,6 +255,7 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [{ raw: true, value: "taken" }],
+        otherwise: null,
       },
       doNotDisturb: {
         dataPoint: "121",
@@ -256,6 +265,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       dndStartHourInHours: {
@@ -324,7 +334,7 @@ const entry: TuyaDeviceEntry = {
         min: 1,
         max: 240,
       },
-      loadedCompartments2: {
+      secondLoadedCompartments: {
         dataPoint: "127",
         kind: "number",
         min: 0,
@@ -340,7 +350,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 2, value: "Remind time left" },
         ],
       },
-      remindDosesThresholdInDoses: {
+      remindDosesThreshold: {
         dataPoint: "128",
         mask: "00FF00",
         kind: "number",
@@ -372,6 +382,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       autoTimeZone: {
@@ -382,6 +393,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       timeOffset: {
@@ -417,6 +429,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 1, value: true },
           { raw: 2, value: false },
         ],
+        otherwise: null,
       },
       medicationDueNotification: {
         dataPoint: "135",
@@ -426,6 +439,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 1, value: true },
           { raw: 2, value: false },
         ],
+        otherwise: null,
       },
       medicationLateNotification: {
         dataPoint: "135",
@@ -435,6 +449,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 1, value: true },
           { raw: 2, value: false },
         ],
+        otherwise: null,
       },
       medicationMissedNotification: {
         dataPoint: "135",
@@ -444,6 +459,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 1, value: true },
           { raw: 2, value: false },
         ],
+        otherwise: null,
       },
       medicationEmptyNotification: {
         dataPoint: "135",
@@ -453,6 +469,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 1, value: true },
           { raw: 2, value: false },
         ],
+        otherwise: null,
       },
       medicationTakenNotification: {
         dataPoint: "135",
@@ -462,6 +479,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 1, value: true },
           { raw: 2, value: false },
         ],
+        otherwise: null,
       },
       emergencyCallNotification: {
         dataPoint: "135",
@@ -471,6 +489,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 1, value: true },
           { raw: 2, value: false },
         ],
+        otherwise: null,
       },
       alarm1Status: {
         dataPoint: "102",

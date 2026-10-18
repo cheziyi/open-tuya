@@ -87,10 +87,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "polish", value: "polish" },
         ],
       },
-      alarm2: {
+      secondAlarm: {
         dataPoint: "26",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "alarm",
       },
       alarmMessage: { dataPoint: "26", kind: "sensor", readOnly: true },

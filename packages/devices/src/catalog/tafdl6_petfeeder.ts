@@ -74,6 +74,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "115",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "detected",
       },
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
@@ -92,6 +93,10 @@ const entry: TuyaDeviceEntry = {
         unit: "portions",
         min: 1,
         max: 10,
+        values: [
+          { raw: -2000, value: null },
+          { raw: -2001, value: null },
+        ],
       },
       feedResultInPortions: {
         dataPoint: "201",

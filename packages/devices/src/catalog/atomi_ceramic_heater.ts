@@ -89,13 +89,13 @@ const entry: TuyaDeviceEntry = {
       overheatProtection: {
         dataPoint: "102",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       tipOverProtection: {
         dataPoint: "103",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
     },

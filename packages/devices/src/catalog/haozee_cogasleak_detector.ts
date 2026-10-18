@@ -46,7 +46,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "21",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -104,7 +104,7 @@ const entry: TuyaDeviceEntry = {
         min: 1,
         max: 30,
       },
-      earlyWarningsInTimes: {
+      earlyWarnings: {
         dataPoint: "102",
         kind: "number",
         unit: "times",

@@ -83,7 +83,7 @@ const entry: TuyaDeviceEntry = {
         step: 2,
       },
       boost: { dataPoint: "106", kind: "switch" },
-      outputInPercent2: {
+      secondOutputInPercent: {
         dataPoint: "107",
         kind: "number",
         unit: "%",
@@ -108,7 +108,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "110",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           {
@@ -134,7 +134,7 @@ const entry: TuyaDeviceEntry = {
       saltNeeded: {
         dataPoint: "113",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       notifications: { dataPoint: "112", kind: "switch" },
@@ -145,7 +145,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "mV",
       },
-      orpInMillivolts2: {
+      secondOrpInMillivolts: {
         dataPoint: "116",
         kind: "number",
         measures: "voltage",
@@ -160,7 +160,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         scale: 10,
       },
-      ph2: {
+      secondPh: {
         dataPoint: "118",
         kind: "number",
         measures: "ph",
@@ -213,19 +213,19 @@ const entry: TuyaDeviceEntry = {
       phChange: {
         dataPoint: "130",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       orpChange: {
         dataPoint: "131",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       saltChange: {
         dataPoint: "132",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       pumpRuntimeInMinutes: {
@@ -244,7 +244,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 24,
       },
-      pump2: { dataPoint: "136", kind: "switch" },
+      secondPump: { dataPoint: "136", kind: "switch" },
       timer1Period1InHours: {
         dataPoint: "137",
         kind: "number",

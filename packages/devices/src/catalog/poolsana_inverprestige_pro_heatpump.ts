@@ -40,6 +40,18 @@ const entry: TuyaDeviceEntry = {
             raw: true,
             dependsOn: {
               dataPoint: "4",
+              constraint: {
+                dataPoint: "4",
+                values: [
+                  { raw: "heat", value: "smart_heat" },
+                  { raw: "h_powerful", value: "quick_heat" },
+                  { raw: "h_silent", value: "quiet_heat" },
+                  { raw: "cool", value: "smart_cool" },
+                  { raw: "c_powerful", value: "quick_cool" },
+                  { raw: "c_silent", value: "quiet_cool" },
+                  { raw: "auto", value: "auto" },
+                ],
+              },
               conditions: [
                 { when: ["heat"], value: "heat" },
                 { when: ["h_powerful"], value: "heat", readOnly: true },
@@ -86,7 +98,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "21",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -168,13 +180,13 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "C",
       },
-      stepsOfMainEevInStep: {
+      stepsOfMainEev: {
         dataPoint: "108",
         kind: "sensor",
         readOnly: true,
         unit: "step",
       },
-      notAvailableStepsInStep: {
+      notAvailableSteps: {
         dataPoint: "109",
         kind: "sensor",
         readOnly: true,

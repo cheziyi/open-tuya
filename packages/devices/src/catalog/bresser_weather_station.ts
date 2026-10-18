@@ -76,6 +76,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       temperatureUnit: {
@@ -126,7 +127,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: "", value: false }],
         whenAbsent: { value: false },
@@ -143,6 +144,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       batteryChannel1: {
@@ -155,6 +157,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       batteryChannel2: {
@@ -167,6 +170,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       batteryChannel3: {
@@ -179,6 +183,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       temperatureInC: {

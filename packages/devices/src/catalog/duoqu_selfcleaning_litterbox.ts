@@ -51,7 +51,7 @@ const entry: TuyaDeviceEntry = {
         unit: "s",
       },
       clean: { dataPoint: "9", kind: "button" },
-      visitCountInTimes: {
+      visitCount: {
         dataPoint: "7",
         kind: "sensor",
         readOnly: true,

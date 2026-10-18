@@ -161,14 +161,14 @@ const entry: TuyaDeviceEntry = {
           { raw: "2", value: "AI eco PID" },
         ],
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "113",
         kind: "number",
         measures: "temperature",
         unit: "C",
         scale: 100,
       },
-      minTargetTemperatureInC: {
+      minimumTargetTemperatureInC: {
         dataPoint: "114",
         kind: "number",
         measures: "temperature",
@@ -245,13 +245,13 @@ const entry: TuyaDeviceEntry = {
       ventilationBlocked: {
         dataPoint: "108",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       filterBlocked: {
         dataPoint: "110",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       filterBlockedVoiceAlert: {
@@ -279,7 +279,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "rpm",
       },
-      outdoorFanSpeedInRpm2: {
+      secondOutdoorFanSpeedInRpm: {
         dataPoint: "118",
         kind: "number",
         unit: "rpm",
@@ -299,7 +299,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
       },
-      compressorFrequencyInHz2: {
+      secondCompressorFrequencyInHz: {
         dataPoint: "121",
         kind: "number",
         measures: "frequency",
@@ -316,6 +316,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "1", value: true },
         ],
         otherwise: true,
+        ownRuleReadOnly: true,
       },
       reportingMode: {
         dataPoint: "125",
@@ -364,7 +365,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "134",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: "", value: false },

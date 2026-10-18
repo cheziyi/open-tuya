@@ -50,6 +50,17 @@ const entry: TuyaDeviceEntry = {
             value: "standby",
             dependsOn: {
               dataPoint: "27",
+              constraint: {
+                dataPoint: "27",
+                values: [
+                  { raw: "standby", value: "stop" },
+                  { raw: "smart", value: "smart" },
+                  { raw: "spiral", value: "clean_spot" },
+                  { raw: "single", value: "single" },
+                  { raw: "wall_follow", value: "wall_follow" },
+                  { raw: "chargego", value: "return_to_base" },
+                ],
+              },
               conditions: [
                 { when: ["chargego"], value: "return_to_base" },
                 {
@@ -107,7 +118,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "11",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

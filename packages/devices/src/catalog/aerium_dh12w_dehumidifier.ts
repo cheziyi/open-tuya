@@ -28,6 +28,7 @@ const entry: TuyaDeviceEntry = {
         min: 40,
         max: 60,
         values: [
+          { raw: "0", value: null, readOnly: true },
           { raw: "40", value: 40 },
           { raw: "50", value: 50 },
           { raw: "60", value: 60 },
@@ -41,6 +42,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "60", value: "normal" },
         ],
         otherwise: "normal",
+        ownRuleReadOnly: true,
       },
       currentHumidityInPercent: {
         dataPoint: "6",
@@ -82,7 +84,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "19",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

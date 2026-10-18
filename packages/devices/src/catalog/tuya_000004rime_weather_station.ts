@@ -127,10 +127,10 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "select",
         values: [
-          { raw: 0, value: "Alarm" },
-          { raw: 1, value: "Silent" },
-          { raw: 2, value: "Enabled" },
-          { raw: 3, value: "Disabled" },
+          { raw: "0", value: "Alarm" },
+          { raw: "1", value: "Silent" },
+          { raw: "2", value: "Enabled" },
+          { raw: "3", value: "Disabled" },
         ],
       },
       alarmSettingsPayload: { dataPoint: "109", kind: "text" },
@@ -228,7 +228,7 @@ const entry: TuyaDeviceEntry = {
       displaySettings: {
         dataPoint: "108",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         whenAbsent: { value: true },
         otherwise: false,
@@ -430,7 +430,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "113",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -438,6 +438,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 2, value: true },
           { raw: 3, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       faultCode: { dataPoint: "113", kind: "sensor", readOnly: true },

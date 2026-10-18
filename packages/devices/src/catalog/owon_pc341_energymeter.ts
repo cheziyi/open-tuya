@@ -87,7 +87,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         dependsOn: {
           dataPoint: "6",
-          reads: {
+          constraint: {
             dataPoint: "6",
             mask: "000000000000000000000000000000000001",
           },
@@ -111,7 +111,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kW",
         dependsOn: {
           dataPoint: "6",
-          reads: {
+          constraint: {
             dataPoint: "6",
             mask: "000000000000000000000000000000000002",
           },
@@ -135,7 +135,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kvar",
         dependsOn: {
           dataPoint: "6",
-          reads: {
+          constraint: {
             dataPoint: "6",
             mask: "000000000000000000000000000000000004",
           },
@@ -167,7 +167,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         dependsOn: {
           dataPoint: "6",
-          reads: {
+          constraint: {
             dataPoint: "6",
             mask: "000000000000000000000000000000000008",
           },
@@ -200,7 +200,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         dependsOn: {
           dataPoint: "7",
-          reads: {
+          constraint: {
             dataPoint: "7",
             mask: "000000000000000000000000000000000001",
           },
@@ -224,7 +224,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kW",
         dependsOn: {
           dataPoint: "7",
-          reads: {
+          constraint: {
             dataPoint: "7",
             mask: "000000000000000000000000000000000002",
           },
@@ -248,7 +248,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kvar",
         dependsOn: {
           dataPoint: "7",
-          reads: {
+          constraint: {
             dataPoint: "7",
             mask: "000000000000000000000000000000000004",
           },
@@ -280,7 +280,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         dependsOn: {
           dataPoint: "7",
-          reads: {
+          constraint: {
             dataPoint: "7",
             mask: "000000000000000000000000000000000008",
           },
@@ -313,7 +313,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         dependsOn: {
           dataPoint: "8",
-          reads: {
+          constraint: {
             dataPoint: "8",
             mask: "000000000000000000000000000000000001",
           },
@@ -337,7 +337,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kW",
         dependsOn: {
           dataPoint: "8",
-          reads: {
+          constraint: {
             dataPoint: "8",
             mask: "000000000000000000000000000000000002",
           },
@@ -361,7 +361,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kvar",
         dependsOn: {
           dataPoint: "8",
-          reads: {
+          constraint: {
             dataPoint: "8",
             mask: "000000000000000000000000000000000004",
           },
@@ -393,7 +393,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         dependsOn: {
           dataPoint: "8",
-          reads: {
+          constraint: {
             dataPoint: "8",
             mask: "000000000000000000000000000000000008",
           },
@@ -419,7 +419,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "10",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },

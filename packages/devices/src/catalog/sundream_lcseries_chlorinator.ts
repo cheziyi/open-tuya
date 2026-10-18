@@ -55,9 +55,8 @@ const entry: TuyaDeviceEntry = {
         unit: "%",
         min: 50,
         max: 100,
-        whenAbsent: {
-          redirect: { dataPoint: "105", min: 5, max: 100, step: 5 },
-        },
+        whenAbsent: { redirect: { dataPoint: "105", min: 5, max: 100 } },
+        ownRuleReadOnly: true,
         step: 50,
       },
       levelLc150: { dataPoint: "105", kind: "number", min: 5, max: 100 },
@@ -101,7 +100,7 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         scale: 10,
       },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "108",
         kind: "sensor",
         readOnly: true,
@@ -111,7 +110,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "112",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -251,6 +250,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "133",
         kind: "event",
         readOnly: true,
+        values: [{ raw: 0, value: null }],
+        whenAbsent: { value: null },
         otherwise: "added",
       },
       saltAddedAmount: {

@@ -122,7 +122,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "110",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: "Normal", value: false },
@@ -143,6 +143,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Electricity_Reset", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       faultReason: { dataPoint: "110", kind: "sensor", readOnly: true },
@@ -194,7 +195,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Closed", value: false },
         ],
       },
-      sensorThresholdInA: {
+      overCurrentThresholdInA: {
         dataPoint: "114",
         kind: "number",
         measures: "current",
@@ -202,7 +203,7 @@ const entry: TuyaDeviceEntry = {
         min: 1,
         max: 50,
       },
-      sensorThresholdInV: {
+      overVoltageThresholdInV: {
         dataPoint: "115",
         kind: "number",
         measures: "voltage",
@@ -210,7 +211,7 @@ const entry: TuyaDeviceEntry = {
         min: 100,
         max: 280,
       },
-      sensorThresholdInV2: {
+      underVoltageThresholdInV: {
         dataPoint: "116",
         kind: "number",
         measures: "voltage",
@@ -227,7 +228,7 @@ const entry: TuyaDeviceEntry = {
         max: 1000,
         scale: 10,
       },
-      sensorThresholdInW: {
+      overPowerThresholdInW: {
         dataPoint: "119",
         kind: "number",
         measures: "power",
@@ -236,7 +237,7 @@ const entry: TuyaDeviceEntry = {
         max: 12000,
         step: 10,
       },
-      sensorThresholdInKwh: {
+      lowEnergyThresholdInKwh: {
         dataPoint: "120",
         kind: "number",
         measures: "energy",

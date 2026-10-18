@@ -45,7 +45,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "9",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -219,7 +219,7 @@ const entry: TuyaDeviceEntry = {
       earthLeak: {
         dataPoint: "106",
         kind: "sensor",
-        measures: "safety",
+        measures: "hazard",
         readOnly: true,
       },
       resetTotalEnergy: { dataPoint: "115", kind: "button" },

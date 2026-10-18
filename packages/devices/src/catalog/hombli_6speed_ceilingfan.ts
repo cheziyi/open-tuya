@@ -64,6 +64,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "connected",
       },
       reconnectionMessage: { dataPoint: "101", kind: "sensor", readOnly: true },

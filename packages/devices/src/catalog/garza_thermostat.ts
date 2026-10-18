@@ -62,6 +62,11 @@ const entry: TuyaDeviceEntry = {
         max: 950,
         dependsOn: {
           dataPoint: "19",
+          constraint: {
+            dataPoint: "19",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             { when: ["c"], min: 50, max: 350 },
             { when: ["f"], step: 10, min: 410, max: 950 },
@@ -101,7 +106,7 @@ const entry: TuyaDeviceEntry = {
           },
         ],
       },
-      minTargetTemperature: {
+      minimumTargetTemperature: {
         dataPoint: "111",
         mask: "0000FFFF",
         kind: "number",
@@ -109,7 +114,7 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         scale: 10,
       },
-      maxTargetTemperature: {
+      maximumTargetTemperature: {
         dataPoint: "111",
         mask: "FFFF0000",
         kind: "number",

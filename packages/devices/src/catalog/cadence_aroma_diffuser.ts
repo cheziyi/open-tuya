@@ -26,7 +26,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     aromaDiffuser: {
       on: { dataPoint: "2", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "103",
         kind: "select",
         values: [

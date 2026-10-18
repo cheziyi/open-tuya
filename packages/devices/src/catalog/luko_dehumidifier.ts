@@ -53,7 +53,7 @@ const entry: TuyaDeviceEntry = {
         max: 350,
         scale: 10,
       },
-      temperatureInC2: {
+      secondTemperatureInC: {
         dataPoint: "9",
         kind: "sensor",
         measures: "temperature",
@@ -98,7 +98,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "5speed", value: 100 },
         ],
       },
-      mode: {
+      preset: {
         dataPoint: "115",
         kind: "select",
         values: [

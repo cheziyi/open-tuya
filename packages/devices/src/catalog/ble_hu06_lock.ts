@@ -29,16 +29,17 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     lock: {
-      unlockPassword: { dataPoint: "13", kind: "number" },
-      unlockKey: { dataPoint: "16", kind: "number" },
-      unlockBle: { dataPoint: "19", kind: "number" },
+      unlockPassword: { dataPoint: "13", kind: "sensor", readOnly: true },
+      unlockKey: { dataPoint: "16", kind: "sensor", readOnly: true },
+      unlockBle: { dataPoint: "19", kind: "sensor", readOnly: true },
       jammed: {
         dataPoint: "21",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [{ raw: "tongue_bad", value: true }],
         otherwise: false,
       },
-      unlockFingerprint: { dataPoint: "43", kind: "number" },
+      unlockFingerprint: { dataPoint: "43", kind: "sensor", readOnly: true },
       lockState: {
         dataPoint: "47",
         kind: "sensor",
@@ -48,8 +49,8 @@ const entry: TuyaDeviceEntry = {
           { raw: true, value: false },
         ],
       },
-      unlockApp: { dataPoint: "62", kind: "number" },
-      unlockVoice: { dataPoint: "63", kind: "number" },
+      unlockApp: { dataPoint: "62", kind: "sensor", readOnly: true },
+      unlockVoice: { dataPoint: "63", kind: "sensor", readOnly: true },
       lockRecord: { dataPoint: "105", kind: "text" },
       batteryInPercent: {
         dataPoint: "8",
@@ -61,7 +62,7 @@ const entry: TuyaDeviceEntry = {
       wrongPassword: {
         dataPoint: "21",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: "wrong_password", value: true },
@@ -88,13 +89,14 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "low_battery", value: true },
           { raw: "10", value: true },
+          { raw: "low_battery_keypad", value: true },
         ],
         otherwise: false,
       },
       fault: {
         dataPoint: "21",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: "defense", value: true },
@@ -106,7 +108,7 @@ const entry: TuyaDeviceEntry = {
       duress: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "safety",
+        measures: "hazard",
         readOnly: true,
         whenAbsent: { value: false },
       },
@@ -114,7 +116,10 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         kind: "event",
         readOnly: true,
-        values: [{ raw: true, value: "ring" }],
+        values: [
+          { raw: true, value: "ring" },
+          { raw: false, value: null },
+        ],
       },
       doorbellVolumeInPercent: {
         dataPoint: "27",
@@ -142,10 +147,12 @@ const entry: TuyaDeviceEntry = {
         measures: "door",
         readOnly: true,
         values: [
+          { raw: "unknown", value: null },
           { raw: "open", value: true },
           { raw: "closed", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       keypadReset: {

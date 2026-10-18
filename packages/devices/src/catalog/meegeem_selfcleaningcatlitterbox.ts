@@ -49,6 +49,8 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "kg",
         values: [
+          { raw: 0, value: null },
+          { raw: 1, value: null },
           { raw: 2, value: 1 },
           { raw: 4, value: 2 },
           { raw: 8, value: 3 },
@@ -74,7 +76,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -116,24 +118,26 @@ const entry: TuyaDeviceEntry = {
       litter: {
         dataPoint: "104",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: true },
           { raw: 1, value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       operatingMode: { dataPoint: "105", kind: "sensor", readOnly: true },
       wasteBin: {
         dataPoint: "106",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: true },
           { raw: 1, value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
     },

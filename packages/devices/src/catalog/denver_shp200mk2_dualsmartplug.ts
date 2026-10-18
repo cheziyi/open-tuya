@@ -77,7 +77,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "26",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -92,6 +92,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "off", value: "off" },
           { raw: "memory", value: "memory" },
         ],
+        whenAbsent: {},
       },
     },
   },

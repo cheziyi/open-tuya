@@ -83,7 +83,7 @@ const entry: TuyaDeviceEntry = {
       },
       mainSwitch: { dataPoint: "101", kind: "switch" },
       scene: { dataPoint: "102", kind: "text" },
-      scene2: {
+      secondScene: {
         dataPoint: "102",
         kind: "select",
         type: "string",
@@ -141,7 +141,7 @@ const entry: TuyaDeviceEntry = {
     },
     fan: {
       on: { dataPoint: "60", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "61",
         kind: "select",
         values: [

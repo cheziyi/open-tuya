@@ -70,7 +70,7 @@ const entry: TuyaDeviceEntry = {
       saveValue: { dataPoint: "109", kind: "button" },
       readValue: { dataPoint: "107", kind: "button" },
       load: { dataPoint: "15", kind: "switch" },
-      sensorThresholdInV: {
+      overVoltageThresholdInV: {
         dataPoint: "11",
         kind: "number",
         measures: "voltage",
@@ -79,7 +79,7 @@ const entry: TuyaDeviceEntry = {
         max: 9999,
         scale: 10,
       },
-      sensorThresholdInV2: {
+      underVoltageThresholdInV: {
         dataPoint: "12",
         kind: "number",
         measures: "voltage",
@@ -205,7 +205,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "7",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -300,7 +300,7 @@ const entry: TuyaDeviceEntry = {
         unit: "%",
         scale: 10,
       },
-      loadVoltageInV2: {
+      secondLoadVoltageInV: {
         dataPoint: "106",
         mask: "FFFF00000000",
         kind: "sensor",
@@ -318,7 +318,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 10,
       },
-      loadPowerInW2: {
+      secondLoadPowerInW: {
         dataPoint: "106",
         mask: "00000000FFFF",
         kind: "sensor",

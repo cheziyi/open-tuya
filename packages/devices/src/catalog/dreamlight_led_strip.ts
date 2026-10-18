@@ -89,9 +89,9 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 86400,
       },
-      pixels2: { dataPoint: "53", kind: "number", min: 1, max: 1000 },
+      secondPixels: { dataPoint: "53", kind: "number", min: 1, max: 1000 },
       scene: { dataPoint: "51", kind: "text" },
-      scene2: {
+      secondScene: {
         dataPoint: "51",
         kind: "select",
         type: "string",

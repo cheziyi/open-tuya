@@ -106,6 +106,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "pir", value: "detected" },
           { raw: "none", value: "clear" },
         ],
+        otherwise: null,
       },
       daylightCutoff: {
         dataPoint: "53",

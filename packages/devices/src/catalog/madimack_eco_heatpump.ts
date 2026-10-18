@@ -87,13 +87,13 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unitFrom: "temperatureUnit",
       },
-      maxTargetTemperature: {
+      maximumTargetTemperature: {
         dataPoint: "110",
         kind: "number",
         measures: "temperature",
         unitFrom: "temperatureUnit",
       },
-      minTargetTemperature: {
+      minimumTargetTemperature: {
         dataPoint: "111",
         kind: "number",
         measures: "temperature",
@@ -107,7 +107,7 @@ const entry: TuyaDeviceEntry = {
         kind: "switch",
         whenAbsent: { value: false },
       },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "106",
         kind: "select",
         values: [
@@ -118,7 +118,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "107",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           {
@@ -268,7 +268,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "c", value: "C" },
         ],
       },
-      expansionValveInP: {
+      expansionValve: {
         dataPoint: "121",
         kind: "sensor",
         readOnly: true,

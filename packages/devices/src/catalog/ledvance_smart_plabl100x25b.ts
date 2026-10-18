@@ -20,7 +20,7 @@ const entry: TuyaDeviceEntry = {
     light: {
       on: { dataPoint: "20", kind: "switch" },
       power: { dataPoint: "20", kind: "switch" },
-      on2: {
+      secondOn: {
         dataPoint: "51",
         mask: "000100000000000000000000",
         kind: "switch",

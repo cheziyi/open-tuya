@@ -32,6 +32,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "eco_mode", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       mealPlan: { dataPoint: "1", kind: "text" },
@@ -53,7 +54,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "14",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -80,7 +81,7 @@ const entry: TuyaDeviceEntry = {
       plug: {
         dataPoint: "101",
         kind: "sensor",
-        measures: "plug",
+        measures: "plugged",
         readOnly: true,
         values: [{ raw: "no_adapter", value: false }],
         otherwise: true,

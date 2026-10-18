@@ -59,7 +59,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      on2: {
+      secondOn: {
         dataPoint: "103",
         kind: "select",
         values: [
@@ -67,6 +67,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "4", value: true },
         ],
         otherwise: true,
+        ownRuleReadOnly: true,
       },
       colorName: {
         dataPoint: "103",
@@ -85,6 +86,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "10", value: "grey" },
         ],
         otherwise: "grey",
+        ownRuleReadOnly: true,
       },
       effect: {
         dataPoint: "103",
@@ -96,6 +98,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "12", value: "Rainbow smooth" },
         ],
         otherwise: "off",
+        ownRuleReadOnly: true,
       },
       heatingPlateTemperatureInC: {
         dataPoint: "104",
@@ -125,16 +128,16 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
         values: [
-          { raw: 0, value: "Normal" },
-          { raw: 1, value: "Dryer box tilted" },
-          { raw: 2, value: "Heat plate overheated" },
-          { raw: 3, value: "Dryer box overheated" },
-          { raw: 4, value: "Fan RPM too low" },
-          { raw: 5, value: "5" },
-          { raw: 6, value: "6" },
-          { raw: 7, value: "7" },
-          { raw: 8, value: "8" },
-          { raw: 9, value: "9" },
+          { raw: "0", value: "Normal" },
+          { raw: "1", value: "Dryer box tilted" },
+          { raw: "2", value: "Heat plate overheated" },
+          { raw: "3", value: "Dryer box overheated" },
+          { raw: "4", value: "Fan RPM too low" },
+          { raw: "5", value: "5" },
+          { raw: "6", value: "6" },
+          { raw: "7", value: "7" },
+          { raw: "8", value: "8" },
+          { raw: "9", value: "9" },
         ],
       },
       fanSpeedInRpm: {

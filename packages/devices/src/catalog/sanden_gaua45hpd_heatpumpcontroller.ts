@@ -120,7 +120,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "109",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: "--", value: false }],
         otherwise: true,
@@ -196,7 +196,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "h",
       },
-      compressorRunsInTimes: {
+      compressorRuns: {
         dataPoint: "130",
         kind: "sensor",
         readOnly: true,

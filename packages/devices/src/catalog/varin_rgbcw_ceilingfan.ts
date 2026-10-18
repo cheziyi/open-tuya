@@ -99,12 +99,12 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 86400,
       },
-      on2: { dataPoint: "119", kind: "switch" },
+      secondOn: { dataPoint: "119", kind: "switch" },
       music: { dataPoint: "121", kind: "text" },
     },
     fan: {
       on: { dataPoint: "60", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "61",
         kind: "select",
         values: [

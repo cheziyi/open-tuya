@@ -1,4 +1,4 @@
-import { parse, YAMLParseError } from "yaml";
+import { parse, type Tags, YAMLParseError } from "yaml";
 import type {
   ControlCondition,
   ControlDependency,
@@ -11,6 +11,7 @@ import type {
   TuyaDataPointType,
   TuyaDeviceEntry,
 } from "../src/entry.js";
+import { pyStr } from "../src/python.ts";
 import {
   type ControlKind,
   type ControlName,
@@ -89,6 +90,8 @@ export type Conversion =
 // A feature found while converting, which keeps the file out.
 class UnsupportedFeature extends Error {}
 
+class LoopingRedirect extends UnsupportedFeature {}
+
 const RANGE_ON_RAW = "a mapping's own `range` on one raw value";
 const DATA_POINT_TYPES: ReadonlySet<string> = new Set([
   "boolean",
@@ -103,6 +106,14 @@ const DATA_POINT_TYPES: ReadonlySet<string> = new Set([
 ]);
 const NUMBER_CONVERSIONS = ["scale", "step", "invert", "target_range"];
 const PACKED_TYPES: ReadonlySet<string> = new Set(["base64", "hex"]);
+// The types tuya-local reads as text.
+const STRING_TYPES: ReadonlySet<string> = new Set([
+  "base64",
+  "hex",
+  "json",
+  "string",
+  "utf16b64",
+]);
 const MASKED_TYPES: ReadonlySet<string> = new Set([
   "base64",
   "bitfield",
@@ -111,7 +122,7 @@ const MASKED_TYPES: ReadonlySet<string> = new Set([
 ]);
 // Source: A format field of 1, 2 or 4 bytes unpacks as a number, and one of
 // 3 bytes as bytes, in
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L49-L71.
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L49-L71.
 const FORMAT_FIELD_BYTES: ReadonlySet<number> = new Set([1, 2, 4]);
 const NUMBER_TYPES: ReadonlySet<string> = new Set([
   "bitfield",
@@ -178,15 +189,15 @@ const COMPOSITE_CONTROLS: Record<string, ControlName> = {
   "climate.current_temperature": "currentTemperature",
   "climate.target_temp_low": "heatingTargetTemperature",
   "climate.target_temp_high": "coolingTargetTemperature",
-  "climate.min_temperature": "minTargetTemperature",
-  "climate.min_temp": "minTargetTemperature",
-  "climate.max_temp": "maxTargetTemperature",
+  "climate.min_temperature": "minimumTargetTemperature",
+  "climate.min_temp": "minimumTargetTemperature",
+  "climate.max_temp": "maximumTargetTemperature",
   "climate.temp_set": "targetTemperature",
   "climate.temp_current": "currentTemperature",
   "climate.temp_cur": "currentTemperature",
   "climate.current_temp": "currentTemperature",
   "climate.cur_temp": "currentTemperature",
-  "climate.max_temperature": "maxTargetTemperature",
+  "climate.max_temperature": "maximumTargetTemperature",
   "climate.temperature_unit": "temperatureUnit",
   "climate.preset_mode": "preset",
   "climate.fan_mode": "fanMode",
@@ -197,13 +208,13 @@ const COMPOSITE_CONTROLS: Record<string, ControlName> = {
   "water_heater.operation_mode": "mode",
   "water_heater.temperature": "targetTemperature",
   "water_heater.current_temperature": "currentTemperature",
-  "water_heater.min_temperature": "minTargetTemperature",
-  "water_heater.max_temperature": "maxTargetTemperature",
+  "water_heater.min_temperature": "minimumTargetTemperature",
+  "water_heater.max_temperature": "maximumTargetTemperature",
   "water_heater.temperature_unit": "temperatureUnit",
   "water_heater.away_mode": "awayMode",
   "fan.switch": "on",
   "fan.speed": "speed",
-  "fan.preset_mode": "mode",
+  "fan.preset_mode": "preset",
   "fan.oscillate": "oscillating",
   "fan.direction": "direction",
   "humidifier.switch": "on",
@@ -253,6 +264,7 @@ const DEFAULT_VALUE_DATA_POINTS: ReadonlySet<string> = new Set([
 const SIMPLE_CONTROLS: Record<string, ControlName> = {
   "switch/": "on",
   "lock/child_lock": "childLock",
+  "switch/camera_record": "recording",
   "binary_sensor/class:problem": "fault",
   "sensor/class:temperature": "temperature",
   "sensor/class:humidity": "humidity",
@@ -266,7 +278,7 @@ const SIMPLE_CONTROLS: Record<string, ControlName> = {
 // Source: A climate entity's temperatures share one unit: the one its unit
 // data point reports, or else the first of these data points that names one,
 // or else Celsius, in
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/climate.py#L127-L156.
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/climate.py#L127-L156.
 const TEMPERATURE_UNIT_DATA_POINTS = [
   "temperature",
   "target_temp_high",
@@ -293,6 +305,27 @@ const READ_ONLY_CONTROLS: ReadonlySet<string> = new Set<ControlName>([
   "movement",
 ]);
 
+// Source: A lock reads these data points, and never writes them, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/lock.py#L74-L96.
+const READ_ONLY_DATA_POINTS: ReadonlySet<string> = new Set([
+  "lock.jammed",
+  "lock.request_intercom",
+  "lock.request_unlock",
+  "lock.unlock_app",
+  "lock.unlock_ble",
+  "lock.unlock_card",
+  "lock.unlock_dynamic_pwd",
+  "lock.unlock_face",
+  "lock.unlock_fingerprint",
+  "lock.unlock_ibeacon",
+  "lock.unlock_key",
+  "lock.unlock_multi",
+  "lock.unlock_offline_pwd",
+  "lock.unlock_password",
+  "lock.unlock_temp_pwd",
+  "lock.unlock_voice",
+]);
+
 const READ_ONLY_ENTITIES: ReadonlySet<string> = new Set([
   "binary_sensor",
   "event",
@@ -312,9 +345,9 @@ const COLOR_FIELDS: Record<string, ControlName> = {
 
 // Source: A switch or a binary sensor is on while its data point's value is
 // truthy, in
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/switch.py#L58-L63,
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/binary_sensor.py#L64-L66
-// and https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/light.py#L154-L157,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/switch.py#L58-L63,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/binary_sensor.py#L64-L66
+// and https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/light.py#L154-L157,
 // so masked bits with no mapping read as a boolean.
 const BOOLEAN_DATA_POINTS: ReadonlySet<string> = new Set([
   "binary_sensor.sensor",
@@ -355,8 +388,8 @@ const COMPOSITE_MEASURES: Partial<Record<ControlName, Measure>> = {
   currentHumidity: "humidity",
   currentTemperature: "temperature",
   heatingTargetTemperature: "temperature",
-  maxTargetTemperature: "temperature",
-  minTargetTemperature: "temperature",
+  maximumTargetTemperature: "temperature",
+  minimumTargetTemperature: "temperature",
   targetHumidity: "humidity",
   targetTemperature: "temperature",
 };
@@ -367,6 +400,24 @@ const TIME_UNITS: Record<string, string> = {
   minute: "min",
   second: "s",
 };
+
+// Units that count something, which a name does not spell as a unit: a
+// count of uses, a valve's steps or pulses, a zoom factor.
+const COUNTED_UNITS: ReadonlySet<string> = new Set([
+  "cleanings",
+  "controllers",
+  "cycles",
+  "doses",
+  "leds",
+  "P",
+  "pulse",
+  "step",
+  "times",
+  "uses",
+  "visits",
+  "x",
+  "X",
+]);
 
 // Name suffixes for the units tuya-local writes most: AGENTS.md spells a unit
 // after `In`, abbreviating only where the abbreviation is well known.
@@ -407,15 +458,82 @@ const UNIT_SUFFIXES: Record<string, UnitSuffix> = {
   portions: "Portions",
 };
 
+// Source: tuya-local reads its device files with PyYAML, as YAML 1.1, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L101-L109.
+// These are PyYAML's resolvers where the yaml library's YAML 1.1 schema
+// differs: no y or n as a boolean, a float only with a dot, and no decimal
+// integer with a leading zero.
+const PYYAML_TESTS: Record<string, RegExp> = {
+  true: /^(?:yes|Yes|YES|true|True|TRUE|on|On|ON)$/,
+  false: /^(?:no|No|NO|false|False|FALSE|off|Off|OFF)$/,
+  float:
+    /^(?:[-+]?[0-9][0-9_]*\.[0-9_]*(?:[eE][-+][0-9]+)?|\.[0-9][0-9_]*(?:[eE][-+][0-9]+)?)$/,
+  int: /^[-+]?(?:0|[1-9][0-9_]*)$/,
+};
+
+function pyYamlTags(tags: Tags): Tags {
+  return tags.flatMap((tag) => {
+    if (typeof tag === "string" || !("test" in tag) || !tag.test) {
+      return [tag];
+    }
+    if (tag.tag === "tag:yaml.org,2002:bool") {
+      const value = tag.test.test("true") ? "true" : "false";
+      return [{ ...tag, test: PYYAML_TESTS[value] }];
+    }
+    if (tag.tag === "tag:yaml.org,2002:float" && tag.format === "EXP") {
+      return [];
+    }
+    if (
+      tag.tag === "tag:yaml.org,2002:float" &&
+      !tag.format &&
+      !tag.test.test(".nan")
+    ) {
+      return [{ ...tag, test: PYYAML_TESTS.float }];
+    }
+    if (tag.tag === "tag:yaml.org,2002:int" && !tag.format) {
+      return [{ ...tag, test: PYYAML_TESTS.int }];
+    }
+    return [tag];
+  }) as Tags;
+}
+
+/** Parses a device file as tuya-local does. An integer too large for a
+ * JavaScript number stays a bigint. */
+function parseDeviceFile(text: string): unknown {
+  return toSafeNumbers(
+    parse(text, {
+      version: "1.1",
+      customTags: pyYamlTags,
+      intAsBigInt: true,
+    }),
+  );
+}
+
+function toSafeNumbers(value: unknown): unknown {
+  if (typeof value === "bigint") {
+    const number = Number(value);
+    return Number.isSafeInteger(number) ? number : value;
+  }
+  if (Array.isArray(value)) {
+    return value.map(toSafeNumbers);
+  }
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [key, toSafeNumbers(item)]),
+    );
+  }
+  return value;
+}
+
 /** Converts one tuya-local device file, or names the feature it uses that
  * the catalog does not convert. */
 export function convertDeviceFile(text: string): Conversion {
   let file: DeviceFile;
   try {
-    file = parse(text) as DeviceFile;
+    file = parseDeviceFile(text) as DeviceFile;
   } catch (error) {
     if (error instanceof YAMLParseError) {
-      return { unsupported: "not valid YAML 1.2" };
+      return { unsupported: "not valid YAML" };
     }
     throw error;
   }
@@ -424,7 +542,7 @@ export function convertDeviceFile(text: string): Conversion {
     return { unsupported: reason };
   }
   // Source: Each declaration of a data point reads it as its own type, in
-  // https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L408-L428.
+  // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L408-L428.
   const specTypes = new Map<string, string>();
   for (const dp of file.entities.flatMap((entity) => entity.dps)) {
     if (!specTypes.has(String(dp.id))) {
@@ -481,7 +599,8 @@ function unsupportedRule(
   const reasons: string[] = [];
   const conditions = rule.conditions ?? [];
   // A rule that redirects reads and writes through the other data point: its
-  // own step and range only stand in for the other's, see redirectTarget.
+  // own range only stands in for the other's, see redirectTarget, and its
+  // step sizes Home Assistant's slider alone.
   const onRaw = "dps_val" in rule && rule.value_redirect === undefined;
   // Source: A write rounds to a rule's step only a raw value that is a
   // number, in
@@ -673,7 +792,7 @@ function addCompositeControls(
     (name) => entity.dps.find((dp) => dp.name === name)?.unit,
   ).find((unit) => unit !== undefined);
   for (const dp of entity.dps) {
-    if (!isControl(dp)) {
+    if (!isControl(dp) || isShadowed(entity, dp)) {
       continue;
     }
     if (hasFormat(dp)) {
@@ -720,8 +839,8 @@ function addCompositeControls(
 // Source: A format packs fields of 1, 2 or 4 bytes one after another,
 // big-endian, each signed when its range starts below 0 and otherwise
 // running over every value its bytes hold, in
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L450-L474
-// and https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/light.py#L210-L228.
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L450-L474
+// and https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/light.py#L210-L228.
 // Each field becomes a control over the bytes it covers.
 function addFormatControls(
   component: Record<string, TuyaControl>,
@@ -789,7 +908,7 @@ function addSimpleControls(
   const unitDp = entity.dps.find((dp) => dp.name === "unit" && isControl(dp));
   const unitName = unitDp ? `${base}Unit` : undefined;
   for (const dp of entity.dps) {
-    if (!isControl(dp)) {
+    if (!isControl(dp) || isShadowed(entity, dp)) {
       continue;
     }
     if (entity.entity === "time" && TIME_UNITS[dp.name]) {
@@ -826,6 +945,17 @@ function addSimpleControls(
   }
 }
 
+// Home Assistant's classes whose name says what they detect in its own terms,
+// by the catalog's words for it: a problem is a fault, as the control that
+// detects one is named, a plug is plugged in, safety is a hazard, and
+// volatile organic compounds are one measure whatever their unit.
+const CLASS_MEASURES: Record<string, Measure> = {
+  plug: "plugged",
+  problem: "fault",
+  safety: "hazard",
+  volatile_organic_compounds_parts: "volatileOrganicCompounds",
+};
+
 // What an entity measures or detects, by its class: the catalog's own words,
 // so a class tuya-local adds stops the run until MEASURES names it.
 function entityMeasures(entity: EntityConfig): Measure | undefined {
@@ -836,7 +966,8 @@ function entityMeasures(entity: EntityConfig): Measure | undefined {
   ) {
     return undefined;
   }
-  const measures = camelCase(entity.class, false);
+  const measures =
+    CLASS_MEASURES[entity.class] ?? camelCase(entity.class, false);
   if (!(MEASURES as readonly string[]).includes(measures)) {
     throw new Error(`Add "${measures}" to MEASURES in src/vocabulary.ts`);
   }
@@ -872,19 +1003,40 @@ function componentKey(entity: EntityConfig): string {
   return entity.name ?? entity.entity;
 }
 
-// A key ending in `_x` names one of several, with `x` among its placeholders:
-// `valve_x` with `x: 1` is the first valve.
+// Source: A translation key names one of several by its placeholders: a
+// word of the key a placeholder names is its value, `valve_x` with `x: 1` the
+// first valve, and the value of a placeholder the key does not name follows
+// it, as tuya-local names the entity, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L322-L338.
 function translationKey(entity: EntityConfig): string | undefined {
   const key = entity.translation_key ?? entity.translation_only_key;
-  const placeholder = entity.translation_placeholders?.x;
-  if (key?.endsWith("_x") && placeholder !== undefined) {
-    return `${key.slice(0, -1)}${placeholder}`;
+  if (key === undefined) {
+    return undefined;
   }
-  return key;
+  let parts = key.split("_");
+  for (const [name, value] of Object.entries(
+    entity.translation_placeholders ?? {},
+  )) {
+    const slug = String(value)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/^_|_$/g, "");
+    parts = parts.includes(name)
+      ? parts.map((part) => (part === name ? slug : part))
+      : [...parts, slug];
+  }
+  return parts.join("_");
 }
 
 function isControl(dp: DataPointConfig): boolean {
   return !dp.hidden && dp.name !== "available" && !/^unknown/.test(dp.name);
+}
+
+// Source: An entity keeps the last of its data points of one name, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/entity.py#L24-L33,
+// though a redirect or a constraint finds the first.
+function isShadowed(entity: EntityConfig, dp: DataPointConfig): boolean {
+  return entity.dps.findLast((other) => other.name === dp.name) !== dp;
 }
 
 function addControl(
@@ -902,18 +1054,24 @@ function addControl(
   const { unitFrom } = options;
   const shortest =
     unitFrom || dp.unit === undefined ? base : controlName(base, dp.unit);
+  const longest =
+    unitFrom ||
+    dp.unit === undefined ||
+    COUNTED_UNITS.has(dp.unit) ||
+    base.endsWith(`In${unitSuffix(dp.unit)}`)
+      ? shortest
+      : `${base}In${unitSuffix(dp.unit)}`;
   // A name that dropped its unit's word keeps it where another control
   // already has the shorter name.
   const name = unique(
     component,
-    shortest in component && dp.unit !== undefined && !unitFrom
-      ? `${base}In${unitSuffix(dp.unit)}`
-      : shortest,
+    shortest in component && !(longest in component) ? longest : shortest,
   );
   const readOnly =
     dp.readonly ||
     READ_ONLY_ENTITIES.has(entity.entity) ||
-    READ_ONLY_CONTROLS.has(base);
+    READ_ONLY_CONTROLS.has(base) ||
+    READ_ONLY_DATA_POINTS.has(`${entity.entity}.${dp.name}`);
   const { target, booleanMask } = convertDataPoint(entity, dp, []);
   const {
     dataPoint,
@@ -1000,27 +1158,29 @@ function convertDataPoint(
       continue;
     }
     const converted = convertRule(entity, dp, rule, trail);
+    // Source: A mapping with a dps_val but no value reads the raw value, and
+    // takes it from the rule with no dps_val, in
+    // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L801-L807.
     if ("dps_val" in rule) {
-      const { value, dependsOn, redirect, mirror } = converted;
-      if (value === undefined && !dependsOn && !redirect && !mirror) {
-        continue;
-      }
       if (rule.dps_val === null) {
         // A write never takes the rule for an absent data point, so whether
         // it is hidden says nothing.
         const { readOnly: _, ...absent } = converted;
-        whenAbsent = absent;
+        whenAbsent ??= absent;
       } else {
-        values.push({
-          raw: rule.dps_val as ControlMapping["raw"],
-          ...converted,
-        });
+        values.push({ raw: rawOf(dp, rule.dps_val), ...converted });
       }
       continue;
     }
-    const { value, dependsOn, redirect, mirror, availableWhile } = converted;
+    const { value, readOnly, dependsOn, redirect, mirror, availableWhile } =
+      converted;
     if (value !== undefined) {
       own.otherwise = value;
+    }
+    // Source: A write never takes a hidden rule with no dps_val, in
+    // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L880-L885.
+    if (readOnly) {
+      own.ownRuleReadOnly = true;
     }
     if (availableWhile) {
       own.availableWhile = availableWhile;
@@ -1060,14 +1220,21 @@ function convertDataPoint(
     own.otherwise === undefined &&
     (BOOLEAN_DATA_POINTS.has(dp.name) ||
       BOOLEAN_DATA_POINTS.has(`${entity.entity}.${dp.name}`));
+  // A rule the conversion adds for raw values the file does not map leaves
+  // an absent data point without a value, as tuya-local reads it.
+  const ownAdded = own.otherwise === undefined;
   if (booleanMask) {
     values.push({ raw: 0, value: false }, { raw: 1, value: true });
     own.otherwise = true;
   } else if (entity.entity === "binary_sensor" && dp.name === "sensor") {
     readAsTruth(dp, values, own);
-    if (whenAbsent?.value !== undefined) {
+    if (whenAbsent?.value != null) {
       whenAbsent.value = truthy(whenAbsent.value);
     }
+  }
+  if (ownAdded && own.otherwise !== undefined && !whenAbsent) {
+    whenAbsent =
+      own.dependsOn || own.redirect || own.mirror ? undefined : { value: null };
   }
   return {
     target: {
@@ -1075,7 +1242,10 @@ function convertDataPoint(
       ...(dp.specType !== undefined &&
         dp.type !== dp.specType && { type: dp.type as TuyaDataPointType }),
       ...(masked && { mask: String(dp.mask) }),
-      ...(dp.mask_signed && { maskSigned: true as const }),
+      // Source: tuya-local reads masked bits as signed on bytes alone, in
+      // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L493-L510.
+      ...(dp.mask_signed &&
+        PACKED_TYPES.has(dp.type) && { maskSigned: true as const }),
       ...(dp.endianness === "little" && { littleEndian: true as const }),
       ...(dp.readonly && { readOnly: true as const }),
       ...(range?.min !== undefined && { min: range.min }),
@@ -1108,12 +1278,14 @@ function readAsTruth(
   own: Partial<ControlTarget>,
 ): void {
   for (const mapping of values) {
-    if (mapping.value !== undefined) {
-      mapping.value = truthy(mapping.value);
+    if (mapping.value !== null) {
+      mapping.value = truthy(mapping.value ?? mapping.raw);
     }
   }
-  if (own.otherwise !== undefined) {
+  if (own.otherwise != null) {
     own.otherwise = truthy(own.otherwise);
+  }
+  if (own.otherwise !== undefined) {
     return;
   }
   const named = values.map((mapping) => mapping.raw);
@@ -1139,6 +1311,29 @@ function truthy(value: ControlValue): boolean {
   return value !== false && value !== 0 && value !== "";
 }
 
+// Source: tuya-local writes a raw value as its data point's type, a number
+// on a string data point as Python's text for it, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L761-L778.
+// That text matches a raw value as the number did, and keeps an integer too
+// large for a JavaScript number whole.
+function rawOf(dp: DataPointConfig, raw: unknown): ControlMapping["raw"] {
+  if (
+    STRING_TYPES.has(dp.type) &&
+    dp.mask === undefined &&
+    (typeof raw === "number" ||
+      typeof raw === "bigint" ||
+      typeof raw === "boolean")
+  ) {
+    return pyStr(raw);
+  }
+  if (typeof raw === "bigint") {
+    throw new UnsupportedFeature(
+      "an integer too large for a JavaScript number",
+    );
+  }
+  return raw as ControlMapping["raw"];
+}
+
 // What a mapping rule gives, but its raw value and its conversion of numbers.
 function convertRule(
   entity: EntityConfig,
@@ -1153,8 +1348,7 @@ function convertRule(
   // An `invalid` on a rule does nothing: tuya-local reads it from the
   // condition that holds alone, see DESIGN.md#catalog.
   return {
-    ...("value" in rule &&
-      rule.value !== null && { value: rule.value as ControlRule["value"] }),
+    ...("value" in rule && { value: rule.value as ControlRule["value"] }),
     ...(rule.hidden && { readOnly: true as const }),
     ...(dependsOn && { dependsOn }),
     ...(redirect && { redirect }),
@@ -1166,7 +1360,7 @@ function convertRule(
 // Source: An `available` names a data point of the same entity whose value,
 // as it converts, makes the rule apply while truthy, and one the entity
 // lacks leaves the rule always available, in
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L578-L585.
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L578-L585.
 function availabilityTarget(
   entity: EntityConfig,
   dp: DataPointConfig,
@@ -1186,8 +1380,8 @@ function availabilityTarget(
 // Source: A value_redirect or value_mirror names a data point of the same
 // entity, whose value is read, as that data point converts it, in its place,
 // in
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L810-L818.
-// The rule's own step and range, which tuya-local shows for the control, go
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L810-L818.
+// The rule's own range, which tuya-local shows for the control, goes
 // to the other data point when it has none: see DESIGN.md#catalog.
 function redirectTarget(
   entity: EntityConfig,
@@ -1205,7 +1399,7 @@ function redirectTarget(
   }
   const path = [...trail, dp.name];
   if (path.includes(next.name)) {
-    throw new UnsupportedFeature("a `value_redirect` that loops");
+    throw new LoopingRedirect("a `value_redirect` that loops");
   }
   const { target } = convertDataPoint(entity, next, path);
   return {
@@ -1214,8 +1408,6 @@ function redirectTarget(
       rule.range?.min !== undefined && { min: rule.range.min }),
     ...(target.max === undefined &&
       rule.range?.max !== undefined && { max: rule.range.max }),
-    ...(target.step === undefined &&
-      typeof rule.step === "number" && { step: rule.step }),
   };
 }
 
@@ -1224,7 +1416,7 @@ function redirectTarget(
 // unless convertsConstraint says they match its value as it converts; a
 // condition's dps_val can be one value or a list, and its nested mapping
 // takes dps_val and value alone, in
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/devices/README.md#L490-L509.
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/devices/README.md#L488-L507.
 function dependency(
   entity: EntityConfig,
   dp: DataPointConfig,
@@ -1238,15 +1430,38 @@ function dependency(
   if (conditions.length === 0 || !constraint) {
     return undefined;
   }
-  const reads = convertsConstraint(constraint)
-    ? convertDataPoint(entity, constraint, [...trail, dp.name]).target
-    : undefined;
+  const embedded =
+    (constraint.mapping !== undefined || constraint.mask !== undefined) &&
+    constraint.name !== dp.name &&
+    !trail.includes(constraint.name)
+      ? embedConstraint(entity, constraint, [...trail, dp.name])
+      : undefined;
   return {
     dataPoint: String(constraint.id),
-    ...(reads && { reads }),
-    ...((constraint.readonly || reads) && { readOnly: true as const }),
+    ...(embedded && { constraint: embedded }),
+    ...((constraint.readonly || convertsConstraint(constraint)) && {
+      readOnly: true as const,
+    }),
     conditions: conditions.map((rule) => condition(entity, dp, rule, trail)),
   };
+}
+
+// A constraint whose conversion leads back to the data point that names it
+// is not embedded: writing through it would loop, as tuya-local's does, so
+// a write sets its raw value alone.
+function embedConstraint(
+  entity: EntityConfig,
+  constraint: DataPointConfig,
+  trail: readonly string[],
+): ControlTarget | undefined {
+  try {
+    return convertDataPoint(entity, constraint, trail).target;
+  } catch (error) {
+    if (error instanceof LoopingRedirect) {
+      return undefined;
+    }
+    throw error;
+  }
 }
 
 function condition(
@@ -1269,10 +1484,10 @@ function condition(
     (nested) => nested.dps_val === null && "value" in nested,
   );
   const values = (rule.mapping ?? []).flatMap((nested) =>
-    "value" in nested && nested.value !== null && nested.dps_val !== null
+    "value" in nested && nested.dps_val !== null
       ? [
           {
-            raw: nested.dps_val as ControlMapping["raw"],
+            raw: rawOf(dp, nested.dps_val),
             value: nested.value as ControlMapping["value"],
             ...(nested.hidden && { readOnly: true as const }),
           },
@@ -1281,10 +1496,9 @@ function condition(
   );
   return {
     when: when as ControlCondition["when"],
-    ...("value" in rule &&
-      rule.value !== null && {
-        value: rule.value as ControlCondition["value"],
-      }),
+    ...("value" in rule && {
+      value: rule.value as ControlCondition["value"],
+    }),
     ...(rule.hidden && { readOnly: true as const }),
     ...(values.length > 0 && { values }),
     ...(typeof rule.scale === "number" && { scale: rule.scale }),
@@ -1302,8 +1516,8 @@ function condition(
     ...(mirror && { mirror }),
     ...(availableWhile && { availableWhile }),
     ...(rule.invalid && { invalid: true as const }),
-    ...(absent?.value != null && {
-      whenAbsent: { value: absent.value as ControlValue },
+    ...(absent && {
+      whenAbsent: { value: absent.value as ControlValue | null },
     }),
   };
 }
@@ -1324,15 +1538,34 @@ function join(base: string, name: string): string {
   return base + pascal;
 }
 
+// A second control or component of one name takes an ordinal before it,
+// `secondCurrentInA`: a digit after it would read as part of the name or its
+// unit, as in `cleanedAreaInM2`.
+const ORDINALS = [
+  "second",
+  "third",
+  "fourth",
+  "fifth",
+  "sixth",
+  "seventh",
+  "eighth",
+  "ninth",
+  "tenth",
+];
+
 function unique(taken: Record<string, unknown>, name: string): string {
   if (!(name in taken)) {
     return name;
   }
-  let index = 2;
-  while (`${name}${index}` in taken) {
-    index++;
+  for (const ordinal of ORDINALS) {
+    const candidate = ordinal + name.charAt(0).toUpperCase() + name.slice(1);
+    if (!(candidate in taken)) {
+      return candidate;
+    }
   }
-  return `${name}${index}`;
+  throw new Error(
+    `More than ${ORDINALS.length + 1} controls are named ${name}`,
+  );
 }
 
 // A name carrying its unit after "In", as AGENTS.md#names asks. A name
@@ -1340,8 +1573,17 @@ function unique(taken: Record<string, unknown>, name: string): string {
 // unit that is no unit of measure, which a name already ends in, such as "UV
 // index", none. A unit of one letter is never taken from a name, where the
 // letter can be a phase, as "current A".
-function controlName(base: string, unit: string): string {
+function controlName(name: string, unit: string): string {
+  if (COUNTED_UNITS.has(unit)) {
+    return name;
+  }
   const suffix = unitSuffix(unit);
+  if (name.endsWith(`In${suffix}`)) {
+    return name;
+  }
+  // A name ending in the word "in", as "pump cleaning in", takes the unit's
+  // "In" alone.
+  const base = /[a-z0-9]In$/.test(name) ? name.slice(0, -2) : name;
   const ending =
     base.length > suffix.length &&
     base.endsWith(suffix) &&
@@ -1360,7 +1602,7 @@ function controlName(base: string, unit: string): string {
 // Source: tuya-local names some data points for their unit alone, as
 // temp_set_f for a set point in Fahrenheit beside one in the climate's unit,
 // in
-// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/devices/amantii_trdlumina_fireplace.yaml#L18-L76.
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/devices/amantii_trdlumina_fireplace.yaml#L18-L76.
 // A data point that declares no unit takes it from its name's last word: F or
 // C on a temperature, cm or mm. See DESIGN.md#catalog.
 function splitUnit(dp: DataPointConfig): { name: string; unit?: string } {

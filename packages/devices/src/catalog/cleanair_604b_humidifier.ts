@@ -94,7 +94,7 @@ const entry: TuyaDeviceEntry = {
       waterTankOverflow: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,

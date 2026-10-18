@@ -38,11 +38,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     siren: {
-      cameraRecord: { dataPoint: "150", kind: "switch" },
+      recording: { dataPoint: "150", kind: "switch" },
       motion: {
         dataPoint: "115",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "detected",
       },
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
@@ -50,6 +51,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "154",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "ring",
       },
       doorImageSnapshot: { dataPoint: "154", kind: "sensor", readOnly: true },
@@ -99,6 +101,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "136",
         kind: "event",
         readOnly: true,
+        values: [{ raw: "", value: null }],
+        whenAbsent: { value: null },
         otherwise: "ring",
       },
       doorbellRawEvent: { dataPoint: "136", kind: "sensor", readOnly: true },
@@ -113,7 +117,7 @@ const entry: TuyaDeviceEntry = {
       plug: {
         dataPoint: "146",
         kind: "sensor",
-        measures: "plug",
+        measures: "plugged",
         readOnly: true,
         values: [{ raw: "1", value: true }],
         otherwise: false,
@@ -149,7 +153,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "High" },
         ],
       },
-      doorbell2: {
+      secondDoorbell: {
         dataPoint: "155",
         kind: "sensor",
         measures: "connectivity",
@@ -180,6 +184,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "185",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "alarm",
       },
       alarmMessage: { dataPoint: "185", kind: "sensor", readOnly: true },
@@ -195,6 +200,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "212",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "message",
       },
       notificationMessage: { dataPoint: "212", kind: "sensor", readOnly: true },

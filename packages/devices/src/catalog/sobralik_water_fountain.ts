@@ -30,7 +30,7 @@ const entry: TuyaDeviceEntry = {
       replaceFilter: {
         dataPoint: "23",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,
@@ -38,7 +38,7 @@ const entry: TuyaDeviceEntry = {
       cleaningRequired: {
         dataPoint: "23",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
@@ -61,7 +61,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 31,
       },
-      filterLifeInDays2: {
+      secondFilterLifeInDays: {
         dataPoint: "7",
         kind: "number",
         unit: "d",

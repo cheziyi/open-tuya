@@ -55,6 +55,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "115",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "detected",
       },
       motionSnapshot: {
@@ -68,6 +69,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "154",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "ring",
       },
       doorbellSnapshot: {
@@ -82,6 +84,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "185",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "triggered",
       },
       alarmMessage: {
@@ -94,6 +97,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "212",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "message",
       },
       notificationMessage: {

@@ -90,7 +90,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "118",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -114,7 +114,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "s",
       },
-      uvSterilization2: {
+      secondUvSterilization: {
         dataPoint: "115",
         kind: "sensor",
         measures: "running",

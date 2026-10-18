@@ -43,6 +43,13 @@ const entry: TuyaDeviceEntry = {
         max: 400,
         dependsOn: {
           dataPoint: "107",
+          constraint: {
+            dataPoint: "107",
+            values: [
+              { raw: false, value: "C" },
+              { raw: true, value: "F" },
+            ],
+          },
           conditions: [{ when: [true], step: 10, min: 410, max: 1040 }],
         },
         scale: 10,
@@ -110,6 +117,13 @@ const entry: TuyaDeviceEntry = {
         max: 400,
         dependsOn: {
           dataPoint: "107",
+          constraint: {
+            dataPoint: "107",
+            values: [
+              { raw: false, value: "C" },
+              { raw: true, value: "F" },
+            ],
+          },
           conditions: [{ when: [true], step: 30, min: 120, max: 750 }],
         },
         scale: 10,

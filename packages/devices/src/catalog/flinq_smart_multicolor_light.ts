@@ -29,7 +29,7 @@ const entry: TuyaDeviceEntry = {
       musicData: { dataPoint: "27", kind: "text" },
       directControl: { dataPoint: "28", kind: "text" },
       scene: { dataPoint: "52", kind: "text" },
-      scene2: {
+      secondScene: {
         dataPoint: "52",
         kind: "select",
         type: "string",

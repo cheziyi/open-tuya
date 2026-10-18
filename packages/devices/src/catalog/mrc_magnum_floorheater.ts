@@ -44,6 +44,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "MANUAL", value: "heat" },
         ],
         otherwise: "heat",
+        ownRuleReadOnly: true,
       },
       preset: {
         dataPoint: "2",
@@ -74,6 +75,13 @@ const entry: TuyaDeviceEntry = {
         max: 400,
         dependsOn: {
           dataPoint: "107",
+          constraint: {
+            dataPoint: "107",
+            values: [
+              { raw: false, value: "C" },
+              { raw: true, value: "F" },
+            ],
+          },
           conditions: [
             { when: [false], step: 5 },
             {
@@ -81,7 +89,7 @@ const entry: TuyaDeviceEntry = {
               step: 10,
               min: 410,
               max: 1040,
-              redirect: { dataPoint: "17", min: 410, max: 1040, step: 10 },
+              redirect: { dataPoint: "17", min: 410, max: 1040 },
             },
           ],
         },
@@ -95,6 +103,13 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "107",
+          constraint: {
+            dataPoint: "107",
+            values: [
+              { raw: false, value: "C" },
+              { raw: true, value: "F" },
+            ],
+          },
           conditions: [{ when: [true], redirect: { dataPoint: "29" } }],
         },
         scale: 10,
@@ -130,7 +145,7 @@ const entry: TuyaDeviceEntry = {
       roomSensorError: {
         dataPoint: "104",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -138,7 +153,7 @@ const entry: TuyaDeviceEntry = {
       floorSensorError: {
         dataPoint: "104",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,
@@ -146,7 +161,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "104",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -156,7 +171,7 @@ const entry: TuyaDeviceEntry = {
         otherwise: true,
       },
       faultCode: { dataPoint: "104", kind: "sensor", readOnly: true },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "107",
         kind: "select",
         values: [
@@ -199,6 +214,13 @@ const entry: TuyaDeviceEntry = {
         max: 90,
         dependsOn: {
           dataPoint: "107",
+          constraint: {
+            dataPoint: "107",
+            values: [
+              { raw: false, value: "C" },
+              { raw: true, value: "F" },
+            ],
+          },
           conditions: [{ when: [false], min: -50, max: 50 }],
         },
         scale: 10,
@@ -220,6 +242,13 @@ const entry: TuyaDeviceEntry = {
         max: 90,
         dependsOn: {
           dataPoint: "107",
+          constraint: {
+            dataPoint: "107",
+            values: [
+              { raw: false, value: "C" },
+              { raw: true, value: "F" },
+            ],
+          },
           conditions: [{ when: [false], min: -50, max: 50 }],
         },
         scale: 10,

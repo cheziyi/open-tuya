@@ -62,6 +62,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "alarm", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       exitDelayInSeconds: {
@@ -82,7 +83,7 @@ const entry: TuyaDeviceEntry = {
       plug: {
         dataPoint: "15",
         kind: "sensor",
-        measures: "plug",
+        measures: "plugged",
         readOnly: true,
       },
       batteryInPercent: {

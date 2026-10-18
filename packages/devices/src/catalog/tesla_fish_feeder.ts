@@ -49,6 +49,7 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [{ raw: 0, value: "error" }],
+        whenAbsent: { value: null },
         otherwise: "fed",
       },
       manualFeedReportPortions: {
@@ -61,6 +62,7 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [{ raw: 0, value: "error" }],
+        whenAbsent: { value: null },
         otherwise: "fed",
       },
       autoFeedReportPortions: {

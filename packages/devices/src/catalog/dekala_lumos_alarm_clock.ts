@@ -121,19 +121,19 @@ const entry: TuyaDeviceEntry = {
         max: 100,
       },
       sleepAid: { dataPoint: "106", kind: "switch" },
-      alarmXTimeInHours: {
+      alarm1TimeInHours: {
         dataPoint: "109",
         mask: "FF00000000000000000000000000",
         kind: "number",
         unit: "h",
       },
-      alarmXTimeInMinutes: {
+      alarm1TimeInMinutes: {
         dataPoint: "109",
         mask: "00FF000000000000000000000000",
         kind: "number",
         unit: "min",
       },
-      alarmXDaySunday: {
+      alarm1DaySunday: {
         dataPoint: "109",
         mask: "0000010000000000000000000000",
         kind: "switch",
@@ -141,9 +141,10 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
-      alarmXDaySaturday: {
+      alarm1DaySaturday: {
         dataPoint: "109",
         mask: "0000020000000000000000000000",
         kind: "switch",
@@ -151,9 +152,10 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
-      alarmXDayFriday: {
+      alarm1DayFriday: {
         dataPoint: "109",
         mask: "0000040000000000000000000000",
         kind: "switch",
@@ -161,9 +163,10 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
-      alarmXDayThursday: {
+      alarm1DayThursday: {
         dataPoint: "109",
         mask: "0000080000000000000000000000",
         kind: "switch",
@@ -171,9 +174,10 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
-      alarmXDayWednesday: {
+      alarm1DayWednesday: {
         dataPoint: "109",
         mask: "0000100000000000000000000000",
         kind: "switch",
@@ -181,9 +185,10 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
-      alarmXDayTuesday: {
+      alarm1DayTuesday: {
         dataPoint: "109",
         mask: "0000200000000000000000000000",
         kind: "switch",
@@ -191,9 +196,10 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
-      alarmXDayMonday: {
+      alarm1DayMonday: {
         dataPoint: "109",
         mask: "0000400000000000000000000000",
         kind: "switch",
@@ -201,9 +207,10 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
-      alarmXSoundEffect: {
+      alarm1SoundEffect: {
         dataPoint: "109",
         mask: "00000000FF000000000000000000",
         kind: "select",
@@ -213,7 +220,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 2, value: "fade_out" },
         ],
       },
-      alarmXWakeLightMode: {
+      alarm1WakeLightMode: {
         dataPoint: "109",
         mask: "00000000000000FF000000000000",
         kind: "select",
@@ -230,7 +237,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 9, value: "dynamic_music" },
         ],
       },
-      alarmXWakeLightLeadTimeInMinutes: {
+      alarm1WakeLightLeadTimeInMinutes: {
         dataPoint: "109",
         mask: "0000000000000000FF0000000000",
         kind: "number",
@@ -238,7 +245,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 120,
       },
-      alarmXSnoozeEnabled: {
+      alarm1SnoozeEnabled: {
         dataPoint: "109",
         mask: "000000000000000000FF00000000",
         kind: "switch",
@@ -246,9 +253,10 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
-      alarmXSnoozeDurationInMinutes: {
+      alarm1SnoozeDurationInMinutes: {
         dataPoint: "109",
         mask: "00000000000000000000FF000000",
         kind: "number",
@@ -256,7 +264,7 @@ const entry: TuyaDeviceEntry = {
         min: 5,
         max: 20,
       },
-      alarmXSnoozeAction: {
+      alarm1SnoozeAction: {
         dataPoint: "109",
         mask: "0000000000000000000000FF0000",
         kind: "select",
@@ -266,19 +274,19 @@ const entry: TuyaDeviceEntry = {
           { raw: 2, value: "light_only" },
         ],
       },
-      alarmXTimeInHours2: {
+      alarm2TimeInHours: {
         dataPoint: "111",
         mask: "FF00000000000000000000000000",
         kind: "number",
         unit: "h",
       },
-      alarmXTimeInMinutes2: {
+      alarm2TimeInMinutes: {
         dataPoint: "111",
         mask: "00FF000000000000000000000000",
         kind: "number",
         unit: "min",
       },
-      alarmXDaySunday2: {
+      alarm2DaySunday: {
         dataPoint: "111",
         mask: "0000010000000000000000000000",
         kind: "switch",
@@ -286,9 +294,10 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
-      alarmXDaySaturday2: {
+      alarm2DaySaturday: {
         dataPoint: "111",
         mask: "0000020000000000000000000000",
         kind: "switch",
@@ -296,9 +305,10 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
-      alarmXDayFriday2: {
+      alarm2DayFriday: {
         dataPoint: "111",
         mask: "0000040000000000000000000000",
         kind: "switch",
@@ -306,9 +316,10 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
-      alarmXDayThursday2: {
+      alarm2DayThursday: {
         dataPoint: "111",
         mask: "0000080000000000000000000000",
         kind: "switch",
@@ -316,9 +327,10 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
-      alarmXDayWednesday2: {
+      alarm2DayWednesday: {
         dataPoint: "111",
         mask: "0000100000000000000000000000",
         kind: "switch",
@@ -326,9 +338,10 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
-      alarmXDayTuesday2: {
+      alarm2DayTuesday: {
         dataPoint: "111",
         mask: "0000200000000000000000000000",
         kind: "switch",
@@ -336,9 +349,10 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
-      alarmXDayMonday2: {
+      alarm2DayMonday: {
         dataPoint: "111",
         mask: "0000400000000000000000000000",
         kind: "switch",
@@ -346,9 +360,10 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
-      alarmXSoundEffect2: {
+      alarm2SoundEffect: {
         dataPoint: "111",
         mask: "00000000FF000000000000000000",
         kind: "select",
@@ -358,7 +373,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 2, value: "fade_out" },
         ],
       },
-      alarmXWakeLightMode2: {
+      alarm2WakeLightMode: {
         dataPoint: "111",
         mask: "00000000000000FF000000000000",
         kind: "select",
@@ -375,7 +390,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 9, value: "dynamic_music" },
         ],
       },
-      alarmXWakeLightLeadTimeInMinutes2: {
+      alarm2WakeLightLeadTimeInMinutes: {
         dataPoint: "111",
         mask: "0000000000000000FF0000000000",
         kind: "number",
@@ -383,7 +398,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 120,
       },
-      alarmXSnoozeEnabled2: {
+      alarm2SnoozeEnabled: {
         dataPoint: "111",
         mask: "000000000000000000FF00000000",
         kind: "switch",
@@ -391,9 +406,10 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
-      alarmXSnoozeDurationInMinutes2: {
+      alarm2SnoozeDurationInMinutes: {
         dataPoint: "111",
         mask: "00000000000000000000FF000000",
         kind: "number",
@@ -401,7 +417,7 @@ const entry: TuyaDeviceEntry = {
         min: 5,
         max: 20,
       },
-      alarmXSnoozeAction2: {
+      alarm2SnoozeAction: {
         dataPoint: "111",
         mask: "0000000000000000000000FF0000",
         kind: "select",
@@ -413,12 +429,12 @@ const entry: TuyaDeviceEntry = {
       },
       alarmSnooze: { dataPoint: "7", kind: "button" },
       alarmOff: { dataPoint: "112", kind: "button" },
-      alarmXReset: {
+      alarm1Reset: {
         dataPoint: "109",
         kind: "button",
         values: [{ raw: "AAB/AwAGDwEeAQkAAAA=", value: true }],
       },
-      alarmXReset2: {
+      alarm2Reset: {
         dataPoint: "111",
         kind: "button",
         values: [{ raw: "AAB/AwAGDwEeAQkAAAA=", value: true }],

@@ -257,7 +257,7 @@ const entry: TuyaDeviceEntry = {
       aqiAlarm: {
         dataPoint: "115",
         kind: "sensor",
-        measures: "safety",
+        measures: "hazard",
         readOnly: true,
         values: [{ raw: "alarm", value: true }],
         otherwise: false,

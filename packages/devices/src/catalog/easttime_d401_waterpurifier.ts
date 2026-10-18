@@ -40,12 +40,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "ppm",
       },
-      tdsInInPpm: {
-        dataPoint: "2",
-        kind: "sensor",
-        readOnly: true,
-        unit: "ppm",
-      },
+      tdsInPpm: { dataPoint: "2", kind: "sensor", readOnly: true, unit: "ppm" },
       ppFilterInPercent: {
         dataPoint: "3",
         kind: "sensor",
@@ -91,7 +86,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "23",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

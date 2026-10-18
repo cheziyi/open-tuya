@@ -186,7 +186,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
       },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "9",
         kind: "select",
         values: [
@@ -194,7 +194,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "f", value: "fahrenheit" },
         ],
       },
-      windSpeedUnit2: {
+      secondWindSpeedUnit: {
         dataPoint: "10",
         kind: "select",
         values: [
@@ -204,7 +204,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "knot", value: "kn" },
         ],
       },
-      atmosphericPressureUnit2: {
+      secondAtmosphericPressureUnit: {
         dataPoint: "11",
         kind: "select",
         values: [
@@ -243,14 +243,14 @@ const entry: TuyaDeviceEntry = {
       channel1Alerts: { dataPoint: "105", kind: "text" },
       alarm1: { dataPoint: "106", kind: "switch" },
       alarm2: { dataPoint: "107", kind: "switch" },
-      alarmXTimeInMinutes: {
+      alarm1TimeInMinutes: {
         dataPoint: "108",
         kind: "number",
         unit: "min",
         min: 0,
         max: 1439,
       },
-      alarmXTimeInMinutes2: {
+      alarm2TimeInMinutes: {
         dataPoint: "109",
         kind: "number",
         unit: "min",
@@ -368,7 +368,7 @@ const entry: TuyaDeviceEntry = {
       volatileOrganicCompoundsPartsInPpm: {
         dataPoint: "133",
         kind: "sensor",
-        measures: "volatileOrganicCompoundsParts",
+        measures: "volatileOrganicCompounds",
         readOnly: true,
         unit: "ppm",
       },

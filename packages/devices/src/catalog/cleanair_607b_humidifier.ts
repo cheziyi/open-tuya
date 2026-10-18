@@ -90,7 +90,7 @@ const entry: TuyaDeviceEntry = {
       tankEmpty: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -107,7 +107,7 @@ const entry: TuyaDeviceEntry = {
       cleaningReminder: {
         dataPoint: "101",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
     },

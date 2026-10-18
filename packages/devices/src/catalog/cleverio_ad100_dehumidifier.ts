@@ -16,7 +16,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     dehumidifier: {
       on: { dataPoint: "102", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "2",
         kind: "select",
         values: [
@@ -29,7 +29,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "12",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -39,7 +39,7 @@ const entry: TuyaDeviceEntry = {
       replaceFilter: {
         dataPoint: "103",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
     },

@@ -79,7 +79,7 @@ const entry: TuyaDeviceEntry = {
         unit: "mA",
       },
       breaker: { dataPoint: "16", kind: "switch" },
-      breakerTriggerAction: {
+      breakerOvervoltageAction: {
         dataPoint: "102",
         kind: "select",
         values: [
@@ -88,7 +88,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction2: {
+      breakerUndervoltageAction: {
         dataPoint: "103",
         kind: "select",
         values: [
@@ -97,7 +97,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction3: {
+      breakerOvercurrentAction: {
         dataPoint: "104",
         kind: "select",
         values: [
@@ -106,7 +106,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction4: {
+      breakerOverpowerAction: {
         dataPoint: "105",
         kind: "select",
         values: [
@@ -115,7 +115,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction5: {
+      breakerTemperatureAction: {
         dataPoint: "107",
         kind: "select",
         values: [
@@ -124,7 +124,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction6: {
+      breakerLeakageAction: {
         dataPoint: "108",
         kind: "select",
         values: [
@@ -170,7 +170,7 @@ const entry: TuyaDeviceEntry = {
       overvoltageRecloser: { dataPoint: "112", kind: "switch" },
       undervoltageRecloser: { dataPoint: "112", kind: "switch" },
       factoryReset: { dataPoint: "113", kind: "button" },
-      sensorThresholdInA: {
+      overcurrentThresholdInA: {
         dataPoint: "114",
         kind: "number",
         measures: "current",
@@ -178,7 +178,7 @@ const entry: TuyaDeviceEntry = {
         min: 1,
         max: 40,
       },
-      sensorThresholdInV: {
+      overvoltageThresholdInV: {
         dataPoint: "115",
         kind: "number",
         measures: "voltage",
@@ -186,7 +186,7 @@ const entry: TuyaDeviceEntry = {
         min: 245,
         max: 295,
       },
-      sensorThresholdInV2: {
+      undervoltageThresholdInV: {
         dataPoint: "116",
         kind: "number",
         measures: "voltage",
@@ -194,7 +194,7 @@ const entry: TuyaDeviceEntry = {
         min: 145,
         max: 220,
       },
-      sensorThresholdInMilliamps: {
+      leakageThresholdInMilliamps: {
         dataPoint: "117",
         kind: "number",
         measures: "current",
@@ -203,7 +203,7 @@ const entry: TuyaDeviceEntry = {
         max: 100,
         step: 5,
       },
-      sensorThresholdInC: {
+      temperatureThresholdInC: {
         dataPoint: "118",
         kind: "number",
         measures: "temperature",
@@ -212,7 +212,7 @@ const entry: TuyaDeviceEntry = {
         max: 1000,
         scale: 10,
       },
-      sensorThresholdInW: {
+      overpowerThresholdInW: {
         dataPoint: "119",
         kind: "number",
         measures: "power",

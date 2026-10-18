@@ -103,6 +103,11 @@ const entry: TuyaDeviceEntry = {
         max: 370,
         dependsOn: {
           dataPoint: "23",
+          constraint: {
+            dataPoint: "23",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             {
               when: ["c"],
@@ -114,6 +119,18 @@ const entry: TuyaDeviceEntry = {
                 max: 370,
                 dependsOn: {
                   dataPoint: "2",
+                  constraint: {
+                    dataPoint: "2",
+                    values: [
+                      { raw: "auto", value: "heat_cool" },
+                      { raw: "heat", value: "heat" },
+                      { raw: "cool", value: "cool" },
+                      { raw: "emer", value: "heat", readOnly: true },
+                      { raw: "off", value: "off" },
+                      { raw: "auto_heat", value: "heat", readOnly: true },
+                      { raw: "auto_cool", value: "cool", readOnly: true },
+                    ],
+                  },
                   conditions: [
                     {
                       when: ["heat", "auto_heat", "emer"],
@@ -141,6 +158,18 @@ const entry: TuyaDeviceEntry = {
                 max: 99,
                 dependsOn: {
                   dataPoint: "2",
+                  constraint: {
+                    dataPoint: "2",
+                    values: [
+                      { raw: "auto", value: "heat_cool" },
+                      { raw: "heat", value: "heat" },
+                      { raw: "cool", value: "cool" },
+                      { raw: "emer", value: "heat", readOnly: true },
+                      { raw: "off", value: "off" },
+                      { raw: "auto_heat", value: "heat", readOnly: true },
+                      { raw: "auto_cool", value: "cool", readOnly: true },
+                    ],
+                  },
                   conditions: [
                     {
                       when: ["heat", "auto_heat", "emer"],
@@ -163,6 +192,18 @@ const entry: TuyaDeviceEntry = {
         max: 370,
         dependsOn: {
           dataPoint: "2",
+          constraint: {
+            dataPoint: "2",
+            values: [
+              { raw: "auto", value: "heat_cool" },
+              { raw: "heat", value: "heat" },
+              { raw: "cool", value: "cool" },
+              { raw: "emer", value: "heat", readOnly: true },
+              { raw: "off", value: "off" },
+              { raw: "auto_heat", value: "heat", readOnly: true },
+              { raw: "auto_cool", value: "cool", readOnly: true },
+            ],
+          },
           conditions: [
             {
               when: ["heat", "auto_heat", "emer"],
@@ -189,6 +230,18 @@ const entry: TuyaDeviceEntry = {
         max: 99,
         dependsOn: {
           dataPoint: "2",
+          constraint: {
+            dataPoint: "2",
+            values: [
+              { raw: "auto", value: "heat_cool" },
+              { raw: "heat", value: "heat" },
+              { raw: "cool", value: "cool" },
+              { raw: "emer", value: "heat", readOnly: true },
+              { raw: "off", value: "off" },
+              { raw: "auto_heat", value: "heat", readOnly: true },
+              { raw: "auto_cool", value: "cool", readOnly: true },
+            ],
+          },
           conditions: [
             {
               when: ["heat", "auto_heat", "emer"],
@@ -225,6 +278,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 2, value: "heating" },
           { raw: 0, value: "idle" },
         ],
+        otherwise: null,
       },
     },
     device: {
@@ -251,9 +305,9 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "select",
         values: [
-          { raw: "7_4", value: "Daily" },
-          { raw: "5_2", value: "Weekdays+Weekend" },
-          { raw: "5_1_1", value: "Weekdays+Sat+Sun" },
+          { raw: "74", value: "Daily" },
+          { raw: "52", value: "Weekdays+Weekend" },
+          { raw: "511", value: "Weekdays+Sat+Sun" },
         ],
       },
       systemType: {
@@ -369,6 +423,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 2, value: "medium" },
           { raw: 3, value: "high" },
         ],
+        otherwise: null,
       },
       erv: {
         dataPoint: "118",
@@ -380,18 +435,20 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
-      compressorProtection2: {
+      secondCompressorProtection: {
         dataPoint: "118",
         mask: "00000001",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       fanDelay: { dataPoint: "119", kind: "text" },
@@ -497,7 +554,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "131",
         mask: "0000000000000000FFFF",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },

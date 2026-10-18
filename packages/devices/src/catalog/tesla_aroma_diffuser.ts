@@ -21,7 +21,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     light: {
       on: { dataPoint: "1", kind: "switch" },
-      on2: { dataPoint: "11", kind: "switch" },
+      secondOn: { dataPoint: "11", kind: "switch" },
       colorMode: {
         dataPoint: "102",
         kind: "select",
@@ -80,7 +80,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "12",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -114,7 +114,7 @@ const entry: TuyaDeviceEntry = {
     },
     aromaDiffuser: {
       on: { dataPoint: "104", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "2",
         kind: "select",
         values: [

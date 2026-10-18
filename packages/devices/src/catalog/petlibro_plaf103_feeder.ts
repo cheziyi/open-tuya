@@ -58,7 +58,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "14",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -77,13 +77,14 @@ const entry: TuyaDeviceEntry = {
       plug: {
         dataPoint: "101",
         kind: "sensor",
-        measures: "plug",
+        measures: "plugged",
         readOnly: true,
         values: [
           { raw: "strong_power", value: true },
           { raw: "battery_power", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       recordingOperation: {
@@ -106,6 +107,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "have_voice", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       foodLevel: {
@@ -118,6 +120,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "lack", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       recording: {
@@ -130,6 +133,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "record_end", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       recordings: { dataPoint: "110", kind: "sensor", readOnly: true },

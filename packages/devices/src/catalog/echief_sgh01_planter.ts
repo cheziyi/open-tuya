@@ -18,7 +18,7 @@ const entry: TuyaDeviceEntry = {
     light: {
       on: { dataPoint: "101", kind: "switch" },
       pump: { dataPoint: "102", kind: "switch" },
-      on2: { dataPoint: "104", kind: "switch" },
+      secondOn: { dataPoint: "104", kind: "switch" },
       nutrientTimerInDays: {
         dataPoint: "106",
         kind: "number",

@@ -40,11 +40,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      cameraRecord: { dataPoint: "150", kind: "switch" },
+      recording: { dataPoint: "150", kind: "switch" },
       motion: {
         dataPoint: "115",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "detected",
       },
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
@@ -180,7 +181,11 @@ const entry: TuyaDeviceEntry = {
       },
       alarm: { dataPoint: "159", kind: "switch", whenAbsent: { value: false } },
       alarmLogMessage: { dataPoint: "185", kind: "text" },
-      motionTracking: { dataPoint: "161", kind: "switch" },
+      motionTracking: {
+        dataPoint: "161",
+        kind: "switch",
+        values: [{ raw: false }],
+      },
       humanDetection: { dataPoint: "170", kind: "switch" },
       antiFlicker: {
         dataPoint: "188",
@@ -192,7 +197,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       motionLimitArea: { dataPoint: "168", kind: "switch" },
-      motionLimitArea2: { dataPoint: "169", kind: "text" },
+      secondMotionLimitArea: { dataPoint: "169", kind: "text" },
     },
   },
   source: {

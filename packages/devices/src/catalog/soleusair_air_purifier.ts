@@ -24,7 +24,7 @@ const entry: TuyaDeviceEntry = {
     airPurifier: {
       on: { dataPoint: "1", kind: "switch" },
       speed: { dataPoint: "101", kind: "number", min: 1, max: 5 },
-      mode: {
+      preset: {
         dataPoint: "3",
         kind: "select",
         values: [
@@ -62,7 +62,7 @@ const entry: TuyaDeviceEntry = {
       volatileOrganicCompoundsPartsInPpb: {
         dataPoint: "14",
         kind: "sensor",
-        measures: "volatileOrganicCompoundsParts",
+        measures: "volatileOrganicCompounds",
         readOnly: true,
         unit: "ppb",
       },

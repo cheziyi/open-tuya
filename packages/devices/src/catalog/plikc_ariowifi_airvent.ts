@@ -32,7 +32,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     humidifier: {
       on: { dataPoint: "1", kind: "switch" },
-      on2: { dataPoint: "104", kind: "switch" },
+      secondOn: { dataPoint: "104", kind: "switch" },
       currentHumidityInPercent: {
         dataPoint: "101",
         kind: "sensor",
@@ -110,7 +110,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "45",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },

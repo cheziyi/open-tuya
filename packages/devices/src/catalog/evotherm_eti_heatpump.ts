@@ -45,6 +45,18 @@ const entry: TuyaDeviceEntry = {
             raw: true,
             dependsOn: {
               dataPoint: "2",
+              constraint: {
+                dataPoint: "2",
+                values: [
+                  { raw: "Auto", value: "auto" },
+                  { raw: "Heating_Powerful", value: "quick_heat" },
+                  { raw: "Heating_Smart", value: "smart_heat" },
+                  { raw: "Heating_Silent", value: "quiet_heat" },
+                  { raw: "Cooling_Powerful", value: "quick_cool" },
+                  { raw: "Cooling_Smart", value: "smart_cool" },
+                  { raw: "Cooling_Silent", value: "quiet_cool" },
+                ],
+              },
               conditions: [
                 { when: ["Cooling_Smart"], value: "cool" },
                 { when: ["Heating_Smart"], value: "heat" },
@@ -96,6 +108,18 @@ const entry: TuyaDeviceEntry = {
             value: "heating",
             dependsOn: {
               dataPoint: "2",
+              constraint: {
+                dataPoint: "2",
+                values: [
+                  { raw: "Auto", value: "auto" },
+                  { raw: "Heating_Powerful", value: "quick_heat" },
+                  { raw: "Heating_Smart", value: "smart_heat" },
+                  { raw: "Heating_Silent", value: "quiet_heat" },
+                  { raw: "Cooling_Powerful", value: "quick_cool" },
+                  { raw: "Cooling_Smart", value: "smart_cool" },
+                  { raw: "Cooling_Silent", value: "quiet_cool" },
+                ],
+              },
               conditions: [
                 {
                   when: ["Cooling_Powerful", "Cooling_Smart", "Cooling_Silent"],
@@ -118,6 +142,18 @@ const entry: TuyaDeviceEntry = {
         max: 550,
         dependsOn: {
           dataPoint: "2",
+          constraint: {
+            dataPoint: "2",
+            values: [
+              { raw: "Auto", value: "auto" },
+              { raw: "Heating_Powerful", value: "quick_heat" },
+              { raw: "Heating_Smart", value: "smart_heat" },
+              { raw: "Heating_Silent", value: "quiet_heat" },
+              { raw: "Cooling_Powerful", value: "quick_cool" },
+              { raw: "Cooling_Smart", value: "smart_cool" },
+              { raw: "Cooling_Silent", value: "quiet_cool" },
+            ],
+          },
           conditions: [
             {
               when: ["Cooling_Powerful", "Cooling_Smart", "Cooling_Silent"],
@@ -144,7 +180,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "17",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: "Fault", value: true }],
         otherwise: false,
@@ -213,7 +249,7 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      eevOpeningInP: {
+      eevOpening: {
         dataPoint: "125",
         kind: "sensor",
         readOnly: true,

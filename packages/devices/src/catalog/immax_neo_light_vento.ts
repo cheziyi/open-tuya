@@ -17,7 +17,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     fan: {
       on: { dataPoint: "1", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "2",
         kind: "select",
         values: [
@@ -33,6 +33,14 @@ const entry: TuyaDeviceEntry = {
         max: 6,
         dependsOn: {
           dataPoint: "2",
+          constraint: {
+            dataPoint: "2",
+            values: [
+              { raw: "normal", value: "normal" },
+              { raw: "sleep", value: "sleep" },
+              { raw: "nature", value: "nature" },
+            ],
+          },
           conditions: [
             { when: ["nature"], step: 5 },
             { when: ["sleep"], step: 5 },

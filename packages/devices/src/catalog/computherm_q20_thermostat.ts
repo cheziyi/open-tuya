@@ -52,6 +52,7 @@ const entry: TuyaDeviceEntry = {
           },
         ],
         otherwise: "off",
+        ownRuleReadOnly: true,
       },
       preset: {
         dataPoint: "103",
@@ -80,7 +81,7 @@ const entry: TuyaDeviceEntry = {
                 { when: ["heat"], value: "heating" },
                 { when: ["cool"], value: "cooling" },
                 { when: ["deh"], value: "drying" },
-                { when: ["hum"] },
+                { when: ["hum"], value: null },
               ],
             },
           },
@@ -104,6 +105,11 @@ const entry: TuyaDeviceEntry = {
         max: 3000,
         dependsOn: {
           dataPoint: "127",
+          constraint: {
+            dataPoint: "127",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             { when: ["f"], min: 410, max: 970 },
             { when: ["c"], min: 50, max: 450 },

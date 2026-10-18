@@ -23,7 +23,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     airPurifier: {
       on: { dataPoint: "1", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "3",
         kind: "select",
         values: [
@@ -37,14 +37,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "select",
         values: [
-          { raw: 8, value: 100 },
-          { raw: 7, value: 88 },
-          { raw: 6, value: 75 },
-          { raw: 5, value: 63 },
-          { raw: 4, value: 50 },
-          { raw: 3, value: 38 },
-          { raw: 2, value: 25 },
-          { raw: 1, value: 13 },
+          { raw: "8", value: 100 },
+          { raw: "7", value: 88 },
+          { raw: "6", value: 75 },
+          { raw: "5", value: 63 },
+          { raw: "4", value: 50 },
+          { raw: "3", value: 38 },
+          { raw: "2", value: 25 },
+          { raw: "1", value: 13 },
         ],
       },
     },

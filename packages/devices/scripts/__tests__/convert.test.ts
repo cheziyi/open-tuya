@@ -4,7 +4,7 @@ import { convertDeviceFile } from "../convert.ts";
 
 // smartplugv1.yaml, moes_bht002_thermostat_c.yaml and poolsana_heatpump.yaml
 // are tuya-local's own device files, copied from
-// https://github.com/make-all/tuya-local/tree/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/devices.
+// https://github.com/make-all/tuya-local/tree/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/devices.
 function fixture(file: string): string {
   return readFileSync(new URL(`fixtures/${file}`, import.meta.url), "utf8");
 }
@@ -59,7 +59,7 @@ describe("convertDeviceFile", () => {
           overcurrentAlarm: {
             dataPoint: "7",
             kind: "sensor",
-            measures: "problem",
+            measures: "fault",
             readOnly: true,
             whenAbsent: { value: false },
           },
@@ -77,7 +77,7 @@ describe("convertDeviceFile", () => {
 
   it("names the feature that keeps a device out", () => {
     expect(convertDeviceFile(fixture("poolsana_heatpump.yaml"))).toEqual({
-      unsupported: "not valid YAML 1.2",
+      unsupported: "not valid YAML",
     });
   });
 
@@ -276,6 +276,7 @@ ${value}                default: true
           { raw: "1", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
     ],
@@ -283,7 +284,11 @@ ${value}                default: true
       "a bitfield with one value mapped",
       "bitfield",
       "          - dps_val: 0\n            value: false",
-      { values: [{ raw: 0, value: false }], otherwise: true },
+      {
+        values: [{ raw: 0, value: false }],
+        whenAbsent: { value: null },
+        otherwise: true,
+      },
     ],
     [
       "an integer mapped to text",
@@ -295,6 +300,7 @@ ${value}                default: true
           { raw: 2, value: true },
           { raw: 0, value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
     ],
@@ -322,7 +328,7 @@ ${mapping}
       expect(components.device?.fault).toEqual({
         dataPoint: "1",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         ...conversion,
       });
@@ -458,7 +464,7 @@ entities:
     expect(components.device?.sensorProbePresent?.otherwise).toBe(true);
     expect(components.device?.sensorProbePresent?.dependsOn).toEqual({
       dataPoint: "1",
-      reads: { dataPoint: "1", mask: "00FF" },
+      constraint: { dataPoint: "1", mask: "00FF" },
       readOnly: true,
       conditions: [{ when: [255], value: false }],
     });
@@ -503,7 +509,7 @@ entities:
     expect(components.device?.fault).toEqual({
       dataPoint: "1",
       kind: "sensor",
-      measures: "problem",
+      measures: "fault",
       readOnly: true,
     });
   });
@@ -805,7 +811,6 @@ entities:
               scale: 10,
               min: 50,
               max: 160,
-              step: 10,
             },
           },
         ],
@@ -854,6 +859,7 @@ entities:
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       currentInA: {
@@ -1101,9 +1107,10 @@ entities:
         fault: {
           dataPoint: "11",
           kind: "sensor",
-          measures: "problem",
+          measures: "fault",
           readOnly: true,
           values: [{ raw: 0, value: false }],
+          whenAbsent: { value: null },
           otherwise: true,
         },
         faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
@@ -1195,5 +1202,239 @@ entities:
         invert: true,
       },
     });
+  });
+});
+
+describe("convertDeviceFile as tuya-local reads a file", () => {
+  it("reads YAML as PyYAML reads YAML 1.1", () => {
+    const { components } = entry(`name: Thermostat
+entities:
+  - entity: select
+    translation_key: program
+    dps:
+      - id: 1
+        type: string
+        name: option
+        mapping:
+          - dps_val: 5_2
+            value: weekdays
+          - dps_val: y
+            value: yes
+          - dps_val: E1
+            value: 1.5e+3
+`);
+
+    expect(components.device?.program?.values).toEqual([
+      { raw: "52", value: "weekdays" },
+      { raw: "y", value: true },
+      { raw: "E1", value: 1500 },
+    ]);
+  });
+
+  it("keeps an integer too large for a number whole, as the text a string data point takes", () => {
+    const { components } = entry(`name: Light
+entities:
+  - entity: select
+    translation_key: scene
+    dps:
+      - id: 25
+        type: string
+        name: option
+        mapping:
+          - dps_val: 80000000000000000000000000000000
+            value: movie
+`);
+
+    expect(components.device?.scene?.values).toEqual([
+      { raw: "80000000000000000000000000000000", value: "movie" },
+    ]);
+  });
+
+  it("keeps a null value, a mapping with no value, and a hidden rule with no dps_val", () => {
+    const { components } = entry(`name: Sensor
+entities:
+  - entity: sensor
+    dps:
+      - id: 1
+        type: string
+        name: sensor
+        mapping:
+          - dps_val: ""
+            value: null
+          - dps_val: keypad
+          - value: normal
+            hidden: true
+`);
+
+    expect(components.device?.sensor).toEqual({
+      dataPoint: "1",
+      kind: "sensor",
+      readOnly: true,
+      values: [{ raw: "", value: null }, { raw: "keypad" }],
+      otherwise: "normal",
+      ownRuleReadOnly: true,
+    });
+  });
+
+  it("gives a control the last data point of its name in an entity, and a lock's jammed none to write", () => {
+    const { components } = entry(`name: Lock
+entities:
+  - entity: lock
+    dps:
+      - id: 1
+        type: boolean
+        name: lock
+      - id: 21
+        type: string
+        name: event
+      - id: 26
+        type: string
+        name: event
+      - id: 30
+        type: boolean
+        name: jammed
+`);
+
+    expect(components.lock).toEqual({
+      locked: { dataPoint: "1", kind: "switch" },
+      event: { dataPoint: "26", kind: "text" },
+      jammed: { dataPoint: "30", kind: "sensor", readOnly: true },
+    });
+  });
+
+  it("reads masked bits as signed on bytes alone", () => {
+    const { components } = entry(`name: Meter
+entities:
+  - entity: sensor
+    dps:
+      - id: 1
+        type: integer
+        name: sensor
+        mask: "FF00"
+        mask_signed: true
+`);
+
+    expect(components.device?.sensor).toEqual({
+      dataPoint: "1",
+      mask: "FF00",
+      kind: "sensor",
+      readOnly: true,
+    });
+  });
+});
+
+describe("convertDeviceFile names", () => {
+  it("puts each translation placeholder's value in the name", () => {
+    const { components } = entry(`name: Breaker
+entities:
+  - entity: number
+    translation_key: sensor_threshold
+    translation_placeholders:
+      sensor: Overvoltage
+    dps:
+      - id: 1
+        type: integer
+        name: value
+        unit: V
+  - entity: number
+    translation_key: alarm_x_time
+    translation_placeholders:
+      x: 1
+    dps:
+      - id: 2
+        type: integer
+        name: value
+        unit: h
+  - entity: switch
+    translation_key: outlet
+    translation_placeholders:
+      x: 2
+    dps:
+      - id: 3
+        type: boolean
+        name: switch
+`);
+
+    expect(Object.keys(components.device ?? {})).toEqual([
+      "overvoltageThresholdInV",
+      "alarm1TimeInHours",
+      "outlet2",
+    ]);
+  });
+
+  it("names a second control of a name with an ordinal, a count without a unit, and a unit once", () => {
+    const { components } = entry(`name: Purifier
+entities:
+  - entity: sensor
+    class: current
+    dps:
+      - id: 1
+        type: integer
+        name: sensor
+        unit: A
+  - entity: sensor
+    class: current
+    dps:
+      - id: 2
+        type: integer
+        name: sensor
+        unit: A
+  - entity: sensor
+    name: Uses today
+    dps:
+      - id: 3
+        type: integer
+        name: sensor
+        unit: times
+  - entity: sensor
+    name: TDS in
+    dps:
+      - id: 4
+        type: integer
+        name: sensor
+        unit: ppm
+  - entity: sensor
+    name: Temperature in C
+    dps:
+      - id: 5
+        type: integer
+        name: sensor
+        unit: C
+`);
+
+    expect(Object.keys(components.device ?? {})).toEqual([
+      "currentInA",
+      "secondCurrentInA",
+      "usesToday",
+      "tdsInPpm",
+      "temperatureInC",
+    ]);
+  });
+
+  it("names a fan's preset as a climate's, and what a class detects in the catalog's words", () => {
+    const { components } = entry(`name: Fan
+entities:
+  - entity: fan
+    dps:
+      - id: 1
+        type: boolean
+        name: switch
+      - id: 2
+        type: string
+        name: preset_mode
+  - entity: binary_sensor
+    class: safety
+    dps:
+      - id: 3
+        type: boolean
+        name: sensor
+`);
+
+    expect(Object.keys(components.fan ?? {})).toEqual([
+      "on",
+      "preset",
+      "safety",
+    ]);
+    expect(components.fan?.safety?.measures).toBe("hazard");
   });
 });

@@ -17,8 +17,12 @@ const entry: TuyaDeviceEntry = {
   components: {
     light: {
       on: { dataPoint: "1", kind: "switch" },
-      spray: { dataPoint: "2", kind: "switch" },
-      on2: { dataPoint: "7", kind: "switch" },
+      spray: {
+        dataPoint: "2",
+        kind: "switch",
+        values: [{ raw: true }, { raw: false }],
+      },
+      secondOn: { dataPoint: "7", kind: "switch" },
       colorMode: {
         dataPoint: "9",
         kind: "select",

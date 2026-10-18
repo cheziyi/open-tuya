@@ -82,13 +82,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "TempProg", value: "temp_override" },
         ],
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "114",
         kind: "number",
         measures: "temperature",
         unit: "C",
       },
-      minTargetTemperatureInC: {
+      minimumTargetTemperatureInC: {
         dataPoint: "115",
         kind: "number",
         measures: "temperature",
@@ -110,7 +110,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "12",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

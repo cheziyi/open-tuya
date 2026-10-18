@@ -24,7 +24,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "F3", value: "high" },
         ],
       },
-      on2: { dataPoint: "10", kind: "switch" },
+      secondOn: { dataPoint: "10", kind: "switch" },
     },
   },
   source: {

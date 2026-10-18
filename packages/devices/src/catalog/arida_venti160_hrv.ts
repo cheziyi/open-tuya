@@ -28,7 +28,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     fan: {
       on: { dataPoint: "1", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "2",
         kind: "select",
         values: [
@@ -68,7 +68,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "24",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -90,7 +90,7 @@ const entry: TuyaDeviceEntry = {
         min: 400,
         max: 2000,
       },
-      carbonDioxideInPpm2: {
+      secondCarbonDioxideInPpm: {
         dataPoint: "105",
         kind: "sensor",
         measures: "carbonDioxide",
@@ -100,7 +100,7 @@ const entry: TuyaDeviceEntry = {
       filterChange: {
         dataPoint: "106",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       boost: { dataPoint: "107", kind: "switch" },

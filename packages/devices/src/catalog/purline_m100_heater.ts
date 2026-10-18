@@ -29,6 +29,18 @@ const entry: TuyaDeviceEntry = {
             value: "heat",
             dependsOn: {
               dataPoint: "5",
+              constraint: {
+                dataPoint: "5",
+                values: [
+                  { raw: "off", value: "none" },
+                  { raw: "1", value: "1" },
+                  { raw: "2", value: "2" },
+                  { raw: "3", value: "3" },
+                  { raw: "4", value: "4" },
+                  { raw: "5", value: "5" },
+                  { raw: "auto", value: "comfort" },
+                ],
+              },
               conditions: [{ when: ["off"], value: "fan_only" }],
             },
           },

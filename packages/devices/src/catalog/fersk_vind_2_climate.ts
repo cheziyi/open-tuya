@@ -88,6 +88,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
         values: [{ raw: true, value: "defrosting" }],
+        otherwise: null,
       },
       swingMode: {
         dataPoint: "104",
@@ -103,7 +104,7 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: 1, value: false }],
         otherwise: true,
       },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "19",
         kind: "select",
         values: [
@@ -130,7 +131,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "106",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },

@@ -69,7 +69,7 @@ const entry: TuyaDeviceEntry = {
       plug: {
         dataPoint: "131",
         kind: "sensor",
-        measures: "plug",
+        measures: "plugged",
         readOnly: true,
       },
       wateringDelay: { dataPoint: "136", kind: "switch" },
@@ -91,7 +91,7 @@ const entry: TuyaDeviceEntry = {
       zoneConfig: { dataPoint: "128", kind: "text" },
       dateAndTime: { dataPoint: "129", kind: "text" },
       manualCommand: { dataPoint: "133", kind: "text" },
-      wateringDelayInDays2: {
+      secondWateringDelayInDays: {
         dataPoint: "134",
         mask: "0000FF00",
         kind: "sensor",

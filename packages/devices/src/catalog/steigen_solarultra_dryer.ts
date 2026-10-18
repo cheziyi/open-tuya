@@ -41,6 +41,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "up", value: "closing" },
           { raw: "down", value: "opening" },
         ],
+        otherwise: null,
       },
       currentPosition: {
         dataPoint: "101",
@@ -111,7 +112,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "18",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
