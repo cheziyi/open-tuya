@@ -88,7 +88,7 @@ catalog lacks has no `entry`: read and write its data points by ID.
 
 ## Naming data points
 
-`@open-tuya/devices` holds 1,172 devices converted from
+`@open-tuya/devices` holds 1,339 devices converted from
 [tuya-local](https://github.com/make-all/tuya-local). Without
 `createTuyaClient`, find a device's entry, then read and write its data
 points by name:
@@ -105,7 +105,10 @@ await client.writeDataPoints(writeControls(entry, { device: { on: false } }, dat
 
 Pass `writeControls` the data points the device reports now: a control with a
 `mask`, such as a light's `hue`, sets some bits of its data point and keeps
-the rest from them. A value is the device's own, in the unit its name carries. A name the
+the rest from them, and a control that depends on another data point, such as
+a thermostat's mode, reads it there. Such a write can set that data point
+too, or throw a `TuyaError` with code `VALUE_UNAVAILABLE` while the device
+holds it at a value the write cannot change. A value is the device's own, in the unit its name carries. A name the
 catalog gives alike across devices is in `CONTROL_NAMES`; any other is the
 control's own, and its `kind` and `measures` say how to handle it.
 `UNSUPPORTED.md` lists the devices not converted yet.

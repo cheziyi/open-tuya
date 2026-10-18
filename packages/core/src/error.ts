@@ -48,7 +48,11 @@ export type TuyaErrorCode =
   | "ROUTES_FAILED"
   /** The device catalog has no entry for the device, so its controls cannot
    * be named: read and write its data points by ID. */
-  | "NO_CATALOG_ENTRY";
+  | "NO_CATALOG_ENTRY"
+  /** The control cannot take the value while a data point the device sets
+   * itself holds what it does now, such as a mode: wait for the device to
+   * change it. */
+  | "VALUE_UNAVAILABLE";
 
 /** Every failure the open-tuya packages throw. Tell one from another by
  * `code`. */

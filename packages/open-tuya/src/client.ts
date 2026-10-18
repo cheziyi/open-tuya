@@ -10,6 +10,7 @@ import {
   type ControlValue,
   type ControlValues,
   findDeviceEntries,
+  listDependencies,
   readControls,
   type TuyaDeviceEntry,
   writeControls,
@@ -201,7 +202,7 @@ export class RoutedTuyaClient implements TuyaClient {
   onControls(listener: (values: ControlValues) => void): () => void {
     const entry = this.requireEntry();
     return this.onDataPoints((dataPoints) => {
-      const values = readReportedControls(entry, dataPoints);
+      const values = readReportedControls(entry, this.latest, dataPoints);
       if (Object.keys(values).length > 0) {
         listener(values);
       }
@@ -229,10 +230,14 @@ export class RoutedTuyaClient implements TuyaClient {
     const unknown = Object.entries(values).some(([componentName, controls]) =>
       Object.keys(controls).some((name) => {
         const control = entry.components[componentName]?.[name];
-        return (
-          control?.mask !== undefined &&
-          this.latest[control.dataPoint] === undefined
-        );
+        if (!control) {
+          return false;
+        }
+        const needed = [
+          ...(control.mask !== undefined ? [control.dataPoint] : []),
+          ...listDependencies(control),
+        ];
+        return needed.some((id) => this.latest[id] === undefined);
       }),
     );
     if (unknown) {
@@ -286,20 +291,29 @@ async function sendThroughRoutes<T>(
   );
 }
 
-// A push carries some data points alone, so a control whose data point it
-// leaves out is left out, rather than read as absent.
+// A push carries some data points alone, so the controls are read from the
+// latest of every data point, and a control is reported when the push carries
+// its data point or one it depends on: a change of unit changes how a
+// temperature reads.
 function readReportedControls(
   entry: TuyaDeviceEntry,
-  dataPoints: DataPoints,
+  latest: DataPoints,
+  pushed: DataPoints,
 ): ControlValues {
   const reported: Record<string, Record<string, ControlValue>> = {};
   for (const [componentName, values] of Object.entries(
-    readControls(entry, dataPoints),
+    readControls(entry, latest),
   )) {
     const component: Record<string, ControlValue> = {};
     for (const [name, value] of Object.entries(values)) {
       const control = entry.components[componentName]?.[name];
-      if (control && control.dataPoint in dataPoints) {
+      if (
+        control &&
+        control.dataPoint in latest &&
+        [control.dataPoint, ...listDependencies(control)].some(
+          (id) => id in pushed,
+        )
+      ) {
         component[name] = value;
       }
     }

@@ -25,10 +25,42 @@ export type ControlValue = boolean | number | string;
 export interface ControlMapping {
   /** The data point's raw value. */
   raw: DataPointValue;
-  /** The control's value for it. */
-  value: ControlValue;
+  /** The control's value for it. Without one, the raw value is the
+   * control's, unless a condition gives another. */
+  value?: ControlValue;
   /** Read, but never written: another raw value is written for `value`. */
   readOnly?: true;
+  /** Conditions that change this mapping by another data point's value. */
+  dependsOn?: ControlDependency;
+}
+
+/** The conditions a mapping or a control takes from another data point's
+ * value: the last that holds applies. */
+export interface ControlDependency {
+  /** The data point whose raw value the conditions match. It can be the
+   * control's own. */
+  dataPoint: DataPointId;
+  /** Never written: a value that needs it to change cannot be set. */
+  readOnly?: true;
+  conditions: readonly ControlCondition[];
+}
+
+/** What applies while the data point a `ControlDependency` names holds one of
+ * `when`. Each field it gives replaces the mapping's or the control's. */
+export interface ControlCondition {
+  /** The raw values it holds for, `null` while the device leaves the data
+   * point out. On a bitfield, it holds while every bit of one is set. */
+  when: readonly (DataPointValue | null)[];
+  value?: ControlValue;
+  /** Its `value` is read, but never written. */
+  readOnly?: true;
+  /** Values for the result, matched by `raw` against the value the mapping
+   * gives. */
+  values?: readonly ControlMapping[];
+  scale?: number;
+  step?: number;
+  invert?: true;
+  targetRange?: { min: number; max: number };
 }
 
 /** One thing a device does, and how its data point's raw value converts to
@@ -69,6 +101,9 @@ export interface TuyaControl {
   step?: number;
   /** The raw value runs from `max` to `min` as the control's runs up. */
   invert?: true;
+  /** Conditions that change `otherwise`, `scale`, `step`, `invert` or
+   * `targetRange` by another data point's value. */
+  dependsOn?: ControlDependency;
   /** The control's value runs over this range as the raw value runs over
    * `min` to `max`. */
   targetRange?: { min: number; max: number };

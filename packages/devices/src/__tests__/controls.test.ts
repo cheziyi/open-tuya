@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { readControls, writeControls } from "../controls.js";
+import { listDependencies, readControls, writeControls } from "../controls.js";
 import type { TuyaDeviceEntry } from "../entry.js";
 
 const ENTRY: TuyaDeviceEntry = {
@@ -334,5 +334,212 @@ describe("writeControls with a mask", () => {
     expect(() =>
       writeControls(PACKED, { device: { nibble: 16 } }, { "4": 0 }),
     ).toThrow(RangeError);
+  });
+});
+
+// Each control depends on another data point, as tuya-local's constraint and
+// conditions describe at
+// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/devices/README.md#L490-L578.
+const DEPENDENT: TuyaDeviceEntry = {
+  name: "Thermostat",
+  productKeys: [],
+  dataPoints: {
+    "1": { type: "boolean" },
+    "2": { type: "integer" },
+    "3": { type: "string" },
+    "4": { type: "string" },
+    "5": { type: "bitfield" },
+    "6": { type: "boolean" },
+    "7": { type: "integer" },
+    "8": { type: "string" },
+    "9": { type: "string" },
+  },
+  components: {
+    climate: {
+      hvacMode: {
+        dataPoint: "1",
+        kind: "select",
+        values: [
+          { raw: false, value: "off" },
+          {
+            raw: true,
+            dependsOn: {
+              dataPoint: "4",
+              conditions: [
+                { when: ["0"], value: "auto" },
+                { when: ["1"], value: "heat" },
+                { when: ["2"], value: "boost", readOnly: true },
+              ],
+            },
+          },
+        ],
+      },
+      targetTemperature: {
+        dataPoint: "2",
+        kind: "number",
+        min: 50,
+        max: 900,
+        scale: 10,
+        step: 5,
+        dependsOn: {
+          dataPoint: "3",
+          conditions: [{ when: ["f"], scale: 1, step: 10 }],
+        },
+      },
+      preset: {
+        dataPoint: "8",
+        kind: "select",
+        values: [
+          { raw: "eco", value: "eco" },
+          {
+            raw: "manual",
+            dependsOn: {
+              dataPoint: "9",
+              readOnly: true,
+              conditions: [{ when: ["on", "standby"], value: "manual" }],
+            },
+          },
+        ],
+      },
+    },
+    device: {
+      alarm: {
+        dataPoint: "6",
+        kind: "sensor",
+        readOnly: true,
+        values: [
+          {
+            raw: true,
+            value: true,
+            dependsOn: {
+              dataPoint: "5",
+              conditions: [
+                { when: [6], value: false },
+                { when: [null], value: false },
+              ],
+            },
+          },
+        ],
+      },
+      scene: {
+        dataPoint: "7",
+        kind: "select",
+        dependsOn: {
+          dataPoint: "4",
+          conditions: [
+            { when: ["0"], values: [{ raw: 0, value: "Candle" }] },
+            { when: ["1"], values: [{ raw: 0, value: "Rainbow" }] },
+          ],
+        },
+      },
+    },
+  },
+  source: { file: "thermostat.yaml", commit: "0".repeat(40) },
+};
+
+describe("readControls with conditions", () => {
+  it("takes the value, the scale and the mapping of the condition that holds", () => {
+    expect(
+      readControls(DEPENDENT, {
+        "1": true,
+        "2": 70,
+        "3": "f",
+        "4": "1",
+        "7": 0,
+      }),
+    ).toEqual({
+      climate: { hvacMode: "heat", targetTemperature: 70 },
+      device: { scene: "Rainbow" },
+    });
+    expect(readControls(DEPENDENT, { "2": 215, "3": "c" }).climate).toEqual({
+      targetTemperature: 21.5,
+    });
+  });
+
+  it("holds a bitfield's condition while every one of its bits is set, and a null one while the data point is absent", () => {
+    expect(readControls(DEPENDENT, { "5": 7, "6": true }).device).toEqual({
+      alarm: false,
+    });
+    expect(readControls(DEPENDENT, { "5": 2, "6": true }).device).toEqual({
+      alarm: true,
+    });
+    expect(readControls(DEPENDENT, { "6": true }).device).toEqual({
+      alarm: false,
+    });
+  });
+
+  it("reads a value only a read-only condition gives", () => {
+    expect(readControls(DEPENDENT, { "1": true, "4": "2" }).climate).toEqual({
+      hvacMode: "boost",
+    });
+  });
+});
+
+describe("writeControls with conditions", () => {
+  it("sets the data point a condition depends on, to the value it needs", () => {
+    expect(
+      writeControls(DEPENDENT, { climate: { hvacMode: "heat" } }, { "4": "0" }),
+    ).toEqual({ "1": true, "4": "1" });
+    expect(writeControls(DEPENDENT, { climate: { hvacMode: "off" } })).toEqual({
+      "1": false,
+    });
+  });
+
+  it("converts a number by the condition that holds now", () => {
+    expect(
+      writeControls(
+        DEPENDENT,
+        { climate: { targetTemperature: 74 } },
+        { "3": "f" },
+      ),
+    ).toEqual({ "2": 70 });
+    expect(
+      writeControls(
+        DEPENDENT,
+        { climate: { targetTemperature: 21.6 } },
+        { "3": "c" },
+      ),
+    ).toEqual({ "2": 215 });
+  });
+
+  it("writes a nested mapping's raw value by the condition that holds now", () => {
+    expect(
+      writeControls(DEPENDENT, { device: { scene: "Rainbow" } }, { "4": "1" }),
+    ).toEqual({ "7": 0 });
+  });
+
+  it("writes a value a read-only data point allows, without setting it", () => {
+    expect(
+      writeControls(
+        DEPENDENT,
+        { climate: { preset: "manual" } },
+        { "9": "standby" },
+      ),
+    ).toEqual({ "8": "manual" });
+  });
+
+  it("throws VALUE_UNAVAILABLE for a value a read-only data point does not allow now", () => {
+    expect(() =>
+      writeControls(
+        DEPENDENT,
+        { climate: { preset: "manual" } },
+        { "9": "off" },
+      ),
+    ).toThrow(expect.objectContaining({ code: "VALUE_UNAVAILABLE" }));
+  });
+
+  it("passes on a value only a read-only condition gives, as given", () => {
+    expect(
+      writeControls(DEPENDENT, { climate: { hvacMode: "boost" } }),
+    ).toEqual({ "1": "boost" });
+  });
+});
+
+describe("listDependencies", () => {
+  it("lists the data points other than its own that a control depends on", () => {
+    const hvacMode = DEPENDENT.components.climate?.hvacMode;
+    const alarm = DEPENDENT.components.device?.alarm;
+    expect(hvacMode && listDependencies(hvacMode)).toEqual(["4"]);
+    expect(alarm && listDependencies(alarm)).toEqual(["5"]);
   });
 });
