@@ -5,6 +5,7 @@ import type {
   ControlMapping,
   ControlRule,
   ControlTarget,
+  ControlValue,
   TuyaControl,
   TuyaDataPointSpec,
   TuyaDataPointType,
@@ -77,6 +78,7 @@ interface MappingRule {
   value_mirror?: string;
   available?: string;
   invalid?: boolean;
+  default?: boolean;
   [key: string]: unknown;
 }
 
@@ -87,11 +89,6 @@ export type Conversion =
 // A feature found while converting, which keeps the file out.
 class UnsupportedFeature extends Error {}
 
-// The tuya-local features a file can use that this conversion does not, each
-// with what it means, in the order a file is reported by.
-const UNSUPPORTED_MAPPING_KEYS: Record<string, string> = {
-  default: "`default`: the value a bare turn-on writes",
-};
 const RANGE_ON_RAW = "a mapping's own `range` on one raw value";
 const DATA_POINT_TYPES: ReadonlySet<string> = new Set([
   "boolean",
@@ -235,6 +232,21 @@ const COMPOSITE_CONTROLS: Record<string, ControlName> = {
   "camera.record": "recording",
   "media_player.switch": "on",
 };
+
+// Source: A `default` rule gives the value written when a command names
+// none, to the siren's tone, the light's effect and colour mode, and the water
+// heater's operation mode alone, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/siren.py#L81-L99,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/light.py#L473-L482,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/light.py#L568-L587
+// and https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/water_heater.py#L229-L243.
+// Every other entity ignores it.
+const DEFAULT_VALUE_DATA_POINTS: ReadonlySet<string> = new Set([
+  "siren.tone",
+  "light.effect",
+  "light.color_mode",
+  "water_heater.operation_mode",
+]);
 
 // A control's name for an entity of one data point, by entity and its
 // translation key or, with no name or key, its class.
@@ -469,12 +481,25 @@ function unsupportedRule(
   dp: DataPointConfig,
   rule: MappingRule,
 ): string[] {
-  const reasons = unsupportedKeys(rule);
+  const reasons: string[] = [];
   const conditions = rule.conditions ?? [];
   // A rule that redirects reads and writes through the other data point: its
   // own step and range only stand in for the other's, see redirectTarget.
   const onRaw = "dps_val" in rule && rule.value_redirect === undefined;
-  if (onRaw && NUMBER_CONVERSIONS.some((key) => key in rule)) {
+  // Source: A write rounds to a rule's step only a raw value that is a
+  // number, in
+  // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L1094-L1099,
+  // and otherwise the step is read as the size of Home Assistant's slider
+  // alone, in
+  // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L706-L723.
+  // On a string raw value it is presentation, and convertDataPoint drops it.
+  if (
+    onRaw &&
+    NUMBER_CONVERSIONS.some(
+      (key) =>
+        key in rule && !(key === "step" && typeof rule.dps_val === "string"),
+    )
+  ) {
     reasons.push("a number conversion on one raw value");
   }
   if (onRaw && "range" in rule) {
@@ -498,7 +523,6 @@ function unsupportedRule(
     reasons.push("a `constraint` read through a mask or a mapping");
   }
   for (const condition of conditions) {
-    reasons.push(...unsupportedKeys(condition));
     if ("conditions" in condition || "constraint" in condition) {
       reasons.push("conditions inside a condition");
     }
@@ -514,20 +538,12 @@ function unsupportedRule(
       reasons.push(RANGE_ON_RAW);
     }
     for (const nested of condition.mapping ?? []) {
-      reasons.push(...unsupportedKeys(nested));
       if (nested.dps_val === null) {
         reasons.push("a condition's mapping of the value while absent");
       }
     }
   }
   return reasons;
-}
-
-function unsupportedKeys(rule: MappingRule): string[] {
-  return Object.keys(rule).flatMap((key) => {
-    const reason = UNSUPPORTED_MAPPING_KEYS[key];
-    return reason ? [reason] : [];
-  });
 }
 
 function unsupportedPacking(
@@ -669,12 +685,21 @@ function addCompositeControls(
       unit = "%";
     }
     const measures = COMPOSITE_MEASURES[base as ControlName];
+    const defaultValue = DEFAULT_VALUE_DATA_POINTS.has(
+      `${entity.entity}.${dp.name}`,
+    )
+      ? defaultValueOf(dp)
+      : undefined;
     addControl(
       component,
       base,
       kelvin(entity, { ...dp, ...(unit !== undefined && { unit }) }),
       entity,
-      { ...(unitFrom && { unitFrom }), ...(measures && { measures }) },
+      {
+        ...(unitFrom && { unitFrom }),
+        ...(measures && { measures }),
+        ...(defaultValue !== undefined && { defaultValue }),
+      },
     );
   }
 }
@@ -854,7 +879,12 @@ function addControl(
   base: string,
   dp: DataPointConfig,
   entity: EntityConfig,
-  options: { unitFrom?: string; kind?: ControlKind; measures?: Measure },
+  options: {
+    unitFrom?: string;
+    kind?: ControlKind;
+    measures?: Measure;
+    defaultValue?: ControlValue;
+  },
 ): void {
   const { unitFrom } = options;
   const shortest =
@@ -907,7 +937,30 @@ function addControl(
     ...(dp.unit !== undefined && { unit: String(dp.unit) }),
     ...(unitFrom && { unitFrom }),
     ...conversion,
+    ...(options.defaultValue !== undefined && {
+      defaultValue: options.defaultValue,
+    }),
   };
+}
+
+// Source: The default is the first rule, or a rule's condition, marked
+// `default` and not hidden: its value, else for a condition its rule's, else
+// the rule's raw value, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L632-L660.
+function defaultValueOf(dp: DataPointConfig): ControlValue | undefined {
+  for (const rule of dp.mapping ?? []) {
+    const ruleValue = "value" in rule ? rule.value : rule.dps_val;
+    if (rule.default && !rule.hidden) {
+      return (ruleValue ?? undefined) as ControlValue | undefined;
+    }
+    for (const condition of rule.conditions ?? []) {
+      if (condition.default && !condition.hidden) {
+        return (("value" in condition ? condition.value : ruleValue) ??
+          undefined) as ControlValue | undefined;
+      }
+    }
+  }
+  return undefined;
 }
 
 // The conversion of a data point's raw values, as a control takes it, or a

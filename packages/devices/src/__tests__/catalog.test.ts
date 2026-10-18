@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { CATALOG } from "../catalog/index.js";
+import { writeControls } from "../controls.js";
 import { findDeviceEntries } from "../find.js";
 import { CONTROL_NAMES, UNIT_SUFFIXES } from "../vocabulary.js";
 
@@ -65,6 +66,40 @@ describe("CATALOG", () => {
       .map(([name]) => name);
 
     expect(missing).toEqual([]);
+  });
+
+  it("gives each control a default value it can write", () => {
+    const unwritable = CATALOG.flatMap((entry) =>
+      Object.entries(entry.components).flatMap(([component, controls]) =>
+        Object.entries(controls).flatMap(([name, control]) => {
+          if (control.defaultValue === undefined) {
+            return [];
+          }
+          try {
+            writeControls(
+              entry,
+              { [component]: { [name]: control.defaultValue } },
+              {},
+            );
+            return [];
+          } catch {
+            return [`${entry.source.file} ${component}.${name}`];
+          }
+        }),
+      ),
+    );
+
+    expect(unwritable).toEqual([]);
+  });
+
+  it("writes a water heater's default mode with the data point it depends on", () => {
+    const [entry] = findDeviceEntries({ productKey: "sz9gfbdn5my6GCfR" });
+    const mode = entry?.components.waterHeater?.mode?.defaultValue;
+
+    expect(mode).toBe("electric");
+    expect(
+      entry && writeControls(entry, { waterHeater: { mode: "electric" } }, {}),
+    ).toEqual({ "101": true, "105": "2" });
   });
 
   it("finds tuya-local's plug by its product key", () => {
