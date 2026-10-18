@@ -168,6 +168,16 @@ publishes in a separate job that runs no build script.
 - `vitest` and `@vitest/coverage-v8` are pinned to the same exact version:
   `@vitest/coverage-v8` takes as a peer only the `vitest` version it was
   released with, so a caret on `vitest` lets the two drift apart.
+- Each published package's `engines` is `>=22.12.0`: discovery binds its
+  ports with `reusePort`, which `dgram.createSocket` takes from Node 22.12.0,
+  and on an older Node it is ignored, so a Linux host no longer shares the
+  ports with Home Assistant or tinytuya. The other packages need nothing
+  later than 22.0, but CI tests the latest 22.x alone, and one floor for
+  every package is one statement for a caller. vitest 5 needs 22.12.0 too.
+- The root's `engines` is `>=22.12.0`, as vitest 5 needs. The catalog's
+  import script needs 22.18.0, as it runs as `node scripts/importTuyaLocal.ts`
+  and Node strips its types by default from then; the root does not ask for
+  it, as only a maintainer runs the script.
 
 ## Errors
 
