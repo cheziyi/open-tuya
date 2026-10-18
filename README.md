@@ -178,13 +178,14 @@ fix on the platform:
 
 ## Development
 
-Requires Node 22.18 or later and pnpm.
+Requires Node 22.12 or later and pnpm.
 
 ```sh
 pnpm install
 pnpm test
 pnpm check
 pnpm clone-reference   # clone or update every project under Credits into reference/
+pnpm --filter @open-tuya/devices import-catalog ../../reference/make-all/tuya-local   # needs Node 22.18
 ```
 
 ## Credits

@@ -167,9 +167,10 @@ publishes in a separate job that runs no build script.
   ports with Home Assistant or tinytuya. The other packages need nothing
   later than 22.0, but CI tests the latest 22.x alone, and one floor for
   every package is one statement for a caller. vitest 5 needs 22.12.0 too.
-- The root's `engines` is `>=22.18.0`: the catalog's import script runs as
-  `node scripts/importTuyaLocal.ts`, and Node strips its types by default
-  from 22.18.0.
+- The root's `engines` is `>=22.12.0`, as vitest 5 needs. The catalog's
+  import script needs 22.18.0, as it runs as `node scripts/importTuyaLocal.ts`
+  and Node strips its types by default from then; the root does not ask for
+  it, as only a maintainer runs the script.
 
 ## Errors
 
