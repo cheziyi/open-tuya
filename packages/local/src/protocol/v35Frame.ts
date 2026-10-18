@@ -50,7 +50,7 @@ export function encodeV35Frame(
 // Source: The return code is the first 4 bytes of the plaintext of every frame
 // a device sends in
 // https://github.com/jasonacox/tinytuya/commit/c2f3e24d968c5d23ffd4e71956b46028563f422f
-// and https://github.com/codetheweb/tuyapi/commit/96af23b59f5dac4a10ef81afd8cc94e85b1ed6d9.
+// and https://github.com/codetheweb/tuyapi/commit/68b7c060149a0e114cf228beef91ae7162dd9e37.
 // Source: A device writes it little-endian, in
 // https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1,
 // and a captured error carries 01 00 00 00, in

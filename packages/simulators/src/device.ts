@@ -481,7 +481,7 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
   // data point, or "data format error" when the query is not JSON, in
   // https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
   // On 3.5 the same commit adds "devId" after "dps", in
-  // https://github.com/tuya/TuyaOpen/blob/cd3b764643ba2b3f797dec8b4629b083cc081da1/src/tuya_cloud_service/schema/dp_schema.c#L100.
+  // https://github.com/tuya/TuyaOpen/blob/cd3b764643ba2b3f797dec8b4629b083cc081da1/src/tuya_cloud_service/schema/dp_schema.c#L78.
   // Source: A gateway answers a query naming a device behind it with that
   // device's data points and its node ID, {"dps":…,"cid":…}, captured on 3.3
   // in https://github.com/make-all/tuya-local/issues/3827 and

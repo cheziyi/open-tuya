@@ -42,7 +42,8 @@ type Sign = (bytes: Uint8Array) => Buffer;
 
 // Source: The length field counts the payload, the CRC and the suffix, and
 // the CRC32 covers every byte before it, in
-// https://github.com/codetheweb/tuyapi/commit/9ea40d76dbc8721a174b427edf738d8f2f338c60
+// https://github.com/codetheweb/tuyapi/commit/4839c78af67572f3b6238f1271916cbc4e646f5a,
+// https://github.com/codetheweb/tuyapi/commit/2312fd40e3896d791c7cbc1687d2212e671fad62
 // and https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/466664ff8845b76c7ed227682f6665e2a6cf8e36.
 /** Frames a payload for a 3.1 to 3.3 device, with a CRC32 and no return
  * code. */
