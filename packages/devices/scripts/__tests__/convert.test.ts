@@ -76,14 +76,31 @@ describe("convertDeviceFile", () => {
   });
 
   it("names the feature that keeps a device out", () => {
-    expect(convertDeviceFile(fixture("moes_bht002_thermostat_c.yaml"))).toEqual(
-      {
-        unsupported:
-          "`constraint` and `conditions`: a value whose meaning depends on another data point",
-      },
-    );
     expect(convertDeviceFile(fixture("poolsana_heatpump.yaml"))).toEqual({
       unsupported: "not valid YAML 1.2",
+    });
+  });
+
+  it("converts a mode that depends on another data point into conditions on it", () => {
+    expect(
+      entry(fixture("moes_bht002_thermostat_c.yaml")).components.climate
+        ?.hvacMode,
+    ).toEqual({
+      dataPoint: "1",
+      kind: "select",
+      values: [
+        { raw: false, value: "off" },
+        {
+          raw: true,
+          dependsOn: {
+            dataPoint: "4",
+            conditions: [
+              { when: ["0"], value: "auto" },
+              { when: ["1"], value: "heat" },
+            ],
+          },
+        },
+      ],
     });
   });
 
@@ -136,12 +153,92 @@ describe("convertDeviceFile", () => {
       "        type: hex\n        name: rgbhsv\n        format:\n          - name: h\n            bytes: 3",
       "a `format` field of other than 1, 2 or 4 bytes",
     ],
+    [
+      "conditions on the value while absent",
+      "sensor",
+      "        type: integer\n        name: sensor\n        mapping:\n          - dps_val: null\n            value: 0\n            constraint: sensor\n            conditions:\n              - dps_val: 1\n                value: 2",
+      "conditions on the value while the data point is absent",
+    ],
+    [
+      "a constraint the entity lacks",
+      "sensor",
+      "        type: integer\n        name: sensor\n        mapping:\n          - dps_val: 1\n            constraint: mode\n            conditions:\n              - dps_val: a\n                value: 2",
+      "a `constraint` the entity lacks",
+    ],
+    [
+      "a range in a condition",
+      "sensor",
+      "        type: integer\n        name: sensor\n        mapping:\n          - constraint: sensor\n            conditions:\n              - dps_val: 1\n                range:\n                  min: 0\n                  max: 5",
+      "a mapping's own `range`",
+    ],
+    [
+      "a number conversion in a condition on one raw value",
+      "sensor",
+      "        type: integer\n        name: sensor\n        mapping:\n          - dps_val: 1\n            constraint: sensor\n            conditions:\n              - dps_val: 1\n                scale: 10",
+      "a number conversion on one raw value",
+    ],
   ])("keeps out a device with %s", (_name, entity, dp, reason) => {
     expect(
       convertDeviceFile(
         `name: Device\nentities:\n  - entity: ${entity}\n    dps:\n      - id: 1\n${dp}\n`,
       ),
     ).toEqual({ unsupported: reason });
+  });
+
+  it("converts conditions on a control's own conversion, with lists, hidden values and nested mappings", () => {
+    const { components } = entry(`name: Thermostat
+entities:
+  - entity: climate
+    dps:
+      - id: 2
+        type: integer
+        name: temperature
+        unit: C
+        mapping:
+          - scale: 10
+            constraint: temperature_unit
+            conditions:
+              - dps_val: f
+                scale: 1
+                step: 10
+      - id: 3
+        type: string
+        name: temperature_unit
+        hidden: true
+        readonly: true
+      - id: 4
+        type: string
+        name: preset_mode
+        mapping:
+          - constraint: temperature_unit
+            conditions:
+              - dps_val: [c, C]
+                mapping:
+                  - dps_val: low
+                    value: eco
+              - dps_val: f
+                value: comfort
+                hidden: true
+              - value: away
+`);
+    expect(components.climate?.targetTemperature).toMatchObject({
+      dataPoint: "2",
+      scale: 10,
+      dependsOn: {
+        dataPoint: "3",
+        readOnly: true,
+        conditions: [{ when: ["f"], scale: 1, step: 10 }],
+      },
+    });
+    expect(components.climate?.preset?.dependsOn).toEqual({
+      dataPoint: "3",
+      readOnly: true,
+      conditions: [
+        { when: ["c", "C"], values: [{ raw: "low", value: "eco" }] },
+        { when: ["f"], value: "comfort", readOnly: true },
+        { when: [], value: "away" },
+      ],
+    });
   });
 
   it("gives a masked data point's controls their bits, and reads a masked switch as a boolean", () => {

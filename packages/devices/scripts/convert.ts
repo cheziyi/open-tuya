@@ -1,5 +1,7 @@
 import { parse, YAMLParseError } from "yaml";
 import type {
+  ControlCondition,
+  ControlDependency,
   ControlMapping,
   TuyaControl,
   TuyaDataPointSpec,
@@ -62,6 +64,9 @@ interface MappingRule {
   invert?: boolean;
   target_range?: { min?: number; max?: number };
   hidden?: boolean;
+  constraint?: string;
+  conditions?: MappingRule[];
+  mapping?: MappingRule[];
   [key: string]: unknown;
 }
 
@@ -72,10 +77,6 @@ export type Conversion =
 // The tuya-local features a file can use that this conversion does not, each
 // with what it means, in the order a file is reported by.
 const UNSUPPORTED_MAPPING_KEYS: Record<string, string> = {
-  constraint:
-    "`constraint` and `conditions`: a value whose meaning depends on another data point",
-  conditions:
-    "`constraint` and `conditions`: a value whose meaning depends on another data point",
   value_redirect:
     "`value_redirect` and `value_mirror`: a value read from another data point",
   value_mirror:
@@ -430,22 +431,63 @@ function unsupportedFeature(file: DeviceFile): string | undefined {
         reasons.add("more than one default mapping");
       }
       for (const rule of rules) {
-        for (const key of Object.keys(rule)) {
-          const reason = UNSUPPORTED_MAPPING_KEYS[key];
-          if (reason) {
-            reasons.add(reason);
-          }
-        }
-        if (
-          "dps_val" in rule &&
-          NUMBER_CONVERSIONS.some((key) => key in rule)
-        ) {
-          reasons.add("a number conversion on one raw value");
+        for (const reason of unsupportedRule(entity, dp, rule)) {
+          reasons.add(reason);
         }
       }
     }
   }
   return [...reasons].sort()[0];
+}
+
+function unsupportedRule(
+  entity: EntityConfig,
+  dp: DataPointConfig,
+  rule: MappingRule,
+): string[] {
+  const reasons = unsupportedKeys(rule);
+  const conditions = rule.conditions ?? [];
+  const onRaw = "dps_val" in rule;
+  if (onRaw && NUMBER_CONVERSIONS.some((key) => key in rule)) {
+    reasons.push("a number conversion on one raw value");
+  }
+  if (conditions.length === 0) {
+    return reasons;
+  }
+  if (onRaw && rule.dps_val === null) {
+    reasons.push("conditions on the value while the data point is absent");
+  }
+  const constraint = entity.dps.find(
+    (candidate) => candidate.name === (rule.constraint ?? dp.name),
+  );
+  if (!constraint) {
+    reasons.push("a `constraint` the entity lacks");
+  } else if (
+    PACKED_TYPES.has(constraint.type) &&
+    (constraint.mask !== undefined || constraint.mapping !== undefined)
+  ) {
+    reasons.push("a `constraint` read through a mask or a mapping");
+  }
+  for (const condition of conditions) {
+    reasons.push(...unsupportedKeys(condition));
+    if ("conditions" in condition || "constraint" in condition) {
+      reasons.push("conditions inside a condition");
+    }
+    if (onRaw && NUMBER_CONVERSIONS.some((key) => key in condition)) {
+      reasons.push("a number conversion on one raw value");
+    }
+    for (const nested of condition.mapping ?? []) {
+      reasons.push(...unsupportedKeys(nested));
+    }
+  }
+  return reasons;
+}
+
+function unsupportedKeys(rule: MappingRule): string[] {
+  return Object.keys(rule).flatMap((key) => {
+    const reason = UNSUPPORTED_MAPPING_KEYS[key];
+    return reason ? [reason] : [];
+  });
 }
 
 function unsupportedPacking(
@@ -771,8 +813,10 @@ function addControl(
   let absent: unknown;
   const conversion: Partial<TuyaControl> = {};
   for (const rule of rules) {
+    const dependsOn = dependency(entity, dp, rule);
+    const hasValue = "value" in rule && rule.value !== null;
     if ("dps_val" in rule) {
-      if (!("value" in rule) || rule.value === null) {
+      if (!hasValue && !dependsOn) {
         continue;
       }
       if (rule.dps_val === null) {
@@ -780,13 +824,17 @@ function addControl(
       } else {
         values.push({
           raw: rule.dps_val as ControlMapping["raw"],
-          value: rule.value as ControlMapping["value"],
+          ...(hasValue && { value: rule.value as ControlMapping["value"] }),
           ...(rule.hidden && { readOnly: true as const }),
+          ...(dependsOn && { dependsOn }),
         });
       }
       continue;
     }
-    if ("value" in rule && rule.value !== null) {
+    if (dependsOn) {
+      conversion.dependsOn = dependsOn;
+    }
+    if (hasValue) {
       conversion.otherwise = rule.value as TuyaControl["otherwise"];
     }
     if (typeof rule.scale === "number" && rule.scale !== 1) {
@@ -848,6 +896,69 @@ function addControl(
       absent: absent as TuyaControl["absent"],
     }),
     ...conversion,
+  };
+}
+
+// Source: A rule's conditions match the raw value of its constraint, the
+// data point of that name in the same entity, or else of the rule's own; a
+// condition's dps_val can be one value or a list, and its nested mapping
+// takes dps_val and value alone, in
+// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/devices/README.md#L490-L509.
+function dependency(
+  entity: EntityConfig,
+  dp: DataPointConfig,
+  rule: MappingRule,
+): ControlDependency | undefined {
+  const conditions = rule.conditions ?? [];
+  const constraint = entity.dps.find(
+    (candidate) => candidate.name === (rule.constraint ?? dp.name),
+  );
+  if (conditions.length === 0 || !constraint) {
+    return undefined;
+  }
+  return {
+    dataPoint: String(constraint.id),
+    ...(constraint.readonly && { readOnly: true as const }),
+    conditions: conditions.map(condition),
+  };
+}
+
+function condition(rule: MappingRule): ControlCondition {
+  // A condition with no dps_val never holds.
+  const when =
+    "dps_val" in rule
+      ? Array.isArray(rule.dps_val)
+        ? rule.dps_val
+        : [rule.dps_val ?? null]
+      : [];
+  const values = (rule.mapping ?? []).flatMap((nested) =>
+    "value" in nested && nested.value !== null
+      ? [
+          {
+            raw: nested.dps_val as ControlMapping["raw"],
+            value: nested.value as ControlMapping["value"],
+            ...(nested.hidden && { readOnly: true as const }),
+          },
+        ]
+      : [],
+  );
+  return {
+    when: when as ControlCondition["when"],
+    ...("value" in rule &&
+      rule.value !== null && {
+        value: rule.value as ControlCondition["value"],
+      }),
+    ...(rule.hidden && { readOnly: true as const }),
+    ...(values.length > 0 && { values }),
+    ...(typeof rule.scale === "number" && { scale: rule.scale }),
+    ...(typeof rule.step === "number" && { step: rule.step }),
+    ...(rule.invert && { invert: true as const }),
+    ...(rule.target_range?.max !== undefined && {
+      targetRange: {
+        min: rule.target_range.min ?? 0,
+        max: rule.target_range.max,
+      },
+    }),
   };
 }
 

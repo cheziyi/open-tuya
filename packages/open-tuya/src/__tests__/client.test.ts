@@ -390,6 +390,44 @@ describe("createTuyaClient", () => {
     });
   });
 
+  describe("controls that depend on another data point", () => {
+    // Its mode, data point 1 while on, reads auto or heat by data point 4.
+    const thermostat = CATALOG.find(
+      (entry) => entry.source.file === "moes_bht002_thermostat_c.yaml",
+    );
+
+    async function create(dataPoints: Record<string, boolean | string>) {
+      const account = new FakeTuyaCloudAccount(dataPoints);
+      const client = await createTuyaClient({
+        deviceId: DEVICE_ID,
+        routes: [{ cloud: account }],
+        ...(thermostat && { entry: thermostat }),
+      });
+      await vi.waitFor(() => expect(account.clients).toHaveLength(1));
+      return { client, cloud: account.clients[0] };
+    }
+
+    it("reports a control again when a data point it depends on changes", async () => {
+      const { client, cloud } = await create({ "1": true, "4": "0" });
+      await client.readDataPoints();
+      const reports: ControlValues[] = [];
+      client.onControls((values) => reports.push(values));
+
+      cloud?.push({ "4": "1" });
+
+      expect(reports).toEqual([{ climate: { hvacMode: "heat" } }]);
+    });
+
+    it("reads the device first, and sets the data point the value depends on", async () => {
+      const { client, cloud } = await create({ "1": false, "4": "0" });
+
+      await client.writeControls({ climate: { hvacMode: "heat" } });
+
+      expect(cloud?.requests).toEqual(["read", "write"]);
+      expect(cloud?.writes).toEqual([{ "1": true, "4": "1" }]);
+    });
+  });
+
   describe("controls", () => {
     async function create(): Promise<{
       client: RoutedTuyaClient;
