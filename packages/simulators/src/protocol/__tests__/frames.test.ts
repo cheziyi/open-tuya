@@ -12,11 +12,20 @@ import {
   V31_QUERY_REPLY_PLAINTEXT,
   V31_STATUS,
   V31_STATUS_PLAINTEXT,
+  V32_KEY,
+  V32_NULL_READ,
+  V32_NULL_READ_ACK,
+  V32_NULL_READ_PLAINTEXT,
+  V32_QUERY_ERROR,
+  V32_STATUS,
+  V32_STATUS_PLAINTEXT,
   V33_BROADCAST,
   V33_BROADCAST_PLAINTEXT,
   V33_QUERY_ERROR,
   V33_QUERY_ERROR_KEY,
   V33_QUERY_ERROR_PLAINTEXT,
+  V33_REFUSED_QUERY,
+  V33_REFUSING_KEY,
   V35_BROADCAST,
   V35_BROADCAST_PLAINTEXT,
   V35_STATUS_PLAINTEXT as V35_CAPTURED_STATUS_PLAINTEXT,
@@ -320,5 +329,71 @@ describe("a 3.1 device, against a captured exchange", () => {
     expect(() =>
       openClientFrame("3.1", V31_CONTROL, Buffer.from("0123456789abcdef")),
     ).toThrow();
+  });
+});
+
+describe("a 3.2 device, against a captured exchange", () => {
+  it.each([
+    ["its ack", 1, 0x0d, 0, "", undefined, V32_NULL_READ_ACK],
+    [
+      "its error, in plain text",
+      0,
+      0x0a,
+      1,
+      "data format error",
+      undefined,
+      V32_QUERY_ERROR,
+    ],
+    [
+      "its STATUS, sealed behind its version header",
+      0,
+      0x08,
+      0,
+      V32_STATUS_PLAINTEXT,
+      { serialNumber: 0x17, sourceId: 1 },
+      V32_STATUS,
+    ],
+  ] as const)(
+    "writes %s byte for byte",
+    (_name, sequenceNumber, command, returnCode, text, versionHeader, expected) => {
+      expect(
+        sealDeviceFrame(
+          "3.2",
+          {
+            sequenceNumber,
+            command,
+            returnCode,
+            plaintext: Buffer.from(text),
+            ...(versionHeader && { versionHeader }),
+          },
+          V32_KEY,
+          NO_IV,
+        ),
+      ).toEqual(expected);
+    },
+  );
+
+  it("reads a client's sealed CONTROL_NEW", () => {
+    expect(
+      openClientFrame("3.2", V32_NULL_READ, V32_KEY)?.frame.payload.toString(),
+    ).toBe(V32_NULL_READ_PLAINTEXT);
+  });
+});
+
+describe("a 3.3 device that refuses a read, against a captured refusal", () => {
+  it("writes its refusal byte for byte", () => {
+    expect(
+      sealDeviceFrame(
+        "3.3",
+        {
+          sequenceNumber: 1,
+          command: 0x0a,
+          returnCode: 1,
+          plaintext: Buffer.from("json obj data unvalid"),
+        },
+        V33_REFUSING_KEY,
+        NO_IV,
+      ),
+    ).toEqual(V33_REFUSED_QUERY);
   });
 });

@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { COMMANDS } from "../commands.js";
-import { buildControl, buildQuery, parseDataPoints } from "../dataPoints.js";
+import {
+  buildControl,
+  buildNullRead,
+  buildQuery,
+  parseDataPoints,
+} from "../dataPoints.js";
 import {
   V33_QUERY_ERROR_PLAINTEXT,
   V33_QUERY_REPLY_PLAINTEXT,
@@ -94,5 +99,14 @@ describe("parseDataPoints", () => {
     '{"t":1700000000}',
   ])("returns undefined for %j", (payload) => {
     expect(parseDataPoints(Buffer.from(payload))).toBeUndefined();
+  });
+});
+
+describe("buildNullRead", () => {
+  it("writes null to each data point with CONTROL", () => {
+    expect(text(buildNullRead(DEVICE_ID, ["1", "7"], 1700000000.9))).toEqual({
+      command: COMMANDS.CONTROL,
+      plaintext: `{"devId":"${DEVICE_ID}","dps":{"1":null,"7":null},"t":1700000000,"uid":""}`,
+    });
   });
 });

@@ -25,7 +25,7 @@ Node 22.12 or later: [DESIGN.md](DESIGN.md#package-manifests) says why.
 | Package | Use it to |
 | --- | --- |
 | [`open-tuya`](packages/open-tuya) | Discover devices, and read and write their data points by name, over any of the three |
-| [`@open-tuya/local`](packages/local) | Discover devices on the LAN and control them there, on protocol 3.1, 3.3, 3.4 or 3.5 |
+| [`@open-tuya/local`](packages/local) | Discover devices on the LAN and control them there, on protocol 3.1 to 3.5 |
 | [`@open-tuya/cloud-developer`](packages/cloud-developer) | List devices with their local keys, and control them, through the Tuya developer platform, signed in with a developer project's access ID and secret |
 | [`@open-tuya/cloud-app`](packages/cloud-app) | The same, through the Smart Life app's cloud, signed in by scanning a QR code with the app |
 | [`@open-tuya/devices`](packages/devices) | Look up what each data point of a device controls |
@@ -85,8 +85,25 @@ such as one DHCP gave it.
 [DESIGN.md](DESIGN.md#moved-devices) says why.
 
 On 3.1, a read goes in plain text, so it succeeds under a wrong local key:
-a write that rejects with `REQUEST_TIMED_OUT` is the sign. A device of
-protocol 3.2 is not reached on the LAN yet.
+a write that rejects with `REQUEST_TIMED_OUT` is the sign.
+
+### A device that refuses a read
+
+A device that answers every read with `REQUEST_REJECTED`, such as "json obj
+data unvalid", may report its data points when written null. Every 3.2
+device does, and some 3.3 ones. Name the data points to read so, on 3.2 or
+3.3:
+
+```ts
+{ lan: { host, version: "3.3", localKey, readByWritingNull: ["1", "2", "3"] } }
+```
+
+A null write changes some devices: one camera formatted its memory card. Name
+only data points that hold a state, such as a switch or a temperature, never
+one that acts, and only for a device that refuses a read: the same text
+also comes from a device with nothing to report yet, such as one just powered
+on. [DESIGN.md](DESIGN.md#reading-by-writing-null) says why the client never
+reads so by itself.
 
 ### A device behind a gateway
 

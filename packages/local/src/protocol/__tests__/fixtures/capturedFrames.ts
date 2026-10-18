@@ -262,3 +262,63 @@ export const V31_BROADCAST = Buffer.from(
 );
 export const V31_BROADCAST_PLAINTEXT =
   '{"ip":"192.168.2.81","gwId":"012001865ccf7f598277","active":2,"ability":0,"mode":0,"encrypt":true,"productKey":"qHLNAzmrRdA9EMXl","version":"3.1"}';
+
+// Source: A 3.2 switch's read by writing null, with its local key and device
+// ID, captured in
+// https://github.com/rospogrigio/localtuya/issues/1232#issuecomment-1387550394.
+export const V32_KEY = Buffer.from("8dd599649a00222a");
+/** The CONTROL_NEW a client sent, sealed under V32_KEY with a zero version header. */
+export const V32_NULL_READ = Buffer.from(
+  "000055aa000000010000000d000000d7332e3200000000000000000000000049973590" +
+    "470e7634bd8ac9143d2ad93e04d0b03adee0bdf93cde74929926e3fd3f16b8e993f7d6" +
+    "25f5904c30197de37ff912efa5ac0dd32b073215393f0f2f7b190f3f09fcd0330921b6" +
+    "ca3ca498f35f78e63b356f8555ccd5742a4cfdfe7eac896ef3459daf8bfbab8b40d9cd" +
+    "1ade8be795036a4c60cae07db1b312725f656f27186490e7daf929c40a1941c1a8cc4a" +
+    "aab7503852be0f7dfcfa9b417c48899f9cc6faeeba2f77f1ae7a79a78d5dacba554707" +
+    "49197d09333b23375ff3956bcd4d090ff70000aa55",
+  "hex",
+);
+export const V32_NULL_READ_PLAINTEXT =
+  '{"devId":"bfa322d7ad09de6571m9gi","uid":"bfa322d7ad09de6571m9gi","t":"1674064051","dps":{"1":null,"2":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9":null,"10":null}}';
+/** The switch's ack to V32_NULL_READ. */
+export const V32_NULL_READ_ACK = Buffer.from(
+  "000055aa000000010000000d0000000c00000000302b238a0000aa55",
+  "hex",
+);
+/** The STATUS the switch sent after V32_NULL_READ_ACK, sealed under V32_KEY behind a version header holding serial number 0x17 and source ID 1. */
+export const V32_STATUS = Buffer.from(
+  "000055aa00000000000000080000004b00000000332e32000000000000001700000001" +
+    "bd176a14d057b600ab04a15d7e89d4dbada26b38c35450aaabf9845dcaee30dbd24513" +
+    "292a803b0c440b2b207651b8fd77ea4cd90000aa55",
+  "hex",
+);
+export const V32_STATUS_PLAINTEXT = '{"dps":{"1":false,"7":0},"t":1674064050}';
+
+// Source: A 3.2 device's answer to an encrypted DP_QUERY, in plain text with
+// return code 1, captured in https://github.com/jasonacox/tinytuya/issues/168.
+/** "data format error". */
+export const V32_QUERY_ERROR = Buffer.from(
+  "000055aa000000000000000a0000001d000000016461746120666f726d617420657272" +
+    "6f724ddf82ac0000aa55",
+  "hex",
+);
+
+// Source: A 3.3 device that refuses a read, and its STATUS for a read by
+// writing null to data point 1, with its local key, captured in
+// https://github.com/TuyaAPI/cli/issues/109#issuecomment-767903303.
+export const V33_REFUSING_KEY = Buffer.from("b55dc2459f3f55a0");
+/** Its answer to DP_QUERY: return code 1 and "json obj data unvalid", sealed under V33_REFUSING_KEY with no version header. */
+export const V33_REFUSED_QUERY = Buffer.from(
+  "000055aa000000010000000a0000002c000000013e46424aee781f47f1b67afa3c61d4" +
+    "ce52772042c16a0d47a7b9a7695ffbda9a6ec06b720000aa55",
+  "hex",
+);
+/** Its STATUS for a CONTROL naming data point 1 with null. */
+export const V33_NULL_READ_STATUS = Buffer.from(
+  "000055aa00000000000000080000004b00000000332e33000000000000002100000001" +
+    "7c35ace67528737c85a2b7d7d669e655c08a1274db957d1ba9c0f11f06153cf35f3c7e" +
+    "871b339f1d9fcaef960caf30d61c278c320000aa55",
+  "hex",
+);
+export const V33_NULL_READ_STATUS_PLAINTEXT =
+  '{"dps":{"1":true},"t":1611704273}';

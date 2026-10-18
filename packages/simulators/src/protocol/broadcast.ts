@@ -33,6 +33,9 @@ export function sealBroadcast(
   fields: BroadcastFields,
   iv: Uint8Array,
 ): Buffer {
+  if (version === "3.2") {
+    throw new Error("No source shows a 3.2 device's broadcast");
+  }
   return sealDeviceFrame(
     version === "3.1" || version === "3.5" ? version : "3.3",
     {
@@ -53,7 +56,7 @@ export function sealBroadcast(
 // and from a 3.1 device in
 // https://github.com/codetheweb/tuyapi/issues/17#issuecomment-361135781.
 function broadcastJson(
-  version: ProtocolVersion,
+  version: Exclude<ProtocolVersion, "3.2">,
   fields: BroadcastFields,
 ): string {
   const { ip, gwId, uuid, productKey } = fields;

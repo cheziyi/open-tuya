@@ -26,9 +26,12 @@ const LOCAL_KEY_TEXT = LOCAL_KEY.toString();
 const DEVICE_ID = "bf0123456789abcdefgh";
 const DATA_POINTS = { "1": true, "2": 25, "3": "auto" };
 
-// No source shows a 3.1 gateway.
+// No source shows a 3.1 or 3.2 gateway, or a 3.2 device's broadcast.
 const GATEWAY_VERSIONS = PROTOCOL_VERSIONS.filter(
-  (version) => version !== "3.1",
+  (version) => version !== "3.1" && version !== "3.2",
+);
+const BROADCAST_VERSIONS = PROTOCOL_VERSIONS.filter(
+  (version) => version !== "3.2",
 );
 
 const cleanups: (() => unknown)[] = [];
@@ -427,7 +430,7 @@ describe.each(GATEWAY_VERSIONS)("a gateway on %s", (version) => {
   );
 });
 
-describe.each(PROTOCOL_VERSIONS)(
+describe.each(BROADCAST_VERSIONS)(
   "a client with a discovery on %s",
   (version) => {
     async function startDeviceAt(
@@ -491,10 +494,7 @@ describe.each(PROTOCOL_VERSIONS)(
                 new TuyaError("CONNECTION_FAILED", `Nothing at ${address}`),
               );
         },
-        version,
-        DEVICE_ID,
-        "192.168.1.10",
-        discovery,
+        { version, deviceId: DEVICE_ID, host: "192.168.1.10", discovery },
       );
       cleanups.push(() => client.close());
       const reports: DataPoints[] = [];
@@ -601,3 +601,115 @@ describe.each(PROTOCOL_VERSIONS)(
     );
   },
 );
+
+describe.each(["3.2", "3.3"] as const)(
+  "a device read by writing null on %s",
+  (version) => {
+    async function startRefusing(): Promise<SimulatedTuyaDevice> {
+      const device = await startDevice(version);
+      device.refusesReads = true;
+      return device;
+    }
+
+    function connectReading(
+      device: SimulatedTuyaDevice,
+      readByWritingNull: readonly string[],
+    ) {
+      const client = createLocalTuyaClient({
+        host: "127.0.0.1",
+        port: device.port,
+        version,
+        localKey: LOCAL_KEY_TEXT,
+        deviceId: DEVICE_ID,
+        readByWritingNull,
+      });
+      cleanups.push(() => client.close());
+      const reports: DataPoints[] = [];
+      client.onDataPoints((dataPoints) => reports.push(dataPoints));
+      return { client, reports };
+    }
+
+    it("rejects a read with REQUEST_REJECTED without readByWritingNull", async () => {
+      const device = await startRefusing();
+      const { client } = connect(device.port, version);
+
+      await expect(client.readDataPoints()).rejects.toMatchObject({
+        code: "REQUEST_REJECTED",
+      });
+    });
+
+    it("reads the data points it names that the device has, and changes none", async () => {
+      const device = await startRefusing();
+      const { client } = connectReading(device, ["1", "3", "99"]);
+
+      await expect(client.readDataPoints()).resolves.toEqual({
+        "1": true,
+        "3": "auto",
+      });
+      expect(device.dataPoints).toEqual(DATA_POINTS);
+      expect(
+        device.received
+          .filter((frame) => frame.command === COMMANDS.CONTROL)
+          .map((frame) => JSON.parse(frame.payload.toString()).dps),
+      ).toContainEqual({ "1": null, "3": null, "99": null });
+    });
+
+    it("hands its listeners the STATUS each read brings, once", async () => {
+      const device = await startRefusing();
+      const { client, reports } = connectReading(device, ["1", "2"]);
+      await until(() => reports.length > 0);
+      await client.readDataPoints();
+
+      expect(reports).toEqual([
+        { "1": true, "2": 25 },
+        { "1": true, "2": 25 },
+      ]);
+    });
+
+    it("rejects with REQUEST_TIMED_OUT when the device has none of the data points", async () => {
+      useFakeTimers();
+      const device = await startRefusing();
+      const { client } = connectReading(device, ["99"]);
+      const reading = expect(client.readDataPoints()).rejects.toMatchObject({
+        code: "REQUEST_TIMED_OUT",
+      });
+
+      // The read the client makes once connected goes first.
+      await until(() => device.received.length > 0);
+      await vi.advanceTimersByTimeAsync(5000);
+      await until(() => device.received.length > 1);
+      await vi.advanceTimersByTimeAsync(5000);
+
+      await reading;
+    });
+  },
+);
+
+describe("readByWritingNull", () => {
+  it.each(["3.1", "3.4", "3.5"] as const)(
+    "throws a TypeError on %s, where no source shows a read by writing null",
+    (version) => {
+      expect(() =>
+        createLocalTuyaClient({
+          host: "127.0.0.1",
+          version,
+          localKey: LOCAL_KEY_TEXT,
+          deviceId: DEVICE_ID,
+          readByWritingNull: ["1"],
+        }),
+      ).toThrow(TypeError);
+    },
+  );
+
+  it("throws a TypeError when empty, as a device then answers nothing", () => {
+    expect(() =>
+      createLocalTuyaClient({
+        host: "127.0.0.1",
+        version: "3.3",
+        localKey: LOCAL_KEY_TEXT,
+        deviceId: DEVICE_ID,
+        readByWritingNull: [],
+      }),
+    ).toThrow(TypeError);
+  });
+});

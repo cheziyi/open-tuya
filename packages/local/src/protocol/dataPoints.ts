@@ -2,8 +2,8 @@ import type { DataPoints, ProtocolVersion } from "@open-tuya/core";
 import { COMMANDS } from "./commands.js";
 
 /** The versions a gateway reaches the devices behind it on: no source shows
- * a 3.1 gateway. */
-export type GatewayProtocolVersion = Exclude<ProtocolVersion, "3.1">;
+ * a 3.1 or 3.2 gateway. */
+export type GatewayProtocolVersion = Exclude<ProtocolVersion, "3.1" | "3.2">;
 
 export interface DataPointRequest {
   command: number;
@@ -19,7 +19,7 @@ export interface DataPointRequest {
 // Source: 3.1 reads with DP_QUERY and writes with CONTROL, in
 // https://github.com/clach04/python-tuya/commit/25d8b0846d9ca8857c99f9ff4c93a11fe64b9674
 // and https://github.com/clach04/python-tuya/commit/1b0785424ab34c540acb168443aa521a8a2d774b.
-// Source: The 3.1 and 3.3 body is {"gwId":…,"devId":…}, both the device ID, in
+// Source: The 3.1 to 3.3 body is {"gwId":…,"devId":…}, both the device ID, in
 // https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/800ade32914c66a60566efbb485268283c8ca86a
 // and https://github.com/clach04/python-tuya/commit/25d8b0846d9ca8857c99f9ff4c93a11fe64b9674.
 // Source: The 3.4 and 3.5 body is {} in
@@ -29,7 +29,7 @@ export function buildQuery(
   version: ProtocolVersion,
   deviceId: string,
 ): DataPointRequest {
-  return version === "3.1" || version === "3.3"
+  return isV3x(version)
     ? {
         command: COMMANDS.DP_QUERY,
         plaintext: json({ devId: deviceId, gwId: deviceId }),
@@ -37,7 +37,7 @@ export function buildQuery(
     : { command: COMMANDS.DP_QUERY_NEW, plaintext: json({}) };
 }
 
-// Source: The 3.1 and 3.3 body is {"devId":…,"uid":"","t":…,"dps":…} in
+// Source: The 3.1 to 3.3 body is {"devId":…,"uid":"","t":…,"dps":…} in
 // https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/800ade32914c66a60566efbb485268283c8ca86a
 // and https://github.com/codetheweb/tuyapi/commit/68b164d5c62e902eb7407945aef71e3a3f2cb065,
 // with "t" an integer of seconds in
@@ -61,7 +61,7 @@ export function buildControl(
   timeInSeconds: number,
 ): DataPointRequest {
   const t = Math.floor(timeInSeconds);
-  return version === "3.1" || version === "3.3"
+  return isV3x(version)
     ? {
         command: COMMANDS.CONTROL,
         plaintext: json({
@@ -79,6 +79,32 @@ export function buildControl(
           t,
         }),
       };
+}
+
+// Source: A device reports the data points a CONTROL names with null values,
+// in a STATUS, on 3.3, in
+// https://github.com/codetheweb/tuyapi/commit/fc0eb599444ff7d129ddd3e76fbad3e5bb2c16a8,
+// captured in https://github.com/TuyaAPI/cli/issues/109#issuecomment-767903303,
+// and on 3.2, captured in
+// https://github.com/rospogrigio/localtuya/issues/1232#issuecomment-1387550394:
+// see DESIGN.md#reading-by-writing-null.
+/** Builds the request that reads `dataPoints` of a 3.2 or 3.3 device by
+ * writing null to each, stamped `timeInSeconds`: the write body, each value
+ * null. */
+export function buildNullRead(
+  deviceId: string,
+  dataPoints: readonly string[],
+  timeInSeconds: number,
+): DataPointRequest {
+  return {
+    command: COMMANDS.CONTROL,
+    plaintext: json({
+      devId: deviceId,
+      dps: Object.fromEntries(dataPoints.map((id) => [id, null])),
+      t: Math.floor(timeInSeconds),
+      uid: "",
+    }),
+  };
 }
 
 // Source: A gateway takes a read of a device behind it as DP_QUERY
@@ -188,6 +214,10 @@ export function parseDataPoints(payload: Uint8Array): DataPoints | undefined {
 // JSON.stringify writes none, and keeps the spaces inside a string value.
 // Each body above lists its keys in alphabetical order: see
 // DESIGN.md#data-points.
+function isV3x(version: ProtocolVersion): boolean {
+  return version === "3.1" || version === "3.2" || version === "3.3";
+}
+
 function json(value: unknown): Buffer {
   return Buffer.from(JSON.stringify(value));
 }

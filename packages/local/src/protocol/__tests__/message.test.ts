@@ -12,9 +12,20 @@ import {
   V31_QUERY_REPLY_PLAINTEXT,
   V31_STATUS,
   V31_STATUS_PLAINTEXT,
+  V32_KEY,
+  V32_NULL_READ,
+  V32_NULL_READ_ACK,
+  V32_NULL_READ_PLAINTEXT,
+  V32_QUERY_ERROR,
+  V32_STATUS,
+  V32_STATUS_PLAINTEXT,
+  V33_NULL_READ_STATUS,
+  V33_NULL_READ_STATUS_PLAINTEXT,
   V33_QUERY_ERROR,
   V33_QUERY_ERROR_KEY,
   V33_QUERY_ERROR_PLAINTEXT,
+  V33_REFUSED_QUERY,
+  V33_REFUSING_KEY,
   V35_QUERY,
   V35_QUERY_ERROR,
   V35_QUERY_ERROR_PLAINTEXT,
@@ -267,6 +278,65 @@ describe("encodeMessage, against a captured 3.1 exchange", () => {
     expect(frames).toEqual([]);
     expect(errors).toEqual([
       expect.objectContaining({ code: "DECRYPTION_FAILED" }),
+    ]);
+  });
+});
+
+describe("encodeMessage, against a captured 3.2 exchange", () => {
+  it("writes the CONTROL_NEW a client sent byte for byte", () => {
+    expect(
+      encodeMessage(
+        "3.2",
+        {
+          sequenceNumber: 1,
+          command: COMMANDS.CONTROL_NEW,
+          payload: Buffer.from(V32_NULL_READ_PLAINTEXT),
+        },
+        V32_KEY,
+        Buffer.alloc(0),
+      ),
+    ).toEqual(V32_NULL_READ);
+  });
+
+  it("reads the switch's ack, STATUS and error", () => {
+    const { frames, errors } = decodeMessages(
+      "3.2",
+      Buffer.concat([V32_NULL_READ_ACK, V32_STATUS, V32_QUERY_ERROR]),
+      V32_KEY,
+    );
+
+    expect(errors).toEqual([]);
+    expect(
+      frames.map(({ command, returnCode, payload }) => [
+        command,
+        returnCode,
+        Buffer.from(payload).toString(),
+      ]),
+    ).toEqual([
+      [COMMANDS.CONTROL_NEW, 0, ""],
+      [COMMANDS.STATUS, 0, V32_STATUS_PLAINTEXT],
+      [COMMANDS.DP_QUERY, 1, "data format error"],
+    ]);
+  });
+});
+
+describe("decodeMessages, against a 3.3 device that refuses a read", () => {
+  it("reads its refusal and the STATUS it sends for a read by writing null", () => {
+    const { frames, errors } = decodeMessages(
+      "3.3",
+      Buffer.concat([V33_REFUSED_QUERY, V33_NULL_READ_STATUS]),
+      V33_REFUSING_KEY,
+    );
+
+    expect(errors).toEqual([]);
+    expect(
+      frames.map(({ returnCode, payload }) => [
+        returnCode,
+        Buffer.from(payload).toString(),
+      ]),
+    ).toEqual([
+      [1, "json obj data unvalid"],
+      [0, V33_NULL_READ_STATUS_PLAINTEXT],
     ]);
   });
 });
