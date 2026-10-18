@@ -1,4 +1,5 @@
 import { type Fetch, fetchJson, TuyaError } from "@open-tuya/core";
+import { delay } from "./delay.js";
 import { readLoginResult, readQrCodeResult } from "./protocol/records.js";
 import { parseResponse } from "./protocol/response.js";
 import type { AppCloudSession } from "./session.js";
@@ -111,19 +112,4 @@ export class QrLogin {
     url.searchParams.set("usercode", this.options.userCode);
     return url;
   }
-}
-
-function delay(timeInMs: number, signal?: AbortSignal): Promise<void> {
-  return new Promise((resolve, reject) => {
-    signal?.throwIfAborted();
-    const abort = () => {
-      clearTimeout(timer);
-      reject(signal?.reason);
-    };
-    const timer = setTimeout(() => {
-      signal?.removeEventListener("abort", abort);
-      resolve();
-    }, timeInMs);
-    signal?.addEventListener("abort", abort, { once: true });
-  });
 }

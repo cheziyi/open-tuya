@@ -14,6 +14,7 @@ import {
   type RequestParts,
 } from "./client.js";
 import { mapDataPointCodes } from "./dataPointCodes.js";
+import { delay } from "./delay.js";
 import { openMqttConnection } from "./mqtt.js";
 import {
   readDeviceRecords,
@@ -49,6 +50,14 @@ const TOKEN_EXPIRED = "1010";
 // Source: The cloud answers a request over its rate limit with this message,
 // in https://github.com/home-assistant/core/issues/178266#issuecomment-5200735391.
 const RATE_LIMIT_EXCEEDED = "API_QPS_LIMIT_OR_DEGRADE";
+// Source: The cloud refuses about one request in 20 to 25 with 1108 "uri path
+// invalid", on paths it takes otherwise, and takes the same GET sent again,
+// in https://github.com/tuya/tuya-device-sharing-sdk/issues/77#issuecomment-5851952753.
+const URI_PATH_INVALID = "1108";
+// Three tries leave about one GET in 10,000 refused, and 500 ms between them
+// spreads out the bursts of requests the refusals were seen in.
+const GET_ATTEMPTS = 3;
+const RETRY_DELAY_IN_MS = 500;
 
 export interface CreateAppCloudAccountOptions {
   /** The client ID the session signed in with:
@@ -79,7 +88,8 @@ export function createAppCloudAccount(
 // https://github.com/tuya/tuya-device-sharing-sdk/commit/3e0d9ae6eb5e23e97ce7697a1bd3b248fe2c75b1.
 /** An account on the cloud the Smart Life app signs in to. It refreshes the
  * session a minute before it expires, and once more when the cloud refuses
- * it, then rejects with a `TuyaError` with code `SESSION_EXPIRED`. Its
+ * it, then rejects with a `TuyaError` with code `SESSION_EXPIRED`. It sends
+ * a GET the cloud answers with 1108 twice more, 500 ms apart. Its
  * clients share one MQTT connection for the devices' pushes. Each request
  * rejects with `REQUEST_TIMED_OUT` when the cloud does not answer within
  * 10 s, `RATE_LIMITED` when it refuses one over its rate limit, and
@@ -198,14 +208,15 @@ export class AppCloudAccount implements TuyaCloudAccount {
       await this.refresh(this.session);
     }
     const session = this.session;
+    const attempts = method === "GET" ? GET_ATTEMPTS : 1;
     try {
-      return await this.send(method, path, parts, session);
+      return await this.send(method, path, parts, session, attempts);
     } catch (error) {
       if (!(error instanceof TuyaError && error.code === "SESSION_EXPIRED")) {
         throw error;
       }
       await this.refresh(session);
-      return await this.send(method, path, parts, this.session);
+      return await this.send(method, path, parts, this.session, attempts);
     }
   }
 
@@ -247,7 +258,26 @@ export class AppCloudAccount implements TuyaCloudAccount {
     path: string,
     parts: RequestParts,
     session: AppCloudSession,
+    attempts = 1,
   ): Promise<unknown> {
+    for (let attempt = 1; ; attempt++) {
+      const response = await this.sendOnce(method, path, parts, session);
+      if (response.success) {
+        return response.result;
+      }
+      if (attempt >= attempts || response.code !== URI_PATH_INVALID) {
+        throw cloudError(response);
+      }
+      await delay(RETRY_DELAY_IN_MS, this.closing.signal);
+    }
+  }
+
+  private async sendOnce(
+    method: string,
+    path: string,
+    parts: RequestParts,
+    session: AppCloudSession,
+  ): Promise<CloudResponse> {
     const signed = signRequest({
       clientId: this.options.clientId,
       accessToken: session.accessToken,
@@ -261,7 +291,7 @@ export class AppCloudAccount implements TuyaCloudAccount {
     if (signed.query) {
       url.searchParams.set("encdata", signed.query);
     }
-    const response = parseResponse(
+    return parseResponse(
       await fetchJson(
         this.fetch,
         url.href,
@@ -277,10 +307,6 @@ export class AppCloudAccount implements TuyaCloudAccount {
       ),
       signed.encryptionKey,
     );
-    if (!response.success) {
-      throw cloudError(response);
-    }
-    return response.result;
   }
 
   // Source: The MQTT credentials come from POST /v1.0/m/life/ha/access/config

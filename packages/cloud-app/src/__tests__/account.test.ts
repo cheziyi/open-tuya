@@ -6,6 +6,7 @@ import {
   COMMAND_NOT_SUPPORTED,
   PUSH_CONFIG,
   RATE_LIMITED,
+  URI_PATH_INVALID,
 } from "../protocol/__tests__/fixtures/capturedResponses.js";
 import type { AppCloudSession } from "../session.js";
 import { until, useFakeTimers } from "./clock.js";
@@ -585,6 +586,53 @@ describe("AppCloudAccount", () => {
       await expect(client.readDataPoints()).rejects.toMatchObject({
         code: "REQUEST_REJECTED",
       });
+    });
+
+    it("sends a GET answered with 1108 twice more, 500 ms apart", async () => {
+      const { cloud, account } = setUp();
+      const answers = [URI_PATH_INVALID, URI_PATH_INVALID, { result: [] }];
+      cloud.on(
+        "GET",
+        "/v1.0/m/life/users/homes",
+        () => answers.shift() ?? { result: [] },
+      );
+      useFakeTimers();
+
+      const listing = account.listDevices();
+      await until(() => cloud.requests.length === 1);
+      await vi.advanceTimersByTimeAsync(499);
+      expect(cloud.requests).toHaveLength(1);
+      await vi.advanceTimersByTimeAsync(1);
+      await until(() => cloud.requests.length === 2);
+      await vi.advanceTimersByTimeAsync(500);
+
+      await expect(listing).resolves.toEqual([]);
+      expect(cloud.requests).toHaveLength(3);
+    });
+
+    it("rejects with REQUEST_REJECTED on a third 1108 to a GET, and on a first to a POST", async () => {
+      const { cloud, account } = setUp();
+      const client = await account.createClient(DEVICE_ID);
+      cloud.on("GET", "/v1.0/m/life/users/homes", () => URI_PATH_INVALID);
+      cloud.on(
+        "POST",
+        `/v1.1/m/thing/${DEVICE_ID}/commands`,
+        () => URI_PATH_INVALID,
+      );
+      useFakeTimers();
+      const sent = cloud.requests.length;
+
+      await expect(client.writeDataPoints({ "1": true })).rejects.toMatchObject(
+        { code: "REQUEST_REJECTED" },
+      );
+      expect(cloud.requests.length).toBe(sent + 1);
+      const listing = account.listDevices();
+      const rejected = expect(listing).rejects.toMatchObject({
+        code: "REQUEST_REJECTED",
+      });
+      await vi.advanceTimersByTimeAsync(1000);
+      await rejected;
+      expect(cloud.requests.length).toBe(sent + 4);
     });
 
     it("rejects with REQUEST_TIMED_OUT when the cloud does not answer within 10 s", async () => {
