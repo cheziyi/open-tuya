@@ -5,9 +5,13 @@ import device_a03_siren from "./a03_siren.js";
 import device_abalon_bcm700d_curtain from "./abalon_bcm700d_curtain.js";
 import device_abir_x8_vacuum from "./abir_x8_vacuum.js";
 import device_abir_x9_vacuum from "./abir_x9_vacuum.js";
+import device_absina_evcharger from "./absina_evcharger.js";
 import device_adpow_gob6pro_evcharger from "./adpow_gob6pro_evcharger.js";
+import device_advancedfires_1500_fireplace from "./advancedfires_1500_fireplace.js";
 import device_aeno_ek1s_kettle from "./aeno_ek1s_kettle.js";
+import device_aeno_ek7s_kettle from "./aeno_ek7s_kettle.js";
 import device_aeno_ks1s_kitchenscale from "./aeno_ks1s_kitchenscale.js";
+import device_af3w_petfeeder from "./af3w_petfeeder.js";
 import device_afto_smartez_lock from "./afto_smartez_lock.js";
 import device_afyeev_16a_evcharger from "./afyeev_16a_evcharger.js";
 import device_afyeev_32a7kw_evcharger from "./afyeev_32a7kw_evcharger.js";
@@ -31,14 +35,18 @@ import device_aktobis_wdh870fw_dehumidifier from "./aktobis_wdh870fw_dehumidifie
 import device_alecoair_pu55_humino from "./alecoair_pu55_humino.js";
 import device_alen_45i_airpurifier from "./alen_45i_airpurifier.js";
 import device_alpine_saunas_helsinki from "./alpine_saunas_helsinki.js";
+import device_am24_blind_motor from "./am24_blind_motor.js";
 import device_amantii_r12ap1_fireplace from "./amantii_r12ap1_fireplace.js";
+import device_amantii_trdlumina_fireplace from "./amantii_trdlumina_fireplace.js";
 import device_amari_ceiling_fanlight from "./amari_ceiling_fanlight.js";
 import device_amenzo_mini_dishwasher from "./amenzo_mini_dishwasher.js";
 import device_amicismart_1pjt_energymeter from "./amicismart_1pjt_energymeter.js";
 import device_amico_smart_ceiling_fan from "./amico_smart_ceiling_fan.js";
 import device_amos_cyb06erw_radiator from "./amos_cyb06erw_radiator.js";
+import device_ampbolt_portable_evcharger from "./ampbolt_portable_evcharger.js";
 import device_amperepoint_q_series_evcharger from "./amperepoint_q_series_evcharger.js";
 import device_anderic_uc7235t4_ceilingfanreceiver from "./anderic_uc7235t4_ceilingfanreceiver.js";
+import device_andersson_gsh_heater from "./andersson_gsh_heater.js";
 import device_anko_fan from "./anko_fan.js";
 import device_anko_kettle from "./anko_kettle.js";
 import device_anwo_brezza_fan from "./anwo_brezza_fan.js";
@@ -46,6 +54,7 @@ import device_aosd_garagedoorwithlight from "./aosd_garagedoorwithlight.js";
 import device_ap402_airpurifier from "./ap402_airpurifier.js";
 import device_apricus_heat_pump_water_heater from "./apricus_heat_pump_water_heater.js";
 import device_aquaplus_apaio270_waterheater from "./aquaplus_apaio270_waterheater.js";
+import device_aquark_heatpump from "./aquark_heatpump.js";
 import device_aquastrong_hex_heatpump from "./aquastrong_hex_heatpump.js";
 import device_aquatech_x6_water_heater from "./aquatech_x6_water_heater.js";
 import device_aquatech_x8fusion_waterheater from "./aquatech_x8fusion_waterheater.js";
@@ -68,12 +77,15 @@ import device_arlec_fan from "./arlec_fan.js";
 import device_arlec_fan_atf4602bha from "./arlec_fan_atf4602bha.js";
 import device_arlec_fan_light from "./arlec_fan_light.js";
 import device_arlec_lve160ha_balllights from "./arlec_lve160ha_balllights.js";
+import device_arlec_pa1123bkha_portable_air_conditioner from "./arlec_pa1123bkha_portable_air_conditioner.js";
+import device_arlec_panel_heater from "./arlec_panel_heater.js";
 import device_arlec_panel_heater_v2 from "./arlec_panel_heater_v2.js";
 import device_arlec_pb88uha_s2_switch from "./arlec_pb88uha_s2_switch.js";
 import device_arlec_pfc002ha_petfeeder_camera from "./arlec_pfc002ha_petfeeder_camera.js";
 import device_arlec_rf_transmitter from "./arlec_rf_transmitter.js";
 import device_arlec_rgb_ledstrip from "./arlec_rgb_ledstrip.js";
 import device_arlec_smart_button from "./arlec_smart_button.js";
+import device_arlec_thermostat_smartplug from "./arlec_thermostat_smartplug.js";
 import device_asahom_outdoor_rgbcw_lights from "./asahom_outdoor_rgbcw_lights.js";
 import device_asakuki_diffuser from "./asakuki_diffuser.js";
 import device_asc_wifi_circuit_breaker from "./asc_wifi_circuit_breaker.js";
@@ -85,9 +97,12 @@ import device_atomi_ceramic_heater from "./atomi_ceramic_heater.js";
 import device_atomi_coffee_maker from "./atomi_coffee_maker.js";
 import device_atomi_string_lights from "./atomi_string_lights.js";
 import device_atorch_at2pl_breaker from "./atorch_at2pl_breaker.js";
+import device_atorch_at4ptw_thermostat from "./atorch_at4ptw_thermostat.js";
 import device_atorch_at4pw_energymeter from "./atorch_at4pw_energymeter.js";
 import device_atorch_dt20_energymeter from "./atorch_dt20_energymeter.js";
 import device_atorch_s1bw_smartplug from "./atorch_s1bw_smartplug.js";
+import device_atorch_s1bwpth_thermostat from "./atorch_s1bwpth_thermostat.js";
+import device_atorch_s1tw_thermostat from "./atorch_s1tw_thermostat.js";
 import device_atorch_s1wp from "./atorch_s1wp.js";
 import device_aubess_2gang_switch from "./aubess_2gang_switch.js";
 import device_aubess_3gang_switch from "./aubess_3gang_switch.js";
@@ -104,12 +119,15 @@ import device_avatto_roller_blinds from "./avatto_roller_blinds.js";
 import device_avatto_trv06_radiatorvalve from "./avatto_trv06_radiatorvalve.js";
 import device_avatto_whs20s_irremote from "./avatto_whs20s_irremote.js";
 import device_avatto_wsm16dc1_switch from "./avatto_wsm16dc1_switch.js";
+import device_avatto_wt20r_thermostat from "./avatto_wt20r_thermostat.js";
+import device_avatto_wt20rv2_thermostat from "./avatto_wt20rv2_thermostat.js";
 import device_avatto_wt100_thermostat from "./avatto_wt100_thermostat.js";
 import device_avatto_zwt198_thermostat from "./avatto_zwt198_thermostat.js";
 import device_avidsen_soria_solarinverter from "./avidsen_soria_solarinverter.js";
 import device_avonflow_afd14h_radiator from "./avonflow_afd14h_radiator.js";
 import device_awow_th213_thermostat from "./awow_th213_thermostat.js";
 import device_awow_th213v2_thermostat from "./awow_th213v2_thermostat.js";
+import device_aygrochy_inline_wifi_air_vent from "./aygrochy_inline_wifi_air_vent.js";
 import device_aziot_fan_switch from "./aziot_fan_switch.js";
 import device_aziot_multi_switch from "./aziot_multi_switch.js";
 import device_aziot_quad_switch from "./aziot_quad_switch.js";
@@ -119,14 +137,18 @@ import device_bauhn_ap5w0624_powerstrip from "./bauhn_ap5w0624_powerstrip.js";
 import device_baxi_smart_link_thermostat from "./baxi_smart_link_thermostat.js";
 import device_bcetasy_18in1_airquality from "./bcetasy_18in1_airquality.js";
 import device_beca_bac002_thermostat_c from "./beca_bac002_thermostat_c.js";
+import device_beca_bac2005alw_thermostat from "./beca_bac2005alw_thermostat.js";
 import device_beca_bhp6000_thermostat_c from "./beca_bhp6000_thermostat_c.js";
 import device_beca_bhp6000_thermostat_f from "./beca_bhp6000_thermostat_f.js";
 import device_beca_bhp6000_thermostat_mapped from "./beca_bhp6000_thermostat_mapped.js";
+import device_beca_bht12_thermostat from "./beca_bht12_thermostat.js";
 import device_beca_bht002_thermostat_c from "./beca_bht002_thermostat_c.js";
 import device_beca_bht006_thermostat_c from "./beca_bht006_thermostat_c.js";
 import device_beca_bht009_thermostat from "./beca_bht009_thermostat.js";
 import device_beca_zht002_thermostat_c from "./beca_zht002_thermostat_c.js";
+import device_becool_heatpump from "./becool_heatpump.js";
 import device_belair_balticirradio_dehumidifier from "./belair_balticirradio_dehumidifier.js";
+import device_belko_prolift1200n_garageopener from "./belko_prolift1200n_garageopener.js";
 import device_benexmart_blind_motor from "./benexmart_blind_motor.js";
 import device_beok_tcb38_thermostat from "./beok_tcb38_thermostat.js";
 import device_beok_tgm50_thermostat from "./beok_tgm50_thermostat.js";
@@ -134,8 +156,10 @@ import device_beok_tgm50wp_thermostat from "./beok_tgm50wp_thermostat.js";
 import device_beok_tol47_thermostat from "./beok_tol47_thermostat.js";
 import device_beok_tr8b_thermostat from "./beok_tr8b_thermostat.js";
 import device_beok_tr9b_thermostat from "./beok_tr9b_thermostat.js";
+import device_beok_tr9hb_ac2_thermostat from "./beok_tr9hb_ac2_thermostat.js";
 import device_beokeo_s20pro_litterbox from "./beokeo_s20pro_litterbox.js";
 import device_besttherm_nessaconnect_heater from "./besttherm_nessaconnect_heater.js";
+import device_betterlife_bl1500_heater from "./betterlife_bl1500_heater.js";
 import device_bht002_galw_thermostat from "./bht002_galw_thermostat.js";
 import device_bht002_gblw_thermostat from "./bht002_gblw_thermostat.js";
 import device_blaupunkt_xboost_vacuum from "./blaupunkt_xboost_vacuum.js";
@@ -148,6 +172,7 @@ import device_ble_positivo_smart_fechadura from "./ble_positivo_smart_fechadura.
 import device_ble_positivo_smart_keypad from "./ble_positivo_smart_keypad.js";
 import device_ble_pt216_temp_humidity from "./ble_pt216_temp_humidity.js";
 import device_ble_smart_plant_moisture from "./ble_smart_plant_moisture.js";
+import device_ble_solar_light from "./ble_solar_light.js";
 import device_ble_tcs024b_smart_plant_moisture from "./ble_tcs024b_smart_plant_moisture.js";
 import device_ble_water_valve from "./ble_water_valve.js";
 import device_ble_yl01_watertester from "./ble_yl01_watertester.js";
@@ -158,9 +183,12 @@ import device_blitzwolf_bwsh2_humidifier from "./blitzwolf_bwsh2_humidifier.js";
 import device_blitzwolf_bwsh5_humidifier from "./blitzwolf_bwsh5_humidifier.js";
 import device_blitzwolf_bwshp6_smartplug from "./blitzwolf_bwshp6_smartplug.js";
 import device_blitzwolf_bwshp9_powerstrip from "./blitzwolf_bwshp9_powerstrip.js";
+import device_blumfeldt_cosmicbeam_heater from "./blumfeldt_cosmicbeam_heater.js";
 import device_bneta_f1d_petfeeder from "./bneta_f1d_petfeeder.js";
+import device_bobyun_gatepro_opener from "./bobyun_gatepro_opener.js";
 import device_bonaire_heater from "./bonaire_heater.js";
 import device_boundless_pa210w_gasalarm from "./boundless_pa210w_gasalarm.js";
+import device_brade_mc6_thermostat from "./brade_mc6_thermostat.js";
 import device_brandonbasics_syzn119_towel_warmer from "./brandonbasics_syzn119_towel_warmer.js";
 import device_brandson_a307362x3_fan from "./brandson_a307362x3_fan.js";
 import device_bresser_smart_thermo_hygrometer from "./bresser_smart_thermo_hygrometer.js";
@@ -174,6 +202,7 @@ import device_breville_lad208_dehumidifier from "./breville_lad208_dehumidifier.
 import device_breville_smart_air_viral_protect_night_glow from "./breville_smart_air_viral_protect_night_glow.js";
 import device_breville_smart_air_viral_protect_plus from "./breville_smart_air_viral_protect_plus.js";
 import device_breville_smartairconnect_purifier from "./breville_smartairconnect_purifier.js";
+import device_breville_smartmisttop_humidifier from "./breville_smartmisttop_humidifier.js";
 import device_briliant_fan_light from "./briliant_fan_light.js";
 import device_brilliant_5speed_ceilingfan from "./brilliant_5speed_ceilingfan.js";
 import device_brilliant_ceiling_fancontroller from "./brilliant_ceiling_fancontroller.js";
@@ -184,6 +213,7 @@ import device_brilliant_quad_switch from "./brilliant_quad_switch.js";
 import device_brilliant_securitylights from "./brilliant_securitylights.js";
 import device_brilliant_single_switch from "./brilliant_single_switch.js";
 import device_brilliant_triple_switch from "./brilliant_triple_switch.js";
+import device_brustec_br80_poolheater from "./brustec_br80_poolheater.js";
 import device_btbcoin_ac5299_pccontroller from "./btbcoin_ac5299_pccontroller.js";
 import device_bvf_cp1_heater from "./bvf_cp1_heater.js";
 import device_bw_salt_chlorinator from "./bw_salt_chlorinator.js";
@@ -198,6 +228,7 @@ import device_camnsmart_e27_camera from "./camnsmart_e27_camera.js";
 import device_carro_ph805_humidifier from "./carro_ph805_humidifier.js";
 import device_carro_pn04f02d_fan_light from "./carro_pn04f02d_fan_light.js";
 import device_carro_smart_ceiling_fan_light from "./carro_smart_ceiling_fan_light.js";
+import device_carson_cb from "./carson_cb.js";
 import device_casafan_ceiling_fan_light from "./casafan_ceiling_fan_light.js";
 import device_casdon_16j3s_dishwasher from "./casdon_16j3s_dishwasher.js";
 import device_casdon_kg1_waterdispenser from "./casdon_kg1_waterdispenser.js";
@@ -218,9 +249,11 @@ import device_cct_v1_lightbulb from "./cct_v1_lightbulb.js";
 import device_cecofry_5500_airfryer from "./cecofry_5500_airfryer.js";
 import device_cecotec_bigdry_4000_dehumidifier from "./cecotec_bigdry_4000_dehumidifier.js";
 import device_cecotec_congas1970_vacuum from "./cecotec_congas1970_vacuum.js";
+import device_cecotec_congaz100_vacuum from "./cecotec_congaz100_vacuum.js";
 import device_cecotec_fan_light from "./cecotec_fan_light.js";
 import device_cecotec_pumba8x00_litterbox from "./cecotec_pumba8x00_litterbox.js";
 import device_cecotec_readywarm_8400 from "./cecotec_readywarm_8400.js";
+import device_cecotec_readywarm2000max_heater from "./cecotec_readywarm2000max_heater.js";
 import device_cecotec_totalpure_purifier from "./cecotec_totalpure_purifier.js";
 import device_ceres_plus_petfeeder from "./ceres_plus_petfeeder.js";
 import device_cesmarthome_acwall_outlet from "./cesmarthome_acwall_outlet.js";
@@ -241,6 +274,7 @@ import device_cleanair_ca702_dehumidifier from "./cleanair_ca702_dehumidifier.js
 import device_cleanair_ca707_dehumidifier from "./cleanair_ca707_dehumidifier.js";
 import device_cleverio_ad100_dehumidifier from "./cleverio_ad100_dehumidifier.js";
 import device_cleverio_ap100_purifier from "./cleverio_ap100_purifier.js";
+import device_cleverio_cd200_doorbell from "./cleverio_cd200_doorbell.js";
 import device_cleverio_pf100_petfeeder from "./cleverio_pf100_petfeeder.js";
 import device_climative_dh20s_dehumidifier from "./climative_dh20s_dehumidifier.js";
 import device_clofte_duo_400_humidifier from "./clofte_duo_400_humidifier.js";
@@ -252,6 +286,7 @@ import device_coibeu_wkfs004_fanlight from "./coibeu_wkfs004_fanlight.js";
 import device_comfortzone_ap100_airpurifier from "./comfortzone_ap100_airpurifier.js";
 import device_comfortzone_cztf423s_towerfan from "./comfortzone_cztf423s_towerfan.js";
 import device_compteur_energy_meter from "./compteur_energy_meter.js";
+import device_computherm_q20_thermostat from "./computherm_q20_thermostat.js";
 import device_conow_cbe2000pro_battery from "./conow_cbe2000pro_battery.js";
 import device_costway_fd10584dewh_heatpump from "./costway_fd10584dewh_heatpump.js";
 import device_cover_switch_with_backlight from "./cover_switch_with_backlight.js";
@@ -264,15 +299,20 @@ import device_currysmarter_6gen_rollershutter from "./currysmarter_6gen_rollersh
 import device_currysmarter_w7pro_rollershutter from "./currysmarter_w7pro_rollershutter.js";
 import device_curtain_with_feedback from "./curtain_with_feedback.js";
 import device_daewoo_dhome_heatpump from "./daewoo_dhome_heatpump.js";
+import device_daizuki_heatpump from "./daizuki_heatpump.js";
 import device_dayette_ap409_airpurifier from "./dayette_ap409_airpurifier.js";
 import device_deakon_evi_waterheatpump from "./deakon_evi_waterheatpump.js";
+import device_delonghi_pinguino_airconditioner from "./delonghi_pinguino_airconditioner.js";
 import device_deltaco_shlw5m_ledstrip from "./deltaco_shlw5m_ledstrip.js";
 import device_desk_lamp from "./desk_lamp.js";
 import device_deta_6914ha_fancontroller from "./deta_6914ha_fancontroller.js";
 import device_deta_dimmer_switch from "./deta_dimmer_switch.js";
 import device_deta_fan from "./deta_fan.js";
+import device_devola_intelligent_heater from "./devola_intelligent_heater.js";
+import device_devola_patio_heater from "./devola_patio_heater.js";
 import device_dewall_evcharger from "./dewall_evcharger.js";
 import device_dewenwils_hwlt05a_lightingtransformer from "./dewenwils_hwlt05a_lightingtransformer.js";
+import device_dewin_kws306wf_energymeter from "./dewin_kws306wf_energymeter.js";
 import device_dh_csk03w_dehumidifier from "./dh_csk03w_dehumidifier.js";
 import device_dienmern_dm165a_noisemeter from "./dienmern_dm165a_noisemeter.js";
 import device_digma_disenseg1_gassensor from "./digma_disenseg1_gassensor.js";
@@ -290,21 +330,26 @@ import device_djive_arc_fan from "./djive_arc_fan.js";
 import device_djive_arc_portable_fan from "./djive_arc_portable_fan.js";
 import device_dl01es_energymeter from "./dl01es_energymeter.js";
 import device_dluft_smartflow_ventilation from "./dluft_smartflow_ventilation.js";
+import device_doel_tiplus_litterbox from "./doel_tiplus_litterbox.js";
 import device_dometek_ceiling_fan from "./dometek_ceiling_fan.js";
 import device_dongguan_electric_curtain from "./dongguan_electric_curtain.js";
 import device_dongguan_garage_door_opener from "./dongguan_garage_door_opener.js";
 import device_dooya_curtain from "./dooya_curtain.js";
 import device_dowell_dchs_k7_32_7kw_ev_charger from "./dowell_dchs_k7_32_7kw_ev_charger.js";
+import device_dr_heater_dr008_thermostat from "./dr_heater_dr008_thermostat.js";
 import device_dream_maker_feel_fan from "./dream_maker_feel_fan.js";
 import device_dreamegg_nite1_soundmachine from "./dreamegg_nite1_soundmachine.js";
+import device_drexma_et7aw_thermostat from "./drexma_et7aw_thermostat.js";
 import device_dts238_7_energy_meter from "./dts238_7_energy_meter.js";
 import device_dual_clamp_energymeter from "./dual_clamp_energymeter.js";
 import device_dual_dimmable_lamp from "./dual_dimmable_lamp.js";
 import device_dual_dimmer_module from "./dual_dimmer_module.js";
 import device_dual_power_monitor_smartplug from "./dual_power_monitor_smartplug.js";
+import device_dunwore_f60_floorheating from "./dunwore_f60_floorheating.js";
 import device_duoqu_selfcleaning_litterbox from "./duoqu_selfcleaning_litterbox.js";
 import device_duux_beam2_humidifier from "./duux_beam2_humidifier.js";
 import device_duux_bright_purifier from "./duux_bright_purifier.js";
+import device_duux_north_airconditioner from "./duux_north_airconditioner.js";
 import device_duux_whisper_fan from "./duux_whisper_fan.js";
 import device_duux_whisper_flex_ultimate_fan from "./duux_whisper_flex_ultimate_fan.js";
 import device_dxophiex_fishfeeder from "./dxophiex_fishfeeder.js";
@@ -314,21 +359,27 @@ import device_eachen_gddc5_garageopener from "./eachen_gddc5_garageopener.js";
 import device_eanons_humidifier from "./eanons_humidifier.js";
 import device_earu_3phase_breaker from "./earu_3phase_breaker.js";
 import device_earu_dpn_circuitbreaker from "./earu_dpn_circuitbreaker.js";
+import device_earu_eaemp3c100_energymeter from "./earu_eaemp3c100_energymeter.js";
 import device_earu_multicircuit_energymeter from "./earu_multicircuit_energymeter.js";
 import device_earu_smart_wifi_circuit_breaker_with_energy_monitor from "./earu_smart_wifi_circuit_breaker_with_energy_monitor.js";
 import device_easttime_d401_waterpurifier from "./easttime_d401_waterpurifier.js";
 import device_easybaby_gs801_milkmaker from "./easybaby_gs801_milkmaker.js";
 import device_ebac_dj4000_dehumidifier from "./ebac_dj4000_dehumidifier.js";
+import device_eberg_cooly_c35hd from "./eberg_cooly_c35hd.js";
 import device_eberg_fyn_towerfan from "./eberg_fyn_towerfan.js";
 import device_eberg_humi_h03g1_humidifier from "./eberg_humi_h03g1_humidifier.js";
 import device_eberg_rico_r12e2_dehumidifier from "./eberg_rico_r12e2_dehumidifier.js";
 import device_echief_sgh01_planter from "./echief_sgh01_planter.js";
+import device_econour_htsf305a_towerfan from "./econour_htsf305a_towerfan.js";
 import device_econour_towerfan from "./econour_towerfan.js";
 import device_ecoolbuy_siren_climatesensor from "./ecoolbuy_siren_climatesensor.js";
 import device_ecopoint_ev_charger from "./ecopoint_ev_charger.js";
 import device_ecoso_wifi_element from "./ecoso_wifi_element.js";
+import device_ecostrad_accentiq_heater from "./ecostrad_accentiq_heater.js";
+import device_ecostrad_iq_heating_element from "./ecostrad_iq_heating_element.js";
 import device_ecostrad_iqceramic_radiator from "./ecostrad_iqceramic_radiator.js";
 import device_ecostrad_iqceramicv2_radiator from "./ecostrad_iqceramicv2_radiator.js";
+import device_ecostrad_iqv2_element from "./ecostrad_iqv2_element.js";
 import device_edgetheorylabs_coldplunge_heatpump from "./edgetheorylabs_coldplunge_heatpump.js";
 import device_edisonsmart_dualzoneceiling_cctlight from "./edisonsmart_dualzoneceiling_cctlight.js";
 import device_eeese_alma_dehumidifier from "./eeese_alma_dehumidifier.js";
@@ -337,21 +388,31 @@ import device_eeese_carl_dehumidifier from "./eeese_carl_dehumidifier.js";
 import device_eeese_otto_dehumidifier from "./eeese_otto_dehumidifier.js";
 import device_eeese_thor_dehumidifier from "./eeese_thor_dehumidifier.js";
 import device_efenz_kith_fanlight from "./efenz_kith_fanlight.js";
+import device_efr_pro_fireplace from "./efr_pro_fireplace.js";
+import device_eg4_solar_heatpump from "./eg4_solar_heatpump.js";
 import device_ekaza_minipad_controlpanel from "./ekaza_minipad_controlpanel.js";
+import device_elechico_ccib001_heatpump from "./elechico_ccib001_heatpump.js";
+import device_electric_panel_heater from "./electric_panel_heater.js";
+import device_electriq_airflex15w_heatpump from "./electriq_airflex15w_heatpump.js";
 import device_electriq_cd12pw_dehumidifier from "./electriq_cd12pw_dehumidifier.js";
 import device_electriq_cd20pro_dehumidifier from "./electriq_cd20pro_dehumidifier.js";
 import device_electriq_cd20prolev4_dehumidifier from "./electriq_cd20prolev4_dehumidifier.js";
 import device_electriq_cd25pro_dehumidifier from "./electriq_cd25pro_dehumidifier.js";
 import device_electriq_desd9lwv2_dehumidifier from "./electriq_desd9lwv2_dehumidifier.js";
+import device_electriq_ecosilent12wap_aircon from "./electriq_ecosilent12wap_aircon.js";
+import device_electriq_ecosilent14hpw_aircon from "./electriq_ecosilent14hpw_aircon.js";
 import device_electriq_my130_radiator from "./electriq_my130_radiator.js";
+import device_electriq_sc16hpw_aircon from "./electriq_sc16hpw_aircon.js";
 import device_elegrp_dtr10_dimmer_switch from "./elegrp_dtr10_dimmer_switch.js";
 import device_elinksmart_khsy2626_fan from "./elinksmart_khsy2626_fan.js";
 import device_elitech_ecs974t_thermostat from "./elitech_ecs974t_thermostat.js";
+import device_eload_gen2_evcharger from "./eload_gen2_evcharger.js";
 import device_elspet_cat_litterbox from "./elspet_cat_litterbox.js";
 import device_elspet_orbitie_litterbox from "./elspet_orbitie_litterbox.js";
 import device_em3390tf_weatherstation from "./em3390tf_weatherstation.js";
 import device_emerio_dh129238_dehumidifier from "./emerio_dh129238_dehumidifier.js";
 import device_emini_16a_public_evcharger from "./emini_16a_public_evcharger.js";
+import device_emke_orbradptr_towelrack from "./emke_orbradptr_towelrack.js";
 import device_emmeti_zona_thermostat from "./emmeti_zona_thermostat.js";
 import device_ems_waterheater from "./ems_waterheater.js";
 import device_enbrighten_cafe_stringlights from "./enbrighten_cafe_stringlights.js";
@@ -374,6 +435,7 @@ import device_etersky_aroma_diffuser from "./etersky_aroma_diffuser.js";
 import device_etersky_curtain_switch from "./etersky_curtain_switch.js";
 import device_etna_ab791_rangehood from "./etna_ab791_rangehood.js";
 import device_etna_vw644mc_dishwasher from "./etna_vw644mc_dishwasher.js";
+import device_etop_ch7100_thermostat from "./etop_ch7100_thermostat.js";
 import device_etop_fcu_thermostat from "./etop_fcu_thermostat.js";
 import device_etop_ht_thermostat from "./etop_ht_thermostat.js";
 import device_etop_htch_thermostat from "./etop_htch_thermostat.js";
@@ -386,18 +448,22 @@ import device_eurom_800_heater from "./eurom_800_heater.js";
 import device_eurom_alutherm_heater from "./eurom_alutherm_heater.js";
 import device_eurom_alutherm_heater_v2 from "./eurom_alutherm_heater_v2.js";
 import device_eurom_dsp_heater from "./eurom_dsp_heater.js";
+import device_eurom_sani_bathroom_towel_radiator from "./eurom_sani_bathroom_towel_radiator.js";
+import device_eurom_sani_heater from "./eurom_sani_heater.js";
 import device_eurom_saniwallheat2000_heater from "./eurom_saniwallheat2000_heater.js";
 import device_eurom_walldesignheat2000_heater from "./eurom_walldesignheat2000_heater.js";
 import device_eurom_wifi_thermostat from "./eurom_wifi_thermostat.js";
 import device_europace_edh3122a_dehumidifier from "./europace_edh3122a_dehumidifier.js";
 import device_euroster4040_thermostat from "./euroster4040_thermostat.js";
 import device_evergreen_birdfeeder from "./evergreen_birdfeeder.js";
+import device_evotherm_eti_heatpump from "./evotherm_eti_heatpump.js";
 import device_evsun_evcharger from "./evsun_evcharger.js";
 import device_extreme_aquariumlight from "./extreme_aquariumlight.js";
 import device_ezaiot_lite_socket_thermostat from "./ezaiot_lite_socket_thermostat.js";
 import device_ezaiot_r9lite_thermostat from "./ezaiot_r9lite_thermostat.js";
 import device_ezaiot_thermostat_smartplug from "./ezaiot_thermostat_smartplug.js";
 import device_ezvalo_smart_desklamp from "./ezvalo_smart_desklamp.js";
+import device_fairland_iphcr15_heatpump from "./fairland_iphcr15_heatpump.js";
 import device_fairland_rmic06_heatpump from "./fairland_rmic06_heatpump.js";
 import device_fakro_arz_roofblind from "./fakro_arz_roofblind.js";
 import device_fanco_ecosilentdeluxe from "./fanco_ecosilentdeluxe.js";
@@ -410,20 +476,28 @@ import device_feit_onesync_lightcontroller from "./feit_onesync_lightcontroller.
 import device_fercofloor_ft2c10v from "./fercofloor_ft2c10v.js";
 import device_ferroli_egea_waterheater from "./ferroli_egea_waterheater.js";
 import device_ferroli_titano_twin from "./ferroli_titano_twin.js";
+import device_feyree_43_evcharger from "./feyree_43_evcharger.js";
 import device_feyree_epro32a_evcharger from "./feyree_epro32a_evcharger.js";
+import device_feyree_ev_portable_charger from "./feyree_ev_portable_charger.js";
+import device_feyree_lion_evcharger from "./feyree_lion_evcharger.js";
 import device_fiero_bravia_ceilingfan from "./fiero_bravia_ceilingfan.js";
+import device_fiesta_dk1g_kettle from "./fiesta_dk1g_kettle.js";
 import device_fisher_ervq_hd_hrv from "./fisher_ervq_hd_hrv.js";
 import device_fisher_water_heatpump from "./fisher_water_heatpump.js";
 import device_flinq_breeze_pedestalfan from "./flinq_breeze_pedestalfan.js";
 import device_flymoon_5l_humidifier from "./flymoon_5l_humidifier.js";
+import device_fmsolar_12k_heatpump from "./fmsolar_12k_heatpump.js";
 import device_forceclima_soundless_airconditioner from "./forceclima_soundless_airconditioner.js";
 import device_fourin1_motion_sensor from "./fourin1_motion_sensor.js";
 import device_fral_supercool_airconditioner from "./fral_supercool_airconditioner.js";
+import device_fral_supercool_airconditioner_fsc08 from "./fral_supercool_airconditioner_fsc08.js";
 import device_frankever_bv05_watervalve from "./frankever_bv05_watervalve.js";
 import device_frankever_watervalve from "./frankever_watervalve.js";
 import device_fresco_hydrateultra_petfountain from "./fresco_hydrateultra_petfountain.js";
 import device_fresco_hydrateultra_petfountain_v2 from "./fresco_hydrateultra_petfountain_v2.js";
 import device_friedrich_airconditioner from "./friedrich_airconditioner.js";
+import device_friedrich_uct08b10a_airconditioner from "./friedrich_uct08b10a_airconditioner.js";
+import device_frizzlife_lp365p_watermonitorandshutdoff from "./frizzlife_lp365p_watermonitorandshutdoff.js";
 import device_fs_03w_curtain from "./fs_03w_curtain.js";
 import device_fujicool_yuzu_heatpump from "./fujicool_yuzu_heatpump.js";
 import device_fukumaru_af01w_pet_feeder from "./fukumaru_af01w_pet_feeder.js";
@@ -432,15 +506,19 @@ import device_gadnic_ac800_vacuum from "./gadnic_ac800_vacuum.js";
 import device_gamp_bcv300_waterheater from "./gamp_bcv300_waterheater.js";
 import device_gaqqee_kws302wf_energymeter from "./gaqqee_kws302wf_energymeter.js";
 import device_garage_door_opener from "./garage_door_opener.js";
+import device_gardenpac_heatpump from "./gardenpac_heatpump.js";
 import device_garen_garage_door_controller from "./garen_garage_door_controller.js";
 import device_garen_tsifit_garageopener from "./garen_tsifit_garageopener.js";
+import device_garza_thermostat from "./garza_thermostat.js";
 import device_gd2050wifi_aroma_diffuser from "./gd2050wifi_aroma_diffuser.js";
 import device_ge_jasco_ultra_pro_toggle_dimmer_v2 from "./ge_jasco_ultra_pro_toggle_dimmer_v2.js";
 import device_ge_jasco_ultra_pro_toggle_switch from "./ge_jasco_ultra_pro_toggle_switch.js";
 import device_generic_5speed_fanregulator from "./generic_5speed_fanregulator.js";
 import device_geya_gyrczn03_breaker from "./geya_gyrczn03_breaker.js";
 import device_geyserwise_mws_water_heater from "./geyserwise_mws_water_heater.js";
+import device_geyserwise_water_heater from "./geyserwise_water_heater.js";
 import device_ghome_sw19_fanlight from "./ghome_sw19_fanlight.js";
+import device_giatsu_poolheatpump from "./giatsu_poolheatpump.js";
 import device_giatsu_vaw2_waterheater from "./giatsu_vaw2_waterheater.js";
 import device_gidrolock_standard_wifi from "./gidrolock_standard_wifi.js";
 import device_globe_ceilingfanrgbcwlight from "./globe_ceilingfanrgbcwlight.js";
@@ -461,6 +539,7 @@ import device_goldair_phet07ea_heater from "./goldair_phet07ea_heater.js";
 import device_goldair_platinum_tower_fan from "./goldair_platinum_tower_fan.js";
 import device_goldair_smartsleep_bedwarmer from "./goldair_smartsleep_bedwarmer.js";
 import device_gologi_dehumidifier from "./gologi_dehumidifier.js";
+import device_goodcell_ev_charger from "./goodcell_ev_charger.js";
 import device_gorilla_fan_v2 from "./gorilla_fan_v2.js";
 import device_gosund_sp112_usbsmartplug from "./gosund_sp112_usbsmartplug.js";
 import device_gosund_sp211_dualsmartplug from "./gosund_sp211_dualsmartplug.js";
@@ -478,6 +557,7 @@ import device_gts8_40_2p_breaker from "./gts8_40_2p_breaker.js";
 import device_gw_motor_roller_blind from "./gw_motor_roller_blind.js";
 import device_gzair_radon_gas_detector from "./gzair_radon_gas_detector.js";
 import device_haier_airmart_ac from "./haier_airmart_ac.js";
+import device_haier_airwater_heatpump from "./haier_airwater_heatpump.js";
 import device_haier_nayun_gasalarm from "./haier_nayun_gasalarm.js";
 import device_hama_radiator_controller from "./hama_radiator_controller.js";
 import device_haolesi_mini_thermostat from "./haolesi_mini_thermostat.js";
@@ -497,9 +577,12 @@ import device_hauschen_smart_mirror from "./hauschen_smart_mirror.js";
 import device_hauslane_in_r110_rangehood from "./hauslane_in_r110_rangehood.js";
 import device_hct626_dual_watertimer from "./hct626_dual_watertimer.js";
 import device_heatbot_15l_water_heater from "./heatbot_15l_water_heater.js";
+import device_heatstorm_dh100twi_heater from "./heatstorm_dh100twi_heater.js";
+import device_heatstorm_hs6000gc_heater from "./heatstorm_hs6000gc_heater.js";
 import device_heatstrip_elegance_heater from "./heatstrip_elegance_heater.js";
 import device_herschel_irheater from "./herschel_irheater.js";
 import device_herschel_selectxls_mirror from "./herschel_selectxls_mirror.js";
+import device_herschel_t_mt_thermostat from "./herschel_t_mt_thermostat.js";
 import device_herschel_xls_tpl_thermostat from "./herschel_xls_tpl_thermostat.js";
 import device_hhc_am68_curtainmotor from "./hhc_am68_curtainmotor.js";
 import device_himox_h05_purifier from "./himox_h05_purifier.js";
@@ -514,7 +597,9 @@ import device_hjz_radiator from "./hjz_radiator.js";
 import device_hlg_infinity_alarm from "./hlg_infinity_alarm.js";
 import device_hoenofly_ceiling_fan_with_light from "./hoenofly_ceiling_fan_with_light.js";
 import device_hoenyzy_valve_timer from "./hoenyzy_valve_timer.js";
+import device_hokkaido_airconditioner from "./hokkaido_airconditioner.js";
 import device_holman_helios_weatherstation from "./holman_helios_weatherstation.js";
+import device_holman_wx4_taptimer from "./holman_wx4_taptimer.js";
 import device_holman_wx8_irrigation_controller from "./holman_wx8_irrigation_controller.js";
 import device_holmes_tower_fan from "./holmes_tower_fan.js";
 import device_holtop_cfa500t_erv from "./holtop_cfa500t_erv.js";
@@ -527,6 +612,7 @@ import device_homebase_oscillating_fan from "./homebase_oscillating_fan.js";
 import device_homemate_fan_regulator from "./homemate_fan_regulator.js";
 import device_homemate_multi_switch from "./homemate_multi_switch.js";
 import device_homemedics_c500_airpurifier from "./homemedics_c500_airpurifier.js";
+import device_homend_royaltea_kettle from "./homend_royaltea_kettle.js";
 import device_homlit_ceilingfanlight from "./homlit_ceilingfanlight.js";
 import device_homvana_h111s_humidifier from "./homvana_h111s_humidifier.js";
 import device_honeyguardian_s56_petfeeder from "./honeyguardian_s56_petfeeder.js";
@@ -543,15 +629,22 @@ import device_htw_htwd020a4_dehumidifier from "./htw_htwd020a4_dehumidifier.js";
 import device_humhold_24lp_ceilingfanlight from "./humhold_24lp_ceilingfanlight.js";
 import device_hunterpacific_6speed_fanlight from "./hunterpacific_6speed_fanlight.js";
 import device_hunterpacific_9speed_fanlight from "./hunterpacific_9speed_fanlight.js";
+import device_huntertbk_hf6602t_doorbell from "./huntertbk_hf6602t_doorbell.js";
 import device_hx002z_presencesensor from "./hx002z_presencesensor.js";
 import device_hyd_weair_plus_fan from "./hyd_weair_plus_fan.js";
 import device_hydrotherm_dynamic_x8_water_heater from "./hydrotherm_dynamic_x8_water_heater.js";
+import device_hydrotherm_dynamic_x8_water_heaterv6 from "./hydrotherm_dynamic_x8_water_heaterv6.js";
 import device_hysen_hy02tp_thermostat from "./hysen_hy02tp_thermostat.js";
+import device_hysen_hy08we2_thermostat from "./hysen_hy08we2_thermostat.js";
+import device_hysen_hy101rf_thermostat from "./hysen_hy101rf_thermostat.js";
 import device_hyundai_sahara_dehumidifier from "./hyundai_sahara_dehumidifier.js";
+import device_idea_heatingbelt_airconditioner from "./idea_heatingbelt_airconditioner.js";
 import device_ideal_clima_fancoil from "./ideal_clima_fancoil.js";
 import device_idoo_smartbloom8_planter from "./idoo_smartbloom8_planter.js";
+import device_idra_skiv_airconditioner from "./idra_skiv_airconditioner.js";
 import device_iebelong_ech_doorbell_rfhub from "./iebelong_ech_doorbell_rfhub.js";
 import device_igenix_ig9901wifi_airconditioner from "./igenix_ig9901wifi_airconditioner.js";
+import device_ihome_autovac_nova from "./ihome_autovac_nova.js";
 import device_ihseno_ztu_presencesensor from "./ihseno_ztu_presencesensor.js";
 import device_ihunt_50_airpurifier from "./ihunt_50_airpurifier.js";
 import device_ihunt_400_airpurifier from "./ihunt_400_airpurifier.js";
@@ -568,6 +661,7 @@ import device_imeter_3pn_energymonitor from "./imeter_3pn_energymonitor.js";
 import device_imipaw_duw21wbr3d_petfeeder from "./imipaw_duw21wbr3d_petfeeder.js";
 import device_imitos_downlight from "./imitos_downlight.js";
 import device_immax_neo_light_vento from "./immax_neo_light_vento.js";
+import device_immax_neolite_evcharger from "./immax_neolite_evcharger.js";
 import device_immax_neolite_weatherstation from "./immax_neolite_weatherstation.js";
 import device_inkbird_bbq4t_thermometer from "./inkbird_bbq4t_thermometer.js";
 import device_inkbird_bbq4t_thermometerv2 from "./inkbird_bbq4t_thermometerv2.js";
@@ -576,7 +670,10 @@ import device_inkbird_ibbq4bw_thermometer from "./inkbird_ibbq4bw_thermometer.js
 import device_inkbird_ibt_26s_thermometer from "./inkbird_ibt_26s_thermometer.js";
 import device_inkbird_ihc200_humiditycontroller from "./inkbird_ihc200_humiditycontroller.js";
 import device_inkbird_iic400_irrigationcontroller from "./inkbird_iic400_irrigationcontroller.js";
+import device_inkbird_ipt2ch_thermostat from "./inkbird_ipt2ch_thermostat.js";
 import device_inkbird_isc007bw_smokercontrol from "./inkbird_isc007bw_smokercontrol.js";
+import device_inkbird_itc306a_thermostat from "./inkbird_itc306a_thermostat.js";
+import device_inkbird_itc308_thermostat from "./inkbird_itc308_thermostat.js";
 import device_inkbird_pth9cw_airquality from "./inkbird_pth9cw_airquality.js";
 import device_inkbirdplus_ht2004_heater from "./inkbirdplus_ht2004_heater.js";
 import device_inline_ultrasonic_aromadiffuser from "./inline_ultrasonic_aromadiffuser.js";
@@ -586,6 +683,8 @@ import device_inringr_radiator from "./inringr_radiator.js";
 import device_intec_ceilingfanlight from "./intec_ceilingfanlight.js";
 import device_intelbras_ifr7000_lock from "./intelbras_ifr7000_lock.js";
 import device_intex_purespa_spa from "./intex_purespa_spa.js";
+import device_inventor_atmospherexl_dehumidifier from "./inventor_atmospherexl_dehumidifier.js";
+import device_inventor_comfort_airconditioner from "./inventor_comfort_airconditioner.js";
 import device_inventor_evaionpro_dehumidifier from "./inventor_evaionpro_dehumidifier.js";
 import device_inventor_tokenslegend_airconditioner from "./inventor_tokenslegend_airconditioner.js";
 import device_ion_wifi_dimmer from "./ion_wifi_dimmer.js";
@@ -603,6 +702,9 @@ import device_jafanda_jf500_airpurifier from "./jafanda_jf500_airpurifier.js";
 import device_jemell_ptc1919_heater from "./jemell_ptc1919_heater.js";
 import device_jh_pcmini from "./jh_pcmini.js";
 import device_jh_pcpro_ from "./jh_pcpro_.js";
+import device_jiahong_et44w_thermostat from "./jiahong_et44w_thermostat.js";
+import device_jiahong_et61plus_thermostat from "./jiahong_et61plus_thermostat.js";
+import device_jiahong_et72w_thermostat from "./jiahong_et72w_thermostat.js";
 import device_jjpro_jpd01_dehumidifier from "./jjpro_jpd01_dehumidifier.js";
 import device_jjpro_jpd02_dehumidifier from "./jjpro_jpd02_dehumidifier.js";
 import device_joekol_wd01ade_wateringpump from "./joekol_wd01ade_wateringpump.js";
@@ -614,27 +716,39 @@ import device_kabum_smart500_vacuum from "./kabum_smart500_vacuum.js";
 import device_kabum_smart700_v2023_vaccum from "./kabum_smart700_v2023_vaccum.js";
 import device_kabum_smart700_vacuum from "./kabum_smart700_vacuum.js";
 import device_kaeltebringer_kbo_airconditioner from "./kaeltebringer_kbo_airconditioner.js";
+import device_kaisai_proheat_airconditioner from "./kaisai_proheat_airconditioner.js";
 import device_kalado_kpf01_petfeeder from "./kalado_kpf01_petfeeder.js";
 import device_kanchou_petfountain from "./kanchou_petfountain.js";
+import device_kavunion_c1_ventilationfan from "./kavunion_c1_ventilationfan.js";
+import device_kcl_m1803a_diffuser from "./kcl_m1803a_diffuser.js";
+import device_kcvents_vt501_fan from "./kcvents_vt501_fan.js";
 import device_kendal_kvttouchtower_pedestalfan from "./kendal_kvttouchtower_pedestalfan.js";
+import device_kennedy_fireplace from "./kennedy_fireplace.js";
 import device_kesser_infrared_heater from "./kesser_infrared_heater.js";
 import device_kesser_infrared_heater_floodlights from "./kesser_infrared_heater_floodlights.js";
 import device_kesser_infrared_wall_heater from "./kesser_infrared_wall_heater.js";
 import device_ketotek_ktem06pro_energymeter from "./ketotek_ktem06pro_energymeter.js";
+import device_kibernetik_12k_airconditioner from "./kibernetik_12k_airconditioner.js";
 import device_kilo_plus_air_purifier from "./kilo_plus_air_purifier.js";
 import device_kimex_cinemascreen from "./kimex_cinemascreen.js";
 import device_kishin_bsdw002_motionsensor from "./kishin_bsdw002_motionsensor.js";
+import device_kiturami_nctr100_thermostat from "./kiturami_nctr100_thermostat.js";
 import device_kkmoon_airquality_monitor from "./kkmoon_airquality_monitor.js";
 import device_kkmoon_thermostat from "./kkmoon_thermostat.js";
 import device_kkt_kolbe_solo_hcm from "./kkt_kolbe_solo_hcm.js";
 import device_kktkolbe_easyhcm_rangehood from "./kktkolbe_easyhcm_rangehood.js";
+import device_klamer_2600w_irheater from "./klamer_2600w_irheater.js";
 import device_klarstein_airfold_fanlight from "./klarstein_airfold_fanlight.js";
 import device_klarstein_amazonia_dishwasher from "./klarstein_amazonia_dishwasher.js";
 import device_klarstein_ava_extractorhood from "./klarstein_ava_extractorhood.js";
 import device_klarstein_bolero_ceilingfan from "./klarstein_bolero_ceilingfan.js";
+import device_klarstein_bornholm_smart_heater from "./klarstein_bornholm_smart_heater.js";
 import device_klarstein_bornholmsmart1500_heater from "./klarstein_bornholmsmart1500_heater.js";
+import device_klarstein_iceblock_airconditioner from "./klarstein_iceblock_airconditioner.js";
 import device_klarstein_icetower_fan from "./klarstein_icetower_fan.js";
 import device_klarstein_icewindplus_coolingfan from "./klarstein_icewindplus_coolingfan.js";
+import device_klarstein_metrobreezeny_airconditioner from "./klarstein_metrobreezeny_airconditioner.js";
+import device_klarstein_pureblizzard_airconditioner from "./klarstein_pureblizzard_airconditioner.js";
 import device_klarstein_skyscraper_ice_smart from "./klarstein_skyscraper_ice_smart.js";
 import device_klarstein_skytowergrandsmart_fan from "./klarstein_skytowergrandsmart_fan.js";
 import device_klarstein_wondersky_heater from "./klarstein_wondersky_heater.js";
@@ -660,18 +774,27 @@ import device_kogan_kashmfp20ba_heater from "./kogan_kashmfp20ba_heater.js";
 import device_kogan_kasmcdsktla_kettle from "./kogan_kasmcdsktla_kettle.js";
 import device_kogan_kasmgphxxxx_heater from "./kogan_kasmgphxxxx_heater.js";
 import device_kogan_kasmwekfitea_electricblanket from "./kogan_kasmwekfitea_electricblanket.js";
+import device_kogan_kasvwac30ya_airconditioner from "./kogan_kasvwac30ya_airconditioner.js";
 import device_kogan_kawfhtp_heater from "./kogan_kawfhtp_heater.js";
+import device_kogan_kawfpac09ya_airconditioner from "./kogan_kawfpac09ya_airconditioner.js";
+import device_kogan_kawfpac12ya_airconditioner from "./kogan_kawfpac12ya_airconditioner.js";
+import device_kogan_kawfpac16pya_airconditioner from "./kogan_kawfpac16pya_airconditioner.js";
 import device_kogan_lx8_vacuum from "./kogan_lx8_vacuum.js";
 import device_kogan_lx10_vacuum from "./kogan_lx10_vacuum.js";
 import device_kogan_noise_machine from "./kogan_noise_machine.js";
 import device_kogan_vacuum_lx15 from "./kogan_vacuum_lx15.js";
 import device_kogan_vostok_portable_airconditioner from "./kogan_vostok_portable_airconditioner.js";
 import device_koiduo_water_heater from "./koiduo_water_heater.js";
+import device_kolanky_evcharger from "./kolanky_evcharger.js";
 import device_komeco_qc60_heatpump from "./komeco_qc60_heatpump.js";
 import device_konlen_snt957w_tempsensor from "./konlen_snt957w_tempsensor.js";
+import device_konlen_wf72tt_dualtempcontroller from "./konlen_wf72tt_dualtempcontroller.js";
 import device_konlen_wf96l_waterlevel_controller from "./konlen_wf96l_waterlevel_controller.js";
 import device_konyks_ecosy2024_pilotwirecontroller from "./konyks_ecosy2024_pilotwirecontroller.js";
+import device_korex_axwf306n_smart_kettle from "./korex_axwf306n_smart_kettle.js";
+import device_krain_krx8_irrigation_controller from "./krain_krx8_irrigation_controller.js";
 import device_krisbow_sync_dehumidifier from "./krisbow_sync_dehumidifier.js";
+import device_kw02_video_doorbell from "./kw02_video_doorbell.js";
 import device_ky_35w10_shutter from "./ky_35w10_shutter.js";
 import device_kyvol_e30_vacuum from "./kyvol_e30_vacuum.js";
 import device_kyvol_ea200_humidifier from "./kyvol_ea200_humidifier.js";
@@ -683,6 +806,7 @@ import device_ledkia_fan_light from "./ledkia_fan_light.js";
 import device_ledlux_thermostat from "./ledlux_thermostat.js";
 import device_ledvance_floodlight_camera from "./ledvance_floodlight_camera.js";
 import device_ledvance_smart_ceilingfan from "./ledvance_smart_ceilingfan.js";
+import device_ledvance_smart_plabl100x25b from "./ledvance_smart_plabl100x25b.js";
 import device_ledvance_smartwifiplanonmagic_light from "./ledvance_smartwifiplanonmagic_light.js";
 import device_ledvance_wacamcon_camera from "./ledvance_wacamcon_camera.js";
 import device_lefant_ls1_vacuum from "./lefant_ls1_vacuum.js";
@@ -699,9 +823,11 @@ import device_liectroux_g7_vacuum from "./liectroux_g7_vacuum.js";
 import device_liectroux_xr500_t3_vacuum from "./liectroux_xr500_t3_vacuum.js";
 import device_lifubide_x600_purifier from "./lifubide_x600_purifier.js";
 import device_ligency_fl15b1p_fanlight from "./ligency_fl15b1p_fanlight.js";
+import device_lindasmart_7s_doorbell from "./lindasmart_7s_doorbell.js";
 import device_linkoze_dual_button from "./linkoze_dual_button.js";
 import device_littepets from "./littepets.js";
 import device_livingcomfort_twinwindow_fan from "./livingcomfort_twinwindow_fan.js";
+import device_livn_arosa_fireplace from "./livn_arosa_fireplace.js";
 import device_liwokit_dimmerswitch from "./liwokit_dimmerswitch.js";
 import device_loeffen_lfim6000_icecubemaker from "./loeffen_lfim6000_icecubemaker.js";
 import device_logicom_powerstrip from "./logicom_powerstrip.js";
@@ -733,6 +859,7 @@ import device_lucci_cctlight_fan from "./lucci_cctlight_fan.js";
 import device_lucci_fan from "./lucci_fan.js";
 import device_lucking_hs6_lock from "./lucking_hs6_lock.js";
 import device_luko_dehumidifier from "./luko_dehumidifier.js";
+import device_lumary_a1_ceilingfanlight from "./lumary_a1_ceilingfanlight.js";
 import device_lumary_b2_ceilingfanlight from "./lumary_b2_ceilingfanlight.js";
 import device_lumary_c2_ceilingfanlight from "./lumary_c2_ceilingfanlight.js";
 import device_lumary_d1_downlight from "./lumary_d1_downlight.js";
@@ -741,8 +868,13 @@ import device_m027_curtain from "./m027_curtain.js";
 import device_m515_curtain_motor from "./m515_curtain_motor.js";
 import device_macro_ma20wodp_waterheater from "./macro_ma20wodp_waterheater.js";
 import device_madimack_eco_heatpump from "./madimack_eco_heatpump.js";
+import device_madimack_eco_heatpump_9kw from "./madimack_eco_heatpump_9kw.js";
+import device_madimack_elite_v3_heatpump_updated from "./madimack_elite_v3_heatpump_updated.js";
 import device_madimack_gtfreedomi80_poolcleaner from "./madimack_gtfreedomi80_poolcleaner.js";
+import device_madimack_heatpump from "./madimack_heatpump.js";
+import device_madimack_inverchlor_chlorinator from "./madimack_inverchlor_chlorinator.js";
 import device_magnovent_cefiro_with_lights from "./magnovent_cefiro_with_lights.js";
+import device_magnum_mrc_floorheating from "./magnum_mrc_floorheating.js";
 import device_majestic_1250_saltchlorinator from "./majestic_1250_saltchlorinator.js";
 import device_makegood_double_power_point_with_energy from "./makegood_double_power_point_with_energy.js";
 import device_makegood_switch_dual_timer_energy from "./makegood_switch_dual_timer_energy.js";
@@ -754,9 +886,11 @@ import device_mamnv_br151_vacuum_and_mop from "./mamnv_br151_vacuum_and_mop.js";
 import device_manissa_ows02a_towelrail from "./manissa_ows02a_towelrail.js";
 import device_manta_windymt0200b_weatherstation from "./manta_windymt0200b_weatherstation.js";
 import device_mantra_fan from "./mantra_fan.js";
+import device_matsee_2way_energymeter from "./matsee_2way_energymeter.js";
 import device_matsee_2wayv2_energymeter from "./matsee_2wayv2_energymeter.js";
 import device_maxcio_aromadiffuser from "./maxcio_aromadiffuser.js";
 import device_mayborn_groclock from "./mayborn_groclock.js";
+import device_me80_thermostat from "./me80_thermostat.js";
 import device_me201w_level_sensor from "./me201w_level_sensor.js";
 import device_meaco_aretetwo_dehumidifier from "./meaco_aretetwo_dehumidifier.js";
 import device_meaco_clean_purifier from "./meaco_clean_purifier.js";
@@ -770,7 +904,9 @@ import device_meegeem_selfcleaningcatlitterbox from "./meegeem_selfcleaningcatli
 import device_meian_sw02_leakdetector from "./meian_sw02_leakdetector.js";
 import device_mellerware_citymove_vacuum from "./mellerware_citymove_vacuum.js";
 import device_miboxer_wlbox2_lighting from "./miboxer_wlbox2_lighting.js";
+import device_miheat_th11wf_thermostat from "./miheat_th11wf_thermostat.js";
 import device_milano_ceiling_fan from "./milano_ceiling_fan.js";
+import device_minco_mh1823d_thermostat from "./minco_mh1823d_thermostat.js";
 import device_minib_public_litterbox from "./minib_public_litterbox.js";
 import device_minoston_timer_switch from "./minoston_timer_switch.js";
 import device_mirabella_genio_motion_sensor from "./mirabella_genio_motion_sensor.js";
@@ -779,12 +915,16 @@ import device_mirabella_power_strip from "./mirabella_power_strip.js";
 import device_miro_qtower_humidifier from "./miro_qtower_humidifier.js";
 import device_mmwave_4in1_sensor from "./mmwave_4in1_sensor.js";
 import device_modena_es15sky_waterheater from "./modena_es15sky_waterheater.js";
+import device_modernflames_landscapeproslim_fireplace from "./modernflames_landscapeproslim_fireplace.js";
+import device_modernflames_orion_fireplace from "./modernflames_orion_fireplace.js";
+import device_moebot_s_mower from "./moebot_s_mower.js";
 import device_moes_bht002_thermostat_c from "./moes_bht002_thermostat_c.js";
 import device_moes_controlpanel from "./moes_controlpanel.js";
 import device_moes_dimmer from "./moes_dimmer.js";
 import device_moes_double_curtainswitch from "./moes_double_curtainswitch.js";
 import device_moes_dual_dimmer from "./moes_dual_dimmer.js";
 import device_moes_indoorptz_camera from "./moes_indoorptz_camera.js";
+import device_moes_motionsensor_light from "./moes_motionsensor_light.js";
 import device_moes_motionsensor_switch from "./moes_motionsensor_switch.js";
 import device_moes_pir_wall_switch from "./moes_pir_wall_switch.js";
 import device_moes_presencesensor from "./moes_presencesensor.js";
@@ -795,8 +935,10 @@ import device_moes_starfeather_switch from "./moes_starfeather_switch.js";
 import device_moes_temp_humidity from "./moes_temp_humidity.js";
 import device_moes_threegang from "./moes_threegang.js";
 import device_moes_touch_curtain_switch from "./moes_touch_curtain_switch.js";
+import device_moes_trv_thermostat from "./moes_trv_thermostat.js";
 import device_moes_trv601_thermostat from "./moes_trv601_thermostat.js";
 import device_moes_wht009_thermostat from "./moes_wht009_thermostat.js";
+import device_moes_whts01_thermostat from "./moes_whts01_thermostat.js";
 import device_moes_wsyeuc_curtainswitch from "./moes_wsyeuc_curtainswitch.js";
 import device_moes_zcjk_alarmclock from "./moes_zcjk_alarmclock.js";
 import device_moesgo_dimmer from "./moesgo_dimmer.js";
@@ -810,14 +952,18 @@ import device_morris_mdb_12160hiw_dehumidifier from "./morris_mdb_12160hiw_dehum
 import device_morris_wfin35168_airconditioner from "./morris_wfin35168_airconditioner.js";
 import device_mountfield_azuro_poolheatpump from "./mountfield_azuro_poolheatpump.js";
 import device_mppt_4048_solarcharger from "./mppt_4048_solarcharger.js";
+import device_mrc_magnum_floorheater from "./mrc_magnum_floorheater.js";
+import device_mrpure_saltchlorinator from "./mrpure_saltchlorinator.js";
 import device_multi_channel_switch from "./multi_channel_switch.js";
 import device_multi_leaf_dy_107_thermostat from "./multi_leaf_dy_107_thermostat.js";
 import device_multi_timer_powerstrip from "./multi_timer_powerstrip.js";
 import device_mustool_mt15mt29_airbox from "./mustool_mt15mt29_airbox.js";
 import device_mycond_berg_dehumidifier from "./mycond_berg_dehumidifier.js";
 import device_mypin_6l_videopetfeeder from "./mypin_6l_videopetfeeder.js";
+import device_myq_td8_videodoorbell from "./myq_td8_videodoorbell.js";
 import device_myuet_me82_thermostat from "./myuet_me82_thermostat.js";
 import device_nac_ap470_purifier from "./nac_ap470_purifier.js";
+import device_nashone_mts700wb_thermostat from "./nashone_mts700wb_thermostat.js";
 import device_nbq100_us_microinverter from "./nbq100_us_microinverter.js";
 import device_neatsvor_x600_vacuum from "./neatsvor_x600_vacuum.js";
 import device_nedis_airquality from "./nedis_airquality.js";
@@ -829,6 +975,7 @@ import device_nedis_ptc_fan_heater from "./nedis_ptc_fan_heater.js";
 import device_nedis_zbrc10wt_remotecontrol from "./nedis_zbrc10wt_remotecontrol.js";
 import device_neo_coolcam_16zone_sprinkler_controller from "./neo_coolcam_16zone_sprinkler_controller.js";
 import device_neo_coolcam_siren from "./neo_coolcam_siren.js";
+import device_neo_ir_climate_controller from "./neo_ir_climate_controller.js";
 import device_neo_naswv02w_watervalve from "./neo_naswv02w_watervalve.js";
 import device_neo_zigbee_siren from "./neo_zigbee_siren.js";
 import device_neopower_heat_pump_water_heater from "./neopower_heat_pump_water_heater.js";
@@ -844,6 +991,7 @@ import device_nhzs_fan_switch from "./nhzs_fan_switch.js";
 import device_nice_digi_lock from "./nice_digi_lock.js";
 import device_nine_ev_charger from "./nine_ev_charger.js";
 import device_nivian_nvs_a6wg_alarm from "./nivian_nvs_a6wg_alarm.js";
+import device_nobito_airqualitymonitor from "./nobito_airqualitymonitor.js";
 import device_noeifevo_q21w_evcharger from "./noeifevo_q21w_evcharger.js";
 import device_nooie_nsp21_smartplug from "./nooie_nsp21_smartplug.js";
 import device_nooie_pu13_smartplug from "./nooie_pu13_smartplug.js";
@@ -862,6 +1010,7 @@ import device_ogacfo_ultrasonicfloor_humidifier from "./ogacfo_ultrasonicfloor_h
 import device_okp_k2_vacuum from "./okp_k2_vacuum.js";
 import device_olight_ostation2_batterycharger from "./olight_ostation2_batterycharger.js";
 import device_olight_sphere_light from "./olight_sphere_light.js";
+import device_olimpiasplendid_unicopro_airconditioner from "./olimpiasplendid_unicopro_airconditioner.js";
 import device_omni_x_duplex_waterheater from "./omni_x_duplex_waterheater.js";
 import device_omnibreeze_5speed_towerfan from "./omnibreeze_5speed_towerfan.js";
 import device_omnibreeze_tower_fan from "./omnibreeze_tower_fan.js";
@@ -869,6 +1018,7 @@ import device_oneisall_pfd002pro_petfeeder from "./oneisall_pfd002pro_petfeeder.
 import device_orion_indoor_siren from "./orion_indoor_siren.js";
 import device_orion_ptc2000_heater from "./orion_ptc2000_heater.js";
 import device_orion_smart_lock from "./orion_smart_lock.js";
+import device_orison_jst_fanrgbwlight from "./orison_jst_fanrgbwlight.js";
 import device_orison_rgb_ceilingfan from "./orison_rgb_ceilingfan.js";
 import device_oscal_powermax1800se_portablepower from "./oscal_powermax1800se_portablepower.js";
 import device_oscal_powermax2400pro_portablepower from "./oscal_powermax2400pro_portablepower.js";
@@ -877,8 +1027,10 @@ import device_otu_r1o1_lock from "./otu_r1o1_lock.js";
 import device_ourtop_atms100133_energymeter from "./ourtop_atms100133_energymeter.js";
 import device_outdoor_inc_zipblind from "./outdoor_inc_zipblind.js";
 import device_ovlaim_809_ceiling_fanlight from "./ovlaim_809_ceiling_fanlight.js";
+import device_owon_pct513_thermostat from "./owon_pct513_thermostat.js";
 import device_palicy_ecpro4_chlorinegenerator from "./palicy_ecpro4_chlorinegenerator.js";
 import device_papifeed_pet_feeder from "./papifeed_pet_feeder.js";
+import device_parkside_bluetooth_mower from "./parkside_bluetooth_mower.js";
 import device_parkside_pbba1_watertimer from "./parkside_pbba1_watertimer.js";
 import device_parkside_plgs2012a1_smart_charger from "./parkside_plgs2012a1_smart_charger.js";
 import device_parkside_ppwd30a1_vacuum from "./parkside_ppwd30a1_vacuum.js";
@@ -904,18 +1056,22 @@ import device_pgst_climate_sensor from "./pgst_climate_sensor.js";
 import device_phw218_waterquality_monitor from "./phw218_waterquality_monitor.js";
 import device_pilot_rp5_baththermostat from "./pilot_rp5_baththermostat.js";
 import device_pinelake_birdfeeder from "./pinelake_birdfeeder.js";
+import device_pinguino_portable_airconditioner from "./pinguino_portable_airconditioner.js";
 import device_pinjia_pj3101a_presence from "./pinjia_pj3101a_presence.js";
+import device_pioneer_ecoasis150_erv from "./pioneer_ecoasis150_erv.js";
 import device_pir_rgbcw_light from "./pir_rgbcw_light.js";
 import device_pir_sensor from "./pir_sensor.js";
 import device_pir_sensor_alarm from "./pir_sensor_alarm.js";
 import device_pir_spotlight from "./pir_spotlight.js";
 import device_pirnar_smartlux_lights from "./pirnar_smartlux_lights.js";
+import device_pixbee_illumi_ambientlight from "./pixbee_illumi_ambientlight.js";
 import device_pj1103a_dual_channel_meter from "./pj1103a_dual_channel_meter.js";
 import device_pj1103c_dualclampmeter from "./pj1103c_dualclampmeter.js";
 import device_pj2101a_clampmeter from "./pj2101a_clampmeter.js";
 import device_plantsio_ivy_smart_planter from "./plantsio_ivy_smart_planter.js";
 import device_plantsio_ivygen2_planter from "./plantsio_ivygen2_planter.js";
 import device_plikc_ariowifi_airvent from "./plikc_ariowifi_airvent.js";
+import device_plikc_neve_thermostat from "./plikc_neve_thermostat.js";
 import device_pni_ct45_thermostat from "./pni_ct45_thermostat.js";
 import device_pni_ct400_thermostat from "./pni_ct400_thermostat.js";
 import device_pni_gas_alarm from "./pni_gas_alarm.js";
@@ -926,10 +1082,13 @@ import device_point_panel_heater from "./point_panel_heater.js";
 import device_point_podh20_dehumidifier from "./point_podh20_dehumidifier.js";
 import device_pointone_stormvspeciv_dual_fan from "./pointone_stormvspeciv_dual_fan.js";
 import device_polytherm_polyalpha_thermostat from "./polytherm_polyalpha_thermostat.js";
+import device_poolex_arctic_action from "./poolex_arctic_action.js";
 import device_poolex_icespa51_heatpump from "./poolex_icespa51_heatpump.js";
+import device_poolex_icespa70_heatpump from "./poolex_icespa70_heatpump.js";
 import device_poolex_jetlinepremiumfi_poolheatpump from "./poolex_jetlinepremiumfi_poolheatpump.js";
 import device_poolex_mag_fi_heatpump from "./poolex_mag_fi_heatpump.js";
 import device_poolex_neolyser_saltchlorinator from "./poolex_neolyser_saltchlorinator.js";
+import device_poolex_q7_heatpump from "./poolex_q7_heatpump.js";
 import device_poolex_qline_heatpump from "./poolex_qline_heatpump.js";
 import device_poolex_silverline_heatpump from "./poolex_silverline_heatpump.js";
 import device_poolsana_inverprestige_pro_heatpump from "./poolsana_inverprestige_pro_heatpump.js";
@@ -940,7 +1099,10 @@ import device_powbay_jgqw01_breaker from "./powbay_jgqw01_breaker.js";
 import device_powerasia_6inchrecessed_lighting from "./powerasia_6inchrecessed_lighting.js";
 import device_powerstrip_4outlet_usbs from "./powerstrip_4outlet_usbs.js";
 import device_powerstrip_6outlet_usbs from "./powerstrip_6outlet_usbs.js";
+import device_powerworld_pw58474_waterheater from "./powerworld_pw58474_waterheater.js";
 import device_powr_curve_stand_fan from "./powr_curve_stand_fan.js";
+import device_prestige_m3_ceilingfanlight from "./prestige_m3_ceilingfanlight.js";
+import device_princess_panel_heater from "./princess_panel_heater.js";
 import device_princess_pedestal_fan from "./princess_pedestal_fan.js";
 import device_princess_smart_air_cooler from "./princess_smart_air_cooler.js";
 import device_princess_tower_fan from "./princess_tower_fan.js";
@@ -954,6 +1116,7 @@ import device_proscenic_a9_airpurifier from "./proscenic_a9_airpurifier.js";
 import device_proscenic_m9_vacuum from "./proscenic_m9_vacuum.js";
 import device_prosto_ptc2000_heater from "./prosto_ptc2000_heater.js";
 import device_protech_pt19dw_climateclock from "./protech_pt19dw_climateclock.js";
+import device_prowarm_touchs_underfloorheating from "./prowarm_touchs_underfloorheating.js";
 import device_psmart_t436_thermostat from "./psmart_t436_thermostat.js";
 import device_pth9bw_airquality from "./pth9bw_airquality.js";
 import device_puppy_kitty_pet_feeder from "./puppy_kitty_pet_feeder.js";
@@ -966,6 +1129,8 @@ import device_qh_gd_elegant_heater from "./qh_gd_elegant_heater.js";
 import device_qiachip_qiflrc1_fanlight from "./qiachip_qiflrc1_fanlight.js";
 import device_qlima_d720_dehumidifier from "./qlima_d720_dehumidifier.js";
 import device_qlima_d812_dehumidifier from "./qlima_d812_dehumidifier.js";
+import device_qlima_d820a_dehumidifier from "./qlima_d820a_dehumidifier.js";
+import device_qlima_ms_ac_5002_air_conditioner from "./qlima_ms_ac_5002_air_conditioner.js";
 import device_qnect_shsi01_siren from "./qnect_shsi01_siren.js";
 import device_qnect_usb_powerstrip from "./qnect_usb_powerstrip.js";
 import device_qoto_03_sprinkler from "./qoto_03_sprinkler.js";
@@ -991,6 +1156,8 @@ import device_remora_heatpump from "./remora_heatpump.js";
 import device_renpho_rp_ap001s from "./renpho_rp_ap001s.js";
 import device_repetsun_petfeeder from "./repetsun_petfeeder.js";
 import device_restmo_fml026a_water_meter from "./restmo_fml026a_water_meter.js";
+import device_reventon_holtop_smart_erv from "./reventon_holtop_smart_erv.js";
+import device_revesien_qprow_diffuser from "./revesien_qprow_diffuser.js";
 import device_rgb_light_bar from "./rgb_light_bar.js";
 import device_rgb48_lightstring from "./rgb48_lightstring.js";
 import device_rgbcw_lightbulbv2 from "./rgbcw_lightbulbv2.js";
@@ -1013,6 +1180,7 @@ import device_rojeco_v200du3lvs_petfeeder from "./rojeco_v200du3lvs_petfeeder.js
 import device_roomratv_ceiling_fanlight from "./roomratv_ceiling_fanlight.js";
 import device_rotenso_ronix_heatpump from "./rotenso_ronix_heatpump.js";
 import device_rovsun_oil_heater from "./rovsun_oil_heater.js";
+import device_rovynel_8in1_poolmonitor from "./rovynel_8in1_poolmonitor.js";
 import device_rowenta_xplorer75s_vacuum from "./rowenta_xplorer75s_vacuum.js";
 import device_royal_airconditioner from "./royal_airconditioner.js";
 import device_royalclima_fresh_climate from "./royalclima_fresh_climate.js";
@@ -1022,12 +1190,16 @@ import device_rse_tywfh301_gate from "./rse_tywfh301_gate.js";
 import device_rtcz03_presencesensor from "./rtcz03_presencesensor.js";
 import device_rtitek_t5z_thermostat from "./rtitek_t5z_thermostat.js";
 import device_rumba_bathroom_heater from "./rumba_bathroom_heater.js";
+import device_ryakka_7in1_poolmonitor from "./ryakka_7in1_poolmonitor.js";
 import device_rztk_aqua_pro_wifi_humidifier from "./rztk_aqua_pro_wifi_humidifier.js";
 import device_s11_rfir_remote from "./s11_rfir_remote.js";
 import device_safe_conn09_barrier from "./safe_conn09_barrier.js";
 import device_sailesi_litterbox from "./sailesi_litterbox.js";
+import device_saimetei_towel_warmer from "./saimetei_towel_warmer.js";
 import device_salcar_t9w_thermostat from "./salcar_t9w_thermostat.js";
 import device_sanden_gaua45hpd_heatpumpcontroller from "./sanden_gaua45hpd_heatpumpcontroller.js";
+import device_sanjun_steamer from "./sanjun_steamer.js";
+import device_saswell_c16_thermostat from "./saswell_c16_thermostat.js";
 import device_satisure_power_alarm from "./satisure_power_alarm.js";
 import device_sboardiii_weigand_lock from "./sboardiii_weigand_lock.js";
 import device_sc116wz3a_camera from "./sc116wz3a_camera.js";
@@ -1036,6 +1208,7 @@ import device_sd123_hpr01_presence from "./sd123_hpr01_presence.js";
 import device_sefaul_q9_dehumidifier from "./sefaul_q9_dehumidifier.js";
 import device_semptec_zx7007_heater from "./semptec_zx7007_heater.js";
 import device_sendo_airconditioner_c from "./sendo_airconditioner_c.js";
+import device_sensei_airconditioner from "./sensei_airconditioner.js";
 import device_sensio_240vkinetic_light from "./sensio_240vkinetic_light.js";
 import device_sensio_titankinetic_lightsdriver from "./sensio_titankinetic_lightsdriver.js";
 import device_sevr_x1_evcharger from "./sevr_x1_evcharger.js";
@@ -1054,10 +1227,12 @@ import device_silvercrest_coffee_maker from "./silvercrest_coffee_maker.js";
 import device_silvercrest_hf6602t_airfryer from "./silvercrest_hf6602t_airfryer.js";
 import device_silvercrest_kettle from "./silvercrest_kettle.js";
 import device_sime_ecomaxi_vb200_waterheater from "./sime_ecomaxi_vb200_waterheater.js";
+import device_simpal_ty130_thermostat from "./simpal_ty130_thermostat.js";
 import device_simple_blinds from "./simple_blinds.js";
 import device_simple_contact_sensor from "./simple_contact_sensor.js";
 import device_simple_dual_switch from "./simple_dual_switch.js";
 import device_simple_dual_switch_timer from "./simple_dual_switch_timer.js";
+import device_simple_dual_switch_timer_v2 from "./simple_dual_switch_timer_v2.js";
 import device_simple_eight_switch from "./simple_eight_switch.js";
 import device_simple_gate_opener from "./simple_gate_opener.js";
 import device_simple_lightbulb from "./simple_lightbulb.js";
@@ -1065,6 +1240,7 @@ import device_simple_lightdimmer from "./simple_lightdimmer.js";
 import device_simple_multi_switch from "./simple_multi_switch.js";
 import device_simple_quad_switch from "./simple_quad_switch.js";
 import device_simple_rgbcw_lightbulb from "./simple_rgbcw_lightbulb.js";
+import device_simple_six_switch from "./simple_six_switch.js";
 import device_simple_switch from "./simple_switch.js";
 import device_simple_switch_timer from "./simple_switch_timer.js";
 import device_simple_switch_timerv2 from "./simple_switch_timerv2.js";
@@ -1074,14 +1250,17 @@ import device_single_phase_clamp_meter from "./single_phase_clamp_meter.js";
 import device_single_switch_with_backlight from "./single_switch_with_backlight.js";
 import device_skyfan_dc_fan from "./skyfan_dc_fan.js";
 import device_skyfan_fan_light from "./skyfan_fan_light.js";
+import device_smardeer_lock33 from "./smardeer_lock33.js";
 import device_smart_3d_oscillating_dc_fan from "./smart_3d_oscillating_dc_fan.js";
 import device_smart_mist3_fan from "./smart_mist3_fan.js";
+import device_smart_motorized_pop_up_socket from "./smart_motorized_pop_up_socket.js";
 import device_smart_multi_plug_4t_4usb from "./smart_multi_plug_4t_4usb.js";
 import device_smart_powerstrip from "./smart_powerstrip.js";
 import device_smart_powerstrip_3_outlet_energy from "./smart_powerstrip_3_outlet_energy.js";
 import device_smart_siren_alarm from "./smart_siren_alarm.js";
 import device_smart_surge_protector_plug_2x2 from "./smart_surge_protector_plug_2x2.js";
 import device_smart_watering_device from "./smart_watering_device.js";
+import device_smartdgm_portable_air_conditioner from "./smartdgm_portable_air_conditioner.js";
 import device_smartmcb_smt006_energymeter from "./smartmcb_smt006_energymeter.js";
 import device_smartmcb_smt006_energymeterv2 from "./smartmcb_smt006_energymeterv2.js";
 import device_smartmi_air_circulator_fan from "./smartmi_air_circulator_fan.js";
@@ -1092,6 +1271,7 @@ import device_smartplug_with_childlock from "./smartplug_with_childlock.js";
 import device_smartplugv1 from "./smartplugv1.js";
 import device_smartplugv2 from "./smartplugv2.js";
 import device_smartplugv2_childlock from "./smartplugv2_childlock.js";
+import device_smartplugv2_energy from "./smartplugv2_energy.js";
 import device_smartplugv2_energyv2 from "./smartplugv2_energyv2.js";
 import device_smartplugv2_energyv3 from "./smartplugv2_energyv3.js";
 import device_smartplugv2_polled_power from "./smartplugv2_polled_power.js";
@@ -1103,15 +1283,18 @@ import device_sobralik_water_fountain from "./sobralik_water_fountain.js";
 import device_sodial_temperature_probe from "./sodial_temperature_probe.js";
 import device_sofucor_kbs_fan from "./sofucor_kbs_fan.js";
 import device_soho_air_purifier from "./soho_air_purifier.js";
+import device_solaire_vitra_smart_heater_s2 from "./solaire_vitra_smart_heater_s2.js";
 import device_solar_inverter from "./solar_inverter.js";
 import device_solar_inverter_gtb_series from "./solar_inverter_gtb_series.js";
 import device_soleusair_ahu2000l3_humidifier from "./soleusair_ahu2000l3_humidifier.js";
 import device_soleusair_air_purifier from "./soleusair_air_purifier.js";
 import device_somgom_double_switch from "./somgom_double_switch.js";
 import device_somgom_single_switch from "./somgom_single_switch.js";
+import device_sonnenkoenig_fresco from "./sonnenkoenig_fresco.js";
 import device_sonninkonig_eco_elegance_heater from "./sonninkonig_eco_elegance_heater.js";
 import device_sop10_sprinkler from "./sop10_sprinkler.js";
 import device_space_dog_music_lamp from "./space_dog_music_lamp.js";
+import device_spaelectrics_light_controller from "./spaelectrics_light_controller.js";
 import device_speaka_sptvcm510_tvmount from "./speaka_sptvcm510_tvmount.js";
 import device_spt_darkknight_waterheater from "./spt_darkknight_waterheater.js";
 import device_srne_energy_storage_battery from "./srne_energy_storage_battery.js";
@@ -1125,6 +1308,7 @@ import device_staniot_smart_security_panel from "./staniot_smart_security_panel.
 import device_starlight_efstar30_fireplace from "./starlight_efstar30_fireplace.js";
 import device_steigen_solarpro_dryer from "./steigen_solarpro_dryer.js";
 import device_steigen_solarultra_dryer from "./steigen_solarultra_dryer.js";
+import device_steinbach_silent_mini_heatpump from "./steinbach_silent_mini_heatpump.js";
 import device_steinbach_solid_4_3_heatpump from "./steinbach_solid_4_3_heatpump.js";
 import device_stepuptech_solar_inverter from "./stepuptech_solar_inverter.js";
 import device_stepuptech_solar_inverter_v2 from "./stepuptech_solar_inverter_v2.js";
@@ -1133,11 +1317,13 @@ import device_stl_siren from "./stl_siren.js";
 import device_sulion_ceiling_fan from "./sulion_ceiling_fan.js";
 import device_sunbeam_dual_bedwarmer from "./sunbeam_dual_bedwarmer.js";
 import device_sunbeam_single_bedwarmer from "./sunbeam_single_bedwarmer.js";
+import device_sundream_lcseries_chlorinator from "./sundream_lcseries_chlorinator.js";
 import device_sunlary_indoorwateringsystem from "./sunlary_indoorwateringsystem.js";
 import device_sunnybot_plant_light from "./sunnybot_plant_light.js";
 import device_sunred_triangle_heater from "./sunred_triangle_heater.js";
 import device_suntree_spg3_evcharger from "./suntree_spg3_evcharger.js";
 import device_svensson_smart06c_kettle from "./svensson_smart06c_kettle.js";
+import device_swimfun_inverboost_poolheatpump from "./swimfun_inverboost_poolheatpump.js";
 import device_sws01_weather_station from "./sws01_weather_station.js";
 import device_sygonix_smarter_dehumidifier from "./sygonix_smarter_dehumidifier.js";
 import device_tafdl6_petfeeder from "./tafdl6_petfeeder.js";
@@ -1153,18 +1339,23 @@ import device_tecxerllon_panel_heater from "./tecxerllon_panel_heater.js";
 import device_tediton_k7_doorlock from "./tediton_k7_doorlock.js";
 import device_tellur_thermostat from "./tellur_thermostat.js";
 import device_tellur_tll331501_watervalve from "./tellur_tll331501_watervalve.js";
+import device_templeandwebster_alina_fan from "./templeandwebster_alina_fan.js";
+import device_teploluxe_mcs350_thermostat from "./teploluxe_mcs350_thermostat.js";
 import device_tera_w01_evcharger from "./tera_w01_evcharger.js";
 import device_termoplaza_panel_heater from "./termoplaza_panel_heater.js";
 import device_tervix_proline_thermostat from "./tervix_proline_thermostat.js";
 import device_tesla_air_purifier_mini from "./tesla_air_purifier_mini.js";
 import device_tesla_air_purifier_pro from "./tesla_air_purifier_pro.js";
+import device_tesla_airconditioner from "./tesla_airconditioner.js";
 import device_tesla_aroma_diffuser from "./tesla_aroma_diffuser.js";
+import device_tesla_aux_airconditioner from "./tesla_aux_airconditioner.js";
 import device_tesla_fish_feeder from "./tesla_fish_feeder.js";
 import device_tesla_humidifier from "./tesla_humidifier.js";
 import device_tesla_pet_feeder from "./tesla_pet_feeder.js";
 import device_tesla_s300_purifier from "./tesla_s300_purifier.js";
 import device_tesla_xl_dehumidifier from "./tesla_xl_dehumidifier.js";
 import device_teslasmart_ps300_petsofa from "./teslasmart_ps300_petsofa.js";
+import device_tesvor_s6_vacuum from "./tesvor_s6_vacuum.js";
 import device_tg_electro_motion_sensor from "./tg_electro_motion_sensor.js";
 import device_th05_temp_humidity_sensor from "./th05_temp_humidity_sensor.js";
 import device_th05z_temphumidity from "./th05z_temphumidity.js";
@@ -1173,8 +1364,10 @@ import device_thb2_temperature_and_humidity_sensor from "./thb2_temperature_and_
 import device_theodoor_oekoboiler_waterheater from "./theodoor_oekoboiler_waterheater.js";
 import device_thermann_r290_waterheater from "./thermann_r290_waterheater.js";
 import device_thermex_lima80v_waterheater from "./thermex_lima80v_waterheater.js";
+import device_ti_pro25_catlitterbox from "./ti_pro25_catlitterbox.js";
 import device_timeguard_wfpir from "./timeguard_wfpir.js";
 import device_tmwf02_fan from "./tmwf02_fan.js";
+import device_tompd_63lw_breaker from "./tompd_63lw_breaker.js";
 import device_tompd_63wifi_breaker from "./tompd_63wifi_breaker.js";
 import device_tomzn_energy_meter from "./tomzn_energy_meter.js";
 import device_tomzn_swc32v4_breaker from "./tomzn_swc32v4_breaker.js";
@@ -1193,16 +1386,22 @@ import device_tongou_towsmr120rcbo_breaker from "./tongou_towsmr120rcbo_breaker.
 import device_tongou_towsmr140rcbo_breaker from "./tongou_towsmr140rcbo_breaker.js";
 import device_tontine_039_wifi_blanket from "./tontine_039_wifi_blanket.js";
 import device_topens_wifi_remote_control from "./topens_wifi_remote_control.js";
+import device_touchstone_sideline_fireplace from "./touchstone_sideline_fireplace.js";
+import device_touchstone_sidelineredblue_fireplace from "./touchstone_sidelineredblue_fireplace.js";
 import device_treatlife_ds03_fan_light from "./treatlife_ds03_fan_light.js";
 import device_treatlife_ds03v2_fanlight from "./treatlife_ds03v2_fanlight.js";
 import device_treatlife_dual_plugin_dimmer from "./treatlife_dual_plugin_dimmer.js";
 import device_treatlife_psw_presencesensor from "./treatlife_psw_presencesensor.js";
+import device_trevi_innovaqua_heatpump from "./trevi_innovaqua_heatpump.js";
 import device_trident_airdome60_airpurifier from "./trident_airdome60_airpurifier.js";
 import device_trident_airdome70_airpurifier from "./trident_airdome70_airpurifier.js";
 import device_tronic_balcony360wp_solarinverter from "./tronic_balcony360wp_solarinverter.js";
+import device_trotec_pac_w_heatpump from "./trotec_pac_w_heatpump.js";
+import device_troxlly_tp_chlorinegenerator from "./troxlly_tp_chlorinegenerator.js";
 import device_truelife_air_purrifier_p3 from "./truelife_air_purrifier_p3.js";
 import device_truelife_air_purrifier_p7 from "./truelife_air_purrifier_p7.js";
 import device_ts100_waterqualitycontrol from "./ts100_waterqualitycontrol.js";
+import device_ts106_alarm from "./ts106_alarm.js";
 import device_ttec_reobipro_vacuum from "./ttec_reobipro_vacuum.js";
 import device_tuya_000004rime_weather_station from "./tuya_000004rime_weather_station.js";
 import device_tuya_energy_meter from "./tuya_energy_meter.js";
@@ -1210,6 +1409,7 @@ import device_tuya_smart_zigbee_door_sensor from "./tuya_smart_zigbee_door_senso
 import device_tx_e_gasmonitor from "./tx_e_gasmonitor.js";
 import device_ty12w_relayboard from "./ty12w_relayboard.js";
 import device_tya238akmp_ambientlight from "./tya238akmp_ambientlight.js";
+import device_tyte_d1_thermostat from "./tyte_d1_thermostat.js";
 import device_uk002wl2_2gang_switch from "./uk002wl2_2gang_switch.js";
 import device_ultenic_air_fryer from "./ultenic_air_fryer.js";
 import device_ultenic_t10_vacuum from "./ultenic_t10_vacuum.js";
@@ -1223,6 +1423,7 @@ import device_valehaus_syzn119_tow_w from "./valehaus_syzn119_tow_w.js";
 import device_varin_rgbcw_ceilingfan from "./varin_rgbcw_ceilingfan.js";
 import device_varin_va_e002_ceiling_fan_light from "./varin_va_e002_ceiling_fan_light.js";
 import device_varin_va_e003_fan_light from "./varin_va_e003_fan_light.js";
+import device_varminpool_pool_heater from "./varminpool_pool_heater.js";
 import device_varpoolfaye_5kw_pool_heatpump from "./varpoolfaye_5kw_pool_heatpump.js";
 import device_venta_ah510_humidifier from "./venta_ah510_humidifier.js";
 import device_vephos_true_airpurifier from "./vephos_true_airpurifier.js";
@@ -1231,9 +1432,13 @@ import device_vestfrost_vp_a1z40hw_purifier from "./vestfrost_vp_a1z40hw_purifie
 import device_vevor_3_7kw_evcharger from "./vevor_3_7kw_evcharger.js";
 import device_vevor_ev_charger from "./vevor_ev_charger.js";
 import device_vevor_l2_ev_charger from "./vevor_l2_ev_charger.js";
+import device_vevor_selfcleaning_litterbox from "./vevor_selfcleaning_litterbox.js";
 import device_vevor_yt60307_weather_station from "./vevor_yt60307_weather_station.js";
+import device_vibrance_fireplace from "./vibrance_fireplace.js";
 import device_vibrix_dryflow12pro_dehumidifier from "./vibrix_dryflow12pro_dehumidifier.js";
 import device_vidapool_vtx016_poolheater from "./vidapool_vtx016_poolheater.js";
+import device_vine_tj550_thermostat from "./vine_tj550_thermostat.js";
+import device_vivax_heatpump from "./vivax_heatpump.js";
 import device_vivion_airconditioner from "./vivion_airconditioner.js";
 import device_vivo_fd55_tvmount from "./vivo_fd55_tvmount.js";
 import device_vivohome_airboost_registerboosterfan from "./vivohome_airboost_registerboosterfan.js";
@@ -1247,6 +1452,8 @@ import device_wadapower_q8_evcharger from "./wadapower_q8_evcharger.js";
 import device_wafu_wf012_doorlock from "./wafu_wf012_doorlock.js";
 import device_warme_gsh_heater from "./warme_gsh_heater.js";
 import device_wasserstein_aquapal_watermonitor from "./wasserstein_aquapal_watermonitor.js";
+import device_water_chiller_fre1l4 from "./water_chiller_fre1l4.js";
+import device_waterco_electroheat_eco_vs_heatpump from "./waterco_electroheat_eco_vs_heatpump.js";
 import device_wd01gde_irrigation_controller from "./wd01gde_irrigation_controller.js";
 import device_wdyk_2p63a_energy_meter from "./wdyk_2p63a_energy_meter.js";
 import device_wdyk_3phase_energymonitor from "./wdyk_3phase_energymonitor.js";
@@ -1257,6 +1464,7 @@ import device_weau_pool_heatpump_v2 from "./weau_pool_heatpump_v2.js";
 import device_weau_pool_heatpump13kw from "./weau_pool_heatpump13kw.js";
 import device_webber_ap9750_airpurifier from "./webber_ap9750_airpurifier.js";
 import device_webber_apg7800_airpurifier from "./webber_apg7800_airpurifier.js";
+import device_weeket_kettle from "./weeket_kettle.js";
 import device_wellio_d008a20l_dehumidifier from "./wellio_d008a20l_dehumidifier.js";
 import device_welltobe_cat_feeder from "./welltobe_cat_feeder.js";
 import device_wenzhi_wz35_presencesensor from "./wenzhi_wz35_presencesensor.js";
@@ -1271,10 +1479,12 @@ import device_wilfa_moistc_humidifier from "./wilfa_moistc_humidifier.js";
 import device_windcalm_fan from "./windcalm_fan.js";
 import device_windcalm_fan_with_light from "./windcalm_fan_with_light.js";
 import device_windmill_airconditioner from "./windmill_airconditioner.js";
+import device_wineenthusiast_prestiges_beveragecenter from "./wineenthusiast_prestiges_beveragecenter.js";
 import device_wistar_roller_blind from "./wistar_roller_blind.js";
 import device_wistar_roller_blind_nopos from "./wistar_roller_blind_nopos.js";
 import device_wlrtcz05z_presencesensor from "./wlrtcz05z_presencesensor.js";
 import device_wmdl_2c_dualchannelmeter from "./wmdl_2c_dualchannelmeter.js";
+import device_wolfguard_wt2r_alarm from "./wolfguard_wt2r_alarm.js";
 import device_woods_milan_airconditioner from "./woods_milan_airconditioner.js";
 import device_woox_r4028_powerstrip from "./woox_r4028_powerstrip.js";
 import device_woox_r7246_ir_remote_with_th_sensor from "./woox_r7246_ir_remote_with_th_sensor.js";
@@ -1330,11 +1540,14 @@ import device_zigbee_waterleak_sensor from "./zigbee_waterleak_sensor.js";
 import device_zigbee_zb10wt_temphumid_sensor from "./zigbee_zb10wt_temphumid_sensor.js";
 import device_zigbee_zn373186_temphumid_sensor from "./zigbee_zn373186_temphumid_sensor.js";
 import device_zigbee_zth08ztu_temphumid_sensor from "./zigbee_zth08ztu_temphumid_sensor.js";
+import device_zitech_basic30_door from "./zitech_basic30_door.js";
 import device_zm_wifi_smartmeter from "./zm_wifi_smartmeter.js";
+import device_zmp71sh_pool_pump from "./zmp71sh_pool_pump.js";
 import device_zpmeter_ultrasonic_watermeter from "./zpmeter_ultrasonic_watermeter.js";
 import device_zx_db11_doorbell_alarm from "./zx_db11_doorbell_alarm.js";
 import device_zx_db11b_doorbell_alarm from "./zx_db11b_doorbell_alarm.js";
 import device_zx_gs21_gasmonitor from "./zx_gs21_gasmonitor.js";
+import device_zyhps01_human_presence_sensor from "./zyhps01_human_presence_sensor.js";
 import device_zym100_presence_sensor from "./zym100_presence_sensor.js";
 import device_zym100w_presence_sensor from "./zym100w_presence_sensor.js";
 import device_zym100w_v2_presence_sensor from "./zym100w_v2_presence_sensor.js";
@@ -1350,9 +1563,13 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_abalon_bcm700d_curtain,
   device_abir_x8_vacuum,
   device_abir_x9_vacuum,
+  device_absina_evcharger,
   device_adpow_gob6pro_evcharger,
+  device_advancedfires_1500_fireplace,
   device_aeno_ek1s_kettle,
+  device_aeno_ek7s_kettle,
   device_aeno_ks1s_kitchenscale,
+  device_af3w_petfeeder,
   device_afto_smartez_lock,
   device_afyeev_16a_evcharger,
   device_afyeev_32a7kw_evcharger,
@@ -1376,14 +1593,18 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_alecoair_pu55_humino,
   device_alen_45i_airpurifier,
   device_alpine_saunas_helsinki,
+  device_am24_blind_motor,
   device_amantii_r12ap1_fireplace,
+  device_amantii_trdlumina_fireplace,
   device_amari_ceiling_fanlight,
   device_amenzo_mini_dishwasher,
   device_amicismart_1pjt_energymeter,
   device_amico_smart_ceiling_fan,
   device_amos_cyb06erw_radiator,
+  device_ampbolt_portable_evcharger,
   device_amperepoint_q_series_evcharger,
   device_anderic_uc7235t4_ceilingfanreceiver,
+  device_andersson_gsh_heater,
   device_anko_fan,
   device_anko_kettle,
   device_anwo_brezza_fan,
@@ -1391,6 +1612,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_ap402_airpurifier,
   device_apricus_heat_pump_water_heater,
   device_aquaplus_apaio270_waterheater,
+  device_aquark_heatpump,
   device_aquastrong_hex_heatpump,
   device_aquatech_x6_water_heater,
   device_aquatech_x8fusion_waterheater,
@@ -1413,12 +1635,15 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_arlec_fan_atf4602bha,
   device_arlec_fan_light,
   device_arlec_lve160ha_balllights,
+  device_arlec_pa1123bkha_portable_air_conditioner,
+  device_arlec_panel_heater,
   device_arlec_panel_heater_v2,
   device_arlec_pb88uha_s2_switch,
   device_arlec_pfc002ha_petfeeder_camera,
   device_arlec_rf_transmitter,
   device_arlec_rgb_ledstrip,
   device_arlec_smart_button,
+  device_arlec_thermostat_smartplug,
   device_asahom_outdoor_rgbcw_lights,
   device_asakuki_diffuser,
   device_asc_wifi_circuit_breaker,
@@ -1430,9 +1655,12 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_atomi_coffee_maker,
   device_atomi_string_lights,
   device_atorch_at2pl_breaker,
+  device_atorch_at4ptw_thermostat,
   device_atorch_at4pw_energymeter,
   device_atorch_dt20_energymeter,
   device_atorch_s1bw_smartplug,
+  device_atorch_s1bwpth_thermostat,
+  device_atorch_s1tw_thermostat,
   device_atorch_s1wp,
   device_aubess_2gang_switch,
   device_aubess_3gang_switch,
@@ -1450,11 +1678,14 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_avatto_whs20s_irremote,
   device_avatto_wsm16dc1_switch,
   device_avatto_wt100_thermostat,
+  device_avatto_wt20r_thermostat,
+  device_avatto_wt20rv2_thermostat,
   device_avatto_zwt198_thermostat,
   device_avidsen_soria_solarinverter,
   device_avonflow_afd14h_radiator,
   device_awow_th213_thermostat,
   device_awow_th213v2_thermostat,
+  device_aygrochy_inline_wifi_air_vent,
   device_aziot_fan_switch,
   device_aziot_multi_switch,
   device_aziot_quad_switch,
@@ -1464,14 +1695,18 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_baxi_smart_link_thermostat,
   device_bcetasy_18in1_airquality,
   device_beca_bac002_thermostat_c,
+  device_beca_bac2005alw_thermostat,
   device_beca_bhp6000_thermostat_c,
   device_beca_bhp6000_thermostat_f,
   device_beca_bhp6000_thermostat_mapped,
   device_beca_bht002_thermostat_c,
   device_beca_bht006_thermostat_c,
   device_beca_bht009_thermostat,
+  device_beca_bht12_thermostat,
   device_beca_zht002_thermostat_c,
+  device_becool_heatpump,
   device_belair_balticirradio_dehumidifier,
+  device_belko_prolift1200n_garageopener,
   device_benexmart_blind_motor,
   device_beok_tcb38_thermostat,
   device_beok_tgm50_thermostat,
@@ -1479,8 +1714,10 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_beok_tol47_thermostat,
   device_beok_tr8b_thermostat,
   device_beok_tr9b_thermostat,
+  device_beok_tr9hb_ac2_thermostat,
   device_beokeo_s20pro_litterbox,
   device_besttherm_nessaconnect_heater,
+  device_betterlife_bl1500_heater,
   device_bht002_galw_thermostat,
   device_bht002_gblw_thermostat,
   device_blaupunkt_xboost_vacuum,
@@ -1493,6 +1730,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_ble_positivo_smart_keypad,
   device_ble_pt216_temp_humidity,
   device_ble_smart_plant_moisture,
+  device_ble_solar_light,
   device_ble_tcs024b_smart_plant_moisture,
   device_ble_water_valve,
   device_ble_yl01_watertester,
@@ -1503,9 +1741,12 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_blitzwolf_bwsh5_humidifier,
   device_blitzwolf_bwshp6_smartplug,
   device_blitzwolf_bwshp9_powerstrip,
+  device_blumfeldt_cosmicbeam_heater,
   device_bneta_f1d_petfeeder,
+  device_bobyun_gatepro_opener,
   device_bonaire_heater,
   device_boundless_pa210w_gasalarm,
+  device_brade_mc6_thermostat,
   device_brandonbasics_syzn119_towel_warmer,
   device_brandson_a307362x3_fan,
   device_bresser_smart_thermo_hygrometer,
@@ -1519,6 +1760,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_breville_smart_air_viral_protect_night_glow,
   device_breville_smart_air_viral_protect_plus,
   device_breville_smartairconnect_purifier,
+  device_breville_smartmisttop_humidifier,
   device_briliant_fan_light,
   device_brilliant_5speed_ceilingfan,
   device_brilliant_ceiling_fancontroller,
@@ -1529,6 +1771,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_brilliant_securitylights,
   device_brilliant_single_switch,
   device_brilliant_triple_switch,
+  device_brustec_br80_poolheater,
   device_btbcoin_ac5299_pccontroller,
   device_bvf_cp1_heater,
   device_bw_salt_chlorinator,
@@ -1543,6 +1786,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_carro_ph805_humidifier,
   device_carro_pn04f02d_fan_light,
   device_carro_smart_ceiling_fan_light,
+  device_carson_cb,
   device_casafan_ceiling_fan_light,
   device_casdon_16j3s_dishwasher,
   device_casdon_kg1_waterdispenser,
@@ -1563,8 +1807,10 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_cecofry_5500_airfryer,
   device_cecotec_bigdry_4000_dehumidifier,
   device_cecotec_congas1970_vacuum,
+  device_cecotec_congaz100_vacuum,
   device_cecotec_fan_light,
   device_cecotec_pumba8x00_litterbox,
+  device_cecotec_readywarm2000max_heater,
   device_cecotec_readywarm_8400,
   device_cecotec_totalpure_purifier,
   device_ceres_plus_petfeeder,
@@ -1586,6 +1832,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_cleanair_ca707_dehumidifier,
   device_cleverio_ad100_dehumidifier,
   device_cleverio_ap100_purifier,
+  device_cleverio_cd200_doorbell,
   device_cleverio_pf100_petfeeder,
   device_climative_dh20s_dehumidifier,
   device_clofte_duo_400_humidifier,
@@ -1597,6 +1844,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_comfortzone_ap100_airpurifier,
   device_comfortzone_cztf423s_towerfan,
   device_compteur_energy_meter,
+  device_computherm_q20_thermostat,
   device_conow_cbe2000pro_battery,
   device_costway_fd10584dewh_heatpump,
   device_cover_switch_with_backlight,
@@ -1608,15 +1856,20 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_currysmarter_w7pro_rollershutter,
   device_curtain_with_feedback,
   device_daewoo_dhome_heatpump,
+  device_daizuki_heatpump,
   device_dayette_ap409_airpurifier,
   device_deakon_evi_waterheatpump,
+  device_delonghi_pinguino_airconditioner,
   device_deltaco_shlw5m_ledstrip,
   device_desk_lamp,
   device_deta_6914ha_fancontroller,
   device_deta_dimmer_switch,
   device_deta_fan,
+  device_devola_intelligent_heater,
+  device_devola_patio_heater,
   device_dewall_evcharger,
   device_dewenwils_hwlt05a_lightingtransformer,
+  device_dewin_kws306wf_energymeter,
   device_dienmern_dm165a_noisemeter,
   device_digma_disenseg1_gassensor,
   device_digoo_dgsp01_dual_nightlight_switch,
@@ -1633,21 +1886,26 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_djive_arc_portable_fan,
   device_dl01es_energymeter,
   device_dluft_smartflow_ventilation,
+  device_doel_tiplus_litterbox,
   device_dometek_ceiling_fan,
   device_dongguan_electric_curtain,
   device_dongguan_garage_door_opener,
   device_dooya_curtain,
   device_dowell_dchs_k7_32_7kw_ev_charger,
+  device_dr_heater_dr008_thermostat,
   device_dream_maker_feel_fan,
   device_dreamegg_nite1_soundmachine,
+  device_drexma_et7aw_thermostat,
   device_dts238_7_energy_meter,
   device_dual_clamp_energymeter,
   device_dual_dimmable_lamp,
   device_dual_dimmer_module,
   device_dual_power_monitor_smartplug,
+  device_dunwore_f60_floorheating,
   device_duoqu_selfcleaning_litterbox,
   device_duux_beam2_humidifier,
   device_duux_bright_purifier,
+  device_duux_north_airconditioner,
   device_duux_whisper_fan,
   device_duux_whisper_flex_ultimate_fan,
   device_dxophiex_fishfeeder,
@@ -1657,21 +1915,27 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_eanons_humidifier,
   device_earu_3phase_breaker,
   device_earu_dpn_circuitbreaker,
+  device_earu_eaemp3c100_energymeter,
   device_earu_multicircuit_energymeter,
   device_earu_smart_wifi_circuit_breaker_with_energy_monitor,
   device_easttime_d401_waterpurifier,
   device_easybaby_gs801_milkmaker,
   device_ebac_dj4000_dehumidifier,
+  device_eberg_cooly_c35hd,
   device_eberg_fyn_towerfan,
   device_eberg_humi_h03g1_humidifier,
   device_eberg_rico_r12e2_dehumidifier,
   device_echief_sgh01_planter,
+  device_econour_htsf305a_towerfan,
   device_econour_towerfan,
   device_ecoolbuy_siren_climatesensor,
   device_ecopoint_ev_charger,
   device_ecoso_wifi_element,
+  device_ecostrad_accentiq_heater,
+  device_ecostrad_iq_heating_element,
   device_ecostrad_iqceramic_radiator,
   device_ecostrad_iqceramicv2_radiator,
+  device_ecostrad_iqv2_element,
   device_edgetheorylabs_coldplunge_heatpump,
   device_edisonsmart_dualzoneceiling_cctlight,
   device_eeese_alma_dehumidifier,
@@ -1680,21 +1944,31 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_eeese_otto_dehumidifier,
   device_eeese_thor_dehumidifier,
   device_efenz_kith_fanlight,
+  device_efr_pro_fireplace,
+  device_eg4_solar_heatpump,
   device_ekaza_minipad_controlpanel,
+  device_elechico_ccib001_heatpump,
+  device_electric_panel_heater,
+  device_electriq_airflex15w_heatpump,
   device_electriq_cd12pw_dehumidifier,
   device_electriq_cd20pro_dehumidifier,
   device_electriq_cd20prolev4_dehumidifier,
   device_electriq_cd25pro_dehumidifier,
   device_electriq_desd9lwv2_dehumidifier,
+  device_electriq_ecosilent12wap_aircon,
+  device_electriq_ecosilent14hpw_aircon,
   device_electriq_my130_radiator,
+  device_electriq_sc16hpw_aircon,
   device_elegrp_dtr10_dimmer_switch,
   device_elinksmart_khsy2626_fan,
   device_elitech_ecs974t_thermostat,
+  device_eload_gen2_evcharger,
   device_elspet_cat_litterbox,
   device_elspet_orbitie_litterbox,
   device_em3390tf_weatherstation,
   device_emerio_dh129238_dehumidifier,
   device_emini_16a_public_evcharger,
+  device_emke_orbradptr_towelrack,
   device_emmeti_zona_thermostat,
   device_ems_waterheater,
   device_enbrighten_cafe_stringlights,
@@ -1717,6 +1991,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_etersky_curtain_switch,
   device_etna_ab791_rangehood,
   device_etna_vw644mc_dishwasher,
+  device_etop_ch7100_thermostat,
   device_etop_fcu_thermostat,
   device_etop_ht_thermostat,
   device_etop_htch_thermostat,
@@ -1729,18 +2004,22 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_eurom_alutherm_heater,
   device_eurom_alutherm_heater_v2,
   device_eurom_dsp_heater,
+  device_eurom_sani_bathroom_towel_radiator,
+  device_eurom_sani_heater,
   device_eurom_saniwallheat2000_heater,
   device_eurom_walldesignheat2000_heater,
   device_eurom_wifi_thermostat,
   device_europace_edh3122a_dehumidifier,
   device_euroster4040_thermostat,
   device_evergreen_birdfeeder,
+  device_evotherm_eti_heatpump,
   device_evsun_evcharger,
   device_extreme_aquariumlight,
   device_ezaiot_lite_socket_thermostat,
   device_ezaiot_r9lite_thermostat,
   device_ezaiot_thermostat_smartplug,
   device_ezvalo_smart_desklamp,
+  device_fairland_iphcr15_heatpump,
   device_fairland_rmic06_heatpump,
   device_fakro_arz_roofblind,
   device_fanco_ecosilentdeluxe,
@@ -1753,20 +2032,28 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_fercofloor_ft2c10v,
   device_ferroli_egea_waterheater,
   device_ferroli_titano_twin,
+  device_feyree_43_evcharger,
   device_feyree_epro32a_evcharger,
+  device_feyree_ev_portable_charger,
+  device_feyree_lion_evcharger,
   device_fiero_bravia_ceilingfan,
+  device_fiesta_dk1g_kettle,
   device_fisher_ervq_hd_hrv,
   device_fisher_water_heatpump,
   device_flinq_breeze_pedestalfan,
   device_flymoon_5l_humidifier,
+  device_fmsolar_12k_heatpump,
   device_forceclima_soundless_airconditioner,
   device_fourin1_motion_sensor,
   device_fral_supercool_airconditioner,
+  device_fral_supercool_airconditioner_fsc08,
   device_frankever_bv05_watervalve,
   device_frankever_watervalve,
   device_fresco_hydrateultra_petfountain,
   device_fresco_hydrateultra_petfountain_v2,
   device_friedrich_airconditioner,
+  device_friedrich_uct08b10a_airconditioner,
+  device_frizzlife_lp365p_watermonitorandshutdoff,
   device_fs_03w_curtain,
   device_fujicool_yuzu_heatpump,
   device_fukumaru_af01w_pet_feeder,
@@ -1775,15 +2062,19 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_gamp_bcv300_waterheater,
   device_gaqqee_kws302wf_energymeter,
   device_garage_door_opener,
+  device_gardenpac_heatpump,
   device_garen_garage_door_controller,
   device_garen_tsifit_garageopener,
+  device_garza_thermostat,
   device_gd2050wifi_aroma_diffuser,
   device_ge_jasco_ultra_pro_toggle_dimmer_v2,
   device_ge_jasco_ultra_pro_toggle_switch,
   device_generic_5speed_fanregulator,
   device_geya_gyrczn03_breaker,
   device_geyserwise_mws_water_heater,
+  device_geyserwise_water_heater,
   device_ghome_sw19_fanlight,
+  device_giatsu_poolheatpump,
   device_giatsu_vaw2_waterheater,
   device_gidrolock_standard_wifi,
   device_globe_ceilingfanrgbcwlight,
@@ -1804,6 +2095,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_goldair_platinum_tower_fan,
   device_goldair_smartsleep_bedwarmer,
   device_gologi_dehumidifier,
+  device_goodcell_ev_charger,
   device_gorilla_fan_v2,
   device_gosund_sw2_dimmer_switch,
   device_gosund_sp112_usbsmartplug,
@@ -1821,6 +2113,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_gw_motor_roller_blind,
   device_gzair_radon_gas_detector,
   device_haier_airmart_ac,
+  device_haier_airwater_heatpump,
   device_haier_nayun_gasalarm,
   device_hama_radiator_controller,
   device_haolesi_mini_thermostat,
@@ -1840,9 +2133,12 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_hauslane_in_r110_rangehood,
   device_hct626_dual_watertimer,
   device_heatbot_15l_water_heater,
+  device_heatstorm_dh100twi_heater,
+  device_heatstorm_hs6000gc_heater,
   device_heatstrip_elegance_heater,
   device_herschel_irheater,
   device_herschel_selectxls_mirror,
+  device_herschel_t_mt_thermostat,
   device_herschel_xls_tpl_thermostat,
   device_hhc_am68_curtainmotor,
   device_himox_h05_purifier,
@@ -1857,7 +2153,9 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_hlg_infinity_alarm,
   device_hoenofly_ceiling_fan_with_light,
   device_hoenyzy_valve_timer,
+  device_hokkaido_airconditioner,
   device_holman_helios_weatherstation,
+  device_holman_wx4_taptimer,
   device_holman_wx8_irrigation_controller,
   device_holmes_tower_fan,
   device_holtop_cfa500t_erv,
@@ -1870,6 +2168,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_homemate_fan_regulator,
   device_homemate_multi_switch,
   device_homemedics_c500_airpurifier,
+  device_homend_royaltea_kettle,
   device_homlit_ceilingfanlight,
   device_homvana_h111s_humidifier,
   device_honeyguardian_s56_petfeeder,
@@ -1886,15 +2185,22 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_humhold_24lp_ceilingfanlight,
   device_hunterpacific_6speed_fanlight,
   device_hunterpacific_9speed_fanlight,
+  device_huntertbk_hf6602t_doorbell,
   device_hx002z_presencesensor,
   device_hyd_weair_plus_fan,
   device_hydrotherm_dynamic_x8_water_heater,
+  device_hydrotherm_dynamic_x8_water_heaterv6,
   device_hysen_hy02tp_thermostat,
+  device_hysen_hy08we2_thermostat,
+  device_hysen_hy101rf_thermostat,
   device_hyundai_sahara_dehumidifier,
+  device_idea_heatingbelt_airconditioner,
   device_ideal_clima_fancoil,
   device_idoo_smartbloom8_planter,
+  device_idra_skiv_airconditioner,
   device_iebelong_ech_doorbell_rfhub,
   device_igenix_ig9901wifi_airconditioner,
+  device_ihome_autovac_nova,
   device_ihseno_ztu_presencesensor,
   device_ihunt_400_airpurifier,
   device_ihunt_50_airpurifier,
@@ -1911,6 +2217,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_imipaw_duw21wbr3d_petfeeder,
   device_imitos_downlight,
   device_immax_neo_light_vento,
+  device_immax_neolite_evcharger,
   device_immax_neolite_weatherstation,
   device_inkbird_bbq4t_thermometer,
   device_inkbird_bbq4t_thermometerv2,
@@ -1919,7 +2226,10 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_inkbird_ibt_26s_thermometer,
   device_inkbird_ihc200_humiditycontroller,
   device_inkbird_iic400_irrigationcontroller,
+  device_inkbird_ipt2ch_thermostat,
   device_inkbird_isc007bw_smokercontrol,
+  device_inkbird_itc306a_thermostat,
+  device_inkbird_itc308_thermostat,
   device_inkbird_pth9cw_airquality,
   device_inkbirdplus_ht2004_heater,
   device_inline_ultrasonic_aromadiffuser,
@@ -1929,6 +2239,8 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_intec_ceilingfanlight,
   device_intelbras_ifr7000_lock,
   device_intex_purespa_spa,
+  device_inventor_atmospherexl_dehumidifier,
+  device_inventor_comfort_airconditioner,
   device_inventor_evaionpro_dehumidifier,
   device_inventor_tokenslegend_airconditioner,
   device_ion_wifi_dimmer,
@@ -1946,6 +2258,9 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_jemell_ptc1919_heater,
   device_jh_pcmini,
   device_jh_pcpro_,
+  device_jiahong_et44w_thermostat,
+  device_jiahong_et61plus_thermostat,
+  device_jiahong_et72w_thermostat,
   device_jjpro_jpd01_dehumidifier,
   device_jjpro_jpd02_dehumidifier,
   device_joekol_wd01ade_wateringpump,
@@ -1957,27 +2272,39 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_kabum_smart700_v2023_vaccum,
   device_kabum_smart700_vacuum,
   device_kaeltebringer_kbo_airconditioner,
+  device_kaisai_proheat_airconditioner,
   device_kalado_kpf01_petfeeder,
   device_kanchou_petfountain,
+  device_kavunion_c1_ventilationfan,
+  device_kcl_m1803a_diffuser,
+  device_kcvents_vt501_fan,
   device_kendal_kvttouchtower_pedestalfan,
+  device_kennedy_fireplace,
   device_kesser_infrared_heater,
   device_kesser_infrared_heater_floodlights,
   device_kesser_infrared_wall_heater,
   device_ketotek_ktem06pro_energymeter,
+  device_kibernetik_12k_airconditioner,
   device_kilo_plus_air_purifier,
   device_kimex_cinemascreen,
   device_kishin_bsdw002_motionsensor,
+  device_kiturami_nctr100_thermostat,
   device_kkmoon_airquality_monitor,
   device_kkmoon_thermostat,
   device_kkt_kolbe_solo_hcm,
   device_kktkolbe_easyhcm_rangehood,
+  device_klamer_2600w_irheater,
   device_klarstein_airfold_fanlight,
   device_klarstein_amazonia_dishwasher,
   device_klarstein_ava_extractorhood,
   device_klarstein_bolero_ceilingfan,
+  device_klarstein_bornholm_smart_heater,
   device_klarstein_bornholmsmart1500_heater,
+  device_klarstein_iceblock_airconditioner,
   device_klarstein_icetower_fan,
   device_klarstein_icewindplus_coolingfan,
+  device_klarstein_metrobreezeny_airconditioner,
+  device_klarstein_pureblizzard_airconditioner,
   device_klarstein_skyscraper_ice_smart,
   device_klarstein_skytowergrandsmart_fan,
   device_klarstein_wondersky_heater,
@@ -2003,18 +2330,27 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_kogan_kasmcdsktla_kettle,
   device_kogan_kasmgphxxxx_heater,
   device_kogan_kasmwekfitea_electricblanket,
+  device_kogan_kasvwac30ya_airconditioner,
   device_kogan_kawfhtp_heater,
+  device_kogan_kawfpac09ya_airconditioner,
+  device_kogan_kawfpac12ya_airconditioner,
+  device_kogan_kawfpac16pya_airconditioner,
   device_kogan_lx10_vacuum,
   device_kogan_lx8_vacuum,
   device_kogan_noise_machine,
   device_kogan_vacuum_lx15,
   device_kogan_vostok_portable_airconditioner,
   device_koiduo_water_heater,
+  device_kolanky_evcharger,
   device_komeco_qc60_heatpump,
   device_konlen_snt957w_tempsensor,
+  device_konlen_wf72tt_dualtempcontroller,
   device_konlen_wf96l_waterlevel_controller,
   device_konyks_ecosy2024_pilotwirecontroller,
+  device_korex_axwf306n_smart_kettle,
+  device_krain_krx8_irrigation_controller,
   device_krisbow_sync_dehumidifier,
+  device_kw02_video_doorbell,
   device_ky_35w10_shutter,
   device_kyvol_e30_vacuum,
   device_kyvol_ea200_humidifier,
@@ -2026,6 +2362,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_ledlux_thermostat,
   device_ledvance_floodlight_camera,
   device_ledvance_smart_ceilingfan,
+  device_ledvance_smart_plabl100x25b,
   device_ledvance_smartwifiplanonmagic_light,
   device_ledvance_wacamcon_camera,
   device_lefant_ls1_vacuum,
@@ -2042,9 +2379,11 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_liectroux_xr500_t3_vacuum,
   device_lifubide_x600_purifier,
   device_ligency_fl15b1p_fanlight,
+  device_lindasmart_7s_doorbell,
   device_linkoze_dual_button,
   device_littepets,
   device_livingcomfort_twinwindow_fan,
+  device_livn_arosa_fireplace,
   device_liwokit_dimmerswitch,
   device_loeffen_lfim6000_icecubemaker,
   device_logicom_powerstrip,
@@ -2076,6 +2415,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_lucci_fan,
   device_lucking_hs6_lock,
   device_luko_dehumidifier,
+  device_lumary_a1_ceilingfanlight,
   device_lumary_b2_ceilingfanlight,
   device_lumary_c2_ceilingfanlight,
   device_lumary_d1_downlight,
@@ -2084,8 +2424,13 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_m515_curtain_motor,
   device_macro_ma20wodp_waterheater,
   device_madimack_eco_heatpump,
+  device_madimack_eco_heatpump_9kw,
+  device_madimack_elite_v3_heatpump_updated,
   device_madimack_gtfreedomi80_poolcleaner,
+  device_madimack_heatpump,
+  device_madimack_inverchlor_chlorinator,
   device_magnovent_cefiro_with_lights,
+  device_magnum_mrc_floorheating,
   device_majestic_1250_saltchlorinator,
   device_makegood_double_power_point_with_energy,
   device_makegood_switch_dual_timer_energy,
@@ -2097,10 +2442,12 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_manissa_ows02a_towelrail,
   device_manta_windymt0200b_weatherstation,
   device_mantra_fan,
+  device_matsee_2way_energymeter,
   device_matsee_2wayv2_energymeter,
   device_maxcio_aromadiffuser,
   device_mayborn_groclock,
   device_me201w_level_sensor,
+  device_me80_thermostat,
   device_meaco_aretetwo_dehumidifier,
   device_meaco_clean_purifier,
   device_meaco_dd8l_pro_dehumidifier,
@@ -2113,7 +2460,9 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_meian_sw02_leakdetector,
   device_mellerware_citymove_vacuum,
   device_miboxer_wlbox2_lighting,
+  device_miheat_th11wf_thermostat,
   device_milano_ceiling_fan,
+  device_minco_mh1823d_thermostat,
   device_minib_public_litterbox,
   device_minoston_timer_switch,
   device_mirabella_genio_motion_sensor,
@@ -2122,12 +2471,16 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_miro_qtower_humidifier,
   device_mmwave_4in1_sensor,
   device_modena_es15sky_waterheater,
+  device_modernflames_landscapeproslim_fireplace,
+  device_modernflames_orion_fireplace,
+  device_moebot_s_mower,
   device_moes_bht002_thermostat_c,
   device_moes_controlpanel,
   device_moes_dimmer,
   device_moes_double_curtainswitch,
   device_moes_dual_dimmer,
   device_moes_indoorptz_camera,
+  device_moes_motionsensor_light,
   device_moes_motionsensor_switch,
   device_moes_pir_wall_switch,
   device_moes_presencesensor,
@@ -2139,7 +2492,9 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_moes_threegang,
   device_moes_touch_curtain_switch,
   device_moes_trv601_thermostat,
+  device_moes_trv_thermostat,
   device_moes_wht009_thermostat,
+  device_moes_whts01_thermostat,
   device_moes_wsyeuc_curtainswitch,
   device_moes_zcjk_alarmclock,
   device_moesgo_dimmer,
@@ -2153,14 +2508,18 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_morris_wfin35168_airconditioner,
   device_mountfield_azuro_poolheatpump,
   device_mppt_4048_solarcharger,
+  device_mrc_magnum_floorheater,
+  device_mrpure_saltchlorinator,
   device_multi_channel_switch,
   device_multi_leaf_dy_107_thermostat,
   device_multi_timer_powerstrip,
   device_mustool_mt15mt29_airbox,
   device_mycond_berg_dehumidifier,
   device_mypin_6l_videopetfeeder,
+  device_myq_td8_videodoorbell,
   device_myuet_me82_thermostat,
   device_nac_ap470_purifier,
+  device_nashone_mts700wb_thermostat,
   device_nbq100_us_microinverter,
   device_neatsvor_x600_vacuum,
   device_nedis_airquality,
@@ -2172,6 +2531,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_nedis_zbrc10wt_remotecontrol,
   device_neo_coolcam_16zone_sprinkler_controller,
   device_neo_coolcam_siren,
+  device_neo_ir_climate_controller,
   device_neo_naswv02w_watervalve,
   device_neo_zigbee_siren,
   device_neopower_heat_pump_water_heater,
@@ -2187,6 +2547,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_nice_digi_lock,
   device_nine_ev_charger,
   device_nivian_nvs_a6wg_alarm,
+  device_nobito_airqualitymonitor,
   device_noeifevo_q21w_evcharger,
   device_nooie_nsp21_smartplug,
   device_nooie_pu13_smartplug,
@@ -2205,6 +2566,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_okp_k2_vacuum,
   device_olight_ostation2_batterycharger,
   device_olight_sphere_light,
+  device_olimpiasplendid_unicopro_airconditioner,
   device_omni_x_duplex_waterheater,
   device_omnibreeze_5speed_towerfan,
   device_omnibreeze_tower_fan,
@@ -2212,6 +2574,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_orion_indoor_siren,
   device_orion_ptc2000_heater,
   device_orion_smart_lock,
+  device_orison_jst_fanrgbwlight,
   device_orison_rgb_ceilingfan,
   device_oscal_powermax1800se_portablepower,
   device_oscal_powermax2400pro_portablepower,
@@ -2220,9 +2583,11 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_ourtop_atms100133_energymeter,
   device_outdoor_inc_zipblind,
   device_ovlaim_809_ceiling_fanlight,
+  device_owon_pct513_thermostat,
   device_palicy_ecpro4_chlorinegenerator,
   device_papifeed_pet_feeder,
   device_parkside_pbba1_watertimer,
+  device_parkside_bluetooth_mower,
   device_parkside_plgs2012a1_smart_charger,
   device_parkside_ppwd30a1_vacuum,
   device_parkside_solar_inverter,
@@ -2247,18 +2612,22 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_phw218_waterquality_monitor,
   device_pilot_rp5_baththermostat,
   device_pinelake_birdfeeder,
+  device_pinguino_portable_airconditioner,
   device_pinjia_pj3101a_presence,
+  device_pioneer_ecoasis150_erv,
   device_pir_rgbcw_light,
   device_pir_sensor,
   device_pir_sensor_alarm,
   device_pir_spotlight,
   device_pirnar_smartlux_lights,
+  device_pixbee_illumi_ambientlight,
   device_pj1103a_dual_channel_meter,
   device_pj1103c_dualclampmeter,
   device_pj2101a_clampmeter,
   device_plantsio_ivy_smart_planter,
   device_plantsio_ivygen2_planter,
   device_plikc_ariowifi_airvent,
+  device_plikc_neve_thermostat,
   device_pni_ct400_thermostat,
   device_pni_ct45_thermostat,
   device_pni_gas_alarm,
@@ -2269,10 +2638,13 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_point_podh20_dehumidifier,
   device_pointone_stormvspeciv_dual_fan,
   device_polytherm_polyalpha_thermostat,
+  device_poolex_arctic_action,
   device_poolex_icespa51_heatpump,
+  device_poolex_icespa70_heatpump,
   device_poolex_jetlinepremiumfi_poolheatpump,
   device_poolex_mag_fi_heatpump,
   device_poolex_neolyser_saltchlorinator,
+  device_poolex_q7_heatpump,
   device_poolex_qline_heatpump,
   device_poolex_silverline_heatpump,
   device_poolsana_inverprestige_pro_heatpump,
@@ -2283,7 +2655,10 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_powerasia_6inchrecessed_lighting,
   device_powerstrip_4outlet_usbs,
   device_powerstrip_6outlet_usbs,
+  device_powerworld_pw58474_waterheater,
   device_powr_curve_stand_fan,
+  device_prestige_m3_ceilingfanlight,
+  device_princess_panel_heater,
   device_princess_pedestal_fan,
   device_princess_smart_air_cooler,
   device_princess_tower_fan,
@@ -2297,6 +2672,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_proscenic_m9_vacuum,
   device_prosto_ptc2000_heater,
   device_protech_pt19dw_climateclock,
+  device_prowarm_touchs_underfloorheating,
   device_psmart_t436_thermostat,
   device_pth9bw_airquality,
   device_puppy_kitty_pet_feeder,
@@ -2309,6 +2685,8 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_qiachip_qiflrc1_fanlight,
   device_qlima_d720_dehumidifier,
   device_qlima_d812_dehumidifier,
+  device_qlima_d820a_dehumidifier,
+  device_qlima_ms_ac_5002_air_conditioner,
   device_qnect_shsi01_siren,
   device_qnect_usb_powerstrip,
   device_qoto_03_sprinkler,
@@ -2334,6 +2712,8 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_renpho_rp_ap001s,
   device_repetsun_petfeeder,
   device_restmo_fml026a_water_meter,
+  device_reventon_holtop_smart_erv,
+  device_revesien_qprow_diffuser,
   device_rgb48_lightstring,
   device_rgb_light_bar,
   device_rgbcw_lightbulbv2,
@@ -2356,6 +2736,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_roomratv_ceiling_fanlight,
   device_rotenso_ronix_heatpump,
   device_rovsun_oil_heater,
+  device_rovynel_8in1_poolmonitor,
   device_rowenta_xplorer75s_vacuum,
   device_royal_airconditioner,
   device_royalclima_fresh_climate,
@@ -2365,12 +2746,16 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_rtcz03_presencesensor,
   device_rtitek_t5z_thermostat,
   device_rumba_bathroom_heater,
+  device_ryakka_7in1_poolmonitor,
   device_rztk_aqua_pro_wifi_humidifier,
   device_s11_rfir_remote,
   device_safe_conn09_barrier,
   device_sailesi_litterbox,
+  device_saimetei_towel_warmer,
   device_salcar_t9w_thermostat,
   device_sanden_gaua45hpd_heatpumpcontroller,
+  device_sanjun_steamer,
+  device_saswell_c16_thermostat,
   device_satisure_power_alarm,
   device_sboardiii_weigand_lock,
   device_sc116wz3a_camera,
@@ -2379,6 +2764,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_sefaul_q9_dehumidifier,
   device_semptec_zx7007_heater,
   device_sendo_airconditioner_c,
+  device_sensei_airconditioner,
   device_sensio_240vkinetic_light,
   device_sensio_titankinetic_lightsdriver,
   device_sevr_x1_evcharger,
@@ -2397,10 +2783,12 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_silvercrest_hf6602t_airfryer,
   device_silvercrest_kettle,
   device_sime_ecomaxi_vb200_waterheater,
+  device_simpal_ty130_thermostat,
   device_simple_blinds,
   device_simple_contact_sensor,
   device_simple_dual_switch,
   device_simple_dual_switch_timer,
+  device_simple_dual_switch_timer_v2,
   device_simple_eight_switch,
   device_simple_gate_opener,
   device_simple_lightbulb,
@@ -2408,6 +2796,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_simple_multi_switch,
   device_simple_quad_switch,
   device_simple_rgbcw_lightbulb,
+  device_simple_six_switch,
   device_simple_switch,
   device_simple_switch_timer,
   device_simple_switch_timerv2,
@@ -2417,14 +2806,17 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_single_switch_with_backlight,
   device_skyfan_dc_fan,
   device_skyfan_fan_light,
+  device_smardeer_lock33,
   device_smart_3d_oscillating_dc_fan,
   device_smart_mist3_fan,
+  device_smart_motorized_pop_up_socket,
   device_smart_multi_plug_4t_4usb,
   device_smart_powerstrip,
   device_smart_powerstrip_3_outlet_energy,
   device_smart_siren_alarm,
   device_smart_surge_protector_plug_2x2,
   device_smart_watering_device,
+  device_smartdgm_portable_air_conditioner,
   device_smartmcb_smt006_energymeter,
   device_smartmcb_smt006_energymeterv2,
   device_smartmi_air_circulator_fan,
@@ -2435,6 +2827,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_smartplugv1,
   device_smartplugv2,
   device_smartplugv2_childlock,
+  device_smartplugv2_energy,
   device_smartplugv2_energyv2,
   device_smartplugv2_energyv3,
   device_smartplugv2_polled_power,
@@ -2446,15 +2839,18 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_sodial_temperature_probe,
   device_sofucor_kbs_fan,
   device_soho_air_purifier,
+  device_solaire_vitra_smart_heater_s2,
   device_solar_inverter,
   device_solar_inverter_gtb_series,
   device_soleusair_ahu2000l3_humidifier,
   device_soleusair_air_purifier,
   device_somgom_double_switch,
   device_somgom_single_switch,
+  device_sonnenkoenig_fresco,
   device_sonninkonig_eco_elegance_heater,
   device_sop10_sprinkler,
   device_space_dog_music_lamp,
+  device_spaelectrics_light_controller,
   device_speaka_sptvcm510_tvmount,
   device_spt_darkknight_waterheater,
   device_srne_energy_storage_battery,
@@ -2468,6 +2864,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_starlight_efstar30_fireplace,
   device_steigen_solarpro_dryer,
   device_steigen_solarultra_dryer,
+  device_steinbach_silent_mini_heatpump,
   device_steinbach_solid_4_3_heatpump,
   device_stepuptech_solar_inverter,
   device_stepuptech_solar_inverter_v2,
@@ -2476,11 +2873,13 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_sulion_ceiling_fan,
   device_sunbeam_dual_bedwarmer,
   device_sunbeam_single_bedwarmer,
+  device_sundream_lcseries_chlorinator,
   device_sunlary_indoorwateringsystem,
   device_sunnybot_plant_light,
   device_sunred_triangle_heater,
   device_suntree_spg3_evcharger,
   device_svensson_smart06c_kettle,
+  device_swimfun_inverboost_poolheatpump,
   device_sws01_weather_station,
   device_sygonix_smarter_dehumidifier,
   device_tafdl6_petfeeder,
@@ -2496,18 +2895,23 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_tediton_k7_doorlock,
   device_tellur_thermostat,
   device_tellur_tll331501_watervalve,
+  device_templeandwebster_alina_fan,
+  device_teploluxe_mcs350_thermostat,
   device_tera_w01_evcharger,
   device_termoplaza_panel_heater,
   device_tervix_proline_thermostat,
   device_tesla_air_purifier_mini,
   device_tesla_air_purifier_pro,
+  device_tesla_airconditioner,
   device_tesla_aroma_diffuser,
+  device_tesla_aux_airconditioner,
   device_tesla_fish_feeder,
   device_tesla_humidifier,
   device_tesla_pet_feeder,
   device_tesla_s300_purifier,
   device_tesla_xl_dehumidifier,
   device_teslasmart_ps300_petsofa,
+  device_tesvor_s6_vacuum,
   device_tg_electro_motion_sensor,
   device_th05_temp_humidity_sensor,
   device_th05z_temphumidity,
@@ -2516,8 +2920,10 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_theodoor_oekoboiler_waterheater,
   device_thermann_r290_waterheater,
   device_thermex_lima80v_waterheater,
+  device_ti_pro25_catlitterbox,
   device_timeguard_wfpir,
   device_tmwf02_fan,
+  device_tompd_63lw_breaker,
   device_tompd_63wifi_breaker,
   device_tomzn_energy_meter,
   device_tomzn_swc32v4_breaker,
@@ -2536,16 +2942,22 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_tongou_towsmr140rcbo_breaker,
   device_tontine_039_wifi_blanket,
   device_topens_wifi_remote_control,
+  device_touchstone_sideline_fireplace,
+  device_touchstone_sidelineredblue_fireplace,
   device_treatlife_ds03_fan_light,
   device_treatlife_ds03v2_fanlight,
   device_treatlife_dual_plugin_dimmer,
   device_treatlife_psw_presencesensor,
+  device_trevi_innovaqua_heatpump,
   device_trident_airdome60_airpurifier,
   device_trident_airdome70_airpurifier,
   device_tronic_balcony360wp_solarinverter,
+  device_trotec_pac_w_heatpump,
+  device_troxlly_tp_chlorinegenerator,
   device_truelife_air_purrifier_p3,
   device_truelife_air_purrifier_p7,
   device_ts100_waterqualitycontrol,
+  device_ts106_alarm,
   device_ttec_reobipro_vacuum,
   device_tuya_000004rime_weather_station,
   device_tuya_energy_meter,
@@ -2553,6 +2965,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_tx_e_gasmonitor,
   device_ty12w_relayboard,
   device_tya238akmp_ambientlight,
+  device_tyte_d1_thermostat,
   device_uk002wl2_2gang_switch,
   device_ultenic_air_fryer,
   device_ultenic_t10_vacuum,
@@ -2566,6 +2979,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_varin_rgbcw_ceilingfan,
   device_varin_va_e002_ceiling_fan_light,
   device_varin_va_e003_fan_light,
+  device_varminpool_pool_heater,
   device_varpoolfaye_5kw_pool_heatpump,
   device_venta_ah510_humidifier,
   device_vephos_true_airpurifier,
@@ -2574,9 +2988,13 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_vevor_3_7kw_evcharger,
   device_vevor_ev_charger,
   device_vevor_l2_ev_charger,
+  device_vevor_selfcleaning_litterbox,
   device_vevor_yt60307_weather_station,
+  device_vibrance_fireplace,
   device_vibrix_dryflow12pro_dehumidifier,
   device_vidapool_vtx016_poolheater,
+  device_vine_tj550_thermostat,
+  device_vivax_heatpump,
   device_vivion_airconditioner,
   device_vivo_fd55_tvmount,
   device_vivohome_airboost_registerboosterfan,
@@ -2590,6 +3008,8 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_wafu_wf012_doorlock,
   device_warme_gsh_heater,
   device_wasserstein_aquapal_watermonitor,
+  device_water_chiller_fre1l4,
+  device_waterco_electroheat_eco_vs_heatpump,
   device_wd01gde_irrigation_controller,
   device_wdyk_2p63a_energy_meter,
   device_wdyk_3phase_energymonitor,
@@ -2600,6 +3020,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_weau_pool_heatpump_v2,
   device_webber_ap9750_airpurifier,
   device_webber_apg7800_airpurifier,
+  device_weeket_kettle,
   device_wellio_d008a20l_dehumidifier,
   device_welltobe_cat_feeder,
   device_wenzhi_wz35_presencesensor,
@@ -2614,10 +3035,12 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_windcalm_fan,
   device_windcalm_fan_with_light,
   device_windmill_airconditioner,
+  device_wineenthusiast_prestiges_beveragecenter,
   device_wistar_roller_blind,
   device_wistar_roller_blind_nopos,
   device_wlrtcz05z_presencesensor,
   device_wmdl_2c_dualchannelmeter,
+  device_wolfguard_wt2r_alarm,
   device_woods_milan_airconditioner,
   device_woox_r4028_powerstrip,
   device_woox_r7246_ir_remote_with_th_sensor,
@@ -2672,11 +3095,14 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_zigbee_zb10wt_temphumid_sensor,
   device_zigbee_zn373186_temphumid_sensor,
   device_zigbee_zth08ztu_temphumid_sensor,
+  device_zitech_basic30_door,
   device_zm_wifi_smartmeter,
+  device_zmp71sh_pool_pump,
   device_zpmeter_ultrasonic_watermeter,
   device_zx_db11_doorbell_alarm,
   device_zx_db11b_doorbell_alarm,
   device_zx_gs21_gasmonitor,
+  device_zyhps01_human_presence_sensor,
   device_zym100_presence_sensor,
   device_zym100w_presence_sensor,
   device_zym100w_v2_presence_sensor,

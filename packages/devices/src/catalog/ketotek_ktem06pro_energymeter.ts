@@ -268,7 +268,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         min: 0,
         max: 999999,
-        absent: 0,
+        whenAbsent: { value: 0 },
       },
       leakageCurrentInMilliamps: {
         dataPoint: "15",

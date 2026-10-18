@@ -121,7 +121,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         measures: "cold",
         readOnly: true,
-        absent: false,
+        whenAbsent: { value: false },
       },
       alarm: { dataPoint: "104", kind: "switch" },
       offTimerInMinutes: {

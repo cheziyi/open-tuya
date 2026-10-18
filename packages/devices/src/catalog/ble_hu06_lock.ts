@@ -108,7 +108,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         measures: "safety",
         readOnly: true,
-        absent: false,
+        whenAbsent: { value: false },
       },
       doorbell: {
         dataPoint: "24",

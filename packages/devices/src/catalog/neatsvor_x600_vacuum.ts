@@ -195,7 +195,11 @@ const entry: TuyaDeviceEntry = {
       },
       emptyDustbin: { dataPoint: "38", kind: "button" },
       mapReset: { dataPoint: "13", kind: "button" },
-      doNotDisturb: { dataPoint: "25", kind: "switch", absent: false },
+      doNotDisturb: {
+        dataPoint: "25",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       fault: {
         dataPoint: "28",
         kind: "sensor",

@@ -28,7 +28,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "check_failure", value: "failure" },
           { raw: "others", value: "other" },
         ],
-        absent: "unchecked",
+        whenAbsent: { value: "unchecked" },
       },
       gas: {
         dataPoint: "2",

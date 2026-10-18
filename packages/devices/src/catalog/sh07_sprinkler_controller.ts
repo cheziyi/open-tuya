@@ -44,7 +44,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "rainy", value: "rainy" },
           { raw: "snowy", value: "snowy" },
         ],
-        absent: "unavailable",
+        whenAbsent: { value: "unavailable" },
       },
       schedules: { dataPoint: "107", kind: "text" },
     },

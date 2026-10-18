@@ -51,7 +51,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Off", value: "idle" },
           { raw: "Closed", value: "idle" },
         ],
-        absent: "idle",
+        whenAbsent: { value: "idle" },
       },
       targetTemperatureInC: {
         dataPoint: "16",

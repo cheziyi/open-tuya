@@ -79,7 +79,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         readOnly: true,
-        absent: false,
+        whenAbsent: { value: false },
       },
       occupancy: {
         dataPoint: "104",

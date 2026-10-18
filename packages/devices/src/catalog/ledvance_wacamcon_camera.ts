@@ -34,7 +34,7 @@ const entry: TuyaDeviceEntry = {
       brightness: { dataPoint: "158", kind: "number", min: 1, max: 100 },
     },
     device: {
-      siren: { dataPoint: "159", kind: "switch", absent: false },
+      siren: { dataPoint: "159", kind: "switch", whenAbsent: { value: false } },
       motionDetection: { dataPoint: "134", kind: "switch" },
       motion: {
         dataPoint: "115",
@@ -101,7 +101,11 @@ const entry: TuyaDeviceEntry = {
         otherwise: false,
       },
       flipImage: { dataPoint: "103", kind: "switch" },
-      watermark: { dataPoint: "104", kind: "switch", absent: false },
+      watermark: {
+        dataPoint: "104",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       nightVision: {
         dataPoint: "108",
         kind: "select",
@@ -122,7 +126,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 4, value: "formatting" },
           { raw: 5, value: "missing" },
         ],
-        absent: "normal",
+        whenAbsent: { value: "normal" },
       },
       sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
       sdFormat: { dataPoint: "111", kind: "button" },

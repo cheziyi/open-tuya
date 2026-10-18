@@ -93,7 +93,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         measures: "sound",
         readOnly: true,
-        absent: false,
+        whenAbsent: { value: false },
         otherwise: true,
       },
       ringingAlarmMsg: { dataPoint: "26", kind: "sensor", readOnly: true },

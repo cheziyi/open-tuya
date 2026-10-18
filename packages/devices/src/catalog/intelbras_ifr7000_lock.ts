@@ -91,7 +91,11 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "closed" },
         ],
       },
-      oneTimePasswordEnabled: { dataPoint: "61", kind: "switch", absent: true },
+      oneTimePasswordEnabled: {
+        dataPoint: "61",
+        kind: "switch",
+        whenAbsent: { value: true },
+      },
     },
   },
   source: {

@@ -30,7 +30,7 @@ const entry: TuyaDeviceEntry = {
         measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
-        absent: false,
+        whenAbsent: { value: false },
         otherwise: true,
       },
       faultCode: { dataPoint: "4", kind: "sensor", readOnly: true },
@@ -76,7 +76,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "cloudy", value: "cloudy" },
           { raw: "rainy", value: "rainy" },
         ],
-        absent: "no_forecast",
+        whenAbsent: { value: "no_forecast" },
       },
       weather2: { dataPoint: "14", kind: "switch" },
       lastUseTimeInSeconds: {

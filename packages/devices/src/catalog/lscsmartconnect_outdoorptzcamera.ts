@@ -50,7 +50,11 @@ const entry: TuyaDeviceEntry = {
       motionDetection: { dataPoint: "134", kind: "switch" },
       cameraPrivacy: { dataPoint: "105", kind: "switch" },
       flipImage: { dataPoint: "103", kind: "switch" },
-      watermark: { dataPoint: "104", kind: "switch", absent: false },
+      watermark: {
+        dataPoint: "104",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       motionSensitivity: {
         dataPoint: "106",
         kind: "select",
@@ -71,7 +75,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 4, value: "formatting" },
           { raw: 5, value: "missing" },
         ],
-        absent: "normal",
+        whenAbsent: { value: "normal" },
       },
       sdStatusMemoryCardCapacity: {
         dataPoint: "109",
@@ -147,7 +151,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "color_mode", value: "off" },
         ],
       },
-      soundDetection: { dataPoint: "139", kind: "switch", absent: false },
+      soundDetection: {
+        dataPoint: "139",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       soundSensitivity: {
         dataPoint: "140",
         kind: "select",
@@ -171,7 +179,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "2", value: "continuous" },
         ],
       },
-      alarm: { dataPoint: "159", kind: "switch", absent: false },
+      alarm: { dataPoint: "159", kind: "switch", whenAbsent: { value: false } },
       alarmLogMessage: { dataPoint: "185", kind: "text" },
       motionTracking: { dataPoint: "161", kind: "switch" },
       motionAreaLimit: { dataPoint: "168", kind: "switch" },
@@ -204,7 +212,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "breathing_light_mode", value: "Breathing" },
           { raw: "marquee_mode", value: "Marquee" },
         ],
-        absent: "none",
+        whenAbsent: { value: "none" },
       },
     },
   },

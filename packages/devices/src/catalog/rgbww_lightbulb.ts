@@ -28,7 +28,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "white", value: "color_temp" },
           { raw: "colour", value: "hs" },
         ],
-        absent: "color_temp",
+        whenAbsent: { value: "color_temp" },
       },
       brightness: { dataPoint: "3", kind: "number", min: 25, max: 255 },
       colorTemperatureInK: {

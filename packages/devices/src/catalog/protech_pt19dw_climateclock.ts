@@ -90,7 +90,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "0", value: false },
           { raw: "1", value: true },
         ],
-        absent: false,
+        whenAbsent: { value: false },
       },
       alarm2: { dataPoint: "102", kind: "text" },
       maximumTemperature: {

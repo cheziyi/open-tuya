@@ -137,11 +137,11 @@ const entry: TuyaDeviceEntry = {
         measures: "running",
         readOnly: true,
         values: [{ raw: 0, value: false }],
+        otherwise: true,
         dependsOn: {
           dataPoint: "3",
           conditions: [{ when: ["heating"], value: false }],
         },
-        otherwise: true,
       },
       childLock: { dataPoint: "40", kind: "switch" },
       minimumTemperatureInC: {

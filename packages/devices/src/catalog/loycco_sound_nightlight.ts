@@ -81,7 +81,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "reading", value: "reading" },
           { raw: "night", value: "night" },
         ],
-        absent: "none",
+        whenAbsent: { value: "none" },
       },
       customScene: {
         dataPoint: "13",
@@ -96,7 +96,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "mode_7", value: "Scene 7" },
           { raw: "mode_8", value: "Scene 8" },
         ],
-        absent: "None",
+        whenAbsent: { value: "None" },
       },
       customSceneSettingData: { dataPoint: "14", kind: "text" },
     },

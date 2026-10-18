@@ -22,16 +22,33 @@ export interface TuyaDataPointSpec {
  * point's raw value. */
 export type ControlValue = boolean | number | string;
 
-export interface ControlMapping {
-  /** The data point's raw value. */
-  raw: DataPointValue;
-  /** The control's value for it. Without one, the raw value is the
-   * control's, unless a condition gives another. */
+/** How a raw value converts: what a mapping, a condition and the rule for
+ * an absent data point share. */
+export interface ControlRule {
+  /** The control's value. Without one, the raw value is the control's,
+   * unless a condition gives another. */
   value?: ControlValue;
   /** Read, but never written: another raw value is written for `value`. */
   readOnly?: true;
-  /** Conditions that change this mapping by another data point's value. */
+  /** Conditions that change this rule by another data point's value. */
   dependsOn?: ControlDependency;
+  /** Another data point the value is read from and written to instead. */
+  redirect?: ControlTarget;
+  /** Another data point the value is read from instead. A write sets this
+   * rule's raw value while the other data point reads the value written. */
+  mirror?: ControlTarget;
+}
+
+/** A data point a control reads or writes instead of its own, converted as a
+ * control is. It can redirect again. */
+export type ControlTarget = Omit<
+  TuyaControl,
+  "kind" | "measures" | "unit" | "unitFrom"
+>;
+
+export interface ControlMapping extends ControlRule {
+  /** The data point's raw value. */
+  raw: DataPointValue;
 }
 
 /** The conditions a mapping or a control takes from another data point's
@@ -47,13 +64,10 @@ export interface ControlDependency {
 
 /** What applies while the data point a `ControlDependency` names holds one of
  * `when`. Each field it gives replaces the mapping's or the control's. */
-export interface ControlCondition {
+export interface ControlCondition extends Omit<ControlRule, "dependsOn"> {
   /** The raw values it holds for, `null` while the device leaves the data
    * point out. On a bitfield, it holds while every bit of one is set. */
   when: readonly (DataPointValue | null)[];
-  value?: ControlValue;
-  /** Its `value` is read, but never written. */
-  readOnly?: true;
   /** Values for the result, matched by `raw` against the value the mapping
    * gives. */
   values?: readonly ControlMapping[];
@@ -61,6 +75,10 @@ export interface ControlCondition {
   step?: number;
   invert?: true;
   targetRange?: { min: number; max: number };
+  /** The raw value's range while it holds: a write is checked against it in
+   * place of the control's. */
+  min?: number;
+  max?: number;
 }
 
 /** One thing a device does, and how its data point's raw value converts to
@@ -93,17 +111,23 @@ export interface TuyaControl {
   values?: readonly ControlMapping[];
   /** The control's value for any raw value `values` does not name. */
   otherwise?: ControlValue;
-  /** The control's value while the device leaves the data point out. */
-  absent?: ControlValue;
+  /** How the control reads while the device leaves the data point out. */
+  whenAbsent?: ControlRule;
   /** The raw value is the control's value times this. */
   scale?: number;
   /** The raw value is a multiple of this. */
   step?: number;
   /** The raw value runs from `max` to `min` as the control's runs up. */
   invert?: true;
-  /** Conditions that change `otherwise`, `scale`, `step`, `invert` or
-   * `targetRange` by another data point's value. */
+  /** Conditions that change `otherwise`, `scale`, `step`, `invert`,
+   * `targetRange` or the range by another data point's value. */
   dependsOn?: ControlDependency;
+  /** Another data point any value `values` does not name is read from and
+   * written to instead. */
+  redirect?: ControlTarget;
+  /** Another data point any value `values` does not name is read from
+   * instead. */
+  mirror?: ControlTarget;
   /** The control's value runs over this range as the raw value runs over
    * `min` to `max`. */
   targetRange?: { min: number; max: number };

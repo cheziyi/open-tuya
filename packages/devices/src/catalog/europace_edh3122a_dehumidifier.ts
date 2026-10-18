@@ -132,7 +132,11 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "min",
       },
-      antiMould: { dataPoint: "101", kind: "switch", absent: false },
+      antiMould: {
+        dataPoint: "101",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
     },
   },
   source: {

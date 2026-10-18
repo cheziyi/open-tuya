@@ -165,7 +165,7 @@ const entry: TuyaDeviceEntry = {
         measures: "problem",
         readOnly: true,
         values: [{ raw: "", value: false }],
-        absent: false,
+        whenAbsent: { value: false },
         otherwise: true,
       },
       faultDescription: {
@@ -180,7 +180,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "lvp", value: "Under voltage" },
           { raw: "otp", value: "Over temperature" },
         ],
-        absent: "ok",
+        whenAbsent: { value: "ok" },
       },
       totalChargeInAh: {
         dataPoint: "133",

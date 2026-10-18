@@ -175,7 +175,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 1024, value: "count_error" },
           { raw: 2048, value: "choice_set_ok" },
         ],
-        absent: "None",
+        whenAbsent: { value: "None" },
       },
       doNotDisturb: { dataPoint: "107", kind: "switch" },
       breakClean: { dataPoint: "110", kind: "switch" },

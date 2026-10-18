@@ -53,7 +53,11 @@ const entry: TuyaDeviceEntry = {
         unit: "%",
       },
       ionizer: { dataPoint: "6", kind: "switch" },
-      childLock: { dataPoint: "7", kind: "switch", absent: false },
+      childLock: {
+        dataPoint: "7",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       uvSterilization: { dataPoint: "9", kind: "switch" },
       filterReset: { dataPoint: "11", kind: "button" },
       timer: {

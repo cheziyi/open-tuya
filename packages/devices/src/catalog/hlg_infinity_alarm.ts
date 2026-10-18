@@ -142,7 +142,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "PANICO", value: "Panic" },
           { raw: "CANCEL", value: "Cancel" },
         ],
-        absent: "Cancel",
+        whenAbsent: { value: "Cancel" },
       },
       learnRemoteControlButtonsLearned: { dataPoint: "113", kind: "number" },
       learnSensor: {
@@ -155,7 +155,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "S4", value: "Sector 4" },
           { raw: "CANCEL", value: "Cancel" },
         ],
-        absent: "Cancel",
+        whenAbsent: { value: "Cancel" },
       },
       learnSensorsLearned: { dataPoint: "114", kind: "number" },
       plug: {

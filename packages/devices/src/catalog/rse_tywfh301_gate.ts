@@ -23,9 +23,17 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       open: { dataPoint: "101", kind: "button" },
-      openLocked: { dataPoint: "107", kind: "switch", absent: false },
+      openLocked: {
+        dataPoint: "107",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       close: { dataPoint: "102", kind: "button" },
-      closeLocked: { dataPoint: "106", kind: "switch", absent: false },
+      closeLocked: {
+        dataPoint: "106",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       stop: { dataPoint: "103", kind: "button" },
       lock: { dataPoint: "104", kind: "button" },
       fault: {
@@ -33,7 +41,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         measures: "problem",
         readOnly: true,
-        absent: false,
+        whenAbsent: { value: false },
       },
       fastOpening: { dataPoint: "110", kind: "switch" },
       gate: {

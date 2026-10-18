@@ -57,7 +57,7 @@ const entry: TuyaDeviceEntry = {
         measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
-        absent: false,
+        whenAbsent: { value: false },
         otherwise: true,
       },
       faultCode: { dataPoint: "10", kind: "sensor", readOnly: true },
@@ -83,7 +83,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 8192, value: "self_test_alarm" },
           { raw: 16384, value: "leakagecurr_alarm" },
         ],
-        absent: "No data",
+        whenAbsent: { value: "No data" },
       },
       faultErrorData: { dataPoint: "120", kind: "sensor", readOnly: true },
       connection: {

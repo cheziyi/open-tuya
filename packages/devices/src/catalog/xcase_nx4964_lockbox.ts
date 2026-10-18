@@ -77,7 +77,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "shock", value: "shock" },
           { raw: "defense", value: "defense" },
         ],
-        absent: "ok",
+        whenAbsent: { value: "ok" },
       },
       newCredential: { dataPoint: "1", kind: "text" },
       deleteCredential: { dataPoint: "2", kind: "text" },

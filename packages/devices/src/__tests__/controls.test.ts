@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { listDependencies, readControls, writeControls } from "../controls.js";
+import {
+  listDependencies,
+  readControls,
+  resolveControl,
+  writeControls,
+} from "../controls.js";
 import type { TuyaDeviceEntry } from "../entry.js";
 
 const ENTRY: TuyaDeviceEntry = {
@@ -67,7 +72,11 @@ const ENTRY: TuyaDeviceEntry = {
         values: [{ raw: 4, value: true }],
         otherwise: false,
       },
-      childLock: { dataPoint: "6", kind: "switch", absent: false },
+      childLock: {
+        dataPoint: "6",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       colorTemperatureInK: {
         dataPoint: "7",
         kind: "number",
@@ -541,5 +550,209 @@ describe("listDependencies", () => {
     const alarm = DEPENDENT.components.device?.alarm;
     expect(hvacMode && listDependencies(hvacMode)).toEqual(["4"]);
     expect(alarm && listDependencies(alarm)).toEqual(["5"]);
+  });
+});
+
+// Each control reads, and most write, another data point in some states, as
+// tuya-local's value_redirect, value_mirror and range describe at
+// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/devices/README.md#L438-L465.
+const REDIRECTING: TuyaDeviceEntry = {
+  name: "Heater",
+  productKeys: [],
+  dataPoints: {
+    "1": { type: "string" },
+    "2": { type: "integer" },
+    "3": { type: "integer" },
+    "4": { type: "integer", optional: true },
+    "5": { type: "integer" },
+    "6": { type: "integer" },
+    "7": { type: "integer" },
+    "8": { type: "integer", optional: true },
+    "9": { type: "integer" },
+    "10": { type: "integer" },
+    "11": { type: "string" },
+  },
+  components: {
+    climate: {
+      targetTemperatureInC: {
+        dataPoint: "2",
+        kind: "number",
+        unit: "C",
+        min: 50,
+        max: 300,
+        scale: 10,
+        step: 5,
+        dependsOn: {
+          dataPoint: "1",
+          conditions: [
+            {
+              when: ["eco"],
+              redirect: {
+                dataPoint: "3",
+                min: 50,
+                max: 160,
+                scale: 10,
+                step: 10,
+              },
+            },
+          ],
+        },
+      },
+      preset: {
+        dataPoint: "1",
+        kind: "select",
+        values: [
+          { raw: "eco", value: "eco" },
+          { raw: "comfort", value: "comfort" },
+        ],
+      },
+    },
+    device: {
+      powerInW: {
+        dataPoint: "4",
+        kind: "number",
+        whenAbsent: { redirect: { dataPoint: "8", scale: 10 } },
+      },
+      position: {
+        dataPoint: "5",
+        kind: "number",
+        whenAbsent: { mirror: { dataPoint: "6" } },
+      },
+      limit: {
+        dataPoint: "9",
+        kind: "number",
+        dependsOn: {
+          dataPoint: "1",
+          conditions: [
+            { when: ["eco"], redirect: { dataPoint: "7", readOnly: true } },
+          ],
+        },
+      },
+      temperature: {
+        dataPoint: "10",
+        kind: "number",
+        min: 0,
+        max: 100,
+        dependsOn: {
+          dataPoint: "11",
+          conditions: [{ when: ["f"], min: 32, max: 212 }],
+        },
+      },
+    },
+  },
+  source: { file: "heater.yaml", commit: "0".repeat(40) },
+};
+
+describe("readControls with redirects", () => {
+  it("reads the data point a condition redirects to, as it converts", () => {
+    expect(
+      readControls(REDIRECTING, { "1": "comfort", "2": 215, "3": 120 }).climate,
+    ).toEqual({ targetTemperatureInC: 21.5, preset: "comfort" });
+    expect(
+      readControls(REDIRECTING, { "1": "eco", "2": 215, "3": 120 }).climate,
+    ).toEqual({ targetTemperatureInC: 12, preset: "eco" });
+  });
+
+  it("reads another data point while its own is absent, redirected or mirrored", () => {
+    expect(readControls(REDIRECTING, { "6": 40, "8": 2300 }).device).toEqual({
+      powerInW: 230,
+      position: 40,
+    });
+    expect(readControls(REDIRECTING, { "4": 5, "5": 30 }).device).toEqual({
+      powerInW: 5,
+      position: 30,
+    });
+  });
+});
+
+describe("writeControls with redirects", () => {
+  it("writes the data point a condition redirects to, as it converts", () => {
+    expect(
+      writeControls(
+        REDIRECTING,
+        { climate: { targetTemperatureInC: 14 } },
+        { "1": "eco" },
+      ),
+    ).toEqual({ "3": 140 });
+    expect(
+      writeControls(
+        REDIRECTING,
+        { climate: { targetTemperatureInC: 14 } },
+        { "1": "comfort" },
+      ),
+    ).toEqual({ "2": 140 });
+  });
+
+  it("writes the data point its absent value redirects to, while its own is absent", () => {
+    expect(
+      writeControls(REDIRECTING, { device: { powerInW: 231 } }, {}),
+    ).toEqual({ "8": 2310 });
+    expect(
+      writeControls(REDIRECTING, { device: { powerInW: 231 } }, { "4": 5 }),
+    ).toEqual({ "4": 231 });
+  });
+
+  it("writes its own data point where it mirrors another", () => {
+    expect(writeControls(REDIRECTING, { device: { position: 50 } })).toEqual({
+      "5": 50,
+    });
+  });
+
+  it("throws VALUE_UNAVAILABLE for a redirect to a read-only data point", () => {
+    expect(() =>
+      writeControls(REDIRECTING, { device: { limit: 3 } }, { "1": "eco" }),
+    ).toThrow(expect.objectContaining({ code: "VALUE_UNAVAILABLE" }));
+  });
+
+  it("checks a value against the range of the condition that holds", () => {
+    expect(
+      writeControls(
+        REDIRECTING,
+        { device: { temperature: 150 } },
+        { "11": "f" },
+      ),
+    ).toEqual({ "10": 150 });
+    expect(() =>
+      writeControls(
+        REDIRECTING,
+        { device: { temperature: 150 } },
+        { "11": "c" },
+      ),
+    ).toThrow(RangeError);
+  });
+});
+
+describe("resolveControl", () => {
+  const { climate, device } = REDIRECTING.components;
+
+  it("follows the redirect that holds, keeping what the control is", () => {
+    expect(
+      climate?.targetTemperatureInC &&
+        resolveControl(REDIRECTING, climate.targetTemperatureInC, {
+          "1": "eco",
+        }),
+    ).toEqual({
+      dataPoint: "3",
+      kind: "number",
+      unit: "C",
+      min: 50,
+      max: 160,
+      scale: 10,
+      step: 10,
+    });
+  });
+
+  it("applies the range of the condition that holds", () => {
+    expect(
+      device?.temperature &&
+        resolveControl(REDIRECTING, device.temperature, { "11": "f" }),
+    ).toMatchObject({ dataPoint: "10", min: 32, max: 212 });
+  });
+
+  it("lists the data points a control redirects to among its dependencies", () => {
+    expect(
+      climate?.targetTemperatureInC &&
+        listDependencies(climate.targetTemperatureInC),
+    ).toEqual(["1", "3"]);
   });
 });

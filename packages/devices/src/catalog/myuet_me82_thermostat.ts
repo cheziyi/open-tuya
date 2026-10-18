@@ -84,7 +84,11 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      antiFrost: { dataPoint: "103", kind: "switch", absent: false },
+      antiFrost: {
+        dataPoint: "103",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       maximumTemperatureInC: {
         dataPoint: "19",
         kind: "number",
@@ -114,7 +118,11 @@ const entry: TuyaDeviceEntry = {
         max: 9,
       },
       factoryReset: { dataPoint: "39", kind: "button" },
-      childLock: { dataPoint: "40", kind: "switch", absent: false },
+      childLock: {
+        dataPoint: "40",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       temperatureSensor: {
         dataPoint: "43",
         kind: "select",
@@ -123,7 +131,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "out", value: "External" },
           { raw: "both", value: "Both" },
         ],
-        absent: "Internal",
+        whenAbsent: { value: "Internal" },
       },
       fault: {
         dataPoint: "45",
@@ -155,7 +163,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "50_bright", value: 128 },
           { raw: "100_bright", value: 255 },
         ],
-        absent: 0,
+        whenAbsent: { value: 0 },
       },
     },
   },

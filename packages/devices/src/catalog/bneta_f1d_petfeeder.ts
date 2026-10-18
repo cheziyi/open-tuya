@@ -27,7 +27,11 @@ const entry: TuyaDeviceEntry = {
   components: {
     indicator: { on: { dataPoint: "101", kind: "switch" } },
     device: {
-      flipImage: { dataPoint: "103", kind: "switch", absent: false },
+      flipImage: {
+        dataPoint: "103",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       watermark: { dataPoint: "104", kind: "switch" },
       motionSensitivity: {
         dataPoint: "106",
@@ -54,7 +58,11 @@ const entry: TuyaDeviceEntry = {
         otherwise: "detected",
       },
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
-      motionDetection: { dataPoint: "134", kind: "switch", absent: false },
+      motionDetection: {
+        dataPoint: "134",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       manualFeedInPortions: {
         dataPoint: "201",
         kind: "number",

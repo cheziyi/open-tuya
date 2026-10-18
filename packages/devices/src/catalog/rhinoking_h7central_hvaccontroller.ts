@@ -229,7 +229,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "0", value: false },
           { raw: "none", value: false },
         ],
-        absent: false,
+        whenAbsent: { value: false },
         otherwise: true,
       },
       faultDescription: {

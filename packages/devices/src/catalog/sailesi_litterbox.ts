@@ -112,7 +112,11 @@ const entry: TuyaDeviceEntry = {
       },
       inductionCleaning: { dataPoint: "105", kind: "switch" },
       cleanSchedule: { dataPoint: "106", kind: "text" },
-      scheduledCleaning: { dataPoint: "107", kind: "switch", absent: false },
+      scheduledCleaning: {
+        dataPoint: "107",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       scheduledCleaningCleanTaste: { dataPoint: "108", kind: "text" },
       scheduledCleaningCleanTasteSw: { dataPoint: "109", kind: "switch" },
       doNotDisturbSchedule: { dataPoint: "110", kind: "text" },

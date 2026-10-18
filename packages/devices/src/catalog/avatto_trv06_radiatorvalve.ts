@@ -27,7 +27,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "manual", value: "heat" },
           { raw: "auto", value: "auto" },
         ],
-        absent: "off",
+        whenAbsent: { value: "off" },
       },
       hvacAction: {
         dataPoint: "3",
@@ -67,8 +67,16 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      antiFrost: { dataPoint: "36", kind: "switch", absent: false },
-      antiscale: { dataPoint: "39", kind: "switch", absent: false },
+      antiFrost: {
+        dataPoint: "36",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
+      antiscale: {
+        dataPoint: "39",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       temperatureCalibrationInC: {
         dataPoint: "47",
         kind: "number",

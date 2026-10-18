@@ -218,7 +218,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         measures: "problem",
         readOnly: true,
-        absent: false,
+        whenAbsent: { value: false },
       },
       pumpOn: { dataPoint: "127", kind: "button" },
       timer1: { dataPoint: "128", kind: "switch" },

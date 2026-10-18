@@ -154,7 +154,11 @@ const entry: TuyaDeviceEntry = {
       dataReset: { dataPoint: "113", kind: "button" },
       wifiReset: { dataPoint: "114", kind: "button" },
       factoryReset: { dataPoint: "115", kind: "button" },
-      rotateScreen: { dataPoint: "116", kind: "switch", absent: false },
+      rotateScreen: {
+        dataPoint: "116",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       standbyScreen: {
         dataPoint: "117",
         kind: "select",

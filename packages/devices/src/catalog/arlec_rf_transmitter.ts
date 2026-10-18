@@ -54,7 +54,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Button7", value: "Button 7" },
           { raw: "Button8", value: "Button 8" },
         ],
-        absent: "No button",
+        whenAbsent: { value: "No button" },
       },
       remote3: {
         dataPoint: "103",
@@ -69,7 +69,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Button7", value: "Button 7" },
           { raw: "Button8", value: "Button 8" },
         ],
-        absent: "No button",
+        whenAbsent: { value: "No button" },
       },
       remote4: {
         dataPoint: "104",
@@ -84,7 +84,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Button7", value: "Button 7" },
           { raw: "Button8", value: "Button 8" },
         ],
-        absent: "No button",
+        whenAbsent: { value: "No button" },
       },
       remote5: {
         dataPoint: "105",
@@ -99,7 +99,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Button7", value: "Button 7" },
           { raw: "Button8", value: "Button 8" },
         ],
-        absent: "No button",
+        whenAbsent: { value: "No button" },
       },
       remote6: {
         dataPoint: "106",
@@ -114,7 +114,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Button7", value: "Button 7" },
           { raw: "Button8", value: "Button 8" },
         ],
-        absent: "No button",
+        whenAbsent: { value: "No button" },
       },
       remote7: {
         dataPoint: "107",
@@ -129,7 +129,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Button7", value: "Button 7" },
           { raw: "Button8", value: "Button 8" },
         ],
-        absent: "No button",
+        whenAbsent: { value: "No button" },
       },
       remote8: {
         dataPoint: "108",
@@ -144,7 +144,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Button7", value: "Button 7" },
           { raw: "Button8", value: "Button 8" },
         ],
-        absent: "No button",
+        whenAbsent: { value: "No button" },
       },
       fault: {
         dataPoint: "113",
@@ -152,7 +152,7 @@ const entry: TuyaDeviceEntry = {
         measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
-        absent: false,
+        whenAbsent: { value: false },
         otherwise: true,
       },
       faultCode: { dataPoint: "113", kind: "sensor", readOnly: true },

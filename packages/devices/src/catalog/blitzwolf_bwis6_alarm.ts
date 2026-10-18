@@ -57,7 +57,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         measures: "tamper",
         readOnly: true,
-        absent: false,
+        whenAbsent: { value: false },
       },
       voicePrompt: { dataPoint: "10", kind: "switch" },
       acPower: { dataPoint: "15", kind: "switch" },

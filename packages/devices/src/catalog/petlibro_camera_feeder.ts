@@ -108,7 +108,7 @@ const entry: TuyaDeviceEntry = {
         kind: "number",
         min: 0,
         max: 50,
-        absent: 0,
+        whenAbsent: { value: 0 },
       },
       batteryInPercent: {
         dataPoint: "235",
@@ -152,7 +152,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 2, value: false },
           { raw: 8, value: false },
         ],
-        absent: false,
+        whenAbsent: { value: false },
         otherwise: true,
       },
       faultCode: { dataPoint: "236", kind: "sensor", readOnly: true },

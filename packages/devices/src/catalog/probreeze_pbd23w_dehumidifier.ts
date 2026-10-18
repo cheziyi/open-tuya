@@ -83,7 +83,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 1, value: false },
           { raw: 8, value: false },
         ],
-        absent: false,
+        whenAbsent: { value: false },
         otherwise: true,
       },
       faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },

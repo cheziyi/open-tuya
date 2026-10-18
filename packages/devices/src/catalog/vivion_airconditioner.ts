@@ -110,7 +110,7 @@ const entry: TuyaDeviceEntry = {
         measures: "problem",
         readOnly: true,
         values: [{ raw: 0, value: false }],
-        absent: false,
+        whenAbsent: { value: false },
         otherwise: true,
       },
       faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },

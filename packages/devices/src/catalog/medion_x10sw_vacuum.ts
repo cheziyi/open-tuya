@@ -58,7 +58,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     vacuum: {
-      cleaning: { dataPoint: "1", kind: "switch", absent: false },
+      cleaning: {
+        dataPoint: "1",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       command: {
         dataPoint: "2",
         kind: "select",
@@ -290,7 +294,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 1024, value: "count_error" },
           { raw: 2048, value: "choice_set_ok" },
         ],
-        absent: "",
+        whenAbsent: { value: "" },
       },
       roomLearningMcsCommand: {
         dataPoint: "197",

@@ -47,7 +47,11 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 86400,
       },
-      voiceControl: { dataPoint: "11", kind: "switch", absent: false },
+      voiceControl: {
+        dataPoint: "11",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       fault: { dataPoint: "12", kind: "sensor", readOnly: true },
     },
   },

@@ -123,7 +123,11 @@ const entry: TuyaDeviceEntry = {
         max: 4,
       },
       factoryReset: { dataPoint: "39", kind: "button" },
-      childLock: { dataPoint: "40", kind: "switch", absent: false },
+      childLock: {
+        dataPoint: "40",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       fault: {
         dataPoint: "45",
         kind: "sensor",
@@ -149,7 +153,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "out", value: "External" },
           { raw: "all", value: "Both" },
         ],
-        absent: "Internal",
+        whenAbsent: { value: "Internal" },
       },
       maximumFloorTemperatureInC: {
         dataPoint: "101",

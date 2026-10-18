@@ -60,7 +60,7 @@ const entry: TuyaDeviceEntry = {
         unit: "g",
         min: 5,
         max: 20,
-        absent: 0,
+        whenAbsent: { value: 0 },
       },
       controlCode: {
         dataPoint: "233",

@@ -49,7 +49,7 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "idle" },
           { raw: true, value: "heating" },
         ],
-        absent: "idle",
+        whenAbsent: { value: "idle" },
       },
       targetTemperatureInC: {
         dataPoint: "16",

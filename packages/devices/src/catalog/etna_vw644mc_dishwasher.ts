@@ -98,7 +98,11 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "C",
       },
-      childLock: { dataPoint: "101", kind: "switch", absent: false },
+      childLock: {
+        dataPoint: "101",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       delayedStart: { dataPoint: "102", kind: "switch" },
       door: {
         dataPoint: "103",

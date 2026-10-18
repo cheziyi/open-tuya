@@ -29,7 +29,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "scene", value: "scene" },
           { raw: "music", value: "music" },
         ],
-        absent: "color_temp",
+        whenAbsent: { value: "color_temp" },
       },
       brightness: { dataPoint: "3", kind: "number", min: 10, max: 1000 },
       colorTemperatureInK: {

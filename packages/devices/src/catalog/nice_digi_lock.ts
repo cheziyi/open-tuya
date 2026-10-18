@@ -69,7 +69,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "tongue_bad", value: "tongue_bad" },
           { raw: "unclosed_time", value: "unclosed_time" },
         ],
-        absent: "ok",
+        whenAbsent: { value: "ok" },
       },
       snib: {
         dataPoint: "32",

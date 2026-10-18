@@ -1,5 +1,5 @@
 import type { DataPointValue } from "@open-tuya/core";
-import type { TuyaControl, TuyaDataPointType } from "./entry.js";
+import type { ControlTarget, TuyaDataPointType } from "./entry.js";
 
 /** A data point's value as one unsigned number, with its length in bytes
  * when it is hex or base64. */
@@ -8,16 +8,16 @@ interface PackedValue {
   length?: number;
 }
 
-export type MaskedControl = TuyaControl & { mask: string };
+export type MaskedControl = ControlTarget & { mask: string };
 
-export function isMasked(control: TuyaControl): control is MaskedControl {
+export function isMasked(control: ControlTarget): control is MaskedControl {
   return control.mask !== undefined;
 }
 
 /** The type a masked control's bits are read as: a bitfield's stay a
  * bitfield, and any other's are an integer. */
 export function fieldType(
-  control: TuyaControl,
+  control: ControlTarget,
   type: TuyaDataPointType | undefined,
 ): TuyaDataPointType | undefined {
   return isMasked(control) && type !== "bitfield" ? "integer" : type;

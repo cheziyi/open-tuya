@@ -55,7 +55,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         measures: "batteryCharging",
         readOnly: true,
-        absent: false,
+        whenAbsent: { value: false },
       },
       cover: {
         dataPoint: "12",

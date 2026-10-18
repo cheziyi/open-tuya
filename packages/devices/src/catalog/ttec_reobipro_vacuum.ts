@@ -69,7 +69,7 @@ const entry: TuyaDeviceEntry = {
             },
           },
         ],
-        absent: false,
+        whenAbsent: { value: false },
       },
       command: {
         dataPoint: "4",
@@ -209,7 +209,11 @@ const entry: TuyaDeviceEntry = {
         unit: "min",
       },
       mopReset: { dataPoint: "24", kind: "button" },
-      doNotDisturb: { dataPoint: "25", kind: "switch", absent: false },
+      doNotDisturb: {
+        dataPoint: "25",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       volumeInPercent: {
         dataPoint: "26",
         kind: "number",

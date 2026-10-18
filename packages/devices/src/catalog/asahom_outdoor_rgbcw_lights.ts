@@ -96,7 +96,11 @@ const entry: TuyaDeviceEntry = {
         max: 86400,
       },
       memory: { dataPoint: "113", kind: "switch" },
-      remotePairing: { dataPoint: "114", kind: "switch", absent: false },
+      remotePairing: {
+        dataPoint: "114",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
       remotePairingInformation: { dataPoint: "115", kind: "text" },
       lightMode: {
         dataPoint: "117",

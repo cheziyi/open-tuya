@@ -69,11 +69,11 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
         values: [{ raw: 0, value: "idle" }],
+        otherwise: "heating",
         dependsOn: {
           dataPoint: "2",
           conditions: [{ when: ["make_cold"], value: "cooling" }],
         },
-        otherwise: "heating",
       },
       preset: {
         dataPoint: "5",

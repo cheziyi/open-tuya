@@ -69,7 +69,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "charge_schedule", value: "scheduled_charge" },
         ],
       },
-      on: { dataPoint: "18", kind: "switch", absent: false },
+      on: { dataPoint: "18", kind: "switch", whenAbsent: { value: false } },
       temperatureInC: {
         dataPoint: "24",
         kind: "sensor",

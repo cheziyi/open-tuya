@@ -20,7 +20,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1", kind: "switch", absent: false },
+      on: { dataPoint: "1", kind: "switch", whenAbsent: { value: false } },
       brightness: { dataPoint: "2", kind: "number", min: 10, max: 1000 },
       minimumBrightness: { dataPoint: "3", kind: "number" },
       lightType: {

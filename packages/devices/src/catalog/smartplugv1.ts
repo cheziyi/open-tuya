@@ -45,7 +45,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         measures: "problem",
         readOnly: true,
-        absent: false,
+        whenAbsent: { value: false },
       },
       timerInSeconds: {
         dataPoint: "2",
