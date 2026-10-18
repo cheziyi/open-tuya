@@ -12,6 +12,8 @@ import { until, useFakeTimers } from "./clock.js";
 import { type Broker, startBroker } from "./mocks/broker.js";
 import { FakeCloud } from "./mocks/fakeCloud.js";
 
+// Source: Home Assistant's client ID, in
+// https://github.com/home-assistant/core/blob/82e1ed43f85b3254c51e7a8200ece159019743ab/homeassistant/components/tuya/const.py#L39-L40.
 const CLIENT_ID = "HA_3y9q4ak7g4ephrvke";
 const DEVICE_ID = "bf6c8539693b0cdea25thg";
 const HOME_ID = "297928323";

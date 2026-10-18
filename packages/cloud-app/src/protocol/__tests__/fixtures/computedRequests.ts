@@ -6,6 +6,8 @@
 // with its HTTP session stubbed to record what it sends, and its request ID,
 // clock and nonces fixed.
 
+// Source: Home Assistant's client ID, in
+// https://github.com/home-assistant/core/blob/82e1ed43f85b3254c51e7a8200ece159019743ab/homeassistant/components/tuya/const.py#L39-L40.
 export const CLIENT_ID = "HA_3y9q4ak7g4ephrvke";
 export const ACCESS_TOKEN = "ACCESSTOKEN";
 export const REFRESH_TOKEN = "REFRESHTOKEN";

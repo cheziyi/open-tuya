@@ -173,8 +173,8 @@ control's own, and its `kind` and `measures` say how to handle it.
 
 ## Signing in to the Smart Life cloud
 
-Pass Home Assistant's client ID and schema: they are the only pair known to
-work, so `@open-tuya/cloud-app` signs in as Home Assistant does.
+Pass Home Assistant's [client ID and schema](https://github.com/home-assistant/core/blob/82e1ed43f85b3254c51e7a8200ece159019743ab/homeassistant/components/tuya/const.py#L39-L40): they are the only
+pair known to work, so `@open-tuya/cloud-app` signs in as Home Assistant does.
 
 ```ts
 import { createAppCloudAccount, createQrLogin } from "@open-tuya/cloud-app";
@@ -272,6 +272,7 @@ engineering.
 | [tuya/tuya-openclaw-skills](https://github.com/tuya/tuya-openclaw-skills) | MIT | The thing model and issuing its properties, documented by Tuya |
 | [tuya/tuya-device-sharing-sdk](https://github.com/tuya/tuya-device-sharing-sdk) | MIT, Copyright (c) 2023 Tuya | Smart Life app QR login and its pushed device updates, by Tuya |
 | [make-all/tuya-local](https://github.com/make-all/tuya-local) | MIT, Copyright 2018 Nik Rolls, 2026 Jason Rumney, 2022-2026 other contributors as listed in its ACKNOWLEDGEMENTS.md | Device catalog, Home Assistant; its local protocol is tinytuya's and its QR login tuya-device-sharing-sdk's |
+| [azerty9971/xtend_tuya](https://github.com/azerty9971/xtend_tuya) | GPL-3.0 | Smart Life cloud responses, captured in its issues, Home Assistant |
 | [home-assistant-libs/tuya-device-handlers](https://github.com/home-assistant-libs/tuya-device-handlers) | MIT | Fixes to the data points of misbehaving devices, by product |
 | [home-assistant/core `components/tuya`](https://github.com/home-assistant/core/tree/dev/homeassistant/components/tuya) | Apache-2.0 | Standard data point codes by device category, Home Assistant |
 | [tuya/TuyaOpen `src/tuya_cloud_service`](https://github.com/tuya/TuyaOpen/tree/master/src/tuya_cloud_service) | Apache-2.0 | A device's own side of the LAN protocol: what it answers to each command, by Tuya |

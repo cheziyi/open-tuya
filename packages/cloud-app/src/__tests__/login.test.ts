@@ -2,6 +2,8 @@ import type { Fetch } from "@open-tuya/core";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { QrLogin } from "../login.js";
 
+// Source: Home Assistant's client ID and schema, in
+// https://github.com/home-assistant/core/blob/82e1ed43f85b3254c51e7a8200ece159019743ab/homeassistant/components/tuya/const.py#L39-L40.
 const OPTIONS = {
   clientId: "HA_3y9q4ak7g4ephrvke",
   schema: "haauthorize",

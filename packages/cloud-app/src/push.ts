@@ -19,10 +19,10 @@ export interface PushConfig extends MqttCredentials {
 
 type Listener = (dataPoints: DataPoints) => void;
 
-// Source: A pushed report carries the device's own values by data point ID on
-// the device's topic with "/pen" after it, in
-// https://github.com/tuya/tuya-device-sharing-sdk/commit/179e1a188950a000716c7bea74996169acf9418f
-// and https://github.com/tuya/tuya-device-sharing-sdk/commit/9a80825c4965f4fbdbd8464fe73f2c7af9f31071,
+// Source: A pushed report comes on the device's topic with "/pen" after it, in
+// https://github.com/tuya/tuya-device-sharing-sdk/commit/6877c7fc0350ec5bdbe958f0c84861bd3749abd4,
+// and carries the device's own values by data point ID, in
+// https://github.com/tuya/tuya-device-sharing-sdk/commit/ae5e3c4c67eaefffd1be79e39d9f411e43515d13,
 // as captured in
 // https://github.com/home-assistant-libs/tuya-device-handlers/issues/472#issuecomment-5546380301.
 /** Hands each device's pushed data points to its listeners, subscribing a

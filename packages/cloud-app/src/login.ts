@@ -4,10 +4,11 @@ import { parseResponse } from "./protocol/response.js";
 import type { AppCloudSession } from "./session.js";
 
 // Source: The login requests go to this host whatever the account's region,
-// in https://github.com/tuya/tuya-device-sharing-sdk/commit/ae5e3c4c67eaefffd1be79e39d9f411e43515d13.
+// in https://github.com/tuya/tuya-device-sharing-sdk/commit/3e7706e12c7a0d5b61e70340a7a7ae83c675b67e.
 const LOGIN_ORIGIN = "https://apigw.iotbing.com";
 // Source: The QR code encodes this text and the token, in
-// https://github.com/home-assistant/core/commit/b553bb71e67ae979b4a5afcf7c6296b046d410f1.
+// https://github.com/home-assistant/core/commit/82e1ed43f85b3254c51e7a8200ece159019743ab
+// (https://github.com/home-assistant/core/pull/109155).
 const QR_CODE_PREFIX = "tuyaSmart--qrLogin?token=";
 // Source: The cloud answers a poll for an expired QR code with this code, in
 // https://github.com/home-assistant/core/issues/140855.
