@@ -11,7 +11,11 @@ import {
 } from "@open-tuya/simulators";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createLocalTuyaClient, LocalTuyaClient } from "../client.js";
-import { openConnection } from "../connection.js";
+import {
+  type ConnectionListeners,
+  openConnection,
+  type TuyaConnection,
+} from "../connection.js";
 import { TuyaDiscovery } from "../discovery/discovery.js";
 import {
   V33_QUERY_ERROR,
@@ -19,6 +23,7 @@ import {
 } from "../protocol/__tests__/fixtures/capturedFrames.js";
 import { LOCAL_KEY } from "../protocol/__tests__/fixtures/computedFrames.js";
 import { COMMANDS } from "../protocol/commands.js";
+import type { ReceivedTuyaFrame } from "../protocol/frame.js";
 import { until, useFakeTimers } from "./clock.js";
 import { type RawDevice, startRawDevice } from "./mocks/rawDevice.js";
 
@@ -409,6 +414,36 @@ describe.each(GATEWAY_VERSIONS)("a gateway on %s", (version) => {
     });
   });
 
+  it("stops reading a closed device after a reconnect, and stops asking which are online once none is open", async () => {
+    useFakeTimers();
+    const device = await startGateway();
+    const { client } = connect(device.port, version);
+    const lamp = client.createClient("lamp");
+    await lamp.readDataPoints();
+    await lamp.close();
+
+    device.disconnect();
+    await until(() => !client.connected);
+    const since = device.received.length;
+    await vi.advanceTimersByTimeAsync(5000);
+    await until(() =>
+      device.received
+        .slice(since)
+        .some(
+          (frame) =>
+            frame.command === COMMANDS.DP_QUERY ||
+            frame.command === COMMANDS.DP_QUERY_NEW,
+        ),
+    );
+    await vi.advanceTimersByTimeAsync(30_000);
+
+    const after = device.received.slice(since);
+    expect(after.filter((frame) => frame.payload.includes("lamp"))).toEqual([]);
+    expect(
+      after.filter((frame) => frame.command === COMMANDS.LAN_EXT_STREAM),
+    ).toEqual([]);
+  });
+
   it(
     version === "3.3"
       ? "takes each device behind it as connected while it is, as a 3.3 gateway reports none offline"
@@ -684,6 +719,56 @@ describe.each(["3.2", "3.3"] as const)(
     });
   },
 );
+
+describe("a read by writing null on 3.3", () => {
+  function frame(command: number, payload: string): ReceivedTuyaFrame {
+    return {
+      sequenceNumber: 0,
+      command,
+      returnCode: 0,
+      payload: Buffer.from(payload),
+    };
+  }
+
+  it("waits for its ack after the STATUS, so the next write does not take it", async () => {
+    const sent: number[] = [];
+    let listeners: ConnectionListeners | undefined;
+    const client = new LocalTuyaClient(
+      async (_host, connectionListeners) => {
+        listeners = connectionListeners;
+        return {
+          send: async (command: number) => {
+            sent.push(command);
+          },
+          close: async () => {},
+        } as unknown as TuyaConnection;
+      },
+      {
+        version: "3.3",
+        deviceId: DEVICE_ID,
+        host: "127.0.0.1",
+        readByWritingNull: ["1"],
+      },
+    );
+    cleanups.push(() => client.close());
+    // The read the client makes once connected.
+    await until(() => sent.length === 1);
+    let written = false;
+    const writing = client.writeDataPoints({ "1": false }).then(() => {
+      written = true;
+    });
+
+    listeners?.onFrame(frame(COMMANDS.STATUS, '{"dps":{"1":true}}'));
+    listeners?.onFrame(frame(COMMANDS.CONTROL, ""));
+    await until(() => sent.length === 2);
+    await new Promise((resolve) => setImmediate(resolve));
+
+    expect(written).toBe(false);
+    listeners?.onFrame(frame(COMMANDS.CONTROL, ""));
+    await writing;
+    expect(sent).toEqual([COMMANDS.CONTROL, COMMANDS.CONTROL]);
+  });
+});
 
 describe("readByWritingNull", () => {
   it.each(["3.1", "3.4", "3.5"] as const)(

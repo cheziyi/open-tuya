@@ -104,6 +104,10 @@ interface RequestOptions {
 interface PendingRequest {
   command: number;
   replyCommand?: number;
+  /** Whether the ack to a request with a `replyCommand` has come. */
+  acked?: boolean;
+  /** The reply to a request with a `replyCommand`, held until its ack. */
+  reply?: ReceivedTuyaFrame;
   /** The device behind the gateway the request is for. */
   nodeId?: string;
   settle: (frame: ReceivedTuyaFrame) => void;
@@ -195,8 +199,9 @@ export class LocalTuyaClient implements TuyaClient {
    * device answers with an error, such as "json obj data unvalid" from a
    * device with nothing to report yet, and `REQUEST_TIMED_OUT` when it does
    * not answer within 5 s. With `readByWritingNull`, it resolves with the
-   * first STATUS the device sends, which also goes to the `onDataPoints`
-   * listeners, and times out when the device has none of the data points. */
+   * first STATUS the device sends, once the device has acked the write too.
+   * The STATUS also goes to the `onDataPoints` listeners. It times out when
+   * the device has none of the data points. */
   async readDataPoints(): Promise<DataPoints> {
     const reply = this.nullRead
       ? await this.request(
@@ -262,9 +267,7 @@ export class LocalTuyaClient implements TuyaClient {
           this.subDeviceListeners.set(nodeId, listeners);
         }
         listeners.add(listener);
-        return () => {
-          listeners.delete(listener);
-        };
+        return () => this.unsubscribe(nodeId, listener);
       },
     });
     if (this.version !== "3.3" && !this.closed) {
@@ -364,6 +367,23 @@ export class LocalTuyaClient implements TuyaClient {
       heard !== this.failedHost
       ? heard
       : this.connectedHost;
+  }
+
+  // A closed device's node ID leaves the map, so a reconnect reads only the
+  // devices still open, and the status query stops with the last of them.
+  private unsubscribe(
+    nodeId: string,
+    listener: (dataPoints: DataPoints) => void,
+  ): void {
+    const listeners = this.subDeviceListeners.get(nodeId);
+    listeners?.delete(listener);
+    if (listeners?.size === 0) {
+      this.subDeviceListeners.delete(nodeId);
+    }
+    if (this.subDeviceListeners.size === 0) {
+      clearInterval(this.statusTimer);
+      this.statusTimer = undefined;
+    }
   }
 
   private gatewayVersion(): GatewayProtocolVersion {
@@ -498,13 +518,18 @@ export class LocalTuyaClient implements TuyaClient {
     const report = parseReport(frame.payload);
     const pending = this.pending;
     // The ack to a read by writing null: the data points come in a STATUS,
-    // before it or after it.
+    // before it or after it. The read waits for both, so an ack that comes
+    // late is not taken for the next request's.
     if (
       pending?.replyCommand !== undefined &&
       frame.command === pending.command
     ) {
       if (frame.payload.length > 0) {
         pending.fail(rejected(frame));
+      } else if (pending.reply) {
+        pending.settle(pending.reply);
+      } else {
+        pending.acked = true;
       }
       return;
     }
@@ -513,8 +538,16 @@ export class LocalTuyaClient implements TuyaClient {
       frame.command === (pending.replyCommand ?? pending.command) &&
       (report?.nodeId === undefined || report.nodeId === pending.nodeId)
     ) {
-      pending.settle(frame);
-      if (pending.replyCommand === undefined || !report) {
+      if (pending.replyCommand === undefined) {
+        pending.settle(frame);
+        return;
+      }
+      if (pending.acked) {
+        pending.settle(frame);
+      } else {
+        pending.reply ??= frame;
+      }
+      if (!report) {
         return;
       }
     }

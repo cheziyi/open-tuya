@@ -323,7 +323,7 @@ none of them ([tinytuya#31](https://github.com/jasonacox/tinytuya/issues/31#issu
 | Not from the catalog | An entry lists every data point of the device, a memory card's format among them |
 | On 3.2 and 3.3 alone | The captures show those. On 3.4, one shows a device answer tinytuya's 3.3 body ([tinytuya#597](https://github.com/jasonacox/tinytuya/issues/597)) and others none ([tinytuya#589](https://github.com/jasonacox/tinytuya/issues/589)); no source shows a 3.5 device read so |
 | `CONTROL` with the write's own body, each value null | tuyapi sends it ([`fc0eb59`](https://github.com/codetheweb/tuyapi/commit/fc0eb599444ff7d129ddd3e76fbad3e5bb2c16a8)), and a 3.3 device answered it ([TuyaAPI/cli#109](https://github.com/TuyaAPI/cli/issues/109#issuecomment-767903303)). tinytuya sends `CONTROL_NEW`, which 3.2 and 3.3 devices also answer |
-| The read resolves with the first `STATUS`, whether it comes before the ack or after it, and the `STATUS` goes to the listeners too | A 3.3 device sends it first, a 3.2 device after (the captures above). Any `STATUS` holds the device's values, so one that crosses the read loses nothing |
+| The read resolves with the first `STATUS` once its ack has come too, in either order, and the `STATUS` goes to the listeners as it arrives | A 3.3 device sent the `STATUS` first and a 3.2 device after (the captures above). An ack the read did not wait for would come in after the next request went out, and resolve that request. Any `STATUS` holds the device's values, so one that crosses the read loses nothing |
 | No `STATUS` within 5 s rejects with `REQUEST_TIMED_OUT` | The device has none of the data points named |
 
 ## Received frames
