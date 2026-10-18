@@ -36,8 +36,8 @@ import { SubDeviceTuyaClient } from "./subDevice.js";
 const REPLY_TIMEOUT_IN_MS = 5000;
 const FIRST_RECONNECT_DELAY_IN_MS = 5000;
 const MAX_RECONNECT_DELAY_IN_MS = 60_000;
-// How often a 3.4 or 3.5 gateway is asked which devices behind it are online:
-// see DESIGN.md#gateways.
+// How often a gateway is asked which devices behind it are online: see
+// DESIGN.md#gateways.
 const SUB_DEVICE_STATUS_INTERVAL_IN_MS = 30_000;
 // The range of the source ID a write carries: see DESIGN.md#client.
 const MIN_SOURCE_ID = 1000;
@@ -250,9 +250,9 @@ export class LocalTuyaClient implements TuyaClient {
 
   /** A client for the device behind this gateway with `nodeId`, reached over
    * this client's connection, under its local key. It reads the device once
-   * connected, and after each reconnect. On 3.4 and 3.5, it asks the gateway
-   * every 30 s which devices behind it are online. It throws a `TypeError` on
-   * 3.1 and 3.2, as no source shows how a gateway of either reaches the
+   * connected, and after each reconnect. While a device behind it is open,
+   * it asks the gateway every 30 s which are online. It throws a `TypeError`
+   * on 3.1 and 3.2, as no source shows how a gateway of either reaches the
    * devices behind it. */
   createClient(nodeId: string): SubDeviceTuyaClient {
     this.gatewayVersion();
@@ -270,7 +270,7 @@ export class LocalTuyaClient implements TuyaClient {
         return () => this.unsubscribe(nodeId, listener);
       },
     });
-    if (this.version !== "3.3" && !this.closed) {
+    if (!this.closed) {
       this.statusTimer ??= setInterval(
         () => this.querySubDeviceStatus(),
         SUB_DEVICE_STATUS_INTERVAL_IN_MS,
@@ -396,10 +396,7 @@ export class LocalTuyaClient implements TuyaClient {
   }
 
   private async readSubDevice(nodeId: string): Promise<DataPoints> {
-    const reply = await this.request(
-      buildSubDeviceQuery(this.gatewayVersion(), nodeId, Date.now() / 1000),
-      { nodeId },
-    );
+    const reply = await this.request(buildSubDeviceQuery(nodeId), { nodeId });
     const dataPoints =
       reply.returnCode === 0 ? parseDataPoints(reply.payload) : undefined;
     if (!dataPoints) {

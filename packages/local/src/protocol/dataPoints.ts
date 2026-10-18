@@ -107,32 +107,24 @@ export function buildNullRead(
   };
 }
 
-// Source: A gateway takes a read of a device behind it as DP_QUERY
-// {"t":…,"cid":…} on 3.3, in
-// https://github.com/jasonacox/tinytuya/commit/1312824e486159c1e6da3229e44a0633c0533669
-// and https://github.com/xZetsubou/hass-localtuya/commit/3b726e005dad32718c6dbf9d4fbd43c4885be900,
-// and as DP_QUERY_NEW {"cid":…} on 3.4 and 3.5, in
+// Source: A gateway takes a read of a device behind it as DP_QUERY_NEW
+// {"cid":…}, on 3.4 and 3.5 in
 // https://github.com/jasonacox/tinytuya/commit/d59fdf9546969d0cb57faede60b82424c09d4a7b,
-// as the official app sends it in
-// https://github.com/jasonacox/tinytuya/issues/302: see DESIGN.md#gateways.
+// and a 3.3 gateway answered one, captured in
+// https://github.com/jasonacox/tinytuya/issues/302#issuecomment-1474957230:
+// see DESIGN.md#gateways.
 /** Builds the request that reads the data points of the device behind a
  * gateway with `nodeId`. */
-export function buildSubDeviceQuery(
-  version: GatewayProtocolVersion,
-  nodeId: string,
-  timeInSeconds: number,
-): DataPointRequest {
-  return version === "3.3"
-    ? {
-        command: COMMANDS.DP_QUERY,
-        plaintext: json({ cid: nodeId, t: Math.floor(timeInSeconds) }),
-      }
-    : { command: COMMANDS.DP_QUERY_NEW, plaintext: json({ cid: nodeId }) };
+export function buildSubDeviceQuery(nodeId: string): DataPointRequest {
+  return { command: COMMANDS.DP_QUERY_NEW, plaintext: json({ cid: nodeId }) };
 }
 
 // Source: A gateway takes a write to a device behind it as CONTROL
-// {"t":…,"cid":…,"dps":…} on 3.3, with no devId, gwId or uid, in
-// https://github.com/jasonacox/tinytuya/commit/1312824e486159c1e6da3229e44a0633c0533669,
+// {"t":…,"cid":…,"dps":…} on 3.3, in
+// https://github.com/jasonacox/tinytuya/commit/d59fdf9546969d0cb57faede60b82424c09d4a7b,
+// with no devId, gwId or uid, as
+// https://github.com/jasonacox/tinytuya/commit/1312824e486159c1e6da3229e44a0633c0533669
+// left them out, in
 // https://github.com/codetheweb/tuyapi/commit/43b2929447b237265b930e172550fbd47fd5acd6
 // and https://github.com/xZetsubou/hass-localtuya/commit/3b726e005dad32718c6dbf9d4fbd43c4885be900,
 // a capture in https://github.com/xZetsubou/hass-localtuya/issues/37 showing
@@ -209,15 +201,15 @@ export function parseDataPoints(payload: Uint8Array): DataPoints | undefined {
   return parseReport(payload)?.dataPoints;
 }
 
+function isV3x(version: ProtocolVersion): boolean {
+  return version === "3.1" || version === "3.2" || version === "3.3";
+}
+
 // Source: A device does not answer a body with spaces between its tokens, in
 // https://github.com/clach04/python-tuya/commit/25d8b0846d9ca8857c99f9ff4c93a11fe64b9674.
 // JSON.stringify writes none, and keeps the spaces inside a string value.
 // Each body above lists its keys in alphabetical order: see
 // DESIGN.md#data-points.
-function isV3x(version: ProtocolVersion): boolean {
-  return version === "3.1" || version === "3.2" || version === "3.3";
-}
-
 function json(value: unknown): Buffer {
   return Buffer.from(JSON.stringify(value));
 }

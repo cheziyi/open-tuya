@@ -391,7 +391,7 @@ describe.each(GATEWAY_VERSIONS)("a gateway on %s", (version) => {
     await until(() => sensorReports.length > 0 && device.ready);
 
     device.send(
-      version === "3.3" ? COMMANDS.DP_QUERY : COMMANDS.DP_QUERY_NEW,
+      COMMANDS.DP_QUERY_NEW,
       Buffer.from('{"dps":{"1":30},"cid":"sensor"}'),
     );
     await until(() => sensorReports.length > 1);
@@ -444,25 +444,16 @@ describe.each(GATEWAY_VERSIONS)("a gateway on %s", (version) => {
     ).toEqual([]);
   });
 
-  it(
-    version === "3.3"
-      ? "takes each device behind it as connected while it is, as a 3.3 gateway reports none offline"
-      : "takes a device the gateway reports offline as not connected",
-    async () => {
-      const device = await startGateway();
-      device.offline.add("sensor");
-      const { client } = connect(device.port, version);
-      const lamp = client.createClient("lamp");
-      const sensor = client.createClient("sensor");
-      await until(() => client.connected);
-      if (version !== "3.3") {
-        await until(() => !sensor.connected);
-      }
+  it("takes a device the gateway reports offline as not connected", async () => {
+    const device = await startGateway();
+    device.offline.add("sensor");
+    const { client } = connect(device.port, version);
+    const lamp = client.createClient("lamp");
+    const sensor = client.createClient("sensor");
+    await until(() => client.connected && !sensor.connected);
 
-      expect(lamp.connected).toBe(true);
-      expect(sensor.connected).toBe(version === "3.3");
-    },
-  );
+    expect(lamp.connected).toBe(true);
+  });
 });
 
 describe.each(BROADCAST_VERSIONS)(

@@ -131,9 +131,8 @@ await using client = await createTuyaClient({
 
 One gateway client serves every device behind it: create it once and close it
 yourself, as `createTuyaClient` leaves it open. The devices behind it follow
-it to a new address. On 3.4 and 3.5 it asks the
-gateway every 30 s which devices are online, so a device the gateway reports
-offline goes to the next route.
+it to a new address. It asks the gateway every 30 s which devices are online,
+so a device the gateway reports offline goes to the next route.
 
 `client.entry` is the catalog entry the controls are named by, the best of
 `client.entries`. Save its `source.file` and pass the entry next time, so the
