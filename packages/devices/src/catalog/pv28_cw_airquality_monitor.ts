@@ -43,7 +43,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "alarm", value: true },
           { raw: "normal", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       alarmSwitch: { dataPoint: "13", kind: "switch" },
       powerState: {
@@ -145,7 +147,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "alarm", value: true },
           { raw: "normal", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       screenTimeout: { dataPoint: "108", kind: "switch" },
       timeoutPeriodInSeconds: {

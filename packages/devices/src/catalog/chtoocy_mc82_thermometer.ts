@@ -40,7 +40,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "cancel", value: false },
           { raw: "alarm", value: true },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       maximumTemperatureInC: {
         dataPoint: "10",

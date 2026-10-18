@@ -124,7 +124,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "mormal", value: false },
           { raw: "alarm", value: true },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       yellowWarningThresholdInPciPerL: {
         dataPoint: "109",

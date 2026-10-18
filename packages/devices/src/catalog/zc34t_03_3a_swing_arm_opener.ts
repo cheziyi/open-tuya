@@ -43,7 +43,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "rain", value: true },
           { raw: "fine", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       fault: {
         dataPoint: "105",

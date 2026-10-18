@@ -99,7 +99,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "normal", value: false },
           { raw: "alarm", value: true },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       alarmInformation: { dataPoint: "33", kind: "sensor", readOnly: true },
       factoryReset: { dataPoint: "34", kind: "button" },

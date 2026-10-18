@@ -53,7 +53,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "on", value: true },
           { raw: "off", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       on: { dataPoint: "1", kind: "switch" },
       speed: {

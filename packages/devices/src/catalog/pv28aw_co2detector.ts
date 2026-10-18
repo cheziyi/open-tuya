@@ -29,7 +29,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "alarm", value: true },
           { raw: "normal", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       carbonDioxideInPpm: {
         dataPoint: "2",
@@ -56,7 +58,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "normal", value: false },
           { raw: "charge", value: true },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       batteryInPercent: {
         dataPoint: "15",

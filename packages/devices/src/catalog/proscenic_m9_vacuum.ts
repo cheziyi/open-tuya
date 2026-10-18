@@ -263,7 +263,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "installed", value: true },
           { raw: "none", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       cleaningMode: {
         dataPoint: "41",

@@ -82,7 +82,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "strong_power", value: true },
           { raw: "battery_power", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       recordingOperation: {
         dataPoint: "102",
@@ -102,7 +104,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "no_voice", value: false },
           { raw: "have_voice", value: true },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       foodLevel: {
         dataPoint: "108",
@@ -112,7 +116,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "full", value: false },
           { raw: "lack", value: true },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       recording: {
         dataPoint: "109",
@@ -122,7 +128,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "record_start", value: true },
           { raw: "record_end", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       recordings: { dataPoint: "110", kind: "sensor", readOnly: true },
       logging: { dataPoint: "112", kind: "switch" },

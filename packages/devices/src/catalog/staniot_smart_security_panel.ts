@@ -115,7 +115,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "normal", value: false },
           { raw: "alarm", value: true },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       language: {
         dataPoint: "40",

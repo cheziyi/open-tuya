@@ -456,7 +456,11 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         measures: "connectivity",
         readOnly: true,
-        values: [{ raw: 536870912, value: true }],
+        values: [
+          { raw: 536870912, value: true },
+          { raw: 0, value: false },
+        ],
+        otherwise: true,
       },
       alertStatus: { dataPoint: "132", kind: "sensor", readOnly: true },
       probe2LowBatteryAlert: {

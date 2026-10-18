@@ -26,7 +26,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "presence", value: true },
           { raw: "none", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       sensitivity: { dataPoint: "106", kind: "number", min: 1, max: 10 },
       minimumDistanceInM: {

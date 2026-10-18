@@ -257,7 +257,13 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
       },
-      rainSensorPresent1: { dataPoint: "116", kind: "sensor", readOnly: true },
+      rainSensorPresent1: {
+        dataPoint: "116",
+        kind: "sensor",
+        readOnly: true,
+        values: [{ raw: "", value: false }],
+        otherwise: true,
+      },
       tHSoilSensorPowerOk1: {
         dataPoint: "117",
         kind: "sensor",

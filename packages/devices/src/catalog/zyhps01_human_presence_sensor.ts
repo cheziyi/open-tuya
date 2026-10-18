@@ -29,7 +29,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "presence", value: true },
           { raw: "none", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       distanceInCm: {
         dataPoint: "102",

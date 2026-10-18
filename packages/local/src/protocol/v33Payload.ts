@@ -8,15 +8,21 @@ import {
 // Source: AES-128-ECB, the ciphertext sent raw rather than in base64, and the
 // header in front of it in the clear are from
 // https://github.com/codetheweb/tuyapi/commit/ab5c85e568d992f13107dbf684e6bec6df9bb7db.
+// Source: An empty payload, as a heartbeat's, goes as no bytes, in
+// https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/45ad4893c18bbf308bd44ab286918d49833f2ed6:
+// see DESIGN.md#protocol-33.
 /** Encrypts a payload under the local key. On `CONTROL` and `CONTROL_NEW`,
  * the version header goes in front of the ciphertext in the clear, holding
- * `fields`, which default to zeros. */
+ * `fields`, which default to zeros. An empty payload comes back empty. */
 export function encryptV33Payload(
   command: number,
   plaintext: Uint8Array,
   localKey: Uint8Array,
   fields?: VersionHeaderFields,
 ): Buffer {
+  if (plaintext.length === 0) {
+    return Buffer.alloc(0);
+  }
   return addVersionHeader(
     "3.3",
     command,

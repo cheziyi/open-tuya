@@ -65,7 +65,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "on", value: false },
           { raw: "off", value: true },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       fault: {
         dataPoint: "13",

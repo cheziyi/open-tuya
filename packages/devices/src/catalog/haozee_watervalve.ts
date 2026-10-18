@@ -93,7 +93,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "on", value: true },
           { raw: "off", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       lowFlow: {
         dataPoint: "127",
@@ -103,7 +105,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "on", value: true },
           { raw: "off", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
     },
   },

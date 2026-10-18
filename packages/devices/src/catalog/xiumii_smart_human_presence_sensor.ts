@@ -27,7 +27,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "peaceful", value: true },
           { raw: "none", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       rangeInCm: {
         dataPoint: "4",

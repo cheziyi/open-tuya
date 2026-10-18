@@ -106,7 +106,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "close", value: false },
           { raw: "open", value: true },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       temperatureCalibrationInC: {
         dataPoint: "27",

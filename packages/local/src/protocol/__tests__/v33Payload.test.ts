@@ -31,6 +31,11 @@ describe("encryptV33Payload", () => {
       Buffer.concat([V33_HEADER, TUYAPI_CIPHERTEXT]),
     );
   });
+  it("sends an empty payload, as a heartbeat's, as no bytes", () => {
+    expect(
+      encryptV33Payload(COMMANDS.HEART_BEAT, Buffer.alloc(0), TUYAPI_KEY),
+    ).toHaveLength(0);
+  });
 });
 
 describe("decryptV33Payload", () => {

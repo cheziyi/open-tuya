@@ -141,7 +141,9 @@ const entry: TuyaDeviceEntry = {
           { raw: "Electricity_Shortage", value: true },
           { raw: "Electricity_Shortage_Alarm", value: true },
           { raw: "Electricity_Reset", value: true },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       faultReason: { dataPoint: "110", kind: "sensor", readOnly: true },
       lowEnergyAlarm: {

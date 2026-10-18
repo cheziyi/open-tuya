@@ -26,7 +26,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "exist", value: true },
           { raw: "nobody", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       presenceState: {
         dataPoint: "1",

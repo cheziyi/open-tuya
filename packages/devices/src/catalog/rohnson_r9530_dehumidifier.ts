@@ -107,7 +107,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "off", value: false },
           { raw: "on", value: true },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       dryAfterOff: { dataPoint: "101", kind: "switch" },
       dryingTimeRemainingInMinutes: {

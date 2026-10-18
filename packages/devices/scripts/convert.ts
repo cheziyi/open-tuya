@@ -976,6 +976,9 @@ function convertDataPoint(
   let whenAbsent: ControlRule | undefined;
   let range = dp.range;
   for (const rule of dp.mapping ?? []) {
+    if (neverMatches(dp, rule)) {
+      continue;
+    }
     const converted = convertRule(entity, dp, rule, trail);
     if ("dps_val" in rule) {
       const { value, dependsOn, redirect, mirror } = converted;
@@ -1040,6 +1043,11 @@ function convertDataPoint(
   if (booleanMask) {
     values.push({ raw: 0, value: false }, { raw: 1, value: true });
     own.otherwise = true;
+  } else if (entity.entity === "binary_sensor" && dp.name === "sensor") {
+    readAsTruth(dp, values, own);
+    if (whenAbsent?.value !== undefined) {
+      whenAbsent.value = truthy(whenAbsent.value);
+    }
   }
   return {
     target: {
@@ -1058,6 +1066,57 @@ function convertDataPoint(
     },
     booleanMask,
   };
+}
+
+// Source: A bitfield's rule matches a raw value it shares a bit with, and
+// one whose dps_val is not a number matches none, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L558-L566.
+function neverMatches(dp: DataPointConfig, rule: MappingRule): boolean {
+  return (
+    dp.type === "bitfield" &&
+    typeof rule.dps_val === "string" &&
+    Number.isNaN(Number(rule.dps_val))
+  );
+}
+
+// A binary sensor is on while its value is truthy, as Python reads it (see
+// BOOLEAN_DATA_POINTS), so each value it gives becomes true or false, and a
+// raw value no rule names reads true, but the type's own falsy value.
+function readAsTruth(
+  dp: DataPointConfig,
+  values: ControlMapping[],
+  own: Partial<ControlTarget>,
+): void {
+  for (const mapping of values) {
+    if (mapping.value !== undefined) {
+      mapping.value = truthy(mapping.value);
+    }
+  }
+  if (own.otherwise !== undefined) {
+    own.otherwise = truthy(own.otherwise);
+    return;
+  }
+  const named = values.map((mapping) => mapping.raw);
+  if (
+    dp.type === "boolean" &&
+    (values.length === 0 || (named.includes(true) && named.includes(false)))
+  ) {
+    return;
+  }
+  const falsy =
+    dp.mask !== undefined || NUMBER_TYPES.has(dp.type)
+      ? 0
+      : dp.type === "boolean"
+        ? false
+        : "";
+  if (!named.includes(falsy)) {
+    values.push({ raw: falsy, value: false });
+  }
+  own.otherwise = true;
+}
+
+function truthy(value: ControlValue): boolean {
+  return value !== false && value !== 0 && value !== "";
 }
 
 // What a mapping rule gives, but its raw value and its conversion of numbers.
