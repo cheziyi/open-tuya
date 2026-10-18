@@ -37,7 +37,7 @@
     "@open-tuya/core": "workspace:^"
   },
   "engines": {
-    "node": ">=22.19.0"
+    "node": ">=22.12.0"
   },
   "devDependencies": {
     "yaml": "^2.9.1"
