@@ -28,7 +28,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 100,
       },
-      voltageAInV: {
+      voltagePhaseAInV: {
         dataPoint: "6",
         mask: "FFFF0000000000000000",
         kind: "sensor",
@@ -37,7 +37,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      currentAInA: {
+      currentPhaseAInA: {
         dataPoint: "6",
         mask: "0000FFFFFF0000000000",
         kind: "sensor",
@@ -46,7 +46,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      powerAInW: {
+      powerPhaseAInW: {
         dataPoint: "6",
         mask: "0000000000FFFFFF0000",
         kind: "sensor",
@@ -54,7 +54,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "W",
       },
-      voltageBInV: {
+      voltagePhaseBInV: {
         dataPoint: "7",
         mask: "FFFF0000000000000000",
         kind: "sensor",
@@ -63,7 +63,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      currentBInA: {
+      currentPhaseBInA: {
         dataPoint: "7",
         mask: "0000FFFFFF0000000000",
         kind: "sensor",
@@ -72,7 +72,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      powerBInW: {
+      powerPhaseBInW: {
         dataPoint: "7",
         mask: "0000000000FFFFFF0000",
         kind: "sensor",
@@ -80,7 +80,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "W",
       },
-      voltageCInV: {
+      voltagePhaseCInV: {
         dataPoint: "8",
         mask: "FFFF0000000000000000",
         kind: "sensor",
@@ -89,7 +89,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      currentCInA: {
+      currentPhaseCInA: {
         dataPoint: "8",
         mask: "0000FFFFFF0000000000",
         kind: "sensor",
@@ -98,7 +98,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      powerCInW: {
+      powerPhaseCInW: {
         dataPoint: "8",
         mask: "0000000000FFFFFF0000",
         kind: "sensor",

@@ -79,7 +79,7 @@ const entry: TuyaDeviceEntry = {
       },
       maybeFanMode: { dataPoint: "5", kind: "text" },
       maybeSwingMode: { dataPoint: "123", kind: "text" },
-      maybeEcoTemp: { dataPoint: "130", kind: "number" },
+      maybeEcoTemperatureInC: { dataPoint: "130", kind: "number", unit: "C" },
     },
   },
   source: {

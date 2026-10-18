@@ -62,9 +62,10 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       hvacAction: { dataPoint: "3", kind: "sensor", readOnly: true },
-      thermostatSetTemp: {
+      thermostatSetTemperature: {
         dataPoint: "16",
         kind: "number",
+        unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "23",
           conditions: [{ when: ["f"], redirect: { dataPoint: "17" } }],

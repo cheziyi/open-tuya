@@ -60,7 +60,7 @@ const entry: TuyaDeviceEntry = {
       alarm: { dataPoint: "105", kind: "switch" },
       status: { dataPoint: "106", kind: "sensor", readOnly: true },
       dryHeatProtect: { dataPoint: "108", kind: "switch" },
-      ch1TimeDelayInSeconds: {
+      channel1TimeDelayInSeconds: {
         dataPoint: "109",
         kind: "number",
         measures: "duration",

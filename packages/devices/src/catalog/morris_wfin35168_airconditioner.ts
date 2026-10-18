@@ -134,7 +134,12 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "comfort" },
         ],
       },
-      tempSetF: { dataPoint: "24", kind: "number" },
+      targetTemperatureInF: {
+        dataPoint: "24",
+        kind: "number",
+        measures: "temperature",
+        unit: "F",
+      },
       maxTargetTemperatureInC: {
         dataPoint: "113",
         kind: "number",

@@ -49,6 +49,9 @@ interface DataPointConfig {
   mask_signed?: boolean;
   endianness?: string;
   format?: FormatField[];
+  /** The type the data point's first declaration gives, set as the file is
+   * read. */
+  specType?: string;
   [key: string]: unknown;
 }
 
@@ -99,6 +102,7 @@ const DATA_POINT_TYPES: ReadonlySet<string> = new Set([
   "hex",
   "json",
   "unixtime",
+  "utf16b64",
 ]);
 const NUMBER_CONVERSIONS = ["scale", "step", "invert", "target_range"];
 const PACKED_TYPES: ReadonlySet<string> = new Set(["base64", "hex"]);
@@ -178,6 +182,13 @@ const COMPOSITE_CONTROLS: Record<string, ControlName> = {
   "climate.target_temp_low": "heatingTargetTemperature",
   "climate.target_temp_high": "coolingTargetTemperature",
   "climate.min_temperature": "minTargetTemperature",
+  "climate.min_temp": "minTargetTemperature",
+  "climate.max_temp": "maxTargetTemperature",
+  "climate.temp_set": "targetTemperature",
+  "climate.temp_current": "currentTemperature",
+  "climate.temp_cur": "currentTemperature",
+  "climate.current_temp": "currentTemperature",
+  "climate.cur_temp": "currentTemperature",
   "climate.max_temperature": "maxTargetTemperature",
   "climate.temperature_unit": "temperatureUnit",
   "climate.preset_mode": "preset",
@@ -400,6 +411,15 @@ export function convertDeviceFile(text: string): Conversion {
   if (reason) {
     return { unsupported: reason };
   }
+  // Source: Each declaration of a data point reads it as its own type, in
+  // https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L408-L428.
+  const specTypes = new Map<string, string>();
+  for (const dp of file.entities.flatMap((entity) => entity.dps)) {
+    if (!specTypes.has(String(dp.id))) {
+      specTypes.set(String(dp.id), dp.type);
+    }
+    dp.specType = specTypes.get(String(dp.id));
+  }
   try {
     return {
       entry: {
@@ -421,17 +441,11 @@ export function convertDeviceFile(text: string): Conversion {
 
 function unsupportedFeature(file: DeviceFile): string | undefined {
   const reasons = new Set<string>();
-  const types = new Map<string, string>();
   for (const entity of file.entities) {
     for (const dp of entity.dps) {
       if (!DATA_POINT_TYPES.has(dp.type)) {
         reasons.add(`\`${dp.type}\`: a data point of that type`);
       }
-      const typed = types.get(String(dp.id));
-      if (typed !== undefined && typed !== dp.type) {
-        reasons.add("one data point given two types");
-      }
-      types.set(String(dp.id), dp.type);
       const reason = unsupportedPacking(entity, dp);
       if (reason) {
         reasons.add(reason);
@@ -562,7 +576,12 @@ function dataPointSpecs(file: DeviceFile): Record<string, TuyaDataPointSpec> {
       if (!dp.optional) {
         required.add(id);
       }
-      specs[id] = { type: dp.type as TuyaDataPointType };
+      const type = dp.type as TuyaDataPointType;
+      const spec = specs[id] ?? { type };
+      specs[id] = spec;
+      if (type !== spec.type && !spec.otherTypes?.includes(type)) {
+        spec.otherTypes = [...(spec.otherTypes ?? []), type];
+      }
     }
   }
   for (const [id, spec] of Object.entries(specs)) {
@@ -632,12 +651,17 @@ function addCompositeControls(
       addFormatControls(component, entity, dp, dp.format);
       continue;
     }
+    const named = splitUnit(dp);
     const base =
-      COMPOSITE_CONTROLS[`${entity.entity}.${dp.name}`] ?? camelCase(dp.name);
+      COMPOSITE_CONTROLS[`${entity.entity}.${named.name}`] ??
+      camelCase(named.name);
     const temperature =
-      /temperature$/i.test(base) && base !== "colorTemperature";
-    const unitFrom = runtimeUnit && temperature ? "temperatureUnit" : undefined;
-    let unit = dp.unit;
+      /temperature$/i.test(base) && !/colorTemperature$/i.test(base);
+    const unitFrom =
+      runtimeUnit && temperature && named.unit === undefined
+        ? "temperatureUnit"
+        : undefined;
+    let unit = dp.unit ?? named.unit;
     if (unit === undefined && temperature && !runtimeUnit) {
       unit = temperatureUnit ?? "C";
     }
@@ -676,8 +700,9 @@ function addFormatControls(
       "FF".repeat(bytes) +
       "00".repeat(length - offset - bytes);
     offset += bytes;
+    // A field tuya-local does not interpret keeps its name as it is.
     const fieldName =
-      COLOR_FIELDS[field.name] ?? camelCase(`color_${field.name}`);
+      COLOR_FIELDS[field.name] ?? camelCase(`color_${field.name}`, false);
     const min = field.range?.min ?? 0;
     const max = field.range?.max ?? 256 ** bytes - 1;
     addControl(
@@ -691,6 +716,7 @@ function addFormatControls(
         id: dp.id,
         name: dp.name,
         type: dp.type,
+        ...(dp.specType !== undefined && { specType: dp.specType }),
         ...(dp.readonly && { readonly: true }),
         range: { min, max },
         mask,
@@ -750,7 +776,14 @@ function addSimpleControls(
     } else if (dp === unitDp && unitName) {
       addControl(component, unitName, dp, entity, {});
     } else {
-      addControl(component, join(base, dp.name), dp, entity, {});
+      const named = splitUnit(dp);
+      addControl(
+        component,
+        join(base, named.name),
+        { ...dp, ...(named.unit !== undefined && { unit: named.unit }) },
+        entity,
+        {},
+      );
     }
   }
 }
@@ -765,7 +798,7 @@ function entityMeasures(entity: EntityConfig): Measure | undefined {
   ) {
     return undefined;
   }
-  const measures = camelCase(entity.class);
+  const measures = camelCase(entity.class, false);
   if (!(MEASURES as readonly string[]).includes(measures)) {
     throw new Error(`Add "${measures}" to MEASURES in src/vocabulary.ts`);
   }
@@ -824,11 +857,15 @@ function addControl(
   options: { unitFrom?: string; kind?: ControlKind; measures?: Measure },
 ): void {
   const { unitFrom } = options;
+  const shortest =
+    unitFrom || dp.unit === undefined ? base : controlName(base, dp.unit);
+  // A name that dropped its unit's word keeps it where another control
+  // already has the shorter name.
   const name = unique(
     component,
-    unitFrom || dp.unit === undefined
-      ? base
-      : `${base}In${unitSuffix(dp.unit)}`,
+    shortest in component && dp.unit !== undefined && !unitFrom
+      ? `${base}In${unitSuffix(dp.unit)}`
+      : shortest,
   );
   const readOnly =
     dp.readonly ||
@@ -954,6 +991,8 @@ function convertDataPoint(
   return {
     target: {
       dataPoint: String(dp.id),
+      ...(dp.specType !== undefined &&
+        dp.type !== dp.specType && { type: dp.type as TuyaDataPointType }),
       ...(masked && { mask: String(dp.mask) }),
       ...(dp.mask_signed && { maskSigned: true as const }),
       ...(dp.endianness === "little" && { littleEndian: true as const }),
@@ -1131,7 +1170,11 @@ function condition(
 function join(base: string, name: string): string {
   const [last = ""] = words(base.replace(/([A-Z])/g, " $1")).slice(-1);
   const pascal = pascalCase(name);
-  if (pascal.toLowerCase().startsWith(last.toLowerCase())) {
+  const [first = ""] = words(pascal.replace(/([A-Z])/g, " $1"));
+  if (pascal.toLowerCase() === base.toLowerCase()) {
+    return base;
+  }
+  if (first.toLowerCase() === last.toLowerCase()) {
     const head = base.slice(0, base.length - last.length);
     return head ? head + pascal : camelCase(name);
   }
@@ -1149,6 +1192,144 @@ function unique(taken: Record<string, unknown>, name: string): string {
   return `${name}${index}`;
 }
 
+// A name carrying its unit after "In", as AGENTS.md#names asks. A name
+// ending in the unit's word, as "time hours" in hours, carries it once; and a
+// unit that is no unit of measure, which a name already ends in, such as "UV
+// index", none. A unit of one letter is never taken from a name, where the
+// letter can be a phase, as "current A".
+function controlName(base: string, unit: string): string {
+  const suffix = unitSuffix(unit);
+  const ending =
+    base.length > suffix.length &&
+    base.endsWith(suffix) &&
+    /[a-z0-9]/.test(base.charAt(base.length - suffix.length - 1));
+  if (base.toLowerCase() === suffix.toLowerCase()) {
+    return base;
+  }
+  if (ending && suffix.length > 1) {
+    return UNIT_SUFFIXES[unit] === undefined
+      ? base
+      : `${base.slice(0, -suffix.length)}In${suffix}`;
+  }
+  return `${base}In${suffix}`;
+}
+
+// Source: tuya-local names some data points for their unit alone, as
+// temp_set_f for a set point in Fahrenheit beside one in the climate's unit,
+// in
+// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/devices/amantii_trdlumina_fireplace.yaml#L18-L76.
+// A data point that declares no unit takes it from its name's last word: F or
+// C on a temperature, cm or mm. See DESIGN.md#catalog.
+function splitUnit(dp: DataPointConfig): { name: string; unit?: string } {
+  const parts = words(dp.name);
+  const last = parts.at(-1)?.toLowerCase();
+  const temperature = parts.some((part) => /^temp(erature)?$/i.test(part));
+  const unit =
+    dp.unit !== undefined || parts.length < 2
+      ? undefined
+      : (last === "f" || last === "c") && temperature
+        ? last.toUpperCase()
+        : last === "cm" || last === "mm"
+          ? last
+          : undefined;
+  if (unit === undefined) {
+    return { name: dp.name };
+  }
+  const rest = parts.slice(0, -1);
+  if (rest.length > 1 && rest.at(-1)?.toLowerCase() === "in") {
+    rest.pop();
+  }
+  return { name: rest.join("_"), unit };
+}
+
+// Words tuya-local abbreviates, in full, as AGENTS.md#names asks: phrases
+// first, where a word means one thing in it and another alone.
+const PHRASES: readonly [readonly string[], readonly string[]][] = [
+  [
+    ["temp", "pwd"],
+    ["temporary", "password"],
+  ],
+  [
+    ["temp", "password"],
+    ["temporary", "password"],
+  ],
+  [
+    ["tmp", "passwd"],
+    ["temporary", "password"],
+  ],
+  [
+    ["sw", "version"],
+    ["software", "version"],
+  ],
+];
+const ABBREVIATIONS: Record<string, string> = {
+  batery: "battery",
+  btn: "button",
+  cfg: "config",
+  cmd: "command",
+  cnt: "count",
+  cur: "current",
+  curr: "current",
+  dev: "device",
+  ele: "electricity",
+  ext: "external",
+  msg: "message",
+  num: "number",
+  passwd: "password",
+  pos: "position",
+  pwd: "password",
+  std: "standard",
+  sw: "switch",
+  sys: "system",
+  temp: "temperature",
+  val: "value",
+};
+// A lone letter after one of these words names a phase, as tuya-local's
+// current_x, voltage_x and power_x take A, B, C or L1 to L3.
+const ELECTRICAL_WORDS: ReadonlySet<string> = new Set([
+  "consumed",
+  "current",
+  "energy",
+  "factor",
+  "power",
+  "produced",
+  "voltage",
+]);
+const PHASES: ReadonlySet<string> = new Set(["a", "b", "c", "l1", "l2", "l3"]);
+
+function normalizeWords(parts: readonly string[]): string[] {
+  const lower = parts.map((part) => part.toLowerCase());
+  const phrased: string[] = [];
+  for (let index = 0; index < lower.length; ) {
+    const phrase = PHRASES.find(([from]) =>
+      from.every((word, offset) => lower[index + offset] === word),
+    );
+    if (phrase) {
+      phrased.push(...phrase[1]);
+      index += phrase[0].length;
+    } else {
+      phrased.push(lower[index] ?? "");
+      index++;
+    }
+  }
+  const result: string[] = [];
+  for (const [index, word] of phrased.entries()) {
+    const channel = /^ch(\d+)$/.exec(word);
+    const full = channel
+      ? `channel${channel[1]}`
+      : (ABBREVIATIONS[word] ?? word);
+    if (
+      PHASES.has(full) &&
+      ELECTRICAL_WORDS.has(result.at(-1) ?? "") &&
+      phrased[index + 1] !== "phase"
+    ) {
+      result.push("phase");
+    }
+    result.push(full);
+  }
+  return result;
+}
+
 function unitSuffix(unit: string): string {
   return (
     UNIT_SUFFIXES[unit] ??
@@ -1162,6 +1343,7 @@ function unitSuffix(unit: string): string {
         .replace(/[µμ]/g, "u")
         .replaceAll("²", "2")
         .replaceAll("³", "3"),
+      false,
     )
   );
 }
@@ -1170,13 +1352,20 @@ function words(text: string): string[] {
   return text.split(/[^\p{L}\p{N}]+/u).filter(Boolean);
 }
 
-function camelCase(text: string): string {
-  const [first = "", ...rest] = words(text);
+// A name's words, abbreviations in full and phases named, unless `normalize`
+// is false.
+function nameWords(text: string, normalize: boolean): string[] {
+  const parts = words(text);
+  return normalize ? normalizeWords(parts) : parts;
+}
+
+function camelCase(text: string, normalize = true): string {
+  const [first = "", ...rest] = nameWords(text, normalize);
   return first.toLowerCase() + rest.map(capitalize).join("");
 }
 
-function pascalCase(text: string): string {
-  return words(text).map(capitalize).join("");
+function pascalCase(text: string, normalize = true): string {
+  return nameWords(text, normalize).map(capitalize).join("");
 }
 
 function capitalize(word: string): string {

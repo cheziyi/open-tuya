@@ -70,7 +70,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kWh",
         scale: 100,
       },
-      voltageAInV: {
+      voltagePhaseAInV: {
         dataPoint: "6",
         mask: "FFFF000000000000",
         kind: "sensor",
@@ -86,14 +86,14 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 10,
       },
-      voltageAInstant: {
+      voltagePhaseAInstant: {
         dataPoint: "113",
         mask: "FFFF00000000000000000000000000",
         kind: "sensor",
         readOnly: true,
         scale: 10,
       },
-      currentAInA: {
+      currentPhaseAInA: {
         dataPoint: "6",
         mask: "0000FFFFFF000000",
         kind: "sensor",
@@ -109,14 +109,14 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 1000,
       },
-      currentAInstant: {
+      currentPhaseAInstant: {
         dataPoint: "113",
         mask: "0000FFFFFF00000000000000000000",
         kind: "sensor",
         readOnly: true,
         scale: 1000,
       },
-      powerAInKw: {
+      powerPhaseAInKw: {
         dataPoint: "6",
         mask: "0000000000FFFFFF",
         kind: "sensor",
@@ -132,14 +132,14 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 1000,
       },
-      powerAInstant: {
+      powerPhaseAInstant: {
         dataPoint: "113",
         mask: "0000000000FFFFFF00000000000000",
         kind: "sensor",
         readOnly: true,
         scale: 1000,
       },
-      voltageBInV: {
+      voltagePhaseBInV: {
         dataPoint: "7",
         mask: "FFFF000000000000",
         kind: "sensor",
@@ -155,14 +155,14 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 10,
       },
-      voltageBInstant: {
+      voltagePhaseBInstant: {
         dataPoint: "114",
         mask: "0000FFFFFF00000000000000000000",
         kind: "sensor",
         readOnly: true,
         scale: 1000,
       },
-      currentBInA: {
+      currentPhaseBInA: {
         dataPoint: "7",
         mask: "0000FFFFFF000000",
         kind: "sensor",
@@ -178,14 +178,14 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 1000,
       },
-      currentBInstant: {
+      currentPhaseBInstant: {
         dataPoint: "114",
         mask: "0000FFFFFF00000000000000000000",
         kind: "sensor",
         readOnly: true,
         scale: 1000,
       },
-      powerBInKw: {
+      powerPhaseBInKw: {
         dataPoint: "7",
         mask: "0000000000FFFFFF",
         kind: "sensor",
@@ -201,14 +201,14 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 1000,
       },
-      powerBInstant: {
+      powerPhaseBInstant: {
         dataPoint: "114",
         mask: "0000000000FFFFFF00000000000000",
         kind: "sensor",
         readOnly: true,
         scale: 1000,
       },
-      voltageCInV: {
+      voltagePhaseCInV: {
         dataPoint: "8",
         mask: "FFFF000000000000",
         kind: "sensor",
@@ -224,14 +224,14 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 10,
       },
-      voltageCInstant: {
+      voltagePhaseCInstant: {
         dataPoint: "115",
         mask: "0000FFFFFF00000000000000000000",
         kind: "sensor",
         readOnly: true,
         scale: 1000,
       },
-      currentCInA: {
+      currentPhaseCInA: {
         dataPoint: "8",
         mask: "0000FFFFFF000000",
         kind: "sensor",
@@ -247,14 +247,14 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 1000,
       },
-      currentCInstant: {
+      currentPhaseCInstant: {
         dataPoint: "115",
         mask: "0000FFFFFF00000000000000000000",
         kind: "sensor",
         readOnly: true,
         scale: 1000,
       },
-      powerCInKw: {
+      powerPhaseCInKw: {
         dataPoint: "8",
         mask: "0000000000FFFFFF",
         kind: "sensor",
@@ -270,7 +270,7 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 1000,
       },
-      powerCInstant: {
+      powerPhaseCInstant: {
         dataPoint: "115",
         mask: "0000000000FFFFFF00000000000000",
         kind: "sensor",
@@ -412,7 +412,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kvar",
         scale: 10,
       },
-      reactivePowerAInKvar: {
+      reactivePowerPhaseAInKvar: {
         dataPoint: "113",
         mask: "0000000000000000FFFFFF00000000",
         kind: "sensor",
@@ -421,7 +421,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kvar",
         scale: 10000,
       },
-      powerFactorA: {
+      powerFactorPhaseA: {
         dataPoint: "113",
         mask: "0000000000000000000000FFFF0000",
         kind: "sensor",
@@ -438,7 +438,7 @@ const entry: TuyaDeviceEntry = {
         unit: "Hz",
         scale: 1000,
       },
-      reactivePowerBInKvar: {
+      reactivePowerPhaseBInKvar: {
         dataPoint: "114",
         mask: "0000000000000000FFFFFF00000000",
         kind: "sensor",
@@ -447,7 +447,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kvar",
         scale: 10000,
       },
-      powerFactorB: {
+      powerFactorPhaseB: {
         dataPoint: "114",
         mask: "0000000000000000000000FFFF0000",
         kind: "sensor",
@@ -464,7 +464,7 @@ const entry: TuyaDeviceEntry = {
         unit: "Hz",
         scale: 1000,
       },
-      reactivePowerCInKvar: {
+      reactivePowerPhaseCInKvar: {
         dataPoint: "115",
         mask: "0000000000000000FFFFFF00000000",
         kind: "sensor",
@@ -473,7 +473,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kvar",
         scale: 10000,
       },
-      powerFactorC: {
+      powerFactorPhaseC: {
         dataPoint: "115",
         mask: "0000000000000000000000FFFF0000",
         kind: "sensor",
@@ -521,7 +521,7 @@ const entry: TuyaDeviceEntry = {
         min: 1,
         max: 9999,
       },
-      voltageRecoveryDelayCnt: { dataPoint: "123", kind: "number" },
+      voltageRecoveryDelayCount: { dataPoint: "123", kind: "number" },
       overcurrentRecoveryDelayInSeconds: {
         dataPoint: "121",
         kind: "number",
@@ -529,7 +529,7 @@ const entry: TuyaDeviceEntry = {
         min: 1,
         max: 9999,
       },
-      overcurrentRecoveryDelayCnt: { dataPoint: "124", kind: "number" },
+      overcurrentRecoveryDelayCount: { dataPoint: "124", kind: "number" },
       undercurrentRecoveryDelayInSeconds: {
         dataPoint: "122",
         kind: "number",
@@ -537,7 +537,7 @@ const entry: TuyaDeviceEntry = {
         min: 1,
         max: 9999,
       },
-      undercurrentRecoveryDelayCnt: { dataPoint: "125", kind: "number" },
+      undercurrentRecoveryDelayCount: { dataPoint: "125", kind: "number" },
       alarm3: { dataPoint: "126", kind: "text" },
       statusA: {
         dataPoint: "127",

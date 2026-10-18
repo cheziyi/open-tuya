@@ -88,8 +88,8 @@ const entry: TuyaDeviceEntry = {
       autoClean: { dataPoint: "105", kind: "switch" },
       autoCleanSchedule: { dataPoint: "106", kind: "text" },
       autoCleanScheduledClean: { dataPoint: "107", kind: "switch" },
-      autoCleantasteSchedule: { dataPoint: "108", kind: "text" },
-      autoCleantasteSwitch: { dataPoint: "109", kind: "switch" },
+      autoCleanCleantasteSchedule: { dataPoint: "108", kind: "text" },
+      autoCleanCleantasteSwitch: { dataPoint: "109", kind: "switch" },
       autoCleanDoNotDisturbSchedule: { dataPoint: "110", kind: "text" },
       infraredDetection: {
         dataPoint: "111",

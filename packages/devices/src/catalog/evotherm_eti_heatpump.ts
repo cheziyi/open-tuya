@@ -162,8 +162,8 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
       },
-      fault2: { dataPoint: "118", kind: "sensor", readOnly: true },
-      fault3: { dataPoint: "119", kind: "sensor", readOnly: true },
+      faultFault2: { dataPoint: "118", kind: "sensor", readOnly: true },
+      faultFault3: { dataPoint: "119", kind: "sensor", readOnly: true },
       faultDriverFault1: { dataPoint: "120", kind: "sensor", readOnly: true },
       heatingCoilTemperatureInC: {
         dataPoint: "23",

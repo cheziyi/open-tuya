@@ -63,7 +63,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: "high" },
         ],
       },
-      tempSetF: { dataPoint: "107", kind: "number" },
+      targetTemperatureInF: {
+        dataPoint: "107",
+        kind: "number",
+        measures: "temperature",
+        unit: "F",
+      },
       swingMode: {
         dataPoint: "110",
         kind: "select",

@@ -45,12 +45,12 @@ const entry: TuyaDeviceEntry = {
           },
         ],
       },
-      closeBtn: {
+      closeButton: {
         dataPoint: "102",
         kind: "select",
         values: [{ raw: true, value: "close" }],
       },
-      stopBtn: {
+      stopButton: {
         dataPoint: "103",
         kind: "select",
         values: [{ raw: true, value: "stop" }],

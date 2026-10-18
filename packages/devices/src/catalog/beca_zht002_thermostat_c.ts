@@ -70,7 +70,7 @@ const entry: TuyaDeviceEntry = {
         min: -9,
         max: 9,
       },
-      deadzoneTempInC: {
+      deadzoneTemperatureInC: {
         dataPoint: "26",
         kind: "number",
         measures: "temperatureDelta",

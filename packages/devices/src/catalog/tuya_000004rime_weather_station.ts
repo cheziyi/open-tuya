@@ -394,7 +394,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 3, value: "None" },
         ],
       },
-      sensor1BateryStatus: {
+      sensor1BatteryStatus: {
         dataPoint: "107",
         mask: "00000000FF0000",
         kind: "sensor",
@@ -405,7 +405,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 2, value: "None" },
         ],
       },
-      sensor2BateryStatus: {
+      sensor2BatteryStatus: {
         dataPoint: "107",
         mask: "0000000000FF00",
         kind: "sensor",
@@ -416,7 +416,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 2, value: "None" },
         ],
       },
-      sensor3BateryStatus: {
+      sensor3BatteryStatus: {
         dataPoint: "107",
         mask: "000000000000FF",
         kind: "sensor",

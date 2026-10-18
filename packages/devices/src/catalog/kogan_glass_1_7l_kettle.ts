@@ -28,7 +28,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "C",
       },
-      currentTempEnum: { dataPoint: "102", kind: "text" },
+      currentTemperatureEnum: { dataPoint: "102", kind: "text" },
     },
   },
   source: {

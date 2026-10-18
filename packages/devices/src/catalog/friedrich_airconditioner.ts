@@ -72,7 +72,7 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "comfort" },
       },
-      infoTempUnit: {
+      infoTemperatureUnit: {
         dataPoint: "102",
         kind: "select",
         values: [

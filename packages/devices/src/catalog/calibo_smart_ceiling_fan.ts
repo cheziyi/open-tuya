@@ -220,7 +220,7 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      timerStd: {
+      timerStandard: {
         dataPoint: "22",
         kind: "text",
         otherwise: true,

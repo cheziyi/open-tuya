@@ -64,7 +64,7 @@ const entry: TuyaDeviceEntry = {
         min: 6,
         max: 32,
       },
-      voltageL1InV: {
+      voltagePhaseL1InV: {
         dataPoint: "6",
         mask: "FFFF000000000000",
         kind: "sensor",
@@ -73,7 +73,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      currentL1InA: {
+      currentPhaseL1InA: {
         dataPoint: "6",
         mask: "0000FFFFFF000000",
         kind: "sensor",
@@ -82,7 +82,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      powerL1InKw: {
+      powerPhaseL1InKw: {
         dataPoint: "6",
         mask: "0000000000FFFFFF",
         kind: "sensor",
@@ -91,7 +91,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kW",
         scale: 1000,
       },
-      voltageL2InV: {
+      voltagePhaseL2InV: {
         dataPoint: "7",
         mask: "FFFF000000000000",
         kind: "sensor",
@@ -100,7 +100,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      currentL2InA: {
+      currentPhaseL2InA: {
         dataPoint: "7",
         mask: "0000FFFFFF000000",
         kind: "sensor",
@@ -109,7 +109,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      powerL2InKw: {
+      powerPhaseL2InKw: {
         dataPoint: "7",
         mask: "0000000000FFFFFF",
         kind: "sensor",
@@ -118,7 +118,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kW",
         scale: 1000,
       },
-      voltageL3InV: {
+      voltagePhaseL3InV: {
         dataPoint: "8",
         mask: "FFFF000000000000",
         kind: "sensor",
@@ -127,7 +127,7 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      currentL3InA: {
+      currentPhaseL3InA: {
         dataPoint: "8",
         mask: "0000FFFFFF000000",
         kind: "sensor",
@@ -136,7 +136,7 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         scale: 1000,
       },
-      powerL3InKw: {
+      powerPhaseL3InKw: {
         dataPoint: "8",
         mask: "0000000000FFFFFF",
         kind: "sensor",

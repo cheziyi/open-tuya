@@ -52,8 +52,21 @@ const entry: TuyaDeviceEntry = {
           { raw: "f", value: "F" },
         ],
       },
-      tempSetF: { dataPoint: "14", kind: "number", min: 41, max: 95 },
-      currentTempF: { dataPoint: "15", kind: "number" },
+      targetTemperatureInF: {
+        dataPoint: "14",
+        kind: "number",
+        measures: "temperature",
+        unit: "F",
+        min: 41,
+        max: 95,
+      },
+      currentTemperatureInF: {
+        dataPoint: "15",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "F",
+      },
       preset: {
         dataPoint: "5",
         kind: "select",

@@ -49,7 +49,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      voicePlaybackTimesInTimes: {
+      voicePlaybackTimes: {
         dataPoint: "16",
         kind: "number",
         unit: "times",

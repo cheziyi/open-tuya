@@ -71,11 +71,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 28799,
       },
-      clearDelayMinutesInMinutes: {
-        dataPoint: "105",
-        kind: "number",
-        unit: "min",
-      },
+      clearDelayInMinutes: { dataPoint: "105", kind: "number", unit: "min" },
       clearDelaySecondsInSeconds: {
         dataPoint: "106",
         kind: "number",

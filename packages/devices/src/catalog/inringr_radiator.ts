@@ -65,7 +65,7 @@ const entry: TuyaDeviceEntry = {
         max: 5,
       },
       schedule: { dataPoint: "53", kind: "text" },
-      awayDaysInDays: {
+      awayInDays: {
         dataPoint: "101",
         kind: "number",
         measures: "duration",

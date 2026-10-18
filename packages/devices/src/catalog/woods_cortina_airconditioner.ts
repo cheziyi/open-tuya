@@ -114,8 +114,21 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
-      tempCurrentF: { dataPoint: "23", kind: "number" },
-      tempSetF: { dataPoint: "24", kind: "number", min: 62, max: 86 },
+      currentTemperatureInF: {
+        dataPoint: "23",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "F",
+      },
+      targetTemperatureInF: {
+        dataPoint: "24",
+        kind: "number",
+        measures: "temperature",
+        unit: "F",
+        min: 62,
+        max: 86,
+      },
       airswitchModel: {
         dataPoint: "103",
         kind: "select",
@@ -183,10 +196,11 @@ const entry: TuyaDeviceEntry = {
           conditions: [{ when: ["f"], redirect: { dataPoint: "107" } }],
         },
       },
-      outdoorTemperatureTempF: {
+      outdoorTemperatureInF: {
         dataPoint: "107",
         kind: "sensor",
         readOnly: true,
+        unit: "F",
       },
       outdoorTemperatureUnit: {
         dataPoint: "19",

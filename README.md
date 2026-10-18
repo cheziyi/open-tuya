@@ -19,7 +19,8 @@ back, and one found there can be brought in.
 
 ## Packages
 
-Install `open-tuya` unless you need only one part of it.
+Install `open-tuya` unless you need only one part of it. Each package needs
+Node 22.12 or later: [DESIGN.md](DESIGN.md#package-manifests) says why.
 
 | Package | Use it to |
 | --- | --- |
@@ -115,7 +116,7 @@ catalog lacks has no `entry`: read and write its data points by ID.
 
 ## Naming data points
 
-`@open-tuya/devices` holds 1,639 devices converted from
+`@open-tuya/devices` holds 1,733 devices converted from
 [tuya-local](https://github.com/make-all/tuya-local). Without
 `createTuyaClient`, find a device's entry, then read and write its data
 points by name:
@@ -204,13 +205,14 @@ fix on the platform:
 
 ## Development
 
-Requires Node 22.19 or later and pnpm.
+Requires Node 22.12 or later and pnpm.
 
 ```sh
 pnpm install
 pnpm test
 pnpm check
 pnpm clone-reference   # clone or update every project under Credits into reference/
+pnpm --filter @open-tuya/devices import-catalog ../../reference/make-all/tuya-local   # needs Node 22.18
 ```
 
 ## Credits

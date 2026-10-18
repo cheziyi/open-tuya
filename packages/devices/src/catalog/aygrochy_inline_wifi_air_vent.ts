@@ -90,7 +90,12 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      autoTempHigh: { dataPoint: "106", kind: "number", min: 32, max: 194 },
+      autoTemperatureHigh: {
+        dataPoint: "106",
+        kind: "number",
+        min: 32,
+        max: 194,
+      },
       heatingTargetTemperatureInF: {
         dataPoint: "112",
         kind: "number",
@@ -108,7 +113,12 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      autoTempLow: { dataPoint: "108", kind: "number", min: 32, max: 194 },
+      autoTemperatureLow: {
+        dataPoint: "108",
+        kind: "number",
+        min: 32,
+        max: 194,
+      },
       currentSpeedInPercent: {
         dataPoint: "103",
         kind: "sensor",

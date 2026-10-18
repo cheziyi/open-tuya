@@ -165,7 +165,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       childLock: { dataPoint: "108", kind: "switch" },
-      holidayDaysInDays: {
+      holidayInDays: {
         dataPoint: "109",
         kind: "number",
         unit: "d",

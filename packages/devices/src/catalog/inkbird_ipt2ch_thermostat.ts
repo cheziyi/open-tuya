@@ -86,7 +86,14 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 10,
       },
-      currentTempF: { dataPoint: "119", kind: "number", scale: 10 },
+      currentTemperatureInF: {
+        dataPoint: "119",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "F",
+        scale: 10,
+      },
       hvacAction: {
         dataPoint: "120",
         kind: "sensor",
@@ -151,7 +158,14 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 10,
       },
-      currentTempF: { dataPoint: "125", kind: "number", scale: 10 },
+      currentTemperatureInF: {
+        dataPoint: "125",
+        kind: "sensor",
+        measures: "temperature",
+        readOnly: true,
+        unit: "F",
+        scale: 10,
+      },
       hvacAction: {
         dataPoint: "120",
         kind: "sensor",
