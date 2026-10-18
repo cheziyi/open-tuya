@@ -36,9 +36,9 @@ framing and encryption itself. A test of `@open-tuya/local` against a simulator
 then runs two implementations against each other, and a bug in either fails
 it. A simulator built on `@open-tuya/local` would share its bugs and pass.
 
-`@open-tuya/local` takes it as a dev dependency alone: its tests run a
-`TuyaConnection` against a simulated device over loopback, and a caller of
-`@open-tuya/local` never installs it.
+`@open-tuya/local` and `open-tuya` take it as a dev dependency alone: their
+tests run a `TuyaConnection` and a `RoutedTuyaClient` against a simulated
+device over loopback, and a caller of either never installs it.
 
 | Choice | Why |
 | --- | --- |
@@ -183,7 +183,7 @@ Changesets versions and publishes the packages, each with its own version.
 Each pull request carries a changeset. On `main`, the release workflow opens a
 Version Packages pull request that collects them, and merging it publishes
 every package whose version changed. A package that depends on a changed one
-gets its own bump from Changesets.
+gets a patch from Changesets once the new version leaves its `^` range.
 
 - Rejected: one version for every package. A catalog-only change would
   release every other package unchanged.
@@ -191,6 +191,20 @@ gets its own bump from Changesets.
   message, so a badly worded commit gives a wrong bump.
 - Rejected: hand-made tags, one per package. Nothing would release the
   packages that depend on a changed one.
+
+`open-tuya` re-exports every package but `@open-tuya/simulators`, so a change
+that bumps one of them by more than a patch reaches its callers too, and its
+changeset bumps `open-tuya` the same way, as `AGENTS.md` says. No option of
+`.changeset/config.json` does it:
+
+- `linked` gives every package of a group released together the highest bump
+  among them, and the same version number. A breaking change to
+  `@open-tuya/local` would give `@open-tuya/core` a breaking version though
+  its API did not change.
+- `updateInternalDependents: "always"` releases a dependent whose range still
+  holds, with a patch.
+- `onlyUpdatePeerDependentsWhenOutOfRange` applies to peer dependencies, and
+  `open-tuya` takes the others as dependencies.
 
 `.changeset/config.json` sets:
 
@@ -217,8 +231,14 @@ publishes in a separate job that runs no build script.
   ports with `reusePort`, which `dgram.createSocket` takes from Node 22.12.0,
   and on an older Node it is ignored, so a Linux host no longer shares the
   ports with Home Assistant or tinytuya. The other packages need nothing
-  later than 22.0, but CI tests the latest 22.x alone, and one floor for
-  every package is one statement for a caller. vitest 5 needs 22.12.0 too.
+  later than 22.0, but CI tests the latest release of Node 22, 24 and 26 on
+  Linux, macOS and Windows, never 22.0, and one floor for every package is
+  one statement for a caller. vitest 5 needs 22.12.0 too.
+- Each package's `exports` maps `.` to `./dist/index.js` alone, with no
+  `types` field or condition: TypeScript's `node16`, `nodenext` and `bundler`
+  resolution find `dist/index.d.ts` beside it. `node10`, the one resolution
+  that ignores `exports`, is deprecated in TypeScript 6 and removed in 7, so a
+  `types` field would serve only a caller who has to move off it anyway.
 - `@types/node` is pinned to `22.12.0`, the `engines` floor, so `tsc`
   rejects a Node API added after it. A caret would take the latest 22.x, whose
   types accept what a caller on 22.12.0 lacks. An override in
@@ -619,12 +639,31 @@ adapter over MQTT.js.
 | A topic is named from each connection's credentials | The cloud app hands out its topic template with the credentials, and the developer platform its one topic |
 | Each message comes with the credentials of its connection | The developer platform encrypts a message under its connection's password |
 | Credentials are renewed 60 s before they expire, the new connection opened before the old one closes | A client ID goes stale once renewed, and no push is lost in between |
+| A renewal waits at least 60 s, and at most 2³¹−1 ms, about 24.8 days | Credentials that last 60 s or less, or carry no `expireTimeInSeconds`, would otherwise be renewed at once, again and again; once a minute is as often as the reconnect backoff fetches at its longest. `setTimeout` fires at once when given more than 2³¹−1 ms, and renewing early costs one request while the credentials still hold |
 | After a loss, fresh credentials and a new connection 5 s later, doubling to 60 s; none after `SESSION_EXPIRED`, `PERMISSION_DENIED` or an error that is not a `TuyaError` | As `LocalTuyaClient`. None of those clears by waiting |
+| The wait after a loss drops back to 5 s only when a connection lasts until its renewal, not each time one opens | A broker that accepts each connection and drops it at once would otherwise draw a credential request every 5 s for good. The device sharing SDK grows its wait the same way ([`mq.py`](https://github.com/tuya/tuya-device-sharing-sdk/blob/6d400c48b9a123599bd1b96024665adf72447783/tuya_sharing/mq.py#L149-L162)) |
+| `close()` is final: a later `subscribe` subscribes nothing and connects nothing, and its removal resolves at once | A closed account's credential request rejects with `CONNECTION_LOST`, which the session retries, so a connection opened after `close()` would keep retrying and keep the process alive. A no-op rather than a throw: a cloud client built while its account closes subscribes in its constructor |
+| `close()`, and removing the last subscription, wait for every open and close begun before them | A subscription made just after the last was removed opens a new connection while the old one still closes, and `close()` resolves once every socket is released, as [Closing](#closing) says |
+
+Known limitation: while a renewal runs, both connections are subscribed until
+the old one closes, so a message the broker sends then can reach `onMessage`
+twice, and a cloud client then reports it twice. The overlap lasts about one
+round trip. `MqttConnection.subscribe` does not say when the broker has
+taken the subscription, so the session cannot close the old connection at that
+moment, and unsubscribing the old connection first would lose what the broker
+sends between the two. Neither SDK deduplicates: each opens the new client and
+disconnects the old one without waiting for its subscription, so a message in
+between is lost instead
+([`mq.py`](https://github.com/tuya/tuya-device-sharing-sdk/blob/6d400c48b9a123599bd1b96024665adf72447783/tuya_sharing/mq.py#L164-L174),
+[`openmq.py`](https://github.com/tuya/tuya-iot-python-sdk/blob/20a7c92898fdd44e559667bbf8f2bf6fdb1e9185/tuya_iot/openmq.py#L174-L187)).
+A developer platform message is encrypted under each connection's password,
+so the session cannot tell two copies apart by their bytes.
 
 Rejected:
 
 - A client of our own. It was 450 lines, and MQTT.js does the same.
-- An `@open-tuya/mqtt` package. It would be a package to publish and version for 200 lines.
+- An `@open-tuya/mqtt` package. It would be a package to publish and version
+  for one class.
 
 ## Cloud developer sources
 
@@ -732,6 +771,8 @@ connected.
 | Pushes come from the first route that is connected alone | A device reports each change over the LAN and to the cloud, the cloud's copy up to 5 s later (TuyaOpen [`cd3b764`](https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1), [`6b54585`](https://github.com/tuya/TuyaOpen/commit/6b5458586756d2e535b578ecc65a7fac35d30b12)). ioBroker.tuya drops the cloud's pushes while the LAN is connected the same way ([`main.js`](https://github.com/Apollon77/ioBroker.tuya/blob/dc8d799a9f292f573ec03ed994ab96a7ff7326f8/main.js#L2307)) |
 | A cloud route's client is built again 5 s after a failed build, doubling to 60 s, but not after `SESSION_EXPIRED`, `PERMISSION_DENIED` or an error that is not a `TuyaError` | A cloud that is down at startup would otherwise leave the route dead, though the LAN reaches the device. As `MqttSession`, none of those clears by waiting |
 | `createTuyaClient` reads the data points once through the routes, unless given `entry`, and finds the entry by them and the product key; when no route answers, by the product key alone | A product key is shared by several entries, and reused across products ([`f145f0e`](https://github.com/make-all/tuya-local/commit/f145f0ee2fcb39dc54bd992f8ab84895cc2b919e)): the data points' types rule some out. A device that is off still gets a client |
+| That read tries every route in the caller's order, connected or not, so it waits for a LAN route listed first to connect or fail within its own timeouts | A LAN client is never connected the moment it is created, so skipping the unconnected routes would read through the cloud whenever one comes after the LAN. The cloud app leaves out of its read every data point whose conversion is not `default`, so the entry would be matched on fewer data points than the device has. When the device is off, the read moves on after the LAN's 5 s connect timeout |
+| A route that throws while being built, such as a `TypeError` for an option its protocol version does not take, closes the routes built before it, and `createTuyaClient` rejects with its error | Those routes already hold a socket or a retry timer, and the caller never receives a client to close |
 | The best entry is used; `entries` lists every candidate, and a caller passes the one it saved as `entry` | tuya-local lets the user pick once and keeps the pick |
 | No entry leaves `entry` undefined, and the control methods throw `NO_CATALOG_ENTRY` | The data points of a device the catalog lacks can still be read and written |
 | `onControls` reads the controls from the latest data points, and hands on those whose data point, or one they depend on or read instead, the push carries | A push carries some data points, and `readControls` would read the rest as absent. A control can depend on another data point: a change of unit changes how a temperature reads |

@@ -65,6 +65,7 @@ client.onControls((values) => update(values)); // the controls each push carries
 
 | When | The client |
 | --- | --- |
+| `createTuyaClient` reads the device to find its catalog entry | Tries every route in order, waiting for the LAN to connect or fail |
 | A route is not connected, such as the LAN while it reconnects | Skips it, unless it is the last |
 | A read fails | Tries the next route |
 | A write fails with `CONNECTION_FAILED`, `SESSION_KEY_NEGOTIATION_FAILED`, `RATE_LIMITED`, `SESSION_EXPIRED`, `PERMISSION_DENIED` or `UNMAPPED_DATA_POINT` | Tries the next route |
@@ -114,7 +115,10 @@ no `nodeId`.
 
 ```ts
 const gateway = devices.find((candidate) => !candidate.nodeId && candidate.localKey === device.localKey);
-const found = discovery.devices.get(gateway.deviceId);
+const found = gateway && discovery.devices.get(gateway.deviceId);
+if (!gateway?.localKey || !found || !device.nodeId) {
+  throw new Error("No gateway for the device was heard on the LAN");
+}
 await using hub = createLocalTuyaClient({
   deviceId: gateway.deviceId,
   host: found.host,

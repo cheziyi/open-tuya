@@ -229,6 +229,10 @@ Pick the bump by what the change does to everyone who installs that package:
 Before `1.0.0`, a change that makes callers edit their code bumps the minor
 (`0.13.0` → `0.14.0`), and everything else bumps the patch.
 
+A changeset that bumps a package `open-tuya` re-exports by more than a patch
+bumps `open-tuya` the same way: Changesets gives a dependent a patch at most,
+and [DESIGN.md](DESIGN.md#releases) says why no option of its config does it.
+
 ## Pull requests, commits, and comments
 
 - **Say who does what, in order.** "The socket times out, so the client throws
