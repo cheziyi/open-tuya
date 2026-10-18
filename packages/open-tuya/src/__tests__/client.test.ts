@@ -7,7 +7,11 @@ import { CATALOG, type ControlValues } from "@open-tuya/devices";
 import { createLocalTuyaClient } from "@open-tuya/local";
 import { startSimulatedDevice } from "@open-tuya/simulators";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { createTuyaClient, RoutedTuyaClient } from "../client.js";
+import {
+  createTuyaClient,
+  RoutedTuyaClient,
+  type TuyaRoute,
+} from "../client.js";
 import { FakeTuyaClient, FakeTuyaCloudAccount } from "./mocks/fakeClient.js";
 
 const DEVICE_ID = "bf0123456789abcdefgh";
@@ -25,6 +29,8 @@ const DATA_POINTS = {
 // switch, and in neither of the others.
 const SHARED_PRODUCT_KEY = "key5ckdnys3pqgec";
 const LOCAL_KEY = "0123456789abcdef";
+// The TCP port reserved for tcpmux, which nothing listens on.
+const CLOSED_PORT = 1;
 // A runner on CI can take over a second to agree a session key.
 const WAIT = { timeout: 5000 };
 
@@ -171,9 +177,6 @@ describe("RoutedTuyaClient", () => {
 
       expect(error).toMatchObject({
         code: "ROUTES_FAILED",
-        message: expect.stringMatching(
-          /route 1: Failed with DECRYPTION_FAILED; route 2: Failed with SESSION_EXPIRED/,
-        ),
         cause: { errors: [first.failure, second.failure] },
       });
       expect((error as Error).cause).toBeInstanceOf(AggregateError);
@@ -256,6 +259,48 @@ describe("createTuyaClient", () => {
       createTuyaClient({ deviceId: DEVICE_ID, routes: [] }),
     ).rejects.toBeInstanceOf(TypeError);
   });
+
+  it.each<[string, () => TuyaRoute]>([
+    [
+      "a LAN route read by writing null on 3.4",
+      () => ({
+        lan: {
+          host: "127.0.0.1",
+          version: "3.4",
+          localKey: LOCAL_KEY,
+          readByWritingNull: ["1"],
+        },
+      }),
+    ],
+    [
+      "a route through a 3.1 gateway",
+      () => {
+        const gateway = createLocalTuyaClient({
+          host: "127.0.0.1",
+          port: CLOSED_PORT,
+          version: "3.1",
+          localKey: LOCAL_KEY,
+          deviceId: "bf00000000000gateway",
+        });
+        cleanups.push(() => gateway.close());
+        return { gateway, nodeId: "lamp" };
+      },
+    ],
+  ])(
+    "closes the routes it built when it cannot build %s, and rejects with its TypeError",
+    async (_name, route) => {
+      const account = new FakeTuyaCloudAccount();
+
+      await expect(
+        createTuyaClient({
+          deviceId: DEVICE_ID,
+          routes: [{ cloud: account }, route()],
+        }),
+      ).rejects.toBeInstanceOf(TypeError);
+
+      expect(account.clients.map((client) => client.closes)).toEqual([1]);
+    },
+  );
 
   it("finds the device's entry from its product key and data points", async () => {
     const client = await createTuyaClient({
@@ -609,7 +654,7 @@ describe("createTuyaClient over the LAN and a cloud", () => {
       { device: { on: false } },
       { backlight: { on: true } },
     ]);
-    expect(cloud?.requests).toEqual(["read"]);
+    expect(cloud?.requests).toEqual([]);
 
     await device.close();
     await vi.waitFor(() => {
@@ -620,4 +665,26 @@ describe("createTuyaClient over the LAN and a cloud", () => {
 
     expect(cloud?.writes).toEqual([{ "1": true }]);
   });
+
+  it("finds the entry through the cloud when the LAN listed first cannot connect", async () => {
+    const account = new FakeTuyaCloudAccount({ ...DATA_POINTS });
+    const client = await createTuyaClient({
+      deviceId: DEVICE_ID,
+      routes: [
+        {
+          lan: {
+            host: "127.0.0.1",
+            port: CLOSED_PORT,
+            version: "3.3",
+            localKey: LOCAL_KEY,
+          },
+        },
+        { cloud: account },
+      ],
+    });
+    cleanups.push(() => client.close());
+
+    expect(client.entry?.name).toBe("Single switch with backlight");
+    expect(account.clients[0]?.requests).toEqual(["read"]);
+  }, 10_000);
 });

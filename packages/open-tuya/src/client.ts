@@ -62,9 +62,16 @@ export interface CreateTuyaClientOptions {
 
 /** Builds a client for each route, reads the device's data points through
  * them to find its catalog entry unless `entry` is given, and resolves with
- * a `RoutedTuyaClient`. When no route answers that read, the entry is found
- * from `productKey` alone. Read the data points once it resolves: a report
- * that arrived before had no listener. */
+ * a `RoutedTuyaClient`. That read tries every route in order, connected or
+ * not, so a LAN route listed first answers it once it connects, and the next
+ * route answers only after the LAN fails within its own timeouts. When no
+ * route answers, the entry is found from `productKey` alone. Read the data
+ * points once it resolves: a report that arrived before had no listener.
+ *
+ * It rejects with a `TypeError` when given no route, and with the error a
+ * route throws when it cannot be built, such as the `TypeError` of a LAN
+ * route's `readByWritingNull` on 3.4 or 3.5, or of a gateway on 3.1 or 3.2,
+ * after closing the clients of the routes before it. */
 export async function createTuyaClient(
   options: CreateTuyaClientOptions,
 ): Promise<RoutedTuyaClient> {
@@ -72,13 +79,21 @@ export async function createTuyaClient(
   if (options.routes.length === 0) {
     throw new TypeError("A client needs at least one route");
   }
-  const routes = options.routes.map((route) =>
-    "lan" in route
-      ? createLocalTuyaClient({ ...route.lan, deviceId })
-      : "gateway" in route
-        ? route.gateway.createClient(route.nodeId)
-        : new CloudRoute(() => route.cloud.createClient(deviceId)),
-  );
+  const routes: TuyaClient[] = [];
+  try {
+    for (const route of options.routes) {
+      routes.push(
+        "lan" in route
+          ? createLocalTuyaClient({ ...route.lan, deviceId })
+          : "gateway" in route
+            ? route.gateway.createClient(route.nodeId)
+            : new CloudRoute(() => route.cloud.createClient(deviceId)),
+      );
+    }
+  } catch (error) {
+    await Promise.allSettled(routes.map((route) => route.close()));
+    throw error;
+  }
   if (options.entry) {
     return new RoutedTuyaClient(routes, [options.entry]);
   }
@@ -86,6 +101,7 @@ export async function createTuyaClient(
     routes,
     (route) => route.readDataPoints(),
     () => true,
+    { skipsUnconnected: false },
   ).catch(() => undefined);
   return new RoutedTuyaClient(
     routes,
@@ -267,10 +283,11 @@ async function sendThroughRoutes<T>(
   routes: readonly TuyaClient[],
   send: (route: TuyaClient) => Promise<T>,
   movesOn: (error: unknown) => boolean,
+  { skipsUnconnected = true }: { skipsUnconnected?: boolean } = {},
 ): Promise<T> {
   const failures: { index: number; error: unknown }[] = [];
   for (const [index, route] of routes.entries()) {
-    if (!route.connected && index < routes.length - 1) {
+    if (skipsUnconnected && !route.connected && index < routes.length - 1) {
       continue;
     }
     try {
