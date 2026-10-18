@@ -2,6 +2,16 @@ import { createDecipheriv } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import {
   BROADCAST_KEY,
+  V31_CONTROL,
+  V31_CONTROL_ACK,
+  V31_CONTROL_PLAINTEXT,
+  V31_KEY,
+  V31_QUERY,
+  V31_QUERY_ERROR,
+  V31_QUERY_REPLY,
+  V31_QUERY_REPLY_PLAINTEXT,
+  V31_STATUS,
+  V31_STATUS_PLAINTEXT,
   V33_BROADCAST,
   V33_BROADCAST_PLAINTEXT,
   V33_QUERY_ERROR,
@@ -266,5 +276,49 @@ describe("openClientFrame", () => {
 
   it("throws on a frame whose HMAC is wrong", () => {
     expect(() => openClientFrame("3.4", V34_HEART_BEAT, LOCAL_KEY)).toThrow();
+  });
+});
+
+describe("a 3.1 device, against a captured exchange", () => {
+  it.each([
+    [
+      "its reply to a query",
+      1,
+      0x0a,
+      0,
+      V31_QUERY_REPLY_PLAINTEXT,
+      V31_QUERY_REPLY,
+    ],
+    ["its error", 1, 0x0a, 1, "data format error", V31_QUERY_ERROR],
+    ["its ack", 2, 0x07, 0, "", V31_CONTROL_ACK],
+    ["its STATUS, sealed", 0, 0x08, 0, V31_STATUS_PLAINTEXT, V31_STATUS],
+  ] as const)(
+    "writes %s byte for byte",
+    (_name, sequenceNumber, command, returnCode, text, expected) => {
+      expect(
+        sealDeviceFrame(
+          "3.1",
+          { sequenceNumber, command, returnCode, plaintext: Buffer.from(text) },
+          V31_KEY,
+          NO_IV,
+        ),
+      ).toEqual(expected);
+    },
+  );
+
+  it("reads a client's sealed CONTROL and its plain DP_QUERY", () => {
+    const control = openClientFrame("3.1", V31_CONTROL, V31_KEY)?.frame;
+    const query = openClientFrame("3.1", V31_QUERY, V31_KEY)?.frame;
+
+    expect(control?.payload.toString()).toBe(V31_CONTROL_PLAINTEXT);
+    expect(JSON.parse(query?.payload.toString() ?? "")).toMatchObject({
+      devId: "03200160ecfabc8d9700",
+    });
+  });
+
+  it("throws on a CONTROL sealed under another key", () => {
+    expect(() =>
+      openClientFrame("3.1", V31_CONTROL, Buffer.from("0123456789abcdef")),
+    ).toThrow();
   });
 });

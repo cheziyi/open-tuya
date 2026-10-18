@@ -61,9 +61,10 @@ code of the login they do not use, and a fix to one would release both.
 
 ## Protocol versions
 
-`@open-tuya/local` speaks 3.3, 3.4 and 3.5 first. 3.4 and 3.5 negotiate a
-session key, which is the hard part to get right. 3.1 comes after them, as
-it is found only on old devices.
+`@open-tuya/local` speaks 3.1, 3.3, 3.4 and 3.5. 3.2 frames as 3.3 does,
+but a 3.2 device refuses a read, and is read by writing nulls to the data
+points it has, which the client does not know: it comes with the devices
+that do the same on 3.3 and 3.4.
 
 ## Catalog
 
@@ -260,6 +261,30 @@ for 3.5, and hass-localtuya where it changed tinytuya's code. rospogrigio/localt
 | Whether the first 4 bytes of a 3.5 plaintext are a return code | Always | tinytuya [`c2f3e24`](https://github.com/jasonacox/tinytuya/commit/c2f3e24d968c5d23ffd4e71956b46028563f422f), tuyapi [`96af23b`](https://github.com/codetheweb/tuyapi/commit/96af23b59f5dac4a10ef81afd8cc94e85b1ed6d9) | homebridge-tuya-plus [`e316a91`](https://github.com/adrianjagielak/homebridge-tuya-plus/commit/e316a912e5d24d6ad302768d26d5182ed2acef86) takes them only when the whole plaintext is not JSON |
 | How a 3.5 return code is read | Little-endian, against the count: a device writes it in its own byte order, in Tuya's firmware [`cd3b764`](https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1), and a captured error carries `01 00 00 00` ([tinytuya#658](https://github.com/jasonacox/tinytuya/issues/658)) | Tuya's firmware; the capture | tinytuya [`c2f3e24`](https://github.com/jasonacox/tinytuya/commit/c2f3e24d968c5d23ffd4e71956b46028563f422f) and tuyapi [`96af23b`](https://github.com/codetheweb/tuyapi/commit/96af23b59f5dac4a10ef81afd8cc94e85b1ed6d9) read it big-endian, and neither acts on its value |
 
+## Protocol 3.1
+
+3.1 frames as 3.3 does, with no version header: a client seals a write, a
+device seals its pushes, and the rest goes in plain text. Three projects
+implement it independently: [python-tuya](https://github.com/clach04/python-tuya),
+where it began, [tuyapi](https://github.com/codetheweb/tuyapi) and
+[homebridge-tuya-lan](https://github.com/AMoo-Miki/homebridge-tuya-lan),
+with tinytuya for what it changed in python-tuya's code. The localtuyas copy
+tinytuya's, iRayanKhan/homebridge-tuya and homebridge-tuya-plus
+homebridge-tuya-lan's, and Tuya's firmware (TuyaOpen) speaks 3.5 alone.
+
+| Question | Chosen | For | Against |
+| --- | --- | --- | --- |
+| A write's `t` | A string of whole seconds, unlike 3.3's integer. A plug acked one, captured in [tinytuya#177](https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247544765) | python-tuya [`ba17258`](https://github.com/clach04/python-tuya/commit/ba17258746effadadc0e8e990d05b54efffabfe8), homebridge-tuya-lan [`800ade3`](https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/800ade32914c66a60566efbb485268283c8ca86a) | tuyapi [`68b164d`](https://github.com/codetheweb/tuyapi/commit/68b164d5c62e902eb7407945aef71e3a3f2cb065) sends an integer, and no capture shows a 3.1 device take one |
+| A heartbeat | An empty payload in plain text, as on every version. A plug answered one with return code 0, captured in [TuyaAPI/cli#80](https://github.com/TuyaAPI/cli/issues/80) | tuyapi [`dab8173`](https://github.com/codetheweb/tuyapi/commit/dab81737a350b3f1b8ea85252cc48f472a651e2d), homebridge-tuya-lan [`45ad489`](https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/45ad4893c18bbf308bd44ab286918d49833f2ed6) | tinytuya [`99d8ac8`](https://github.com/jasonacox/tinytuya/commit/99d8ac8dda60b626891f2927ab2457315bca53e6) sends `{"gwId":…,"devId":…}`; python-tuya sends none |
+| A received payload's signature | Checked, and a payload whose signature is wrong is left out, as [Received frames](#received-frames) does with any frame that fails its check. A plug signs its `STATUS` as a client signs a write, captured in [tinytuya#177](https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247544765) | — | No source checks it: python-tuya calls the bytes "what I'm guessing, but not confirmed" |
+
+What `@open-tuya/local` does with a 3.1 device is its own design:
+
+| Choice | Why |
+| --- | --- |
+| A read under a wrong local key succeeds, and a write times out with `REQUEST_TIMED_OUT` | A read goes in plain text, and a plug ignored writes under a wrong key without closing the connection ([tinytuya#177](https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247544765)). A push under the right key then fails its check, and fails a request waiting on it |
+| `createClient(nodeId)` on a 3.1 gateway throws a `TypeError` | No source shows a 3.1 gateway |
+
 ## Received frames
 
 What `@open-tuya/local` does with the bytes a device sends is its own design,
@@ -271,6 +296,7 @@ decided on its merits rather than by what the sources do.
 | A length field over 102,400 throws `MALFORMED_FRAME` | A corrupt length field would otherwise leave the reader waiting for bytes that never come. A cap below the largest frame a device sends would cut that device off on every connection, while a cap too high only holds a corrupt stream until the heartbeats run out. No source shows the largest frame, so the cap sits far above tinytuya's 1440 and hass-localtuya's 2000, and bounds what the reader buffers |
 | A frame whose CRC is wrong is left out, with a `MALFORMED_FRAME` error | Its bytes are not the ones the device sent, so acting on them acts on noise. The frames after it were cut at their own length fields, so they are read |
 | A wrong suffix is ignored | The CRC, HMAC or tag covers the length field, so a frame that passes it was cut at the right byte, and the suffix tells nothing more |
+| A 3.1 payload whose signature is wrong is left out, with a `DECRYPTION_FAILED` error | Its bytes were not sealed under the local key held, as for a wrong HMAC or tag below |
 | A 3.4 frame whose HMAC or a 3.5 frame whose tag is wrong is left out, with a `DECRYPTION_FAILED` error | The frame was not sealed under the key held: the local key, the session key or the protocol version is wrong, and the caller has to hear that |
 | A payload that does not decrypt is left out, with a `DECRYPTION_FAILED` error | Read as plaintext, it would surface later as a JSON error that hides the wrong key |
 | A session key reply whose HMAC is wrong throws `SESSION_KEY_NEGOTIATION_FAILED` | The device holds a different local key, so every frame after it would fail: stopping here names the cause |
@@ -303,17 +329,17 @@ device accepts it.
 
 | Question | Chosen | For | Against |
 | --- | --- | --- | --- |
-| Which command reads and which writes | `DP_QUERY` and `CONTROL` on 3.3; `DP_QUERY_NEW` and `CONTROL_NEW` on 3.4 and 3.5 | tuyapi [`c2b5e48`](https://github.com/codetheweb/tuyapi/commit/c2b5e48e805699969827affbfc11e893aeef701e) and [`e125a2e`](https://github.com/codetheweb/tuyapi/commit/e125a2e17f3043ed6263f092d154c72bf6d1ecdb), tinytuya [`a60ffc6`](https://github.com/jasonacox/tinytuya/commit/a60ffc61484b164f588e2e6685810cfbd262de8f), iRayanKhan [`ea1d903`](https://github.com/iRayanKhan/homebridge-tuya/commit/ea1d903fb467dd8c296326db130630308113167a) | — |
-| A 3.3 read | `{"gwId":id,"devId":id}` | homebridge-tuya-lan [`800ade3`](https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/800ade32914c66a60566efbb485268283c8ca86a), python-tuya [`25d8b08`](https://github.com/clach04/python-tuya/commit/25d8b0846d9ca8857c99f9ff4c93a11fe64b9674) | tinytuya [`9eca3e2`](https://github.com/jasonacox/tinytuya/commit/9eca3e29456ebaadda7247358d9ef3c9e65811d1) adds `uid` and `t`; tuyapi [`d68cafc`](https://github.com/codetheweb/tuyapi/commit/d68cafc05eaa9877c7418ad66c6f02ea7385a197) adds `t`, `dps` and `uid` |
+| Which command reads and which writes | `DP_QUERY` and `CONTROL` on 3.1 and 3.3; `DP_QUERY_NEW` and `CONTROL_NEW` on 3.4 and 3.5 | tuyapi [`c2b5e48`](https://github.com/codetheweb/tuyapi/commit/c2b5e48e805699969827affbfc11e893aeef701e) and [`e125a2e`](https://github.com/codetheweb/tuyapi/commit/e125a2e17f3043ed6263f092d154c72bf6d1ecdb), tinytuya [`a60ffc6`](https://github.com/jasonacox/tinytuya/commit/a60ffc61484b164f588e2e6685810cfbd262de8f), iRayanKhan [`ea1d903`](https://github.com/iRayanKhan/homebridge-tuya/commit/ea1d903fb467dd8c296326db130630308113167a) | — |
+| A 3.1 or 3.3 read | `{"gwId":id,"devId":id}` | homebridge-tuya-lan [`800ade3`](https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/800ade32914c66a60566efbb485268283c8ca86a), python-tuya [`25d8b08`](https://github.com/clach04/python-tuya/commit/25d8b0846d9ca8857c99f9ff4c93a11fe64b9674) | tinytuya [`9eca3e2`](https://github.com/jasonacox/tinytuya/commit/9eca3e29456ebaadda7247358d9ef3c9e65811d1) adds `uid` and `t`; tuyapi [`d68cafc`](https://github.com/codetheweb/tuyapi/commit/d68cafc05eaa9877c7418ad66c6f02ea7385a197) adds `t`, `dps` and `uid` |
 | A 3.4 or 3.5 read | `{}`, on a three-way tie. A device answers it ([tuya-local#5499](https://github.com/make-all/tuya-local/issues/5499#issuecomment-4966649152)), and Tuya's firmware reads any JSON there ([`cd3b764`](https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1)) | tinytuya [`d59fdf9`](https://github.com/jasonacox/tinytuya/commit/d59fdf9546969d0cb57faede60b82424c09d4a7b) | iRayanKhan [`ea1d903`](https://github.com/iRayanKhan/homebridge-tuya/commit/ea1d903fb467dd8c296326db130630308113167a) and homebridge-tuya-plus [`e316a91`](https://github.com/adrianjagielak/homebridge-tuya-plus/commit/e316a912e5d24d6ad302768d26d5182ed2acef86) send `{"gwId","devId"}`; tuyapi the full 3.3-style body |
-| A 3.3 write | `{"devId":id,"uid":"","t":…,"dps":…}` | homebridge-tuya-lan [`800ade3`](https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/800ade32914c66a60566efbb485268283c8ca86a), tuyapi [`68b164d`](https://github.com/codetheweb/tuyapi/commit/68b164d5c62e902eb7407945aef71e3a3f2cb065) | python-tuya [`1b07854`](https://github.com/clach04/python-tuya/commit/1b0785424ab34c540acb168443aa521a8a2d774b) sets `uid` to the device ID; tuyapi adds `gwId` |
-| `t` in a write | An integer of whole seconds, truncated, against the count on 3.3. tuyapi has sent an integer on every version since 2019, and Tuya's firmware never reads `t` ([`cd3b764`](https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1)) | tuyapi [`461f0b3`](https://github.com/codetheweb/tuyapi/commit/461f0b3ea7887ec240c4c191dc3036b8f47981cb); tinytuya [`a60ffc6`](https://github.com/jasonacox/tinytuya/commit/a60ffc61484b164f588e2e6685810cfbd262de8f) on 3.4 and 3.5 | On 3.3, homebridge-tuya-lan rounds a string and python-tuya [`ba17258`](https://github.com/clach04/python-tuya/commit/ba17258746effadadc0e8e990d05b54efffabfe8) truncates one; that commit changed the padding too, which more likely fixed the write it reports failing |
+| A 3.1 or 3.3 write | `{"devId":id,"uid":"","t":…,"dps":…}` | homebridge-tuya-lan [`800ade3`](https://github.com/AMoo-Miki/homebridge-tuya-lan/commit/800ade32914c66a60566efbb485268283c8ca86a), tuyapi [`68b164d`](https://github.com/codetheweb/tuyapi/commit/68b164d5c62e902eb7407945aef71e3a3f2cb065) | python-tuya [`1b07854`](https://github.com/clach04/python-tuya/commit/1b0785424ab34c540acb168443aa521a8a2d774b) sets `uid` to the device ID; tuyapi adds `gwId` |
+| `t` in a write | An integer of whole seconds, truncated, against the count on 3.3; a string on 3.1, as [Protocol 3.1](#protocol-31) decides. tuyapi has sent an integer on every version since 2019, and Tuya's firmware never reads `t` ([`cd3b764`](https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1)) | tuyapi [`461f0b3`](https://github.com/codetheweb/tuyapi/commit/461f0b3ea7887ec240c4c191dc3036b8f47981cb); tinytuya [`a60ffc6`](https://github.com/jasonacox/tinytuya/commit/a60ffc61484b164f588e2e6685810cfbd262de8f) on 3.4 and 3.5 | On 3.3, homebridge-tuya-lan rounds a string and python-tuya [`ba17258`](https://github.com/clach04/python-tuya/commit/ba17258746effadadc0e8e990d05b54efffabfe8) truncates one; that commit changed the padding too, which more likely fixed the write it reports failing |
 | A 3.4 or 3.5 write | `{"data":{"dps":…},"protocol":5,"t":…}`, against the count. Tuya's firmware reads only `dps` and `devId` from `data` ([`cd3b764`](https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1)) | tinytuya [`d59fdf9`](https://github.com/jasonacox/tinytuya/commit/d59fdf9546969d0cb57faede60b82424c09d4a7b) | tuyapi [`c2b5e48`](https://github.com/codetheweb/tuyapi/commit/c2b5e48e805699969827affbfc11e893aeef701e), iRayanKhan [`ea1d903`](https://github.com/iRayanKhan/homebridge-tuya/commit/ea1d903fb467dd8c296326db130630308113167a) and homebridge-tuya-plus [`e316a91`](https://github.com/adrianjagielak/homebridge-tuya-plus/commit/e316a912e5d24d6ad302768d26d5182ed2acef86) add `devId`, `uid:""` and `ctype:0` to `data` |
 | Spaces in a request | None between tokens; those inside a string value are kept | tuyapi, homebridge-tuya-lan, both through `JSON.stringify` | python-tuya [`25d8b08`](https://github.com/clach04/python-tuya/commit/25d8b0846d9ca8857c99f9ff4c93a11fe64b9674) removes every space, inside strings too, and tinytuya took it over |
 | The order of keys in a request | Alphabetical, with the data points in the caller's order | — . Tuya's firmware parses a request whatever its order [`cd3b764`](https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1) | The sources write the keys in an order of their own |
 | The reply to a read | A frame of the read's own command: return code 0 and `{"dps":…}`, which may leave data points out, or return code 1 and an error text | Tuya's firmware [`cd3b764`](https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1); captured in [tinytuya#732](https://github.com/jasonacox/tinytuya/issues/732), [tuyapi#577](https://github.com/codetheweb/tuyapi/issues/577) and [tinytuya#658](https://github.com/jasonacox/tinytuya/issues/658) | tinytuya's fake device wraps its reply in `{"protocol":4,…}`, which no capture shows |
 | The reply to a write | An empty frame of the write's own command, or an error text; then, from most devices, a `STATUS` of the data points set | Tuya's firmware [`cd3b764`](https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1); tinytuya [`8528e03`](https://github.com/jasonacox/tinytuya/commit/8528e03565d6dbaeebad372903de0adcfd3d037c); captured in [tinytuya#498](https://github.com/jasonacox/tinytuya/issues/498#issuecomment-2119361833) | Some devices send no `STATUS` ([hass-localtuya#877](https://github.com/xZetsubou/hass-localtuya/issues/877)) |
-| A push | `STATUS`: `{"dps":…,"t":…}` on 3.3, `{"protocol":4,"t":…,"data":{"dps":…}}` on 3.4 and 3.5, sometimes one data point a frame | Captured in [hass-localtuya#775](https://github.com/xZetsubou/hass-localtuya/issues/775), [hass-localtuya#698](https://github.com/xZetsubou/hass-localtuya/issues/698#issuecomment-3168858952) and [tinytuya discussion #260](https://github.com/jasonacox/tinytuya/discussions/260#discussioncomment-14066063) | — |
+| A push | `STATUS`: `{"devId":…,"dps":…,"t":…,"s":…}` sealed on 3.1, `{"dps":…,"t":…}` on 3.3, `{"protocol":4,"t":…,"data":{"dps":…}}` on 3.4 and 3.5, sometimes one data point a frame | Captured in [tinytuya#177](https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247504813), [hass-localtuya#775](https://github.com/xZetsubou/hass-localtuya/issues/775), [hass-localtuya#698](https://github.com/xZetsubou/hass-localtuya/issues/698#issuecomment-3168858952) and [tinytuya discussion #260](https://github.com/jasonacox/tinytuya/discussions/260#discussioncomment-14066063) | — |
 
 ## Client
 
@@ -340,7 +366,7 @@ device accepts it.
 
 ## Discovery
 
-`discoverDevices` listens on UDP ports 6667 and 7000, and asks 3.5 devices to
+`discoverDevices` listens on UDP ports 6666, 6667 and 7000, and asks 3.5 devices to
 answer. Where the sources disagree on a protocol fact:
 
 | Question | Chosen | For | Against |
@@ -357,7 +383,7 @@ What `discoverDevices` does with what it receives is its own design:
 | `onDevice` is an option, and `close()` stops it | UDP pushes, so an async iterator would buffer without bound behind a slow reader. A scan that resolves after a timeout could not report a device's next broadcast, which a caller waiting to reconnect needs; a caller who wants a scan closes the discovery after a while |
 | `devices` holds the latest report from each device, by `deviceId`, and never drops one | A client reads the address its device was last heard at from it, and only once its own address failed: an old report is still the device's last word on where it is. A caller who wants a list reads it rather than keeping one |
 | Every broadcast and answer is reported | A device repeats its broadcast every few seconds, and each one says it is still there. A caller who wants a list keys it by `deviceId` |
-| Ports 6667 and 7000, not 6666 | 6666 carries 3.1 alone, which `@open-tuya/local` does not speak |
+| Ports 6666, 6667 and 7000 | A 3.1 device broadcasts to 6666 in plain text, captured in [tuyapi#17](https://github.com/codetheweb/tuyapi/issues/17#issuecomment-361135781). A program that holds 6666 without sharing it now fails discovery, as one holding the other two does |
 | A device of another version is left out | `version` then goes to `createLocalTuyaClient` as it is |
 | A request every 6 s, to each IPv4 interface's subnet broadcast address, with the interfaces listed again each time | Some 3.5 devices answer only when asked, and UDP loses datagrams. A request to 255.255.255.255 leaves by one interface alone, and listing the interfaces again finds a laptop's new network on the next round |
 | A random IV for each request | GCM must never take the same IV twice under one key |
@@ -365,7 +391,7 @@ What `discoverDevices` does with what it receives is its own design:
 | A datagram that is not a device's broadcast is dropped, with no callback | The broadcast key is the same for every device, so unlike a dropped TCP frame it never means the caller's key is wrong: there is nothing for the caller to do |
 | A port that cannot be bound rejects with `DISCOVERY_FAILED`, and is not retried | Another program holds it without sharing it. Whether to wait for it is the caller's decision |
 | An error after the ports are bound, and a failed send, are ignored | A UDP socket has no connection to lose: an error costs one datagram, and a send to an interface that went away fails alone |
-| `TuyaDiscovery` takes its two sockets and the function that lists where requests go | A test binds loopback sockets, so no request leaves the machine and no device on the LAN answers one |
+| `TuyaDiscovery` takes its sockets and the function that lists where requests go | A test binds loopback sockets, so no request leaves the machine and no device on the LAN answers one |
 
 ## Gateways
 

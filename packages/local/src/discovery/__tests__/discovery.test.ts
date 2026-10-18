@@ -72,7 +72,8 @@ async function startDevice(
   return device;
 }
 
-// Two loopback sockets stand in for ports 6667 and 7000, so that no request
+// One loopback socket stands in for ports 6666 and 6667, which a device
+// broadcasts to by its version, and another for 7000, so that no request
 // leaves the machine and no device on the LAN answers one. The targets are
 // listed again before each round of requests, as the interfaces are.
 async function startDiscovery(targets: DiscoveryRequestTarget[] = []) {
@@ -83,7 +84,7 @@ async function startDiscovery(targets: DiscoveryRequestTarget[] = []) {
   }
   const devices: DiscoveredTuyaDevice[] = [];
   const discovery = new TuyaDiscovery(
-    broadcastSocket,
+    [broadcastSocket],
     answerSocket,
     () => targets,
     { onDevice: (device) => devices.push(device) },
@@ -299,13 +300,14 @@ describe("bindSocket", () => {
 describe("discoverDevices", () => {
   // It fails before it asks, so no request leaves the machine.
   it.skipIf(process.platform === "win32")(
-    "rejects with DISCOVERY_FAILED when a program holds port 6667, and releases port 7000",
+    "rejects with DISCOVERY_FAILED when a program holds port 6667, and releases ports 6666 and 7000",
     async () => {
       await bind(6667);
 
       await expect(
         discoverDevices({ onDevice: () => {} }),
       ).rejects.toMatchObject({ code: "DISCOVERY_FAILED" });
+      await expect(bind(6666)).resolves.toBeDefined();
       await expect(bind(7000)).resolves.toBeDefined();
     },
   );

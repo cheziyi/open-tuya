@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   BROADCAST_KEY,
+  V31_BROADCAST,
   V33_BROADCAST,
   V34_BROADCAST,
   V35_BROADCAST,
@@ -33,6 +34,16 @@ const DEVICE = {
 
 describe("decodeBroadcast", () => {
   it.each([
+    [
+      "3.1",
+      V31_BROADCAST,
+      {
+        host: "192.168.2.81",
+        deviceId: "012001865ccf7f598277",
+        version: "3.1",
+        productKey: "qHLNAzmrRdA9EMXl",
+      },
+    ],
     [
       "3.3",
       V33_BROADCAST,
@@ -121,7 +132,7 @@ describe("decodeBroadcast", () => {
     ).toMatchObject({ version: "3.3" });
   });
 
-  it.each(["3.1", "3.2", "3.6", 3.3, undefined])(
+  it.each(["3.2", "3.6", 3.3, undefined])(
     "leaves out a device of version %s",
     (version) => {
       expect(

@@ -25,7 +25,7 @@ Node 22.12 or later: [DESIGN.md](DESIGN.md#package-manifests) says why.
 | Package | Use it to |
 | --- | --- |
 | [`open-tuya`](packages/open-tuya) | Discover devices, and read and write their data points by name, over any of the three |
-| [`@open-tuya/local`](packages/local) | Discover devices on the LAN and control them there |
+| [`@open-tuya/local`](packages/local) | Discover devices on the LAN and control them there, on protocol 3.1, 3.3, 3.4 or 3.5 |
 | [`@open-tuya/cloud-developer`](packages/cloud-developer) | List devices with their local keys, and control them, through the Tuya developer platform, signed in with a developer project's access ID and secret |
 | [`@open-tuya/cloud-app`](packages/cloud-app) | The same, through the Smart Life app's cloud, signed in by scanning a QR code with the app |
 | [`@open-tuya/devices`](packages/devices) | Look up what each data point of a device controls |
@@ -83,6 +83,10 @@ such as one DHCP gave it.
 | The address discovery heard fails too | Returns to the last address that connected |
 
 [DESIGN.md](DESIGN.md#moved-devices) says why.
+
+On 3.1, a read goes in plain text, so it succeeds under a wrong local key:
+a write that rejects with `REQUEST_TIMED_OUT` is the sign. A device of
+protocol 3.2 is not reached on the LAN yet.
 
 ### A device behind a gateway
 

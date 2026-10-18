@@ -1,5 +1,5 @@
-// Source: CONTROL, STATUS, HEART_BEAT, DP_QUERY, CONTROL_NEW, DP_QUERY_NEW and
-// UDP_NEW are numbered in
+// Source: UDP, CONTROL, STATUS, HEART_BEAT, DP_QUERY, CONTROL_NEW,
+// DP_QUERY_NEW and UDP_NEW are numbered in
 // https://github.com/codetheweb/tuyapi/commit/a0c412245dfe8aed089d20d4f512aef2348af8da,
 // UPDATEDPS in
 // https://github.com/codetheweb/tuyapi/commit/4be9cc5de3048ab0f5eb97674ca964112d1d9452,
@@ -12,6 +12,7 @@
 // https://github.com/jasonacox/tinytuya/commit/92bcfc53740f1aa9a9e2ce265d5636120f2228e5
 // and https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
 export const COMMANDS = {
+  UDP: 0x00,
   SESS_KEY_NEG_START: 0x03,
   SESS_KEY_NEG_RESP: 0x04,
   SESS_KEY_NEG_FINISH: 0x05,

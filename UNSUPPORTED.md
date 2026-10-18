@@ -12,12 +12,15 @@ does until a source or a capture settles it.
 | Which frames a device puts the version header on | Tuya's firmware puts it on its pushes; clients look for it on any frame | The simulator puts it on `STATUS` alone |
 | What a 3.3 device sends back for a frame under the wrong key | tinytuya's scanner says "an encrypted rejection message"; no source shows its bytes | The simulator ignores the frame |
 | The return code on a 3.4 device's write ack | 3.3 devices send 0, and Tuya's 3.5 firmware sends 1 even on success; no source shows 3.4 | The simulator sends 0; `LocalTuyaClient` judges an ack by its payload alone |
+| What a 3.1 device acks a write it refuses with | A plug acked a write with an empty payload and return code 0, and ignored writes under a wrong key ([tinytuya#177](https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247544765)); no source shows a refusal | `LocalTuyaClient` judges an ack by its payload alone, as on 3.3 |
+| What `s` in a 3.1 push counts | A plug's pushes carry it, rising ([tinytuya#177](https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247504813)); no source reads it | `@open-tuya/local` reads `dps` alone; the simulator sends no `s` |
 | A device that answers a read with "json obj data unvalid" (device22) | Which command reads it instead (CONTROL in tuyapi, CONTROL_NEW in localtuya), on which versions, and which data points to ask for. Tuya's 3.5 firmware sends the text when it has nothing to report yet, and on one camera the query that reads it changed its settings ([tinytuya#408](https://github.com/jasonacox/tinytuya/issues/408)) | `readDataPoints` rejects with `REQUEST_REJECTED` |
 
 ## Gateways
 
 | What | Unknown | Until then |
 | --- | --- | --- |
+| A 3.1 gateway | No source shows one reach the devices behind it | `createClient(nodeId)` on a 3.1 client throws a `TypeError` |
 | Whether a 3.4 or 3.5 gateway needs `ctype` in a write | tinytuya and tuyapi send `ctype: 0`; hass-localtuya does not; no capture shows a gateway refuse either | A write sends `ctype: 0` |
 | A whole 3.5 push from a device behind a gateway | [tinytuya#493](https://github.com/jasonacox/tinytuya/issues/493) shows its end, `…},"cid":"…"}`, cut short | `cid` is read at the top and in `data` |
 | Which 3.3 gateways answer the online query | One did ([tinytuya#302](https://github.com/jasonacox/tinytuya/issues/302)); others never answer ([hass-localtuya#293](https://github.com/xZetsubou/hass-localtuya/issues/293)) | A 3.3 gateway is not asked |
@@ -28,7 +31,7 @@ does until a source or a capture settles it.
 
 | What | Unknown | Until then |
 | --- | --- | --- |
-| A 3.1 or 3.2 broadcast | The one raw 3.1 broadcast captured has its product key cut short, so its CRC cannot be checked ([hass-localtuya#95](https://github.com/xZetsubou/hass-localtuya/pull/95)); no source captures a 3.2 one | `discoverDevices` does not listen on port 6666, and leaves out a device of either version |
+| A 3.2 broadcast | Logs show a 3.2 device broadcast to port 6666 in plain text ([homebridge-tuya-lan#83](https://github.com/AMoo-Miki/homebridge-tuya-lan/issues/83#issuecomment-544026484), [homebridge-tuya#156](https://github.com/iRayanKhan/homebridge-tuya/issues/156)); none shows its bytes or its command | `discoverDevices` leaves out a device of version 3.2 |
 | How often a device broadcasts | No source's code says. Users saw 3 to 6 s ([tuyapi#5](https://github.com/codetheweb/tuyapi/issues/5#issuecomment-348253790)), and some devices stop while a client is connected ([tinytuya#731](https://github.com/jasonacox/tinytuya/issues/731#issuecomment-5318435027)) | `discoverDevices` reports each broadcast as it comes; the simulator broadcasts when a test tells it to |
 | What `token`, `wf_cfg` and `clientLink` in a broadcast mean | No source reads them | `discoverDevices` does not report them |
 | Whether a 3.3 or 3.4 device answers a request | Only 3.5 firmware shows a device taking one | The simulator answers on 3.5 alone |

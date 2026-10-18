@@ -26,6 +26,11 @@ const LOCAL_KEY_TEXT = LOCAL_KEY.toString();
 const DEVICE_ID = "bf0123456789abcdefgh";
 const DATA_POINTS = { "1": true, "2": 25, "3": "auto" };
 
+// No source shows a 3.1 gateway.
+const GATEWAY_VERSIONS = PROTOCOL_VERSIONS.filter(
+  (version) => version !== "3.1",
+);
+
 const cleanups: (() => unknown)[] = [];
 
 afterEach(async () => {
@@ -105,23 +110,26 @@ describe.each(PROTOCOL_VERSIONS)("LocalTuyaClient on %s", (version) => {
     expect(reports.at(-1)).toEqual({ "1": false, "3": "eco" });
   });
 
-  it("numbers its writes' version headers from 1, under one source ID", async () => {
-    const device = await startDevice(version);
-    const { client } = connect(device.port, version);
+  it.skipIf(version === "3.1")(
+    "numbers its writes' version headers from 1, under one source ID",
+    async () => {
+      const device = await startDevice(version);
+      const { client } = connect(device.port, version);
 
-    await client.writeDataPoints({ "2": 30 });
-    await client.writeDataPoints({ "2": 31 });
+      await client.writeDataPoints({ "2": 30 });
+      await client.writeDataPoints({ "2": 31 });
 
-    const headers = device.received
-      .filter((frame) => frame.versionHeader)
-      .map((frame) => frame.versionHeader);
-    expect(headers).toEqual([
-      { serialNumber: 1, sourceId: expect.any(Number) },
-      { serialNumber: 2, sourceId: headers[0]?.sourceId },
-    ]);
-    expect(headers[0]?.sourceId).toBeGreaterThanOrEqual(1000);
-    expect(headers[0]?.sourceId).toBeLessThanOrEqual(1_000_999);
-  });
+      const headers = device.received
+        .filter((frame) => frame.versionHeader)
+        .map((frame) => frame.versionHeader);
+      expect(headers).toEqual([
+        { serialNumber: 1, sourceId: expect.any(Number) },
+        { serialNumber: 2, sourceId: headers[0]?.sourceId },
+      ]);
+      expect(headers[0]?.sourceId).toBeGreaterThanOrEqual(1000);
+      expect(headers[0]?.sourceId).toBeLessThanOrEqual(1_000_999);
+    },
+  );
 
   it("resolves a write the device only acks", async () => {
     const device = await startDevice(version);
@@ -296,7 +304,36 @@ describe("LocalTuyaClient", () => {
   });
 });
 
-describe.each(PROTOCOL_VERSIONS)("a gateway on %s", (version) => {
+describe("LocalTuyaClient on 3.1", () => {
+  it("reads under the wrong key, as a read goes in plain text, but a write times out", async () => {
+    useFakeTimers();
+    const device = await startDevice("3.1");
+    const { client, reports } = connect(device.port, "3.1", "fedcba9876543210");
+
+    // The read the client makes once connected.
+    await until(() => reports.length > 0);
+    await expect(client.readDataPoints()).resolves.toEqual(DATA_POINTS);
+    const timers = vi.getTimerCount();
+    const writing = expect(
+      client.writeDataPoints({ "1": false }),
+    ).rejects.toMatchObject({ code: "REQUEST_TIMED_OUT" });
+    // The write's timer for its ack.
+    await until(() => vi.getTimerCount() > timers);
+    await vi.advanceTimersByTimeAsync(5000);
+
+    await writing;
+    expect(device.dataPoints["1"]).toBe(true);
+  });
+
+  it("throws a TypeError for a device behind it, as no source shows how a 3.1 gateway reaches one", async () => {
+    const device = await startDevice("3.1");
+    const { client } = connect(device.port, "3.1");
+
+    expect(() => client.createClient("lamp")).toThrow(TypeError);
+  });
+});
+
+describe.each(GATEWAY_VERSIONS)("a gateway on %s", (version) => {
   async function startGateway(): Promise<SimulatedTuyaDevice> {
     const device = await startSimulatedDevice({
       version,
@@ -423,7 +460,7 @@ describe.each(PROTOCOL_VERSIONS)(
         }),
       );
       const discovery = new TuyaDiscovery(
-        broadcastSocket as Socket,
+        [broadcastSocket as Socket],
         answerSocket as Socket,
         () => [],
       );
@@ -534,30 +571,33 @@ describe.each(PROTOCOL_VERSIONS)(
       ]);
     });
 
-    it("takes the devices behind a gateway along to its new address", async () => {
-      useFakeTimers();
-      const before = await startDeviceAt("192.168.1.10", {
-        lamp: { "1": false },
-      });
-      const after = await startDeviceAt("192.168.1.20", {
-        lamp: { "1": true },
-      });
-      const { discovery, port } = await startDiscovery();
-      const { client } = follow(
-        { "192.168.1.10": before, "192.168.1.20": after },
-        discovery,
-      );
-      const lamp = client.createClient("lamp");
-      await expect(lamp.readDataPoints()).resolves.toEqual({ "1": false });
+    it.skipIf(version === "3.1")(
+      "takes the devices behind a gateway along to its new address",
+      async () => {
+        useFakeTimers();
+        const before = await startDeviceAt("192.168.1.10", {
+          lamp: { "1": false },
+        });
+        const after = await startDeviceAt("192.168.1.20", {
+          lamp: { "1": true },
+        });
+        const { discovery, port } = await startDiscovery();
+        const { client } = follow(
+          { "192.168.1.10": before, "192.168.1.20": after },
+          discovery,
+        );
+        const lamp = client.createClient("lamp");
+        await expect(lamp.readDataPoints()).resolves.toEqual({ "1": false });
 
-      await after.broadcast(port);
-      await until(() => discovery.devices.has(DEVICE_ID));
-      await before.close();
-      await until(() => !client.connected);
-      await vi.advanceTimersByTimeAsync(5000);
-      await until(() => lamp.connected);
+        await after.broadcast(port);
+        await until(() => discovery.devices.has(DEVICE_ID));
+        await before.close();
+        await until(() => !client.connected);
+        await vi.advanceTimersByTimeAsync(5000);
+        await until(() => lamp.connected);
 
-      await expect(lamp.readDataPoints()).resolves.toEqual({ "1": true });
-    });
+        await expect(lamp.readDataPoints()).resolves.toEqual({ "1": true });
+      },
+    );
   },
 );

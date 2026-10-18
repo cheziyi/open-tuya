@@ -102,7 +102,7 @@ describe.each(PROTOCOL_VERSIONS)("openConnection on %s", (version) => {
         command,
       ]),
     ).toEqual(
-      version === "3.3"
+      version === "3.1" || version === "3.3"
         ? [[1, COMMANDS.CONTROL]]
         : [
             [1, COMMANDS.SESS_KEY_NEG_START],

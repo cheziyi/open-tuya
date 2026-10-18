@@ -5,6 +5,10 @@ import { TuyaError } from "@open-tuya/core";
 import { type DiscoveredTuyaDevice, decodeBroadcast } from "./broadcast.js";
 import { encodeDiscoveryRequest } from "./request.js";
 
+// Source: A 3.1 device broadcasts to UDP port 6666, in
+// https://github.com/codetheweb/tuyapi/commit/a14621c5255337642152e7466dcc30af90977157
+// and https://github.com/jasonacox/tinytuya/commit/dee8d10292611bc6357e95d44564dc30ccda0678.
+const V31_BROADCAST_PORT = 6666;
 // Source: A 3.2 to 3.5 device broadcasts to UDP port 6667, in
 // https://github.com/jasonacox/tinytuya/commit/dee8d10292611bc6357e95d44564dc30ccda0678
 // and https://github.com/codetheweb/tuyapi/commit/ab5c85e568d992f13107dbf684e6bec6df9bb7db.
@@ -31,14 +35,15 @@ export interface DiscoveryRequestTarget {
   ip: string;
 }
 
-/** Listens for devices on the LAN, on UDP ports 6667 and 7000, and asks 3.5
- * devices to answer every 6 s, as some answer only when asked. It resolves
- * once both ports are bound, and rejects with a `TuyaError` with code
- * `DISCOVERY_FAILED` when one cannot be. */
+/** Listens for devices on the LAN, on UDP ports 6666, 6667 and 7000, and
+ * asks 3.5 devices to answer every 6 s, as some answer only when asked. It
+ * resolves once every port is bound, and rejects with a `TuyaError` with
+ * code `DISCOVERY_FAILED` when one cannot be. */
 export async function discoverDevices(
   options: DiscoverDevicesOptions = {},
 ): Promise<TuyaDiscovery> {
   const bound = await Promise.allSettled([
+    bindSocket(V31_BROADCAST_PORT),
     bindSocket(BROADCAST_PORT),
     bindSocket(ANSWER_PORT),
   ]);
@@ -50,10 +55,14 @@ export async function discoverDevices(
     await Promise.all(sockets.map(closeSocket));
     throw failure.reason;
   }
-  const [broadcastSocket, answerSocket] = sockets as [Socket, Socket];
+  const [v31BroadcastSocket, broadcastSocket, answerSocket] = sockets as [
+    Socket,
+    Socket,
+    Socket,
+  ];
   answerSocket.setBroadcast(true);
   return new TuyaDiscovery(
-    broadcastSocket,
+    [v31BroadcastSocket, broadcastSocket],
     answerSocket,
     listRequestTargets,
     options,
@@ -100,12 +109,12 @@ export class TuyaDiscovery implements AsyncDisposable {
   private closing: Promise<void> | undefined;
 
   constructor(
-    private readonly broadcastSocket: Socket,
+    private readonly broadcastSockets: readonly Socket[],
     private readonly answerSocket: Socket,
     private readonly listRequestTargets: () => DiscoveryRequestTarget[],
     private readonly options: DiscoverDevicesOptions = {},
   ) {
-    for (const socket of [broadcastSocket, answerSocket]) {
+    for (const socket of [...broadcastSockets, answerSocket]) {
       socket.on("message", (datagram: Buffer) => this.receive(datagram));
       // A UDP socket has no connection to lose, so an error costs one
       // datagram at most: see DESIGN.md#discovery.
@@ -122,13 +131,12 @@ export class TuyaDiscovery implements AsyncDisposable {
     return this.reports;
   }
 
-  /** Stops asking and listening, and resolves once both ports are released. */
+  /** Stops asking and listening, and resolves once every port is released. */
   close(): Promise<void> {
     clearInterval(this.requests);
-    this.closing ??= Promise.all([
-      closeSocket(this.broadcastSocket),
-      closeSocket(this.answerSocket),
-    ]).then(() => {});
+    this.closing ??= Promise.all(
+      [...this.broadcastSockets, this.answerSocket].map(closeSocket),
+    ).then(() => {});
     return this.closing;
   }
 

@@ -17,12 +17,15 @@ function text({ command, plaintext }: { command: number; plaintext: Buffer }) {
 }
 
 describe("buildQuery", () => {
-  it("asks a 3.3 device with DP_QUERY, naming it twice", () => {
-    expect(text(buildQuery("3.3", DEVICE_ID))).toEqual({
-      command: COMMANDS.DP_QUERY,
-      plaintext: `{"devId":"${DEVICE_ID}","gwId":"${DEVICE_ID}"}`,
-    });
-  });
+  it.each(["3.1", "3.3"] as const)(
+    "asks a %s device with DP_QUERY, naming it twice",
+    (version) => {
+      expect(text(buildQuery(version, DEVICE_ID))).toEqual({
+        command: COMMANDS.DP_QUERY,
+        plaintext: `{"devId":"${DEVICE_ID}","gwId":"${DEVICE_ID}"}`,
+      });
+    },
+  );
 
   it.each(["3.4", "3.5"] as const)(
     "asks a %s device with DP_QUERY_NEW and an empty object",
@@ -42,6 +45,15 @@ describe("buildControl", () => {
     ).toEqual({
       command: COMMANDS.CONTROL,
       plaintext: `{"devId":"${DEVICE_ID}","dps":{"1":true},"t":1700000000,"uid":""}`,
+    });
+  });
+
+  it("writes to a 3.1 device with CONTROL, t a string of whole seconds", () => {
+    expect(
+      text(buildControl("3.1", DEVICE_ID, { "1": true }, 1700000000.9)),
+    ).toEqual({
+      command: COMMANDS.CONTROL,
+      plaintext: `{"devId":"${DEVICE_ID}","dps":{"1":true},"t":"1700000000","uid":""}`,
     });
   });
 
