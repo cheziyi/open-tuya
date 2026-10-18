@@ -64,6 +64,9 @@ export interface StartSimulatedDeviceOptions {
   /** The UDP port a 3.5 device answers a discovery request to. Defaults to
    * 7000. */
   answerPort?: number;
+  /** The address the device broadcasts as its own, such as one a client
+   * maps to the device's port. Defaults to 127.0.0.1, which it listens on. */
+  ip?: string;
   /** The data points of each device behind the gateway the device is, by
    * node ID. Defaults to none. */
   subDevices?: Readonly<Record<string, DataPoints>>;
@@ -250,7 +253,7 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
     return sealBroadcast(
       this.options.version,
       {
-        ip: (this.server.address() as AddressInfo).address,
+        ip: this.options.ip ?? (this.server.address() as AddressInfo).address,
         gwId: this.deviceId,
         uuid: this.uuid,
         productKey: this.productKey,

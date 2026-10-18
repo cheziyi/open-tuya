@@ -1,14 +1,18 @@
+import { createSocket, type Socket } from "node:dgram";
 import {
   type DataPoints,
   PROTOCOL_VERSIONS,
   type ProtocolVersion,
+  TuyaError,
 } from "@open-tuya/core";
 import {
   type SimulatedTuyaDevice,
   startSimulatedDevice,
 } from "@open-tuya/simulators";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { createLocalTuyaClient, type LocalTuyaClient } from "../client.js";
+import { createLocalTuyaClient, LocalTuyaClient } from "../client.js";
+import { openConnection } from "../connection.js";
+import { TuyaDiscovery } from "../discovery/discovery.js";
 import {
   V33_QUERY_ERROR,
   V33_QUERY_ERROR_KEY,
@@ -385,3 +389,175 @@ describe.each(PROTOCOL_VERSIONS)("a gateway on %s", (version) => {
     },
   );
 });
+
+describe.each(PROTOCOL_VERSIONS)(
+  "a client with a discovery on %s",
+  (version) => {
+    async function startDeviceAt(
+      ip: string,
+      subDevices?: Record<string, DataPoints>,
+    ): Promise<SimulatedTuyaDevice> {
+      const device = await startSimulatedDevice({
+        version,
+        localKey: LOCAL_KEY_TEXT,
+        dataPoints: DATA_POINTS,
+        deviceId: DEVICE_ID,
+        ip,
+        ...(subDevices && { subDevices }),
+      });
+      cleanups.push(() => device.close());
+      return device;
+    }
+
+    async function startDiscovery(): Promise<{
+      discovery: TuyaDiscovery;
+      port: number;
+    }> {
+      const [broadcastSocket, answerSocket] = await Promise.all(
+        [0, 1].map(async () => {
+          const socket = createSocket("udp4");
+          await new Promise<void>((resolve) =>
+            socket.bind(0, "127.0.0.1", resolve),
+          );
+          return socket;
+        }),
+      );
+      const discovery = new TuyaDiscovery(
+        broadcastSocket as Socket,
+        answerSocket as Socket,
+        () => [],
+      );
+      cleanups.push(() => discovery.close());
+      return { discovery, port: (broadcastSocket as Socket).address().port };
+    }
+
+    // Every device listens on 127.0.0.1, the one loopback address on every
+    // platform, so the client's addresses are mapped to the devices' ports.
+    function follow(
+      devices: Record<string, SimulatedTuyaDevice>,
+      discovery: TuyaDiscovery,
+    ) {
+      const attempts: string[] = [];
+      const client = new LocalTuyaClient(
+        (address, listeners) => {
+          attempts.push(address);
+          const device = devices[address];
+          return device
+            ? openConnection({
+                host: "127.0.0.1",
+                port: device.port,
+                version,
+                localKey: LOCAL_KEY_TEXT,
+                ...listeners,
+              })
+            : Promise.reject(
+                new TuyaError("CONNECTION_FAILED", `Nothing at ${address}`),
+              );
+        },
+        version,
+        DEVICE_ID,
+        "192.168.1.10",
+        discovery,
+      );
+      cleanups.push(() => client.close());
+      const reports: DataPoints[] = [];
+      client.onDataPoints((dataPoints) => reports.push(dataPoints));
+      return { client, attempts, reports };
+    }
+
+    it("stays at its address while connected, whatever discovery hears", async () => {
+      const before = await startDeviceAt("192.168.1.10");
+      const after = await startDeviceAt("192.168.1.20");
+      const { discovery, port } = await startDiscovery();
+      const { client, attempts, reports } = follow(
+        { "192.168.1.10": before, "192.168.1.20": after },
+        discovery,
+      );
+      await until(() => reports.length > 0);
+
+      await after.broadcast(port);
+      await until(() => discovery.devices.has(DEVICE_ID));
+      await client.writeDataPoints({ "1": false });
+
+      expect(attempts).toEqual(["192.168.1.10"]);
+      expect(before.dataPoints["1"]).toBe(false);
+      expect(after.dataPoints["1"]).toBe(true);
+    });
+
+    it("reconnects to the address discovery heard once the connection is lost", async () => {
+      useFakeTimers();
+      const before = await startDeviceAt("192.168.1.10");
+      const after = await startDeviceAt("192.168.1.20");
+      const { discovery, port } = await startDiscovery();
+      const { client, attempts, reports } = follow(
+        { "192.168.1.10": before, "192.168.1.20": after },
+        discovery,
+      );
+      await until(() => reports.length > 0);
+
+      await after.broadcast(port);
+      await until(() => discovery.devices.has(DEVICE_ID));
+      await before.close();
+      await until(() => !client.connected);
+      await vi.advanceTimersByTimeAsync(5000);
+      await until(() => client.connected);
+      await client.writeDataPoints({ "1": false });
+
+      expect(attempts).toEqual(["192.168.1.10", "192.168.1.20"]);
+      expect(after.dataPoints["1"]).toBe(false);
+    });
+
+    it("connects first to its host, and returns to it when the address discovery heard fails", async () => {
+      useFakeTimers();
+      const device = await startDeviceAt("192.168.1.10");
+      const wrong = await startDeviceAt("192.168.1.30");
+      const { discovery, port } = await startDiscovery();
+      await wrong.broadcast(port);
+      await until(() => discovery.devices.has(DEVICE_ID));
+      const { client, attempts, reports } = follow(
+        { "192.168.1.10": device },
+        discovery,
+      );
+      await until(() => reports.length > 0);
+
+      device.disconnect();
+      await until(() => !client.connected);
+      await vi.advanceTimersByTimeAsync(5000);
+      await until(() => attempts.length === 2 && !client.connected);
+      await vi.advanceTimersByTimeAsync(10_000);
+      await until(() => client.connected);
+
+      expect(attempts).toEqual([
+        "192.168.1.10",
+        "192.168.1.30",
+        "192.168.1.10",
+      ]);
+    });
+
+    it("takes the devices behind a gateway along to its new address", async () => {
+      useFakeTimers();
+      const before = await startDeviceAt("192.168.1.10", {
+        lamp: { "1": false },
+      });
+      const after = await startDeviceAt("192.168.1.20", {
+        lamp: { "1": true },
+      });
+      const { discovery, port } = await startDiscovery();
+      const { client } = follow(
+        { "192.168.1.10": before, "192.168.1.20": after },
+        discovery,
+      );
+      const lamp = client.createClient("lamp");
+      await expect(lamp.readDataPoints()).resolves.toEqual({ "1": false });
+
+      await after.broadcast(port);
+      await until(() => discovery.devices.has(DEVICE_ID));
+      await before.close();
+      await until(() => !client.connected);
+      await vi.advanceTimersByTimeAsync(5000);
+      await until(() => lamp.connected);
+
+      await expect(lamp.readDataPoints()).resolves.toEqual({ "1": true });
+    });
+  },
+);

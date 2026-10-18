@@ -41,23 +41,19 @@ pass the routes in the order to try them:
 
 ```ts
 import { setTimeout } from "node:timers/promises";
-import { createTuyaClient, type DiscoveredTuyaDevice, discoverDevices } from "open-tuya";
+import { createTuyaClient, discoverDevices } from "open-tuya";
 
-const found = new Map<string, DiscoveredTuyaDevice>();
-const discovery = await discoverDevices({
-  onDevice: (device) => found.set(device.deviceId, device),
-});
+await using discovery = await discoverDevices();
 const [device] = await account.listDevices(); // either cloud's account: see below
 await setTimeout(10_000); // a device broadcasts every few seconds
-await discovery.close();
 
-const lan = found.get(device.deviceId);
+const lan = discovery.devices.get(device.deviceId);
 await using client = await createTuyaClient({
   deviceId: device.deviceId,
   productKey: device.productKey,
   routes: [
     ...(lan && device.localKey
-      ? [{ lan: { host: lan.host, version: lan.version, localKey: device.localKey } }]
+      ? [{ lan: { host: lan.host, version: lan.version, localKey: device.localKey, discovery } }]
       : []),
     { cloud: account },
   ],
@@ -76,8 +72,17 @@ client.onControls((values) => update(values)); // the controls each push carries
 | Every route it tried failed | Rejects with that route's error, or with `ROUTES_FAILED` when it tried several, each route's error in `cause.errors` |
 | Two routes push the same change | Hands on the first connected route's push alone |
 
-The LAN route keeps its `host`: when discovery reports a new one, create a
-new client.
+Keep the discovery open while the client runs: when the LAN connection is
+lost, the client reconnects to the address discovery last heard the device at,
+such as one DHCP gave it.
+
+| When | The LAN client |
+| --- | --- |
+| It is connected, and discovery hears another address | Stays where it is |
+| The connection is lost, or a connect fails | Tries the address discovery heard next, unless that is the one that just failed |
+| The address discovery heard fails too | Returns to the last address that connected |
+
+[DESIGN.md](DESIGN.md#moved-devices) says why.
 
 ### A device behind a gateway
 
@@ -88,12 +93,13 @@ no `nodeId`.
 
 ```ts
 const gateway = devices.find((candidate) => !candidate.nodeId && candidate.localKey === device.localKey);
-const found = discovered.get(gateway.deviceId);
+const found = discovery.devices.get(gateway.deviceId);
 await using hub = createLocalTuyaClient({
   deviceId: gateway.deviceId,
   host: found.host,
   version: found.version,
   localKey: gateway.localKey,
+  discovery,
 });
 await using client = await createTuyaClient({
   deviceId: device.deviceId,
@@ -103,7 +109,8 @@ await using client = await createTuyaClient({
 ```
 
 One gateway client serves every device behind it: create it once and close it
-yourself, as `createTuyaClient` leaves it open. On 3.4 and 3.5 it asks the
+yourself, as `createTuyaClient` leaves it open. The devices behind it follow
+it to a new address. On 3.4 and 3.5 it asks the
 gateway every 30 s which devices are online, so a device the gateway reports
 offline goes to the next route.
 
