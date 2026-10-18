@@ -88,7 +88,7 @@ catalog lacks has no `entry`: read and write its data points by ID.
 
 ## Naming data points
 
-`@open-tuya/devices` holds 1,552 devices converted from
+`@open-tuya/devices` holds 1,639 devices converted from
 [tuya-local](https://github.com/make-all/tuya-local). Without
 `createTuyaClient`, find a device's entry, then read and write its data
 points by name:

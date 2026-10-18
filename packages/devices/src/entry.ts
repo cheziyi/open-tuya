@@ -37,6 +37,9 @@ export interface ControlRule {
   /** Another data point the value is read from instead. A write sets this
    * rule's raw value while the other data point reads the value written. */
   mirror?: ControlTarget;
+  /** The rule applies only while this data point reads a value other than
+   * false, 0, an empty string or none. */
+  availableWhile?: ControlTarget;
 }
 
 /** A data point a control reads or writes instead of its own, converted as a
@@ -79,6 +82,8 @@ export interface ControlCondition extends Omit<ControlRule, "dependsOn"> {
    * place of the control's. */
   min?: number;
   max?: number;
+  /** While it holds, the control has no value, and cannot be written. */
+  invalid?: true;
 }
 
 /** One thing a device does, and how its data point's raw value converts to
@@ -128,6 +133,10 @@ export interface TuyaControl {
   /** Another data point any value `values` does not name is read from
    * instead. */
   mirror?: ControlTarget;
+  /** The control's own rule, for any value `values` does not name, applies
+   * only while this data point reads a value other than false, 0, an empty
+   * string or none. */
+  availableWhile?: ControlTarget;
   /** The control's value runs over this range as the raw value runs over
    * `min` to `max`. */
   targetRange?: { min: number; max: number };

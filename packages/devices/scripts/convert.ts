@@ -72,6 +72,8 @@ interface MappingRule {
   range?: { min?: number; max?: number };
   value_redirect?: string;
   value_mirror?: string;
+  available?: string;
+  invalid?: boolean;
   [key: string]: unknown;
 }
 
@@ -85,9 +87,6 @@ class UnsupportedFeature extends Error {}
 // The tuya-local features a file can use that this conversion does not, each
 // with what it means, in the order a file is reported by.
 const UNSUPPORTED_MAPPING_KEYS: Record<string, string> = {
-  available:
-    "`available`: a value offered only while another data point allows it",
-  invalid: "`invalid`: a value that cannot be written in some states",
   default: "`default`: the value a bare turn-on writes",
 };
 const RANGE_ON_RAW = "a mapping's own `range` on one raw value";
@@ -906,9 +905,12 @@ function convertDataPoint(
       }
       continue;
     }
-    const { value, dependsOn, redirect, mirror } = converted;
+    const { value, dependsOn, redirect, mirror, availableWhile } = converted;
     if (value !== undefined) {
       own.otherwise = value;
+    }
+    if (availableWhile) {
+      own.availableWhile = availableWhile;
     }
     if (dependsOn) {
       own.dependsOn = dependsOn;
@@ -976,6 +978,9 @@ function convertRule(
   const dependsOn = dependency(entity, dp, rule, trail);
   const redirect = redirectTarget(entity, dp, rule, rule.value_redirect, trail);
   const mirror = redirectTarget(entity, dp, rule, rule.value_mirror, trail);
+  const availableWhile = availabilityTarget(entity, dp, rule, trail);
+  // An `invalid` on a rule does nothing: tuya-local reads it from the
+  // condition that holds alone, see DESIGN.md#catalog.
   return {
     ...("value" in rule &&
       rule.value !== null && { value: rule.value as ControlRule["value"] }),
@@ -983,7 +988,28 @@ function convertRule(
     ...(dependsOn && { dependsOn }),
     ...(redirect && { redirect }),
     ...(mirror && { mirror }),
+    ...(availableWhile && { availableWhile }),
   };
+}
+
+// Source: An `available` names a data point of the same entity whose value,
+// as it converts, makes the rule apply while truthy, and one the entity
+// lacks leaves the rule always available, in
+// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L578-L585.
+function availabilityTarget(
+  entity: EntityConfig,
+  dp: DataPointConfig,
+  rule: MappingRule,
+  trail: readonly string[],
+): ControlTarget | undefined {
+  const name = rule.available;
+  if (
+    name === undefined ||
+    !entity.dps.some((candidate) => candidate.name === name)
+  ) {
+    return undefined;
+  }
+  return redirectTarget(entity, dp, {}, name, trail);
 }
 
 // Source: A value_redirect or value_mirror names a data point of the same
@@ -1055,6 +1081,7 @@ function condition(
 ): ControlCondition {
   const redirect = redirectTarget(entity, dp, rule, rule.value_redirect, trail);
   const mirror = redirectTarget(entity, dp, rule, rule.value_mirror, trail);
+  const availableWhile = availabilityTarget(entity, dp, rule, trail);
   // A condition with no dps_val never holds.
   const when =
     "dps_val" in rule
@@ -1094,6 +1121,8 @@ function condition(
     ...(rule.range?.max !== undefined && { max: rule.range.max }),
     ...(redirect && { redirect }),
     ...(mirror && { mirror }),
+    ...(availableWhile && { availableWhile }),
+    ...(rule.invalid && { invalid: true as const }),
   };
 }
 

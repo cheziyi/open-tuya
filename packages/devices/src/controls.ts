@@ -137,7 +137,8 @@ export function resolveControl(
 }
 
 /** The data points other than its own that a control's value depends on or
- * reads instead, through every data point it redirects or mirrors to. */
+ * reads instead, through every data point it redirects or mirrors to, or
+ * whose value makes a rule of it available. */
 export function listDependencies(control: ControlTarget): DataPointId[] {
   const found = new Set<DataPointId>();
   const visit = (target: ControlTarget) => {
@@ -148,9 +149,11 @@ export function listDependencies(control: ControlTarget): DataPointId[] {
       const targets = [
         rule.redirect,
         rule.mirror,
+        rule.availableWhile,
         ...(rule.dependsOn?.conditions ?? []).flatMap((condition) => [
           condition.redirect,
           condition.mirror,
+          condition.availableWhile,
         ]),
       ];
       for (const next of targets) {
@@ -189,7 +192,23 @@ function ownRule(control: ControlTarget): Rule {
     ...(control.dependsOn && { dependsOn: control.dependsOn }),
     ...(control.redirect && { redirect: control.redirect }),
     ...(control.mirror && { mirror: control.mirror }),
+    ...(control.availableWhile && { availableWhile: control.availableWhile }),
   };
+}
+
+// Source: A mapping or a condition naming an `available` data point applies
+// only while that data point's value, as it converts, is truthy, in
+// https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L578-L585.
+function isAvailable(
+  entry: TuyaDeviceEntry,
+  rule: ControlRule,
+  dataPoints: DataPoints,
+): boolean {
+  if (!rule.availableWhile) {
+    return true;
+  }
+  const value = readControl(entry, rule.availableWhile, dataPoints);
+  return value !== undefined && value !== false && value !== 0 && value !== "";
 }
 
 function mappingRule(mapping: ControlMapping): Rule {
@@ -215,10 +234,20 @@ function currentRule(
   if (value === undefined) {
     return undefined;
   }
-  const mapping = control.values?.find((candidate) =>
-    matches(fieldType(control, type), candidate.raw, value),
+  // A rule that is not available is passed over, unless conditions decide
+  // it: then the conditions do.
+  const usable = (rule: ControlRule) =>
+    rule.dependsOn !== undefined || isAvailable(entry, rule, dataPoints);
+  const mapping = control.values?.find(
+    (candidate) =>
+      matches(fieldType(control, type), candidate.raw, value) &&
+      usable(candidate),
   );
-  return { ...(mapping ? mappingRule(mapping) : ownRule(control)), raw: value };
+  if (mapping) {
+    return { ...mappingRule(mapping), raw: value };
+  }
+  const own = ownRule(control);
+  return usable(own) ? { ...own, raw: value } : { raw: value };
 }
 
 // Source: A raw value matches the first mapping whose dps_val equals it, a
@@ -241,6 +270,9 @@ function readControl(
     return undefined;
   }
   const condition = holdingCondition(entry, rule.dependsOn, dataPoints);
+  if (condition?.invalid) {
+    return undefined;
+  }
   const target =
     condition?.redirect ?? rule.redirect ?? condition?.mirror ?? rule.mirror;
   if (target) {
@@ -302,6 +334,16 @@ function writeControl(
     );
   }
   const found = findRule(entry, control, value, current);
+  // Source: A write is refused while the condition that holds on the rule
+  // taking the value is invalid, in
+  // https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L568-L576
+  // and https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L729-L735.
+  if (found && holdingCondition(entry, found.dependsOn, current)?.invalid) {
+    throw new TuyaError(
+      "VALUE_UNAVAILABLE",
+      `${value} cannot be set while data point ${found.dependsOn?.dataPoint} is ${String(current[found.dependsOn?.dataPoint ?? ""])}`,
+    );
+  }
   const rule = found ?? ownRule(control);
   if (!found) {
     const redirect = currentRule(entry, control, current)?.redirect;
@@ -370,7 +412,7 @@ function findRule(
   let distance = Number.POSITIVE_INFINITY;
   let unavailable: ControlDependency | undefined;
   for (const mapping of control.values ?? []) {
-    if (mapping.readOnly) {
+    if (mapping.readOnly || !isAvailable(entry, mapping, current)) {
       continue;
     }
     const reach = reachOf(entry, control, mapping, value, current);
@@ -390,7 +432,10 @@ function findRule(
     }
   }
   const own = ownRule(control);
-  const reach = reachOf(entry, control, own, value, current);
+  const ownAvailable = isAvailable(entry, own, current);
+  const reach = ownAvailable
+    ? reachOf(entry, control, own, value, current)
+    : undefined;
   if (reach === "reachable") {
     return own;
   }
@@ -406,7 +451,7 @@ function findRule(
   if (nearest) {
     return mappingRule(nearest);
   }
-  return hasOwnRule(control) ? own : undefined;
+  return ownAvailable && hasOwnRule(control) ? own : undefined;
 }
 
 // Whether a rule takes `value`: its value is it, its mirror reads it, or one
@@ -428,7 +473,7 @@ function reachOf(
   const dependency = rule.dependsOn;
   let reach: "unavailable" | undefined;
   for (const condition of dependency?.conditions ?? []) {
-    if (condition.readOnly) {
+    if (condition.readOnly || !isAvailable(entry, condition, current)) {
       continue;
     }
     if (condition.value === undefined) {
@@ -486,7 +531,9 @@ function writingCondition(
   current: DataPoints,
 ): ControlCondition | undefined {
   const giving = dependency?.conditions.find(
-    (condition) => String(condition.value) === String(value),
+    (condition) =>
+      isAvailable(entry, condition, current) &&
+      String(condition.value) === String(value),
   );
   return giving ?? holdingCondition(entry, dependency, current);
 }
@@ -498,7 +545,11 @@ function holdingCondition(
 ): ControlCondition | undefined {
   let holding: ControlCondition | undefined;
   for (const condition of dependency?.conditions ?? []) {
-    if (dependency && holds(entry, dependency, condition, dataPoints)) {
+    if (
+      dependency &&
+      isAvailable(entry, condition, dataPoints) &&
+      holds(entry, dependency, condition, dataPoints)
+    ) {
       holding = condition;
     }
   }
