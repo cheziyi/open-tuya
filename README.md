@@ -177,7 +177,7 @@ Pass Home Assistant's client ID and schema: they are the only pair known to
 work, so `@open-tuya/cloud-app` signs in as Home Assistant does.
 
 ```ts
-import { createCloudAppAccount, createQrLogin } from "@open-tuya/cloud-app";
+import { createAppCloudAccount, createQrLogin } from "@open-tuya/cloud-app";
 
 const clientId = "HA_3y9q4ak7g4ephrvke";
 const login = createQrLogin({
@@ -188,7 +188,7 @@ const login = createQrLogin({
 const qrCode = await login.requestQrCode(); // show it as a QR code
 const session = await login.waitForScan(qrCode);
 
-const account = createCloudAppAccount({
+const account = createAppCloudAccount({
   clientId,
   session,
   onSessionChange: save, // persist each one: its refresh token works once

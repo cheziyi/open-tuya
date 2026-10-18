@@ -1,7 +1,7 @@
 import { type Fetch, fetchJson, TuyaError } from "@open-tuya/core";
 import type { LoginResult } from "./protocol/records.js";
 import { parseResponse } from "./protocol/response.js";
-import type { CloudAppSession } from "./session.js";
+import type { AppCloudSession } from "./session.js";
 
 // Source: The login requests go to this host whatever the account's region,
 // in https://github.com/tuya/tuya-device-sharing-sdk/commit/ae5e3c4c67eaefffd1be79e39d9f411e43515d13.
@@ -12,6 +12,8 @@ const QR_CODE_PREFIX = "tuyaSmart--qrLogin?token=";
 // Source: The cloud answers a poll for an expired QR code with this code, in
 // https://github.com/home-assistant/core/issues/140855.
 const QR_CODE_EXPIRED = "E0020002";
+// A scan is noticed within 2 s, at a request every 2 s against the cloud's rate
+// limit: no source polls, so none sets the interval.
 const POLL_INTERVAL_IN_MS = 2000;
 
 export interface CreateQrLoginOptions {
@@ -71,7 +73,7 @@ export class QrLogin {
   async waitForScan(
     qrCode: string,
     options: WaitForScanOptions = {},
-  ): Promise<CloudAppSession> {
+  ): Promise<AppCloudSession> {
     const url = this.url(`/${qrCode.slice(QR_CODE_PREFIX.length)}`);
     for (;;) {
       const response = parseResponse(

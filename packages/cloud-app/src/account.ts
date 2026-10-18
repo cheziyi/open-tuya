@@ -9,8 +9,8 @@ import {
   TuyaError,
 } from "@open-tuya/core";
 import {
+  type AppCloudTransport,
   AppCloudTuyaClient,
-  type CloudAppTransport,
   type RequestParts,
 } from "./client.js";
 import { mapDataPointCodes } from "./dataPointCodes.js";
@@ -25,12 +25,17 @@ import type {
 import { signRequest } from "./protocol/request.js";
 import { type CloudResponse, parseResponse } from "./protocol/response.js";
 import { DevicePush, type PushConfig } from "./push.js";
-import type { CloudAppSession } from "./session.js";
+import type { AppCloudSession } from "./session.js";
 
+// Source: The SDK refreshes a token a minute before it expires, in
+// https://github.com/tuya/tuya-device-sharing-sdk/commit/3e0d9ae6eb5e23e97ce7697a1bd3b248fe2c75b1.
+// A minute leaves a request sent just before the refresh time to land before
+// the expiry.
 const REFRESH_MARGIN_IN_MS = 60_000;
 // Source: The SDK draws each 12-character nonce from these characters, in
 // https://github.com/tuya/tuya-device-sharing-sdk/commit/3e0d9ae6eb5e23e97ce7697a1bd3b248fe2c75b1.
-// DESIGN.md#cloud-app-requests says why from these.
+// DESIGN.md#cloud-app-requests says why this library draws from them with
+// node:crypto.
 const NONCE_CHARACTERS = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678";
 const NONCE_LENGTH = 12;
 // Source: The cloud answers a session it no longer takes with "sign invalid",
@@ -45,27 +50,27 @@ const TOKEN_EXPIRED = "1010";
 // in https://github.com/home-assistant/core/issues/178266#issuecomment-5200735391.
 const RATE_LIMIT_EXCEEDED = "API_QPS_LIMIT_OR_DEGRADE";
 
-export interface CreateCloudAppAccountOptions {
+export interface CreateAppCloudAccountOptions {
   /** The client ID the session signed in with:
    * `CreateQrLoginOptions.clientId`. */
   clientId: string;
-  session: CloudAppSession;
+  session: AppCloudSession;
   /** Called with the new session after each refresh. Persist it: the refresh
    * token it replaces no longer works. */
-  onSessionChange: (session: CloudAppSession) => void;
+  onSessionChange: (session: AppCloudSession) => void;
 }
 
 /** A device as the account lists it, with the home it is in. */
-export interface CloudAppDevice extends TuyaCloudDevice {
+export interface AppCloudDevice extends TuyaCloudDevice {
   homeId: string;
 }
 
 /** Reaches the cloud with a session from `QrLogin`: see
- * `CloudAppAccount`. */
-export function createCloudAppAccount(
-  options: CreateCloudAppAccountOptions,
-): CloudAppAccount {
-  return new CloudAppAccount(fetch, openMqttConnection, options);
+ * `AppCloudAccount`. */
+export function createAppCloudAccount(
+  options: CreateAppCloudAccountOptions,
+): AppCloudAccount {
+  return new AppCloudAccount(fetch, openMqttConnection, options);
 }
 
 // Source: Every request after the login goes to the session's endpoint,
@@ -79,8 +84,8 @@ export function createCloudAppAccount(
  * rejects with `REQUEST_TIMED_OUT` when the cloud does not answer within
  * 10 s, `RATE_LIMITED` when it refuses one over its rate limit, and
  * `REQUEST_REJECTED` when it answers with another error. */
-export class CloudAppAccount implements TuyaCloudAccount {
-  private session: CloudAppSession;
+export class AppCloudAccount implements TuyaCloudAccount {
+  private session: AppCloudSession;
   private refreshing: Promise<void> | undefined;
   private readonly closing = new AbortController();
   private readonly mqtt: MqttSession<PushConfig>;
@@ -88,11 +93,11 @@ export class CloudAppAccount implements TuyaCloudAccount {
 
   constructor(
     private readonly fetch: Fetch,
-    openMqtt: OpenMqttConnection,
-    private readonly options: CreateCloudAppAccountOptions,
+    private readonly openMqtt: OpenMqttConnection,
+    private readonly options: CreateAppCloudAccountOptions,
   ) {
     this.session = options.session;
-    this.mqtt = new MqttSession<PushConfig>(openMqtt, {
+    this.mqtt = new MqttSession<PushConfig>(this.openMqtt, {
       fetchCredentials: () => this.fetchPushConfig(),
       onMessage: (message) => this.push.receive(message),
     });
@@ -103,12 +108,12 @@ export class CloudAppAccount implements TuyaCloudAccount {
   // home's devices by GET /v1.0/m/life/ha/home/devices with its owner ID, in
   // https://github.com/tuya/tuya-device-sharing-sdk/commit/3e0d9ae6eb5e23e97ce7697a1bd3b248fe2c75b1.
   /** Lists the devices in every home of the account. */
-  async listDevices(): Promise<CloudAppDevice[]> {
+  async listDevices(): Promise<AppCloudDevice[]> {
     const homes = (await this.request(
       "GET",
       "/v1.0/m/life/users/homes",
     )) as HomeRecord[];
-    const devices: CloudAppDevice[] = [];
+    const devices: AppCloudDevice[] = [];
     for (const home of homes) {
       const homeId = String(home.ownerId);
       const records = (await this.request(
@@ -150,7 +155,7 @@ export class CloudAppAccount implements TuyaCloudAccount {
       "GET",
       `/v1.0/m/life/ha/${id}/code/custom-type`,
     );
-    const transport: CloudAppTransport = {
+    const transport: AppCloudTransport = {
       request: (method, path, parts) => this.request(method, path, parts),
       subscribe: (listener) => this.push.subscribe(deviceId, listener),
     };
@@ -199,7 +204,7 @@ export class CloudAppAccount implements TuyaCloudAccount {
 
   // One refresh at a time: the refresh token works once, so a second refresh
   // in flight would send one the first had already spent.
-  private refresh(stale: CloudAppSession): Promise<void> {
+  private refresh(stale: AppCloudSession): Promise<void> {
     if (this.session !== stale) {
       return Promise.resolve();
     }
@@ -232,7 +237,7 @@ export class CloudAppAccount implements TuyaCloudAccount {
     method: string,
     path: string,
     parts: RequestParts,
-    session: CloudAppSession,
+    session: AppCloudSession,
   ): Promise<unknown> {
     const signed = signRequest({
       clientId: this.options.clientId,

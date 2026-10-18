@@ -14,7 +14,7 @@ export interface RequestParts {
 }
 
 /** What a client reaches the cloud through: its account. */
-export interface CloudAppTransport {
+export interface AppCloudTransport {
   request(method: string, path: string, parts?: RequestParts): Promise<unknown>;
   /** Hands `listener` the data points the device pushes. Returns a function
    * that removes it, and resolves once what it held is released. */
@@ -25,7 +25,7 @@ export interface CloudAppTransport {
 // and written as commands keyed by code, in
 // https://github.com/tuya/tuya-device-sharing-sdk/commit/3e0d9ae6eb5e23e97ce7697a1bd3b248fe2c75b1.
 /** A device reached through the cloud the Smart Life app signs in to. Create
- * one with `CloudAppAccount.createClient`. It reads and writes only the data
+ * one with `AppCloudAccount.createClient`. It reads and writes only the data
  * points whose values the cloud passes through unchanged, and hands its
  * listeners every data point the cloud pushes. */
 export class AppCloudTuyaClient implements TuyaClient {
@@ -35,7 +35,7 @@ export class AppCloudTuyaClient implements TuyaClient {
   private closed = false;
 
   constructor(
-    private readonly transport: CloudAppTransport,
+    private readonly transport: AppCloudTransport,
     private readonly deviceId: string,
     private readonly codes: DataPointCodes,
   ) {
