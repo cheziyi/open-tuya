@@ -45,6 +45,14 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "d",
       },
+      filterLifeSettingInDays: {
+        dataPoint: "7",
+        kind: "number",
+        measures: "duration",
+        unit: "d",
+        min: 0,
+        max: 90,
+      },
       maintenanceDueInDays: {
         dataPoint: "4",
         kind: "sensor",
@@ -54,14 +62,6 @@ const entry: TuyaDeviceEntry = {
       },
       filterReset: { dataPoint: "5", kind: "button" },
       maintenanceReset: { dataPoint: "6", kind: "button" },
-      secondFilterLifeInDays: {
-        dataPoint: "7",
-        kind: "number",
-        measures: "duration",
-        unit: "d",
-        min: 0,
-        max: 90,
-      },
       maintenanceIntervalInDays: {
         dataPoint: "8",
         kind: "number",

@@ -507,8 +507,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "119",
         kind: "select",
         values: [
-          { raw: "C", value: "celsius" },
-          { raw: "F", value: "fahrenheit" },
+          { raw: "C", value: "C" },
+          { raw: "F", value: "F" },
         ],
       },
       wirelessCharging: {

@@ -87,6 +87,7 @@ const entry: TuyaDeviceEntry = {
       },
       motionRecording: { dataPoint: "113", kind: "switch" },
       motionTimer: { dataPoint: "114", kind: "text" },
+      motionTimerEnabled: { dataPoint: "135", kind: "switch" },
       motion: {
         dataPoint: "115",
         kind: "event",
@@ -144,7 +145,6 @@ const entry: TuyaDeviceEntry = {
         otherwise: false,
       },
       motionDetection: { dataPoint: "134", kind: "switch" },
-      secondMotionTimer: { dataPoint: "135", kind: "switch" },
       recording: { dataPoint: "150", kind: "switch" },
       recordingMode: {
         dataPoint: "151",

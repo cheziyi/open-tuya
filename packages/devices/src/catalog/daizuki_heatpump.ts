@@ -114,7 +114,16 @@ const entry: TuyaDeviceEntry = {
         unit: "%",
         values: [{ raw: 0, value: null }],
       },
-      sleepMode: { dataPoint: "105", kind: "text" },
+      sleepMode: {
+        dataPoint: "105",
+        kind: "select",
+        values: [
+          { raw: "off", value: "Off" },
+          { raw: "normal", value: "Standard" },
+          { raw: "old", value: "Elderly" },
+          { raw: "child", value: "Child" },
+        ],
+      },
       flags: { dataPoint: "110", kind: "number" },
       temperatureUnit: {
         dataPoint: "110",
@@ -179,16 +188,6 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "Center" },
           { raw: "4", value: "Slight Right" },
           { raw: "5", value: "Rightmost" },
-        ],
-      },
-      secondSleepMode: {
-        dataPoint: "105",
-        kind: "select",
-        values: [
-          { raw: "off", value: "Off" },
-          { raw: "normal", value: "Standard" },
-          { raw: "old", value: "Elderly" },
-          { raw: "child", value: "Child" },
         ],
       },
       sound: {

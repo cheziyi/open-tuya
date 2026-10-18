@@ -196,8 +196,8 @@ const entry: TuyaDeviceEntry = {
           { raw: "2", value: "60Hz" },
         ],
       },
-      motionLimitArea: { dataPoint: "168", kind: "switch" },
-      secondMotionLimitArea: { dataPoint: "169", kind: "text" },
+      motionLimitAreaEnabled: { dataPoint: "168", kind: "switch" },
+      motionLimitArea: { dataPoint: "169", kind: "text" },
     },
   },
   source: {

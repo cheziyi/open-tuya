@@ -103,14 +103,6 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         values: [{ raw: "standby", value: "idle" }],
       },
-      secondTemperatureUnit: {
-        dataPoint: "9",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       timer: {
         dataPoint: "12",
         kind: "select",

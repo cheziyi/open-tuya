@@ -167,8 +167,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "2", value: "continuous" },
         ],
       },
-      alarm: { dataPoint: "159", kind: "switch", whenAbsent: { value: false } },
-      secondAlarm: {
+      alarmEnabled: {
+        dataPoint: "159",
+        kind: "switch",
+        whenAbsent: { value: false },
+      },
+      alarm: {
         dataPoint: "185",
         kind: "event",
         readOnly: true,

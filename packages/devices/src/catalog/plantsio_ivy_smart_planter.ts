@@ -180,8 +180,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "130",
         kind: "select",
         values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
+          { raw: false, value: "C" },
+          { raw: true, value: "F" },
         ],
       },
       color: {

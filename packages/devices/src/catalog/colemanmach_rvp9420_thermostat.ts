@@ -286,8 +286,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "select",
         values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
         ],
       },
       temperatureCalibrationInC: {
@@ -411,6 +411,19 @@ const entry: TuyaDeviceEntry = {
           { raw: "5", value: "5" },
         ],
       },
+      compressorProtectionState: {
+        dataPoint: "118",
+        mask: "00000001",
+        kind: "sensor",
+        measures: "fault",
+        readOnly: true,
+        values: [
+          { raw: 0, value: false },
+          { raw: 1, value: true },
+        ],
+        whenAbsent: { value: null },
+        otherwise: true,
+      },
       temperatureRange: { dataPoint: "117", kind: "text" },
       fan: {
         dataPoint: "118",
@@ -430,19 +443,6 @@ const entry: TuyaDeviceEntry = {
         mask: "00010000",
         kind: "sensor",
         measures: "running",
-        readOnly: true,
-        values: [
-          { raw: 0, value: false },
-          { raw: 1, value: true },
-        ],
-        whenAbsent: { value: null },
-        otherwise: true,
-      },
-      secondCompressorProtection: {
-        dataPoint: "118",
-        mask: "00000001",
-        kind: "sensor",
-        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },

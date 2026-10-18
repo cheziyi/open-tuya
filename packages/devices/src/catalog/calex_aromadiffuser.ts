@@ -16,13 +16,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1", kind: "switch" },
+      on: { dataPoint: "7", kind: "switch" },
       spray: {
         dataPoint: "2",
         kind: "switch",
         values: [{ raw: true }, { raw: false }],
       },
-      secondOn: { dataPoint: "7", kind: "switch" },
       colorMode: {
         dataPoint: "9",
         kind: "select",
@@ -84,6 +83,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
+    device: { on: { dataPoint: "1", kind: "switch" } },
   },
   source: {
     file: "calex_aromadiffuser.yaml",

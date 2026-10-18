@@ -80,14 +80,6 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       modelCode: { dataPoint: "110", kind: "number" },
-      secondTemperatureUnit: {
-        dataPoint: "19",
-        kind: "select",
-        values: [
-          { raw: "C", value: "celsius" },
-          { raw: "F", value: "fahrenheit" },
-        ],
-      },
       sleep: {
         dataPoint: "4",
         kind: "switch",

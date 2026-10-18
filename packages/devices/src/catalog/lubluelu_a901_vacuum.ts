@@ -93,7 +93,6 @@ const entry: TuyaDeviceEntry = {
         unit: "%",
       },
       pathData: { dataPoint: "14", kind: "text" },
-      secondCommand: { dataPoint: "15", kind: "text" },
       request: {
         dataPoint: "16",
         kind: "select",
@@ -139,6 +138,7 @@ const entry: TuyaDeviceEntry = {
       },
       batteryInfo: { dataPoint: "154", kind: "sensor", readOnly: true },
     },
+    device: { command: { dataPoint: "15", kind: "text" } },
   },
   source: {
     file: "lubluelu_a901_vacuum.yaml",

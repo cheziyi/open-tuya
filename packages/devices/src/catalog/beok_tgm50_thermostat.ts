@@ -155,6 +155,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "Daily" },
         ],
       },
+      scheduleData: { dataPoint: "105", kind: "text" },
       invertOutput: { dataPoint: "108", kind: "switch" },
       sensorSelection: {
         dataPoint: "110",
@@ -166,7 +167,6 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       sound: { dataPoint: "109", kind: "switch" },
-      secondSchedule: { dataPoint: "105", kind: "text" },
     },
     backlight: {
       brightness: {

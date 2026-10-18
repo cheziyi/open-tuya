@@ -223,8 +223,8 @@ const entry: TuyaDeviceEntry = {
           { raw: 67108864, value: "picked_up" },
         ],
       },
-      secondCommand: { dataPoint: "15", kind: "text" },
     },
+    device: { command: { dataPoint: "15", kind: "text" } },
   },
   source: {
     file: "liectroux_xr500_t3_vacuum.yaml",

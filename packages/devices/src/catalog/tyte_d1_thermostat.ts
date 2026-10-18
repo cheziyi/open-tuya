@@ -76,7 +76,10 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "20",
         kind: "select",
-        values: [{ raw: "f", value: "F" }],
+        values: [
+          { raw: "f", value: "F" },
+          { raw: "c", value: "C" },
+        ],
         otherwise: "C",
       },
       targetTemperature: {
@@ -175,14 +178,6 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
       },
       voltageCoefficient: { dataPoint: "14", kind: "sensor", readOnly: true },
-      secondTemperatureUnit: {
-        dataPoint: "20",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       temperatureHysteresis: {
         dataPoint: "29",
         kind: "number",

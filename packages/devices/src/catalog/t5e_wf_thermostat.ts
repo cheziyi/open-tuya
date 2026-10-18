@@ -328,14 +328,6 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
-      secondTemperatureUnit: {
-        dataPoint: "43",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       workingStatus: { dataPoint: "3", kind: "sensor", readOnly: true },
       windowCheck: { dataPoint: "8", kind: "switch" },
       antiFrost: { dataPoint: "10", kind: "switch" },

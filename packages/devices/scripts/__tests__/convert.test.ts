@@ -1467,4 +1467,414 @@ entities:
     ]);
     expect(components.fan?.safety?.measures).toBe("hazard");
   });
+
+  it("gives a data point two entities expose one control, the climate's over a select", () => {
+    const { components } = entry(`name: Heater
+entities:
+  - entity: climate
+    dps:
+      - id: 2
+        type: integer
+        name: temperature
+      - id: 19
+        type: string
+        name: temperature_unit
+        mapping:
+          - dps_val: c
+            value: C
+          - dps_val: f
+            value: F
+  - entity: select
+    translation_key: temperature_unit
+    dps:
+      - id: 19
+        type: string
+        name: option
+        mapping:
+          - dps_val: c
+            value: celsius
+          - dps_val: f
+            value: fahrenheit
+`);
+
+    expect(components).toEqual({
+      climate: {
+        targetTemperature: {
+          dataPoint: "2",
+          kind: "number",
+          measures: "temperature",
+          unitFrom: "temperatureUnit",
+        },
+        temperatureUnit: {
+          dataPoint: "19",
+          kind: "select",
+          values: [
+            { raw: "c", value: "C" },
+            { raw: "f", value: "F" },
+          ],
+        },
+      },
+    });
+  });
+
+  it("gives a sensor's unit the writes of a select on its data point, in the unit's values", () => {
+    const { components } = entry(`name: Thermometer
+entities:
+  - entity: select
+    translation_key: temperature_unit
+    dps:
+      - id: 9
+        type: string
+        name: option
+        mapping:
+          - dps_val: c
+            value: celsius
+          - dps_val: f
+            value: fahrenheit
+  - entity: sensor
+    class: temperature
+    dps:
+      - id: 1
+        type: integer
+        name: sensor
+      - id: 9
+        type: string
+        name: unit
+        mapping:
+          - dps_val: f
+            value: F
+          - dps_val: k
+            value: K
+          - value: C
+`);
+
+    expect(components.device?.temperatureUnit).toEqual({
+      dataPoint: "9",
+      kind: "select",
+      values: [
+        { raw: "f", value: "F" },
+        { raw: "k", value: "K", readOnly: true },
+        { raw: "c", value: "C" },
+      ],
+      otherwise: "C",
+      ownRuleReadOnly: true,
+    });
+    expect(Object.keys(components.device ?? {})).toEqual([
+      "temperatureUnit",
+      "temperature",
+    ]);
+  });
+
+  it("keeps an entity's own data point over another's attribute on it, and takes no writes from the attribute", () => {
+    const { components } = entry(`name: Water heater
+entities:
+  - entity: water_heater
+    dps:
+      - id: 1
+        type: string
+        name: operation_mode
+      - id: 21
+        type: integer
+        name: inlet_temperature
+  - entity: sensor
+    translation_key: inlet_temperature
+    class: temperature
+    dps:
+      - id: 21
+        type: integer
+        name: sensor
+        unit: C
+`);
+
+    expect(components.waterHeater?.inletTemperatureInC).toEqual({
+      dataPoint: "21",
+      kind: "sensor",
+      measures: "temperature",
+      readOnly: true,
+      unit: "C",
+    });
+    expect(Object.keys(components.waterHeater ?? {})).toEqual([
+      "mode",
+      "inletTemperatureInC",
+    ]);
+  });
+
+  it("names a control apart from another of its name by what the kinds of their entities do", () => {
+    const { components } = entry(`name: Charger
+entities:
+  - entity: number
+    class: current
+    dps:
+      - id: 4
+        type: integer
+        name: value
+        unit: A
+  - entity: sensor
+    class: current
+    dps:
+      - id: 6
+        type: integer
+        name: sensor
+        unit: A
+  - entity: switch
+    name: Schedule
+    dps:
+      - id: 2
+        type: boolean
+        name: switch
+  - entity: text
+    name: Schedule
+    dps:
+      - id: 16
+        type: base64
+        name: value
+  - entity: select
+    name: Charging mode
+    dps:
+      - id: 14
+        type: string
+        name: option
+        mapping:
+          - dps_val: now
+            value: now
+  - entity: text
+    name: Charging mode
+    dps:
+      - id: 33
+        type: base64
+        name: value
+  - entity: button
+    name: Self check
+    dps:
+      - id: 8
+        type: boolean
+        name: button
+  - entity: sensor
+    name: Self check
+    dps:
+      - id: 9
+        type: string
+        name: sensor
+  - entity: event
+    class: doorbell
+    dps:
+      - id: 136
+        type: string
+        name: event
+  - entity: binary_sensor
+    name: Doorbell
+    class: connectivity
+    dps:
+      - id: 155
+        type: boolean
+        name: sensor
+`);
+
+    expect(
+      Object.fromEntries(
+        Object.entries(components.device ?? {}).map(([name, control]) => [
+          name,
+          control.dataPoint,
+        ]),
+      ),
+    ).toEqual({
+      currentSettingInA: "4",
+      currentInA: "6",
+      scheduleEnabled: "2",
+      schedule: "16",
+      chargingMode: "14",
+      chargingModeData: "33",
+      selfCheck: "8",
+      selfCheckState: "9",
+      doorbell: "136",
+      doorbellConnectivity: "155",
+    });
+  });
+
+  it("puts an entity whose control takes the name of the main entity's in the device's own component", () => {
+    const { components } = entry(`name: Aroma diffuser
+entities:
+  - entity: switch
+    dps:
+      - id: 1
+        type: boolean
+        name: switch
+  - entity: switch
+    name: Spray
+    dps:
+      - id: 2
+        type: boolean
+        name: switch
+  - entity: light
+    dps:
+      - id: 7
+        type: boolean
+        name: switch
+`);
+
+    expect(components).toEqual({
+      light: {
+        spray: { dataPoint: "2", kind: "switch" },
+        on: { dataPoint: "7", kind: "switch" },
+      },
+      device: { on: { dataPoint: "1", kind: "switch" } },
+    });
+  });
+
+  it("passes over a setting's name another control holds", () => {
+    const { components } = entry(`name: Pool monitor
+entities:
+  - entity: number
+    name: pH
+    dps:
+      - id: 1
+        type: integer
+        name: value
+  - entity: sensor
+    name: pH
+    dps:
+      - id: 2
+        type: integer
+        name: sensor
+  - entity: switch
+    name: pH setting
+    dps:
+      - id: 3
+        type: boolean
+        name: switch
+`);
+
+    expect(
+      Object.fromEntries(
+        Object.entries(components.device ?? {}).map(([name, control]) => [
+          name,
+          control.dataPoint,
+        ]),
+      ),
+    ).toEqual({ ph: "1", secondPh: "2", phSetting: "3" });
+  });
+
+  it("reads a unit another control reads its unit from as C and F", () => {
+    const { components } = entry(`name: Heater
+entities:
+  - entity: climate
+    dps:
+      - id: 2
+        type: integer
+        name: temperature
+      - id: 19
+        type: string
+        name: temperature_unit
+        mapping:
+          - dps_val: c
+            value: celsius
+          - dps_val: f
+            value: fahrenheit
+  - entity: sensor
+    name: Floor temperature
+    class: temperature
+    dps:
+      - id: 3
+        type: integer
+        name: sensor
+      - id: 19
+        type: string
+        name: unit
+`);
+
+    const units = [
+      { raw: "c", value: "C" },
+      { raw: "f", value: "F" },
+    ];
+    expect(components.climate?.temperatureUnit?.values).toEqual(units);
+    expect(components.climate?.floorTemperatureUnit).toEqual({
+      dataPoint: "19",
+      kind: "sensor",
+      readOnly: true,
+      values: units,
+    });
+  });
+
+  it("reads any control whose values are temperature units as C and F, and leaves one with another value", () => {
+    const { components } = entry(`name: Kettle
+entities:
+  - entity: select
+    translation_key: temperature_unit
+    dps:
+      - id: 9
+        type: string
+        name: option
+        mapping:
+          - dps_val: c
+            value: celsius
+          - dps_val: f
+            value: fahrenheit
+  - entity: select
+    name: Display unit
+    dps:
+      - id: 10
+        type: string
+        name: option
+        mapping:
+          - dps_val: c
+            value: C
+          - dps_val: f
+            value: V
+`);
+
+    expect(components.device?.temperatureUnit?.values).toEqual([
+      { raw: "c", value: "C" },
+      { raw: "f", value: "F" },
+    ]);
+    expect(components.device?.displayUnit?.values).toEqual([
+      { raw: "c", value: "C" },
+      { raw: "f", value: "V" },
+    ]);
+  });
+
+  it("names two components of one translation key by their names", () => {
+    const { components } = entry(`name: Thermostat
+entities:
+  - entity: climate
+    name: Probe 1
+    translation_key: thermostat
+    dps:
+      - id: 1
+        type: boolean
+        name: hvac_mode
+  - entity: climate
+    name: Probe 2
+    translation_key: thermostat
+    dps:
+      - id: 2
+        type: boolean
+        name: hvac_mode
+`);
+
+    expect(Object.keys(components)).toEqual(["probe1", "probe2"]);
+  });
+
+  it("names by position only what nothing else tells apart, an entity's own data point first", () => {
+    const { components } = entry(`name: Charger
+entities:
+  - entity: sensor
+    translation_key: status
+    dps:
+      - id: 118
+        type: string
+        name: status
+      - id: 3
+        type: string
+        name: sensor
+`);
+
+    expect(
+      Object.fromEntries(
+        Object.entries(components.device ?? {}).map(([name, control]) => [
+          name,
+          control.dataPoint,
+        ]),
+      ),
+    ).toEqual({ status: "3", secondStatus: "118" });
+  });
 });

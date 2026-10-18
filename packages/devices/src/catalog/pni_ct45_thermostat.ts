@@ -233,15 +233,6 @@ const entry: TuyaDeviceEntry = {
         max: 400,
       },
       override: { dataPoint: "40", kind: "switch" },
-      secondMode: {
-        dataPoint: "41",
-        kind: "select",
-        values: [
-          { raw: "program", value: "schedule" },
-          { raw: "manual", value: "manual" },
-          { raw: "boost", value: "high" },
-        ],
-      },
       timeRemainingInMinutes: {
         dataPoint: "42",
         kind: "sensor",
@@ -410,6 +401,17 @@ const entry: TuyaDeviceEntry = {
       },
     },
     valve: { open: { dataPoint: "7", kind: "switch" } },
+    device: {
+      mode: {
+        dataPoint: "41",
+        kind: "select",
+        values: [
+          { raw: "program", value: "schedule" },
+          { raw: "manual", value: "manual" },
+          { raw: "boost", value: "high" },
+        ],
+      },
+    },
   },
   source: {
     file: "pni_ct45_thermostat.yaml",

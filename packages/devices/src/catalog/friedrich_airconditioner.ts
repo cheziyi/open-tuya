@@ -76,8 +76,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "select",
         values: [
-          { raw: true, value: "°F" },
-          { raw: false, value: "°C" },
+          { raw: true, value: "F" },
+          { raw: false, value: "C" },
         ],
       },
       sleep: { dataPoint: "101", kind: "switch" },

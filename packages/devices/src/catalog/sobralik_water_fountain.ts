@@ -52,6 +52,13 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "d",
       },
+      filterLifeSettingInDays: {
+        dataPoint: "7",
+        kind: "number",
+        unit: "d",
+        min: 0,
+        max: 90,
+      },
       cleanLeftInDays: {
         dataPoint: "4",
         kind: "sensor",
@@ -60,13 +67,6 @@ const entry: TuyaDeviceEntry = {
         unit: "d",
         min: 0,
         max: 31,
-      },
-      secondFilterLifeInDays: {
-        dataPoint: "7",
-        kind: "number",
-        unit: "d",
-        min: 0,
-        max: 90,
       },
       cleanLifeInDays: {
         dataPoint: "8",

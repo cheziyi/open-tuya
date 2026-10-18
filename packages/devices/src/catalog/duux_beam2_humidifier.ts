@@ -79,7 +79,6 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       sleep: { dataPoint: "21", kind: "switch" },
-      secondOn: { dataPoint: "10", kind: "switch" },
       fault: {
         dataPoint: "9",
         kind: "sensor",
@@ -102,6 +101,7 @@ const entry: TuyaDeviceEntry = {
       },
     },
     nightlight: { on: { dataPoint: "5", kind: "switch" } },
+    device: { on: { dataPoint: "10", kind: "switch" } },
   },
   source: {
     file: "duux_beam2_humidifier.yaml",

@@ -70,7 +70,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "preheat_done", value: "at_temperature" },
         ],
       },
-      temperatureInC: {
+      temperatureSettingInC: {
         dataPoint: "6",
         kind: "number",
         measures: "temperature",
@@ -79,7 +79,7 @@ const entry: TuyaDeviceEntry = {
         max: 200,
         step: 5,
       },
-      secondTemperatureInC: {
+      temperatureInC: {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
@@ -122,8 +122,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "select",
         values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
         ],
         whenAbsent: { value: "celsius" },
       },

@@ -184,8 +184,8 @@ const entry: TuyaDeviceEntry = {
       cliffDetect: { dataPoint: "103", kind: "switch" },
       yMopping: { dataPoint: "104", kind: "switch" },
       customMode: { dataPoint: "105", kind: "switch" },
-      secondCommand: { dataPoint: "15", kind: "text" },
     },
+    device: { command: { dataPoint: "15", kind: "text" } },
   },
   source: {
     file: "abir_x8_vacuum.yaml",

@@ -98,14 +98,6 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: 4, value: true }],
         otherwise: false,
       },
-      secondTemperatureUnit: {
-        dataPoint: "103",
-        kind: "select",
-        values: [
-          { raw: false, value: "fahrenheit" },
-          { raw: true, value: "celsius" },
-        ],
-      },
       fault: {
         dataPoint: "116",
         kind: "sensor",

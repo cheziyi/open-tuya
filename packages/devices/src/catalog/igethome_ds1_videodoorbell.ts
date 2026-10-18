@@ -142,13 +142,7 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: "alarm",
       },
-      alarmMessage: {
-        dataPoint: "185",
-        kind: "sensor",
-        readOnly: true,
-        type: "utf16b64",
-      },
-      secondAlarmMessage: { dataPoint: "185", kind: "text", type: "utf16b64" },
+      alarmMessage: { dataPoint: "185", kind: "text", type: "utf16b64" },
       faceRecognition: { dataPoint: "186", kind: "switch" },
       tamperAlarm: {
         dataPoint: "231",

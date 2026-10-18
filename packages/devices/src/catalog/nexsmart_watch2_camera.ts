@@ -61,8 +61,8 @@ const entry: TuyaDeviceEntry = {
           { raw: "2", value: "high" },
         ],
       },
-      motionAlarmArea: { dataPoint: "168", kind: "switch" },
-      secondMotionAlarmArea: { dataPoint: "169", kind: "text" },
+      motionAlarmAreaEnabled: { dataPoint: "168", kind: "switch" },
+      motionAlarmArea: { dataPoint: "169", kind: "text" },
       soundDetection: { dataPoint: "139", kind: "switch" },
       soundDetectionUploadTimestamp: { dataPoint: "141", kind: "text" },
       soundSensitivity: {

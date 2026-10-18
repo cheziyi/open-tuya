@@ -91,7 +91,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "strong", value: "strong" },
         ],
       },
-      sleepMode: { dataPoint: "105", kind: "text" },
+      sleepMode: {
+        dataPoint: "105",
+        kind: "select",
+        values: [
+          { raw: "off", value: "Off" },
+          { raw: "normal", value: "Standard" },
+          { raw: "old", value: "Elderly" },
+          { raw: "child", value: "Child" },
+        ],
+      },
       flags: { dataPoint: "110", kind: "number" },
       swingMode: {
         dataPoint: "113",
@@ -173,16 +182,6 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "Center" },
           { raw: "4", value: "Slight Right" },
           { raw: "5", value: "Rightmost" },
-        ],
-      },
-      secondSleepMode: {
-        dataPoint: "105",
-        kind: "select",
-        values: [
-          { raw: "off", value: "Off" },
-          { raw: "normal", value: "Standard" },
-          { raw: "old", value: "Elderly" },
-          { raw: "child", value: "Child" },
         ],
       },
       buzzer: {

@@ -78,7 +78,7 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "no_forecast" },
       },
-      secondWeather: { dataPoint: "14", kind: "switch" },
+      weatherEnabled: { dataPoint: "14", kind: "switch" },
       lastUseTimeInSeconds: {
         dataPoint: "15",
         kind: "sensor",

@@ -84,7 +84,10 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "19",
         kind: "select",
-        values: [{ raw: "F", value: "F" }],
+        values: [
+          { raw: "F", value: "F" },
+          { raw: "C", value: "C" },
+        ],
         otherwise: "C",
       },
       preset: {
@@ -104,14 +107,6 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       model: { dataPoint: "110", kind: "text" },
-      secondTemperatureUnit: {
-        dataPoint: "19",
-        kind: "select",
-        values: [
-          { raw: "C", value: "celsius" },
-          { raw: "F", value: "fahrenheit" },
-        ],
-      },
       autoDry: { dataPoint: "109", kind: "switch" },
       timerInHours: {
         dataPoint: "103",

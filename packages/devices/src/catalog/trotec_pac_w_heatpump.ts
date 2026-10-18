@@ -81,14 +81,6 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       model: { dataPoint: "110", kind: "text" },
-      secondTemperatureUnit: {
-        dataPoint: "19",
-        kind: "select",
-        values: [
-          { raw: "C", value: "celsius" },
-          { raw: "F", value: "fahrenheit" },
-        ],
-      },
       sleep: { dataPoint: "101", kind: "switch" },
       defrost: { dataPoint: "102", kind: "sensor", readOnly: true },
       timerInHours: {

@@ -56,7 +56,10 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "4",
         kind: "select",
-        values: [{ raw: true, value: "F" }],
+        values: [
+          { raw: true, value: "F" },
+          { raw: false, value: "C" },
+        ],
         otherwise: "C",
       },
       currentTemperature: {
@@ -90,14 +93,6 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "holiday", value: "Holiday" },
           { raw: "program", value: "Program" },
-        ],
-      },
-      secondTemperatureUnit: {
-        dataPoint: "4",
-        kind: "select",
-        values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
         ],
       },
     },

@@ -325,14 +325,7 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      power: {
-        dataPoint: "1",
-        kind: "select",
-        values: [
-          { raw: false, value: "off" },
-          { raw: true, value: "heat_cool" },
-        ],
-      },
+      power: { dataPoint: "1", kind: "switch" },
       hvacAction: {
         dataPoint: "117",
         kind: "sensor",
@@ -474,7 +467,6 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      secondPower: { dataPoint: "1", kind: "switch" },
       sound: {
         dataPoint: "101",
         kind: "switch",

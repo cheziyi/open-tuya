@@ -34,8 +34,7 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit: {
         dataPoint: "9",
-        kind: "sensor",
-        readOnly: true,
+        kind: "select",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -56,14 +55,6 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      secondTemperatureUnit: {
-        dataPoint: "9",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       timeFormat: {
         dataPoint: "101",
         kind: "select",
@@ -83,7 +74,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 3, value: "poor" },
         ],
       },
-      alarm: {
+      alarmEnabled: {
         dataPoint: "106",
         kind: "switch",
         values: [
@@ -92,7 +83,7 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: false },
       },
-      secondAlarm: { dataPoint: "102", kind: "text" },
+      alarm: { dataPoint: "102", kind: "text" },
       maximumTemperature: {
         dataPoint: "108",
         kind: "number",

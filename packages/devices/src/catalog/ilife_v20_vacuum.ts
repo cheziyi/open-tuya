@@ -330,8 +330,8 @@ const entry: TuyaDeviceEntry = {
           { raw: 536870912, value: "kit_water_pump" },
         ],
       },
-      secondCommand: { dataPoint: "15", kind: "text" },
     },
+    device: { command: { dataPoint: "15", kind: "text" } },
   },
   source: {
     file: "ilife_v20_vacuum.yaml",

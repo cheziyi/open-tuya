@@ -87,7 +87,9 @@ const entry: TuyaDeviceEntry = {
         otherwise: false,
       },
       defrost: { dataPoint: "103", kind: "sensor", readOnly: true },
-      secondTargetTemperatureInC: {
+    },
+    device: {
+      targetTemperatureInC: {
         dataPoint: "104",
         kind: "sensor",
         measures: "temperature",

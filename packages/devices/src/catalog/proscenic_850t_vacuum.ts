@@ -179,7 +179,6 @@ const entry: TuyaDeviceEntry = {
         otherwise: false,
       },
       restart: { dataPoint: "52", kind: "button" },
-      secondSuction: { dataPoint: "53", kind: "switch" },
       sensorCleaned: { dataPoint: "54", kind: "button" },
       filterReset: { dataPoint: "55", kind: "button" },
       edgeBrushReplaced: { dataPoint: "56", kind: "button" },
@@ -230,6 +229,7 @@ const entry: TuyaDeviceEntry = {
       irRemote: { dataPoint: "109", kind: "switch" },
     },
     indicator: { on: { dataPoint: "51", kind: "switch" } },
+    device: { suction: { dataPoint: "53", kind: "switch" } },
   },
   source: {
     file: "proscenic_850t_vacuum.yaml",

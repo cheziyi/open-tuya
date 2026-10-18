@@ -129,8 +129,8 @@ const entry: TuyaDeviceEntry = {
         max: 100,
       },
       restart: { dataPoint: "162", kind: "button" },
-      motionArea: { dataPoint: "168", kind: "switch" },
-      secondMotionArea: { dataPoint: "169", kind: "text" },
+      motionAreaEnabled: { dataPoint: "168", kind: "switch" },
+      motionArea: { dataPoint: "169", kind: "text" },
       humanoidFilter: { dataPoint: "170", kind: "switch" },
       alarm: {
         dataPoint: "185",

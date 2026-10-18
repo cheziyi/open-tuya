@@ -80,14 +80,6 @@ const entry: TuyaDeviceEntry = {
       model: { dataPoint: "110", kind: "text" },
       timer: { dataPoint: "103", kind: "number" },
       countdown: { dataPoint: "105", kind: "number" },
-      secondTemperatureUnit: {
-        dataPoint: "19",
-        kind: "select",
-        values: [
-          { raw: "C", value: "celsius" },
-          { raw: "F", value: "fahrenheit" },
-        ],
-      },
       antiFrost: { dataPoint: "102", kind: "switch" },
       fault: {
         dataPoint: "106",

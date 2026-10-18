@@ -78,7 +78,14 @@ const entry: TuyaDeviceEntry = {
           { raw: "strength", value: "strong" },
         ],
       },
-      temperatureUnit: { dataPoint: "19", kind: "text" },
+      temperatureUnit: {
+        dataPoint: "19",
+        kind: "select",
+        values: [
+          { raw: "C", value: "C" },
+          { raw: "F", value: "F" },
+        ],
+      },
       swingMode: {
         dataPoint: "105",
         kind: "select",
@@ -95,8 +102,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "select",
         values: [
-          { raw: "C", value: "celsius" },
-          { raw: "F", value: "fahrenheit" },
+          { raw: "C", value: "C" },
+          { raw: "F", value: "F" },
         ],
       },
       sleep: { dataPoint: "102", kind: "switch" },

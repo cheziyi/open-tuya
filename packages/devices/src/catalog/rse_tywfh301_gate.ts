@@ -36,6 +36,14 @@ const entry: TuyaDeviceEntry = {
       },
       stop: { dataPoint: "103", kind: "button" },
       lock: { dataPoint: "104", kind: "button" },
+      lockState: {
+        dataPoint: "105",
+        kind: "sensor",
+        measures: "lock",
+        readOnly: true,
+        values: [{ raw: 6, value: false }],
+        otherwise: true,
+      },
       fault: {
         dataPoint: "109",
         kind: "sensor",
@@ -59,14 +67,6 @@ const entry: TuyaDeviceEntry = {
       },
       gateReturnState: { dataPoint: "105", kind: "sensor", readOnly: true },
       gateHiddenState: { dataPoint: "111", kind: "sensor", readOnly: true },
-      secondLock: {
-        dataPoint: "105",
-        kind: "sensor",
-        measures: "lock",
-        readOnly: true,
-        values: [{ raw: 6, value: false }],
-        otherwise: true,
-      },
       signalStrengthInDbm: {
         dataPoint: "112",
         kind: "sensor",

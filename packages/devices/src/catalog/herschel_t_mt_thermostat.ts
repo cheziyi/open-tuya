@@ -62,7 +62,10 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "104",
         kind: "select",
-        values: [{ raw: "f", value: "F" }],
+        values: [
+          { raw: "f", value: "F" },
+          { raw: "c", value: "C" },
+        ],
         otherwise: "C",
       },
       hvacAction: {
@@ -93,14 +96,6 @@ const entry: TuyaDeviceEntry = {
         max: 99,
       },
       openWindowDetection: { dataPoint: "103", kind: "switch" },
-      secondTemperatureUnit: {
-        dataPoint: "104",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       temperatureCalibration: {
         dataPoint: "106",
         kind: "number",

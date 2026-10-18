@@ -53,8 +53,7 @@ const entry: TuyaDeviceEntry = {
         max: 540,
       },
       keytone: { dataPoint: "101", kind: "switch" },
-      scene: { dataPoint: "36", kind: "text" },
-      secondScene: {
+      scene: {
         dataPoint: "36",
         kind: "select",
         type: "string",

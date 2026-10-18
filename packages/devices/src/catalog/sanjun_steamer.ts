@@ -70,8 +70,7 @@ const entry: TuyaDeviceEntry = {
       },
     },
     light: {
-      on: { dataPoint: "101", kind: "switch" },
-      secondOn: { dataPoint: "105", kind: "switch" },
+      on: { dataPoint: "105", kind: "switch" },
       aromatherapy: { dataPoint: "108", kind: "switch" },
       washRinse: { dataPoint: "109", kind: "switch" },
       fault: {
@@ -122,6 +121,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
+    device: { on: { dataPoint: "101", kind: "switch" } },
   },
   source: {
     file: "sanjun_steamer.yaml",

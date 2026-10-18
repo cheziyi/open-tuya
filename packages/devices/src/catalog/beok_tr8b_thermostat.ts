@@ -170,14 +170,6 @@ const entry: TuyaDeviceEntry = {
       model: { dataPoint: "105", kind: "text" },
       lightMode: { dataPoint: "106", kind: "text" },
       antiFrost: { dataPoint: "10", kind: "switch" },
-      secondTemperatureUnit: {
-        dataPoint: "23",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       maximumTemperature: {
         dataPoint: "19",
         kind: "number",
@@ -223,8 +215,8 @@ const entry: TuyaDeviceEntry = {
           { raw: "7", value: "Daily" },
         ],
       },
+      scheduleData: { dataPoint: "103", kind: "text" },
       scheduleWeekProgram: { dataPoint: "30", kind: "text" },
-      secondSchedule: { dataPoint: "103", kind: "text" },
       childLock: { dataPoint: "40", kind: "switch" },
       fault: {
         dataPoint: "45",

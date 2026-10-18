@@ -93,7 +93,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
       },
     },
-    secondHumidifier: {
+    dehumidifier: {
       on: { dataPoint: "104", kind: "switch" },
       currentHumidityInPercent: {
         dataPoint: "13",

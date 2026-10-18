@@ -284,7 +284,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 15,
       },
-      chargingTimeInHours: {
+      chargingTimeSettingInHours: {
         dataPoint: "119",
         kind: "number",
         measures: "duration",
@@ -292,7 +292,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 15,
       },
-      secondChargingTimeInHours: {
+      chargingTimeInHours: {
         dataPoint: "121",
         kind: "sensor",
         measures: "duration",

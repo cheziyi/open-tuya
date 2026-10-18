@@ -81,7 +81,14 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       adaptive: { dataPoint: "10", kind: "switch" },
-      schedule: { dataPoint: "12", kind: "text" },
+      schedule: {
+        dataPoint: "12",
+        kind: "select",
+        values: [
+          { raw: "5_1_1", value: "Weekdays+Sat+Sun" },
+          { raw: "7", value: "Daily" },
+        ],
+      },
       hvacAction: {
         dataPoint: "24",
         kind: "sensor",
@@ -113,14 +120,6 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
         step: 5,
       },
-      secondInstallation: {
-        dataPoint: "7",
-        kind: "select",
-        values: [
-          { raw: true, value: "Office" },
-          { raw: false, value: "Home" },
-        ],
-      },
       floorTemperatureInC: {
         dataPoint: "8",
         kind: "sensor",
@@ -128,15 +127,6 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "C",
         scale: 10,
-      },
-      secondAdaptive: { dataPoint: "10", kind: "switch" },
-      secondSchedule: {
-        dataPoint: "12",
-        kind: "select",
-        values: [
-          { raw: "5_1_1", value: "Weekdays+Sat+Sun" },
-          { raw: "7", value: "Daily" },
-        ],
       },
       sensorSelect: {
         dataPoint: "14",

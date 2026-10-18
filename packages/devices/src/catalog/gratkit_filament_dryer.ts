@@ -23,7 +23,16 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1", kind: "switch" },
+      on: {
+        dataPoint: "103",
+        kind: "select",
+        values: [
+          { raw: "0", value: false },
+          { raw: "4", value: true },
+        ],
+        otherwise: true,
+        ownRuleReadOnly: true,
+      },
       dryingTemperatureInC: {
         dataPoint: "20",
         kind: "number",
@@ -58,16 +67,6 @@ const entry: TuyaDeviceEntry = {
         measures: "humidity",
         readOnly: true,
         unit: "%",
-      },
-      secondOn: {
-        dataPoint: "103",
-        kind: "select",
-        values: [
-          { raw: "0", value: false },
-          { raw: "4", value: true },
-        ],
-        otherwise: true,
-        ownRuleReadOnly: true,
       },
       colorName: {
         dataPoint: "103",
@@ -150,6 +149,7 @@ const entry: TuyaDeviceEntry = {
       speaker: { dataPoint: "109", kind: "switch" },
     },
     display: { on: { dataPoint: "110", kind: "switch" } },
+    device: { on: { dataPoint: "1", kind: "switch" } },
   },
   source: {
     file: "gratkit_filament_dryer.yaml",

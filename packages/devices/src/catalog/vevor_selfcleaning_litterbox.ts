@@ -65,10 +65,13 @@ const entry: TuyaDeviceEntry = {
       },
       weightUnit: {
         dataPoint: "111",
-        kind: "sensor",
-        readOnly: true,
-        values: [{ raw: "LB", value: "lb" }],
+        kind: "select",
+        values: [
+          { raw: "LB", value: "lb" },
+          { raw: "KG", value: "kg" },
+        ],
         otherwise: "kg",
+        ownRuleReadOnly: true,
       },
       weightPounds: {
         dataPoint: "112",
@@ -170,14 +173,6 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       statusTrigger: { dataPoint: "109", kind: "sensor", readOnly: true },
-      secondWeightUnit: {
-        dataPoint: "111",
-        kind: "select",
-        values: [
-          { raw: "KG", value: "kg" },
-          { raw: "LB", value: "lb" },
-        ],
-      },
     },
     backlight: {
       brightness: { dataPoint: "106", kind: "number", min: 0, max: 255 },

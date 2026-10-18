@@ -76,14 +76,6 @@ const entry: TuyaDeviceEntry = {
       },
       timer: { dataPoint: "103", kind: "number" },
       countdown: { dataPoint: "105", kind: "number" },
-      secondTemperatureUnit: {
-        dataPoint: "19",
-        kind: "select",
-        values: [
-          { raw: "C", value: "celsius" },
-          { raw: "F", value: "fahrenheit" },
-        ],
-      },
       fault: {
         dataPoint: "106",
         kind: "sensor",

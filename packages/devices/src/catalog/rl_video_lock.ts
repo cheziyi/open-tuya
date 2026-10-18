@@ -34,7 +34,6 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: "ring",
       },
-      secondDoorbell: { dataPoint: "136", kind: "sensor", readOnly: true },
       notification: {
         dataPoint: "185",
         kind: "event",

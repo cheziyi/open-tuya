@@ -75,23 +75,18 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit: {
         dataPoint: "104",
-        kind: "sensor",
-        readOnly: true,
-        values: [{ raw: true, value: "F" }],
+        kind: "select",
+        values: [
+          { raw: true, value: "F" },
+          { raw: false, value: "C" },
+        ],
         otherwise: "C",
+        ownRuleReadOnly: true,
       },
       on: { dataPoint: "103", kind: "switch" },
       onBoardConfig: { dataPoint: "127", kind: "text" },
       onDisplayConfig: { dataPoint: "128", kind: "text" },
       onCustomModel: { dataPoint: "131", kind: "text" },
-      secondTemperatureUnit: {
-        dataPoint: "104",
-        kind: "select",
-        values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
-        ],
-      },
       chassisTemperatureInC: {
         dataPoint: "105",
         kind: "sensor",
@@ -109,12 +104,18 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
       },
       turbo: { dataPoint: "107", kind: "switch" },
-      orpInMillivolts: {
+      orpSettingInMillivolts: {
         dataPoint: "108",
         kind: "number",
         unit: "mv",
         min: 650,
         max: 800,
+      },
+      orpInMillivolts: {
+        dataPoint: "111",
+        kind: "sensor",
+        readOnly: true,
+        unit: "mv",
       },
       volumeInM3: {
         dataPoint: "109",
@@ -125,7 +126,7 @@ const entry: TuyaDeviceEntry = {
         max: 150,
         step: 5,
       },
-      ph: {
+      phSetting: {
         dataPoint: "110",
         kind: "number",
         measures: "ph",
@@ -133,13 +134,7 @@ const entry: TuyaDeviceEntry = {
         max: 78,
         scale: 10,
       },
-      secondOrpInMillivolts: {
-        dataPoint: "111",
-        kind: "sensor",
-        readOnly: true,
-        unit: "mv",
-      },
-      secondPh: {
+      ph: {
         dataPoint: "112",
         kind: "sensor",
         measures: "ph",

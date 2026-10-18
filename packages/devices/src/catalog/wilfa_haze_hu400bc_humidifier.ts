@@ -71,19 +71,10 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit: {
         dataPoint: "18",
-        kind: "sensor",
-        readOnly: true,
+        kind: "select",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
-        ],
-      },
-      secondTemperatureUnit: {
-        dataPoint: "18",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
         ],
       },
       timer: {

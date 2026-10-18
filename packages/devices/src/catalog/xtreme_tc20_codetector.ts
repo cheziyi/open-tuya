@@ -28,7 +28,7 @@ const entry: TuyaDeviceEntry = {
         otherwise: true,
       },
       selfCheck: { dataPoint: "8", kind: "button" },
-      secondSelfCheck: {
+      selfCheckState: {
         dataPoint: "9",
         kind: "sensor",
         readOnly: true,

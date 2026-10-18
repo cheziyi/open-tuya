@@ -61,8 +61,8 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "°C",
       },
-      timer: { dataPoint: "101", kind: "switch" },
-      secondTimer: {
+      timerEnabled: { dataPoint: "101", kind: "switch" },
+      timer: {
         dataPoint: "12",
         kind: "select",
         values: [

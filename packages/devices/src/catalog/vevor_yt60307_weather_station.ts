@@ -59,10 +59,13 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit: {
         dataPoint: "9",
-        kind: "sensor",
-        readOnly: true,
-        values: [{ raw: "f", value: "F" }],
+        kind: "select",
+        values: [
+          { raw: "f", value: "F" },
+          { raw: "c", value: "C" },
+        ],
         otherwise: "C",
+        ownRuleReadOnly: true,
       },
       humidityInPercent: {
         dataPoint: "120",
@@ -96,13 +99,14 @@ const entry: TuyaDeviceEntry = {
       },
       atmosphericPressureUnit: {
         dataPoint: "11",
-        kind: "sensor",
-        readOnly: true,
+        kind: "select",
         values: [
           { raw: "inhg", value: "inHg" },
           { raw: "mmhg", value: "mmHg" },
+          { raw: "hpa", value: "hPa" },
         ],
         otherwise: "hPa",
+        ownRuleReadOnly: true,
       },
       windSpeed: {
         dataPoint: "112",
@@ -114,14 +118,15 @@ const entry: TuyaDeviceEntry = {
       },
       windSpeedUnit: {
         dataPoint: "10",
-        kind: "sensor",
-        readOnly: true,
+        kind: "select",
         values: [
           { raw: "mph", value: "mph" },
           { raw: "mps", value: "m/s" },
           { raw: "knot", value: "kn" },
+          { raw: "kmph", value: "km/h" },
         ],
         otherwise: "km/h",
+        ownRuleReadOnly: true,
       },
       windGust: {
         dataPoint: "132",
@@ -185,33 +190,6 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "sensor",
         readOnly: true,
-      },
-      secondTemperatureUnit: {
-        dataPoint: "9",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
-      secondWindSpeedUnit: {
-        dataPoint: "10",
-        kind: "select",
-        values: [
-          { raw: "kmph", value: "km/h" },
-          { raw: "mph", value: "mph" },
-          { raw: "mps", value: "m/s" },
-          { raw: "knot", value: "kn" },
-        ],
-      },
-      secondAtmosphericPressureUnit: {
-        dataPoint: "11",
-        kind: "select",
-        values: [
-          { raw: "hpa", value: "hPa" },
-          { raw: "inhg", value: "inHg" },
-          { raw: "mmhg", value: "mmHg" },
-        ],
       },
       precipitationUnit: {
         dataPoint: "12",

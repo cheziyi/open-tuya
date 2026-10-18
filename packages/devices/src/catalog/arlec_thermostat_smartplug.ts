@@ -184,14 +184,6 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
       },
       voltageCalibration: { dataPoint: "14", kind: "sensor", readOnly: true },
-      secondTemperatureUnit: {
-        dataPoint: "20",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       temperatureHysteresis: {
         dataPoint: "29",
         kind: "number",

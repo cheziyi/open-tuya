@@ -131,6 +131,14 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "mA",
       },
+      leakageCurrentSettingInMilliamps: {
+        dataPoint: "104",
+        kind: "number",
+        measures: "current",
+        unit: "mA",
+        min: 10,
+        max: 100,
+      },
       voltagePhaseBInV: {
         dataPoint: "7",
         mask: "FFFF000000000000",
@@ -208,14 +216,6 @@ const entry: TuyaDeviceEntry = {
         unit: "A",
         min: 1,
         max: 63,
-      },
-      secondLeakageCurrentInMilliamps: {
-        dataPoint: "104",
-        kind: "number",
-        measures: "current",
-        unit: "mA",
-        min: 10,
-        max: 100,
       },
       sound: {
         dataPoint: "105",

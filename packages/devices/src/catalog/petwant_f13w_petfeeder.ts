@@ -46,7 +46,7 @@ const entry: TuyaDeviceEntry = {
         scale: 50,
       },
       mealPlan: { dataPoint: "101", kind: "number", min: 1, max: 5 },
-      secondMealPlan: { dataPoint: "108", kind: "text" },
+      mealPlanData: { dataPoint: "108", kind: "text" },
       alert: {
         dataPoint: "113",
         kind: "event",

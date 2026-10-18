@@ -116,8 +116,8 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       stopZooming: { dataPoint: "164", kind: "button" },
-      limitMotionDetectionArea: { dataPoint: "168", kind: "switch" },
-      secondLimitMotionDetectionArea: { dataPoint: "169", kind: "text" },
+      limitMotionDetectionAreaEnabled: { dataPoint: "168", kind: "switch" },
+      limitMotionDetectionArea: { dataPoint: "169", kind: "text" },
       humanDetection: { dataPoint: "170", kind: "switch" },
       lightDurationInSeconds: {
         dataPoint: "173",

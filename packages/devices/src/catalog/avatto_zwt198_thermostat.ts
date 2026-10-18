@@ -126,7 +126,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "Daily" },
         ],
       },
-      secondSchedule: { dataPoint: "109", kind: "text" },
+      scheduleData: { dataPoint: "109", kind: "text" },
       temperatureHysteresisInC: {
         dataPoint: "107",
         kind: "number",

@@ -75,6 +75,13 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: "alarm", value: true }],
         otherwise: false,
       },
+      secondAlarm: {
+        dataPoint: "26",
+        kind: "event",
+        readOnly: true,
+        whenAbsent: { value: null },
+        otherwise: "alarm",
+      },
       language: {
         dataPoint: "40",
         kind: "select",
@@ -86,13 +93,6 @@ const entry: TuyaDeviceEntry = {
           { raw: "russian", value: "russian" },
           { raw: "polish", value: "polish" },
         ],
-      },
-      secondAlarm: {
-        dataPoint: "26",
-        kind: "event",
-        readOnly: true,
-        whenAbsent: { value: null },
-        otherwise: "alarm",
       },
       alarmMessage: { dataPoint: "26", kind: "sensor", readOnly: true },
       factoryReset: { dataPoint: "34", kind: "button" },

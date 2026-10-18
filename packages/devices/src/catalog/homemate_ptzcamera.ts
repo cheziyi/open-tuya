@@ -233,8 +233,8 @@ const entry: TuyaDeviceEntry = {
       motionAreaLimit: { dataPoint: "168", kind: "switch" },
       motionArea: { dataPoint: "169", kind: "text" },
       humanDetection: { dataPoint: "170", kind: "switch" },
-      cruiseMode: { dataPoint: "174", kind: "switch" },
-      secondCruiseMode: {
+      cruiseModeEnabled: { dataPoint: "174", kind: "switch" },
+      cruiseMode: {
         dataPoint: "175",
         kind: "select",
         values: [
@@ -318,12 +318,6 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: "", value: null }],
         whenAbsent: { value: null },
         otherwise: "changed",
-      },
-      secondResolution: {
-        dataPoint: "240",
-        kind: "sensor",
-        readOnly: true,
-        type: "json",
       },
     },
     floodlight: { on: { dataPoint: "138", kind: "switch" } },

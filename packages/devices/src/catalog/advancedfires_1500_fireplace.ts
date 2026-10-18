@@ -105,14 +105,6 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       weeklySchedule: { dataPoint: "108", kind: "text" },
-      secondTemperatureUnit: {
-        dataPoint: "19",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       adaptive: { dataPoint: "107", kind: "switch" },
     },
     flame: {

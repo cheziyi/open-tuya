@@ -130,7 +130,6 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      secondStatus: { dataPoint: "5", kind: "sensor", readOnly: true },
       fault: {
         dataPoint: "18",
         kind: "sensor",
@@ -156,6 +155,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
+    device: { status: { dataPoint: "5", kind: "sensor", readOnly: true } },
   },
   source: {
     file: "kyvol_e30_vacuum.yaml",

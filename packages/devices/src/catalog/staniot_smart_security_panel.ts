@@ -108,18 +108,6 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 9,
       },
-      secondAlarmState: {
-        dataPoint: "32",
-        kind: "sensor",
-        readOnly: true,
-        values: [
-          { raw: "normal", value: false },
-          { raw: "alarm", value: true },
-          { raw: "", value: false },
-        ],
-        whenAbsent: { value: null },
-        otherwise: true,
-      },
       language: {
         dataPoint: "40",
         kind: "select",
@@ -132,6 +120,20 @@ const entry: TuyaDeviceEntry = {
           { raw: "spanish", value: "spanish" },
           { raw: "italian", value: "italian" },
         ],
+      },
+    },
+    device: {
+      alarmState: {
+        dataPoint: "32",
+        kind: "sensor",
+        readOnly: true,
+        values: [
+          { raw: "normal", value: false },
+          { raw: "alarm", value: true },
+          { raw: "", value: false },
+        ],
+        whenAbsent: { value: null },
+        otherwise: true,
       },
     },
   },

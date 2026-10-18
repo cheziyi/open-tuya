@@ -63,8 +63,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 86400,
       },
-      theme: { dataPoint: "58", kind: "text" },
-      secondTheme: {
+      theme: {
         dataPoint: "58",
         kind: "select",
         type: "string",

@@ -352,8 +352,8 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: "unknown",
       },
-      secondCommand: { dataPoint: "15", kind: "text" },
     },
+    device: { command: { dataPoint: "15", kind: "text" } },
   },
   source: {
     file: "proscenic_m9_vacuum.yaml",

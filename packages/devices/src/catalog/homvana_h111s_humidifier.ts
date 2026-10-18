@@ -78,8 +78,8 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "high" },
         ],
       },
+      heatingEnabled: { dataPoint: "107", kind: "switch" },
       humiditySetting: { dataPoint: "106", kind: "switch" },
-      secondHeating: { dataPoint: "107", kind: "switch" },
       temperatureInF: {
         dataPoint: "12",
         kind: "sensor",

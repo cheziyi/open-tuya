@@ -345,8 +345,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "select",
         values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
         ],
       },
       factoryReset: { dataPoint: "39", kind: "button" },

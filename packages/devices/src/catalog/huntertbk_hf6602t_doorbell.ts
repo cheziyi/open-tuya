@@ -105,6 +105,14 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: "ring",
       },
+      doorbellConnectivity: {
+        dataPoint: "155",
+        kind: "sensor",
+        measures: "connectivity",
+        readOnly: true,
+        values: [{ raw: "1", value: true }],
+        otherwise: false,
+      },
       doorbellRawEvent: { dataPoint: "136", kind: "sensor", readOnly: true },
       batteryInPercent: {
         dataPoint: "145",
@@ -152,14 +160,6 @@ const entry: TuyaDeviceEntry = {
           { raw: "2", value: "Medium" },
           { raw: "3", value: "High" },
         ],
-      },
-      secondDoorbell: {
-        dataPoint: "155",
-        kind: "sensor",
-        measures: "connectivity",
-        readOnly: true,
-        values: [{ raw: "1", value: true }],
-        otherwise: false,
       },
       pairDoorbell: {
         dataPoint: "155",

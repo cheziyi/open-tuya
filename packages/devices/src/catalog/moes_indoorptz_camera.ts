@@ -209,7 +209,6 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: "detected",
       },
-      secondSound: { dataPoint: "141", kind: "sensor", readOnly: true },
       recordingMode: {
         dataPoint: "151",
         kind: "select",

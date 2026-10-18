@@ -82,7 +82,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
       },
       co2Control: { dataPoint: "103", kind: "switch" },
-      carbonDioxideInPpm: {
+      carbonDioxideSettingInPpm: {
         dataPoint: "104",
         kind: "number",
         measures: "carbonDioxide",
@@ -90,7 +90,7 @@ const entry: TuyaDeviceEntry = {
         min: 400,
         max: 2000,
       },
-      secondCarbonDioxideInPpm: {
+      carbonDioxideInPpm: {
         dataPoint: "105",
         kind: "sensor",
         measures: "carbonDioxide",

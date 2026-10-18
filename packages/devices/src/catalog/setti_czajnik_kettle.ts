@@ -118,7 +118,14 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      quickSetTemperatureCUnit: { dataPoint: "12", kind: "text" },
+      quickSetTemperatureCUnit: {
+        dataPoint: "12",
+        kind: "select",
+        values: [
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
+        ],
+      },
       quickSetTemperatureF: {
         dataPoint: "5",
         kind: "select",
@@ -137,7 +144,14 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      quickSetTemperatureFUnit: { dataPoint: "12", kind: "text" },
+      quickSetTemperatureFUnit: {
+        dataPoint: "12",
+        kind: "select",
+        values: [
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
+        ],
+      },
       quickBoilTemperatureC: {
         dataPoint: "6",
         kind: "select",
@@ -157,7 +171,14 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      quickBoilTemperatureCUnit: { dataPoint: "12", kind: "text" },
+      quickBoilTemperatureCUnit: {
+        dataPoint: "12",
+        kind: "select",
+        values: [
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
+        ],
+      },
       quickBoilTemperatureF: {
         dataPoint: "7",
         kind: "select",
@@ -177,7 +198,14 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      quickBoilTemperatureFUnit: { dataPoint: "12", kind: "text" },
+      quickBoilTemperatureFUnit: {
+        dataPoint: "12",
+        kind: "select",
+        values: [
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
+        ],
+      },
       boilTemperature: {
         dataPoint: "10",
         kind: "number",
@@ -216,8 +244,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "select",
         values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
+          { raw: "c", value: "C" },
+          { raw: "f", value: "F" },
         ],
       },
       keepWarm: { dataPoint: "13", kind: "switch" },

@@ -308,8 +308,8 @@ const entry: TuyaDeviceEntry = {
           { raw: 268435456, value: "explore_fault" },
         ],
       },
-      secondCommand: { dataPoint: "15", kind: "text" },
     },
+    device: { command: { dataPoint: "15", kind: "text" } },
   },
   source: {
     file: "ilife_a30_pro_vacuum.yaml",

@@ -32,10 +32,13 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit: {
         dataPoint: "105",
-        kind: "sensor",
-        readOnly: true,
-        values: [{ raw: "f", value: "F" }],
+        kind: "select",
+        values: [
+          { raw: "f", value: "F" },
+          { raw: "c", value: "C" },
+        ],
         otherwise: "C",
+        ownRuleReadOnly: true,
       },
       humidityInPercent: {
         dataPoint: "2",
@@ -85,14 +88,6 @@ const entry: TuyaDeviceEntry = {
         otherwise: false,
       },
       plugDetails: { dataPoint: "20", kind: "sensor", readOnly: true },
-      secondTemperatureUnit: {
-        dataPoint: "105",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       send: { dataPoint: "201", kind: "text" },
       receive: { dataPoint: "202", kind: "text" },
     },

@@ -270,12 +270,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "save_rooms", value: "Save rooms" },
         ],
       },
-      roomLearningStatusCode: {
-        dataPoint: "102",
-        kind: "sensor",
-        readOnly: true,
-      },
-      secondRoomLearning: {
+      roomLearningState: {
         dataPoint: "102",
         kind: "sensor",
         readOnly: true,
@@ -295,6 +290,11 @@ const entry: TuyaDeviceEntry = {
           { raw: 2048, value: "choice_set_ok" },
         ],
         whenAbsent: { value: "" },
+      },
+      roomLearningStatusCode: {
+        dataPoint: "102",
+        kind: "sensor",
+        readOnly: true,
       },
       roomLearningMcsCommand: {
         dataPoint: "197",
@@ -318,9 +318,9 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
       },
-      secondCommand: { dataPoint: "15", kind: "text" },
     },
     light: { on: { dataPoint: "135", kind: "switch" } },
+    device: { command: { dataPoint: "15", kind: "text" } },
   },
   source: {
     file: "medion_x10sw_vacuum.yaml",
