@@ -84,7 +84,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "Bucket_OK", value: false },
           { raw: "Bucket_Full", value: true },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       nightMode: { dataPoint: "101", kind: "switch" },
       nightModeDisplayBrightness: {

@@ -30,7 +30,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "real_time_mode", value: false },
           { raw: "eco_mode", value: true },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       mealPlan: { dataPoint: "1", kind: "text" },
       factoryReset: { dataPoint: "9", kind: "button" },

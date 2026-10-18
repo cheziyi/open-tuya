@@ -73,7 +73,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "sync", value: true },
           { raw: "indie", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       suctionInPercent: {
         dataPoint: "102",

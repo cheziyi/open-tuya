@@ -65,7 +65,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "1", value: true },
           { raw: "0", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       powerDownAlarm: {
         dataPoint: "118",
@@ -74,7 +76,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "1", value: true },
           { raw: "0", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       deleteUserData: { dataPoint: "119", kind: "sensor", readOnly: true },
       alarmVolume: {

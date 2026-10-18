@@ -17,7 +17,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "pir", value: true },
           { raw: "none", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       batteryInPercent: {
         dataPoint: "4",

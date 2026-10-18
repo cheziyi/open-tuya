@@ -100,6 +100,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        otherwise: true,
       },
       childLock: { dataPoint: "110", kind: "switch" },
       displayTimeout: {

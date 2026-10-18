@@ -58,7 +58,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       electrolyticSterilization: { dataPoint: "21", kind: "switch" },
       evaporatorCleaning: { dataPoint: "2", kind: "switch" },

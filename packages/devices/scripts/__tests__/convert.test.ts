@@ -271,6 +271,89 @@ ${value}                default: true
     );
   });
 
+  it.each([
+    [
+      "a string mapped in part",
+      "string",
+      '          - dps_val: "0"\n            value: false\n          - dps_val: "1"\n            value: true',
+      {
+        values: [
+          { raw: "0", value: false },
+          { raw: "1", value: true },
+          { raw: "", value: false },
+        ],
+        otherwise: true,
+      },
+    ],
+    [
+      "a bitfield with one value mapped",
+      "bitfield",
+      "          - dps_val: 0\n            value: false",
+      { values: [{ raw: 0, value: false }], otherwise: true },
+    ],
+    [
+      "an integer mapped to text",
+      "integer",
+      "          - dps_val: 1\n            value: low_water\n          - dps_val: 2\n            value: overflow",
+      {
+        values: [
+          { raw: 1, value: true },
+          { raw: 2, value: true },
+          { raw: 0, value: false },
+        ],
+        otherwise: true,
+      },
+    ],
+    [
+      "a default rule's text",
+      "integer",
+      "          - dps_val: 0\n            value: false\n          - value: fault",
+      { values: [{ raw: 0, value: false }], otherwise: true },
+    ],
+  ])(
+    "reads a binary sensor on %s as a boolean, as Home Assistant reads its truthiness",
+    (_name, type, mapping, conversion) => {
+      const { components } = entry(`name: Sensor
+entities:
+  - entity: binary_sensor
+    class: problem
+    dps:
+      - id: 1
+        type: ${type}
+        name: sensor
+        mapping:
+${mapping}
+`);
+
+      expect(components.device?.fault).toEqual({
+        dataPoint: "1",
+        kind: "sensor",
+        measures: "problem",
+        readOnly: true,
+        ...conversion,
+      });
+    },
+  );
+
+  it("leaves a binary sensor on a boolean as it is", () => {
+    const { components } = entry(`name: Sensor
+entities:
+  - entity: binary_sensor
+    class: problem
+    dps:
+      - id: 1
+        type: boolean
+        name: sensor
+`);
+
+    expect(components.device?.fault).toEqual({
+      dataPoint: "1",
+      kind: "sensor",
+      measures: "problem",
+      readOnly: true,
+    });
+  });
+
   it("drops a default on an entity that never writes it", () => {
     const { components } = entry(`name: Select
 entities:
@@ -866,6 +949,8 @@ entities:
           kind: "sensor",
           measures: "problem",
           readOnly: true,
+          values: [{ raw: 0, value: false }],
+          otherwise: true,
         },
         faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
         waterFlowInLPerMin: {

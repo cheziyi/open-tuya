@@ -22,7 +22,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "alarm", value: true },
           { raw: "normal", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       selfCheck: { dataPoint: "8", kind: "button" },
       selfCheck2: {

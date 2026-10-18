@@ -98,6 +98,8 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         measures: "problem",
         readOnly: true,
+        values: [{ raw: "", value: false }],
+        otherwise: true,
       },
     },
   },

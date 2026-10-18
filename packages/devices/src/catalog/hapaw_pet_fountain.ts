@@ -77,7 +77,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "strong_power", value: true },
           { raw: "battery_power", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       batteryInPercent: {
         dataPoint: "21",
@@ -109,7 +111,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "man", value: true },
           { raw: "bu_man", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       purification: {
         dataPoint: "105",
@@ -119,7 +123,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "low", value: true },
           { raw: "high", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       manualWater: { dataPoint: "106", kind: "button" },
       heat: { dataPoint: "107", kind: "switch" },

@@ -110,7 +110,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "normal", value: false },
           { raw: "warn", value: true },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       warningPowerLevelInW: {
         dataPoint: "111",

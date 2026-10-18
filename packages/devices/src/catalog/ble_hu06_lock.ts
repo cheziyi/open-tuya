@@ -144,7 +144,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "open", value: true },
           { raw: "closed", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       keypadReset: {
         dataPoint: "102",

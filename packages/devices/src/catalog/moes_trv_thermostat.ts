@@ -152,7 +152,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "opened", value: true },
           { raw: "closed", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       childLock: { dataPoint: "13", kind: "switch" },
       batteryInPercent: {

@@ -1040,6 +1040,11 @@ function convertDataPoint(
   if (booleanMask) {
     values.push({ raw: 0, value: false }, { raw: 1, value: true });
     own.otherwise = true;
+  } else if (entity.entity === "binary_sensor" && dp.name === "sensor") {
+    readAsTruth(dp, values, own);
+    if (whenAbsent?.value !== undefined) {
+      whenAbsent.value = truthy(whenAbsent.value);
+    }
   }
   return {
     target: {
@@ -1058,6 +1063,46 @@ function convertDataPoint(
     },
     booleanMask,
   };
+}
+
+// A binary sensor is on while its value is truthy, as Python reads it (see
+// BOOLEAN_DATA_POINTS), so each value it gives becomes true or false, and a
+// raw value no rule names reads true, but the type's own falsy value.
+function readAsTruth(
+  dp: DataPointConfig,
+  values: ControlMapping[],
+  own: Partial<ControlTarget>,
+): void {
+  for (const mapping of values) {
+    if (mapping.value !== undefined) {
+      mapping.value = truthy(mapping.value);
+    }
+  }
+  if (own.otherwise !== undefined) {
+    own.otherwise = truthy(own.otherwise);
+    return;
+  }
+  const named = values.map((mapping) => mapping.raw);
+  if (
+    dp.type === "boolean" &&
+    (values.length === 0 || (named.includes(true) && named.includes(false)))
+  ) {
+    return;
+  }
+  const falsy =
+    dp.mask !== undefined || NUMBER_TYPES.has(dp.type)
+      ? 0
+      : dp.type === "boolean"
+        ? false
+        : "";
+  if (!named.includes(falsy)) {
+    values.push({ raw: falsy, value: false });
+  }
+  own.otherwise = true;
+}
+
+function truthy(value: ControlValue): boolean {
+  return value !== false && value !== 0 && value !== "";
 }
 
 // What a mapping rule gives, but its raw value and its conversion of numbers.

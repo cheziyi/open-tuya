@@ -122,6 +122,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: true },
           { raw: 1, value: false },
         ],
+        otherwise: true,
       },
       operatingMode: { dataPoint: "105", kind: "sensor", readOnly: true },
       wasteBin: {
@@ -133,6 +134,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: true },
           { raw: 1, value: false },
         ],
+        otherwise: true,
       },
     },
   },

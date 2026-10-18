@@ -74,7 +74,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "low", value: true },
           { raw: "high", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       temperatureUnit: {
         dataPoint: "9",
@@ -139,7 +141,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "low", value: true },
           { raw: "high", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       batteryChannel1: {
         dataPoint: "31",
@@ -149,7 +153,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "low", value: true },
           { raw: "high", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       batteryChannel2: {
         dataPoint: "32",
@@ -159,7 +165,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "low", value: true },
           { raw: "high", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       batteryChannel3: {
         dataPoint: "33",
@@ -169,7 +177,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "low", value: true },
           { raw: "high", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       temperatureInC: {
         dataPoint: "38",

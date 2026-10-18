@@ -33,7 +33,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "none", value: false },
           { raw: "presence", value: true },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       safeRange: {
         dataPoint: "101",

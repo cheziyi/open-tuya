@@ -88,14 +88,18 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         measures: "problem",
         readOnly: true,
+        values: [{ raw: "", value: false }],
         whenAbsent: { value: false },
+        otherwise: true,
       },
       dispenserStuck: {
         dataPoint: "241",
         kind: "sensor",
         measures: "problem",
         readOnly: true,
+        values: [{ raw: "", value: false }],
         whenAbsent: { value: false },
+        otherwise: true,
       },
       manualFeedInPortions: {
         dataPoint: "245",

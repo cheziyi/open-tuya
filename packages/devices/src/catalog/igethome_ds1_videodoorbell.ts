@@ -102,7 +102,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "1", value: true },
           { raw: "0", value: false },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       lowBatteryThresholdInPercent: {
         dataPoint: "147",

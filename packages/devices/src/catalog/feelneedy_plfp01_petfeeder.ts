@@ -275,7 +275,9 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "battery", value: false },
           { raw: "power", value: true },
+          { raw: "", value: false },
         ],
+        otherwise: true,
       },
       control: { dataPoint: "250", kind: "text" },
       callPet: { dataPoint: "251", kind: "text" },
