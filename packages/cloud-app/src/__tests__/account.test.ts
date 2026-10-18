@@ -420,7 +420,8 @@ describe("AppCloudAccount", () => {
         result: true,
       }));
 
-      await account.createClient(DEVICE_ID);
+      const client = await account.createClient(DEVICE_ID);
+      client.onDataPoints(() => {});
 
       expect(broker.connects).toEqual([]);
       expect(
@@ -430,6 +431,28 @@ describe("AppCloudAccount", () => {
       ).toBe(false);
     });
 
+    it("subscribes while a client has a listener", async () => {
+      const { cloud, account } = setUp();
+      const broker = await serveBroker(cloud);
+      let disconnects = 0;
+      broker.aedes.on("clientDisconnect", () => disconnects++);
+      const client = await account.createClient(DEVICE_ID);
+      await client.readDataPoints();
+      expect(broker.connects).toEqual([]);
+
+      const remove = client.onDataPoints(() => {});
+      const removeAnother = client.onDataPoints(() => {});
+      await until(() => broker.subscriptions.length > 0);
+      remove();
+      remove();
+      expect(disconnects).toBe(0);
+      removeAnother();
+      await until(() => disconnects > 0);
+
+      expect(broker.connects).toHaveLength(1);
+      expect(broker.subscriptions).toEqual([PUSH_TOPIC]);
+    });
+
     it("shares one connection between clients, and closes it with the last", async () => {
       const { cloud, account } = setUp();
       const broker = await serveBroker(cloud);
@@ -437,6 +460,8 @@ describe("AppCloudAccount", () => {
       broker.aedes.on("clientDisconnect", () => disconnects++);
       const first = await account.createClient(DEVICE_ID);
       const second = await account.createClient(DEVICE_ID);
+      first.onDataPoints(() => {});
+      second.onDataPoints(() => {});
       await until(() => broker.subscriptions.length > 0);
 
       await first.close();
@@ -453,13 +478,16 @@ describe("AppCloudAccount", () => {
       const broker = await serveBroker(cloud);
       let disconnects = 0;
       broker.aedes.on("clientDisconnect", () => disconnects++);
-      await account.createClient(DEVICE_ID);
+      const client = await account.createClient(DEVICE_ID);
+      client.onDataPoints(() => {});
       await until(() => broker.subscriptions.length > 0);
 
       await account.close();
       await account.close();
+      client.onDataPoints(() => {});
 
       await until(() => disconnects > 0);
+      expect(broker.connects).toHaveLength(1);
     });
   });
 
@@ -571,6 +599,34 @@ describe("AppCloudAccount", () => {
       await vi.advanceTimersByTimeAsync(10_000);
 
       await rejected;
+    });
+
+    it("rejects createClient with CONNECTION_LOST when the account closes as an answer arrives", async () => {
+      const { cloud } = setUp();
+      const account = new AppCloudAccount(
+        async (input, init) => {
+          const response = await cloud.fetch(input, init);
+          if (String(input).includes("/code/custom-type")) {
+            void account.close();
+          }
+          return response;
+        },
+        openMqttConnection,
+        {
+          clientId: CLIENT_ID,
+          session: {
+            endpoint: cloud.endpoint,
+            accessToken: cloud.accessToken,
+            refreshToken: cloud.refreshToken,
+            expiresAtInMs: Date.now() + 7_200_000,
+          },
+          onSessionChange: () => {},
+        },
+      );
+
+      await expect(account.createClient(DEVICE_ID)).rejects.toMatchObject({
+        code: "CONNECTION_LOST",
+      });
     });
 
     it("rejects a request with CONNECTION_LOST once the account is closed", async () => {

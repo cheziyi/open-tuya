@@ -561,7 +561,8 @@ own values by ID, so it carries every data point.
 | --- | --- |
 | One connection per account, through `MqttSession` | One set of credentials serves every device of the account |
 | A device's topic is subscribed while it has a client | Each device has a topic of its own |
-| A client subscribes when created | As `LocalTuyaClient` connects when created |
+| A client subscribes to its device's topic while it has a listener | A client created only to read and write holds no MQTT connection, as the session holds none nobody listens on. `createTuyaClient` adds a listener to every route, so its cloud route subscribes when built |
+| Once the account is closed, `createClient` rejects with `CONNECTION_LOST`, and a client's listener subscribes to nothing | `MqttSession` would fetch credentials, be refused with `CONNECTION_LOST`, and retry for ever |
 | No read after a reconnect, unlike `LocalTuyaClient` | Each read costs a request under the cloud's rate limit |
 | A push that is not JSON, or not a report shaped as the SDK reads it, is dropped | `DevicePush.receive` runs inside MQTT.js's handler of the packet, which catches nothing: a throw there can end the process |
 | A listener's throw is rethrown in a microtask, after every other listener has the push | As Node's `EventTarget`: one listener's bug neither starves the others nor reaches MQTT.js, and still surfaces as an uncaught exception. Rejected: swallowing it, which would hide the caller's bug |

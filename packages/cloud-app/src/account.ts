@@ -144,19 +144,27 @@ export class AppCloudAccount implements TuyaCloudAccount {
   // GET /v1.0/m/life/ha/{id}/code/custom-type, in
   // https://github.com/tuya/tuya-device-sharing-sdk/commit/32440d2040f47287d5f58253feec12eca7a2a7b3.
   /** Fetches how the device's data points map to the cloud's codes, and
-   * resolves with a client for it. */
+   * resolves with a client for it. It rejects with a `TuyaError` with code
+   * `CONNECTION_LOST` once the account is closed. */
   async createClient(deviceId: string): Promise<AppCloudTuyaClient> {
     const id = encodeURIComponent(deviceId);
     const relations = readStatusRelations(
       await this.request("GET", `/v1.0/m/life/devices/${id}/status`),
     );
+    this.closing.signal.throwIfAborted();
     const customType = await this.request(
       "GET",
       `/v1.0/m/life/ha/${id}/code/custom-type`,
     );
+    this.closing.signal.throwIfAborted();
+    // A subscription once the account is closed would have MqttSession fetch
+    // credentials, be refused with CONNECTION_LOST, and retry for ever.
     const transport: AppCloudTransport = {
       request: (method, path, parts) => this.request(method, path, parts),
-      subscribe: (listener) => this.push.subscribe(deviceId, listener),
+      subscribe: (listener) =>
+        this.closing.signal.aborted
+          ? () => Promise.resolve()
+          : this.push.subscribe(deviceId, listener),
     };
     return new AppCloudTuyaClient(
       transport,

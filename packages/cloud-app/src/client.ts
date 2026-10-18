@@ -18,7 +18,8 @@ export interface RequestParts {
 export interface AppCloudTransport {
   request(method: string, path: string, parts?: RequestParts): Promise<unknown>;
   /** Hands `listener` the data points the device pushes. Returns a function
-   * that removes it, and resolves once what it held is released. */
+   * that removes it, and resolves once what it held is released. Once the
+   * account is closed, it subscribes to nothing. */
   subscribe(listener: (dataPoints: DataPoints) => void): () => Promise<void>;
 }
 
@@ -28,11 +29,14 @@ export interface AppCloudTransport {
 /** A device reached through the cloud the Smart Life app signs in to. Create
  * one with `AppCloudAccount.createClient`. It reads and writes only the data
  * points whose values the cloud passes through unchanged, and hands its
- * listeners every data point the cloud pushes. */
+ * listeners every data point the cloud pushes. It subscribes to the device's
+ * pushes while it has a listener, so a client that only reads and writes
+ * holds no MQTT connection. */
 export class AppCloudTuyaClient implements TuyaClient {
   private readonly listeners = new Set<(dataPoints: DataPoints) => void>();
   private readonly idsByStatusCode: ReadonlyMap<string, string>;
-  private readonly unsubscribe: (() => Promise<void>) | undefined;
+  private unsubscribe: (() => Promise<void>) | undefined;
+  private releasing: Promise<void> = Promise.resolve();
   private closed = false;
 
   constructor(
@@ -43,9 +47,6 @@ export class AppCloudTuyaClient implements TuyaClient {
     this.idsByStatusCode = new Map(
       [...codes.statusCodesById].map(([id, code]) => [code, id] as const),
     );
-    this.unsubscribe = codes.pushedById
-      ? transport.subscribe((dataPoints) => this.report(dataPoints))
-      : undefined;
   }
 
   get connected(): boolean {
@@ -99,14 +100,23 @@ export class AppCloudTuyaClient implements TuyaClient {
 
   onDataPoints(listener: (dataPoints: DataPoints) => void): () => void {
     this.listeners.add(listener);
+    if (this.codes.pushedById && !this.closed && !this.unsubscribe) {
+      this.unsubscribe = this.transport.subscribe((dataPoints) =>
+        this.report(dataPoints),
+      );
+    }
     return () => {
       this.listeners.delete(listener);
+      if (this.listeners.size === 0) {
+        this.release();
+      }
     };
   }
 
   async close(): Promise<void> {
     this.closed = true;
-    await this.unsubscribe?.();
+    this.release();
+    await this.releasing;
   }
 
   async [Symbol.asyncDispose](): Promise<void> {
@@ -124,6 +134,16 @@ export class AppCloudTuyaClient implements TuyaClient {
       );
     }
     return this.transport.request(method, path, parts);
+  }
+
+  private release(): void {
+    const unsubscribe = this.unsubscribe;
+    this.unsubscribe = undefined;
+    if (unsubscribe) {
+      this.releasing = Promise.all([this.releasing, unsubscribe()]).then(
+        () => {},
+      );
+    }
   }
 
   private report(dataPoints: DataPoints): void {

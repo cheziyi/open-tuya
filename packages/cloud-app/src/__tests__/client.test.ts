@@ -15,6 +15,25 @@ afterEach(() => {
 });
 
 describe("AppCloudTuyaClient", () => {
+  it("subscribes with its first listener and unsubscribes with its last, never once closed", async () => {
+    const transport = new FakeTransport();
+    const client = new AppCloudTuyaClient(transport, DEVICE_ID, CODES);
+    expect(transport.subscribes).toBe(0);
+
+    const remove = client.onDataPoints(() => {});
+    client.onDataPoints(() => {})();
+    expect(transport.subscribes).toBe(1);
+    remove();
+    expect(transport.listeners.size).toBe(0);
+
+    client.onDataPoints(() => {});
+    expect(transport.subscribes).toBe(2);
+    await client.close();
+    expect(transport.listeners.size).toBe(0);
+    client.onDataPoints(() => {});
+    expect(transport.subscribes).toBe(2);
+  });
+
   it("hands a push to every listener when one throws, and rethrows it after", () => {
     const transport = new FakeTransport();
     const client = new AppCloudTuyaClient(transport, DEVICE_ID, CODES);
