@@ -52,7 +52,7 @@ export interface ControlRule {
  * control is. It can redirect again. */
 export type ControlTarget = Omit<
   TuyaControl,
-  "kind" | "measures" | "unit" | "unitFrom"
+  "kind" | "measures" | "unit" | "unitFrom" | "defaultValue"
 >;
 
 export interface ControlMapping extends ControlRule {
@@ -125,6 +125,11 @@ export interface TuyaControl {
   values?: readonly ControlMapping[];
   /** The control's value for any raw value `values` does not name. */
   otherwise?: ControlValue;
+  /** The value to write when a command needs the control set and names no
+   * value: the tone that turns on a siren with no switch, the effect that
+   * turns on a light with no switch or brightness, or the mode a water heater
+   * leaving away returns to. */
+  defaultValue?: ControlValue;
   /** How the control reads while the device leaves the data point out. */
   whenAbsent?: ControlRule;
   /** The raw value is the control's value times this. */

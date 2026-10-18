@@ -67,12 +67,10 @@ catalog until it does.
 
 | tuya-local feature | Devices | Device files |
 | --- | --- | --- |
-| `default`: the value a bare turn-on writes | 13 | breville_smartmistglowconnect_humidifier, comon_lights, erz04c_energy_meter, feyree_ev_charger, fisher_summer_air_conditioner, inkbird_int12bw_thermometer, ivation_50pt_dehumidifier, motion_sensor_light, orion_outdoor_siren, sirena_ws902plus_siren, thermex_if50v_waterheater, tylohelo_sl2_sauna, zx_g30_alarm |
 | `format` on a data point that is not hex or base64 | 1 | depuley_smart_ceiling_fan |
 | a `constraint` read through a mask or a mapping | 3 | inkbird_ibs_m1s, nedis_pilldispenser, owon_pc341_energymeter |
 | a `mask` of an odd number of hex digits on a control that can be written | 2 | cecotec_congax70_vacuum, mirabella_geniopixel_light |
 | a condition's mapping of the value while absent | 2 | realme_techlife_vacuum, tefal_xplorer_vacuum |
-| a number conversion on one raw value | 16 | aeratron_ae3plus_fan, aerium_dh12w_dehumidifier, ailrinni_fingerprint_lock, ble_pulido_p13_lock, ble_ysgbs01_lock, bstuokey_access_keypad, bstuokey_invisible_lock, gainsboroughliberty_entrance_lock, kogan_bladeless_fan, orion_dl033ha_lock, primebras_athenas_lock, prodotec_airquality_monitor, treatlife_ds02_fan, weeket_kes5211tece_kettle, wood_wdd90_dehumidifier, woods_mrd25gw_dehumidifier |
 | more than one default mapping | 1 | orbegozo_rrw_emisor_termico |
 | not valid YAML 1.2 | 1 | poolsana_heatpump |
 

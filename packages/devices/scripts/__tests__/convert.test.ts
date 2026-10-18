@@ -112,6 +112,12 @@ describe("convertDeviceFile", () => {
       "a number conversion on one raw value",
     ],
     [
+      "a step on one raw value that is a number",
+      "number",
+      "        type: integer\n        name: value\n        mapping:\n          - dps_val: 1\n            value: 10\n            step: 10",
+      "a number conversion on one raw value",
+    ],
+    [
       "a mask of an odd number of hex digits on a control that can be written",
       "switch",
       '        type: hex\n        name: switch\n        mask: "100"',
@@ -177,6 +183,118 @@ describe("convertDeviceFile", () => {
         `name: Device\nentities:\n  - entity: ${entity}\n    dps:\n      - id: 1\n${dp}\n`,
       ),
     ).toEqual({ unsupported: reason });
+  });
+
+  it("drops a step on a raw value that is a string, which sizes a slider alone", () => {
+    const { components } = entry(`name: Fan
+entities:
+  - entity: fan
+    dps:
+      - id: 3
+        type: string
+        name: speed
+        mapping:
+          - dps_val: level_1
+            value: 50
+            step: 50
+          - dps_val: level_2
+            value: 100
+            step: 50
+`);
+
+    expect(components.fan?.speed).toEqual({
+      dataPoint: "3",
+      kind: "select",
+      values: [
+        { raw: "level_1", value: 50 },
+        { raw: "level_2", value: 100 },
+      ],
+    });
+  });
+
+  it("gives a siren's tone the first default that is not hidden", () => {
+    const { components } = entry(`name: Siren
+entities:
+  - entity: siren
+    dps:
+      - id: 1
+        type: string
+        name: tone
+        mapping:
+          - dps_val: normal
+            value: "off"
+          - dps_val: alarm_light
+            value: light
+            hidden: true
+            default: true
+          - dps_val: alarm_sound
+            default: true
+          - dps_val: alarm_sound_light
+            value: sound+light
+            default: true
+`);
+
+    expect(components.siren?.tone?.defaultValue).toBe("alarm_sound");
+  });
+
+  it("gives a water heater's mode the default of a condition, else its rule's value", () => {
+    const file = (value: string) => `name: Water heater
+entities:
+  - entity: water_heater
+    dps:
+      - id: 1
+        type: boolean
+        name: operation_mode
+        mapping:
+          - dps_val: false
+            value: "off"
+          - dps_val: true
+            value: heat
+            constraint: work_mode
+            conditions:
+              - dps_val: "1"
+                value: eco
+              - dps_val: "2"
+${value}                default: true
+      - id: 2
+        type: string
+        name: work_mode
+        hidden: true
+`;
+
+    expect(
+      entry(file("                value: electric\n")).components.waterHeater
+        ?.mode?.defaultValue,
+    ).toBe("electric");
+    expect(entry(file("")).components.waterHeater?.mode?.defaultValue).toBe(
+      "heat",
+    );
+  });
+
+  it("drops a default on an entity that never writes it", () => {
+    const { components } = entry(`name: Select
+entities:
+  - entity: select
+    dps:
+      - id: 1
+        type: string
+        name: option
+        mapping:
+          - dps_val: "0"
+            value: Steady
+            default: true
+          - dps_val: "1"
+            value: Flash
+`);
+
+    expect(components.device?.select).toEqual({
+      dataPoint: "1",
+      kind: "select",
+      values: [
+        { raw: "0", value: "Steady" },
+        { raw: "1", value: "Flash" },
+      ],
+    });
   });
 
   it("converts conditions on a control's own conversion, with lists, hidden values and nested mappings", () => {
