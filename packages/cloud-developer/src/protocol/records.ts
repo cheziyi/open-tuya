@@ -57,7 +57,7 @@ export interface ThingProperty {
 }
 
 export interface ShadowProperties {
-  properties?: { dp_id?: number; value?: unknown }[];
+  properties?: { dp_id?: number | null; value?: unknown }[];
 }
 
 export interface PushConfigRecord {

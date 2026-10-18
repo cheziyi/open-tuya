@@ -324,14 +324,33 @@ describe("DeveloperCloudAccount", () => {
       });
     });
 
-    it("issues properties by code, as JSON text", async () => {
+    it("leaves out a shadow property with no data point ID", async () => {
+      const { cloud, account } = setUp();
+      cloud.on(
+        "GET",
+        `/v2.0/cloud/thing/${DEVICE_ID}/shadow/properties`,
+        () => ({
+          result: {
+            properties: [
+              { code: "switch_1", dp_id: 1, value: true },
+              { code: "cloud_only", dp_id: null, value: 3 },
+            ],
+          },
+        }),
+      );
+      const client = await account.createClient(DEVICE_ID);
+
+      await expect(client.readDataPoints()).resolves.toEqual({ "1": true });
+    });
+
+    it("issues properties by code, as an object", async () => {
       const { cloud, account } = setUp();
       const client = await account.createClient(DEVICE_ID);
 
       await client.writeDataPoints({ "1": false });
 
       expect(cloud.requests.at(-1)?.body).toEqual({
-        properties: '{"switch_1":false}',
+        properties: { switch_1: false },
       });
       expect(cloud.badSignatures).toEqual([]);
     });
