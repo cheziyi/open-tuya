@@ -379,14 +379,16 @@ describe.each(GATEWAY_VERSIONS)("a gateway on %s", (version) => {
 
     expect(device.subDevices.lamp).toEqual({ "1": true });
     const write = device.received.find(
-      (frame) => frame.command === COMMANDS.CONTROL_NEW,
+      (frame) =>
+        frame.command ===
+        (version === "3.3" ? COMMANDS.CONTROL : COMMANDS.CONTROL_NEW),
     );
     const body = JSON.parse(write?.payload.toString() ?? "");
-    expect(version === "3.3" ? body : body.data).toEqual({
-      cid: "lamp",
-      ctype: 0,
-      dps: { "1": true },
-    });
+    expect(version === "3.3" ? body : body.data).toEqual(
+      version === "3.3"
+        ? { cid: "lamp", dps: { "1": true }, t: expect.any(Number) }
+        : { cid: "lamp", ctype: 0, dps: { "1": true } },
+    );
   });
 
   it("reads each device behind it once connected, and hands each its own reports", async () => {

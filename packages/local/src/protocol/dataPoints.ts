@@ -120,35 +120,43 @@ export function buildSubDeviceQuery(nodeId: string): DataPointRequest {
   return { command: COMMANDS.DP_QUERY_NEW, plaintext: json({ cid: nodeId }) };
 }
 
-// Source: A gateway takes a write to a device behind it as CONTROL_NEW
-// {"data":{"cid":…,"ctype":0,"dps":…},"protocol":5,"t":…} on 3.4 and 3.5, in
+// Source: A gateway takes a write to a device behind it as CONTROL
+// {"t":…,"cid":…,"dps":…} on 3.3, in
+// https://github.com/jasonacox/tinytuya/commit/d59fdf9546969d0cb57faede60b82424c09d4a7b,
+// with no devId, gwId or uid, as
+// https://github.com/jasonacox/tinytuya/commit/1312824e486159c1e6da3229e44a0633c0533669
+// left them out, in
+// https://github.com/codetheweb/tuyapi/commit/43b2929447b237265b930e172550fbd47fd5acd6
+// and https://github.com/xZetsubou/hass-localtuya/commit/3b726e005dad32718c6dbf9d4fbd43c4885be900,
+// a capture in https://github.com/xZetsubou/hass-localtuya/issues/37 showing
+// one with a devId and uid acked and ignored. On 3.4 and 3.5 it is
+// CONTROL_NEW {"data":{"cid":…,"ctype":0,"dps":…},"protocol":5,"t":…}, in
 // https://github.com/jasonacox/tinytuya/commit/d59fdf9546969d0cb57faede60b82424c09d4a7b
 // and https://github.com/codetheweb/tuyapi/commit/c2b5e48e805699969827affbfc11e893aeef701e,
-// as captured acked in https://github.com/jasonacox/tinytuya/issues/677.
-// On 3.3 it goes as CONTROL_NEW {"cid":…,"ctype":0,"dps":…}, the same body
-// outside "data", where the sources send CONTROL {"t":…,"cid":…,"dps":…}: a
-// 3.3 device acked a CONTROL_NEW, captured in
-// https://github.com/TuyaAPI/cli/issues/109#issuecomment-768668877, and a 3.3
-// gateway answered a DP_QUERY_NEW naming a cid, captured in
-// https://github.com/jasonacox/tinytuya/issues/302#issuecomment-1474957230:
+// as captured acked in https://github.com/jasonacox/tinytuya/issues/677:
 // see DESIGN.md#gateways.
 /** Builds the request that writes `dataPoints` to the device behind a
- * gateway with `nodeId`, stamped `timeInSeconds` on 3.4 and 3.5. */
+ * gateway with `nodeId`, stamped `timeInSeconds`. */
 export function buildSubDeviceControl(
   version: GatewayProtocolVersion,
   nodeId: string,
   dataPoints: DataPoints,
   timeInSeconds: number,
 ): DataPointRequest {
-  const data = { cid: nodeId, ctype: 0, dps: dataPoints };
-  return {
-    command: COMMANDS.CONTROL_NEW,
-    plaintext: json(
-      version === "3.3"
-        ? data
-        : { data, protocol: 5, t: Math.floor(timeInSeconds) },
-    ),
-  };
+  const t = Math.floor(timeInSeconds);
+  return version === "3.3"
+    ? {
+        command: COMMANDS.CONTROL,
+        plaintext: json({ cid: nodeId, dps: dataPoints, t }),
+      }
+    : {
+        command: COMMANDS.CONTROL_NEW,
+        plaintext: json({
+          data: { cid: nodeId, ctype: 0, dps: dataPoints },
+          protocol: 5,
+          t,
+        }),
+      };
 }
 
 // Source: A reply carries {"dps":…} and a 3.4 or 3.5 push {"data":{"dps":…}},

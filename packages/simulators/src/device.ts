@@ -567,8 +567,6 @@ export class SimulatedTuyaDevice implements AsyncDisposable {
       return;
     }
     const nodeId = field(data, "cid");
-    // A 3.3 gateway takes a write to a device behind it as CONTROL or
-    // CONTROL_NEW alike: see DESIGN.md#gateways.
     // Source: A 3.3 gateway acks a write naming a device behind it beside a
     // devId or uid, and does nothing, captured in
     // https://github.com/xZetsubou/hass-localtuya/issues/37.

@@ -31,7 +31,7 @@ describe("buildSubDeviceQuery", () => {
 });
 
 describe("buildSubDeviceControl", () => {
-  it("writes through a 3.3 gateway with CONTROL_NEW, with ctype 0 and no t, devId or uid", () => {
+  it("writes through a 3.3 gateway with CONTROL, with no devId or uid", () => {
     expect(
       text(
         buildSubDeviceControl(
@@ -42,8 +42,9 @@ describe("buildSubDeviceControl", () => {
         ),
       ),
     ).toEqual({
-      command: COMMANDS.CONTROL_NEW,
-      plaintext: '{"cid":"a4c1382403f05cc6","ctype":0,"dps":{"1":"manual"}}',
+      command: COMMANDS.CONTROL,
+      plaintext:
+        '{"cid":"a4c1382403f05cc6","dps":{"1":"manual"},"t":1697030197}',
     });
   });
 
