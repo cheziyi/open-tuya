@@ -876,3 +876,46 @@ describe("writeControls with availability", () => {
     ]);
   });
 });
+
+describe("utf16b64", () => {
+  // "Hi" in UTF-16, big-endian, as base64.
+  const HI = "AEgAaQ==";
+  const MESSAGES: TuyaDeviceEntry = {
+    name: "Doorbell",
+    productKeys: [],
+    dataPoints: { "1": { type: "utf16b64" }, "2": { type: "string" } },
+    components: {
+      device: {
+        message: { dataPoint: "1", kind: "text" },
+        greeting: {
+          dataPoint: "1",
+          kind: "select",
+          values: [{ raw: "Hi", value: "hello" }],
+        },
+        name: { dataPoint: "2", type: "utf16b64", kind: "text" },
+      },
+    },
+    source: { file: "doorbell.yaml", commit: "0".repeat(40) },
+  };
+
+  it("decodes the text before any mapping, by the control's own type", () => {
+    expect(readControls(MESSAGES, { "1": HI, "2": HI }).device).toEqual({
+      message: "Hi",
+      greeting: "hello",
+      name: "Hi",
+    });
+  });
+
+  it("reads a value that does not decode as it came", () => {
+    expect(readControls(MESSAGES, { "1": "AEg" }).device?.message).toBe("AEg");
+    expect(readControls(MESSAGES, { "1": "AEgA" }).device?.message).toBe(
+      "AEgA",
+    );
+  });
+
+  it("encodes the text a write sets", () => {
+    expect(
+      writeControls(MESSAGES, { device: { greeting: "hello", name: "Hi" } }),
+    ).toEqual({ "1": HI, "2": HI });
+  });
+});

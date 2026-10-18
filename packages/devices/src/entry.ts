@@ -10,10 +10,16 @@ export type TuyaDataPointType =
   | "base64"
   | "hex"
   | "json"
-  | "unixtime";
+  | "unixtime"
+  /** Text in UTF-16, big-endian, as base64. */
+  | "utf16b64";
 
 export interface TuyaDataPointSpec {
+  /** The type most of the device's controls read it as. */
   type: TuyaDataPointType;
+  /** The other types some controls read it as, each naming its own as its
+   * `type`. A reported value fits every one. */
+  otherTypes?: readonly TuyaDataPointType[];
   /** Some devices of the product leave it out. */
   optional?: true;
 }
@@ -93,6 +99,9 @@ export interface ControlCondition extends Omit<ControlRule, "dependsOn"> {
  * rounds the raw value to `step`, and sets the bits `mask` covers. */
 export interface TuyaControl {
   dataPoint: DataPointId;
+  /** The type it reads its data point as, where it is not the data point's
+   * `type`. */
+  type?: TuyaDataPointType;
   /** The raw value is these bits of the data point's value, in hex: the
    * value's bytes, or its integer, read as one unsigned number. A write
    * keeps the other bits, so it needs the data point's current value. */

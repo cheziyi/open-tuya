@@ -65,4 +65,20 @@ describe("findDeviceEntries", () => {
   it("matches nothing with neither a product key nor data points", () => {
     expect(findDeviceEntries({}, CATALOG)).toEqual([]);
   });
+
+  it("needs a reported value to fit every type its data point is read as", () => {
+    const scene = entry("scene", [], {
+      "25": { type: "string", otherTypes: ["base64"] },
+    });
+    const fault = entry("fault", ["37mnhia3pojleqfh"], {
+      "1": { type: "boolean", otherTypes: ["bitfield"] },
+    });
+
+    expect(
+      findDeviceEntries({ dataPoints: { "25": "AA==" } }, [scene]),
+    ).toEqual([scene]);
+    expect(findDeviceEntries({ dataPoints: { "1": true } }, [fault])).toEqual(
+      [],
+    );
+  });
 });
