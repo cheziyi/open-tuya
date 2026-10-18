@@ -49,6 +49,9 @@ interface DataPointConfig {
   mask_signed?: boolean;
   endianness?: string;
   format?: FormatField[];
+  /** The type the data point's first declaration gives, set as the file is
+   * read. */
+  specType?: string;
   [key: string]: unknown;
 }
 
@@ -99,6 +102,7 @@ const DATA_POINT_TYPES: ReadonlySet<string> = new Set([
   "hex",
   "json",
   "unixtime",
+  "utf16b64",
 ]);
 const NUMBER_CONVERSIONS = ["scale", "step", "invert", "target_range"];
 const PACKED_TYPES: ReadonlySet<string> = new Set(["base64", "hex"]);
@@ -400,6 +404,15 @@ export function convertDeviceFile(text: string): Conversion {
   if (reason) {
     return { unsupported: reason };
   }
+  // Source: Each declaration of a data point reads it as its own type, in
+  // https://github.com/make-all/tuya-local/blob/99183c6d1ad07116265a14ebb46aa8f8f146ee55/custom_components/tuya_local/helpers/device_config.py#L408-L428.
+  const specTypes = new Map<string, string>();
+  for (const dp of file.entities.flatMap((entity) => entity.dps)) {
+    if (!specTypes.has(String(dp.id))) {
+      specTypes.set(String(dp.id), dp.type);
+    }
+    dp.specType = specTypes.get(String(dp.id));
+  }
   try {
     return {
       entry: {
@@ -421,17 +434,11 @@ export function convertDeviceFile(text: string): Conversion {
 
 function unsupportedFeature(file: DeviceFile): string | undefined {
   const reasons = new Set<string>();
-  const types = new Map<string, string>();
   for (const entity of file.entities) {
     for (const dp of entity.dps) {
       if (!DATA_POINT_TYPES.has(dp.type)) {
         reasons.add(`\`${dp.type}\`: a data point of that type`);
       }
-      const typed = types.get(String(dp.id));
-      if (typed !== undefined && typed !== dp.type) {
-        reasons.add("one data point given two types");
-      }
-      types.set(String(dp.id), dp.type);
       const reason = unsupportedPacking(entity, dp);
       if (reason) {
         reasons.add(reason);
@@ -562,7 +569,12 @@ function dataPointSpecs(file: DeviceFile): Record<string, TuyaDataPointSpec> {
       if (!dp.optional) {
         required.add(id);
       }
-      specs[id] = { type: dp.type as TuyaDataPointType };
+      const type = dp.type as TuyaDataPointType;
+      const spec = specs[id] ?? { type };
+      specs[id] = spec;
+      if (type !== spec.type && !spec.otherTypes?.includes(type)) {
+        spec.otherTypes = [...(spec.otherTypes ?? []), type];
+      }
     }
   }
   for (const [id, spec] of Object.entries(specs)) {
@@ -691,6 +703,7 @@ function addFormatControls(
         id: dp.id,
         name: dp.name,
         type: dp.type,
+        ...(dp.specType !== undefined && { specType: dp.specType }),
         ...(dp.readonly && { readonly: true }),
         range: { min, max },
         mask,
@@ -954,6 +967,8 @@ function convertDataPoint(
   return {
     target: {
       dataPoint: String(dp.id),
+      ...(dp.specType !== undefined &&
+        dp.type !== dp.specType && { type: dp.type as TuyaDataPointType }),
       ...(masked && { mask: String(dp.mask) }),
       ...(dp.mask_signed && { maskSigned: true as const }),
       ...(dp.endianness === "little" && { littleEndian: true as const }),
