@@ -1,5 +1,27 @@
 # @open-tuya/simulators
 
+## 0.0.3
+
+### Patch Changes
+
+- [#24](https://github.com/cheziyi/open-tuya/pull/24) [`a0d7df1`](https://github.com/cheziyi/open-tuya/commit/a0d7df12f7680ceda44f208acfffd7d3bc1d5c19) Thanks [@cheziyi](https://github.com/cheziyi)! - Support Node 22.12 and later, down from 22.19.
+
+- [#11](https://github.com/cheziyi/open-tuya/pull/11) [`e25e29d`](https://github.com/cheziyi/open-tuya/commit/e25e29d1ef9a48b13b36fd0ae1467b708b532873) Thanks [@cheziyi](https://github.com/cheziyi)! - A simulated device closes at the end of an `await using` scope, and closing it twice is safe.
+
+- [#35](https://github.com/cheziyi/open-tuya/pull/35) [`5f2e1f8`](https://github.com/cheziyi/open-tuya/commit/5f2e1f8c065db03013cafdd647e8f0fcd40a6d48) Thanks [@cheziyi](https://github.com/cheziyi)! - `SimulatedTuyaDevice` serves 3 clients at once and closes a fourth's connection, closes a connection idle for 30 s, closes a 3.5 connection on a sequence number not above the last, answers a 3.5 query with `devId` and a 3.3 gateway's online query, and throws a `TuyaError` or a `TypeError` where it threw an `Error`.
+
+- [#26](https://github.com/cheziyi/open-tuya/pull/26) [`69ac578`](https://github.com/cheziyi/open-tuya/commit/69ac578ca62b48b0fc26d7ef743c4c3d283eba02) Thanks [@cheziyi](https://github.com/cheziyi)! - `startSimulatedDevice` takes `ip`, the address the device broadcasts as its own.
+
+- [#11](https://github.com/cheziyi/open-tuya/pull/11) [`e25e29d`](https://github.com/cheziyi/open-tuya/commit/e25e29d1ef9a48b13b36fd0ae1467b708b532873) Thanks [@cheziyi](https://github.com/cheziyi)! - A simulated device now has a `deviceId` and a `productKey`, sends its UDP broadcast with `broadcast`, and on 3.5 answers a discovery request sent to its `requestPort`.
+
+- [#23](https://github.com/cheziyi/open-tuya/pull/23) [`fc8643e`](https://github.com/cheziyi/open-tuya/commit/fc8643e4ffa3e0852a0e146660596070d76b0b11) Thanks [@cheziyi](https://github.com/cheziyi)! - Simulate a gateway: `startSimulatedDevice` takes `subDevices` by node ID, `report` takes a node ID, and `offline` holds the node IDs the gateway reports offline.
+
+- [#28](https://github.com/cheziyi/open-tuya/pull/28) [`2a126e7`](https://github.com/cheziyi/open-tuya/commit/2a126e73fbc0b8321258bed22b2cf5990a90d4ad) Thanks [@cheziyi](https://github.com/cheziyi)! - Simulate a 3.1 device: plain-text replies, a sealed STATUS, a plain-text broadcast, and no answer to a write under another key.
+
+- [#29](https://github.com/cheziyi/open-tuya/pull/29) [`8e02172`](https://github.com/cheziyi/open-tuya/commit/8e02172f68bd03347ca25639f1fa19537314fcfd) Thanks [@cheziyi](https://github.com/cheziyi)! - Simulate a 3.2 device, and a device that refuses a read with `refusesReads`. A write naming a data point with null reports its value rather than setting it.
+- Updated dependencies [[`e25e29d`](https://github.com/cheziyi/open-tuya/commit/e25e29d1ef9a48b13b36fd0ae1467b708b532873), [`68bbe44`](https://github.com/cheziyi/open-tuya/commit/68bbe441e0e8642b300c0075e8d99e07055ec71f), [`15b8f24`](https://github.com/cheziyi/open-tuya/commit/15b8f24376372cdc45e457f26dec173b2c49ecdc), [`d7d5e08`](https://github.com/cheziyi/open-tuya/commit/d7d5e08edb24c7fcc482f829111a30c554ee45fc), [`e25e29d`](https://github.com/cheziyi/open-tuya/commit/e25e29d1ef9a48b13b36fd0ae1467b708b532873), [`bd7645b`](https://github.com/cheziyi/open-tuya/commit/bd7645b7e3406b714b3ba34ce475f8f928370b1d), [`2a126e7`](https://github.com/cheziyi/open-tuya/commit/2a126e73fbc0b8321258bed22b2cf5990a90d4ad), [`8e02172`](https://github.com/cheziyi/open-tuya/commit/8e02172f68bd03347ca25639f1fa19537314fcfd), [`383dfbc`](https://github.com/cheziyi/open-tuya/commit/383dfbcf89920c02fbb81da30b7eece66bb245f7), [`a0d7df1`](https://github.com/cheziyi/open-tuya/commit/a0d7df12f7680ceda44f208acfffd7d3bc1d5c19)]:
+  - @open-tuya/core@0.1.0
+
 ## 0.0.2
 
 ### Patch Changes
