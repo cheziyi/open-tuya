@@ -145,7 +145,7 @@ Changesets versions and publishes the packages, each with its own version.
 Each pull request carries a changeset. On `main`, the release workflow opens a
 Version Packages pull request that collects them, and merging it publishes
 every package whose version changed. A package that depends on a changed one
-gets its own bump from Changesets.
+gets a patch from Changesets once the new version leaves its `^` range.
 
 - Rejected: one version for every package. A catalog-only change would
   release every other package unchanged.
@@ -153,6 +153,20 @@ gets its own bump from Changesets.
   message, so a badly worded commit gives a wrong bump.
 - Rejected: hand-made tags, one per package. Nothing would release the
   packages that depend on a changed one.
+
+`open-tuya` re-exports every package but `@open-tuya/simulators`, so a change
+that bumps one of them by more than a patch reaches its callers too, and its
+changeset bumps `open-tuya` the same way, as `AGENTS.md` says. No option of
+`.changeset/config.json` does it:
+
+- `linked` gives every package of a group released together the highest bump
+  among them, and the same version number. A breaking change to
+  `@open-tuya/local` would give `@open-tuya/core` a breaking version though
+  its API did not change.
+- `updateInternalDependents: "always"` releases a dependent whose range still
+  holds, with a patch.
+- `onlyUpdatePeerDependentsWhenOutOfRange` applies to peer dependencies, and
+  `open-tuya` takes the others as dependencies.
 
 `.changeset/config.json` sets:
 
