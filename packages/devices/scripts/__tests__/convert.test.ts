@@ -1362,7 +1362,7 @@ entities:
     ]);
   });
 
-  it("names a second control of a name with an ordinal, a count without a unit, and a unit once", () => {
+  it("names a second control of a name with an ordinal, a count without a unit, a unit once, and a flow's ends inlet and outlet", () => {
     const { components } = entry(`name: Purifier
 entities:
   - entity: sensor
@@ -1394,6 +1394,32 @@ entities:
         name: sensor
         unit: ppm
   - entity: sensor
+    name: TDS out
+    dps:
+      - id: 6
+        type: integer
+        name: sensor
+        unit: ppm
+  - entity: number
+    name: Pump cleaning in
+    dps:
+      - id: 7
+        type: integer
+        name: value
+        unit: min
+  - entity: button
+    name: Zoom in
+    dps:
+      - id: 8
+        type: boolean
+        name: button
+  - entity: button
+    name: Zoom out
+    dps:
+      - id: 9
+        type: boolean
+        name: button
+  - entity: sensor
     name: Temperature in C
     dps:
       - id: 5
@@ -1406,7 +1432,11 @@ entities:
       "currentInA",
       "secondCurrentInA",
       "usesToday",
-      "tdsInPpm",
+      "tdsInletInPpm",
+      "tdsOutletInPpm",
+      "pumpCleaningInMinutes",
+      "zoomIn",
+      "zoomOut",
       "temperatureInC",
     ]);
   });

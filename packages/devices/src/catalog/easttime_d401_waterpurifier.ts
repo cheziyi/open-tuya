@@ -34,13 +34,18 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     valve: {
-      tdsOutInPpm: {
+      tdsOutletInPpm: {
         dataPoint: "1",
         kind: "sensor",
         readOnly: true,
         unit: "ppm",
       },
-      tdsInPpm: { dataPoint: "2", kind: "sensor", readOnly: true, unit: "ppm" },
+      tdsInletInPpm: {
+        dataPoint: "2",
+        kind: "sensor",
+        readOnly: true,
+        unit: "ppm",
+      },
       ppFilterInPercent: {
         dataPoint: "3",
         kind: "sensor",

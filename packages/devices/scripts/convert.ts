@@ -401,6 +401,14 @@ const TIME_UNITS: Record<string, string> = {
   second: "s",
 };
 
+const TIME_SUFFIXES: ReadonlySet<string> = new Set<UnitSuffix>([
+  "Days",
+  "Hours",
+  "Minutes",
+  "Ms",
+  "Seconds",
+]);
+
 // Units that count something, which a name does not spell as a unit: a
 // count of uses, a valve's steps or pulses, a zoom factor.
 const COUNTED_UNITS: ReadonlySet<string> = new Set([
@@ -769,7 +777,7 @@ function components(
     if (isComposite(entity)) {
       addCompositeControls(component, entity, unitSelect && entity === main);
     } else {
-      addSimpleControls(component, entity);
+      addSimpleControls(component, entity, entities);
     }
   }
   for (const [name, controls] of Object.entries(result)) {
@@ -900,8 +908,9 @@ function kelvin(entity: EntityConfig, dp: DataPointConfig): DataPointConfig {
 function addSimpleControls(
   component: Record<string, TuyaControl>,
   entity: EntityConfig,
+  entities: readonly EntityConfig[],
 ): void {
-  const base = simpleBase(entity);
+  const base = simpleBase(entity, entities);
   const primary = PRIMARY_DATA_POINTS[entity.entity];
   const kind = SIMPLE_KINDS[entity.entity];
   const measures = entityMeasures(entity);
@@ -974,9 +983,12 @@ function entityMeasures(entity: EntityConfig): Measure | undefined {
   return measures as Measure;
 }
 
-function simpleBase(entity: EntityConfig): string {
+function simpleBase(
+  entity: EntityConfig,
+  entities: readonly EntityConfig[],
+): string {
   if (entity.name) {
-    return camelCase(entity.name);
+    return camelCase(flowName(entity, entities));
   }
   const key = translationKey(entity);
   if (key) {
@@ -1026,6 +1038,32 @@ function translationKey(entity: EntityConfig): string | undefined {
       : [...parts, slug];
   }
   return parts.join("_");
+}
+
+// A measurement named for "in" or "out", beside another of the device's
+// measurements named for the other word, is one end of a flow: "TDS in" and
+// "TDS out" are the inlet's and the outlet's. A control with no unit, such
+// as a camera's "Zoom in" button, keeps its words, and so does any other
+// "in", which a time's unit marker spells, as "pump cleaning in" minutes.
+function flowName(
+  entity: EntityConfig,
+  entities: readonly EntityConfig[],
+): string {
+  const name = entity.name ?? "";
+  const match = /^(.*\S)\s+(in|out)$/i.exec(name);
+  if (!match) {
+    return name;
+  }
+  const [, stem = "", end = ""] = match;
+  const other = `${stem} ${end.toLowerCase() === "in" ? "out" : "in"}`;
+  const measured = (candidate: EntityConfig) =>
+    candidate.dps.some((dp) => dp.unit !== undefined);
+  const paired = entities.some(
+    (candidate) =>
+      candidate.name?.toLowerCase() === other.toLowerCase() &&
+      measured(candidate),
+  );
+  return paired && measured(entity) ? `${stem} ${end.toLowerCase()}let` : name;
 }
 
 function isControl(dp: DataPointConfig): boolean {
@@ -1581,9 +1619,12 @@ function controlName(name: string, unit: string): string {
   if (name.endsWith(`In${suffix}`)) {
     return name;
   }
-  // A name ending in the word "in", as "pump cleaning in", takes the unit's
-  // "In" alone.
-  const base = /[a-z0-9]In$/.test(name) ? name.slice(0, -2) : name;
+  // A name ending in the word "in" before a time, as "pump cleaning in"
+  // minutes, takes the unit's "In" alone.
+  const base =
+    /[a-z0-9]In$/.test(name) && TIME_SUFFIXES.has(suffix)
+      ? name.slice(0, -2)
+      : name;
   const ending =
     base.length > suffix.length &&
     base.endsWith(suffix) &&
