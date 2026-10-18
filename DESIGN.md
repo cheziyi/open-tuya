@@ -36,9 +36,9 @@ framing and encryption itself. A test of `@open-tuya/local` against a simulator
 then runs two implementations against each other, and a bug in either fails
 it. A simulator built on `@open-tuya/local` would share its bugs and pass.
 
-`@open-tuya/local` takes it as a dev dependency alone: its tests run a
-`TuyaConnection` against a simulated device over loopback, and a caller of
-`@open-tuya/local` never installs it.
+`@open-tuya/local` and `open-tuya` take it as a dev dependency alone: their
+tests run a `TuyaConnection` and a `RoutedTuyaClient` against a simulated
+device over loopback, and a caller of either never installs it.
 
 ## Cloud logins
 
@@ -193,8 +193,14 @@ publishes in a separate job that runs no build script.
   ports with `reusePort`, which `dgram.createSocket` takes from Node 22.12.0,
   and on an older Node it is ignored, so a Linux host no longer shares the
   ports with Home Assistant or tinytuya. The other packages need nothing
-  later than 22.0, but CI tests the latest 22.x alone, and one floor for
-  every package is one statement for a caller. vitest 5 needs 22.12.0 too.
+  later than 22.0, but CI tests the latest release of Node 22, 24 and 26 on
+  Linux, macOS and Windows, never 22.0, and one floor for every package is
+  one statement for a caller. vitest 5 needs 22.12.0 too.
+- Each package's `exports` maps `.` to `./dist/index.js` alone, with no
+  `types` field or condition: TypeScript's `node16`, `nodenext` and `bundler`
+  resolution find `dist/index.d.ts` beside it. `node10`, the one resolution
+  that ignores `exports`, is deprecated in TypeScript 6 and removed in 7, so a
+  `types` field would serve only a caller who has to move off it anyway.
 - `@types/node` is pinned to `22.12.0`, the `engines` floor, so `tsc`
   rejects a Node API added after it. A caret would take the latest 22.x, whose
   types accept what a caller on 22.12.0 lacks. An override in
