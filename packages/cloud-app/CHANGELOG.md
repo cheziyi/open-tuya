@@ -1,5 +1,29 @@
 # @open-tuya/cloud-app
 
+## 0.0.3
+
+### Patch Changes
+
+- [#17](https://github.com/cheziyi/open-tuya/pull/17) [`68bbe44`](https://github.com/cheziyi/open-tuya/commit/68bbe441e0e8642b300c0075e8d99e07055ec71f) Thanks [@cheziyi](https://github.com/cheziyi)! - Add `AppCloudTuyaClient.connected`, true until the client is closed.
+
+- [#36](https://github.com/cheziyi/open-tuya/pull/36) [`e4673ea`](https://github.com/cheziyi/open-tuya/commit/e4673ea7625102b99fb89f78789ebee0dd794683) Thanks [@cheziyi](https://github.com/cheziyi)! - `AppCloudTuyaClient` subscribes to its device's pushes while it has a listener, so a client that only reads and writes opens no MQTT connection. `AppCloudAccount.createClient` rejects with `CONNECTION_LOST` when the account closes while it runs.
+
+- [#14](https://github.com/cheziyi/open-tuya/pull/14) [`d7d5e08`](https://github.com/cheziyi/open-tuya/commit/d7d5e08edb24c7fcc482f829111a30c554ee45fc) Thanks [@cheziyi](https://github.com/cheziyi)! - Sign in by QR code as the Smart Life app does, list an account's devices with their local keys, and read, write and receive pushed data points through `AppCloudTuyaClient`.
+
+- [#36](https://github.com/cheziyi/open-tuya/pull/36) [`e4673ea`](https://github.com/cheziyi/open-tuya/commit/e4673ea7625102b99fb89f78789ebee0dd794683) Thanks [@cheziyi](https://github.com/cheziyi)! - A success from the cloud whose result lacks a field the request needs rejects with a `TuyaError` with code `REQUEST_REJECTED`, not a `TypeError`, and a list the cloud answers as `""` or `null` reads as empty. A push that cannot be read is dropped, and a listener's throw is rethrown after the other listeners have the push, so neither reaches MQTT.js.
+
+- [#15](https://github.com/cheziyi/open-tuya/pull/15) [`15b8f24`](https://github.com/cheziyi/open-tuya/commit/15b8f24376372cdc45e457f26dec173b2c49ecdc) Thanks [@cheziyi](https://github.com/cheziyi)! - `AppCloudAccount` implements `TuyaCloudAccount` from core, and pushes now arrive through MQTT.js.
+
+- [#36](https://github.com/cheziyi/open-tuya/pull/36) [`e4673ea`](https://github.com/cheziyi/open-tuya/commit/e4673ea7625102b99fb89f78789ebee0dd794683) Thanks [@cheziyi](https://github.com/cheziyi)! - `AppCloudAccount` sends a GET the cloud refuses with 1108 "uri path invalid" twice more, 500 ms apart, as the cloud refuses about one request in 20 at random with it.
+
+- [#36](https://github.com/cheziyi/open-tuya/pull/36) [`e4673ea`](https://github.com/cheziyi/open-tuya/commit/e4673ea7625102b99fb89f78789ebee0dd794683) Thanks [@cheziyi](https://github.com/cheziyi)! - `QrLogin.waitForScan` polls on through a poll that times out, cannot connect or is rate limited, rather than rejecting.
+
+- [#36](https://github.com/cheziyi/open-tuya/pull/36) [`e4673ea`](https://github.com/cheziyi/open-tuya/commit/e4673ea7625102b99fb89f78789ebee0dd794683) Thanks [@cheziyi](https://github.com/cheziyi)! - `AppCloudTuyaClient.readDataPoints` finds each data point under the code its relation's `statusFormat` names, so it reads a data point whose status code differs from its command code, such as `energy_reset` for `clear_energy`.
+
+- [#24](https://github.com/cheziyi/open-tuya/pull/24) [`a0d7df1`](https://github.com/cheziyi/open-tuya/commit/a0d7df12f7680ceda44f208acfffd7d3bc1d5c19) Thanks [@cheziyi](https://github.com/cheziyi)! - Support Node 22.12 and later, down from 22.19.
+- Updated dependencies [[`e25e29d`](https://github.com/cheziyi/open-tuya/commit/e25e29d1ef9a48b13b36fd0ae1467b708b532873), [`68bbe44`](https://github.com/cheziyi/open-tuya/commit/68bbe441e0e8642b300c0075e8d99e07055ec71f), [`15b8f24`](https://github.com/cheziyi/open-tuya/commit/15b8f24376372cdc45e457f26dec173b2c49ecdc), [`d7d5e08`](https://github.com/cheziyi/open-tuya/commit/d7d5e08edb24c7fcc482f829111a30c554ee45fc), [`e25e29d`](https://github.com/cheziyi/open-tuya/commit/e25e29d1ef9a48b13b36fd0ae1467b708b532873), [`bd7645b`](https://github.com/cheziyi/open-tuya/commit/bd7645b7e3406b714b3ba34ce475f8f928370b1d), [`2a126e7`](https://github.com/cheziyi/open-tuya/commit/2a126e73fbc0b8321258bed22b2cf5990a90d4ad), [`8e02172`](https://github.com/cheziyi/open-tuya/commit/8e02172f68bd03347ca25639f1fa19537314fcfd), [`383dfbc`](https://github.com/cheziyi/open-tuya/commit/383dfbcf89920c02fbb81da30b7eece66bb245f7), [`a0d7df1`](https://github.com/cheziyi/open-tuya/commit/a0d7df12f7680ceda44f208acfffd7d3bc1d5c19)]:
+  - @open-tuya/core@0.1.0
+
 ## 0.0.2
 
 ### Patch Changes

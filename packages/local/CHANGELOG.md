@@ -1,5 +1,33 @@
 # @open-tuya/local
 
+## 0.2.0
+
+### Minor Changes
+
+- [#11](https://github.com/cheziyi/open-tuya/pull/11) [`e25e29d`](https://github.com/cheziyi/open-tuya/commit/e25e29d1ef9a48b13b36fd0ae1467b708b532873) Thanks [@cheziyi](https://github.com/cheziyi)! - `TuyaConnection.close()` and `LocalTuyaClient.close()` now return a promise that resolves once the socket is released. `TuyaConnection`, `LocalTuyaClient` and `TuyaDiscovery` close at the end of an `await using` scope.
+
+- [#35](https://github.com/cheziyi/open-tuya/pull/35) [`5f2e1f8`](https://github.com/cheziyi/open-tuya/commit/5f2e1f8c065db03013cafdd647e8f0fcd40a6d48) Thanks [@cheziyi](https://github.com/cheziyi)! - `decodeFrames`, `decodeV34Frames`, `decodeV35Frames` and `decodeMessages` no longer throw for a length field out of range: they return the whole frames before it and set `malformed`, and `TuyaConnection` hands those frames on before it closes. A read by writing null waits for its ack, a closed device behind a gateway is no longer read after a reconnect, and a 3.3 gateway is read with `DP_QUERY_NEW` and asked which devices are online.
+
+- [#26](https://github.com/cheziyi/open-tuya/pull/26) [`69ac578`](https://github.com/cheziyi/open-tuya/commit/69ac578ca62b48b0fc26d7ef743c4c3d283eba02) Thanks [@cheziyi](https://github.com/cheziyi)! - Follow a device to a new address: pass `discovery` to `createLocalTuyaClient`, and after a lost connection or a failed connect the client tries the address the discovery last heard the device at, returning to the last address that worked if that fails too. `TuyaDiscovery.devices` holds the latest report from each device, and `onDevice` is optional. `LocalTuyaClient`'s constructor now takes the host, and passes the address to connect to as the first argument of its connect function.
+
+- [#28](https://github.com/cheziyi/open-tuya/pull/28) [`2a126e7`](https://github.com/cheziyi/open-tuya/commit/2a126e73fbc0b8321258bed22b2cf5990a90d4ad) Thanks [@cheziyi](https://github.com/cheziyi)! - Speak protocol 3.1: `createLocalTuyaClient` reads and writes a 3.1 device, and `discoverDevices` listens on UDP port 6666 for its broadcasts, so a program holding that port without sharing it now fails discovery with `DISCOVERY_FAILED`. Under a wrong local key a 3.1 read still succeeds and a write times out. `TuyaDiscovery`'s constructor takes its broadcast sockets as a list.
+
+- [#29](https://github.com/cheziyi/open-tuya/pull/29) [`8e02172`](https://github.com/cheziyi/open-tuya/commit/8e02172f68bd03347ca25639f1fa19537314fcfd) Thanks [@cheziyi](https://github.com/cheziyi)! - Speak protocol 3.2, and read a device that refuses a read by writing null to the data points named in `readByWritingNull`, on 3.2 and 3.3. `LocalTuyaClient`'s constructor takes its version, device ID, host and discovery in one options object.
+
+### Patch Changes
+
+- [#17](https://github.com/cheziyi/open-tuya/pull/17) [`68bbe44`](https://github.com/cheziyi/open-tuya/commit/68bbe441e0e8642b300c0075e8d99e07055ec71f) Thanks [@cheziyi](https://github.com/cheziyi)! - Add `LocalTuyaClient.connected`, true while its connection is open.
+
+- [#11](https://github.com/cheziyi/open-tuya/pull/11) [`e25e29d`](https://github.com/cheziyi/open-tuya/commit/e25e29d1ef9a48b13b36fd0ae1467b708b532873) Thanks [@cheziyi](https://github.com/cheziyi)! - Add `discoverDevices`, which reports each device on the LAN with its address, device ID, protocol version and product key, ready to pass to `createLocalTuyaClient`, and asks 3.5 devices that stay silent to answer.
+
+- [#23](https://github.com/cheziyi/open-tuya/pull/23) [`fc8643e`](https://github.com/cheziyi/open-tuya/commit/fc8643e4ffa3e0852a0e146660596070d76b0b11) Thanks [@cheziyi](https://github.com/cheziyi)! - Reach the devices behind a gateway, such as Zigbee and Bluetooth devices, over the gateway's connection: `LocalTuyaClient.createClient(nodeId)` gives a `SubDeviceTuyaClient`, and on 3.4 and 3.5 the gateway is asked every 30 s which devices are online.
+
+- [#30](https://github.com/cheziyi/open-tuya/pull/30) [`41f1a7d`](https://github.com/cheziyi/open-tuya/commit/41f1a7de13050f4cba81f66c1dd6fa8a1e33bac3) Thanks [@cheziyi](https://github.com/cheziyi)! - Send a 3.3 heartbeat as an empty payload, as on every other version, rather than one encrypted block of padding.
+
+- [#24](https://github.com/cheziyi/open-tuya/pull/24) [`a0d7df1`](https://github.com/cheziyi/open-tuya/commit/a0d7df12f7680ceda44f208acfffd7d3bc1d5c19) Thanks [@cheziyi](https://github.com/cheziyi)! - Support Node 22.12 and later, down from 22.19.
+- Updated dependencies [[`e25e29d`](https://github.com/cheziyi/open-tuya/commit/e25e29d1ef9a48b13b36fd0ae1467b708b532873), [`68bbe44`](https://github.com/cheziyi/open-tuya/commit/68bbe441e0e8642b300c0075e8d99e07055ec71f), [`15b8f24`](https://github.com/cheziyi/open-tuya/commit/15b8f24376372cdc45e457f26dec173b2c49ecdc), [`d7d5e08`](https://github.com/cheziyi/open-tuya/commit/d7d5e08edb24c7fcc482f829111a30c554ee45fc), [`e25e29d`](https://github.com/cheziyi/open-tuya/commit/e25e29d1ef9a48b13b36fd0ae1467b708b532873), [`bd7645b`](https://github.com/cheziyi/open-tuya/commit/bd7645b7e3406b714b3ba34ce475f8f928370b1d), [`2a126e7`](https://github.com/cheziyi/open-tuya/commit/2a126e73fbc0b8321258bed22b2cf5990a90d4ad), [`8e02172`](https://github.com/cheziyi/open-tuya/commit/8e02172f68bd03347ca25639f1fa19537314fcfd), [`383dfbc`](https://github.com/cheziyi/open-tuya/commit/383dfbcf89920c02fbb81da30b7eece66bb245f7), [`a0d7df1`](https://github.com/cheziyi/open-tuya/commit/a0d7df12f7680ceda44f208acfffd7d3bc1d5c19)]:
+  - @open-tuya/core@0.1.0
+
 ## 0.1.0
 
 ### Minor Changes
