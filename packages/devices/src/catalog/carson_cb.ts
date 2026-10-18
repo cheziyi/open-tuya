@@ -81,7 +81,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       modelCode: { dataPoint: "110", kind: "number" },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "19",
         kind: "select",
         values: [
@@ -109,7 +109,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "106",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           {

@@ -162,7 +162,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "21",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           {
@@ -181,7 +181,7 @@ const entry: TuyaDeviceEntry = {
       safety: {
         dataPoint: "116",
         kind: "sensor",
-        measures: "safety",
+        measures: "hazard",
         readOnly: true,
       },
       program1Enable: { dataPoint: "133", kind: "switch" },

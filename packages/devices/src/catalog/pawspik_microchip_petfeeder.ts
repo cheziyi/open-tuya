@@ -46,7 +46,7 @@ const entry: TuyaDeviceEntry = {
       plug: {
         dataPoint: "11",
         kind: "sensor",
-        measures: "plug",
+        measures: "plugged",
         readOnly: true,
       },
       currentPosition: {
@@ -70,7 +70,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "13",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -146,6 +146,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "g", value: "gram" },
         ],
         otherwise: "Cup",
+        ownRuleReadOnly: true,
       },
       lastFeedDurationInSeconds: {
         dataPoint: "101",

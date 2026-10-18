@@ -24,13 +24,14 @@ const entry: TuyaDeviceEntry = {
       co2Level: {
         dataPoint: "1",
         kind: "sensor",
-        measures: "safety",
+        measures: "hazard",
         readOnly: true,
         values: [
           { raw: "alarm", value: true },
           { raw: "normal", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       carbonDioxideInPpm: {
@@ -49,7 +50,11 @@ const entry: TuyaDeviceEntry = {
         max: 2000,
         step: 100,
       },
-      alarmEnable: { dataPoint: "13", kind: "switch" },
+      alarmEnable: {
+        dataPoint: "13",
+        kind: "switch",
+        values: [{ raw: true }, { raw: false }],
+      },
       batteryCharging: {
         dataPoint: "14",
         kind: "sensor",
@@ -60,6 +65,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "charge", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       batteryInPercent: {
@@ -91,7 +97,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "f", value: "fahrenheit" },
         ],
       },
-      screenSleep: { dataPoint: "101", kind: "switch" },
+      screenSleep: {
+        dataPoint: "101",
+        kind: "switch",
+        values: [{ raw: true }, { raw: false }],
+      },
       screenSleepTimeInSeconds: {
         dataPoint: "102",
         kind: "number",

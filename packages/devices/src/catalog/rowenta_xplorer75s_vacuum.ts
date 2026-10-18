@@ -159,7 +159,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "28",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -210,7 +210,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "m2",
       },
-      numberOfCleansInTimes: {
+      numberOfCleans: {
         dataPoint: "30",
         kind: "sensor",
         readOnly: true,
@@ -226,7 +226,7 @@ const entry: TuyaDeviceEntry = {
       charge: { dataPoint: "3", kind: "switch" },
       resetMap: { dataPoint: "13", kind: "button" },
       pathData: { dataPoint: "14", kind: "text" },
-      command2: { dataPoint: "15", kind: "text" },
+      secondCommand: { dataPoint: "15", kind: "text" },
       request: {
         dataPoint: "16",
         kind: "select",
@@ -269,6 +269,7 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [
+          { raw: 0, value: null },
           { raw: 1, value: "Splitting" },
           { raw: 2, value: "Merging" },
           { raw: 4, value: "Mapping" },
@@ -287,6 +288,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "199",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "message",
       },
       roomNotificationMessage: {

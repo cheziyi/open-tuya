@@ -35,6 +35,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "1", value: 75 },
           { raw: "2", value: 50 },
           { raw: "3", value: 25 },
+          { raw: "4", value: null },
         ],
       },
       batteryCharging: {

@@ -125,7 +125,7 @@ const entry: TuyaDeviceEntry = {
         max: 76,
         scale: 10,
       },
-      orpInMillivolts2: {
+      secondOrpInMillivolts: {
         dataPoint: "111",
         kind: "sensor",
         measures: "voltage",
@@ -157,7 +157,7 @@ const entry: TuyaDeviceEntry = {
       lowAcidity: {
         dataPoint: "115",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: true, value: true }],
         otherwise: false,
@@ -165,7 +165,7 @@ const entry: TuyaDeviceEntry = {
       calibrationRequired: {
         dataPoint: "116",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: true, value: true }],
         otherwise: false,
@@ -173,7 +173,7 @@ const entry: TuyaDeviceEntry = {
       lowSalt: {
         dataPoint: "117",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: true, value: true }],
         otherwise: false,
@@ -181,7 +181,7 @@ const entry: TuyaDeviceEntry = {
       sensorFault: {
         dataPoint: "118",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: true, value: true }],
         otherwise: false,
@@ -259,7 +259,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "129",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -275,6 +275,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       timer2: {
@@ -285,6 +286,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       timer1OnInHours: {

@@ -83,13 +83,13 @@ const entry: TuyaDeviceEntry = {
       powerFailure: {
         dataPoint: "108",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       ignitionFailure: {
         dataPoint: "109",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       overheat: {

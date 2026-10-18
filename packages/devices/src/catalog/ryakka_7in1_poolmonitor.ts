@@ -32,6 +32,13 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "113",
+          constraint: {
+            dataPoint: "113",
+            values: [
+              { raw: "c", value: "C" },
+              { raw: "f", value: "F" },
+            ],
+          },
           conditions: [
             { when: ["f"], redirect: { dataPoint: "129", scale: 10 } },
           ],
@@ -95,7 +102,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         scale: 1000,
       },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "113",
         kind: "select",
         values: [

@@ -43,6 +43,13 @@ const entry: TuyaDeviceEntry = {
         max: 68,
         dependsOn: {
           dataPoint: "113",
+          constraint: {
+            dataPoint: "113",
+            values: [
+              { raw: false, value: "C" },
+              { raw: true, value: "F" },
+            ],
+          },
           conditions: [{ when: [true], min: 77, max: 154 }],
         },
       },
@@ -64,13 +71,13 @@ const entry: TuyaDeviceEntry = {
     },
     light: {
       on: { dataPoint: "101", kind: "switch" },
-      on2: { dataPoint: "105", kind: "switch" },
+      secondOn: { dataPoint: "105", kind: "switch" },
       aromatherapy: { dataPoint: "108", kind: "switch" },
       washRinse: { dataPoint: "109", kind: "switch" },
       fault: {
         dataPoint: "111",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -99,6 +106,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "07", value: "off" },
         ],
         otherwise: "off",
+        ownRuleReadOnly: true,
       },
       colorName: {
         dataPoint: "107",

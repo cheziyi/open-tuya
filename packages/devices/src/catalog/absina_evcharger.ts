@@ -61,7 +61,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "10",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -292,7 +292,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 15,
       },
-      chargingTimeInHours2: {
+      secondChargingTimeInHours: {
         dataPoint: "121",
         kind: "sensor",
         measures: "duration",

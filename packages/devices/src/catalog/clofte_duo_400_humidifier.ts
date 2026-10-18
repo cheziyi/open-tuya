@@ -130,6 +130,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "40", value: 40 },
           { raw: "50", value: 50 },
           { raw: "60", value: 60 },
+          { raw: "null", value: null, readOnly: true },
         ],
       },
       mode: {

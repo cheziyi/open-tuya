@@ -58,7 +58,7 @@ const entry: TuyaDeviceEntry = {
         max: 2500,
         step: 50,
       },
-      volumeInMl2: {
+      secondVolumeInMl: {
         dataPoint: "26",
         kind: "sensor",
         measures: "volume",
@@ -68,7 +68,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "6",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

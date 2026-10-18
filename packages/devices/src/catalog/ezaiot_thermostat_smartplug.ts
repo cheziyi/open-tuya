@@ -46,14 +46,14 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "9",
         kind: "number",
         measures: "temperature",
         unit: "C",
         scale: 10,
       },
-      minTargetTemperatureInC: {
+      minimumTargetTemperatureInC: {
         dataPoint: "12",
         kind: "number",
         measures: "temperature",
@@ -79,6 +79,14 @@ const entry: TuyaDeviceEntry = {
             raw: 1,
             dependsOn: {
               dataPoint: "4",
+              constraint: {
+                dataPoint: "4",
+                values: [
+                  { raw: "heat", value: "heat" },
+                  { raw: "cool", value: "cool" },
+                  { raw: "plug", value: "off" },
+                ],
+              },
               conditions: [
                 { when: ["heat"], value: "heating" },
                 { when: ["cool"], value: "cooling" },
@@ -100,6 +108,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       childLock: { dataPoint: "110", kind: "switch" },

@@ -184,6 +184,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "6",
+          constraint: {
+            dataPoint: "6",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             { when: ["f"], redirect: { dataPoint: "35", scale: 10 } },
           ],
@@ -200,6 +205,74 @@ const entry: TuyaDeviceEntry = {
             value: "heating",
             dependsOn: {
               dataPoint: "2",
+              constraint: {
+                dataPoint: "2",
+                values: [
+                  {
+                    raw: "Auto",
+                    value: "auto",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Heating_Smart",
+                    value: "smart_heat",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Heating_Powerful",
+                    value: "quick_heat",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Heating_Silent",
+                    value: "quiet_heat",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Cooling_Smart",
+                    value: "smart_cool",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Cooling_Powerful",
+                    value: "quick_cool",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Cooling_Silent",
+                    value: "quiet_cool",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                ],
+              },
               conditions: [
                 {
                   when: ["Cooling_Powerful", "Cooling_Smart", "Cooling_Silent"],
@@ -213,6 +286,7 @@ const entry: TuyaDeviceEntry = {
                       { raw: "Cool_mode", value: "cooling" },
                       { raw: "Heat_mode", value: "heating" },
                     ],
+                    otherwise: null,
                   },
                 },
                 {
@@ -223,6 +297,7 @@ const entry: TuyaDeviceEntry = {
                       { raw: "Cool_mode", value: "cooling" },
                       { raw: "Heat_mode", value: "heating" },
                     ],
+                    otherwise: null,
                   },
                 },
               ],
@@ -231,6 +306,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Defrosting", value: "defrosting" },
           { raw: "Standby", value: "idle" },
         ],
+        otherwise: null,
       },
       workModeAction: {
         dataPoint: "5",
@@ -239,6 +315,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Cool_mode", value: "cooling" },
           { raw: "Heat_mode", value: "heating" },
         ],
+        otherwise: null,
       },
       targetTemperature: {
         dataPoint: "101",
@@ -249,6 +326,74 @@ const entry: TuyaDeviceEntry = {
         max: 400,
         dependsOn: {
           dataPoint: "2",
+          constraint: {
+            dataPoint: "2",
+            values: [
+              {
+                raw: "Auto",
+                value: "auto",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "Heating_Smart",
+                value: "smart_heat",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "Heating_Powerful",
+                value: "quick_heat",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "Heating_Silent",
+                value: "quiet_heat",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "Cooling_Smart",
+                value: "smart_cool",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "Cooling_Powerful",
+                value: "quick_cool",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "Cooling_Silent",
+                value: "quiet_cool",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+            ],
+          },
           conditions: [
             {
               when: ["Heating_Powerful", "Heating_Smart", "Heating_Silent"],
@@ -256,6 +401,11 @@ const entry: TuyaDeviceEntry = {
                 dataPoint: "101",
                 dependsOn: {
                   dataPoint: "6",
+                  constraint: {
+                    dataPoint: "6",
+                    values: [{ raw: "f", value: "F" }],
+                    otherwise: "C",
+                  },
                   conditions: [
                     { when: ["f"], redirect: { dataPoint: "105" } },
                     { when: ["c"], scale: 10, step: 10 },
@@ -269,6 +419,11 @@ const entry: TuyaDeviceEntry = {
                 dataPoint: "102",
                 dependsOn: {
                   dataPoint: "6",
+                  constraint: {
+                    dataPoint: "6",
+                    values: [{ raw: "f", value: "F" }],
+                    otherwise: "C",
+                  },
                   conditions: [
                     { when: ["f"], redirect: { dataPoint: "106" } },
                     { when: ["c"], scale: 10, step: 10 },
@@ -289,6 +444,11 @@ const entry: TuyaDeviceEntry = {
                         dataPoint: "104",
                         dependsOn: {
                           dataPoint: "6",
+                          constraint: {
+                            dataPoint: "6",
+                            values: [{ raw: "f", value: "F" }],
+                            otherwise: "C",
+                          },
                           conditions: [
                             { when: ["f"], redirect: { dataPoint: "108" } },
                             { when: ["c"], scale: 10, step: 10 },
@@ -302,6 +462,11 @@ const entry: TuyaDeviceEntry = {
                         dataPoint: "104",
                         dependsOn: {
                           dataPoint: "6",
+                          constraint: {
+                            dataPoint: "6",
+                            values: [{ raw: "f", value: "F" }],
+                            otherwise: "C",
+                          },
                           conditions: [
                             { when: ["f"], redirect: { dataPoint: "108" } },
                             { when: ["c"], scale: 10, step: 10 },
@@ -315,6 +480,11 @@ const entry: TuyaDeviceEntry = {
                         dataPoint: "102",
                         dependsOn: {
                           dataPoint: "6",
+                          constraint: {
+                            dataPoint: "6",
+                            values: [{ raw: "f", value: "F" }],
+                            otherwise: "C",
+                          },
                           conditions: [
                             { when: ["f"], redirect: { dataPoint: "106" } },
                             { when: ["c"], scale: 10, step: 10 },
@@ -328,6 +498,11 @@ const entry: TuyaDeviceEntry = {
                         dataPoint: "101",
                         dependsOn: {
                           dataPoint: "6",
+                          constraint: {
+                            dataPoint: "6",
+                            values: [{ raw: "f", value: "F" }],
+                            otherwise: "C",
+                          },
                           conditions: [
                             { when: ["f"], redirect: { dataPoint: "105" } },
                             { when: ["c"], scale: 10, step: 10 },
@@ -352,6 +527,11 @@ const entry: TuyaDeviceEntry = {
                         dataPoint: "104",
                         dependsOn: {
                           dataPoint: "6",
+                          constraint: {
+                            dataPoint: "6",
+                            values: [{ raw: "f", value: "F" }],
+                            otherwise: "C",
+                          },
                           conditions: [
                             { when: ["f"], redirect: { dataPoint: "108" } },
                             { when: ["c"], scale: 10, step: 10 },
@@ -365,6 +545,11 @@ const entry: TuyaDeviceEntry = {
                         dataPoint: "104",
                         dependsOn: {
                           dataPoint: "6",
+                          constraint: {
+                            dataPoint: "6",
+                            values: [{ raw: "f", value: "F" }],
+                            otherwise: "C",
+                          },
                           conditions: [
                             { when: ["f"], redirect: { dataPoint: "108" } },
                             { when: ["c"], scale: 10, step: 10 },
@@ -378,6 +563,11 @@ const entry: TuyaDeviceEntry = {
                         dataPoint: "102",
                         dependsOn: {
                           dataPoint: "6",
+                          constraint: {
+                            dataPoint: "6",
+                            values: [{ raw: "f", value: "F" }],
+                            otherwise: "C",
+                          },
                           conditions: [
                             { when: ["f"], redirect: { dataPoint: "106" } },
                             { when: ["c"], scale: 10, step: 10 },
@@ -391,6 +581,11 @@ const entry: TuyaDeviceEntry = {
                         dataPoint: "101",
                         dependsOn: {
                           dataPoint: "6",
+                          constraint: {
+                            dataPoint: "6",
+                            values: [{ raw: "f", value: "F" }],
+                            otherwise: "C",
+                          },
                           conditions: [
                             { when: ["f"], redirect: { dataPoint: "105" } },
                             { when: ["c"], scale: 10, step: 10 },
@@ -411,6 +606,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "6",
+          constraint: {
+            dataPoint: "6",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             { when: ["f"], redirect: { dataPoint: "105" } },
             { when: ["c"], scale: 10, step: 10 },
@@ -423,6 +623,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "6",
+          constraint: {
+            dataPoint: "6",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             { when: ["f"], redirect: { dataPoint: "106" } },
             { when: ["c"], scale: 10, step: 10 },
@@ -442,6 +647,11 @@ const entry: TuyaDeviceEntry = {
                 dataPoint: "104",
                 dependsOn: {
                   dataPoint: "6",
+                  constraint: {
+                    dataPoint: "6",
+                    values: [{ raw: "f", value: "F" }],
+                    otherwise: "C",
+                  },
                   conditions: [
                     { when: ["f"], redirect: { dataPoint: "108" } },
                     { when: ["c"], scale: 10, step: 10 },
@@ -455,6 +665,11 @@ const entry: TuyaDeviceEntry = {
                 dataPoint: "104",
                 dependsOn: {
                   dataPoint: "6",
+                  constraint: {
+                    dataPoint: "6",
+                    values: [{ raw: "f", value: "F" }],
+                    otherwise: "C",
+                  },
                   conditions: [
                     { when: ["f"], redirect: { dataPoint: "108" } },
                     { when: ["c"], scale: 10, step: 10 },
@@ -468,6 +683,11 @@ const entry: TuyaDeviceEntry = {
                 dataPoint: "102",
                 dependsOn: {
                   dataPoint: "6",
+                  constraint: {
+                    dataPoint: "6",
+                    values: [{ raw: "f", value: "F" }],
+                    otherwise: "C",
+                  },
                   conditions: [
                     { when: ["f"], redirect: { dataPoint: "106" } },
                     { when: ["c"], scale: 10, step: 10 },
@@ -481,6 +701,11 @@ const entry: TuyaDeviceEntry = {
                 dataPoint: "101",
                 dependsOn: {
                   dataPoint: "6",
+                  constraint: {
+                    dataPoint: "6",
+                    values: [{ raw: "f", value: "F" }],
+                    otherwise: "C",
+                  },
                   conditions: [
                     { when: ["f"], redirect: { dataPoint: "105" } },
                     { when: ["c"], scale: 10, step: 10 },
@@ -497,6 +722,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "6",
+          constraint: {
+            dataPoint: "6",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             { when: ["f"], redirect: { dataPoint: "108" } },
             { when: ["c"], scale: 10, step: 10 },
@@ -520,7 +750,7 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      minTargetTemperature: {
+      minimumTargetTemperature: {
         dataPoint: "5",
         kind: "select",
         measures: "temperature",
@@ -531,6 +761,11 @@ const entry: TuyaDeviceEntry = {
             value: 15,
             dependsOn: {
               dataPoint: "6",
+              constraint: {
+                dataPoint: "6",
+                values: [{ raw: "f", value: "F" }],
+                otherwise: "C",
+              },
               conditions: [{ when: ["f"], value: 59 }],
             },
           },
@@ -544,6 +779,74 @@ const entry: TuyaDeviceEntry = {
                 value: 46,
                 dependsOn: {
                   dataPoint: "2",
+                  constraint: {
+                    dataPoint: "2",
+                    values: [
+                      {
+                        raw: "Auto",
+                        value: "auto",
+                        availableWhile: {
+                          dataPoint: "109",
+                          values: [{ raw: 0, value: false }],
+                          otherwise: true,
+                        },
+                      },
+                      {
+                        raw: "Heating_Smart",
+                        value: "smart_heat",
+                        availableWhile: {
+                          dataPoint: "109",
+                          values: [{ raw: 0, value: false }],
+                          otherwise: true,
+                        },
+                      },
+                      {
+                        raw: "Heating_Powerful",
+                        value: "quick_heat",
+                        availableWhile: {
+                          dataPoint: "109",
+                          values: [{ raw: 0, value: false }],
+                          otherwise: true,
+                        },
+                      },
+                      {
+                        raw: "Heating_Silent",
+                        value: "quiet_heat",
+                        availableWhile: {
+                          dataPoint: "109",
+                          values: [{ raw: 0, value: false }],
+                          otherwise: true,
+                        },
+                      },
+                      {
+                        raw: "Cooling_Smart",
+                        value: "smart_cool",
+                        availableWhile: {
+                          dataPoint: "109",
+                          values: [{ raw: 0, value: false }],
+                          otherwise: true,
+                        },
+                      },
+                      {
+                        raw: "Cooling_Powerful",
+                        value: "quick_cool",
+                        availableWhile: {
+                          dataPoint: "109",
+                          values: [{ raw: 0, value: false }],
+                          otherwise: true,
+                        },
+                      },
+                      {
+                        raw: "Cooling_Silent",
+                        value: "quiet_cool",
+                        availableWhile: {
+                          dataPoint: "109",
+                          values: [{ raw: 0, value: false }],
+                          otherwise: true,
+                        },
+                      },
+                    ],
+                  },
                   conditions: [
                     {
                       when: [
@@ -560,6 +863,74 @@ const entry: TuyaDeviceEntry = {
             otherwise: 8,
             dependsOn: {
               dataPoint: "2",
+              constraint: {
+                dataPoint: "2",
+                values: [
+                  {
+                    raw: "Auto",
+                    value: "auto",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Heating_Smart",
+                    value: "smart_heat",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Heating_Powerful",
+                    value: "quick_heat",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Heating_Silent",
+                    value: "quiet_heat",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Cooling_Smart",
+                    value: "smart_cool",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Cooling_Powerful",
+                    value: "quick_cool",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Cooling_Silent",
+                    value: "quiet_cool",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                ],
+              },
               conditions: [
                 {
                   when: ["Heating_Smart", "Heating_Powerful", "Heating_Silent"],
@@ -570,9 +941,17 @@ const entry: TuyaDeviceEntry = {
           },
         },
         otherwise: 8,
-        dependsOn: { dataPoint: "6", conditions: [{ when: ["f"], value: 46 }] },
+        dependsOn: {
+          dataPoint: "6",
+          constraint: {
+            dataPoint: "6",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
+          conditions: [{ when: ["f"], value: 46 }],
+        },
       },
-      maxTargetTemperature: {
+      maximumTargetTemperature: {
         dataPoint: "5",
         kind: "select",
         measures: "temperature",
@@ -583,6 +962,11 @@ const entry: TuyaDeviceEntry = {
             value: 28,
             dependsOn: {
               dataPoint: "6",
+              constraint: {
+                dataPoint: "6",
+                values: [{ raw: "f", value: "F" }],
+                otherwise: "C",
+              },
               conditions: [{ when: ["f"], value: 82 }],
             },
           },
@@ -596,6 +980,74 @@ const entry: TuyaDeviceEntry = {
                 value: 104,
                 dependsOn: {
                   dataPoint: "2",
+                  constraint: {
+                    dataPoint: "2",
+                    values: [
+                      {
+                        raw: "Auto",
+                        value: "auto",
+                        availableWhile: {
+                          dataPoint: "109",
+                          values: [{ raw: 0, value: false }],
+                          otherwise: true,
+                        },
+                      },
+                      {
+                        raw: "Heating_Smart",
+                        value: "smart_heat",
+                        availableWhile: {
+                          dataPoint: "109",
+                          values: [{ raw: 0, value: false }],
+                          otherwise: true,
+                        },
+                      },
+                      {
+                        raw: "Heating_Powerful",
+                        value: "quick_heat",
+                        availableWhile: {
+                          dataPoint: "109",
+                          values: [{ raw: 0, value: false }],
+                          otherwise: true,
+                        },
+                      },
+                      {
+                        raw: "Heating_Silent",
+                        value: "quiet_heat",
+                        availableWhile: {
+                          dataPoint: "109",
+                          values: [{ raw: 0, value: false }],
+                          otherwise: true,
+                        },
+                      },
+                      {
+                        raw: "Cooling_Smart",
+                        value: "smart_cool",
+                        availableWhile: {
+                          dataPoint: "109",
+                          values: [{ raw: 0, value: false }],
+                          otherwise: true,
+                        },
+                      },
+                      {
+                        raw: "Cooling_Powerful",
+                        value: "quick_cool",
+                        availableWhile: {
+                          dataPoint: "109",
+                          values: [{ raw: 0, value: false }],
+                          otherwise: true,
+                        },
+                      },
+                      {
+                        raw: "Cooling_Silent",
+                        value: "quiet_cool",
+                        availableWhile: {
+                          dataPoint: "109",
+                          values: [{ raw: 0, value: false }],
+                          otherwise: true,
+                        },
+                      },
+                    ],
+                  },
                   conditions: [
                     {
                       when: [
@@ -612,6 +1064,74 @@ const entry: TuyaDeviceEntry = {
             otherwise: 40,
             dependsOn: {
               dataPoint: "2",
+              constraint: {
+                dataPoint: "2",
+                values: [
+                  {
+                    raw: "Auto",
+                    value: "auto",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Heating_Smart",
+                    value: "smart_heat",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Heating_Powerful",
+                    value: "quick_heat",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Heating_Silent",
+                    value: "quiet_heat",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Cooling_Smart",
+                    value: "smart_cool",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Cooling_Powerful",
+                    value: "quick_cool",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Cooling_Silent",
+                    value: "quiet_cool",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                ],
+              },
               conditions: [
                 {
                   when: ["Cooling_Smart", "Cooling_Powerful", "Cooling_Silent"],
@@ -624,6 +1144,11 @@ const entry: TuyaDeviceEntry = {
         otherwise: 40,
         dependsOn: {
           dataPoint: "6",
+          constraint: {
+            dataPoint: "6",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [{ when: ["f"], value: 104 }],
         },
       },
@@ -636,6 +1161,74 @@ const entry: TuyaDeviceEntry = {
             value: 46,
             dependsOn: {
               dataPoint: "2",
+              constraint: {
+                dataPoint: "2",
+                values: [
+                  {
+                    raw: "Auto",
+                    value: "auto",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Heating_Smart",
+                    value: "smart_heat",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Heating_Powerful",
+                    value: "quick_heat",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Heating_Silent",
+                    value: "quiet_heat",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Cooling_Smart",
+                    value: "smart_cool",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Cooling_Powerful",
+                    value: "quick_cool",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Cooling_Silent",
+                    value: "quiet_cool",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                ],
+              },
               conditions: [
                 {
                   when: ["Heating_Smart", "Heating_Powerful", "Heating_Silent"],
@@ -648,6 +1241,74 @@ const entry: TuyaDeviceEntry = {
         otherwise: 8,
         dependsOn: {
           dataPoint: "2",
+          constraint: {
+            dataPoint: "2",
+            values: [
+              {
+                raw: "Auto",
+                value: "auto",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "Heating_Smart",
+                value: "smart_heat",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "Heating_Powerful",
+                value: "quick_heat",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "Heating_Silent",
+                value: "quiet_heat",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "Cooling_Smart",
+                value: "smart_cool",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "Cooling_Powerful",
+                value: "quick_cool",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "Cooling_Silent",
+                value: "quiet_cool",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+            ],
+          },
           conditions: [
             {
               when: ["Heating_Smart", "Heating_Powerful", "Heating_Silent"],
@@ -665,6 +1326,74 @@ const entry: TuyaDeviceEntry = {
             value: 104,
             dependsOn: {
               dataPoint: "2",
+              constraint: {
+                dataPoint: "2",
+                values: [
+                  {
+                    raw: "Auto",
+                    value: "auto",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Heating_Smart",
+                    value: "smart_heat",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Heating_Powerful",
+                    value: "quick_heat",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Heating_Silent",
+                    value: "quiet_heat",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Cooling_Smart",
+                    value: "smart_cool",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Cooling_Powerful",
+                    value: "quick_cool",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                  {
+                    raw: "Cooling_Silent",
+                    value: "quiet_cool",
+                    availableWhile: {
+                      dataPoint: "109",
+                      values: [{ raw: 0, value: false }],
+                      otherwise: true,
+                    },
+                  },
+                ],
+              },
               conditions: [
                 {
                   when: ["Cooling_Smart", "Cooling_Powerful", "Cooling_Silent"],
@@ -677,6 +1406,74 @@ const entry: TuyaDeviceEntry = {
         otherwise: 40,
         dependsOn: {
           dataPoint: "2",
+          constraint: {
+            dataPoint: "2",
+            values: [
+              {
+                raw: "Auto",
+                value: "auto",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "Heating_Smart",
+                value: "smart_heat",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "Heating_Powerful",
+                value: "quick_heat",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "Heating_Silent",
+                value: "quiet_heat",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "Cooling_Smart",
+                value: "smart_cool",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "Cooling_Powerful",
+                value: "quick_cool",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+              {
+                raw: "Cooling_Silent",
+                value: "quiet_cool",
+                availableWhile: {
+                  dataPoint: "109",
+                  values: [{ raw: 0, value: false }],
+                  otherwise: true,
+                },
+              },
+            ],
+          },
           conditions: [
             {
               when: ["Cooling_Smart", "Cooling_Powerful", "Cooling_Silent"],
@@ -698,7 +1495,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "15",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -727,6 +1524,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "coilTemperatureUnit",
         dependsOn: {
           dataPoint: "6",
+          constraint: {
+            dataPoint: "6",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             { when: ["f"], redirect: { dataPoint: "41", scale: 10 } },
           ],
@@ -748,6 +1550,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "exhaustTemperatureUnit",
         dependsOn: {
           dataPoint: "6",
+          constraint: {
+            dataPoint: "6",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             { when: ["f"], redirect: { dataPoint: "39", scale: 10 } },
           ],
@@ -769,6 +1576,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "outletTemperatureUnit",
         dependsOn: {
           dataPoint: "6",
+          constraint: {
+            dataPoint: "6",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             { when: ["f"], redirect: { dataPoint: "40", scale: 10 } },
           ],
@@ -790,6 +1602,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "ambientTemperatureUnit",
         dependsOn: {
           dataPoint: "6",
+          constraint: {
+            dataPoint: "6",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             { when: ["f"], redirect: { dataPoint: "38", scale: 10 } },
           ],
@@ -820,6 +1637,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "returnTemperatureUnit",
         dependsOn: {
           dataPoint: "6",
+          constraint: {
+            dataPoint: "6",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             { when: ["f"], redirect: { dataPoint: "122", scale: 10 } },
           ],
@@ -847,6 +1669,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "coolingCoilTemperatureUnit",
         dependsOn: {
           dataPoint: "6",
+          constraint: {
+            dataPoint: "6",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             { when: ["f"], redirect: { dataPoint: "124", scale: 10 } },
           ],
@@ -866,7 +1693,7 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
-      eevInP: { dataPoint: "125", kind: "sensor", readOnly: true, unit: "P" },
+      eev: { dataPoint: "125", kind: "sensor", readOnly: true, unit: "P" },
     },
   },
   source: {

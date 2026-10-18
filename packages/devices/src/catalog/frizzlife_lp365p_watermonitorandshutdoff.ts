@@ -58,6 +58,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "pressureUnit",
         dependsOn: {
           dataPoint: "102",
+          constraint: {
+            dataPoint: "102",
+            values: [{ raw: "us_units", value: "psi" }],
+            otherwise: "bar",
+          },
           conditions: [{ when: ["us_units"], scale: 10 }],
         },
         scale: 100,
@@ -72,7 +77,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "24",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -143,7 +148,7 @@ const entry: TuyaDeviceEntry = {
       leakAlarm: {
         dataPoint: "107",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       alarmClear: { dataPoint: "108", kind: "button" },
@@ -188,7 +193,6 @@ const entry: TuyaDeviceEntry = {
               min: 3,
               max: 30,
               scale: 0.1666666667,
-              step: 6,
             },
           },
           {
@@ -198,7 +202,6 @@ const entry: TuyaDeviceEntry = {
               min: 3,
               max: 30,
               scale: 0.1666666667,
-              step: 6,
             },
           },
           {
@@ -208,7 +211,6 @@ const entry: TuyaDeviceEntry = {
               min: 3,
               max: 30,
               scale: 0.1666666667,
-              step: 6,
             },
           },
         ],
@@ -253,9 +255,8 @@ const entry: TuyaDeviceEntry = {
               dataPoint: "115",
               min: 0,
               max: 50,
-              values: [{ raw: 0, value: 50 }],
+              values: [{ raw: "0", value: 50 }],
               scale: 0.01,
-              step: 100,
             },
           },
           {
@@ -266,7 +267,6 @@ const entry: TuyaDeviceEntry = {
               max: 50,
               values: [{ raw: 0, value: 50 }],
               scale: 0.01,
-              step: 100,
             },
           },
           {
@@ -277,7 +277,6 @@ const entry: TuyaDeviceEntry = {
               max: 50,
               values: [{ raw: 0, value: 50 }],
               scale: 0.01,
-              step: 100,
             },
           },
         ],
@@ -287,7 +286,7 @@ const entry: TuyaDeviceEntry = {
         kind: "select",
         min: 0,
         max: 50,
-        values: [{ raw: 0, value: 50 }],
+        values: [{ raw: "0", value: 50 }],
         scale: 0.01,
       },
       allowedFlowVolumeMode5Value: {
@@ -306,7 +305,7 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: 0, value: 50 }],
         scale: 0.01,
       },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "20",
         kind: "select",
         values: [
@@ -331,6 +330,11 @@ const entry: TuyaDeviceEntry = {
         max: 9,
         dependsOn: {
           dataPoint: "102",
+          constraint: {
+            dataPoint: "102",
+            values: [{ raw: "us_units", value: "gal/min" }],
+            otherwise: "L/h",
+          },
           conditions: [
             { when: ["us_units"], targetRange: { min: 0.01, max: 0.1 } },
           ],

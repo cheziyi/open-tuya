@@ -27,6 +27,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "open", value: "open" },
           { raw: "stop", value: "stop" },
           { raw: "close", value: "close" },
+          { raw: "continue", readOnly: true },
         ],
       },
       targetPosition: {
@@ -66,7 +67,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "12",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },

@@ -23,7 +23,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "min",
       },
-      pumpCleaningInInMinutes: {
+      pumpCleaningInMinutes: {
         dataPoint: "105",
         kind: "sensor",
         measures: "duration",

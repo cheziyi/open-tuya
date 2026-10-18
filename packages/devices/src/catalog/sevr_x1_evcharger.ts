@@ -106,7 +106,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "10",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -195,6 +195,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "offline", value: false },
         ],
         otherwise: false,
+        ownRuleReadOnly: true,
       },
       delayInHours: {
         dataPoint: "28",
@@ -224,6 +225,7 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [
+          { raw: "noalarms", value: null },
           { raw: "suspendevse", value: "Suspended" },
           { raw: "recharging", value: "Recharging" },
         ],

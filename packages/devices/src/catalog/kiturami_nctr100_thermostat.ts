@@ -41,6 +41,17 @@ const entry: TuyaDeviceEntry = {
         max: 85,
         dependsOn: {
           dataPoint: "2",
+          constraint: {
+            dataPoint: "2",
+            values: [
+              { raw: "Reservation", value: "auto" },
+              { raw: "OnDol", value: "heat", readOnly: true },
+              { raw: "Interior", value: "heat" },
+              { raw: "Bath", value: "off", readOnly: true },
+              { raw: "Summer", value: "off" },
+              { raw: "OutGoing", value: "off", readOnly: true },
+            ],
+          },
           conditions: [
             {
               when: ["Interior"],
@@ -100,7 +111,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "20",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

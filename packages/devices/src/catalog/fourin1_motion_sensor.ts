@@ -32,6 +32,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "none", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       motionSensitivity: { dataPoint: "2", kind: "number", min: 0, max: 19 },
@@ -78,7 +79,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "f", value: "F" },
         ],
       },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "109",
         kind: "select",
         values: [

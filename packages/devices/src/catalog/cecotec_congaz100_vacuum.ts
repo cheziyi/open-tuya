@@ -156,7 +156,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "clean_before_mop", value: "sweep_before_mopping" },
         ],
       },
-      numberOfCleansInTimes: {
+      numberOfCleans: {
         dataPoint: "8",
         kind: "number",
         unit: "times",
@@ -203,6 +203,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "message",
       },
       notificationCode: { dataPoint: "18", kind: "sensor", readOnly: true },
@@ -248,7 +249,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "28",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         whenAbsent: {
           value: true,

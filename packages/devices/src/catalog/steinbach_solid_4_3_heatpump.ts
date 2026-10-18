@@ -59,7 +59,7 @@ const entry: TuyaDeviceEntry = {
       waterFlow: {
         dataPoint: "21",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 256, value: true }],
         otherwise: false,
@@ -67,7 +67,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "21",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },

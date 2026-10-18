@@ -54,7 +54,7 @@ const entry: TuyaDeviceEntry = {
       },
       filterReset: { dataPoint: "5", kind: "button" },
       maintenanceReset: { dataPoint: "6", kind: "button" },
-      filterLifeInDays2: {
+      secondFilterLifeInDays: {
         dataPoint: "7",
         kind: "number",
         measures: "duration",
@@ -72,13 +72,14 @@ const entry: TuyaDeviceEntry = {
       plug: {
         dataPoint: "20",
         kind: "sensor",
-        measures: "plug",
+        measures: "plugged",
         readOnly: true,
         values: [
           { raw: "strong_power", value: true },
           { raw: "battery_power", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       batteryInPercent: {
@@ -97,7 +98,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "48", value: "48h" },
         ],
       },
-      drankInTimes: {
+      drank: {
         dataPoint: "103",
         kind: "sensor",
         readOnly: true,
@@ -106,13 +107,14 @@ const entry: TuyaDeviceEntry = {
       dirtyWater: {
         dataPoint: "104",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: "man", value: true },
           { raw: "bu_man", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       purification: {
@@ -125,6 +127,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       manualWater: { dataPoint: "106", kind: "button" },

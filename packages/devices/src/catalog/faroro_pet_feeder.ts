@@ -35,7 +35,11 @@ const entry: TuyaDeviceEntry = {
       factoryReset: { dataPoint: "9", kind: "button" },
       lastFeedAmount: { dataPoint: "15", kind: "sensor", readOnly: true },
       voiceTimes: { dataPoint: "18", kind: "sensor", readOnly: true },
-      indicatorLight: { dataPoint: "19", kind: "switch" },
+      indicatorLight: {
+        dataPoint: "19",
+        kind: "switch",
+        values: [{ raw: false }],
+      },
       batteryInPercent: {
         dataPoint: "101",
         kind: "sensor",
@@ -61,13 +65,13 @@ const entry: TuyaDeviceEntry = {
       foodJam: {
         dataPoint: "103",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       stuck: {
         dataPoint: "104",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       reboot: { dataPoint: "105", kind: "button" },

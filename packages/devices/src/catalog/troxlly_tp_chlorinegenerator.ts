@@ -94,7 +94,7 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         scale: 10,
       },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "108",
         kind: "sensor",
         readOnly: true,
@@ -104,7 +104,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "112",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -112,7 +112,7 @@ const entry: TuyaDeviceEntry = {
       faultCode: { dataPoint: "112", kind: "sensor", readOnly: true },
       faultVersionNumber: { dataPoint: "134", kind: "sensor", readOnly: true },
       faultVersion: { dataPoint: "139", kind: "sensor", readOnly: true },
-      flow2: {
+      secondFlow: {
         dataPoint: "113",
         kind: "sensor",
         measures: "running",
@@ -153,7 +153,7 @@ const entry: TuyaDeviceEntry = {
       },
       timeRemainingMinute: { dataPoint: "124", kind: "sensor", readOnly: true },
       timeRemainingSecond: { dataPoint: "125", kind: "sensor", readOnly: true },
-      polarityFlipInInHours: {
+      polarityFlipInHours: {
         dataPoint: "126",
         kind: "sensor",
         measures: "duration",
@@ -187,6 +187,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "saltDosageUnit",
         dependsOn: {
           dataPoint: "137",
+          constraint: {
+            dataPoint: "137",
+            values: [{ raw: "US", value: "lb" }],
+            otherwise: "kg",
+          },
           conditions: [{ when: ["US"], redirect: { dataPoint: "138" } }],
         },
       },

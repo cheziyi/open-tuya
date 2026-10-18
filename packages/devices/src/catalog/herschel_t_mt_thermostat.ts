@@ -38,6 +38,11 @@ const entry: TuyaDeviceEntry = {
         max: 1040,
         dependsOn: {
           dataPoint: "104",
+          constraint: {
+            dataPoint: "104",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             { when: ["c"], min: 160, max: 300 },
             { when: ["f"], step: 10, min: 410, max: 1040 },
@@ -88,7 +93,7 @@ const entry: TuyaDeviceEntry = {
         max: 99,
       },
       openWindowDetection: { dataPoint: "103", kind: "switch" },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "104",
         kind: "select",
         values: [

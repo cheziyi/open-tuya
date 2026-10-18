@@ -39,7 +39,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "min",
       },
-      on2: { dataPoint: "7", kind: "switch" },
+      secondOn: { dataPoint: "7", kind: "switch" },
       effect: {
         dataPoint: "8",
         kind: "select",
@@ -75,7 +75,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "12",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },

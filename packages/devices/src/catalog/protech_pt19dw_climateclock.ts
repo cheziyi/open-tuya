@@ -56,7 +56,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "9",
         kind: "select",
         values: [
@@ -92,7 +92,7 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: false },
       },
-      alarm2: { dataPoint: "102", kind: "text" },
+      secondAlarm: { dataPoint: "102", kind: "text" },
       maximumTemperature: {
         dataPoint: "108",
         kind: "number",

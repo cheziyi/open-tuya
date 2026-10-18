@@ -62,7 +62,7 @@ const entry: TuyaDeviceEntry = {
         unit: "°C",
       },
       timer: { dataPoint: "101", kind: "switch" },
-      timer2: {
+      secondTimer: {
         dataPoint: "12",
         kind: "select",
         values: [
@@ -103,7 +103,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "11",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -118,7 +118,7 @@ const entry: TuyaDeviceEntry = {
       filter: {
         dataPoint: "106",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       filterLifeInHours: {

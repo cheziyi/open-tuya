@@ -130,11 +130,11 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      status2: { dataPoint: "5", kind: "sensor", readOnly: true },
+      secondStatus: { dataPoint: "5", kind: "sensor", readOnly: true },
       fault: {
         dataPoint: "18",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

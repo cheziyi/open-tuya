@@ -21,6 +21,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "115",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "detected",
       },
       motionSnapshot: {
@@ -33,6 +34,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "154",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "ring",
       },
       doorbellSnapshot: {

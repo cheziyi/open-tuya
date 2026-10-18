@@ -38,7 +38,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     ventilation: {
       on: { dataPoint: "1", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "2",
         kind: "select",
         values: [
@@ -115,7 +115,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "18",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -134,7 +134,7 @@ const entry: TuyaDeviceEntry = {
       },
       factoryReset: { dataPoint: "107", kind: "button" },
       filterReset: { dataPoint: "108", kind: "button" },
-      sensorThresholdInPpm: {
+      co2ThresholdInPpm: {
         dataPoint: "109",
         kind: "number",
         unit: "ppm",

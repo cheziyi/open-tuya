@@ -64,11 +64,12 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "115",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "detected",
       },
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
       motionDetection: { dataPoint: "134", kind: "switch" },
-      motionTimer2: { dataPoint: "135", kind: "switch" },
+      secondMotionTimer: { dataPoint: "135", kind: "switch" },
       volumeInPercent: {
         dataPoint: "160",
         kind: "number",
@@ -81,6 +82,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "212",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "message",
       },
       notificationMessage: { dataPoint: "212", kind: "sensor", readOnly: true },
@@ -106,6 +108,7 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "high", value: 80 },
           { raw: "low", value: 20 },
+          { raw: "no", value: null },
         ],
       },
       foodLevel: {
@@ -121,14 +124,14 @@ const entry: TuyaDeviceEntry = {
       foodBlocked: {
         dataPoint: "240",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         whenAbsent: { value: false },
       },
       foodStuck: {
         dataPoint: "241",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         whenAbsent: { value: false },
       },
@@ -146,6 +149,7 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [{ raw: 0, value: "unfed" }],
+        whenAbsent: { value: null },
         otherwise: "fed",
       },
       manualFeedSize: {
@@ -159,6 +163,7 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [{ raw: 0, value: "unfed" }],
+        whenAbsent: { value: null },
         otherwise: "fed",
       },
       autoFeedSize: {

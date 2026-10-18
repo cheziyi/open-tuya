@@ -17,11 +17,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      cameraRecord: { dataPoint: "150", kind: "switch" },
+      recording: { dataPoint: "150", kind: "switch" },
       doorImage: {
         dataPoint: "154",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "ring",
       },
       doorImageSnapshot: { dataPoint: "154", kind: "sensor", readOnly: true },
@@ -29,13 +30,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "136",
         kind: "event",
         readOnly: true,
+        values: [{ raw: "", value: null }],
+        whenAbsent: { value: null },
         otherwise: "ring",
       },
-      doorbell2: { dataPoint: "136", kind: "sensor", readOnly: true },
+      secondDoorbell: { dataPoint: "136", kind: "sensor", readOnly: true },
       notification: {
         dataPoint: "185",
         kind: "event",
         readOnly: true,
+        values: [{ raw: "", value: null }],
+        whenAbsent: { value: null },
         otherwise: "message",
       },
       notificationMessage: { dataPoint: "185", kind: "sensor", readOnly: true },

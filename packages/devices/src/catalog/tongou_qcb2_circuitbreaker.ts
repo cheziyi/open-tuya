@@ -129,7 +129,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kW",
         scale: 1000,
       },
-      breakerTriggerAction: {
+      breakerOvervoltageAction: {
         dataPoint: "102",
         kind: "select",
         values: [
@@ -138,7 +138,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction2: {
+      breakerUndervoltageAction: {
         dataPoint: "103",
         kind: "select",
         values: [
@@ -147,7 +147,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction3: {
+      breakerOvercurrentAction: {
         dataPoint: "104",
         kind: "select",
         values: [
@@ -156,7 +156,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction4: {
+      breakerOverpowerAction: {
         dataPoint: "105",
         kind: "select",
         values: [
@@ -165,7 +165,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction5: {
+      breakerTemperatureAction: {
         dataPoint: "107",
         kind: "select",
         values: [
@@ -174,7 +174,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction6: {
+      breakerEarthLeakageAction: {
         dataPoint: "108",
         kind: "select",
         values: [
@@ -183,7 +183,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerActionThreshold: { dataPoint: "117", kind: "number" },
+      breakerEarthLeakageActionThreshold: { dataPoint: "117", kind: "number" },
       liveUpdates: {
         dataPoint: "109",
         kind: "switch",
@@ -192,6 +192,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "offline", value: false },
         ],
         otherwise: false,
+        ownRuleReadOnly: true,
       },
       event: {
         dataPoint: "110",

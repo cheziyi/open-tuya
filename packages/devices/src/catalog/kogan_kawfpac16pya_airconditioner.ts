@@ -91,7 +91,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       countdown: { dataPoint: "105", kind: "number" },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "19",
         kind: "select",
         values: [

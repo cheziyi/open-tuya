@@ -25,7 +25,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     airPurifier: {
       on: { dataPoint: "1", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "3",
         kind: "select",
         values: [
@@ -56,7 +56,7 @@ const entry: TuyaDeviceEntry = {
       volatileOrganicCompoundsPartsInPpb: {
         dataPoint: "14",
         kind: "sensor",
-        measures: "volatileOrganicCompoundsParts",
+        measures: "volatileOrganicCompounds",
         readOnly: true,
         unit: "ppb",
       },
@@ -64,7 +64,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -88,10 +88,10 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "select",
         values: [
-          { raw: 0, value: "PM2.5" },
-          { raw: 1, value: "PM1" },
-          { raw: 2, value: "PM10" },
-          { raw: 3, value: "TVOC" },
+          { raw: "0", value: "PM2.5" },
+          { raw: "1", value: "PM1" },
+          { raw: "2", value: "PM10" },
+          { raw: "3", value: "TVOC" },
         ],
       },
     },

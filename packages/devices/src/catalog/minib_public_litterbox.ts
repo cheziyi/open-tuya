@@ -49,7 +49,7 @@ const entry: TuyaDeviceEntry = {
         unit: "kg",
         scale: 10,
       },
-      timesTodayInTimes: {
+      timesToday: {
         dataPoint: "7",
         kind: "sensor",
         readOnly: true,

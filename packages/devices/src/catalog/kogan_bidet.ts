@@ -53,7 +53,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "level_4", value: 4 },
         ],
       },
-      waterTemperature2: { dataPoint: "53", kind: "number" },
+      secondWaterTemperature: { dataPoint: "53", kind: "number" },
       waterTemperaturePressure: { dataPoint: "54", kind: "text" },
       position: {
         dataPoint: "55",
@@ -80,12 +80,12 @@ const entry: TuyaDeviceEntry = {
       },
       seatWarmthTemperature: { dataPoint: "61", kind: "number" },
       deodorize: { dataPoint: "62", kind: "switch" },
-      on2: { dataPoint: "64", kind: "switch" },
+      secondOn: { dataPoint: "64", kind: "switch" },
       ecoMode: { dataPoint: "65", kind: "switch" },
       fault: {
         dataPoint: "68",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },

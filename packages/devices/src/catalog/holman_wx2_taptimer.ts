@@ -238,18 +238,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "select",
         values: [
-          { raw: 0, value: "cancel" },
-          { raw: 24, value: "24h" },
-          { raw: 48, value: "48h" },
-          { raw: 72, value: "72h" },
+          { raw: "0", value: "cancel" },
+          { raw: "24", value: "24h" },
+          { raw: "48", value: "48h" },
+          { raw: "72", value: "72h" },
         ],
       },
       timeFormat: {
         dataPoint: "114",
         kind: "select",
         values: [
-          { raw: 12, value: "12_hour" },
-          { raw: 24, value: "24_hour" },
+          { raw: "12", value: "12_hour" },
+          { raw: "24", value: "24_hour" },
         ],
       },
       tHSoilSensorPresent1: {
@@ -262,6 +262,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
         values: [{ raw: "", value: false }],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       tHSoilSensorPowerOk1: {
@@ -273,8 +274,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "119",
         kind: "select",
         values: [
-          { raw: 1, value: "l/C" },
-          { raw: 2, value: "gal/F" },
+          { raw: "1", value: "l/C" },
+          { raw: "2", value: "gal/F" },
         ],
       },
       alarmStatus: { dataPoint: "120", kind: "sensor", readOnly: true },
@@ -600,10 +601,10 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "160",
         kind: "select",
         values: [
-          { raw: 0, value: "cancel" },
-          { raw: 24, value: "24h" },
-          { raw: 48, value: "48h" },
-          { raw: 72, value: "72h" },
+          { raw: "0", value: "cancel" },
+          { raw: "24", value: "24h" },
+          { raw: "48", value: "48h" },
+          { raw: "72", value: "72h" },
         ],
       },
       tHSoilSensorPresent2: {

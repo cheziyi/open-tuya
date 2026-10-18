@@ -63,7 +63,7 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         scale: 10,
       },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "103",
         kind: "sensor",
         readOnly: true,
@@ -118,7 +118,7 @@ const entry: TuyaDeviceEntry = {
         max: 30,
       },
       dosingPump: { dataPoint: "111", kind: "switch" },
-      ph2: {
+      secondPh: {
         dataPoint: "112",
         kind: "number",
         measures: "ph",
@@ -151,7 +151,7 @@ const entry: TuyaDeviceEntry = {
       probeWarning: {
         dataPoint: "117",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       poolVolume: {
@@ -184,13 +184,13 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "121",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
       faultCode: { dataPoint: "121", kind: "sensor", readOnly: true },
-      autoPhAdjustmentCyclesInTimes: {
+      autoPhAdjustmentCycles: {
         dataPoint: "122",
         kind: "sensor",
         readOnly: true,

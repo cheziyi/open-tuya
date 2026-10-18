@@ -52,6 +52,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "weightUnit",
         dependsOn: {
           dataPoint: "111",
+          constraint: {
+            dataPoint: "111",
+            values: [{ raw: "LB", value: "lb" }],
+            otherwise: "kg",
+          },
           conditions: [
             { when: ["LB"], redirect: { dataPoint: "112", scale: 10 } },
           ],
@@ -71,7 +76,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         scale: 10,
       },
-      dailyUsageInTimes: {
+      dailyUsage: {
         dataPoint: "7",
         kind: "sensor",
         readOnly: true,
@@ -86,7 +91,7 @@ const entry: TuyaDeviceEntry = {
       },
       clean: { dataPoint: "9", kind: "button" },
       factoryReset: { dataPoint: "23", kind: "button" },
-      visitCountInTimes: {
+      visitCount: {
         dataPoint: "101",
         kind: "sensor",
         readOnly: true,
@@ -110,6 +115,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "event",
         readOnly: true,
+        values: [{ raw: 0, value: null }],
+        whenAbsent: { value: null },
         otherwise: "toilet",
       },
       notificationValue: {
@@ -122,7 +129,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "105",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: "0", value: false }],
         whenAbsent: { value: false },
@@ -163,7 +170,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       statusTrigger: { dataPoint: "109", kind: "sensor", readOnly: true },
-      weightUnit2: {
+      secondWeightUnit: {
         dataPoint: "111",
         kind: "select",
         values: [

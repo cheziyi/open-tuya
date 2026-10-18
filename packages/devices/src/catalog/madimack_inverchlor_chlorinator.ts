@@ -62,6 +62,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "104",
+          constraint: {
+            dataPoint: "104",
+            values: [{ raw: true, value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             { when: [true], redirect: { dataPoint: "133", scale: 10 } },
           ],
@@ -79,7 +84,7 @@ const entry: TuyaDeviceEntry = {
       onBoardConfig: { dataPoint: "127", kind: "text" },
       onDisplayConfig: { dataPoint: "128", kind: "text" },
       onCustomModel: { dataPoint: "131", kind: "text" },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "104",
         kind: "select",
         values: [
@@ -128,13 +133,13 @@ const entry: TuyaDeviceEntry = {
         max: 78,
         scale: 10,
       },
-      orpInMillivolts2: {
+      secondOrpInMillivolts: {
         dataPoint: "111",
         kind: "sensor",
         readOnly: true,
         unit: "mv",
       },
-      ph2: {
+      secondPh: {
         dataPoint: "112",
         kind: "sensor",
         measures: "ph",
@@ -150,26 +155,26 @@ const entry: TuyaDeviceEntry = {
       flow: {
         dataPoint: "114",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       acid: {
         dataPoint: "115",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       calibration: {
         dataPoint: "116",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       salt: { dataPoint: "117", kind: "sensor", readOnly: true },
       sensors: {
         dataPoint: "118",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       waterQuality: {
@@ -235,7 +240,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "129",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

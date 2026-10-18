@@ -67,9 +67,9 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "112",
         kind: "select",
         values: [
-          { raw: 0, value: "Off" },
-          { raw: 60, value: "60 min" },
-          { raw: 90, value: "90 min" },
+          { raw: "0", value: "Off" },
+          { raw: "60", value: "60 min" },
+          { raw: "90", value: "90 min" },
         ],
       },
     },

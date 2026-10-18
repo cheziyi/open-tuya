@@ -67,6 +67,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "0", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       powerDownAlarm: {
@@ -78,6 +79,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "0", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       deleteUserData: { dataPoint: "119", kind: "sensor", readOnly: true },
@@ -132,6 +134,7 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [{ raw: "ACA=", value: "ring" }],
+        otherwise: null,
       },
     },
   },

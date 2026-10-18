@@ -75,6 +75,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "indie", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       suctionInPercent: {
@@ -96,7 +97,7 @@ const entry: TuyaDeviceEntry = {
       airFlow: {
         dataPoint: "105",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       offDelayInSeconds: {
@@ -119,7 +120,7 @@ const entry: TuyaDeviceEntry = {
       tool: { dataPoint: "109", kind: "text" },
       waterAlarm: { dataPoint: "110", kind: "switch" },
       delay: { dataPoint: "111", kind: "switch" },
-      sync2: { dataPoint: "112", kind: "switch" },
+      secondSync: { dataPoint: "112", kind: "switch" },
     },
   },
   source: {

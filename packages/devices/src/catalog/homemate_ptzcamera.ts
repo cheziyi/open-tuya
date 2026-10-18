@@ -56,7 +56,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     siren: {
-      cameraRecord: { dataPoint: "150", kind: "switch" },
+      recording: { dataPoint: "150", kind: "switch" },
       motionDetection: { dataPoint: "134", kind: "switch" },
       cameraPrivacy: { dataPoint: "105", kind: "switch" },
       flipImage: { dataPoint: "103", kind: "switch" },
@@ -102,6 +102,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "115",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "detected",
       },
       motionSnapshot: {
@@ -193,6 +194,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "141",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "detected",
       },
       soundAudio: { dataPoint: "141", kind: "sensor", readOnly: true },
@@ -222,13 +224,17 @@ const entry: TuyaDeviceEntry = {
       },
       logMessage: { dataPoint: "185", kind: "text" },
       intercomVolume: { dataPoint: "160", kind: "number", min: 1, max: 10 },
-      motionTracking: { dataPoint: "161", kind: "switch" },
+      motionTracking: {
+        dataPoint: "161",
+        kind: "switch",
+        values: [{ raw: false }],
+      },
       restart: { dataPoint: "162", kind: "button" },
       motionAreaLimit: { dataPoint: "168", kind: "switch" },
       motionArea: { dataPoint: "169", kind: "text" },
       humanDetection: { dataPoint: "170", kind: "switch" },
       cruiseMode: { dataPoint: "174", kind: "switch" },
-      cruiseMode2: {
+      secondCruiseMode: {
         dataPoint: "175",
         kind: "select",
         values: [
@@ -293,6 +299,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "212",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "message",
       },
       notificationMessage: { dataPoint: "212", kind: "sensor", readOnly: true },
@@ -302,14 +309,17 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [{ raw: true, value: "changed" }],
+        otherwise: null,
       },
       resolution: {
         dataPoint: "240",
         kind: "event",
         readOnly: true,
+        values: [{ raw: "", value: null }],
+        whenAbsent: { value: null },
         otherwise: "changed",
       },
-      resolution2: {
+      secondResolution: {
         dataPoint: "240",
         kind: "sensor",
         readOnly: true,

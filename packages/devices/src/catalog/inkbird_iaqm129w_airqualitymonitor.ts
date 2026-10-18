@@ -77,7 +77,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "ppm",
       },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "101",
         kind: "select",
         values: [

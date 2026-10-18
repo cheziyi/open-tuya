@@ -31,6 +31,15 @@ const entry: TuyaDeviceEntry = {
             readOnly: true,
             dependsOn: {
               dataPoint: "5",
+              constraint: {
+                dataPoint: "5",
+                values: [
+                  { raw: "off", value: "none" },
+                  { raw: "1", value: "eco" },
+                  { raw: "2", value: "boost" },
+                  { raw: "auto", value: "comfort" },
+                ],
+              },
               conditions: [
                 { when: ["off"], value: "fan_only" },
                 { when: ["auto"], value: "heat" },
@@ -114,7 +123,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "13",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },

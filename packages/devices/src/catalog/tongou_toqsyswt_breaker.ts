@@ -102,7 +102,7 @@ const entry: TuyaDeviceEntry = {
         scale: 100,
       },
       breaker: { dataPoint: "16", kind: "switch" },
-      breakerTriggerAction: {
+      breakerPrepayShortageAction: {
         dataPoint: "101",
         kind: "select",
         values: [
@@ -110,7 +110,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Alarm", value: "alarm" },
         ],
       },
-      breakerTriggerAction2: {
+      breakerOverVoltageAction: {
         dataPoint: "102",
         kind: "select",
         values: [
@@ -119,7 +119,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction3: {
+      breakerUndervoltageAction: {
         dataPoint: "103",
         kind: "select",
         values: [
@@ -128,7 +128,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction4: {
+      breakerOverCurrentAction: {
         dataPoint: "104",
         kind: "select",
         values: [
@@ -137,7 +137,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction5: {
+      breakerOverPowerAction: {
         dataPoint: "105",
         kind: "select",
         values: [
@@ -146,7 +146,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction6: {
+      breakerHighTemperatureAction: {
         dataPoint: "107",
         kind: "select",
         values: [

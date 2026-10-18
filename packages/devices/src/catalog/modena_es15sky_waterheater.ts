@@ -56,7 +56,7 @@ const entry: TuyaDeviceEntry = {
       reserve1: { dataPoint: "115", kind: "number" },
       reserve2: { dataPoint: "116", kind: "number" },
       reserve3: { dataPoint: "117", kind: "number" },
-      mode2: {
+      secondMode: {
         dataPoint: "101",
         kind: "select",
         values: [
@@ -114,7 +114,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "107",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

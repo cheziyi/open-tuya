@@ -49,6 +49,7 @@ const entry: TuyaDeviceEntry = {
         max: 1130,
         dependsOn: {
           dataPoint: "101",
+          constraint: { dataPoint: "101", whenAbsent: { value: "C" } },
           conditions: [
             { when: ["C"], min: 0, max: 450 },
             { when: ["F"], min: 320, max: 1130 },
@@ -65,6 +66,7 @@ const entry: TuyaDeviceEntry = {
         max: 1130,
         dependsOn: {
           dataPoint: "101",
+          constraint: { dataPoint: "101", whenAbsent: { value: "C" } },
           conditions: [
             { when: ["C"], min: 0, max: 450 },
             { when: ["F"], min: 320, max: 1130 },
@@ -80,6 +82,7 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "101",
+          constraint: { dataPoint: "101", whenAbsent: { value: "C" } },
           conditions: [
             { when: ["F"], redirect: { dataPoint: "119", scale: 10 } },
           ],
@@ -106,7 +109,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    thermostat2: {
+    secondThermostat: {
       temperatureUnit: {
         dataPoint: "101",
         kind: "text",
@@ -121,6 +124,7 @@ const entry: TuyaDeviceEntry = {
         max: 1130,
         dependsOn: {
           dataPoint: "101",
+          constraint: { dataPoint: "101", whenAbsent: { value: "C" } },
           conditions: [
             { when: ["C"], min: 0, max: 450 },
             { when: ["F"], min: 320, max: 1130 },
@@ -137,6 +141,7 @@ const entry: TuyaDeviceEntry = {
         max: 1130,
         dependsOn: {
           dataPoint: "101",
+          constraint: { dataPoint: "101", whenAbsent: { value: "C" } },
           conditions: [
             { when: ["C"], min: 0, max: 450 },
             { when: ["F"], min: 320, max: 1130 },
@@ -152,6 +157,7 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "101",
+          constraint: { dataPoint: "101", whenAbsent: { value: "C" } },
           conditions: [
             { when: ["F"], redirect: { dataPoint: "125", scale: 10 } },
           ],
@@ -182,7 +188,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "12",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -206,6 +212,7 @@ const entry: TuyaDeviceEntry = {
         max: 1220,
         dependsOn: {
           dataPoint: "101",
+          constraint: { dataPoint: "101", whenAbsent: { value: "C" } },
           conditions: [
             { when: ["C"], min: -50, max: 500 },
             { when: ["F"], min: 230, max: 1220 },
@@ -227,6 +234,7 @@ const entry: TuyaDeviceEntry = {
         max: 1220,
         dependsOn: {
           dataPoint: "101",
+          constraint: { dataPoint: "101", whenAbsent: { value: "C" } },
           conditions: [
             { when: ["C"], min: -50, max: 500 },
             { when: ["F"], min: 230, max: 1220 },
@@ -317,32 +325,32 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "Unknown" },
       },
-      highTemperatureAlarm12: {
+      secondHighTemperatureAlarm1: {
         dataPoint: "115",
         kind: "sensor",
         measures: "heat",
         readOnly: true,
       },
-      lowTemperatureAlarm12: {
+      secondLowTemperatureAlarm1: {
         dataPoint: "116",
         kind: "sensor",
         measures: "cold",
         readOnly: true,
       },
-      highTemperatureAlarm22: {
+      secondHighTemperatureAlarm2: {
         dataPoint: "117",
         kind: "sensor",
         measures: "heat",
         readOnly: true,
       },
-      lowTemperatureAlarm22: {
+      secondLowTemperatureAlarm2: {
         dataPoint: "118",
         kind: "sensor",
         measures: "cold",
         readOnly: true,
       },
       alarm: { dataPoint: "122", kind: "switch" },
-      alarm2: {
+      secondAlarm: {
         dataPoint: "123",
         kind: "sensor",
         measures: "sound",

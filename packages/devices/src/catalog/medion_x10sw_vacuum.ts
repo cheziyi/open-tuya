@@ -226,7 +226,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "28",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -275,7 +275,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
       },
-      roomLearning2: {
+      secondRoomLearning: {
         dataPoint: "102",
         kind: "sensor",
         readOnly: true,
@@ -310,6 +310,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "199",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "message",
       },
       notificationMessageId: {
@@ -317,7 +318,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
       },
-      command2: { dataPoint: "15", kind: "text" },
+      secondCommand: { dataPoint: "15", kind: "text" },
     },
     light: { on: { dataPoint: "135", kind: "switch" } },
   },

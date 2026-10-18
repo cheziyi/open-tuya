@@ -48,7 +48,7 @@ const entry: TuyaDeviceEntry = {
         scale: 1000,
       },
       catWeightNumber: { dataPoint: "128", kind: "sensor", readOnly: true },
-      timesPerDayInVisits: {
+      timesPerDay: {
         dataPoint: "7",
         kind: "sensor",
         readOnly: true,
@@ -65,7 +65,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -77,7 +77,10 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "event",
         readOnly: true,
-        values: [{ raw: true, value: "full" }],
+        values: [
+          { raw: true, value: "full" },
+          { raw: false, value: null },
+        ],
       },
       occupancy: {
         dataPoint: "104",
@@ -119,7 +122,7 @@ const entry: TuyaDeviceEntry = {
       odourless: { dataPoint: "120", kind: "switch" },
       smartClean: { dataPoint: "121", kind: "switch" },
       doNotDisturb: { dataPoint: "122", kind: "switch" },
-      numberOfTimesUsedInTimes: {
+      numberOfTimesUsed: {
         dataPoint: "123",
         kind: "sensor",
         readOnly: true,

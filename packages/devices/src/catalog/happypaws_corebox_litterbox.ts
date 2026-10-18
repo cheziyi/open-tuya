@@ -39,7 +39,7 @@ const entry: TuyaDeviceEntry = {
         min: 1,
         max: 60,
       },
-      dailyTimesUsedInTimes: {
+      dailyTimesUsed: {
         dataPoint: "7",
         kind: "sensor",
         readOnly: true,
@@ -62,11 +62,6 @@ const entry: TuyaDeviceEntry = {
         max: 1435,
         step: 5,
       },
-      notificationFaultCode: {
-        dataPoint: "21",
-        kind: "sensor",
-        readOnly: true,
-      },
       notification: {
         dataPoint: "21",
         kind: "event",
@@ -80,9 +75,10 @@ const entry: TuyaDeviceEntry = {
           { raw: 16, value: "Ball missing" },
           { raw: 32, value: "Waste bin missing" },
         ],
+        whenAbsent: { value: null },
         otherwise: "Unknown error",
       },
-      notificationFaultCode2: {
+      notificationFaultCode: {
         dataPoint: "21",
         kind: "sensor",
         readOnly: true,
@@ -90,7 +86,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -139,9 +135,10 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "Used",
       },
-      usageReport2: { dataPoint: "102", kind: "sensor", readOnly: true },
+      secondUsageReport: { dataPoint: "102", kind: "sensor", readOnly: true },
       childLock: { dataPoint: "103", kind: "switch" },
       manualEmpty: {
         dataPoint: "104",

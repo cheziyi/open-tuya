@@ -68,6 +68,11 @@ const entry: TuyaDeviceEntry = {
             value: "heating",
             dependsOn: {
               dataPoint: "102",
+              constraint: {
+                dataPoint: "102",
+                values: [{ raw: "heat", value: true }],
+                otherwise: false,
+              },
               conditions: [{ when: ["cold"], value: "cooling" }],
             },
           },
@@ -95,7 +100,7 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
         step: 5,
       },
-      minTargetTemperatureInC: {
+      minimumTargetTemperatureInC: {
         dataPoint: "26",
         kind: "number",
         measures: "temperature",
@@ -105,7 +110,7 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
         step: 5,
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
@@ -174,7 +179,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "45",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

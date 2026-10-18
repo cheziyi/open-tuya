@@ -75,7 +75,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "reverse", value: "reverse" },
         ],
       },
-      mode: {
+      preset: {
         dataPoint: "106",
         kind: "select",
         values: [

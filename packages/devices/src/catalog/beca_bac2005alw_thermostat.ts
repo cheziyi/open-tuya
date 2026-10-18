@@ -35,24 +35,6 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     thermostat: {
-      hvacMode: {
-        dataPoint: "1",
-        kind: "select",
-        values: [
-          { raw: false, value: "off" },
-          {
-            raw: true,
-            dependsOn: {
-              dataPoint: "2",
-              conditions: [
-                { when: ["Cool"], value: "cool" },
-                { when: ["Heat"], value: "heat" },
-                { when: ["ventilation"], value: "fan_only" },
-              ],
-            },
-          },
-        ],
-      },
       preset: {
         dataPoint: "4",
         kind: "select",
@@ -71,7 +53,7 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
         step: 5,
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
@@ -86,7 +68,7 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      minTargetTemperatureInC: {
+      minimumTargetTemperatureInC: {
         dataPoint: "26",
         kind: "number",
         measures: "temperature",
@@ -103,7 +85,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "hight", value: "high" },
         ],
       },
-      hvacMode2: {
+      hvacMode: {
         dataPoint: "32",
         kind: "select",
         values: [

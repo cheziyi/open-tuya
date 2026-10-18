@@ -57,6 +57,10 @@ const entry: TuyaDeviceEntry = {
         measures: "temperature",
         readOnly: true,
         unitFrom: "temperatureUnit",
+        values: [
+          { raw: 3888, value: null },
+          { raw: 3999, value: null },
+        ],
         scale: 10,
       },
       temperatureUnit: {
@@ -78,7 +82,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "15",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -91,6 +95,10 @@ const entry: TuyaDeviceEntry = {
         measures: "temperature",
         readOnly: true,
         unit: "C",
+        values: [
+          { raw: 3888, value: null },
+          { raw: 3999, value: null },
+        ],
         scale: 10,
       },
       solarCollectorTemperatureInC: {
@@ -99,6 +107,10 @@ const entry: TuyaDeviceEntry = {
         measures: "temperature",
         readOnly: true,
         unit: "C",
+        values: [
+          { raw: 3888, value: null },
+          { raw: 3999, value: null },
+        ],
         scale: 10,
       },
       solar: {

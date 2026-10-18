@@ -50,7 +50,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "g",
       },
-      dailyToiletCountInTimes: {
+      dailyToiletCount: {
         dataPoint: "7",
         kind: "sensor",
         readOnly: true,
@@ -67,7 +67,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -122,7 +122,7 @@ const entry: TuyaDeviceEntry = {
       instantDeodorization: { dataPoint: "120", kind: "switch" },
       smartClean: { dataPoint: "121", kind: "switch" },
       doNotDisturb: { dataPoint: "122", kind: "switch" },
-      usageInTimes: {
+      usage: {
         dataPoint: "123",
         kind: "sensor",
         readOnly: true,

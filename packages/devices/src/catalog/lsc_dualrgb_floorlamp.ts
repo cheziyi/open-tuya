@@ -65,7 +65,7 @@ const entry: TuyaDeviceEntry = {
       scene: { dataPoint: "51", kind: "text" },
       music: { dataPoint: "52", kind: "text" },
       paint: { dataPoint: "61", kind: "text" },
-      on2: { dataPoint: "101", kind: "switch" },
+      secondOn: { dataPoint: "101", kind: "switch" },
       baseScene: { dataPoint: "107", kind: "text" },
     },
     base: {

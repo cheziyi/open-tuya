@@ -112,7 +112,7 @@ const entry: TuyaDeviceEntry = {
       filter: {
         dataPoint: "19",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,
@@ -120,7 +120,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "19",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -154,7 +154,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "24",
         kind: "select",
         values: [

@@ -36,14 +36,22 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     lock: {
-      unlockPassword: { dataPoint: "13", kind: "number" },
-      unlockDynamicPassword: { dataPoint: "14", kind: "number" },
-      unlockBle: { dataPoint: "19", kind: "number" },
-      unlockTemporaryPassword: { dataPoint: "55", kind: "number" },
+      unlockPassword: { dataPoint: "13", kind: "sensor", readOnly: true },
+      unlockDynamicPassword: {
+        dataPoint: "14",
+        kind: "sensor",
+        readOnly: true,
+      },
+      unlockBle: { dataPoint: "19", kind: "sensor", readOnly: true },
+      unlockTemporaryPassword: {
+        dataPoint: "55",
+        kind: "sensor",
+        readOnly: true,
+      },
       setUnlockCode: { dataPoint: "73", kind: "text" },
       codeUnlock: { dataPoint: "61", kind: "text" },
-      unlockApp: { dataPoint: "62", kind: "number" },
-      unlockVoice: { dataPoint: "63", kind: "number" },
+      unlockApp: { dataPoint: "62", kind: "sensor", readOnly: true },
+      unlockVoice: { dataPoint: "63", kind: "sensor", readOnly: true },
       offlinePd: { dataPoint: "67", kind: "text" },
       record: { dataPoint: "69", kind: "text" },
       checkCodeSet: { dataPoint: "70", kind: "text" },

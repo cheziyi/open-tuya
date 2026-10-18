@@ -55,6 +55,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "cancel", value: "Manual" },
         ],
         otherwise: "Manual",
+        ownRuleReadOnly: true,
       },
       savePreset: {
         dataPoint: "103",
@@ -66,11 +67,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "cancel", value: "None" },
         ],
         otherwise: "None",
+        ownRuleReadOnly: true,
       },
       fault: {
         dataPoint: "105",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

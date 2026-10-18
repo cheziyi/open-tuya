@@ -110,7 +110,7 @@ const entry: TuyaDeviceEntry = {
       plug: {
         dataPoint: "23",
         kind: "sensor",
-        measures: "plug",
+        measures: "plugged",
         readOnly: true,
       },
       alarmVolume: {

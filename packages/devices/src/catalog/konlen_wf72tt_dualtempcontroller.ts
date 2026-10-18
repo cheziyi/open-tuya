@@ -74,7 +74,7 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
       },
     },
-    thermostat2: {
+    secondThermostat: {
       hvacMode: {
         dataPoint: "105",
         kind: "select",

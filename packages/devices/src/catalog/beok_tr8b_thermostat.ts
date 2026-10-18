@@ -42,6 +42,16 @@ const entry: TuyaDeviceEntry = {
             raw: true,
             dependsOn: {
               dataPoint: "2",
+              constraint: {
+                dataPoint: "2",
+                values: [
+                  { raw: "cool", value: "cool" },
+                  { raw: "ventil", value: "fan_only" },
+                  { raw: "heat", value: "heat" },
+                  { raw: "floor", value: "floor_cool" },
+                  { raw: "floor_heat", value: "floor_heat" },
+                ],
+              },
               conditions: [
                 { when: ["cool"], value: "cool" },
                 { when: ["ventil"], value: "fan_only" },
@@ -71,11 +81,21 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         min: 50,
         max: 2000,
-        dependsOn: { dataPoint: "23", conditions: [{ when: ["f"], step: 10 }] },
+        dependsOn: {
+          dataPoint: "23",
+          constraint: {
+            dataPoint: "23",
+            values: [
+              { raw: "c", value: "C" },
+              { raw: "f", value: "F" },
+            ],
+          },
+          conditions: [{ when: ["f"], step: 10 }],
+        },
         scale: 10,
         step: 5,
       },
-      maxTargetTemperature: {
+      maximumTargetTemperature: {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
@@ -98,7 +118,7 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         scale: 10,
       },
-      minTargetTemperature: {
+      minimumTargetTemperature: {
         dataPoint: "26",
         kind: "number",
         measures: "temperature",
@@ -125,6 +145,16 @@ const entry: TuyaDeviceEntry = {
             value: "idle",
             dependsOn: {
               dataPoint: "2",
+              constraint: {
+                dataPoint: "2",
+                values: [
+                  { raw: "cool", value: "cool" },
+                  { raw: "ventil", value: "fan_only" },
+                  { raw: "heat", value: "heat" },
+                  { raw: "floor", value: "floor_cool" },
+                  { raw: "floor_heat", value: "floor_heat" },
+                ],
+              },
               conditions: [
                 { when: ["cool", "floor"], value: "cooling" },
                 { when: ["heat", "floor_heat"], value: "heating" },
@@ -140,7 +170,7 @@ const entry: TuyaDeviceEntry = {
       model: { dataPoint: "105", kind: "text" },
       lightMode: { dataPoint: "106", kind: "text" },
       antiFrost: { dataPoint: "10", kind: "switch" },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "23",
         kind: "select",
         values: [
@@ -194,12 +224,12 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       scheduleWeekProgram: { dataPoint: "30", kind: "text" },
-      schedule2: { dataPoint: "103", kind: "text" },
+      secondSchedule: { dataPoint: "103", kind: "text" },
       childLock: { dataPoint: "40", kind: "switch" },
       fault: {
         dataPoint: "45",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

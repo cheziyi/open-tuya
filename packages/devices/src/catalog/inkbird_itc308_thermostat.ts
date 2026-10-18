@@ -109,7 +109,7 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 10,
       },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "101",
         kind: "select",
         values: [
@@ -132,7 +132,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "12",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -141,7 +141,7 @@ const entry: TuyaDeviceEntry = {
       sensorFault: {
         dataPoint: "113",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       heatingHysteresis: {

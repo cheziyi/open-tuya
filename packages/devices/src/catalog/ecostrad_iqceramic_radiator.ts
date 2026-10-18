@@ -83,8 +83,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "switch",
         values: [
-          { raw: 1, value: true },
-          { raw: 0, value: false },
+          { raw: "1", value: true },
+          { raw: "0", value: false },
         ],
       },
       temperatureCalibrationInC: {

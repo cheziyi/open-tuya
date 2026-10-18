@@ -93,7 +93,7 @@ const entry: TuyaDeviceEntry = {
       faultA: {
         dataPoint: "26",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -103,7 +103,7 @@ const entry: TuyaDeviceEntry = {
       faultB: {
         dataPoint: "105",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -117,6 +117,7 @@ const entry: TuyaDeviceEntry = {
         unit: "W",
         min: 0,
         max: 500000,
+        whenAbsent: {},
         step: 100,
       },
       maximumPowerPhaseBInW: {
@@ -126,6 +127,7 @@ const entry: TuyaDeviceEntry = {
         unit: "W",
         min: 0,
         max: 500000,
+        whenAbsent: {},
         step: 100,
       },
     },

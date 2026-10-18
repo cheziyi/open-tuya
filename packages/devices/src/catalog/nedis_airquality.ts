@@ -42,7 +42,7 @@ const entry: TuyaDeviceEntry = {
       volatileOrganicCompoundsInPpm: {
         dataPoint: "21",
         kind: "sensor",
-        measures: "volatileOrganicCompoundsParts",
+        measures: "volatileOrganicCompounds",
         readOnly: true,
         unit: "ppm",
         scale: 10,

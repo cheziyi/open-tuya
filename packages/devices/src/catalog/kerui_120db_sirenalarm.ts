@@ -58,7 +58,7 @@ const entry: TuyaDeviceEntry = {
       plug: {
         dataPoint: "15",
         kind: "sensor",
-        measures: "plug",
+        measures: "plugged",
         readOnly: true,
       },
       mute: { dataPoint: "25", kind: "button" },
@@ -66,6 +66,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "26",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "alarm",
       },
       alarmMessage: {
@@ -84,7 +85,7 @@ const entry: TuyaDeviceEntry = {
         max: 200,
       },
       delaySound: { dataPoint: "29", kind: "switch" },
-      alarm2: {
+      secondAlarm: {
         dataPoint: "32",
         kind: "sensor",
         measures: "sound",
@@ -98,7 +99,7 @@ const entry: TuyaDeviceEntry = {
       sos: {
         dataPoint: "44",
         kind: "sensor",
-        measures: "safety",
+        measures: "hazard",
         readOnly: true,
       },
     },

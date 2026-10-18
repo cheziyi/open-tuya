@@ -93,7 +93,7 @@ const entry: TuyaDeviceEntry = {
         unit: "%",
       },
       pathData: { dataPoint: "14", kind: "text" },
-      command2: { dataPoint: "15", kind: "text" },
+      secondCommand: { dataPoint: "15", kind: "text" },
       request: {
         dataPoint: "16",
         kind: "select",
@@ -113,7 +113,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "28",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

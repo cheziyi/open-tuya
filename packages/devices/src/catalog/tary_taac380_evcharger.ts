@@ -184,7 +184,7 @@ const entry: TuyaDeviceEntry = {
       loadBalancing: {
         dataPoint: "116",
         kind: "sensor",
-        measures: "safety",
+        measures: "hazard",
         readOnly: true,
       },
       chargePattern: {

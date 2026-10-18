@@ -26,6 +26,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "alert",
       },
       alarmMessage: { dataPoint: "5", kind: "sensor", readOnly: true },
@@ -35,7 +36,7 @@ const entry: TuyaDeviceEntry = {
       alarmLogMessage: { dataPoint: "107", kind: "sensor", readOnly: true },
       doNotDisturbSettings: { dataPoint: "7", kind: "text" },
       mute: { dataPoint: "101", kind: "button" },
-      alarm2: {
+      secondAlarm: {
         dataPoint: "102",
         kind: "sensor",
         measures: "sound",
@@ -44,10 +45,18 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: false },
         otherwise: true,
       },
-      alarmDeviceId2: { dataPoint: "102", kind: "sensor", readOnly: true },
-      alarmDeviceName2: { dataPoint: "104", kind: "sensor", readOnly: true },
-      alarmId2: { dataPoint: "106", kind: "sensor", readOnly: true },
-      alarmLogMessage2: { dataPoint: "107", kind: "sensor", readOnly: true },
+      secondAlarmDeviceId: { dataPoint: "102", kind: "sensor", readOnly: true },
+      secondAlarmDeviceName: {
+        dataPoint: "104",
+        kind: "sensor",
+        readOnly: true,
+      },
+      secondAlarmId: { dataPoint: "106", kind: "sensor", readOnly: true },
+      secondAlarmLogMessage: {
+        dataPoint: "107",
+        kind: "sensor",
+        readOnly: true,
+      },
       signalStrengthInDbm: {
         dataPoint: "103",
         kind: "sensor",

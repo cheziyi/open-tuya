@@ -80,7 +80,7 @@ const entry: TuyaDeviceEntry = {
       model: { dataPoint: "110", kind: "text" },
       timer: { dataPoint: "103", kind: "number" },
       countdown: { dataPoint: "105", kind: "number" },
-      temperatureUnit2: {
+      secondTemperatureUnit: {
         dataPoint: "19",
         kind: "select",
         values: [
@@ -92,7 +92,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "106",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },

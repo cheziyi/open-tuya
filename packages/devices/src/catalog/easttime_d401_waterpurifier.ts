@@ -34,13 +34,13 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     valve: {
-      tdsOutInPpm: {
+      tdsOutletInPpm: {
         dataPoint: "1",
         kind: "sensor",
         readOnly: true,
         unit: "ppm",
       },
-      tdsInInPpm: {
+      tdsInletInPpm: {
         dataPoint: "2",
         kind: "sensor",
         readOnly: true,
@@ -91,7 +91,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "23",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

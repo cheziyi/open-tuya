@@ -41,7 +41,7 @@ const entry: TuyaDeviceEntry = {
       gasLevelInPpm: {
         dataPoint: "5",
         kind: "sensor",
-        measures: "volatileOrganicCompoundsParts",
+        measures: "volatileOrganicCompounds",
         readOnly: true,
         unit: "ppm",
       },
@@ -49,14 +49,14 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "9",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       alarm: { dataPoint: "14", kind: "switch" },
       gasAlarmThresholdInPpm: {
         dataPoint: "101",
         kind: "number",
-        measures: "volatileOrganicCompoundsParts",
+        measures: "volatileOrganicCompounds",
         unit: "ppm",
         min: 10,
         max: 100,

@@ -96,9 +96,10 @@ const entry: TuyaDeviceEntry = {
       problem: {
         dataPoint: "18",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       childLock: {
@@ -148,7 +149,7 @@ const entry: TuyaDeviceEntry = {
       salt: {
         dataPoint: "104",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       autoDry: { dataPoint: "105", kind: "switch" },
@@ -163,7 +164,7 @@ const entry: TuyaDeviceEntry = {
       rinseAid: {
         dataPoint: "108",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       rack: {

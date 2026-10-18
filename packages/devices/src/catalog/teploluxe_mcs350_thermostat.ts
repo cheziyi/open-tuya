@@ -31,6 +31,13 @@ const entry: TuyaDeviceEntry = {
             raw: "ON",
             dependsOn: {
               dataPoint: "2",
+              constraint: {
+                dataPoint: "2",
+                values: [
+                  { raw: "manual", value: "manual" },
+                  { raw: "program", value: "program" },
+                ],
+              },
               conditions: [
                 { when: ["manual"], value: "heat" },
                 { when: ["program"], value: "auto" },

@@ -64,6 +64,16 @@ does until a source or a capture settles it.
 
 ## Device catalog
 
+The catalog drops two keys of tuya-local's device files that say how a client
+polls a data point, as its
+[README](https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/devices/README.md#L199-L218)
+describes them:
+
+| tuya-local key | Data points | Files | What a client misses |
+| --- | --- | --- | --- |
+| `force: true` | 319 | 69 | The device reports the data point only on an explicit update request, as an energy plug its power: without one, rarely or never |
+| `persist: false` | 293 | 93 | The data point signals an event, so its value is forgotten when a full poll leaves it out, and the same value sent again is a new event |
+
 `@open-tuya/devices` converts a tuya-local device file whole or not at all.
 These use a feature the conversion does not take yet, and are left out of the
 catalog until it does.
@@ -73,6 +83,6 @@ catalog until it does.
 | tuya-local feature | Devices | Device files |
 | --- | --- | --- |
 | a `mask` of an odd number of hex digits on a control that can be written | 2 | cecotec_congax70_vacuum, mirabella_geniopixel_light |
-| not valid YAML 1.2 | 1 | poolsana_heatpump |
+| not valid YAML | 1 | poolsana_heatpump |
 
 <!-- End of generated list. -->

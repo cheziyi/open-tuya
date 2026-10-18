@@ -176,7 +176,7 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 100,
       },
-      defrost2: { dataPoint: "33", kind: "sensor", readOnly: true },
+      secondDefrost: { dataPoint: "33", kind: "sensor", readOnly: true },
       powerDownMemory: { dataPoint: "101", kind: "switch" },
       inletTemperatureCompensationInC: {
         dataPoint: "102",
@@ -314,21 +314,21 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "116",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         whenAbsent: { value: false },
         otherwise: true,
       },
       faultCode: { dataPoint: "116", kind: "sensor", readOnly: true },
       faultHistory: { dataPoint: "121", kind: "sensor", readOnly: true },
-      mainEevInPulse: {
+      mainEev: {
         dataPoint: "126",
         kind: "sensor",
         readOnly: true,
         unit: "pulse",
         scale: 10,
       },
-      auxEevInPulse: {
+      auxEev: {
         dataPoint: "127",
         kind: "sensor",
         readOnly: true,

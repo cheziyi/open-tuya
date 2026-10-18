@@ -36,6 +36,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "115",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "captured",
       },
       cameraSnapshotData: { dataPoint: "115", kind: "sensor", readOnly: true },
@@ -56,6 +57,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "1", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       connectivity: {

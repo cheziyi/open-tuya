@@ -265,6 +265,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "none", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       cleaningMode: {
@@ -325,7 +326,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "199",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -351,7 +352,7 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: "unknown",
       },
-      command2: { dataPoint: "15", kind: "text" },
+      secondCommand: { dataPoint: "15", kind: "text" },
     },
   },
   source: {

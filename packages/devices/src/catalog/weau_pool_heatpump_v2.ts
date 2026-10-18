@@ -28,6 +28,18 @@ const entry: TuyaDeviceEntry = {
             raw: true,
             dependsOn: {
               dataPoint: "2",
+              constraint: {
+                dataPoint: "2",
+                values: [
+                  { raw: "sheat", value: "quiet_heat" },
+                  { raw: "bheat", value: "quick_heat" },
+                  { raw: "eheat", value: "smart_heat" },
+                  { raw: "scool", value: "quiet_cool" },
+                  { raw: "bcool", value: "quick_cool" },
+                  { raw: "ecool", value: "smart_cool" },
+                  { raw: "auto", value: "auto" },
+                ],
+              },
               conditions: [
                 { when: ["eheat"], value: "heat" },
                 { when: ["ecool"], value: "cool" },
@@ -71,7 +83,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "20",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

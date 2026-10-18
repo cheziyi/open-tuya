@@ -141,7 +141,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "0", value: "cleared" },
         ],
       },
-      temperatureAlarm2: {
+      secondTemperatureAlarm: {
         dataPoint: "119",
         kind: "event",
         readOnly: true,
@@ -152,7 +152,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "sensor_fault" },
         ],
       },
-      pressureAlarm2: {
+      secondPressureAlarm: {
         dataPoint: "120",
         kind: "event",
         readOnly: true,
@@ -180,7 +180,7 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 4000,
       },
-      flowAlarm2: {
+      secondFlowAlarm: {
         dataPoint: "121",
         kind: "event",
         readOnly: true,

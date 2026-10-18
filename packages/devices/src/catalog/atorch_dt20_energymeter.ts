@@ -162,7 +162,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "132",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: "", value: false }],
         whenAbsent: { value: false },
@@ -229,7 +229,7 @@ const entry: TuyaDeviceEntry = {
     display: {
       brightness: { dataPoint: "108", kind: "number", min: 1, max: 9 },
     },
-    display2: {
+    secondDisplay: {
       brightness: { dataPoint: "109", kind: "number", min: 0, max: 9 },
     },
   },

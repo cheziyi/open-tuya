@@ -64,6 +64,11 @@ const entry: TuyaDeviceEntry = {
         max: 310,
         dependsOn: {
           dataPoint: "110",
+          constraint: {
+            dataPoint: "110",
+            values: [{ raw: 2097152, value: "F" }],
+            otherwise: "C",
+          },
           conditions: [{ when: [2097152], step: 10, min: 610, max: 880 }],
         },
         scale: 10,
@@ -79,6 +84,11 @@ const entry: TuyaDeviceEntry = {
         max: 100,
         dependsOn: {
           dataPoint: "110",
+          constraint: {
+            dataPoint: "110",
+            values: [{ raw: 2097152, value: "F" }],
+            otherwise: "C",
+          },
           conditions: [{ when: [2097152], targetRange: { min: -4, max: 212 } }],
         },
       },
@@ -102,6 +112,7 @@ const entry: TuyaDeviceEntry = {
         measures: "humidity",
         readOnly: true,
         unit: "%",
+        values: [{ raw: 0, value: null }],
       },
       sleepMode: { dataPoint: "105", kind: "text" },
       flags: { dataPoint: "110", kind: "number" },
@@ -170,7 +181,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "5", value: "Rightmost" },
         ],
       },
-      sleepMode2: {
+      secondSleepMode: {
         dataPoint: "105",
         kind: "select",
         values: [
@@ -188,6 +199,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       softWind: {
@@ -198,6 +210,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       antiMildew: {
@@ -208,6 +221,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       health: {
@@ -218,6 +232,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       antiFrost: {
@@ -228,6 +243,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       ecoMode: {
@@ -238,12 +254,13 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       fault: {
         dataPoint: "20",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -259,7 +276,7 @@ const entry: TuyaDeviceEntry = {
       filter: {
         dataPoint: "131",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
     },
@@ -272,6 +289,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
     },

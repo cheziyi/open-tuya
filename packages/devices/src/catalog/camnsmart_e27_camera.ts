@@ -30,10 +30,10 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      cameraRecord: { dataPoint: "150", kind: "switch" },
-      cameraRecordMemoryCardCapacity: { dataPoint: "109", kind: "text" },
-      cameraRecordLogEvent: { dataPoint: "178", kind: "text" },
-      cameraRecordLogMessage: { dataPoint: "185", kind: "text" },
+      recording: { dataPoint: "150", kind: "switch" },
+      recordingMemoryCardCapacity: { dataPoint: "109", kind: "text" },
+      recordingLogEvent: { dataPoint: "178", kind: "text" },
+      recordingLogMessage: { dataPoint: "185", kind: "text" },
       motionDetection: { dataPoint: "134", kind: "switch" },
       ptzUp: {
         dataPoint: "119",
@@ -101,7 +101,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "2", value: "continuous" },
         ],
       },
-      motionTracking: { dataPoint: "161", kind: "switch" },
+      motionTracking: {
+        dataPoint: "161",
+        kind: "switch",
+        values: [{ raw: false }],
+      },
       restart: { dataPoint: "162", kind: "button" },
       zoom: {
         dataPoint: "163",
@@ -113,7 +117,7 @@ const entry: TuyaDeviceEntry = {
       },
       stopZooming: { dataPoint: "164", kind: "button" },
       limitMotionDetectionArea: { dataPoint: "168", kind: "switch" },
-      limitMotionDetectionArea2: { dataPoint: "169", kind: "text" },
+      secondLimitMotionDetectionArea: { dataPoint: "169", kind: "text" },
       humanDetection: { dataPoint: "170", kind: "switch" },
       lightDurationInSeconds: {
         dataPoint: "173",

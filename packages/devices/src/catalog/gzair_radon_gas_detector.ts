@@ -126,6 +126,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "alarm", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       yellowWarningThresholdInPciPerL: {

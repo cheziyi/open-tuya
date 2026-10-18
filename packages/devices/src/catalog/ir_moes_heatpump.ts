@@ -76,13 +76,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: "high" },
         ],
       },
-      maxTargetTemperature: {
+      maximumTargetTemperature: {
         dataPoint: "9",
         kind: "number",
         measures: "temperature",
         unitFrom: "temperatureUnit",
       },
-      minTargetTemperature: {
+      minimumTargetTemperature: {
         dataPoint: "10",
         kind: "number",
         measures: "temperature",
@@ -100,7 +100,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "6",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },

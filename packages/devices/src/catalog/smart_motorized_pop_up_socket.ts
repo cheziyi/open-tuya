@@ -71,6 +71,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "as8", value: "Closing Interrupted" },
           { raw: "a9", value: "Closed" },
         ],
+        whenAbsent: { value: null },
       },
     },
   },
