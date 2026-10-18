@@ -581,12 +581,31 @@ adapter over MQTT.js.
 | A topic is named from each connection's credentials | The cloud app hands out its topic template with the credentials, and the developer platform its one topic |
 | Each message comes with the credentials of its connection | The developer platform encrypts a message under its connection's password |
 | Credentials are renewed 60 s before they expire, the new connection opened before the old one closes | A client ID goes stale once renewed, and no push is lost in between |
+| A renewal waits at least 60 s, and at most 2³¹−1 ms, about 24.8 days | Credentials that last 60 s or less, or carry no `expireTimeInSeconds`, would otherwise be renewed at once, again and again; once a minute is as often as the reconnect backoff fetches at its longest. `setTimeout` fires at once when given more than 2³¹−1 ms, and renewing early costs one request while the credentials still hold |
 | After a loss, fresh credentials and a new connection 5 s later, doubling to 60 s; none after `SESSION_EXPIRED`, `PERMISSION_DENIED` or an error that is not a `TuyaError` | As `LocalTuyaClient`. None of those clears by waiting |
+| The wait after a loss drops back to 5 s only when a connection lasts until its renewal, not each time one opens | A broker that accepts each connection and drops it at once would otherwise draw a credential request every 5 s for good. The device sharing SDK grows its wait the same way ([`mq.py`](https://github.com/tuya/tuya-device-sharing-sdk/blob/6d400c48b9a123599bd1b96024665adf72447783/tuya_sharing/mq.py#L149-L162)) |
+| `close()` is final: a later `subscribe` subscribes nothing and connects nothing, and its removal resolves at once | A closed account's credential request rejects with `CONNECTION_LOST`, which the session retries, so a connection opened after `close()` would keep retrying and keep the process alive. A no-op rather than a throw: a cloud client built while its account closes subscribes in its constructor |
+| `close()`, and removing the last subscription, wait for every open and close begun before them | A subscription made just after the last was removed opens a new connection while the old one still closes, and `close()` resolves once every socket is released, as [Closing](#closing) says |
+
+Known limitation: while a renewal runs, both connections are subscribed until
+the old one closes, so a message the broker sends then can reach `onMessage`
+twice, and a cloud client then reports it twice. The overlap lasts about one
+round trip. `MqttConnection.subscribe` does not say when the broker has
+taken the subscription, so the session cannot close the old connection at that
+moment, and unsubscribing the old connection first would lose what the broker
+sends between the two. Neither SDK deduplicates: each opens the new client and
+disconnects the old one without waiting for its subscription, so a message in
+between is lost instead
+([`mq.py`](https://github.com/tuya/tuya-device-sharing-sdk/blob/6d400c48b9a123599bd1b96024665adf72447783/tuya_sharing/mq.py#L164-L174),
+[`openmq.py`](https://github.com/tuya/tuya-iot-python-sdk/blob/20a7c92898fdd44e559667bbf8f2bf6fdb1e9185/tuya_iot/openmq.py#L174-L187)).
+A developer platform message is encrypted under each connection's password,
+so the session cannot tell two copies apart by their bytes.
 
 Rejected:
 
 - A client of our own. It was 450 lines, and MQTT.js does the same.
-- An `@open-tuya/mqtt` package. It would be a package to publish and version for 200 lines.
+- An `@open-tuya/mqtt` package. It would be a package to publish and version
+  for one class.
 
 ## Cloud developer sources
 
