@@ -98,13 +98,13 @@ const entry: TuyaDeviceEntry = {
       blocked: {
         dataPoint: "240",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       jammed: {
         dataPoint: "241",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       voiceRecording: {
@@ -121,6 +121,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "243",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "feed",
       },
       manualFeedReportGrams: {
@@ -132,6 +133,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "244",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "feed",
       },
       autoFeedGrams: { dataPoint: "244", kind: "sensor", readOnly: true },
@@ -147,6 +149,7 @@ const entry: TuyaDeviceEntry = {
         kind: "event",
         readOnly: true,
         values: [{ raw: 0, value: "fail" }],
+        whenAbsent: { value: null },
         otherwise: "feed",
       },
       feedPortions: { dataPoint: "246", kind: "sensor", readOnly: true },

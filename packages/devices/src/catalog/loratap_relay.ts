@@ -33,9 +33,9 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "39",
         kind: "select",
         values: [
-          { raw: 0, value: "off" },
-          { raw: 1, value: "on" },
-          { raw: 2, value: "memory" },
+          { raw: "0", value: "off" },
+          { raw: "1", value: "on" },
+          { raw: "2", value: "memory" },
         ],
       },
       lightMode: {

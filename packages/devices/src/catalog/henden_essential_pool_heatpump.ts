@@ -85,13 +85,13 @@ const entry: TuyaDeviceEntry = {
         min: 18,
         max: 40,
       },
-      minTargetTemperatureInC: {
+      minimumTargetTemperatureInC: {
         dataPoint: "108",
         kind: "number",
         measures: "temperature",
         unit: "C",
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "109",
         kind: "number",
         measures: "temperature",
@@ -123,7 +123,7 @@ const entry: TuyaDeviceEntry = {
       waterFlow: {
         dataPoint: "110",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
@@ -131,7 +131,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "110",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           {

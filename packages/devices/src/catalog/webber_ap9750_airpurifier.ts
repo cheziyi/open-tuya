@@ -34,7 +34,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "max", value: 100 },
         ],
       },
-      mode: {
+      preset: {
         dataPoint: "3",
         kind: "select",
         values: [
@@ -73,6 +73,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
         values: [
+          { raw: "No_data", value: null },
           { raw: "Good", value: "good" },
           { raw: "Normal", value: "moderate" },
           { raw: "Bad", value: "poor" },
@@ -92,7 +93,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
       },
     },
-    humidifier2: {
+    dehumidifier: {
       on: { dataPoint: "104", kind: "switch" },
       currentHumidityInPercent: {
         dataPoint: "13",

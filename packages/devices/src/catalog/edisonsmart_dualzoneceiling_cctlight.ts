@@ -36,7 +36,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "down", value: "Direct" },
         ],
       },
-      scene: {
+      sceneEnabled: {
         dataPoint: "21",
         kind: "switch",
         values: [
@@ -44,7 +44,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "white", value: false },
         ],
       },
-      scene2: { dataPoint: "25", kind: "text" },
+      scene: { dataPoint: "25", kind: "text" },
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",

@@ -45,8 +45,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "select",
         values: [
-          { raw: "C", value: "celsius" },
-          { raw: "F", value: "fahrenheit" },
+          { raw: "C", value: "C" },
+          { raw: "F", value: "F" },
         ],
       },
       screemBrightnessInPercent: {
@@ -264,7 +264,7 @@ const entry: TuyaDeviceEntry = {
       probe1fLowTemperatureAlertPending: {
         dataPoint: "131",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 32, value: true }],
         otherwise: false,
@@ -272,7 +272,7 @@ const entry: TuyaDeviceEntry = {
       probe1fHighTemperatureAlertPending: {
         dataPoint: "131",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 64, value: true }],
         otherwise: false,
@@ -296,7 +296,7 @@ const entry: TuyaDeviceEntry = {
       probe1fPreAlertState: {
         dataPoint: "131",
         kind: "sensor",
-        measures: "safety",
+        measures: "hazard",
         readOnly: true,
         values: [{ raw: 512, value: true }],
         otherwise: false,
@@ -336,7 +336,7 @@ const entry: TuyaDeviceEntry = {
       probe1LowBatteryAlert: {
         dataPoint: "131",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 16384, value: true }],
         otherwise: false,
@@ -390,7 +390,7 @@ const entry: TuyaDeviceEntry = {
       probe2LowTemperatureAlertPending: {
         dataPoint: "131",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 2097152, value: true }],
         otherwise: false,
@@ -398,7 +398,7 @@ const entry: TuyaDeviceEntry = {
       probe2HighTemperatureAlertPending: {
         dataPoint: "131",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 4194304, value: true }],
         otherwise: false,
@@ -422,7 +422,7 @@ const entry: TuyaDeviceEntry = {
       probe2fPrealertState: {
         dataPoint: "131",
         kind: "sensor",
-        measures: "safety",
+        measures: "hazard",
         readOnly: true,
         values: [{ raw: 33554432, value: true }],
         otherwise: false,
@@ -460,13 +460,14 @@ const entry: TuyaDeviceEntry = {
           { raw: 536870912, value: true },
           { raw: 0, value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       alertStatus: { dataPoint: "132", kind: "sensor", readOnly: true },
       probe2LowBatteryAlert: {
         dataPoint: "133",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -548,7 +549,7 @@ const entry: TuyaDeviceEntry = {
       wifiReset: {
         dataPoint: "133",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 2048, value: true }],
         otherwise: false,
@@ -563,7 +564,7 @@ const entry: TuyaDeviceEntry = {
       probe1TimerAlert: {
         dataPoint: "133",
         kind: "sensor",
-        measures: "safety",
+        measures: "hazard",
         readOnly: true,
         values: [{ raw: 8192, value: true }],
         otherwise: false,
@@ -571,7 +572,7 @@ const entry: TuyaDeviceEntry = {
       probe2TimerAlert: {
         dataPoint: "133",
         kind: "sensor",
-        measures: "safety",
+        measures: "hazard",
         readOnly: true,
         values: [{ raw: 16384, value: true }],
         otherwise: false,
@@ -579,7 +580,7 @@ const entry: TuyaDeviceEntry = {
       probe3TimerAlert: {
         dataPoint: "133",
         kind: "sensor",
-        measures: "safety",
+        measures: "hazard",
         readOnly: true,
         values: [{ raw: 32768, value: true }],
         otherwise: false,
@@ -587,7 +588,7 @@ const entry: TuyaDeviceEntry = {
       probe4TimerAlert: {
         dataPoint: "133",
         kind: "sensor",
-        measures: "safety",
+        measures: "hazard",
         readOnly: true,
         values: [{ raw: 65536, value: true }],
         otherwise: false,

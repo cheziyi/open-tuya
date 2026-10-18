@@ -117,7 +117,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "Hz",
       },
-      expansionValveInP: {
+      expansionValve: {
         dataPoint: "108",
         kind: "sensor",
         readOnly: true,
@@ -126,7 +126,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "13",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },

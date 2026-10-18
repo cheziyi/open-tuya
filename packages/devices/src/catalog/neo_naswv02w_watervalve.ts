@@ -68,7 +68,18 @@ const entry: TuyaDeviceEntry = {
         unit: "psi",
         scale: 10,
       },
-      temperatureAlarm: { dataPoint: "110", kind: "switch" },
+      temperatureAlarmEnabled: { dataPoint: "110", kind: "switch" },
+      temperatureAlarm: {
+        dataPoint: "119",
+        kind: "event",
+        readOnly: true,
+        values: [
+          { raw: "0", value: "cleared" },
+          { raw: "1", value: "low" },
+          { raw: "2", value: "high" },
+          { raw: "3", value: "sensor_fault" },
+        ],
+      },
       minimumTemperatureInF: {
         dataPoint: "104",
         kind: "number",
@@ -85,7 +96,18 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 176,
       },
-      pressureAlarm: { dataPoint: "111", kind: "switch" },
+      pressureAlarmEnabled: { dataPoint: "111", kind: "switch" },
+      pressureAlarm: {
+        dataPoint: "120",
+        kind: "event",
+        readOnly: true,
+        values: [
+          { raw: "0", value: "cleared" },
+          { raw: "1", value: "low" },
+          { raw: "2", value: "high" },
+          { raw: "3", value: "sensor_fault" },
+        ],
+      },
       minimumPressureInPsi: {
         dataPoint: "106",
         kind: "number",
@@ -112,8 +134,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "114",
         kind: "select",
         values: [
-          { raw: "1", value: "fahrenheit" },
-          { raw: "2", value: "celsius" },
+          { raw: "1", value: "F" },
+          { raw: "2", value: "C" },
         ],
       },
       pressureUnit: {
@@ -141,29 +163,18 @@ const entry: TuyaDeviceEntry = {
           { raw: "0", value: "cleared" },
         ],
       },
-      temperatureAlarm2: {
-        dataPoint: "119",
+      flowAlarmEnabled: { dataPoint: "123", kind: "switch" },
+      flowAlarm: {
+        dataPoint: "121",
         kind: "event",
         readOnly: true,
         values: [
           { raw: "0", value: "cleared" },
-          { raw: "1", value: "low" },
-          { raw: "2", value: "high" },
+          { raw: "1", value: "high" },
+          { raw: "2", value: "low" },
           { raw: "3", value: "sensor_fault" },
         ],
       },
-      pressureAlarm2: {
-        dataPoint: "120",
-        kind: "event",
-        readOnly: true,
-        values: [
-          { raw: "0", value: "cleared" },
-          { raw: "1", value: "low" },
-          { raw: "2", value: "high" },
-          { raw: "3", value: "sensor_fault" },
-        ],
-      },
-      flowAlarm: { dataPoint: "123", kind: "switch" },
       minimumFlowRateInGalPerH: {
         dataPoint: "108",
         kind: "number",
@@ -179,17 +190,6 @@ const entry: TuyaDeviceEntry = {
         unit: "gal/h",
         min: 0,
         max: 4000,
-      },
-      flowAlarm2: {
-        dataPoint: "121",
-        kind: "event",
-        readOnly: true,
-        values: [
-          { raw: "0", value: "cleared" },
-          { raw: "1", value: "high" },
-          { raw: "2", value: "low" },
-          { raw: "3", value: "sensor_fault" },
-        ],
       },
       meterReset: { dataPoint: "124", kind: "button" },
     },

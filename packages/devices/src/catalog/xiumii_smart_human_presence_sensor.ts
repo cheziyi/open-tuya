@@ -29,6 +29,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "none", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       rangeInCm: {

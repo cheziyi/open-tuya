@@ -242,13 +242,13 @@ const entry: TuyaDeviceEntry = {
       currentOverloadA: {
         dataPoint: "147",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       currentOverloadB: {
         dataPoint: "148",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       powerPhaseAInW: {

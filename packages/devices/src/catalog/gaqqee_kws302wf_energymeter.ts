@@ -186,7 +186,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "10",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -201,6 +201,7 @@ const entry: TuyaDeviceEntry = {
           { raw: true, value: "Inverted" },
         ],
         otherwise: "Normal",
+        ownRuleReadOnly: true,
       },
       initialState: {
         dataPoint: "125",

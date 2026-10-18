@@ -34,11 +34,19 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: true },
         ],
       },
-      unlockFingerprint: { dataPoint: "10", kind: "text" },
-      unlockPassword: { dataPoint: "11", kind: "text" },
-      unlockCard: { dataPoint: "12", kind: "text" },
-      unlockTemporaryPassword: { dataPoint: "16", kind: "text" },
-      unlockOfflinePassword: { dataPoint: "17", kind: "text" },
+      unlockFingerprint: { dataPoint: "10", kind: "sensor", readOnly: true },
+      unlockPassword: { dataPoint: "11", kind: "sensor", readOnly: true },
+      unlockCard: { dataPoint: "12", kind: "sensor", readOnly: true },
+      unlockTemporaryPassword: {
+        dataPoint: "16",
+        kind: "sensor",
+        readOnly: true,
+      },
+      unlockOfflinePassword: {
+        dataPoint: "17",
+        kind: "sensor",
+        readOnly: true,
+      },
       alarmRecord: { dataPoint: "23", kind: "text" },
       doorbellVolumeInPercent: {
         dataPoint: "26",
@@ -74,7 +82,10 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "event",
         readOnly: true,
-        values: [{ raw: true, value: "ring" }],
+        values: [
+          { raw: true, value: "ring" },
+          { raw: false, value: null },
+        ],
       },
       beepOnError: { dataPoint: "102", kind: "switch" },
       tamper: {

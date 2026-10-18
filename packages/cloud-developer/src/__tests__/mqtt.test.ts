@@ -81,6 +81,19 @@ describe("openMqttConnection", () => {
     ]);
   });
 
+  it("closes with CONNECTION_LOST when the broker refuses a subscription", async () => {
+    const started = await startBroker({ refuseSubscriptions: true });
+    cleanups.push(() => started.close());
+    const { connection, closes } = await open(started.url);
+
+    connection.subscribe("devices");
+    await until(() => closes.length > 0);
+
+    expect(closes).toEqual([
+      expect.objectContaining({ code: "CONNECTION_LOST" }),
+    ]);
+  });
+
   it("closes once with no error, and disconnects from the broker", async () => {
     const started = await broker();
     const { connection, closes } = await open(started.url);

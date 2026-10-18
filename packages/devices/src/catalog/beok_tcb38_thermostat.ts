@@ -65,13 +65,13 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "21",
         kind: "number",
         measures: "temperature",
         unit: "C",
       },
-      minTargetTemperatureInC: {
+      minimumTargetTemperatureInC: {
         dataPoint: "22",
         kind: "number",
         measures: "temperature",
@@ -92,7 +92,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "16",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -145,14 +145,14 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       scheduleProgram: { dataPoint: "43", kind: "text" },
-      floorTemperatureInC: {
+      floorTemperatureSettingInC: {
         dataPoint: "101",
         kind: "number",
         unit: "C",
         min: 5,
         max: 99,
       },
-      floorTemperatureInC2: {
+      floorTemperatureInC: {
         dataPoint: "102",
         kind: "sensor",
         measures: "temperature",

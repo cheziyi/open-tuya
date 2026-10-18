@@ -94,12 +94,14 @@ const entry: TuyaDeviceEntry = {
         measures: "carbonDioxide",
         readOnly: true,
         unit: "ppm",
+        values: [{ raw: 0, value: null }],
       },
       airQuality: {
         dataPoint: "112",
         kind: "sensor",
         readOnly: true,
         values: [
+          { raw: "0", value: null },
           { raw: "1", value: "excellent" },
           { raw: "2", value: "good" },
           { raw: "3", value: "moderate" },
@@ -112,6 +114,7 @@ const entry: TuyaDeviceEntry = {
         measures: "humidity",
         readOnly: true,
         unit: "%",
+        values: [{ raw: 0, value: null }],
       },
       pm25InUgPerM3: {
         dataPoint: "114",
@@ -119,6 +122,7 @@ const entry: TuyaDeviceEntry = {
         measures: "pm25",
         readOnly: true,
         unit: "µg/m³",
+        values: [{ raw: 0, value: null }],
       },
       outdoorTemperatureInC: {
         dataPoint: "118",
@@ -144,7 +148,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "119",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -155,7 +159,7 @@ const entry: TuyaDeviceEntry = {
       filterClean: {
         dataPoint: "123",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       expansionValveOpening: {

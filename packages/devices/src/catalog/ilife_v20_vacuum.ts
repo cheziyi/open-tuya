@@ -286,7 +286,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "28",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -330,8 +330,8 @@ const entry: TuyaDeviceEntry = {
           { raw: 536870912, value: "kit_water_pump" },
         ],
       },
-      command2: { dataPoint: "15", kind: "text" },
     },
+    device: { command: { dataPoint: "15", kind: "text" } },
   },
   source: {
     file: "ilife_v20_vacuum.yaml",

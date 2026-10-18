@@ -37,6 +37,11 @@ const entry: TuyaDeviceEntry = {
         max: 99,
         dependsOn: {
           dataPoint: "4",
+          constraint: {
+            dataPoint: "4",
+            values: [{ raw: true, value: "F" }],
+            otherwise: "C",
+          },
           conditions: [
             {
               when: [true],
@@ -51,7 +56,10 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "4",
         kind: "select",
-        values: [{ raw: true, value: "F" }],
+        values: [
+          { raw: true, value: "F" },
+          { raw: false, value: "C" },
+        ],
         otherwise: "C",
       },
       currentTemperature: {
@@ -62,6 +70,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "4",
+          constraint: {
+            dataPoint: "4",
+            values: [{ raw: true, value: "F" }],
+            otherwise: "C",
+          },
           conditions: [{ when: [true], redirect: { dataPoint: "6" } }],
         },
       },
@@ -80,14 +93,6 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "holiday", value: "Holiday" },
           { raw: "program", value: "Program" },
-        ],
-      },
-      temperatureUnit2: {
-        dataPoint: "4",
-        kind: "select",
-        values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
         ],
       },
     },

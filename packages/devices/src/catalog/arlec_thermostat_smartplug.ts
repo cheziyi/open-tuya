@@ -77,6 +77,13 @@ const entry: TuyaDeviceEntry = {
         max: 1050,
         dependsOn: {
           dataPoint: "20",
+          constraint: {
+            dataPoint: "20",
+            values: [
+              { raw: "c", value: "C" },
+              { raw: "f", value: "F" },
+            ],
+          },
           conditions: [
             {
               when: ["f"],
@@ -103,6 +110,13 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "20",
+          constraint: {
+            dataPoint: "20",
+            values: [
+              { raw: "c", value: "C" },
+              { raw: "f", value: "F" },
+            ],
+          },
           conditions: [
             { when: ["f"], redirect: { dataPoint: "28", scale: 10 } },
           ],
@@ -170,14 +184,6 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
       },
       voltageCalibration: { dataPoint: "14", kind: "sensor", readOnly: true },
-      temperatureUnit2: {
-        dataPoint: "20",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
-      },
       temperatureHysteresis: {
         dataPoint: "29",
         kind: "number",
@@ -240,7 +246,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "50",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },

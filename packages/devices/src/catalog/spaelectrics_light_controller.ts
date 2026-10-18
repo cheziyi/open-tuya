@@ -247,7 +247,10 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "166",
         kind: "event",
         readOnly: true,
-        values: [{ raw: true, value: "reset" }],
+        values: [
+          { raw: true, value: "reset" },
+          { raw: false, value: null },
+        ],
       },
       appReset: { dataPoint: "179", kind: "button" },
     },

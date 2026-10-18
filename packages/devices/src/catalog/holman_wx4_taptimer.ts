@@ -173,14 +173,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "119",
         kind: "select",
         values: [
-          { raw: "1", value: "celsius" },
-          { raw: "2", value: "fahrenheit" },
+          { raw: "1", value: "C" },
+          { raw: "2", value: "F" },
         ],
       },
       fault: {
         dataPoint: "120",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -519,6 +519,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 3, value: "sandy loam" },
           { raw: 4, value: "red soil" },
           { raw: 5, value: "other" },
+          { raw: 255, value: null, readOnly: true },
         ],
       },
       zone2Soil: {
@@ -532,6 +533,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 3, value: "sandy loam" },
           { raw: 4, value: "red soil" },
           { raw: 5, value: "other" },
+          { raw: 255, value: null, readOnly: true },
         ],
       },
       zone3Soil: {
@@ -545,6 +547,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 3, value: "sandy loam" },
           { raw: 4, value: "red soil" },
           { raw: 5, value: "other" },
+          { raw: 255, value: null, readOnly: true },
         ],
       },
       zone4Soil: {
@@ -558,6 +561,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 3, value: "sandy loam" },
           { raw: 4, value: "red soil" },
           { raw: 5, value: "other" },
+          { raw: 255, value: null, readOnly: true },
         ],
       },
       zone1MoistureLimitInPercent: {
@@ -568,6 +572,7 @@ const entry: TuyaDeviceEntry = {
         unit: "%",
         min: 0,
         max: 100,
+        values: [{ raw: 127, value: null, readOnly: true }],
       },
       zone2MoistureLimitInPercent: {
         dataPoint: "179",
@@ -577,6 +582,7 @@ const entry: TuyaDeviceEntry = {
         unit: "%",
         min: 0,
         max: 100,
+        values: [{ raw: 127, value: null, readOnly: true }],
       },
       zone3MoistureLimitInPercent: {
         dataPoint: "179",
@@ -586,6 +592,7 @@ const entry: TuyaDeviceEntry = {
         unit: "%",
         min: 0,
         max: 100,
+        values: [{ raw: 127, value: null, readOnly: true }],
       },
       zone4MoistureLimitInPercent: {
         dataPoint: "179",
@@ -595,6 +602,7 @@ const entry: TuyaDeviceEntry = {
         unit: "%",
         min: 0,
         max: 100,
+        values: [{ raw: 127, value: null, readOnly: true }],
       },
       zone1MoistureAlarm: {
         dataPoint: "179",
@@ -604,6 +612,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       zone2MoistureAlarm: {
@@ -614,6 +623,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       zone3MoistureAlarm: {
@@ -624,6 +634,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       zone4MoistureAlarm: {
@@ -634,6 +645,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       seasonalAdustment: { dataPoint: "180", kind: "text" },

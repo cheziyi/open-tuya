@@ -67,8 +67,7 @@ const entry: TuyaDeviceEntry = {
         max: 1000,
       },
       controlData: { dataPoint: "28", kind: "text" },
-      scene: { dataPoint: "25", kind: "text" },
-      scene2: {
+      scene: {
         dataPoint: "25",
         kind: "select",
         values: [
@@ -234,6 +233,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "none", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       motionSensitivity: {
@@ -259,6 +259,7 @@ const entry: TuyaDeviceEntry = {
         unit: "min",
         min: 1,
         max: 480,
+        whenAbsent: {},
       },
       standbyBrightnessInMinutes: {
         dataPoint: "59",
@@ -266,6 +267,7 @@ const entry: TuyaDeviceEntry = {
         unit: "min",
         min: 0,
         max: 1000,
+        whenAbsent: {},
       },
       ambientLightSensor: {
         dataPoint: "53",

@@ -26,19 +26,10 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit: {
         dataPoint: "11",
-        kind: "sensor",
-        readOnly: true,
+        kind: "select",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
-        ],
-      },
-      temperatureUnit2: {
-        dataPoint: "11",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
         ],
       },
       humidityInPercent: {

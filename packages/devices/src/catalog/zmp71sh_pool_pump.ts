@@ -44,7 +44,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "4",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -106,6 +106,13 @@ const entry: TuyaDeviceEntry = {
         max: 3600,
         dependsOn: {
           dataPoint: "116",
+          constraint: {
+            dataPoint: "116",
+            values: [
+              { raw: "rpm", value: "rpm" },
+              { raw: "percent", value: "%" },
+            ],
+          },
           conditions: [
             { when: ["rpm"], step: 50 },
             {
@@ -132,6 +139,13 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "runningSpeedUnit",
         dependsOn: {
           dataPoint: "116",
+          constraint: {
+            dataPoint: "116",
+            values: [
+              { raw: "rpm", value: "rpm" },
+              { raw: "percent", value: "%" },
+            ],
+          },
           conditions: [{ when: ["percent"], redirect: { dataPoint: "107" } }],
         },
       },

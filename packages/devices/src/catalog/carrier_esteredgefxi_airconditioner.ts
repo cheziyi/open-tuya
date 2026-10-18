@@ -99,7 +99,10 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "101",
         kind: "select",
-        values: [{ raw: false, value: "F" }],
+        values: [
+          { raw: false, value: "F" },
+          { raw: true, value: "C" },
+        ],
         otherwise: "C",
       },
       preset: {
@@ -151,7 +154,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "20",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           {
@@ -167,14 +170,6 @@ const entry: TuyaDeviceEntry = {
       },
       faultCode: { dataPoint: "20", kind: "sensor", readOnly: true },
       faultCode2: { dataPoint: "120", kind: "sensor", readOnly: true },
-      temperatureUnit2: {
-        dataPoint: "101",
-        kind: "select",
-        values: [
-          { raw: true, value: "celsius" },
-          { raw: false, value: "fahrenheit" },
-        ],
-      },
       clearEnergy: { dataPoint: "102", kind: "button" },
       childLock: { dataPoint: "105", kind: "switch" },
       sleep: { dataPoint: "106", kind: "switch" },

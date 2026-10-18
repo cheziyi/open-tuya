@@ -22,7 +22,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     fan: {
       on: { dataPoint: "1", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "2",
         kind: "select",
         values: [
@@ -53,6 +53,11 @@ const entry: TuyaDeviceEntry = {
         unitFrom: "temperatureUnit",
         dependsOn: {
           dataPoint: "28",
+          constraint: {
+            dataPoint: "28",
+            values: [{ raw: "f", value: "F" }],
+            otherwise: "C",
+          },
           conditions: [{ when: ["f"], redirect: { dataPoint: "101" } }],
         },
       },
@@ -64,10 +69,13 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit: {
         dataPoint: "28",
-        kind: "sensor",
-        readOnly: true,
-        values: [{ raw: "f", value: "F" }],
+        kind: "select",
+        values: [
+          { raw: "f", value: "F" },
+          { raw: "c", value: "C" },
+        ],
         otherwise: "C",
+        ownRuleReadOnly: true,
       },
       timer: {
         dataPoint: "22",
@@ -86,14 +94,6 @@ const entry: TuyaDeviceEntry = {
           { raw: "10h", value: "10h" },
           { raw: "11h", value: "11h" },
           { raw: "12h", value: "12h" },
-        ],
-      },
-      temperatureUnit2: {
-        dataPoint: "28",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
         ],
       },
     },

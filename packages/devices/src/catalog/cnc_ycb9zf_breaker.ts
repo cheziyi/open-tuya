@@ -57,7 +57,7 @@ const entry: TuyaDeviceEntry = {
         min: 150,
         max: 300,
       },
-      breakerTriggerAction: {
+      breakerOvervoltageAction: {
         dataPoint: "105",
         kind: "select",
         values: [
@@ -66,7 +66,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      breakerTriggerAction2: {
+      breakerUndervoltageAction: {
         dataPoint: "106",
         kind: "select",
         values: [

@@ -39,6 +39,15 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         scale: 100,
       },
+      phSetting: {
+        dataPoint: "112",
+        kind: "number",
+        measures: "ph",
+        min: 720,
+        max: 780,
+        scale: 100,
+        step: 10,
+      },
       phFirmwareVersion: { dataPoint: "118", kind: "sensor", readOnly: true },
       orpInMillivolts: {
         dataPoint: "102",
@@ -51,9 +60,11 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "select",
         values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
+          { raw: true, value: "F" },
+          { raw: false, value: "C" },
         ],
+        otherwise: "C",
+        ownRuleReadOnly: true,
       },
       temperature: {
         dataPoint: "104",
@@ -62,13 +73,6 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unitFrom: "temperatureUnit",
         scale: 10,
-      },
-      temperatureUnit2: {
-        dataPoint: "103",
-        kind: "sensor",
-        readOnly: true,
-        values: [{ raw: true, value: "F" }],
-        otherwise: "C",
       },
       phCalibration: {
         dataPoint: "105",
@@ -118,15 +122,6 @@ const entry: TuyaDeviceEntry = {
         max: 30,
       },
       dosingPump: { dataPoint: "111", kind: "switch" },
-      ph2: {
-        dataPoint: "112",
-        kind: "number",
-        measures: "ph",
-        min: 720,
-        max: 780,
-        scale: 100,
-        step: 10,
-      },
       water: {
         dataPoint: "113",
         kind: "sensor",
@@ -151,7 +146,7 @@ const entry: TuyaDeviceEntry = {
       probeWarning: {
         dataPoint: "117",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       poolVolume: {
@@ -184,13 +179,13 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "121",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
       faultCode: { dataPoint: "121", kind: "sensor", readOnly: true },
-      autoPhAdjustmentCyclesInTimes: {
+      autoPhAdjustmentCycles: {
         dataPoint: "122",
         kind: "sensor",
         readOnly: true,

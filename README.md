@@ -65,6 +65,7 @@ client.onControls((values) => update(values)); // the controls each push carries
 
 | When | The client |
 | --- | --- |
+| `createTuyaClient` reads the device to find its catalog entry | Tries every route in order, waiting for the LAN to connect or fail |
 | A route is not connected, such as the LAN while it reconnects | Skips it, unless it is the last |
 | A read fails | Tries the next route |
 | A write fails with `CONNECTION_FAILED`, `SESSION_KEY_NEGOTIATION_FAILED`, `RATE_LIMITED`, `SESSION_EXPIRED`, `PERMISSION_DENIED` or `UNMAPPED_DATA_POINT` | Tries the next route |
@@ -114,7 +115,10 @@ no `nodeId`.
 
 ```ts
 const gateway = devices.find((candidate) => !candidate.nodeId && candidate.localKey === device.localKey);
-const found = discovery.devices.get(gateway.deviceId);
+const found = gateway && discovery.devices.get(gateway.deviceId);
+if (!gateway?.localKey || !found || !device.nodeId) {
+  throw new Error("No gateway for the device was heard on the LAN");
+}
 await using hub = createLocalTuyaClient({
   deviceId: gateway.deviceId,
   host: found.host,
@@ -131,9 +135,8 @@ await using client = await createTuyaClient({
 
 One gateway client serves every device behind it: create it once and close it
 yourself, as `createTuyaClient` leaves it open. The devices behind it follow
-it to a new address. On 3.4 and 3.5 it asks the
-gateway every 30 s which devices are online, so a device the gateway reports
-offline goes to the next route.
+it to a new address. It asks the gateway every 30 s which devices are online,
+so a device the gateway reports offline goes to the next route.
 
 `client.entry` is the catalog entry the controls are named by, the best of
 `client.entries`. Save its `source.file` and pass the entry next time, so the
@@ -164,7 +167,8 @@ Pass `writeControls` the data points the device reports now: a control with a
 the rest from them, and a control that depends on another data point, such as
 a thermostat's mode, reads it there. Such a write can set that data point
 too, or throw a `TuyaError` with code `VALUE_UNAVAILABLE` while the device
-holds it at a value the write cannot change. A control's range, scale and
+holds it at a value the write cannot change. A value the data point cannot
+hold, such as a mode the device lacks, throws a `TypeError`. A control's range, scale and
 step can change with the device's state, such as a thermostat's in eco mode:
 `resolveControl(entry, control, dataPoints)` gives them as they are now. A value is the device's own, in the unit its name carries. A name the
 catalog gives alike across devices is in `CONTROL_NAMES`; any other is the
@@ -227,7 +231,9 @@ fix on the platform:
 | The cloud's answer | Fix |
 | --- | --- |
 | 28841002, "subscription to cloud development plan has expired" | Extend the project's IoT Core trial |
+| 28841004, "Your quota of Trial Edition is used up" | Upgrade the project's IoT Core plan from the trial |
 | 28841101, 28841105, 28841106 | Authorize the API service the message names |
+| 28841107, "your datacenter is suspended" | Remove the data center from the project, save, and add it again |
 | 1106 to `listDevices()` | Pass `{ viaDeviceId }` with any device of the account |
 | 2007, or no devices | Pick the data center the app account is in |
 
@@ -268,6 +274,7 @@ engineering.
 | [tuya/tuya-homebridge](https://github.com/tuya/tuya-homebridge) | MIT | Developer platform API and its pushed device updates, Homebridge, by Tuya |
 | [TuyaAPI/cli](https://github.com/TuyaAPI/cli) | MIT | Fetching local keys from the developer platform API |
 | [tuya/tuya-iot-python-sdk](https://github.com/tuya/tuya-iot-python-sdk) | MIT, Copyright (c) 2014-2021 Tuya Inc. | Developer platform API and its pushed device updates, Python, by Tuya |
+| [tuya/tuya-home-assistant](https://github.com/tuya/tuya-home-assistant) | MIT, Copyright (c) 2014-2021 Tuya Inc. | Issues capturing developer platform requests, responses and pushed device updates, by Tuya |
 | [tuya/tuya-connector](https://github.com/tuya/tuya-connector) | Apache-2.0 | Developer platform API and its thing model, Java, by Tuya |
 | [tuya/tuya-openclaw-skills](https://github.com/tuya/tuya-openclaw-skills) | MIT | The thing model and issuing its properties, documented by Tuya |
 | [tuya/tuya-device-sharing-sdk](https://github.com/tuya/tuya-device-sharing-sdk) | MIT, Copyright (c) 2023 Tuya | Smart Life app QR login and its pushed device updates, by Tuya |

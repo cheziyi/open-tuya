@@ -70,6 +70,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "rainy", value: "rainy" },
           { raw: "snowy", value: "snowy" },
         ],
+        whenAbsent: {},
       },
       weatherDelay: {
         dataPoint: "45",

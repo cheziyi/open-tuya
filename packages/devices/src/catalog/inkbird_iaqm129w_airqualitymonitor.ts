@@ -43,10 +43,13 @@ const entry: TuyaDeviceEntry = {
       },
       temperatureUnit: {
         dataPoint: "101",
-        kind: "sensor",
-        readOnly: true,
-        values: [{ raw: "f", value: "F" }],
+        kind: "select",
+        values: [
+          { raw: "f", value: "F" },
+          { raw: "c", value: "C" },
+        ],
         otherwise: "C",
+        ownRuleReadOnly: true,
       },
       humidityInPercent: {
         dataPoint: "19",
@@ -76,14 +79,6 @@ const entry: TuyaDeviceEntry = {
         measures: "carbonDioxide",
         readOnly: true,
         unit: "ppm",
-      },
-      temperatureUnit2: {
-        dataPoint: "101",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
       },
       pm10InUgPerM3: {
         dataPoint: "102",

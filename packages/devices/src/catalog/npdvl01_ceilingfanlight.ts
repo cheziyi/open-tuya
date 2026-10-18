@@ -83,7 +83,7 @@ const entry: TuyaDeviceEntry = {
       mixedScene: { dataPoint: "36", kind: "text" },
       color: { dataPoint: "51", kind: "text" },
       on: { dataPoint: "60", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "61",
         kind: "select",
         values: [

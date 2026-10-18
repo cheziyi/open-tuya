@@ -2,7 +2,7 @@ import { randomBytes } from "node:crypto";
 import { createConnection, type Socket } from "node:net";
 import { type ProtocolVersion, TuyaError } from "@open-tuya/core";
 import { COMMANDS } from "./protocol/commands.js";
-import type { DecodedFrames, ReceivedTuyaFrame } from "./protocol/frame.js";
+import type { ReceivedTuyaFrame } from "./protocol/frame.js";
 import { decodeMessages, encodeMessage } from "./protocol/message.js";
 import {
   buildSessionKeyFinish,
@@ -176,23 +176,11 @@ export class TuyaConnection implements AsyncDisposable {
   }
 
   private receive(chunk: Buffer): void {
-    let decoded: DecodedFrames;
-    try {
-      decoded = decodeMessages(
-        this.options.version,
-        Buffer.concat([this.buffered, chunk]),
-        this.key,
-      );
-    } catch (error) {
-      this.end(
-        new TuyaError(
-          "CONNECTION_LOST",
-          "The device sent bytes that are not a frame",
-          { cause: error },
-        ),
-      );
-      return;
-    }
+    const decoded = decodeMessages(
+      this.options.version,
+      Buffer.concat([this.buffered, chunk]),
+      this.key,
+    );
     this.buffered = decoded.remainder;
     for (const error of decoded.errors) {
       this.options.onDroppedFrame(error);
@@ -203,13 +191,28 @@ export class TuyaConnection implements AsyncDisposable {
       } else {
         this.options.onFrame(frame);
       }
+      if (this.closed) {
+        return;
+      }
+    }
+    if (decoded.malformed) {
+      this.end(
+        new TuyaError(
+          "CONNECTION_LOST",
+          "The device sent bytes that are not a frame",
+          { cause: decoded.malformed },
+        ),
+      );
     }
   }
 
-  // Source: A heartbeat carries an empty payload, encrypted as any other, in
+  // Source: A heartbeat carries an empty payload, in
   // https://github.com/codetheweb/tuyapi/commit/dab81737a350b3f1b8ea85252cc48f472a651e2d,
   // https://github.com/iRayanKhan/homebridge-tuya/commit/ea1d903fb467dd8c296326db130630308113167a
-  // and https://github.com/adrianjagielak/homebridge-tuya-plus/commit/e316a912e5d24d6ad302768d26d5182ed2acef86.
+  // and https://github.com/tuya/TuyaOpen/blob/cd3b764643ba2b3f797dec8b4629b083cc081da1/src/tuya_cloud_service/lan/tuya_lan.c#L967-L974.
+  // Each version's encoder sends an empty payload as no bytes, where tuyapi
+  // and homebridge-tuya encrypt it to a block of padding: see
+  // DESIGN.md#protocol-33 and DESIGN.md#protocol-34-and-35.
   // Source: A device answers HEART_BEAT with an empty HEART_BEAT in
   // https://github.com/jasonacox/tinytuya/commit/dd3ad7f091a26784b53ac37a5ba896be670f346b.
   private beat(): void {
@@ -331,15 +334,16 @@ function negotiateSessionKey(
         socketError,
       );
     const onData = (chunk: Buffer) => {
-      let decoded: DecodedFrames;
-      try {
-        decoded = decodeMessages(
-          version,
-          Buffer.concat([buffered, chunk]),
-          localKey,
+      const decoded = decodeMessages(
+        version,
+        Buffer.concat([buffered, chunk]),
+        localKey,
+      );
+      if (decoded.malformed) {
+        failWith(
+          "The device sent bytes that are not a frame",
+          decoded.malformed,
         );
-      } catch (error) {
-        failWith("The device sent bytes that are not a frame", error);
         return;
       }
       buffered = decoded.remainder;

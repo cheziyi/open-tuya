@@ -174,7 +174,7 @@ const entry: TuyaDeviceEntry = {
       filterBlockage: {
         dataPoint: "110",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       sound: {

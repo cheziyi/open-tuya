@@ -117,7 +117,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "110",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           {
@@ -143,7 +143,7 @@ const entry: TuyaDeviceEntry = {
       saltLow: {
         dataPoint: "112",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       notifications: { dataPoint: "113", kind: "switch" },
@@ -216,7 +216,7 @@ const entry: TuyaDeviceEntry = {
       titaniumPlateChange: {
         dataPoint: "126",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         whenAbsent: { value: false },
       },

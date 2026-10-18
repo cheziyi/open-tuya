@@ -68,7 +68,7 @@ const entry: TuyaDeviceEntry = {
       plug: {
         dataPoint: "15",
         kind: "sensor",
-        measures: "plug",
+        measures: "plugged",
         readOnly: true,
       },
       batteryInPercent: {
@@ -108,17 +108,6 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 9,
       },
-      alarmState2: {
-        dataPoint: "32",
-        kind: "sensor",
-        readOnly: true,
-        values: [
-          { raw: "normal", value: false },
-          { raw: "alarm", value: true },
-          { raw: "", value: false },
-        ],
-        otherwise: true,
-      },
       language: {
         dataPoint: "40",
         kind: "select",
@@ -131,6 +120,20 @@ const entry: TuyaDeviceEntry = {
           { raw: "spanish", value: "spanish" },
           { raw: "italian", value: "italian" },
         ],
+      },
+    },
+    device: {
+      alarmState: {
+        dataPoint: "32",
+        kind: "sensor",
+        readOnly: true,
+        values: [
+          { raw: "normal", value: false },
+          { raw: "alarm", value: true },
+          { raw: "", value: false },
+        ],
+        whenAbsent: { value: null },
+        otherwise: true,
       },
     },
   },

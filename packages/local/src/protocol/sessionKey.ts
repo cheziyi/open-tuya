@@ -71,7 +71,6 @@ export function deriveV34SessionKey(
 // Source: The 3.5 session key is the ciphertext of the two nonces XORed,
 // encrypted with AES-128-GCM under the local key with the first 12 bytes of
 // the client's nonce as the IV, without the tag, in
-// https://github.com/jasonacox/tinytuya/commit/7bf97205555062acc048e2a3adeea3628fb35c25,
 // https://github.com/jasonacox/tinytuya/commit/c2f3e24d968c5d23ffd4e71956b46028563f422f
 // and https://github.com/codetheweb/tuyapi/commit/e125a2e17f3043ed6263f092d154c72bf6d1ecdb.
 export function deriveV35SessionKey(

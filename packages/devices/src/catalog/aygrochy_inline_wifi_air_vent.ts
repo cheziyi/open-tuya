@@ -82,6 +82,16 @@ const entry: TuyaDeviceEntry = {
         max: 194,
         dependsOn: {
           dataPoint: "2",
+          constraint: {
+            dataPoint: "2",
+            values: [
+              { raw: "ON", value: "fan_only" },
+              { raw: "OFF", value: "off" },
+              { raw: "TIMER", value: "auto", readOnly: true },
+              { raw: "AUTO", value: "auto" },
+              { raw: "ALARM", value: "fan_only", readOnly: true },
+            ],
+          },
           conditions: [
             {
               when: ["AUTO"],
@@ -105,6 +115,16 @@ const entry: TuyaDeviceEntry = {
         max: 194,
         dependsOn: {
           dataPoint: "2",
+          constraint: {
+            dataPoint: "2",
+            values: [
+              { raw: "ON", value: "fan_only" },
+              { raw: "OFF", value: "off" },
+              { raw: "TIMER", value: "auto", readOnly: true },
+              { raw: "AUTO", value: "auto" },
+              { raw: "ALARM", value: "fan_only", readOnly: true },
+            ],
+          },
           conditions: [
             {
               when: ["AUTO"],

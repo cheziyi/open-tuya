@@ -44,6 +44,13 @@ const entry: TuyaDeviceEntry = {
         max: 400,
         dependsOn: {
           dataPoint: "107",
+          constraint: {
+            dataPoint: "107",
+            values: [
+              { raw: false, value: "C" },
+              { raw: true, value: "F" },
+            ],
+          },
           conditions: [{ when: [true], step: 10, min: 410, max: 1040 }],
         },
         scale: 10,
@@ -95,7 +102,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "104",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -150,8 +157,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "select",
         values: [
-          { raw: false, value: "celsius" },
-          { raw: true, value: "fahrenheit" },
+          { raw: false, value: "C" },
+          { raw: true, value: "F" },
         ],
       },
       childLock: { dataPoint: "108", kind: "switch" },
@@ -191,6 +198,13 @@ const entry: TuyaDeviceEntry = {
         max: 50,
         dependsOn: {
           dataPoint: "107",
+          constraint: {
+            dataPoint: "107",
+            values: [
+              { raw: false, value: "C" },
+              { raw: true, value: "F" },
+            ],
+          },
           conditions: [{ when: [true], step: 10, min: -90, max: 90 }],
         },
         scale: 10,
@@ -213,6 +227,13 @@ const entry: TuyaDeviceEntry = {
         max: 50,
         dependsOn: {
           dataPoint: "107",
+          constraint: {
+            dataPoint: "107",
+            values: [
+              { raw: false, value: "C" },
+              { raw: true, value: "F" },
+            ],
+          },
           conditions: [{ when: [true], step: 10, min: -90, max: 90 }],
         },
         scale: 10,
@@ -251,6 +272,13 @@ const entry: TuyaDeviceEntry = {
         max: 500,
         dependsOn: {
           dataPoint: "107",
+          constraint: {
+            dataPoint: "107",
+            values: [
+              { raw: false, value: "C" },
+              { raw: true, value: "F" },
+            ],
+          },
           conditions: [{ when: [true], step: 10, min: 680, max: 1220 }],
         },
         scale: 10,

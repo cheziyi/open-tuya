@@ -102,7 +102,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "102",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -122,7 +122,7 @@ const entry: TuyaDeviceEntry = {
     nightlight: { on: { dataPoint: "53", kind: "switch" } },
     fan: {
       on: { dataPoint: "107", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "106",
         kind: "select",
         values: [

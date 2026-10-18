@@ -9,9 +9,12 @@ import { encodeDiscoveryRequest } from "./request.js";
 // https://github.com/codetheweb/tuyapi/commit/a14621c5255337642152e7466dcc30af90977157
 // and https://github.com/jasonacox/tinytuya/commit/dee8d10292611bc6357e95d44564dc30ccda0678.
 const V31_BROADCAST_PORT = 6666;
-// Source: A 3.2 to 3.5 device broadcasts to UDP port 6667, in
+// Source: A 3.3 device broadcasts to UDP port 6667, in
 // https://github.com/jasonacox/tinytuya/commit/dee8d10292611bc6357e95d44564dc30ccda0678
-// and https://github.com/codetheweb/tuyapi/commit/ab5c85e568d992f13107dbf684e6bec6df9bb7db.
+// and https://github.com/codetheweb/tuyapi/commit/ab5c85e568d992f13107dbf684e6bec6df9bb7db,
+// and a 3.5 bulb too, captured in
+// https://github.com/jasonacox/tinytuya/issues/247#issuecomment-1372462132.
+// Which port a 3.4 device broadcasts to is unknown: see UNSUPPORTED.md.
 const BROADCAST_PORT = 6667;
 // Source: A 3.5 device takes a request on UDP port 7000 and answers to port
 // 7000, in

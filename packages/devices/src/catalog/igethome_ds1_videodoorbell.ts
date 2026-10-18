@@ -71,6 +71,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "115",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "detected",
       },
       motionSnapshot: {
@@ -83,6 +84,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "136",
         kind: "event",
         readOnly: true,
+        values: [{ raw: "", value: null }],
+        whenAbsent: { value: null },
         otherwise: "ring",
       },
       doorbellMessage: { dataPoint: "136", kind: "sensor", readOnly: true },
@@ -104,6 +107,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "0", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       lowBatteryThresholdInPercent: {
@@ -134,15 +138,11 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "185",
         kind: "event",
         readOnly: true,
+        values: [{ raw: "", value: null }],
+        whenAbsent: { value: null },
         otherwise: "alarm",
       },
-      alarmMessage: {
-        dataPoint: "185",
-        kind: "sensor",
-        readOnly: true,
-        type: "utf16b64",
-      },
-      alarmMessage2: { dataPoint: "185", kind: "text", type: "utf16b64" },
+      alarmMessage: { dataPoint: "185", kind: "text", type: "utf16b64" },
       faceRecognition: { dataPoint: "186", kind: "switch" },
       tamperAlarm: {
         dataPoint: "231",

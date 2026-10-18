@@ -25,6 +25,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "6", value: "off" },
         ],
         otherwise: "electric",
+        ownRuleReadOnly: true,
       },
       targetTemperatureInC: {
         dataPoint: "102",
@@ -72,7 +73,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "104",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

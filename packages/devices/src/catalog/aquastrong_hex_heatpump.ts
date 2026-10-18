@@ -151,7 +151,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "F",
       },
-      eevOpeningInP: {
+      eevOpening: {
         dataPoint: "16",
         kind: "sensor",
         readOnly: true,

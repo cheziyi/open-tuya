@@ -19,7 +19,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     fan: {
       on: { dataPoint: "1", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "2",
         kind: "select",
         values: [
@@ -53,7 +53,13 @@ const entry: TuyaDeviceEntry = {
         max: 7,
       },
     },
-    light: { on: { dataPoint: "9", kind: "switch" } },
+    light: {
+      on: {
+        dataPoint: "9",
+        kind: "select",
+        values: [{ raw: true }, { raw: false }],
+      },
+    },
   },
   source: {
     file: "lexy_f501_fan.yaml",

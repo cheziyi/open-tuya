@@ -31,6 +31,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "none", value: false },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       distanceInCm: {
@@ -57,14 +58,14 @@ const entry: TuyaDeviceEntry = {
         max: 180,
         step: 10,
       },
-      motionSensitivityInX: {
+      motionSensitivity: {
         dataPoint: "105",
         kind: "number",
         unit: "x",
         min: 0,
         max: 10,
       },
-      breathSensitivityInX: {
+      breathSensitivity: {
         dataPoint: "107",
         kind: "number",
         unit: "x",

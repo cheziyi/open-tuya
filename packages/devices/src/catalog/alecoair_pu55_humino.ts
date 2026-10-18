@@ -75,7 +75,11 @@ const entry: TuyaDeviceEntry = {
         min: 1,
         max: 24,
       },
-      constantMist: { dataPoint: "10", kind: "switch" },
+      constantMist: {
+        dataPoint: "10",
+        kind: "switch",
+        values: [{ raw: true }, { raw: false }],
+      },
     },
     purifier: {
       on: { dataPoint: "1", kind: "switch" },
@@ -89,7 +93,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "max", value: 100 },
         ],
       },
-      mode: {
+      preset: {
         dataPoint: "3",
         kind: "select",
         values: [

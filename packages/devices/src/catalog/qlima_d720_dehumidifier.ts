@@ -57,7 +57,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "19",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -72,6 +72,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "on", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       waterPump: { dataPoint: "101", kind: "switch" },

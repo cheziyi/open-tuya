@@ -76,7 +76,7 @@ const entry: TuyaDeviceEntry = {
       powerAlert: {
         dataPoint: "110",
         kind: "sensor",
-        measures: "safety",
+        measures: "hazard",
         readOnly: true,
         values: [{ raw: "warn", value: true }],
         otherwise: false,

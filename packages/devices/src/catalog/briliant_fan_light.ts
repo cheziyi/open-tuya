@@ -27,7 +27,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: 100 },
         ],
       },
-      mode: {
+      preset: {
         dataPoint: "2",
         kind: "select",
         values: [

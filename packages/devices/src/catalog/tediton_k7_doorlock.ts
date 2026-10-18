@@ -35,15 +35,20 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     lock: {
-      unlockFingerprint: { dataPoint: "1", kind: "number" },
-      unlockPassword: { dataPoint: "2", kind: "number" },
-      unlockTemporaryPassword: { dataPoint: "3", kind: "number" },
-      unlockCard: { dataPoint: "5", kind: "number" },
-      unlockFace: { dataPoint: "6", kind: "number" },
-      unlockKey: { dataPoint: "7", kind: "number" },
+      unlockFingerprint: { dataPoint: "1", kind: "sensor", readOnly: true },
+      unlockPassword: { dataPoint: "2", kind: "sensor", readOnly: true },
+      unlockTemporaryPassword: {
+        dataPoint: "3",
+        kind: "sensor",
+        readOnly: true,
+      },
+      unlockCard: { dataPoint: "5", kind: "sensor", readOnly: true },
+      unlockFace: { dataPoint: "6", kind: "sensor", readOnly: true },
+      unlockKey: { dataPoint: "7", kind: "sensor", readOnly: true },
       jammed: {
         dataPoint: "8",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [
           { raw: "tongue_bad", value: true },
           { raw: "tongue_not_out", value: true },
@@ -51,7 +56,7 @@ const entry: TuyaDeviceEntry = {
         otherwise: false,
       },
       unlockRequest: { dataPoint: "9", kind: "number" },
-      unlockApp: { dataPoint: "15", kind: "number" },
+      unlockApp: { dataPoint: "15", kind: "sensor", readOnly: true },
       updateAllFinger: { dataPoint: "25", kind: "text" },
       updateAllPassword: { dataPoint: "26", kind: "text" },
       updateAllCard: { dataPoint: "27", kind: "text" },
@@ -98,14 +103,17 @@ const entry: TuyaDeviceEntry = {
       duress: {
         dataPoint: "16",
         kind: "sensor",
-        measures: "safety",
+        measures: "hazard",
         readOnly: true,
       },
       doorbell: {
         dataPoint: "19",
         kind: "event",
         readOnly: true,
-        values: [{ raw: true, value: "ring" }],
+        values: [
+          { raw: true, value: "ring" },
+          { raw: false, value: null },
+        ],
       },
     },
     alarmControlPanel: {

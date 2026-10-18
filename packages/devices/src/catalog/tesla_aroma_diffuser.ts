@@ -20,8 +20,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1", kind: "switch" },
-      on2: { dataPoint: "11", kind: "switch" },
+      on: { dataPoint: "11", kind: "switch" },
       colorMode: {
         dataPoint: "102",
         kind: "select",
@@ -80,7 +79,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "12",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -114,7 +113,7 @@ const entry: TuyaDeviceEntry = {
     },
     aromaDiffuser: {
       on: { dataPoint: "104", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "2",
         kind: "select",
         values: [
@@ -123,6 +122,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
+    device: { on: { dataPoint: "1", kind: "switch" } },
   },
   source: {
     file: "tesla_aroma_diffuser.yaml",

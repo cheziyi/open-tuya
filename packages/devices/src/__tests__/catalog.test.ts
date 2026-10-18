@@ -48,12 +48,16 @@ describe("CATALOG", () => {
   it("names in CONTROL_NAMES every control 20 or more entries share", () => {
     const known = new Set<string>(CONTROL_NAMES);
     const unit = new RegExp(`In(${UNIT_SUFFIXES.join("|")})$`);
+    const ordinal =
+      /^(?:second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)([A-Z])/;
     const uses = new Map<string, number>();
     for (const entry of CATALOG) {
       const names = new Set<string>();
       for (const controls of Object.values(entry.components)) {
         for (const name of Object.keys(controls)) {
-          const base = name.replace(unit, "");
+          const base = name
+            .replace(unit, "")
+            .replace(ordinal, (_, first: string) => first.toLowerCase());
           names.add(known.has(base) ? base : base.replace(/\d+$/, ""));
         }
       }

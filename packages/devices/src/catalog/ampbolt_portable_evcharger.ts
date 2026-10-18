@@ -55,13 +55,22 @@ const entry: TuyaDeviceEntry = {
       },
       statusVersion: { dataPoint: "23", kind: "sensor", readOnly: true },
       statusIpAddress: { dataPoint: "32", kind: "sensor", readOnly: true },
-      currentInA: {
+      currentSettingInA: {
         dataPoint: "4",
         kind: "number",
         measures: "current",
         unit: "A",
         min: 1,
         max: 16,
+      },
+      currentInA: {
+        dataPoint: "6",
+        mask: "0000FFFFFF000000",
+        kind: "sensor",
+        measures: "current",
+        readOnly: true,
+        unit: "A",
+        scale: 1000,
       },
       powerInKw: {
         dataPoint: "9",
@@ -109,19 +118,10 @@ const entry: TuyaDeviceEntry = {
         unit: "V",
         scale: 10,
       },
-      currentInA2: {
-        dataPoint: "6",
-        mask: "0000FFFFFF000000",
-        kind: "sensor",
-        measures: "current",
-        readOnly: true,
-        unit: "A",
-        scale: 1000,
-      },
       fault: {
         dataPoint: "10",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -182,6 +182,7 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "immediate" },
       },
+      chargingModeData: { dataPoint: "33", kind: "text" },
       on: { dataPoint: "18", kind: "switch" },
       temperatureInC: {
         dataPoint: "24",
@@ -213,7 +214,6 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 12,
       },
-      chargingMode2: { dataPoint: "33", kind: "text" },
       clockSet: { dataPoint: "101", kind: "text" },
     },
   },

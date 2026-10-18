@@ -280,7 +280,7 @@ const entry: TuyaDeviceEntry = {
       alarmUnderVoltage: { dataPoint: "134", kind: "switch" },
       alarmOverCurrentPhaseA: { dataPoint: "135", kind: "switch" },
       alarmOverPowerPhaseA: { dataPoint: "136", kind: "switch" },
-      sensorThresholdInV: {
+      overVoltageThresholdInV: {
         dataPoint: "137",
         kind: "number",
         measures: "voltage",
@@ -290,7 +290,7 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
         step: 10,
       },
-      sensorThresholdInV2: {
+      underVoltageThresholdInV: {
         dataPoint: "138",
         kind: "number",
         measures: "voltage",
@@ -300,7 +300,7 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
         step: 10,
       },
-      sensorThresholdInA: {
+      overCurrentPhaseAThresholdInA: {
         dataPoint: "139",
         kind: "number",
         measures: "current",
@@ -310,7 +310,7 @@ const entry: TuyaDeviceEntry = {
         scale: 1000,
         step: 500,
       },
-      sensorThresholdInW: {
+      overPowerPhaseAThresholdInW: {
         dataPoint: "140",
         kind: "number",
         measures: "power",
@@ -356,7 +356,7 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "Clear" },
         ],
       },
-      sensorThresholdInA2: {
+      overCurrentPhaseBThresholdInA: {
         dataPoint: "145",
         kind: "number",
         unit: "A",
@@ -365,7 +365,7 @@ const entry: TuyaDeviceEntry = {
         scale: 1000,
         step: 500,
       },
-      sensorThresholdInW2: {
+      overPowerPhaseBThresholdInW: {
         dataPoint: "146",
         kind: "number",
         unit: "W",

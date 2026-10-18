@@ -21,7 +21,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1", kind: "switch" },
+      on: { dataPoint: "7", kind: "switch" },
       timer: {
         dataPoint: "5",
         kind: "select",
@@ -39,7 +39,6 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "min",
       },
-      on2: { dataPoint: "7", kind: "switch" },
       effect: {
         dataPoint: "8",
         kind: "select",
@@ -75,7 +74,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "12",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -108,6 +107,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
+    device: { on: { dataPoint: "1", kind: "switch" } },
   },
   source: {
     file: "dituo_dtt2190a_aromadiffuser.yaml",

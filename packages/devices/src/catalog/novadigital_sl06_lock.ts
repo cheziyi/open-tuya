@@ -22,13 +22,17 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     lock: {
-      unlockFingerprint: { dataPoint: "1", kind: "number" },
-      unlockPassword: { dataPoint: "2", kind: "number" },
-      unlockTemporaryPassword: { dataPoint: "3", kind: "number" },
-      unlockCard: { dataPoint: "5", kind: "number" },
+      unlockFingerprint: { dataPoint: "1", kind: "sensor", readOnly: true },
+      unlockPassword: { dataPoint: "2", kind: "sensor", readOnly: true },
+      unlockTemporaryPassword: {
+        dataPoint: "3",
+        kind: "sensor",
+        readOnly: true,
+      },
+      unlockCard: { dataPoint: "5", kind: "sensor", readOnly: true },
       unlockRequest: { dataPoint: "9", kind: "number" },
-      unlockApp: { dataPoint: "15", kind: "number" },
-      unlockMulti: { dataPoint: "44", kind: "text" },
+      unlockApp: { dataPoint: "15", kind: "sensor", readOnly: true },
+      unlockMulti: { dataPoint: "44", kind: "sensor", readOnly: true },
       pushMessage: { dataPoint: "212", kind: "text" },
       alert: {
         dataPoint: "8",
@@ -60,14 +64,17 @@ const entry: TuyaDeviceEntry = {
       hijack: {
         dataPoint: "16",
         kind: "sensor",
-        measures: "safety",
+        measures: "hazard",
         readOnly: true,
       },
       doorbell: {
         dataPoint: "19",
         kind: "event",
         readOnly: true,
-        values: [{ raw: true, value: "ring" }],
+        values: [
+          { raw: true, value: "ring" },
+          { raw: false, value: null },
+        ],
       },
     },
   },

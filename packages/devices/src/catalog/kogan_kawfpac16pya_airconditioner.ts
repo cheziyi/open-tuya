@@ -91,14 +91,6 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       countdown: { dataPoint: "105", kind: "number" },
-      temperatureUnit2: {
-        dataPoint: "19",
-        kind: "select",
-        values: [
-          { raw: "C", value: "celsius" },
-          { raw: "F", value: "fahrenheit" },
-        ],
-      },
     },
   },
   source: {

@@ -111,7 +111,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "15",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -186,6 +186,12 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         measures: "running",
         readOnly: true,
+        values: [
+          { raw: true, value: true },
+          { raw: false, value: false },
+        ],
+        whenAbsent: { value: null },
+        otherwise: true,
       },
       highPressureValve: {
         dataPoint: "33",

@@ -283,8 +283,16 @@ describe("openClientFrame", () => {
     ).toEqual(V34_HEART_BEAT);
   });
 
-  it("throws on a frame whose HMAC is wrong", () => {
-    expect(() => openClientFrame("3.4", V34_HEART_BEAT, LOCAL_KEY)).toThrow();
+  it("throws a TuyaError with code DECRYPTION_FAILED on a frame whose HMAC is wrong", () => {
+    expect(() => openClientFrame("3.4", V34_HEART_BEAT, LOCAL_KEY)).toThrow(
+      expect.objectContaining({ code: "DECRYPTION_FAILED" }),
+    );
+  });
+
+  it("throws a TuyaError with code MALFORMED_FRAME on bytes that are not a frame", () => {
+    expect(() => openClientFrame("3.3", Buffer.alloc(24), LOCAL_KEY)).toThrow(
+      expect.objectContaining({ code: "MALFORMED_FRAME" }),
+    );
   });
 });
 
@@ -325,10 +333,10 @@ describe("a 3.1 device, against a captured exchange", () => {
     });
   });
 
-  it("throws on a CONTROL sealed under another key", () => {
+  it("throws a TuyaError with code DECRYPTION_FAILED on a CONTROL sealed under another key", () => {
     expect(() =>
       openClientFrame("3.1", V31_CONTROL, Buffer.from("0123456789abcdef")),
-    ).toThrow();
+    ).toThrow(expect.objectContaining({ code: "DECRYPTION_FAILED" }));
   });
 });
 

@@ -124,12 +124,11 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 86399,
       },
-      on2: { dataPoint: "119", kind: "switch" },
       musicData1: { dataPoint: "121", kind: "text" },
     },
     fan: {
       on: { dataPoint: "60", kind: "switch" },
-      mode: {
+      preset: {
         dataPoint: "61",
         kind: "select",
         values: [
@@ -177,6 +176,7 @@ const entry: TuyaDeviceEntry = {
         max: 1000,
       },
     },
+    device: { on: { dataPoint: "119", kind: "switch" } },
   },
   source: {
     file: "lumary_a1_ceilingfanlight.yaml",

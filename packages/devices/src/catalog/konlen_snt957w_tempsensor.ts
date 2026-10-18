@@ -27,7 +27,10 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "9",
         kind: "select",
-        values: [{ raw: "f", value: "F" }],
+        values: [
+          { raw: "f", value: "F" },
+          { raw: "c", value: "C" },
+        ],
         otherwise: "C",
       },
       coolingTargetTemperature: {
@@ -78,14 +81,6 @@ const entry: TuyaDeviceEntry = {
         kind: "select",
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
-      },
-      temperatureUnit2: {
-        dataPoint: "9",
-        kind: "select",
-        values: [
-          { raw: "c", value: "celsius" },
-          { raw: "f", value: "fahrenheit" },
-        ],
       },
     },
   },

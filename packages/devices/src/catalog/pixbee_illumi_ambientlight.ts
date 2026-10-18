@@ -41,8 +41,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "1", kind: "switch" },
-      on2: { dataPoint: "3", kind: "switch" },
+      on: { dataPoint: "3", kind: "switch" },
       colorMode: {
         dataPoint: "2",
         kind: "select",
@@ -128,7 +127,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "mode_8", value: "Custom 8" },
         ],
       },
-      customScene2: { dataPoint: "14", kind: "text" },
+      customSceneData: { dataPoint: "14", kind: "text" },
       wakeUpSettings: { dataPoint: "15", kind: "text" },
       sleepSettings: { dataPoint: "16", kind: "text" },
       snooze: { dataPoint: "17", kind: "switch" },
@@ -235,6 +234,7 @@ const entry: TuyaDeviceEntry = {
     backlight: {
       brightness: { dataPoint: "22", kind: "number", min: 0, max: 100 },
     },
+    device: { on: { dataPoint: "1", kind: "switch" } },
   },
   source: {
     file: "pixbee_illumi_ambientlight.yaml",

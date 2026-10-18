@@ -40,6 +40,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "up", value: "closing" },
           { raw: "down", value: "opening" },
         ],
+        otherwise: null,
       },
       fan: { dataPoint: "6", kind: "switch" },
       heat: { dataPoint: "7", kind: "switch" },
@@ -83,7 +84,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "18",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

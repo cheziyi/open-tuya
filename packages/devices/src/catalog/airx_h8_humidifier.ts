@@ -56,10 +56,11 @@ const entry: TuyaDeviceEntry = {
         measures: "opening",
         readOnly: true,
         values: [
-          { raw: 0, value: false },
-          { raw: 1, value: true },
+          { raw: "0", value: false },
+          { raw: "1", value: true },
           { raw: "", value: false },
         ],
+        whenAbsent: { value: null },
         otherwise: true,
       },
       electrolyticSterilization: { dataPoint: "21", kind: "switch" },

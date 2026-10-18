@@ -117,7 +117,7 @@ const entry: TuyaDeviceEntry = {
       laserIntensity: { dataPoint: "116", kind: "number", min: 0, max: 1000 },
       oceanWave: { dataPoint: "102", kind: "switch" },
       oceanWaveBreathing: { dataPoint: "103", kind: "switch" },
-      microphone: { dataPoint: "110", kind: "switch" },
+      microphone: { dataPoint: "110", kind: "switch", values: [{ raw: true }] },
       microphoneSensitivity: {
         dataPoint: "109",
         kind: "number",

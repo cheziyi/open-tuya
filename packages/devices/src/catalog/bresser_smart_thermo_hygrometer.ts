@@ -46,8 +46,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "select",
         values: [
-          { raw: "f", value: "fahrenheit" },
-          { raw: "c", value: "celsius" },
+          { raw: "f", value: "F" },
+          { raw: "c", value: "C" },
         ],
       },
       channel1TemperatureInC: {

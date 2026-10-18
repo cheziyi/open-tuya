@@ -26,10 +26,10 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "select",
         values: [
-          { raw: 0, value: "auto" },
-          { raw: 1, value: "boost" },
-          { raw: 2, value: "laundry" },
-          { raw: 3, value: "purify" },
+          { raw: "0", value: "auto" },
+          { raw: "1", value: "boost" },
+          { raw: "2", value: "laundry" },
+          { raw: "3", value: "purify" },
         ],
       },
       targetHumidityInPercent: {
@@ -99,7 +99,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "11",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },

@@ -174,13 +174,13 @@ const entry: TuyaDeviceEntry = {
       powerAlarmA: {
         dataPoint: "110",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       powerAlarmB: {
         dataPoint: "111",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
       },
       forwardEnergyPhaseAHourInKwh: {

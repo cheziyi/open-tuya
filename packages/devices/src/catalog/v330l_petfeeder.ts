@@ -64,7 +64,7 @@ const entry: TuyaDeviceEntry = {
       foodEmpty: {
         dataPoint: "206",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 16777216, value: true }],
         otherwise: false,
@@ -73,7 +73,7 @@ const entry: TuyaDeviceEntry = {
       notEnoughFood: {
         dataPoint: "206",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 33554432, value: true }],
         otherwise: false,
@@ -81,17 +81,17 @@ const entry: TuyaDeviceEntry = {
       blocked: {
         dataPoint: "206",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 67108864, value: true }],
         otherwise: false,
       },
-      cameraRecord: {
+      recording: {
         dataPoint: "113",
         kind: "switch",
         whenAbsent: { value: false },
       },
-      cameraRecordSnapshot: { dataPoint: "115", kind: "text" },
+      recordingSnapshot: { dataPoint: "115", kind: "text" },
     },
     indicator: { on: { dataPoint: "101", kind: "switch" } },
   },

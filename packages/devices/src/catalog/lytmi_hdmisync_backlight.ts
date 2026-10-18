@@ -68,6 +68,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "97000000000000000000000000000000", value: "hs" },
         ],
         otherwise: "hs",
+        ownRuleReadOnly: true,
       },
       tvSynchronizationSwitch: { dataPoint: "109", kind: "switch" },
       hdmiEnable: { dataPoint: "107", kind: "switch" },
@@ -97,8 +98,7 @@ const entry: TuyaDeviceEntry = {
         scale: 10,
         step: 10,
       },
-      scene: { dataPoint: "25", kind: "text", type: "hex" },
-      scene2: {
+      scene: {
         dataPoint: "25",
         kind: "select",
         values: [

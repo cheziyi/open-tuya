@@ -97,11 +97,11 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "112",
         kind: "select",
         values: [
-          { raw: 0, value: "Low" },
-          { raw: 1, value: "Average" },
-          { raw: 2, value: "Above avg" },
-          { raw: 3, value: "Comfort" },
-          { raw: 4, value: "High" },
+          { raw: "0", value: "Low" },
+          { raw: "1", value: "Average" },
+          { raw: "2", value: "Above avg" },
+          { raw: "3", value: "Comfort" },
+          { raw: "4", value: "High" },
         ],
       },
       maximumSurfaceTemperatureInC: {

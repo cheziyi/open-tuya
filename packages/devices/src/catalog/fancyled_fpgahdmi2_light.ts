@@ -26,6 +26,7 @@ const entry: TuyaDeviceEntry = {
         values: [
           { raw: "white", value: "white" },
           { raw: "colour", value: "hs" },
+          { raw: "scene" },
         ],
       },
       brightness: { dataPoint: "22", kind: "number", min: 0, max: 1000 },
@@ -62,24 +63,57 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "25",
         kind: "select",
         values: [
-          { raw: 8e31, value: "Screen - Movie" },
-          { raw: 8.1e31, value: "Screen - Video" },
-          { raw: 8.2e31, value: "Screen - Game" },
-          { raw: 8.3e31, value: "Music - Spectrum" },
-          { raw: 8.4e31, value: "Music - Electronic" },
-          { raw: 8.5e31, value: "Music - Listen" },
-          { raw: 8.6e31, value: "Scene - Rainbow" },
-          { raw: 8.7e31, value: "Scene - Fire" },
-          { raw: 8.8e31, value: "Scene - Read" },
-          { raw: 8.9e31, value: "Scene - Firework" },
-          { raw: 9e31, value: "Color Scene - Star" },
-          { raw: 9.1e31, value: "Color Scene - Drip" },
-          { raw: 9.2e31, value: "Color Scene - Particle" },
-          { raw: 9.3e31, value: "Color Scene - Flow" },
-          { raw: 9.4e31, value: "Color Scene - Ball" },
-          { raw: 9.5e31, value: "Color Scene - Swing" },
-          { raw: 9.6e31, value: "Color Scene - Breath" },
-          { raw: 9.7e31, value: "Color Scene - Pure" },
+          { raw: "80000000000000000000000000000000", value: "Screen - Movie" },
+          { raw: "81000000000000000000000000000000", value: "Screen - Video" },
+          { raw: "82000000000000000000000000000000", value: "Screen - Game" },
+          {
+            raw: "83000000000000000000000000000000",
+            value: "Music - Spectrum",
+          },
+          {
+            raw: "84000000000000000000000000000000",
+            value: "Music - Electronic",
+          },
+          { raw: "85000000000000000000000000000000", value: "Music - Listen" },
+          { raw: "86000000000000000000000000000000", value: "Scene - Rainbow" },
+          { raw: "87000000000000000000000000000000", value: "Scene - Fire" },
+          { raw: "88000000000000000000000000000000", value: "Scene - Read" },
+          {
+            raw: "89000000000000000000000000000000",
+            value: "Scene - Firework",
+          },
+          {
+            raw: "90000000000000000000000000000000",
+            value: "Color Scene - Star",
+          },
+          {
+            raw: "91000000000000000000000000000000",
+            value: "Color Scene - Drip",
+          },
+          {
+            raw: "92000000000000000000000000000000",
+            value: "Color Scene - Particle",
+          },
+          {
+            raw: "93000000000000000000000000000000",
+            value: "Color Scene - Flow",
+          },
+          {
+            raw: "94000000000000000000000000000000",
+            value: "Color Scene - Ball",
+          },
+          {
+            raw: "95000000000000000000000000000000",
+            value: "Color Scene - Swing",
+          },
+          {
+            raw: "96000000000000000000000000000000",
+            value: "Color Scene - Breath",
+          },
+          {
+            raw: "97000000000000000000000000000000",
+            value: "Color Scene - Pure",
+          },
         ],
       },
       installationSide: {

@@ -75,10 +75,11 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: "alarm", value: true }],
         otherwise: false,
       },
-      alarm2: {
+      secondAlarm: {
         dataPoint: "26",
         kind: "event",
         readOnly: true,
+        whenAbsent: { value: null },
         otherwise: "alarm",
       },
       alarmMessage: {

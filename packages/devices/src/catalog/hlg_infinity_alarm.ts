@@ -161,7 +161,7 @@ const entry: TuyaDeviceEntry = {
       plug: {
         dataPoint: "115",
         kind: "sensor",
-        measures: "plug",
+        measures: "plugged",
         readOnly: true,
       },
       sector1Battery: {

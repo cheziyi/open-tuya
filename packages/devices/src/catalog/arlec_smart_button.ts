@@ -27,6 +27,7 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
         values: [{ raw: "double_click", value: 2 }],
+        otherwise: null,
       },
       batteryInPercent: {
         dataPoint: "10",

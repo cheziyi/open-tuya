@@ -28,31 +28,28 @@ export interface DeveloperCloudTransport {
 // and as captured in https://github.com/jasonacox/tinytuya/issues/391 and
 // https://github.com/xZetsubou/hass-localtuya/issues/782#issuecomment-3958114610.
 // Source: Properties are issued to /shadow/properties/issue by the thing
-// model's code, as the JSON text of an object, in
-// https://github.com/tuya/tuya-connector/commit/25424c594135e8c5f4c684a0b7cce8fc7b4fcca6,
-// https://github.com/tuya/tuya-openclaw-skills/commit/016cb18098bb5302e24a9a33c1bcb665445eda7c
-// and https://github.com/adrianjagielak/homebridge-tuya-plus/commit/1579a219964751ed40629074b7c7e0067eeac6f2.
+// model's code, as an object, in
+// https://github.com/tuya/tuya-connector/commit/25424c594135e8c5f4c684a0b7cce8fc7b4fcca6.
+// DESIGN.md#cloud-developer-data-points says why not as JSON text.
 // Source: An issued value is in the thing model's own terms, an integer
 // before its scale, in
 // https://github.com/tuya/tuya-openclaw-skills/commit/79292c594cfba383555b4f465e835132136f0ea6.
 /** A device reached through the Tuya developer platform. Create one with
  * `DeveloperCloudAccount.createClient`. It reads and writes the device's data
  * points through its thing model, by ID with the device's own values, and
- * hands its listeners the data points the cloud pushes. */
+ * hands its listeners the data points the cloud pushes. It subscribes to the
+ * account's pushes with its first listener, and unsubscribes with its last. */
 export class DeveloperCloudTuyaClient implements TuyaClient {
   private readonly listeners = new Set<(dataPoints: DataPoints) => void>();
-  private readonly unsubscribe: () => Promise<void>;
+  private unsubscribe: (() => Promise<void>) | undefined;
+  private unsubscribing: Promise<void> = Promise.resolve();
   private closed = false;
 
   constructor(
     private readonly transport: DeveloperCloudTransport,
     private readonly deviceId: string,
     private readonly codes: ReadonlyMap<string, string>,
-  ) {
-    this.unsubscribe = transport.subscribe((dataPoints) =>
-      this.report(dataPoints),
-    );
-  }
+  ) {}
 
   get connected(): boolean {
     return !this.closed;
@@ -63,11 +60,12 @@ export class DeveloperCloudTuyaClient implements TuyaClient {
       "GET",
       `/v2.0/cloud/thing/${encodeURIComponent(this.deviceId)}/shadow/properties`,
       {},
-    )) as ShadowProperties;
+    )) as ShadowProperties | null;
     const dataPoints: Record<string, DataPointValue> = {};
-    for (const { dp_id, value } of shadow.properties ?? []) {
-      if (dp_id !== undefined && isDataPointValue(value)) {
-        dataPoints[String(dp_id)] = value;
+    const properties = shadow?.properties;
+    for (const property of Array.isArray(properties) ? properties : []) {
+      if (property?.dp_id != null && isDataPointValue(property.value)) {
+        dataPoints[String(property.dp_id)] = property.value;
       }
     }
     return dataPoints;
@@ -91,20 +89,29 @@ export class DeveloperCloudTuyaClient implements TuyaClient {
     await this.request(
       "POST",
       `/v2.0/cloud/thing/${encodeURIComponent(this.deviceId)}/shadow/properties/issue`,
-      { body: { properties: JSON.stringify(properties) } },
+      { body: { properties } },
     );
   }
 
   onDataPoints(listener: (dataPoints: DataPoints) => void): () => void {
     this.listeners.add(listener);
+    if (!this.closed) {
+      this.unsubscribe ??= this.transport.subscribe((dataPoints) =>
+        this.report(dataPoints),
+      );
+    }
     return () => {
-      this.listeners.delete(listener);
+      if (this.listeners.delete(listener) && this.listeners.size === 0) {
+        this.release();
+      }
     };
   }
 
   async close(): Promise<void> {
     this.closed = true;
-    await this.unsubscribe();
+    this.listeners.clear();
+    this.release();
+    await this.unsubscribing;
   }
 
   async [Symbol.asyncDispose](): Promise<void> {
@@ -122,6 +129,17 @@ export class DeveloperCloudTuyaClient implements TuyaClient {
       );
     }
     return this.transport.request(method, path, parts);
+  }
+
+  private release(): void {
+    const unsubscribe = this.unsubscribe;
+    this.unsubscribe = undefined;
+    if (unsubscribe) {
+      this.unsubscribing = Promise.all([
+        this.unsubscribing,
+        unsubscribe(),
+      ]).then(() => {});
+    }
   }
 
   private report(dataPoints: DataPoints): void {

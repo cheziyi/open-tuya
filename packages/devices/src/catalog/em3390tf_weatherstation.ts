@@ -116,6 +116,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "NW", value: 315 },
           { raw: "NNW", value: 337 },
         ],
+        otherwise: null,
       },
       precipitationIntensityInMmPerH: {
         dataPoint: "113",
@@ -142,6 +143,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "moist", value: "moist" },
           { raw: "dry", value: "dry" },
           { raw: "comfortable", value: "comfortable" },
+          { raw: "na", value: null, readOnly: true },
         ],
       },
       alarmSettings: { dataPoint: "127", kind: "text" },
@@ -152,7 +154,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "132",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },

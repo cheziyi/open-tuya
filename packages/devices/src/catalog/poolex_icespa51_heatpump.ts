@@ -55,6 +55,18 @@ const entry: TuyaDeviceEntry = {
             raw: true,
             dependsOn: {
               dataPoint: "4",
+              constraint: {
+                dataPoint: "4",
+                values: [
+                  { raw: "Heat", value: "smart_heat" },
+                  { raw: "Cool", value: "smart_cool" },
+                  { raw: "Auto", value: "auto" },
+                  { raw: "BoostHeat", value: "quick_heat" },
+                  { raw: "SilentHeat", value: "quiet_heat" },
+                  { raw: "BoostCool", value: "quick_cool" },
+                  { raw: "SilentCool", value: "quiet_cool" },
+                ],
+              },
               conditions: [
                 { when: ["Heat"], value: "heat" },
                 { when: ["Cool"], value: "cool" },
@@ -101,14 +113,15 @@ const entry: TuyaDeviceEntry = {
         kind: "sensor",
         readOnly: true,
         values: [{ raw: 1, value: "defrosting" }],
+        otherwise: null,
       },
-      maxTargetTemperatureInC: {
+      maximumTargetTemperatureInC: {
         dataPoint: "142",
         kind: "number",
         measures: "temperature",
         unit: "C",
       },
-      minTargetTemperatureInC: {
+      minimumTargetTemperatureInC: {
         dataPoint: "145",
         kind: "number",
         measures: "temperature",
@@ -119,7 +132,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "13",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -176,7 +189,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "Hz",
       },
-      mainValveInP: {
+      mainValve: {
         dataPoint: "111",
         kind: "sensor",
         readOnly: true,
@@ -298,7 +311,7 @@ const entry: TuyaDeviceEntry = {
         min: 2,
         max: 15,
       },
-      minimumEevOpeningInP: {
+      minimumEevOpening: {
         dataPoint: "140",
         kind: "number",
         unit: "P",

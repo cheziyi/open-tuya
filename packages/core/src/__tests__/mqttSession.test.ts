@@ -145,6 +145,77 @@ describe("MqttSession", () => {
     ]);
   });
 
+  it("keeps doubling the wait while each connection is lost before its renewal", async () => {
+    vi.useFakeTimers();
+    const { session, connections, fetches } = setUp();
+    session.subscribe((credentials) => credentials.topic);
+    await vi.advanceTimersByTimeAsync(0);
+
+    for (const [index, delayInMs] of [
+      5000, 10_000, 20_000, 40_000, 60_000, 60_000,
+    ].entries()) {
+      connections.at(-1)?.drop();
+      await vi.advanceTimersByTimeAsync(delayInMs - 1);
+      expect(fetches()).toBe(index + 1);
+      await vi.advanceTimersByTimeAsync(1);
+      expect(fetches()).toBe(index + 2);
+    }
+  });
+
+  it("waits 5 s again once a connection lasts until its renewal", async () => {
+    vi.useFakeTimers();
+    const { session, connections, fetches } = setUp(120);
+    session.subscribe((credentials) => credentials.topic);
+    await vi.advanceTimersByTimeAsync(0);
+    connections.at(-1)?.drop();
+    await vi.advanceTimersByTimeAsync(5000);
+    connections.at(-1)?.drop();
+    await vi.advanceTimersByTimeAsync(10_000);
+    await vi.advanceTimersByTimeAsync(60_000);
+    expect(fetches()).toBe(4);
+
+    connections.at(-1)?.drop();
+    await vi.advanceTimersByTimeAsync(4999);
+    expect(fetches()).toBe(4);
+    await vi.advanceTimersByTimeAsync(1);
+
+    expect(fetches()).toBe(5);
+  });
+
+  it.each([
+    ["60 s", 60],
+    ["no time at all", 0],
+    ["an unknown time", Number.NaN],
+  ])(
+    "renews credentials that last %s no sooner than 60 s after connecting",
+    async (_name, expireTimeInSeconds) => {
+      vi.useFakeTimers();
+      const { session, fetches } = setUp(expireTimeInSeconds);
+      session.subscribe((credentials) => credentials.topic);
+      await vi.advanceTimersByTimeAsync(0);
+
+      await vi.advanceTimersByTimeAsync(59_999);
+      expect(fetches()).toBe(1);
+      await vi.advanceTimersByTimeAsync(1);
+
+      expect(fetches()).toBe(2);
+    },
+  );
+
+  it("renews credentials that outlast setTimeout's longest delay after that delay", async () => {
+    vi.useFakeTimers();
+    const longestDelayInMs = 2 ** 31 - 1;
+    const { session, fetches } = setUp(3_000_000);
+    session.subscribe((credentials) => credentials.topic);
+    await vi.advanceTimersByTimeAsync(0);
+
+    await vi.advanceTimersByTimeAsync(longestDelayInMs - 1);
+    expect(fetches()).toBe(1);
+    await vi.advanceTimersByTimeAsync(1);
+
+    expect(fetches()).toBe(2);
+  });
+
   it("renews from the connection it reconnected, not the one it lost", async () => {
     vi.useFakeTimers();
     const { session, connections } = setUp(120);
@@ -182,5 +253,46 @@ describe("MqttSession", () => {
     await session.close();
 
     expect(connections[0]?.closed).toBe(true);
+  });
+
+  it("connects nothing once closed", async () => {
+    vi.useFakeTimers();
+    const { session, fetches } = setUp();
+    await session.close();
+
+    const remove = session.subscribe((credentials) => credentials.topic);
+    await vi.advanceTimersByTimeAsync(120_000);
+    await remove();
+
+    expect(fetches()).toBe(0);
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it("waits on close for a connection still closing, though a subscription came after it", async () => {
+    const { session, connections } = setUp();
+    const remove = session.subscribe((credentials) => credentials.topic);
+    await vi.waitFor(() => expect(connections).toHaveLength(1));
+    const first = connections[0];
+    let release = () => {};
+    if (first) {
+      const close = first.close.bind(first);
+      first.close = () =>
+        new Promise((resolve) => {
+          release = () => void close().then(resolve);
+        });
+    }
+
+    void remove();
+    session.subscribe((credentials) => credentials.topic);
+    let closed = false;
+    const closing = session.close().then(() => {
+      closed = true;
+    });
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    expect(closed).toBe(false);
+    release();
+    await closing;
+
+    expect(first?.closed).toBe(true);
   });
 });

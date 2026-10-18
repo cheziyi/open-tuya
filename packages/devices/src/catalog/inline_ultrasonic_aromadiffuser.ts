@@ -42,6 +42,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "colourful1", value: "Colorful" },
         ],
         otherwise: "off",
+        ownRuleReadOnly: true,
       },
       brightness: { dataPoint: "7", kind: "number", min: 0, max: 255 },
       red: {
@@ -108,7 +109,7 @@ const entry: TuyaDeviceEntry = {
       fault: {
         dataPoint: "22",
         kind: "sensor",
-        measures: "problem",
+        measures: "fault",
         readOnly: true,
         values: [
           { raw: 0, value: false },

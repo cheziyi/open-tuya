@@ -70,7 +70,6 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 86400,
       },
-      pixels2: { dataPoint: "53", kind: "number", min: 1, max: 1000 },
       scene: {
         dataPoint: "51",
         kind: "select",
@@ -122,10 +121,10 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       music: { dataPoint: "27", kind: "text" },
-      scene2: { dataPoint: "51", kind: "text", type: "base64" },
       dreamlightMusic: { dataPoint: "52", kind: "text" },
       paint: { dataPoint: "61", kind: "text" },
     },
+    device: { pixels: { dataPoint: "53", kind: "number", min: 1, max: 1000 } },
   },
   source: {
     file: "dreamlight_rgb_strip.yaml",
