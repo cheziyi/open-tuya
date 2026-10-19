@@ -350,8 +350,27 @@ as a device does.
 | Catalog | Over 1,700 of tuya-local's devices | A device tuya-local lacks has no entry, and `UNSUPPORTED.md` lists the tuya-local devices the import cannot convert |
 
 [UNSUPPORTED.md](UNSUPPORTED.md) lists what no source pins down, and what the
-code does until one does. This library is young: if it does not work with
-your device, [open an issue](https://github.com/cheziyi/open-tuya/issues).
+code does until one does.
+
+## Reporting a bug
+
+Report every device that misbehaves: open-tuya is tested against simulators
+and captured frames, and barely against real devices, so a report from yours
+is how a bug gets found.
+
+[Open an issue](https://github.com/cheziyi/open-tuya/issues/new) and include:
+
+| Include | Where to find it |
+| --- | --- |
+| The route: LAN, Tuya developer platform or Smart Life cloud | Your `createTuyaClient` call |
+| The device's `productKey` and protocol `version` | `discoverDevices()` or `account.listDevices()` |
+| The package versions | `npm ls open-tuya` |
+| The error's `code`, and its `cause` | The `TuyaError` thrown |
+| What you called, what you expected, and what happened | Your code |
+| The data points the device reports | `client.readDataPoints()` |
+
+Leave out the local key and the cloud credentials: either lets anyone who
+reads the issue reach your device or account.
 
 ## Development
 
