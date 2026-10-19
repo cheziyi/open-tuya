@@ -229,6 +229,11 @@ same way, as `AGENTS.md` says. No option of
 The release workflow builds and packs in a job without `id-token: write`, and
 publishes in a separate job that runs no build script.
 
+The `version` job opens the Version Packages pull request with
+`GITHUB_TOKEN`, so it starts `ci.yml` on the pull request's branch with
+`workflow_dispatch`, as `import-catalog.yml` does: [Catalog](#catalog) says
+why.
+
 ## Package manifests
 
 - The root `test` script builds first: a package's `tsc` reads the `dist` of

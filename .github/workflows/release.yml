@@ -35,13 +35,22 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      # Starts CI on the Version Packages branch.
+      actions: write
     steps:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
       - uses: pnpm/setup@v3
       # Opens or updates the Version Packages pull request.
-      - uses: changesets/action/version@v2
+      - id: version
+        uses: changesets/action/version@v2
+      # A pull request updated with GITHUB_TOKEN starts no pull_request run, and a workflow_dispatch does.
+      - if: steps.version.outputs.pr-number
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ steps.version.outputs.pr-number }}
+        run: gh workflow run ci.yml --repo "$GITHUB_REPOSITORY" --ref "$(gh pr view "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json headRefName --jq .headRefName)"
 
   # Builds in a job that cannot publish, so no build script runs with the publish token.
   pack:
