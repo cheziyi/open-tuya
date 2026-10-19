@@ -4,10 +4,11 @@
   "description": "Types and errors shared by the open-tuya packages.",
   "keywords": [
     "tuya",
-    "open-tuya"
+    "open-tuya",
+    "typescript"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/cheziyi/open-tuya#readme",
+  "homepage": "https://github.com/cheziyi/open-tuya/tree/main/packages/core#readme",
   "bugs": "https://github.com/cheziyi/open-tuya/issues",
   "repository": {
     "type": "git",

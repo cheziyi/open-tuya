@@ -14,10 +14,16 @@
     "home-automation",
     "smart-home",
     "nodejs",
-    "typescript"
+    "typescript",
+    "tuya-cloud",
+    "tuya-smart",
+    "tuya-protocol",
+    "tuya-iot",
+    "iot",
+    "open-tuya"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/cheziyi/open-tuya#readme",
+  "homepage": "https://github.com/cheziyi/open-tuya/tree/main/packages/open-tuya#readme",
   "bugs": "https://github.com/cheziyi/open-tuya/issues",
   "repository": {
     "type": "git",

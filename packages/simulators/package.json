@@ -6,10 +6,15 @@
     "tuya",
     "simulator",
     "testing",
-    "mock"
+    "mock",
+    "tuya-local",
+    "test",
+    "nodejs",
+    "typescript",
+    "open-tuya"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/cheziyi/open-tuya#readme",
+  "homepage": "https://github.com/cheziyi/open-tuya/tree/main/packages/simulators#readme",
   "bugs": "https://github.com/cheziyi/open-tuya/issues",
   "repository": {
     "type": "git",

@@ -9,10 +9,15 @@
     "tuya-openapi",
     "tuya-iot",
     "home-automation",
-    "smart-home"
+    "smart-home",
+    "tuya-developer-platform",
+    "iot",
+    "nodejs",
+    "typescript",
+    "open-tuya"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/cheziyi/open-tuya#readme",
+  "homepage": "https://github.com/cheziyi/open-tuya/tree/main/packages/cloud-developer#readme",
   "bugs": "https://github.com/cheziyi/open-tuya/issues",
   "repository": {
     "type": "git",

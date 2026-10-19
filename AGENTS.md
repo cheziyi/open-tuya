@@ -263,6 +263,12 @@ same way: Changesets gives a dependent a patch at most, and
   example repeating an earlier one, a consequence anyone already knows, an
   aphorism standing where an instruction belongs, and a generic caution in
   place of the specific trap.
+- **Round a count that changes without an edit to the text**, such as the
+  catalog's devices, in a document, a manifest or the repository's GitHub
+  description: "over 1,700", not "1,769". Each catalog import changes the
+  exact number, and nothing updates the text. A count a decision in
+  `DESIGN.md` rested on stays exact: it records what was true when it was
+  decided.
 - **One fact has one home.** Explain it where it is decided, and link to that
   from everywhere else.
 - **Record a decision where it will be read again.** A decision whose

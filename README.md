@@ -1,5 +1,13 @@
 # open-tuya
 
+[![npm version](https://img.shields.io/npm/v/open-tuya)](https://www.npmjs.com/package/open-tuya)
+[![npm downloads](https://img.shields.io/npm/dm/open-tuya)](https://www.npmjs.com/package/open-tuya)
+[![CI](https://github.com/cheziyi/open-tuya/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/cheziyi/open-tuya/actions/workflows/ci.yml?query=branch%3Amain)
+[![Catalog import](https://img.shields.io/github/actions/workflow/status/cheziyi/open-tuya/import-catalog.yml?branch=main&label=catalog%20import)](https://github.com/cheziyi/open-tuya/actions/workflows/import-catalog.yml)
+[![Node version](https://img.shields.io/node/v/open-tuya)](packages/open-tuya/package.json)
+[![Types](https://img.shields.io/badge/types-TypeScript-blue)](packages/open-tuya/package.json)
+[![License](https://img.shields.io/npm/l/open-tuya)](LICENSE)
+
 Unofficial Node.js and TypeScript libraries for controlling Tuya devices
 three ways: over the local network (LAN), through the Tuya developer platform,
 and through the cloud the Smart Life app signs in to.
@@ -17,10 +25,22 @@ Matterbridge plugin or a script. Each protocol fact taken from a project links
 the commit or pull request it came from, so a fix found here can be traced
 back, and one found there can be brought in.
 
+## Installation
+
+```sh
+npm install open-tuya
+```
+
+Each package needs Node 22.12 or later, and its types are included:
+[DESIGN.md](DESIGN.md#package-manifests) says why 22.12.
+
+Before `1.0.0`, only a minor release (`0.1.x` to `0.2.0`) can require changes
+to your code. npm's default `^` range never crosses one, and on a `0.0.x`
+version it takes no update at all: install the package again to get one.
+
 ## Packages
 
-Install `open-tuya` unless you need only one part of it. Each package needs
-Node 22.12 or later: [DESIGN.md](DESIGN.md#package-manifests) says why.
+Install `open-tuya` unless you need only one part of it.
 
 | Package | Use it to |
 | --- | --- |
@@ -145,9 +165,24 @@ client uses it without matching again:
 catalog lacks has no `entry`: read and write its data points by ID.
 [DESIGN.md](DESIGN.md#routes) says why the client routes this way.
 
+### Discovery
+
+`discoverDevices()` resolves with a `TuyaDiscovery` once it listens, and
+`discovery.devices` holds the latest report from each device it heard, by
+`deviceId`: its `host`, `version` and `productKey`.
+
+| It | So |
+| --- | --- |
+| Hears the broadcast a device sends every few seconds, and asks each 3.5 device to answer every 6 s | Wait about 10 s before reading `discovery.devices`, or pass `onDevice` to hear each report as it comes |
+| Listens on UDP ports 6666, 6667 and 7000, sharing each with other programs that listen there | It rejects with `DISCOVERY_FAILED` while a program holds one of them without sharing it |
+| Hears only broadcasts on the machine's own subnets | It does not find a device on another subnet or VLAN: pass its `host` and `version` yourself |
+| Hears nothing from a device that stops broadcasting while a client is connected, as some do | Start the discovery before you connect, and keep it open |
+
+`await using` closes it at the end of its scope, or call `close()`.
+
 ## Naming data points
 
-`@open-tuya/devices` holds 1,769 devices converted from
+`@open-tuya/devices` holds over 1,700 devices converted from
 [tuya-local](https://github.com/make-all/tuya-local). Without
 `createTuyaClient`, find a device's entry, then read and write its data
 points by name:
@@ -237,6 +272,87 @@ fix on the platform:
 | 1106 to `listDevices()` | Pass `{ viaDeviceId }` with any device of the account |
 | 2007, or no devices | Pick the data center the app account is in |
 
+## Errors
+
+Every package rejects with a `TuyaError`: branch on its `code`, and read the
+error it stands for in `cause`. Your editor shows each code's full meaning on
+`TuyaErrorCode`.
+
+| `code` | Meaning |
+| --- | --- |
+| `CONNECTION_FAILED` | No connection to the device or the cloud opened: check the device's address and that it is on, or the route to the cloud |
+| `CONNECTION_LOST` | The connection closed or stopped answering heartbeats, or the client or account was closed |
+| `REQUEST_TIMED_OUT` | The device or the cloud did not answer in time. A write may still have been taken |
+| `REQUEST_REJECTED` | The device or the cloud answered with an error, whose text the message carries |
+| `DECRYPTION_FAILED`, `SESSION_KEY_NEGOTIATION_FAILED` | The local key or the protocol version is wrong |
+| `MALFORMED_FRAME` | The device sent bytes that are not a frame: reconnect |
+| `DISCOVERY_FAILED` | Another program holds a discovery port without sharing it |
+| `QR_CODE_EXPIRED` | Request a new QR code |
+| `SESSION_EXPIRED` | Sign in again by QR code. Two programs sharing one session end so |
+| `RATE_LIMITED` | Wait before the next request |
+| `PERMISSION_DENIED` | The developer platform refused for want of a plan or a permission: see the [table above](#signing-in-to-the-tuya-developer-platform) |
+| `UNMAPPED_DATA_POINT` | The cloud cannot map the data point the write names, so nothing was sent |
+| `ROUTES_FAILED` | Every route failed: `cause.errors` holds each route's error, in the order tried |
+| `NO_CATALOG_ENTRY` | The catalog lacks the device: read and write its data points by ID |
+| `VALUE_UNAVAILABLE` | The control cannot take the value while a data point the device sets itself, such as a mode, holds what it does now: wait for the device to change it |
+
+A mistake in the call itself throws a `TypeError` instead, such as a value a
+data point cannot hold, `readByWritingNull` on 3.4 or 3.5, or a gateway's
+`createClient` on 3.1 or 3.2.
+
+## Testing with simulators
+
+Test your code against a simulated device instead of a real one: start one,
+and point a LAN client at its port.
+
+```ts
+import { createLocalTuyaClient } from "@open-tuya/local";
+import { startSimulatedDevice } from "@open-tuya/simulators";
+
+const localKey = "0123456789abcdef";
+await using device = await startSimulatedDevice({
+  version: "3.4",
+  localKey,
+  dataPoints: { "1": true, "2": 21 },
+});
+await using client = createLocalTuyaClient({
+  deviceId: device.deviceId,
+  host: "127.0.0.1",
+  port: device.port,
+  version: "3.4",
+  localKey,
+});
+
+await client.readDataPoints(); // { "1": true, "2": 21 }
+device.report({ "2": 23 }); // the device changes on its own, and pushes it
+device.received; // every frame the client sent, decrypted
+```
+
+A simulator listens on free ports of `127.0.0.1` and serves 3 clients at once,
+as a device does.
+
+| To | Do |
+| --- | --- |
+| Simulate a gateway | Pass `subDevices`, the data points of each device behind it by node ID, and add a node ID to `device.offline` to take that device offline |
+| Make it refuse reads, as some 3.2 and 3.3 devices do | Set `device.refusesReads = true` |
+| Make it only ack a write | Set `device.pushesAfterWrite = false` |
+| Make it stop answering heartbeats | Set `device.answersHeartbeats = false` |
+| Drop every connection | Call `device.disconnect()` |
+| Have `discoverDevices()` hear it | Call `device.broadcast(port)` |
+
+## Coverage and limitations
+
+| Route | Covers | Limits |
+| --- | --- | --- |
+| LAN | Protocol 3.1 to 3.5, and the devices behind a 3.3, 3.4 or 3.5 gateway | Needs each device's local key, which only a cloud gives. On 3.1 a read succeeds under a wrong key |
+| Tuya developer platform | Data centers `cn`, `us`, `us-e`, `eu`, `eu-w`, `in` and `sg` | Needs a cloud project, whose IoT Core trial expires and has to be extended |
+| Smart Life cloud | A Smart Life account, signed in by QR code | Reads and writes only the data points the cloud passes through unchanged. One session serves one program |
+| Catalog | Over 1,700 of tuya-local's devices | A device tuya-local lacks has no entry, and `UNSUPPORTED.md` lists the tuya-local devices the import cannot convert |
+
+[UNSUPPORTED.md](UNSUPPORTED.md) lists what no source pins down, and what the
+code does until one does. This library is young: if it does not work with
+your device, [open an issue](https://github.com/cheziyi/open-tuya/issues).
+
 ## Development
 
 Requires Node 22.12 or later and pnpm.
@@ -248,6 +364,18 @@ pnpm check
 pnpm clone-reference   # clone or update every project under Credits into reference/
 pnpm --filter @open-tuya/devices import-catalog ../../reference/make-all/tuya-local   # needs Node 22.18
 ```
+
+`pnpm install` sets up a [lefthook](https://lefthook.dev) pre-commit hook that
+runs `biome check --write` on staged files.
+
+To release, add a changeset to each pull request with `pnpm changeset`. On
+`main`, the release workflow opens a Version Packages pull request, and merging
+it publishes each package whose version changed.
+[AGENTS.md](AGENTS.md#version-each-package-with-semver) says which bump to
+pick.
+
+The Import catalog workflow runs the catalog import each day, and opens a pull
+request when tuya-local's devices changed.
 
 ## Credits
 
@@ -288,6 +416,33 @@ Projects not under MIT contribute protocol facts only, never code:
 [AGENTS.md](AGENTS.md#sources) says how. A project built on another, such as
 tuya-local on tinytuya, does not agree with it independently.
 
+## Legal disclaimer
+
+An independent, community project for interoperability and home automation.
+It is not affiliated with, authorized, or endorsed by Tuya Inc. or its
+affiliates. Tuya, Smart Life and all other product names and trademarks are
+the property of their respective owners; their use here is for identification
+and compatibility only.
+
+**Your own devices and accounts.** `@open-tuya/local` talks only to devices on
+your LAN. The cloud packages contact Tuya's servers only with the credentials
+you pass: your developer project's access ID and secret, or a session your own
+Smart Life account approves by QR code. Follow the terms of service of your
+Tuya account and developer project.
+
+**No proprietary material.** The packages ship no Tuya credentials,
+certificates, SDKs or binaries. The only keys in them are protocol constants
+every device uses, as the projects under [Credits](#credits) publish them.
+Each protocol fact comes from one of those projects, cited, or from
+independent reverse engineering for interoperability.
+
+**Writes change real devices.** A write reaches a device as its own app's
+would: a heater turns on, a lock unlocks. Test against
+[`@open-tuya/simulators`](#testing-with-simulators) first.
+
+Provided "as is", without warranty of any kind (see [LICENSE](LICENSE)); use it
+at your own risk.
+
 ## License
 
-MIT
+[MIT](LICENSE). Copyright © 2026 the open-tuya contributors.

@@ -11,10 +11,16 @@
     "lan",
     "smart-life",
     "home-automation",
-    "smart-home"
+    "smart-home",
+    "tuya-protocol",
+    "tuya-discovery",
+    "iot",
+    "nodejs",
+    "typescript",
+    "open-tuya"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/cheziyi/open-tuya#readme",
+  "homepage": "https://github.com/cheziyi/open-tuya/tree/main/packages/local#readme",
   "bugs": "https://github.com/cheziyi/open-tuya/issues",
   "repository": {
     "type": "git",
