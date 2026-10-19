@@ -3,16 +3,10 @@
 [![npm version](https://img.shields.io/npm/v/open-tuya)](https://www.npmjs.com/package/open-tuya)
 [![npm downloads](https://img.shields.io/npm/dm/open-tuya)](https://www.npmjs.com/package/open-tuya)
 [![CI](https://github.com/cheziyi/open-tuya/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/cheziyi/open-tuya/actions/workflows/ci.yml?query=branch%3Amain)
-[![Release](https://img.shields.io/github/actions/workflow/status/cheziyi/open-tuya/release.yml?branch=main&label=release)](https://github.com/cheziyi/open-tuya/actions/workflows/release.yml)
 [![Catalog import](https://img.shields.io/github/actions/workflow/status/cheziyi/open-tuya/import-catalog.yml?branch=main&label=catalog%20import)](https://github.com/cheziyi/open-tuya/actions/workflows/import-catalog.yml)
 [![Node version](https://img.shields.io/node/v/open-tuya)](packages/open-tuya/package.json)
 [![Types](https://img.shields.io/badge/types-TypeScript-blue)](packages/open-tuya/package.json)
-[![LAN protocol](https://img.shields.io/badge/LAN_protocol-3.1_to_3.5-blue)](#reaching-a-device)
 [![License](https://img.shields.io/npm/l/open-tuya)](LICENSE)
-[![Socket](https://socket.dev/api/badge/npm/package/open-tuya)](https://socket.dev/npm/package/open-tuya)
-[![Checked with Biome](https://img.shields.io/badge/Checked_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
-[![Maintained with changesets](https://img.shields.io/badge/maintained_with-changesets-176de3)](https://github.com/changesets/changesets)
-[![Last commit](https://img.shields.io/github/last-commit/cheziyi/open-tuya)](https://github.com/cheziyi/open-tuya/commits/main)
 
 Unofficial Node.js and TypeScript libraries for controlling Tuya devices
 three ways: over the local network (LAN), through the Tuya developer platform,
