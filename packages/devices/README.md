@@ -9,7 +9,7 @@
 [![License](https://img.shields.io/npm/l/@open-tuya/devices)](LICENSE)
 
 Look up what each data point of a Tuya device controls, from a catalog of
-1,769 devices converted from [tuya-local](https://github.com/make-all/tuya-local),
+over 1,700 devices converted from [tuya-local](https://github.com/make-all/tuya-local),
 and read and write the device by those names.
 
 ```sh

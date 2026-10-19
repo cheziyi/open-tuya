@@ -11,7 +11,7 @@
 Control Tuya devices three ways from Node.js and TypeScript: over the local
 network (LAN), through the Tuya developer platform, and through the cloud the
 Smart Life app signs in to. `createTuyaClient` tries the routes in the order
-you give, and names each data point from a catalog of 1,769 devices. It
+you give, and names each data point from a catalog of over 1,700 devices. It
 re-exports every `@open-tuya` package but the simulators.
 
 ```sh
