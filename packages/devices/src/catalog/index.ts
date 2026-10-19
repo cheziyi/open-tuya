@@ -335,7 +335,7 @@ import device_create_fan_lightdimmable from "./create_fan_lightdimmable.js";
 import device_create_warm_clear_heater from "./create_warm_clear_heater.js";
 import device_create_warmtoweladvance_heater from "./create_warmtoweladvance_heater.js";
 import device_cronos_gphdda_heater from "./cronos_gphdda_heater.js";
-import device_ct20w_pir_motion_detector from "./ct20w_pir_motion_detector.js";
+import device_ct20w_motiondetector from "./ct20w_motiondetector.js";
 import device_ct1203_clamp_meter from "./ct1203_clamp_meter.js";
 import device_currysmarter_6gen_rollershutter from "./currysmarter_6gen_rollershutter.js";
 import device_currysmarter_w7pro_rollershutter from "./currysmarter_w7pro_rollershutter.js";
@@ -1045,6 +1045,7 @@ import device_milano_ceiling_fan from "./milano_ceiling_fan.js";
 import device_minco_mh1823d_thermostat from "./minco_mh1823d_thermostat.js";
 import device_minib_public_litterbox from "./minib_public_litterbox.js";
 import device_minoston_timer_switch from "./minoston_timer_switch.js";
+import device_mirabella_genio_doorsensor from "./mirabella_genio_doorsensor.js";
 import device_mirabella_genio_motion_sensor from "./mirabella_genio_motion_sensor.js";
 import device_mirabella_genio_usb from "./mirabella_genio_usb.js";
 import device_mirabella_power_strip from "./mirabella_power_strip.js";
@@ -1388,7 +1389,7 @@ import device_sendo_airconditioner_c from "./sendo_airconditioner_c.js";
 import device_sensei_airconditioner from "./sensei_airconditioner.js";
 import device_sensio_240vkinetic_light from "./sensio_240vkinetic_light.js";
 import device_sensio_titankinetic_lightsdriver from "./sensio_titankinetic_lightsdriver.js";
-import device_setti_czajnik_kettle from "./setti_czajnik_kettle.js";
+import device_setti_kt950w_kettle from "./setti_kt950w_kettle.js";
 import device_sevr_x1_evcharger from "./sevr_x1_evcharger.js";
 import device_sh07_sprinkler_controller from "./sh07_sprinkler_controller.js";
 import device_shanglin_fd1515_pergola from "./shanglin_fd1515_pergola.js";
@@ -1605,7 +1606,6 @@ import device_ttec_reobipro_vacuum from "./ttec_reobipro_vacuum.js";
 import device_turbro_75000btu_poolheatpump from "./turbro_75000btu_poolheatpump.js";
 import device_tuya_000004rime_weather_station from "./tuya_000004rime_weather_station.js";
 import device_tuya_energy_meter from "./tuya_energy_meter.js";
-import device_tuya_smart_zigbee_door_sensor from "./tuya_smart_zigbee_door_sensor.js";
 import device_tv_backlights from "./tv_backlights.js";
 import device_tx_e_gasmonitor from "./tx_e_gasmonitor.js";
 import device_ty12w_relayboard from "./ty12w_relayboard.js";
@@ -1727,7 +1727,7 @@ import device_yx025wb_aromadiffuser from "./yx025wb_aromadiffuser.js";
 import device_yx316wifi_aroma_diffuser from "./yx316wifi_aroma_diffuser.js";
 import device_yym_805sw_aroma_nightlight from "./yym_805sw_aroma_nightlight.js";
 import device_z3p3z_th02_temphumid from "./z3p3z_th02_temphumid.js";
-import device_zc34t_03_3a_swing_arm_opener from "./zc34t_03_3a_swing_arm_opener.js";
+import device_zc34t033a_swingarmopener from "./zc34t033a_swingarmopener.js";
 import device_zedar_k1200_litterbox from "./zedar_k1200_litterbox.js";
 import device_zeissler_zsw1312_waterleak from "./zeissler_zsw1312_waterleak.js";
 import device_zemismart_am25_rollerblind from "./zemismart_am25_rollerblind.js";
@@ -1773,9 +1773,7 @@ import device_zym201_presence_sensor from "./zym201_presence_sensor.js";
 /** Every device the catalog describes. */
 export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_9in1_airquality_monitor,
-  device_ct20w_pir_motion_detector,
   device_dh_csk03w_dehumidifier,
-  device_zc34t_03_3a_swing_arm_opener,
   device_a03_siren,
   device_abalon_bcm700d_curtain,
   device_abir_x8_vacuum,
@@ -2111,6 +2109,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_create_warmtoweladvance_heater,
   device_cronos_gphdda_heater,
   device_ct1203_clamp_meter,
+  device_ct20w_motiondetector,
   device_currysmarter_6gen_rollershutter,
   device_currysmarter_w7pro_rollershutter,
   device_curtain_with_feedback,
@@ -2818,6 +2817,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_minco_mh1823d_thermostat,
   device_minib_public_litterbox,
   device_minoston_timer_switch,
+  device_mirabella_genio_doorsensor,
   device_mirabella_genio_motion_sensor,
   device_mirabella_genio_usb,
   device_mirabella_power_strip,
@@ -3161,7 +3161,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_sensei_airconditioner,
   device_sensio_240vkinetic_light,
   device_sensio_titankinetic_lightsdriver,
-  device_setti_czajnik_kettle,
+  device_setti_kt950w_kettle,
   device_sevr_x1_evcharger,
   device_sh07_sprinkler_controller,
   device_shanglin_fd1515_pergola,
@@ -3378,7 +3378,6 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_turbro_75000btu_poolheatpump,
   device_tuya_000004rime_weather_station,
   device_tuya_energy_meter,
-  device_tuya_smart_zigbee_door_sensor,
   device_tv_backlights,
   device_tx_e_gasmonitor,
   device_ty12w_relayboard,
@@ -3500,6 +3499,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_yx316wifi_aroma_diffuser,
   device_yym_805sw_aroma_nightlight,
   device_z3p3z_th02_temphumid,
+  device_zc34t033a_swingarmopener,
   device_zedar_k1200_litterbox,
   device_zeissler_zsw1312_waterleak,
   device_zemismart_am25_rollerblind,
