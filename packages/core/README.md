@@ -6,7 +6,6 @@
 [![Node version](https://img.shields.io/node/v/@open-tuya/core)](package.json)
 [![Types](https://img.shields.io/badge/types-TypeScript-blue)](package.json)
 [![License](https://img.shields.io/npm/l/@open-tuya/core)](LICENSE)
-[![Socket](https://socket.dev/api/badge/npm/package/@open-tuya/core)](https://socket.dev/npm/package/@open-tuya/core)
 
 The types and errors every open-tuya package shares. Install
 [`open-tuya`](https://www.npmjs.com/package/open-tuya) or one of its

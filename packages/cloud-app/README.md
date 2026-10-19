@@ -6,7 +6,6 @@
 [![Node version](https://img.shields.io/node/v/@open-tuya/cloud-app)](package.json)
 [![Types](https://img.shields.io/badge/types-TypeScript-blue)](package.json)
 [![License](https://img.shields.io/npm/l/@open-tuya/cloud-app)](LICENSE)
-[![Socket](https://socket.dev/api/badge/npm/package/@open-tuya/cloud-app)](https://socket.dev/npm/package/@open-tuya/cloud-app)
 
 Reach the Tuya cloud as the Smart Life app does, signed in by scanning a QR
 code with the app: list devices with their local keys, read and write their

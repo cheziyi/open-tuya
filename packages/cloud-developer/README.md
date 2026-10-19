@@ -6,7 +6,6 @@
 [![Node version](https://img.shields.io/node/v/@open-tuya/cloud-developer)](package.json)
 [![Types](https://img.shields.io/badge/types-TypeScript-blue)](package.json)
 [![License](https://img.shields.io/npm/l/@open-tuya/cloud-developer)](LICENSE)
-[![Socket](https://socket.dev/api/badge/npm/package/@open-tuya/cloud-developer)](https://socket.dev/npm/package/@open-tuya/cloud-developer)
 
 Reach the Tuya developer platform API, signed in with a cloud project's access
 ID and secret: list devices with their local keys, read and write their data

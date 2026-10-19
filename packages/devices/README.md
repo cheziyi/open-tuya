@@ -7,7 +7,6 @@
 [![Node version](https://img.shields.io/node/v/@open-tuya/devices)](package.json)
 [![Types](https://img.shields.io/badge/types-TypeScript-blue)](package.json)
 [![License](https://img.shields.io/npm/l/@open-tuya/devices)](LICENSE)
-[![Socket](https://socket.dev/api/badge/npm/package/@open-tuya/devices)](https://socket.dev/npm/package/@open-tuya/devices)
 
 Look up what each data point of a Tuya device controls, from a catalog of
 1,769 devices converted from [tuya-local](https://github.com/make-all/tuya-local),
