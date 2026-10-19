@@ -9,10 +9,16 @@
     "tuya-smart",
     "qr-code-login",
     "home-automation",
-    "smart-home"
+    "smart-home",
+    "tuya-api",
+    "smart-life-api",
+    "iot",
+    "nodejs",
+    "typescript",
+    "open-tuya"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/cheziyi/open-tuya#readme",
+  "homepage": "https://github.com/cheziyi/open-tuya/tree/main/packages/cloud-app#readme",
   "bugs": "https://github.com/cheziyi/open-tuya/issues",
   "repository": {
     "type": "git",
