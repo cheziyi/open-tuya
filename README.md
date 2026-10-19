@@ -4,7 +4,7 @@
 [![npm downloads](https://img.shields.io/npm/dm/open-tuya)](https://www.npmjs.com/package/open-tuya)
 [![CI](https://github.com/cheziyi/open-tuya/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/cheziyi/open-tuya/actions/workflows/ci.yml?query=branch%3Amain)
 [![Node version](https://img.shields.io/node/v/open-tuya)](packages/open-tuya/package.json)
-[![Types](https://img.shields.io/npm/types/open-tuya)](packages/open-tuya/package.json)
+[![Types](https://img.shields.io/badge/types-TypeScript-blue)](packages/open-tuya/package.json)
 [![License](https://img.shields.io/npm/l/open-tuya)](LICENSE)
 [![Checked with Biome](https://img.shields.io/badge/Checked_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
