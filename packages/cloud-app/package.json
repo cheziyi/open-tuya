@@ -1,6 +1,6 @@
 {
   "name": "@open-tuya/cloud-app",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Unofficial client for the Tuya cloud as the Smart Life app reaches it, signed in by scanning a QR code: list devices with their local keys, and read and write their data points.",
   "keywords": [
     "tuya",
