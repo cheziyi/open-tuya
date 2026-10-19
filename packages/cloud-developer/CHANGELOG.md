@@ -1,5 +1,13 @@
 # @open-tuya/cloud-developer
 
+## 0.0.4
+
+### Patch Changes
+
+- [#40](https://github.com/cheziyi/open-tuya/pull/40) [`3bf52fc`](https://github.com/cheziyi/open-tuya/commit/3bf52fcc0b53e16f934f176a060b9f8460132b27) Thanks [@cheziyi](https://github.com/cheziyi)! - Show a README on the package's npm page, with an example and links to the full documentation.
+- Updated dependencies [[`3bf52fc`](https://github.com/cheziyi/open-tuya/commit/3bf52fcc0b53e16f934f176a060b9f8460132b27)]:
+  - @open-tuya/core@0.1.1
+
 ## 0.0.3
 
 ### Patch Changes
