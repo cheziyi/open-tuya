@@ -1,8 +1,13 @@
 # @open-tuya/simulators
 
 [![npm version](https://img.shields.io/npm/v/@open-tuya/simulators)](https://www.npmjs.com/package/@open-tuya/simulators)
+[![npm downloads](https://img.shields.io/npm/dm/@open-tuya/simulators)](https://www.npmjs.com/package/@open-tuya/simulators)
 [![CI](https://github.com/cheziyi/open-tuya/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/cheziyi/open-tuya/actions/workflows/ci.yml?query=branch%3Amain)
+[![Node version](https://img.shields.io/node/v/@open-tuya/simulators)](package.json)
+[![Types](https://img.shields.io/badge/types-TypeScript-blue)](package.json)
+[![LAN protocol](https://img.shields.io/badge/LAN_protocol-3.1_to_3.5-blue)](https://github.com/cheziyi/open-tuya#reaching-a-device)
 [![License](https://img.shields.io/npm/l/@open-tuya/simulators)](LICENSE)
+[![Socket](https://socket.dev/api/badge/npm/package/@open-tuya/simulators)](https://socket.dev/npm/package/@open-tuya/simulators)
 
 Test code that controls Tuya devices against a simulated device: a LAN server
 that answers protocol 3.1 to 3.5 as a device does, including a gateway and

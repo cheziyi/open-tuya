@@ -1,8 +1,12 @@
 # @open-tuya/cloud-developer
 
 [![npm version](https://img.shields.io/npm/v/@open-tuya/cloud-developer)](https://www.npmjs.com/package/@open-tuya/cloud-developer)
+[![npm downloads](https://img.shields.io/npm/dm/@open-tuya/cloud-developer)](https://www.npmjs.com/package/@open-tuya/cloud-developer)
 [![CI](https://github.com/cheziyi/open-tuya/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/cheziyi/open-tuya/actions/workflows/ci.yml?query=branch%3Amain)
+[![Node version](https://img.shields.io/node/v/@open-tuya/cloud-developer)](package.json)
+[![Types](https://img.shields.io/badge/types-TypeScript-blue)](package.json)
 [![License](https://img.shields.io/npm/l/@open-tuya/cloud-developer)](LICENSE)
+[![Socket](https://socket.dev/api/badge/npm/package/@open-tuya/cloud-developer)](https://socket.dev/npm/package/@open-tuya/cloud-developer)
 
 Reach the Tuya developer platform API, signed in with a cloud project's access
 ID and secret: list devices with their local keys, read and write their data

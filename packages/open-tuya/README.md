@@ -1,8 +1,14 @@
 # open-tuya
 
 [![npm version](https://img.shields.io/npm/v/open-tuya)](https://www.npmjs.com/package/open-tuya)
+[![npm downloads](https://img.shields.io/npm/dm/open-tuya)](https://www.npmjs.com/package/open-tuya)
 [![CI](https://github.com/cheziyi/open-tuya/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/cheziyi/open-tuya/actions/workflows/ci.yml?query=branch%3Amain)
+[![Catalog import](https://img.shields.io/github/actions/workflow/status/cheziyi/open-tuya/import-catalog.yml?branch=main&label=catalog%20import)](https://github.com/cheziyi/open-tuya/actions/workflows/import-catalog.yml)
+[![Node version](https://img.shields.io/node/v/open-tuya)](package.json)
+[![Types](https://img.shields.io/badge/types-TypeScript-blue)](package.json)
+[![LAN protocol](https://img.shields.io/badge/LAN_protocol-3.1_to_3.5-blue)](https://github.com/cheziyi/open-tuya#reaching-a-device)
 [![License](https://img.shields.io/npm/l/open-tuya)](LICENSE)
+[![Socket](https://socket.dev/api/badge/npm/package/open-tuya)](https://socket.dev/npm/package/open-tuya)
 
 Control Tuya devices three ways from Node.js and TypeScript: over the local
 network (LAN), through the Tuya developer platform, and through the cloud the

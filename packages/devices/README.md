@@ -1,8 +1,13 @@
 # @open-tuya/devices
 
 [![npm version](https://img.shields.io/npm/v/@open-tuya/devices)](https://www.npmjs.com/package/@open-tuya/devices)
+[![npm downloads](https://img.shields.io/npm/dm/@open-tuya/devices)](https://www.npmjs.com/package/@open-tuya/devices)
 [![CI](https://github.com/cheziyi/open-tuya/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/cheziyi/open-tuya/actions/workflows/ci.yml?query=branch%3Amain)
+[![Catalog import](https://img.shields.io/github/actions/workflow/status/cheziyi/open-tuya/import-catalog.yml?branch=main&label=catalog%20import)](https://github.com/cheziyi/open-tuya/actions/workflows/import-catalog.yml)
+[![Node version](https://img.shields.io/node/v/@open-tuya/devices)](package.json)
+[![Types](https://img.shields.io/badge/types-TypeScript-blue)](package.json)
 [![License](https://img.shields.io/npm/l/@open-tuya/devices)](LICENSE)
+[![Socket](https://socket.dev/api/badge/npm/package/@open-tuya/devices)](https://socket.dev/npm/package/@open-tuya/devices)
 
 Look up what each data point of a Tuya device controls, from a catalog of
 1,769 devices converted from [tuya-local](https://github.com/make-all/tuya-local),

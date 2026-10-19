@@ -1,8 +1,13 @@
 # @open-tuya/local
 
 [![npm version](https://img.shields.io/npm/v/@open-tuya/local)](https://www.npmjs.com/package/@open-tuya/local)
+[![npm downloads](https://img.shields.io/npm/dm/@open-tuya/local)](https://www.npmjs.com/package/@open-tuya/local)
 [![CI](https://github.com/cheziyi/open-tuya/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/cheziyi/open-tuya/actions/workflows/ci.yml?query=branch%3Amain)
+[![Node version](https://img.shields.io/node/v/@open-tuya/local)](package.json)
+[![Types](https://img.shields.io/badge/types-TypeScript-blue)](package.json)
+[![LAN protocol](https://img.shields.io/badge/LAN_protocol-3.1_to_3.5-blue)](https://github.com/cheziyi/open-tuya#reaching-a-device)
 [![License](https://img.shields.io/npm/l/@open-tuya/local)](LICENSE)
+[![Socket](https://socket.dev/api/badge/npm/package/@open-tuya/local)](https://socket.dev/npm/package/@open-tuya/local)
 
 Discover Tuya devices on the LAN, and read and write their data points with
 no cloud, on protocol 3.1 to 3.5, including the devices behind a gateway.
