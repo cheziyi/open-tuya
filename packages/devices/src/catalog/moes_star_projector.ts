@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Star projector",
-  productKeys: ["cw7kinnselbesfp9", "keypaujpukpnpy8s"],
+  products: [
+    { productKey: "cw7kinnselbesfp9", manufacturer: "Moes" },
+    { productKey: "keypaujpukpnpy8s", manufacturer: "Moes" },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -60,6 +63,7 @@ const entry: TuyaDeviceEntry = {
       starRotationSpeed: {
         dataPoint: "101",
         kind: "number",
+        category: "config",
         min: 10,
         max: 1000,
       },
@@ -67,6 +71,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

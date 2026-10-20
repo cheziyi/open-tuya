@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat and hydrostat",
-  productKeys: ["dlsdk5zvkuuhufpy"],
+  products: [
+    { productKey: "dlsdk5zvkuuhufpy", manufacturer: "Moes", model: "MS-103" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -33,9 +35,17 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      mainSwitch: { dataPoint: "1", kind: "switch" },
-      mainSwitchCycleTime: { dataPoint: "24", kind: "text" },
-      mainSwitchSensorDect: { dataPoint: "106", kind: "text" },
+      mainSwitch: { dataPoint: "1", kind: "switch", category: "config" },
+      mainSwitchCycleTime: {
+        dataPoint: "24",
+        kind: "text",
+        category: "config",
+      },
+      mainSwitchSensorDect: {
+        dataPoint: "106",
+        kind: "text",
+        category: "config",
+      },
       switch1: { dataPoint: "2", kind: "switch" },
       switch1AutoRules: { dataPoint: "101", kind: "text" },
       switch2: { dataPoint: "3", kind: "switch" },
@@ -43,6 +53,7 @@ const entry: TuyaDeviceEntry = {
       mode: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "manual", value: "manual" },
@@ -52,6 +63,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -59,6 +71,7 @@ const entry: TuyaDeviceEntry = {
       temperatureCalibration: {
         dataPoint: "18",
         kind: "number",
+        category: "config",
         min: -90,
         max: 90,
         scale: 10,
@@ -67,6 +80,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
         scale: 10,
@@ -75,6 +89,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "number",
         measures: "humidity",
+        category: "config",
         unit: "%",
         min: 0,
         max: 1000,
@@ -84,6 +99,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "number",
         measures: "humidity",
+        category: "config",
         unit: "%",
         min: 0,
         max: 1000,
@@ -92,6 +108,7 @@ const entry: TuyaDeviceEntry = {
       timer1InSeconds: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -99,6 +116,7 @@ const entry: TuyaDeviceEntry = {
       timer2InSeconds: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -106,6 +124,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "on", value: "on" },
           { raw: "off", value: "off" },
@@ -116,16 +135,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -500,
         max: 1100,
         scale: 10,
       },
-      highTemperatureSwitch: { dataPoint: "8", kind: "switch" },
+      highTemperatureSwitch: {
+        dataPoint: "8",
+        kind: "switch",
+        category: "config",
+      },
       highTemperatureAlarmLevelInC: {
         dataPoint: "9",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -500,
         max: 1100,
@@ -135,16 +160,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -500,
         max: 1100,
         scale: 10,
       },
-      lowTemperatureSwitch: { dataPoint: "11", kind: "switch" },
+      lowTemperatureSwitch: {
+        dataPoint: "11",
+        kind: "switch",
+        category: "config",
+      },
       lowTemperatureAlarmLevelInC: {
         dataPoint: "12",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -500,
         max: 1100,
@@ -154,15 +185,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },

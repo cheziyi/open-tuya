@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Desk lamp",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "20": { type: "boolean" },
     "22": { type: "integer" },
@@ -30,6 +30,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 240,

@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -158,6 +158,7 @@ const entry: TuyaDeviceEntry = {
       configuration: {
         dataPoint: "112",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "cooling" },
           { raw: "2", value: "heating" },

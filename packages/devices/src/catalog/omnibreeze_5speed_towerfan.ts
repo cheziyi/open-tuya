@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan",
-  productKeys: ["kuskdnpwgso1qinx"],
+  products: [
+    {
+      productKey: "kuskdnpwgso1qinx",
+      manufacturer: "OmniBreeze",
+      model: "Tower Fan 5M-F",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -32,12 +38,13 @@ const entry: TuyaDeviceEntry = {
       speed: { dataPoint: "3", kind: "number", min: 1, max: 5 },
       oscillating: { dataPoint: "5", kind: "switch" },
     },
-    display: { on: { dataPoint: "15", kind: "switch" } },
+    display: { on: { dataPoint: "15", kind: "switch", category: "config" } },
     device: {
-      keytone: { dataPoint: "13", kind: "switch" },
+      keytone: { dataPoint: "13", kind: "switch", category: "config" },
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -58,6 +65,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "F",
       },

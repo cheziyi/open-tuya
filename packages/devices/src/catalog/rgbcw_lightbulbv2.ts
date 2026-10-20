@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "RGBCW lightbulb",
-  productKeys: ["bqkefojbmb8ovvws", "ahqbxnk6zoie0akm"],
+  products: [
+    { productKey: "bqkefojbmb8ovvws", model: "A60 RGBW" },
+    {
+      productKey: "ahqbxnk6zoie0akm",
+      manufacturer: "LePro",
+      model: "LampUX ceiling light",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -85,11 +92,11 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 255,
       },
-      scene: { dataPoint: "6", kind: "text" },
-      flashScene1: { dataPoint: "7", kind: "text" },
-      flashScene2: { dataPoint: "8", kind: "text" },
-      flashScene3: { dataPoint: "9", kind: "text" },
-      flashScene4: { dataPoint: "10", kind: "text" },
+      scene: { dataPoint: "6", kind: "text", category: "config" },
+      flashScene1: { dataPoint: "7", kind: "text", category: "config" },
+      flashScene2: { dataPoint: "8", kind: "text", category: "config" },
+      flashScene3: { dataPoint: "9", kind: "text", category: "config" },
+      flashScene4: { dataPoint: "10", kind: "text", category: "config" },
     },
   },
   source: {

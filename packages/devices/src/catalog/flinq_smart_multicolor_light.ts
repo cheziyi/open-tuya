@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "String light",
-  productKeys: ["kerlphr7ehml1kgl"],
+  products: [
+    {
+      productKey: "kerlphr7ehml1kgl",
+      manufacturer: "FlinQ Smart",
+      model: "Multicolor Light",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -26,11 +32,12 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
-      musicData: { dataPoint: "27", kind: "text" },
-      directControl: { dataPoint: "28", kind: "text" },
+      musicData: { dataPoint: "27", kind: "text", category: "config" },
+      directControl: { dataPoint: "28", kind: "text", category: "config" },
       scene: {
         dataPoint: "52",
         kind: "select",
+        category: "config",
         type: "string",
         values: [
           { raw: "AB4JZAAB", value: "Combination" },

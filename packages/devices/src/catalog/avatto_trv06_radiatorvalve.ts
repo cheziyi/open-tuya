@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Radiator",
-  productKeys: ["ow09xlxm"],
+  products: [
+    {
+      productKey: "ow09xlxm",
+      manufacturer: "Avatto / Thaleos",
+      model: "TRV06",
+    },
+  ],
   dataPoints: {
     "2": { type: "string", optional: true },
     "3": { type: "string", optional: true },
@@ -58,11 +64,12 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       battery: {
         dataPoint: "35",
         kind: "sensor",
         measures: "battery",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -70,17 +77,20 @@ const entry: TuyaDeviceEntry = {
       antiFrost: {
         dataPoint: "36",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       antiscale: {
         dataPoint: "39",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       temperatureCalibrationInC: {
         dataPoint: "47",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -9,
         max: 9,

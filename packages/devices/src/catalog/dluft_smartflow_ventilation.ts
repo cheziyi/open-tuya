@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ventilation",
-  productKeys: ["sryya13xip27w2nv"],
+  products: [
+    {
+      productKey: "sryya13xip27w2nv",
+      manufacturer: "dLuft",
+      model: "Smart Flow",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -35,11 +41,12 @@ const entry: TuyaDeviceEntry = {
       },
       speed: { dataPoint: "3", kind: "number", min: 1, max: 3 },
     },
-    indicator: { on: { dataPoint: "15", kind: "switch" } },
+    indicator: { on: { dataPoint: "15", kind: "switch", category: "config" } },
     humidifier: {
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -72,6 +79,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -79,19 +87,26 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "24", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "24",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       connectivity: {
         dataPoint: "101",
         kind: "sensor",
         measures: "connectivity",
+        category: "diagnostic",
         readOnly: true,
       },
-      boost: { dataPoint: "102", kind: "switch" },
+      boost: { dataPoint: "102", kind: "switch", category: "config" },
       on: { dataPoint: "103", kind: "switch" },
       targetHumidityInPercent: {
         dataPoint: "104",
@@ -112,6 +127,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
     },

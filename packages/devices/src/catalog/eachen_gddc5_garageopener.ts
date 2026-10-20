@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Garage opener",
-  productKeys: ["xvsgeeru2i5wsd0y"],
+  products: [
+    { productKey: "xvsgeeru2i5wsd0y", manufacturer: "Eachen", model: "GD-DC5" },
+  ],
   dataPoints: { "1": { type: "boolean" }, "2": { type: "integer" } },
   components: {
     cover: {
@@ -21,6 +23,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "2",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,

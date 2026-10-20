@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dimmer module",
-  productKeys: ["genhs8iixkqve7sx"],
+  products: [
+    {
+      productKey: "genhs8iixkqve7sx",
+      manufacturer: "Jasco",
+      model: "UltraPro Toggle Dimmer",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -21,6 +27,7 @@ const entry: TuyaDeviceEntry = {
       bulbType: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "halogen", value: "Halogen" },
           { raw: "incandescent", value: "Incandescent" },
@@ -30,6 +37,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "6",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -37,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "memory", value: "memory" },
           { raw: "on", value: "on" },
@@ -46,6 +55,7 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "21",
         kind: "select",
+        category: "config",
         values: [
           { raw: "none", value: "off" },
           { raw: "pos", value: "locator" },

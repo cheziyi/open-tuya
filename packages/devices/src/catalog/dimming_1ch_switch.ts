@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dimmer",
-  productKeys: ["5zsarybcltypoeaa"],
+  products: [
+    { productKey: "5zsarybcltypoeaa", model: "Single channel module" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -24,6 +26,7 @@ const entry: TuyaDeviceEntry = {
       ledType: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "kickback", value: "Kickback" },
           { raw: "seesaw_toggle", value: "Seesaw toggle" },
@@ -33,6 +36,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "6",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -40,6 +44,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "on", value: "on" },
           { raw: "off", value: "off" },

@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "RGBW light strip",
-  productKeys: ["zptxb3enehf8a1uz", "keyj3w8cmutjmwk5"],
+  products: [
+    {
+      productKey: "zptxb3enehf8a1uz",
+      manufacturer: "LSC Smart Connect",
+      model: "Neon LED strip",
+    },
+    {
+      productKey: "keyj3w8cmutjmwk5",
+      manufacturer: "LSC Smart Connect",
+      model: "Neon LED strip",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -57,10 +68,11 @@ const entry: TuyaDeviceEntry = {
       lengthInCm: { dataPoint: "46", kind: "number", unit: "cm" },
       pixels: { dataPoint: "47", kind: "number" },
       dreamlightScene: { dataPoint: "51", kind: "text" },
-      control: { dataPoint: "28", kind: "text" },
+      control: { dataPoint: "28", kind: "text", category: "config" },
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -68,6 +80,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "51",
         kind: "select",
+        category: "config",
         values: [
           { raw: "ARUKUlLgAABkAMFhALQwALVSAMRj", value: "Iceland blue" },
           { raw: "ARYKZGRgAABkAJJfAMZg", value: "Glacier express" },
@@ -115,9 +128,17 @@ const entry: TuyaDeviceEntry = {
           { raw: "AToCXV3gAABNALReARxkAOhJAMZf", value: "Planet journey" },
         ],
       },
-      paint: { dataPoint: "61", kind: "text" },
+      paint: { dataPoint: "61", kind: "text", category: "config" },
     },
-    device: { pixels: { dataPoint: "53", kind: "number", min: 1, max: 1000 } },
+    device: {
+      pixels: {
+        dataPoint: "53",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 1000,
+      },
+    },
   },
   source: {
     file: "lsc_neon_ledstrip.yaml",

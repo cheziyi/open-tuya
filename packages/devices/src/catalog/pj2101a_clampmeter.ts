@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Bidirectional clamp meter",
-  productKeys: ["ze8faryrxr0glqnn"],
+  products: [{ productKey: "ze8faryrxr0glqnn", model: "PJ2101A" }],
   dataPoints: {
     "1": { type: "integer" },
     "2": { type: "integer" },
@@ -18,6 +18,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
         readOnly: true,
         unit: "W",
         dependsOn: {
@@ -30,6 +31,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 100,
@@ -38,6 +40,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 100,

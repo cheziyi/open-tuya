@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Litter box",
-  productKeys: ["ah3vg6gvftgdl0sb", "bhbe15fwtdfoyjlx"],
+  products: [
+    { productKey: "ah3vg6gvftgdl0sb", manufacturer: "Duoqu", model: "NEO-A" },
+    { productKey: "bhbe15fwtdfoyjlx", manufacturer: "Duoqu", model: "NEO-AE" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -28,17 +31,25 @@ const entry: TuyaDeviceEntry = {
       mode: {
         dataPoint: "2",
         kind: "select",
+        category: "config",
         values: [
           { raw: "auto_clean", value: "auto" },
           { raw: "manual_clean", value: "manual" },
         ],
       },
       empty: { dataPoint: "3", kind: "button" },
-      cleaningDelay: { dataPoint: "5", kind: "number", min: 1, max: 60 },
+      cleaningDelay: {
+        dataPoint: "5",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 60,
+      },
       weightInKg: {
         dataPoint: "6",
         kind: "sensor",
         measures: "weight",
+        reading: "instant",
         readOnly: true,
         unit: "kg",
         scale: 10,
@@ -47,6 +58,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "8",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -54,14 +66,27 @@ const entry: TuyaDeviceEntry = {
       visitCount: {
         dataPoint: "7",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "times",
       },
-      cleansInBin: { dataPoint: "103", kind: "sensor", readOnly: true },
-      flow: { dataPoint: "106", kind: "number", min: 0, max: 255 },
+      cleansInBin: {
+        dataPoint: "103",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      flow: {
+        dataPoint: "106",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 255,
+      },
       status: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "Standby", value: "standby" },
@@ -81,7 +106,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "Cat_into", value: "occupied" },
         ],
       },
-      statusTrigger: { dataPoint: "109", kind: "sensor", readOnly: true },
+      statusTrigger: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     backlight: {
       brightness: { dataPoint: "107", kind: "number", min: 0, max: 255 },

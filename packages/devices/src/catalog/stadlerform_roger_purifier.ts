@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["bff126249136f505"],
+  products: [
+    {
+      productKey: "bff126249136f505",
+      manufacturer: "Stadler Form",
+      model: "Roger",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -44,10 +50,11 @@ const entry: TuyaDeviceEntry = {
     },
     light: {
       childLock: { dataPoint: "7", kind: "switch" },
-      on: { dataPoint: "8", kind: "switch" },
+      on: { dataPoint: "8", kind: "switch", category: "config" },
       filterLifeInPercent: {
         dataPoint: "5",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -55,6 +62,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "16",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "d",
       },
@@ -62,6 +70,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
@@ -74,6 +83,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

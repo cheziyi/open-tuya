@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["go142kwowvlxvmmn", "qyilqivtx4uhd5r4"],
+  products: [
+    {
+      productKey: "go142kwowvlxvmmn",
+      manufacturer: "Petempo",
+      model: "PAF-02",
+    },
+    {
+      productKey: "qyilqivtx4uhd5r4",
+      manufacturer: "Frienhund",
+      model: "PAF-02",
+    },
+  ],
   dataPoints: {
     "2": { type: "boolean", optional: true },
     "3": { type: "integer", optional: true },
@@ -23,6 +34,7 @@ const entry: TuyaDeviceEntry = {
       manualFeedInPortions: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "portions",
         min: 1,
         max: 6,
@@ -30,6 +42,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "4",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -41,6 +54,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -48,18 +63,20 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "batteryCharging",
+        category: "diagnostic",
         readOnly: true,
       },
       feedReportInPortions: {
         dataPoint: "14",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "portions",
       },
-      slowFeed: { dataPoint: "23", kind: "switch" },
-      factoryReset: { dataPoint: "24", kind: "button" },
+      slowFeed: { dataPoint: "23", kind: "switch", category: "config" },
+      factoryReset: { dataPoint: "24", kind: "button", category: "config" },
     },
-    display: { on: { dataPoint: "17", kind: "switch" } },
+    display: { on: { dataPoint: "17", kind: "switch", category: "config" } },
   },
   source: {
     file: "petempo_paf02_pet_feeder.yaml",

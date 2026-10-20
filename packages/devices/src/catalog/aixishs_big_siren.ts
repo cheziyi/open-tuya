@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Alarm siren",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -39,6 +39,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 120,
@@ -47,6 +48,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "28",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 120,
@@ -67,10 +69,11 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: true },
         ],
       },
-      lowBatteryAlarm: { dataPoint: "17", kind: "switch" },
+      lowBatteryAlarm: { dataPoint: "17", kind: "switch", category: "config" },
       alarm: {
         dataPoint: "32",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "alarm", value: true }],
         otherwise: false,
@@ -85,6 +88,7 @@ const entry: TuyaDeviceEntry = {
       language: {
         dataPoint: "40",
         kind: "select",
+        category: "config",
         values: [
           { raw: "english", value: "english" },
           { raw: "french", value: "french" },
@@ -95,10 +99,11 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       alarmMessage: { dataPoint: "26", kind: "sensor", readOnly: true },
-      factoryReset: { dataPoint: "34", kind: "button" },
+      factoryReset: { dataPoint: "34", kind: "button", category: "config" },
       subClass: {
         dataPoint: "36",
         kind: "select",
+        category: "config",
         values: [
           { raw: "detector", value: "Detector" },
           { raw: "remote_controller", value: "Remote control" },
@@ -112,6 +117,7 @@ const entry: TuyaDeviceEntry = {
       subType: {
         dataPoint: "37",
         kind: "select",
+        category: "config",
         values: [
           { raw: "motion_sensor", value: "Motion sensor" },
           { raw: "contact_sensor", value: "Contact sensor" },
@@ -119,7 +125,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "others", value: "Other" },
         ],
       },
-      subAdmin: { dataPoint: "38", kind: "text" },
+      subAdmin: { dataPoint: "38", kind: "text", category: "config" },
     },
   },
   source: {

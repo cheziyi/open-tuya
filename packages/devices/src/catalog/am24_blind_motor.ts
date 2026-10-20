@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Venetian blinds",
-  productKeys: ["dy4dh1q0"],
+  products: [{ productKey: "dy4dh1q0", model: "AM24" }],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer", optional: true },
@@ -59,6 +59,7 @@ const entry: TuyaDeviceEntry = {
       direction: {
         dataPoint: "5",
         kind: "select",
+        category: "config",
         values: [
           { raw: "forward", value: "Clockwise" },
           { raw: "back", value: "Anti-clockwise" },
@@ -68,25 +69,33 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       border: {
         dataPoint: "16",
         kind: "select",
+        category: "config",
         values: [
           { raw: "up", value: "Top" },
           { raw: "down", value: "Bottom" },
           { raw: "delete_limit", value: "Clear" },
         ],
       },
-      factoryReset: { dataPoint: "102", kind: "button" },
+      factoryReset: { dataPoint: "102", kind: "button", category: "config" },
       speed: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "continue", value: "Normal" },
           { raw: "crawl", value: "Slow" },

@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Camera",
-  productKeys: ["b60fclvud3xtcufm"],
+  products: [{ productKey: "b60fclvud3xtcufm", model: "SC116-WZ3A" }],
   dataPoints: {
     "101": { type: "boolean" },
     "103": { type: "boolean" },
@@ -41,13 +41,14 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       recording: { dataPoint: "150", kind: "switch" },
-      motionDetection: { dataPoint: "134", kind: "switch" },
+      motionDetection: { dataPoint: "134", kind: "switch", category: "config" },
       cameraPrivacy: { dataPoint: "105", kind: "switch" },
-      flipImage: { dataPoint: "103", kind: "switch" },
-      watermark: { dataPoint: "104", kind: "switch" },
+      flipImage: { dataPoint: "103", kind: "switch", category: "config" },
+      watermark: { dataPoint: "104", kind: "switch", category: "config" },
       motionSensitivity: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
@@ -57,6 +58,7 @@ const entry: TuyaDeviceEntry = {
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -66,6 +68,7 @@ const entry: TuyaDeviceEntry = {
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -79,12 +82,18 @@ const entry: TuyaDeviceEntry = {
       sdStatusMemoryCardCapacity: {
         dataPoint: "109",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
-      formatSdCard: { dataPoint: "111", kind: "button" },
+      formatSdCard: {
+        dataPoint: "111",
+        kind: "button",
+        category: "diagnostic",
+      },
       formatSdCardSdFormatStatus: {
         dataPoint: "117",
         kind: "select",
+        category: "diagnostic",
         values: [
           { raw: 2000, value: "Formatting" },
           { raw: 2001, value: "Format error" },
@@ -92,68 +101,79 @@ const entry: TuyaDeviceEntry = {
           { raw: 2003, value: "Card error" },
         ],
       },
-      ptzStop: { dataPoint: "116", kind: "button" },
+      ptzStop: { dataPoint: "116", kind: "button", category: "config" },
       ptzUp: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "0", value: true }],
         otherwise: false,
       },
       ptzRightUp: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "1", value: true }],
         otherwise: false,
       },
       ptzRight: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "2", value: true }],
         otherwise: false,
       },
       ptzRightDown: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "3", value: true }],
         otherwise: false,
       },
       ptzDown: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "4", value: true }],
         otherwise: false,
       },
       ptzLeftDown: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "5", value: true }],
         otherwise: false,
       },
       ptzLeft: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "6", value: true }],
         otherwise: false,
       },
       ptzLeftUp: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "7", value: true }],
         otherwise: false,
       },
       ptzCalibration: {
         dataPoint: "132",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       soundDetection: {
         dataPoint: "139",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       soundSensitivity: {
         dataPoint: "140",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Low" },
           { raw: "1", value: "High" },
@@ -162,6 +182,7 @@ const entry: TuyaDeviceEntry = {
       recordingMode: {
         dataPoint: "151",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
@@ -170,6 +191,7 @@ const entry: TuyaDeviceEntry = {
       alarmEnabled: {
         dataPoint: "159",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       alarm: {
@@ -180,30 +202,41 @@ const entry: TuyaDeviceEntry = {
         otherwise: "alert",
       },
       alarmMessage: { dataPoint: "185", kind: "sensor", readOnly: true },
-      volume: { dataPoint: "160", kind: "number", min: 1, max: 10 },
+      volume: {
+        dataPoint: "160",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 10,
+      },
       motionTracking: {
         dataPoint: "161",
         kind: "switch",
+        category: "config",
         values: [{ raw: false }],
       },
       cryDetection: {
         dataPoint: "167",
         kind: "switch",
+        category: "config",
         values: [{ raw: false }],
       },
       petDetection: {
         dataPoint: "187",
         kind: "switch",
+        category: "config",
         values: [{ raw: false }],
       },
       humanDetection: {
         dataPoint: "170",
         kind: "switch",
+        category: "config",
         values: [{ raw: false }],
       },
       antiFlicker: {
         dataPoint: "188",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Off" },
           { raw: "1", value: "50Hz" },
@@ -213,48 +246,56 @@ const entry: TuyaDeviceEntry = {
       ptzPreset1: {
         dataPoint: "190",
         kind: "button",
+        category: "config",
         values: [{ raw: "1", value: true }],
         otherwise: false,
       },
       ptzPreset2: {
         dataPoint: "190",
         kind: "button",
+        category: "config",
         values: [{ raw: "2", value: true }],
         otherwise: false,
       },
       ptzPreset3: {
         dataPoint: "190",
         kind: "button",
+        category: "config",
         values: [{ raw: "3", value: true }],
         otherwise: false,
       },
       ptzPreset4: {
         dataPoint: "190",
         kind: "button",
+        category: "config",
         values: [{ raw: "4", value: true }],
         otherwise: false,
       },
       setPtzPreset1: {
         dataPoint: "199",
         kind: "button",
+        category: "config",
         values: [{ raw: "1", value: true }],
         otherwise: false,
       },
       setPtzPreset2: {
         dataPoint: "199",
         kind: "button",
+        category: "config",
         values: [{ raw: "2", value: true }],
         otherwise: false,
       },
       setPtzPreset3: {
         dataPoint: "199",
         kind: "button",
+        category: "config",
         values: [{ raw: "3", value: true }],
         otherwise: false,
       },
       setPtzPreset4: {
         dataPoint: "199",
         kind: "button",
+        category: "config",
         values: [{ raw: "4", value: true }],
         otherwise: false,
       },
@@ -268,7 +309,7 @@ const entry: TuyaDeviceEntry = {
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
       motionMessage: { dataPoint: "212", kind: "sensor", readOnly: true },
     },
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "sc116wz3a_camera.yaml",

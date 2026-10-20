@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dimmer",
-  productKeys: ["yrli99lsgtmebarq"],
+  products: [
+    {
+      productKey: "yrli99lsgtmebarq",
+      manufacturer: "Malmbergs",
+      model: "QS-WIFI-D02-TRIAC",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer" },
@@ -18,6 +24,7 @@ const entry: TuyaDeviceEntry = {
       minimumBrightness: {
         dataPoint: "101",
         kind: "number",
+        category: "config",
         min: 25,
         max: 255,
       },

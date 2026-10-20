@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Towel rail",
-  productKeys: ["ji3x9qix6suekhrj"],
+  products: [
+    {
+      productKey: "ji3x9qix6suekhrj",
+      manufacturer: "Manissa",
+      model: "OWS-02A",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -61,6 +67,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -5,
         max: 5,
@@ -68,6 +75,7 @@ const entry: TuyaDeviceEntry = {
       boostTime: {
         dataPoint: "41",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1h", value: "1h" },
           { raw: "2h", value: "2h" },
@@ -82,12 +90,17 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "56",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
       },
-      schedule: { dataPoint: "110", kind: "text" },
-      openWindowDetection: { dataPoint: "111", kind: "switch" },
+      schedule: { dataPoint: "110", kind: "text", category: "config" },
+      openWindowDetection: {
+        dataPoint: "111",
+        kind: "switch",
+        category: "config",
+      },
     },
   },
   source: {

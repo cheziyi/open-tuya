@@ -5,7 +5,23 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "HDMI sync backlight",
-  productKeys: ["js0t2z9y1tnphvds", "s9tscadzzt5s2cz3", "9cgdcqpe9iqg9tjn"],
+  products: [
+    {
+      productKey: "js0t2z9y1tnphvds",
+      manufacturer: "Lytmi",
+      model: "Fantasy/Neo 3",
+    },
+    {
+      productKey: "s9tscadzzt5s2cz3",
+      manufacturer: "Fancy LEDs",
+      model: "3 HDMI 2.1 sync box",
+    },
+    {
+      productKey: "9cgdcqpe9iqg9tjn",
+      manufacturer: "Fancy LEDs",
+      model: "3 HDMI 2.1 sync box",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "22": { type: "integer" },
@@ -70,11 +86,16 @@ const entry: TuyaDeviceEntry = {
         otherwise: "hs",
         ownRuleReadOnly: true,
       },
-      tvSynchronizationSwitch: { dataPoint: "109", kind: "switch" },
-      hdmiEnable: { dataPoint: "107", kind: "switch" },
+      tvSynchronizationSwitch: {
+        dataPoint: "109",
+        kind: "switch",
+        category: "config",
+      },
+      hdmiEnable: { dataPoint: "107", kind: "switch", category: "config" },
       hdmiInput: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "HDMI 1" },
           { raw: 1, value: "HDMI 2" },
@@ -85,6 +106,7 @@ const entry: TuyaDeviceEntry = {
       setupSide: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "Left" },
           { raw: 1, value: "Right" },
@@ -93,6 +115,7 @@ const entry: TuyaDeviceEntry = {
       degreeOfDiffusion: {
         dataPoint: "108",
         kind: "number",
+        category: "config",
         min: 10,
         max: 1000,
         scale: 10,
@@ -101,6 +124,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "25",
         kind: "select",
+        category: "config",
         values: [
           { raw: "80000000000000000000000000000000", value: "movie" },
           { raw: "81000000000000000000000000000000", value: "leisure" },
@@ -158,7 +182,13 @@ const entry: TuyaDeviceEntry = {
           },
         ],
       },
-      hdrLevel: { dataPoint: "113", kind: "number", min: 0, max: 1000 },
+      hdrLevel: {
+        dataPoint: "113",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 1000,
+      },
     },
   },
   source: {

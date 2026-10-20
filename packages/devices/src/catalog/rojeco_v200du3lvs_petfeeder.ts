@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Camera pet feeder",
-  productKeys: ["nfeelzrghxtfj7xf"],
+  products: [
+    {
+      productKey: "nfeelzrghxtfj7xf",
+      manufacturer: "Rojeco",
+      model: "V200 DU3L-VS",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "103": { type: "boolean", optional: true },
@@ -24,20 +30,21 @@ const entry: TuyaDeviceEntry = {
     "208": { type: "string", optional: true },
   },
   components: {
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
     device: {
-      flipImage: { dataPoint: "103", kind: "switch" },
-      watermark: { dataPoint: "104", kind: "switch" },
+      flipImage: { dataPoint: "103", kind: "switch", category: "config" },
+      watermark: { dataPoint: "104", kind: "switch", category: "config" },
       motionSensitivity: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
           { raw: "2", value: "high" },
         ],
       },
-      motionEnabled: { dataPoint: "113", kind: "switch" },
+      motionEnabled: { dataPoint: "113", kind: "switch", category: "config" },
       motion: {
         dataPoint: "115",
         kind: "event",
@@ -46,10 +53,11 @@ const entry: TuyaDeviceEntry = {
         otherwise: "detected",
       },
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
-      motionDetection: { dataPoint: "134", kind: "switch" },
+      motionDetection: { dataPoint: "134", kind: "switch", category: "config" },
       feedAmountInPortions: {
         dataPoint: "201",
         kind: "number",
+        category: "config",
         unit: "portions",
         min: 0,
         max: 20,
@@ -58,18 +66,43 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "202",
         kind: "sensor",
         measures: "weight",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "g",
         scale: 10,
       },
-      control: { dataPoint: "203", kind: "number", min: 0, max: 2147483647 },
-      data: { dataPoint: "204", kind: "sensor", readOnly: true },
-      autoPortioning: { dataPoint: "205", kind: "number", min: 1, max: 255 },
-      history: { dataPoint: "206", kind: "sensor", readOnly: true },
-      schedule: { dataPoint: "207", kind: "text" },
+      control: {
+        dataPoint: "203",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 2147483647,
+      },
+      data: {
+        dataPoint: "204",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      autoPortioning: {
+        dataPoint: "205",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 255,
+      },
+      history: {
+        dataPoint: "206",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      schedule: { dataPoint: "207", kind: "text", category: "config" },
       voiceRecording: {
         dataPoint: "208",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "stop" },
           { raw: "1", value: "record" },

@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dual Switch",
-  productKeys: ["uytmbjaogpksyu7i"],
+  products: [{ productKey: "uytmbjaogpksyu7i", model: "uk002wl2" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -21,6 +21,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -42,7 +43,7 @@ const entry: TuyaDeviceEntry = {
         max: 86400,
       },
     },
-    backlight: { on: { dataPoint: "16", kind: "switch" } },
+    backlight: { on: { dataPoint: "16", kind: "switch", category: "config" } },
   },
   source: {
     file: "uk002wl2_2gang_switch.yaml",

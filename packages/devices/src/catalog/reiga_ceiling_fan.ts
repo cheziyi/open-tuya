@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["aktxh7558udrex8a", "ggcvdl5nydg5qqtr"],
+  products: [
+    {
+      productKey: "aktxh7558udrex8a",
+      manufacturer: "CasaFan / Reiga",
+      model: "Eco Genuino",
+    },
+    {
+      productKey: "ggcvdl5nydg5qqtr",
+      manufacturer: "Mercator Ikuu",
+      model: "Casa DC Ceiling Fan",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -30,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "cancel" },
           { raw: "1hour", value: "1h" },

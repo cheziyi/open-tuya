@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Smartplug",
-  productKeys: ["ocazi2dacnofqidn"],
+  products: [{ productKey: "ocazi2dacnofqidn", model: "P01" }],
   dataPoints: {
     "1": { type: "boolean" },
     "9": { type: "integer" },
@@ -25,6 +25,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -33,6 +34,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "mA",
       },
@@ -40,6 +43,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "W",
         scale: 10,
@@ -48,6 +53,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 10,
@@ -56,15 +63,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "29",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "29", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "29",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       initialState: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "on" },
@@ -72,8 +86,8 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: {},
       },
-      randomSchedule: { dataPoint: "42", kind: "text" },
-      schedule: { dataPoint: "43", kind: "text" },
+      randomSchedule: { dataPoint: "42", kind: "text", category: "config" },
+      schedule: { dataPoint: "43", kind: "text", category: "config" },
     },
   },
   source: {

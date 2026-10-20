@@ -5,13 +5,33 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: [
-    "u9jjsaluqe1trtxv",
-    "fcnlevuwfd1jgkvx",
-    "0v9shs7pwdjuwi9e",
-    "2mixrhxp38ehekxx",
-    "hrzr8mr0mtgfwwri",
-    "hrzr8mr0mtgfwwri",
+  products: [
+    {
+      productKey: "u9jjsaluqe1trtxv",
+      manufacturer: "Daitsu",
+      model: "DS-9KTP",
+    },
+    {
+      productKey: "fcnlevuwfd1jgkvx",
+      manufacturer: "Tesla",
+      model: "TT34TP21-1232IAWUV",
+    },
+    {
+      productKey: "0v9shs7pwdjuwi9e",
+      manufacturer: "Kogan",
+      model: "8.2kW split aircon",
+    },
+    {
+      productKey: "2mixrhxp38ehekxx",
+      manufacturer: "Kogan",
+      model: "2.6kW/3.5kW split aircon",
+    },
+    {
+      productKey: "hrzr8mr0mtgfwwri",
+      manufacturer: "ComfortStar",
+      model: "12000 BTU mini split",
+    },
+    { productKey: "hrzr8mr0mtgfwwri", manufacturer: "Rotenso", model: "Teta" },
   ],
   dataPoints: {
     "1": { type: "boolean" },
@@ -154,6 +174,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "123",
         mask: "0010",
         kind: "switch",
+        category: "config",
         type: "hex",
         values: [
           { raw: 0, value: false },
@@ -166,6 +187,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "123",
         mask: "8000",
         kind: "switch",
+        category: "config",
         type: "hex",
         values: [
           { raw: 0, value: false },
@@ -178,6 +200,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "123",
         mask: "0002",
         kind: "switch",
+        category: "config",
         type: "hex",
         values: [
           { raw: 0, value: false },
@@ -190,6 +213,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "123",
         mask: "0100",
         kind: "switch",
+        category: "config",
         type: "hex",
         values: [
           { raw: 0, value: false },
@@ -202,6 +226,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "123",
         mask: "0020",
         kind: "switch",
+        category: "config",
         type: "hex",
         values: [
           { raw: 0, value: false },
@@ -214,6 +239,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "123",
         mask: "1000",
         kind: "switch",
+        category: "config",
         type: "hex",
         values: [
           { raw: 0, value: false },
@@ -226,6 +252,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "123",
         mask: "0001",
         kind: "switch",
+        category: "config",
         type: "hex",
         values: [
           { raw: 0, value: false },
@@ -238,6 +265,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "123",
         mask: "0004",
         kind: "switch",
+        category: "config",
         type: "hex",
         values: [
           { raw: 0, value: false },
@@ -250,22 +278,35 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "20", kind: "sensor", readOnly: true },
-      faultFault2: { dataPoint: "122", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "20",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultFault2: {
+        dataPoint: "122",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       pm25InUgPerM3: {
         dataPoint: "101",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
       sleep: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "Off" },
           { raw: "normal", value: "Normal" },
@@ -276,6 +317,7 @@ const entry: TuyaDeviceEntry = {
       verticalSweep: {
         dataPoint: "113",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "None" },
           { raw: "1", value: "Upper and lower" },
@@ -286,6 +328,7 @@ const entry: TuyaDeviceEntry = {
       horizontalSweep: {
         dataPoint: "114",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Off" },
           { raw: "1", value: "Left and Right" },
@@ -308,12 +351,14 @@ const entry: TuyaDeviceEntry = {
       horizontalSweepWideAvailable: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [{ raw: 8388608, value: true }],
         otherwise: false,
       },
       energySaving: {
         dataPoint: "119",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "None" },
           { raw: "1", value: "Default Power Saving" },
@@ -324,6 +369,7 @@ const entry: TuyaDeviceEntry = {
       generatorMode: {
         dataPoint: "120",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "None" },
           { raw: "L1", value: "L1 (30%)" },
@@ -334,6 +380,7 @@ const entry: TuyaDeviceEntry = {
       airQuality: {
         dataPoint: "125",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "great", value: "excellent" },
@@ -346,6 +393,7 @@ const entry: TuyaDeviceEntry = {
       setVerticalDirection: {
         dataPoint: "126",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Freeze Current Position" },
           { raw: "1", value: "Top" },
@@ -358,6 +406,7 @@ const entry: TuyaDeviceEntry = {
       setHorizontalDirection: {
         dataPoint: "127",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Freeze current position" },
           { raw: "1", value: "Left" },
@@ -397,12 +446,14 @@ const entry: TuyaDeviceEntry = {
       setHorizontalDirectionWideAvailable: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [{ raw: 8388608, value: true }],
         otherwise: false,
       },
       power: {
         dataPoint: "129",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "1 kWh" },
           { raw: "2", value: "2 kWh" },
@@ -411,12 +462,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "5", value: "5 kWh" },
         ],
       },
-      powerTotalN: { dataPoint: "115", kind: "number" },
-      powerTotalP: { dataPoint: "116", kind: "number" },
+      powerTotalN: { dataPoint: "115", kind: "number", category: "config" },
+      powerTotalP: { dataPoint: "116", kind: "number", category: "config" },
       powerSavingTemperatureInC: {
         dataPoint: "130",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 26,
         max: 31,
@@ -425,11 +477,13 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "131",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
       hotColdWind: {
         dataPoint: "132",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "Off" },
           {
@@ -444,7 +498,7 @@ const entry: TuyaDeviceEntry = {
           },
         ],
       },
-      hotColdWindMode: { dataPoint: "4", kind: "text" },
+      hotColdWindMode: { dataPoint: "4", kind: "text", category: "config" },
       runningTimeInMinutes: {
         dataPoint: "135",
         kind: "sensor",
@@ -456,6 +510,7 @@ const entry: TuyaDeviceEntry = {
       freshAir: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "auto", value: "Auto" },
           { raw: "low", value: "Low" },
@@ -468,15 +523,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
-      workTime: { dataPoint: "134", kind: "sensor", readOnly: true },
+      workTime: {
+        dataPoint: "134",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     display: {
       on: {
         dataPoint: "123",
         mask: "0008",
         kind: "switch",
+        category: "config",
         type: "hex",
         values: [
           { raw: 0, value: false },

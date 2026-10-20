@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Aroma diffuser",
-  productKeys: ["rfautxbsykmgxthv"],
+  products: [
+    { productKey: "rfautxbsykmgxthv", manufacturer: "HOM", model: "Chernobyl" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -25,6 +27,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -36,18 +39,25 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      sound: { dataPoint: "6", kind: "switch" },
+      sound: { dataPoint: "6", kind: "switch", category: "config" },
       tankEmpty: {
         dataPoint: "11",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
       },
-      tankEmptyFaultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      tankEmptyFaultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     aromaDiffuser: {
       on: { dataPoint: "2", kind: "switch" },

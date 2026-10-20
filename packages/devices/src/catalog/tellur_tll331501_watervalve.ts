@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water valve",
-  productKeys: ["llbov9p1f0lemzjz"],
+  products: [
+    {
+      productKey: "llbov9p1f0lemzjz",
+      manufacturer: "Tellur",
+      model: "TL331501",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "9": { type: "integer" },
@@ -20,6 +26,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -27,6 +34,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -36,6 +44,7 @@ const entry: TuyaDeviceEntry = {
       maximumInPercent: {
         dataPoint: "101",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,

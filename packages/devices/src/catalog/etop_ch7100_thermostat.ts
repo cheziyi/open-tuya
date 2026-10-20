@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["evklbfoqwp4dygts"],
+  products: [
+    { productKey: "evklbfoqwp4dygts", manufacturer: "ETOP", model: "CH7100" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -178,14 +180,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "34",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
-      childLock: { dataPoint: "40", kind: "switch" },
-      schedule: { dataPoint: "102", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
+      schedule: { dataPoint: "102", kind: "switch", category: "config" },
       temporaryHoldTimeInMinutes: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,
@@ -195,6 +199,7 @@ const entry: TuyaDeviceEntry = {
       hvacMode: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [{ raw: 0, value: "off" }],
         dependsOn: {
           dataPoint: "1",
@@ -208,6 +213,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unitFrom: "temperatureUnit",
         min: 5,
         max: 40,
@@ -228,6 +234,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -237,6 +244,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         kind: "sensor",
         measures: "temperature",
+        category: "config",
         readOnly: true,
         unitFrom: "temperatureUnit",
         dependsOn: {

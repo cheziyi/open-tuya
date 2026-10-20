@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "CO2 box",
-  productKeys: ["ot8jbazilxrskg6s"],
+  products: [{ productKey: "ot8jbazilxrskg6s", model: "DCR-CO2" }],
   dataPoints: { "2": { type: "integer" } },
   components: {
     device: {
@@ -13,6 +13,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "carbonDioxide",
+        reading: "instant",
         readOnly: true,
         unit: "ppm",
       },

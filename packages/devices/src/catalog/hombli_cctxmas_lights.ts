@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Christmas lights",
-  productKeys: ["bcaam4fg2vjxvwup"],
+  products: [
+    {
+      productKey: "bcaam4fg2vjxvwup",
+      manufacturer: "Hombli",
+      model: "HBCL-0225 CCT 2024",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -32,13 +38,13 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
-      music: { dataPoint: "27", kind: "text" },
-      control: { dataPoint: "28", kind: "text" },
-      microphone: { dataPoint: "42", kind: "text" },
-      scene: { dataPoint: "52", kind: "text" },
-      sceneList: { dataPoint: "51", kind: "text" },
-      sceneCombination: { dataPoint: "53", kind: "text" },
-      sceneReset: { dataPoint: "54", kind: "text" },
+      music: { dataPoint: "27", kind: "text", category: "config" },
+      control: { dataPoint: "28", kind: "text", category: "config" },
+      microphone: { dataPoint: "42", kind: "text", category: "config" },
+      scene: { dataPoint: "52", kind: "text", category: "config" },
+      sceneList: { dataPoint: "51", kind: "text", category: "config" },
+      sceneCombination: { dataPoint: "53", kind: "text", category: "config" },
+      sceneReset: { dataPoint: "54", kind: "text", category: "config" },
     },
   },
   source: {

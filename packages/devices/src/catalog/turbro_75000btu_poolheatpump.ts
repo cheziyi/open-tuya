@@ -5,7 +5,19 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pool heat pump",
-  productKeys: ["cbnlx1l9nyal6vk4", "cbnlx1l9nyal6vk4"],
+  products: [
+    {
+      productKey: "cbnlx1l9nyal6vk4",
+      manufacturer: "Turbro",
+      model: "75000 btu",
+    },
+    {
+      productKey: "cbnlx1l9nyal6vk4",
+      manufacturer: "Aquaviva",
+      model: "Model 12 ON/OFF",
+      modelId: "AVM-ON12RW",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -1487,6 +1499,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "6",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -1496,30 +1509,65 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "15",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "15", kind: "sensor", readOnly: true },
-      faultNewFault01: { dataPoint: "103", kind: "sensor", readOnly: true },
-      faultNewFault02: { dataPoint: "107", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "15",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultNewFault01: {
+        dataPoint: "103",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultNewFault02: {
+        dataPoint: "107",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultNewDriverFault01: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       faultNewDriverFault02: {
         dataPoint: "111",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
-      faultCode2: { dataPoint: "118", kind: "sensor", readOnly: true },
-      faultCode3: { dataPoint: "119", kind: "sensor", readOnly: true },
-      faultDriverFault: { dataPoint: "120", kind: "sensor", readOnly: true },
+      faultCode2: {
+        dataPoint: "118",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultCode3: {
+        dataPoint: "119",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultDriverFault: {
+        dataPoint: "120",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       coilTemperature: {
         dataPoint: "23",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unitFrom: "coilTemperatureUnit",
         dependsOn: {
@@ -1538,6 +1586,7 @@ const entry: TuyaDeviceEntry = {
       coilTemperatureUnit: {
         dataPoint: "6",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
@@ -1546,6 +1595,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unitFrom: "exhaustTemperatureUnit",
         dependsOn: {
@@ -1564,6 +1615,7 @@ const entry: TuyaDeviceEntry = {
       exhaustTemperatureUnit: {
         dataPoint: "6",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
@@ -1572,6 +1624,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "25",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unitFrom: "outletTemperatureUnit",
         dependsOn: {
@@ -1590,6 +1644,7 @@ const entry: TuyaDeviceEntry = {
       outletTemperatureUnit: {
         dataPoint: "6",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
@@ -1598,6 +1653,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "26",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unitFrom: "ambientTemperatureUnit",
         dependsOn: {
@@ -1616,6 +1673,7 @@ const entry: TuyaDeviceEntry = {
       ambientTemperatureUnit: {
         dataPoint: "6",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
@@ -1623,6 +1681,7 @@ const entry: TuyaDeviceEntry = {
       mode: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Silent", value: "Silent" },
           { raw: "Smart", value: "Smart" },
@@ -1633,6 +1692,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "121",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unitFrom: "returnTemperatureUnit",
         dependsOn: {
@@ -1651,12 +1712,14 @@ const entry: TuyaDeviceEntry = {
       returnTemperatureSensorF: {
         dataPoint: "122",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         scale: 10,
       },
       returnTemperatureUnit: {
         dataPoint: "6",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
@@ -1665,6 +1728,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "123",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unitFrom: "coolingCoilTemperatureUnit",
         dependsOn: {
@@ -1683,17 +1748,26 @@ const entry: TuyaDeviceEntry = {
       coolingCoilTemperatureSensorF: {
         dataPoint: "124",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         scale: 10,
       },
       coolingCoilTemperatureUnit: {
         dataPoint: "6",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
-      eev: { dataPoint: "125", kind: "sensor", readOnly: true, unit: "P" },
+      eev: {
+        dataPoint: "125",
+        kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
+        readOnly: true,
+        unit: "P",
+      },
     },
   },
   source: {

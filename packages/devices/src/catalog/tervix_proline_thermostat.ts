@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["tervixwf11413000"],
+  products: [
+    {
+      productKey: "tervixwf11413000",
+      manufacturer: "Tervix",
+      model: "Pro Line WiFi",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -95,21 +101,27 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      openWindowDetection: { dataPoint: "8", kind: "switch" },
-      antiFrost: { dataPoint: "10", kind: "switch" },
+      openWindowDetection: {
+        dataPoint: "8",
+        kind: "switch",
+        category: "config",
+      },
+      antiFrost: { dataPoint: "10", kind: "switch", category: "config" },
       temperatureCalibrationInC: {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -9,
         max: 9,
       },
-      factoryReset: { dataPoint: "39", kind: "button" },
-      childLock: { dataPoint: "40", kind: "switch" },
+      factoryReset: { dataPoint: "39", kind: "button", category: "config" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       sensorSelection: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "in", value: "Internal" },
           { raw: "out", value: "External" },
@@ -120,6 +132,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "sensor",
         measures: "window",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "close", value: false },
@@ -133,15 +146,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "45",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "45",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       maximumTemperatureInC: {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 350,
         max: 950,
@@ -152,6 +172,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 100,
         max: 300,

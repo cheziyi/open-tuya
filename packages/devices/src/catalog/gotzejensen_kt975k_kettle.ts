@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Kettle",
-  productKeys: ["m3piuietzgcgyrfk", "vizuizty8seqa5h8"],
+  products: [
+    {
+      productKey: "m3piuietzgcgyrfk",
+      manufacturer: "Götze & Jensen",
+      model: "KT975K",
+    },
+    { productKey: "vizuizty8seqa5h8", model: "D3815ES-D V0.1" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -66,6 +73,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "15",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 0,
         max: 100,
@@ -74,6 +82,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 120,
@@ -82,6 +91,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "8",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -90,11 +100,17 @@ const entry: TuyaDeviceEntry = {
           { raw: "warm", value: "keeping_warm" },
         ],
       },
-      statusSetting: { dataPoint: "9", kind: "sensor", readOnly: true },
+      statusSetting: {
+        dataPoint: "9",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       remainingTimeInMinutes: {
         dataPoint: "17",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
         min: 0,
@@ -104,14 +120,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "10", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "10",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "10",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -124,6 +147,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 720,
@@ -132,6 +156,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

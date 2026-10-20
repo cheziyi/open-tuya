@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Irrigation controller",
-  productKeys: ["cgz1qpr1aeladx2t"],
+  products: [{ productKey: "cgz1qpr1aeladx2t", model: "WD-01GDE" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -27,11 +27,22 @@ const entry: TuyaDeviceEntry = {
     zoneB: { open: { dataPoint: "2", kind: "switch" } },
     device: {
       protection: { dataPoint: "3", kind: "switch" },
-      scheduleA: { dataPoint: "101", kind: "sensor", readOnly: true },
-      scheduleB: { dataPoint: "102", kind: "sensor", readOnly: true },
+      scheduleA: {
+        dataPoint: "101",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      scheduleB: {
+        dataPoint: "102",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       wateringTimeAInSeconds: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 1800,
@@ -39,24 +50,37 @@ const entry: TuyaDeviceEntry = {
       wateringTimeBInSeconds: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 1800,
       },
-      runLog: { dataPoint: "105", kind: "sensor", readOnly: true },
+      runLog: {
+        dataPoint: "105",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       fault: {
         dataPoint: "106",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "106", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "106",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       cutOffTimeInMinutes: {
         dataPoint: "107",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 1,
         max: 60,
@@ -64,6 +88,7 @@ const entry: TuyaDeviceEntry = {
       switchLogA: {
         dataPoint: "108",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "key_off", value: "Key off" },
@@ -74,6 +99,7 @@ const entry: TuyaDeviceEntry = {
       switchLogB: {
         dataPoint: "109",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "key_off", value: "Key off" },
@@ -84,6 +110,7 @@ const entry: TuyaDeviceEntry = {
       powerLevelA: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [
           { raw: 1, value: "Level 1" },
           { raw: 2, value: "Level 2" },
@@ -93,6 +120,7 @@ const entry: TuyaDeviceEntry = {
       powerLevelB: {
         dataPoint: "111",
         kind: "select",
+        category: "config",
         values: [
           { raw: 1, value: "Level 1" },
           { raw: 2, value: "Level 2" },

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Temperature alarm",
-  productKeys: ["pbgnjxdebaomrxjl"],
+  products: [
+    {
+      productKey: "pbgnjxdebaomrxjl",
+      manufacturer: "Konlen",
+      model: "SNT957W-TDE E3S",
+    },
+  ],
   dataPoints: {
     "1": { type: "integer" },
     "9": { type: "string" },
@@ -71,6 +77,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unitFrom: "temperatureCalibrationUnit",
         min: -100,
         max: 100,
@@ -79,6 +86,7 @@ const entry: TuyaDeviceEntry = {
       temperatureCalibrationUnit: {
         dataPoint: "9",
         kind: "select",
+        category: "config",
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },

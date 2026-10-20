@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Tower fan",
-  productKeys: ["vv3blwenchl2xnyj", "7vv5uaymmrsealcu"],
+  products: [
+    {
+      productKey: "vv3blwenchl2xnyj",
+      manufacturer: "Pureborne",
+      model: "HTF1001",
+    },
+    {
+      productKey: "7vv5uaymmrsealcu",
+      manufacturer: "Flanur",
+      model: "HTF1003",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -204,6 +215,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

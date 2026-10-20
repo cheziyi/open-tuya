@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["nn2ooaacswz6uyi0"],
+  products: [
+    {
+      productKey: "nn2ooaacswz6uyi0",
+      manufacturer: "Kaisai",
+      model: "Pro Heat+ AC",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -146,6 +152,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "116",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 100,
@@ -154,6 +161,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "127",
         kind: "sensor",
         measures: "energy",
+        reading: "total",
         readOnly: true,
         unit: "kWh",
         scale: 100,
@@ -179,7 +187,7 @@ const entry: TuyaDeviceEntry = {
         measures: "fault",
         readOnly: true,
       },
-      ionizer: { dataPoint: "26", kind: "switch" },
+      ionizer: { dataPoint: "26", kind: "switch", category: "config" },
     },
   },
   source: {

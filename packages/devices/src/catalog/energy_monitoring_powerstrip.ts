@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Energy monitoring powerstrip",
-  productKeys: ["7hBwPPNdDP1xHrWv"],
+  products: [{ productKey: "7hBwPPNdDP1xHrWv", model: "WP30" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -30,6 +30,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "mA",
       },
@@ -37,6 +39,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "W",
         scale: 10,
@@ -45,6 +49,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 10,

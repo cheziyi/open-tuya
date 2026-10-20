@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "White noise machine",
-  productKeys: ["dymvl7axplliptxx"],
+  products: [{ productKey: "dymvl7axplliptxx", manufacturer: "Mom Cozy" }],
   dataPoints: {
     "3": { type: "boolean" },
     "4": { type: "string" },
@@ -57,6 +57,7 @@ const entry: TuyaDeviceEntry = {
       favorites: {
         dataPoint: "13",
         kind: "select",
+        category: "config",
         values: [
           { raw: "mode_1", value: "Scene 1" },
           { raw: "mode_2", value: "Scene 2" },
@@ -69,7 +70,7 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "None" },
       },
-      childLock: { dataPoint: "101", kind: "switch" },
+      childLock: { dataPoint: "101", kind: "switch", category: "config" },
       timeRemainingInSeconds: {
         dataPoint: "104",
         kind: "sensor",

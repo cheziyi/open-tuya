@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "RF controller",
-  productKeys: ["0oaok27eec1f9j4u"],
+  products: [
+    {
+      productKey: "0oaok27eec1f9j4u",
+      manufacturer: "YET",
+      model: "YET6956WTR-B",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "boolean" },

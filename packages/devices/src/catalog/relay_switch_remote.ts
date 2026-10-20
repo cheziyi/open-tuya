@@ -5,11 +5,15 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Relay switch",
-  productKeys: [
-    "1aegphq4yfd50e6b",
-    "fugkn1vkc53nvo1s",
-    "keyjnuy4s3kre7m7",
-    "nlfukjnp7vcdsmqa",
+  products: [
+    { productKey: "1aegphq4yfd50e6b", model: "1-433" },
+    { productKey: "fugkn1vkc53nvo1s", model: "1 Gang WiFi Smart Relay" },
+    {
+      productKey: "keyjnuy4s3kre7m7",
+      manufacturer: "Szaoju",
+      model: "DIY Mini",
+    },
+    { productKey: "nlfukjnp7vcdsmqa", model: "T34-Mini" },
   ],
   dataPoints: {
     "1": { type: "boolean" },
@@ -30,15 +34,17 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
       },
-      timerRandomTime: { dataPoint: "42", kind: "text" },
-      timerCycleTime: { dataPoint: "43", kind: "text" },
+      timerRandomTime: { dataPoint: "42", kind: "text", category: "config" },
+      timerCycleTime: { dataPoint: "43", kind: "text", category: "config" },
       initialState: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -48,6 +54,7 @@ const entry: TuyaDeviceEntry = {
       switchType: {
         dataPoint: "47",
         kind: "select",
+        category: "config",
         values: [
           { raw: "flip", value: "flip" },
           { raw: "sync", value: "sync" },
@@ -58,6 +65,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "44",
         mask: "FF0000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -67,6 +75,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "44",
         mask: "00FFFF",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 3600,

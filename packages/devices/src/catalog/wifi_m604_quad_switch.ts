@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Quad switch",
-  productKeys: ["iv8nm7yimgfz2kmx", "key7axydcvmea3x9"],
+  products: [
+    { productKey: "iv8nm7yimgfz2kmx", model: "M604" },
+    { productKey: "key7axydcvmea3x9", manufacturer: "Bseed" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -30,6 +33,7 @@ const entry: TuyaDeviceEntry = {
       timer1InSeconds: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -37,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       timer2InSeconds: {
         dataPoint: "8",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -44,6 +49,7 @@ const entry: TuyaDeviceEntry = {
       timer3InSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -51,6 +57,7 @@ const entry: TuyaDeviceEntry = {
       timer4InSeconds: {
         dataPoint: "10",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -58,17 +65,18 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "power_off", value: "off" },
           { raw: "power_on", value: "on" },
           { raw: "last", value: "memory" },
         ],
       },
-      cycleSchedule: { dataPoint: "17", kind: "text" },
-      randomSchedule: { dataPoint: "18", kind: "text" },
-      inchingConfig: { dataPoint: "19", kind: "text" },
+      cycleSchedule: { dataPoint: "17", kind: "text", category: "config" },
+      randomSchedule: { dataPoint: "18", kind: "text", category: "config" },
+      inchingConfig: { dataPoint: "19", kind: "text", category: "config" },
     },
-    backlight: { on: { dataPoint: "16", kind: "switch" } },
+    backlight: { on: { dataPoint: "16", kind: "switch", category: "config" } },
   },
   source: {
     file: "wifi_m604_quad_switch.yaml",

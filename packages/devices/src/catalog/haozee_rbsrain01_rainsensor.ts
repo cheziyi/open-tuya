@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Rain sensor",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "string" },
     "4": { type: "integer" },
@@ -29,6 +29,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -36,15 +38,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "mV",
       },
       solarIntensityAverage: {
         dataPoint: "102",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
-      solarIntensityPeak: { dataPoint: "103", kind: "sensor", readOnly: true },
+      solarIntensityPeak: {
+        dataPoint: "103",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       cleaning: {
         dataPoint: "104",
         kind: "event",
@@ -58,6 +68,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "mV",
       },

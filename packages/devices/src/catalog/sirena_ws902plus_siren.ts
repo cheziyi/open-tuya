@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Outdoor siren",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "string" },
     "5": { type: "string" },
@@ -49,6 +49,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "batteryCharging",
+        category: "diagnostic",
         readOnly: true,
       },
       batteryInPercent: {
@@ -63,11 +64,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: 80 },
         ],
       },
-      silent: { dataPoint: "16", kind: "switch" },
+      silent: { dataPoint: "16", kind: "switch", category: "config" },
       tamperDetect: {
         dataPoint: "18",
         kind: "sensor",
         measures: "tamper",
+        category: "diagnostic",
         readOnly: true,
       },
     },

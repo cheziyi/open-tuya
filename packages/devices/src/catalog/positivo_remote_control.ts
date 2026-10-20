@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "IR remote control",
-  productKeys: ["lwpag3bu0faaowlj"],
+  products: [
+    {
+      productKey: "lwpag3bu0faaowlj",
+      manufacturer: "Positivo",
+      model: "Smart Controle Universal V2 H5",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "string", optional: true },

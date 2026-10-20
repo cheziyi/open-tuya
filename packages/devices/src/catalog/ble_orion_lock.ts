@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Door lock",
-  productKeys: ["a6nttc41"],
+  products: [
+    { productKey: "a6nttc41", manufacturer: "Orion", model: "DL021HA" },
+  ],
   dataPoints: {
     "1": { type: "string", optional: true },
     "2": { type: "string", optional: true },

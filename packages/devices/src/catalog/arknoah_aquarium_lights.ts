@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Aquarium lights",
-  productKeys: ["h5knkuawivfnolpu"],
+  products: [
+    {
+      productKey: "h5knkuawivfnolpu",
+      manufacturer: "Arknoah",
+      model: "165W 3 channel",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -21,13 +27,13 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "20", kind: "switch" },
-      music: { dataPoint: "27", kind: "text" },
-      powerMemory: { dataPoint: "33", kind: "text" },
-      doNotDisturb: { dataPoint: "34", kind: "switch" },
-      rhythmPattern: { dataPoint: "106", kind: "text" },
-      schedule: { dataPoint: "107", kind: "text" },
-      custom: { dataPoint: "108", kind: "text" },
+      on: { dataPoint: "20", kind: "switch", category: "config" },
+      music: { dataPoint: "27", kind: "text", category: "config" },
+      powerMemory: { dataPoint: "33", kind: "text", category: "config" },
+      doNotDisturb: { dataPoint: "34", kind: "switch", category: "config" },
+      rhythmPattern: { dataPoint: "106", kind: "text", category: "config" },
+      schedule: { dataPoint: "107", kind: "text", category: "config" },
+      custom: { dataPoint: "108", kind: "text", category: "config" },
     },
     blue: {
       effect: {

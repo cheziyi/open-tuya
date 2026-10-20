@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Radiator element",
-  productKeys: ["keq3x2tw6plbbipm"],
+  products: [
+    {
+      productKey: "keq3x2tw6plbbipm",
+      manufacturer: "Ecostrad",
+      model: "iQ WiFi Element",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -102,11 +108,12 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      childLock: { dataPoint: "40", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       temperatureCalibrationInC: {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -5,
         max: 5,
@@ -114,6 +121,7 @@ const entry: TuyaDeviceEntry = {
       openWindowDetection: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "60", value: "1h" },
@@ -124,6 +132,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 7,

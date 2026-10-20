@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Door/window sensor",
-  productKeys: ["bzxlofth"],
+  products: [
+    { productKey: "bzxlofth", manufacturer: "Nedis", model: "Zigbee ZBSD10WT" },
+  ],
   dataPoints: { "1": { type: "boolean" }, "2": { type: "integer" } },
   components: {
     device: {
@@ -19,6 +21,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },

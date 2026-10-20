@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dimmer",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -22,6 +22,7 @@ const entry: TuyaDeviceEntry = {
       minimumBrightnessInPercent: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 10,
         max: 1000,
@@ -30,6 +31,7 @@ const entry: TuyaDeviceEntry = {
       lightType: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "led", value: "LED" },
           { raw: "incandescent", value: "Incandescent" },
@@ -39,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "21",
         kind: "select",
+        category: "config",
         values: [
           { raw: "none", value: "off" },
           { raw: "relay", value: "state" },

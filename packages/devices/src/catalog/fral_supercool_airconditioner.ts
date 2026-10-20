@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["vt8geitareko1itp"],
+  products: [
+    {
+      productKey: "vt8geitareko1itp",
+      manufacturer: "Fral",
+      model: "Super Cool",
+      modelId: "FSC14.2 DH",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -120,6 +127,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "20",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1hrs", value: "1h" },
@@ -148,7 +156,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "24hrs", value: "24h" },
         ],
       },
-      sleep: { dataPoint: "25", kind: "switch" },
+      sleep: { dataPoint: "25", kind: "switch", category: "config" },
     },
   },
   source: {

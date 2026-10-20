@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["t2htqaryl4gymeuv"],
+  products: [
+    { productKey: "t2htqaryl4gymeuv", manufacturer: "BVP", model: "CP-1" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -63,20 +65,22 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "C",
       },
-      sound: { dataPoint: "7", kind: "switch" },
-      windowDetection: { dataPoint: "8", kind: "switch" },
+      sound: { dataPoint: "7", kind: "switch", category: "config" },
+      windowDetection: { dataPoint: "8", kind: "switch", category: "config" },
       temperatureCalibrationInC: {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -9,
         max: 9,
       },
-      childLock: { dataPoint: "40", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       timer: {
         dataPoint: "41",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -106,7 +110,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    display: { on: { dataPoint: "6", kind: "switch" } },
+    display: { on: { dataPoint: "6", kind: "switch", category: "config" } },
   },
   source: {
     file: "bvf_cp1_heater.yaml",

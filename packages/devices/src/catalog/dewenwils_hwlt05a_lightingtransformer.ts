@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Triple light",
-  productKeys: ["fozet5sa92afpioq"],
+  products: [
+    {
+      productKey: "fozet5sa92afpioq",
+      manufacturer: "Dewenwils",
+      model: "HWLT05A",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -26,6 +32,7 @@ const entry: TuyaDeviceEntry = {
       timer1InSeconds: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -33,6 +40,7 @@ const entry: TuyaDeviceEntry = {
       timer2InSeconds: {
         dataPoint: "8",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -40,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       timer3InSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -48,6 +57,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
+        category: "diagnostic",
         readOnly: true,
         unit: "kWh",
         scale: 100,
@@ -56,13 +67,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "102", kind: "sensor", readOnly: true },
-      schedule: { dataPoint: "209", kind: "text" },
-      randomizedSchedule: { dataPoint: "210", kind: "text" },
+      faultCode: {
+        dataPoint: "102",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      schedule: { dataPoint: "209", kind: "text", category: "config" },
+      randomizedSchedule: {
+        dataPoint: "210",
+        kind: "text",
+        category: "config",
+      },
     },
   },
   source: {

@@ -5,7 +5,19 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["nb4b1dtoa3ljpstn", "jsrcliohsha5y9kg"],
+  products: [
+    {
+      productKey: "nb4b1dtoa3ljpstn",
+      manufacturer: "Pro Breeze",
+      model: "PB-D-23W-W",
+    },
+    {
+      productKey: "jsrcliohsha5y9kg",
+      manufacturer: "Rohnson",
+      model: "Genius 20",
+      modelId: "R-9920",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -51,21 +63,28 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
       fanSpeed: {
         dataPoint: "6",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "Low" },
           { raw: "3", value: "High" },
         ],
       },
-      ventilationMode: { dataPoint: "5", kind: "switch" },
-      sleep: { dataPoint: "102", kind: "switch" },
-      childLock: { dataPoint: "7", kind: "switch" },
-      defrost: { dataPoint: "105", kind: "sensor", readOnly: true },
+      ventilationMode: { dataPoint: "5", kind: "switch", category: "config" },
+      sleep: { dataPoint: "102", kind: "switch", category: "config" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
+      defrost: {
+        dataPoint: "105",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       tankFull: {
         dataPoint: "11",
         kind: "sensor",
@@ -77,6 +96,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -86,7 +106,12 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

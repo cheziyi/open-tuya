@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water fountain",
-  productKeys: ["z3rpyvznfcch99aa", "aas56qqa3qgstcyz"],
+  products: [
+    {
+      productKey: "z3rpyvznfcch99aa",
+      manufacturer: "Catit",
+      model: "Pixi smart fountain",
+    },
+    {
+      productKey: "aas56qqa3qgstcyz",
+      manufacturer: "Catit",
+      model: "PIXI Smart Drinking Fountain",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "integer" },
@@ -24,12 +35,13 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       on: { dataPoint: "1", kind: "switch" },
-      filterReplaced: { dataPoint: "7", kind: "button" },
-      pumpCleaned: { dataPoint: "8", kind: "button" },
+      filterReplaced: { dataPoint: "7", kind: "button", category: "config" },
+      pumpCleaned: { dataPoint: "8", kind: "button", category: "config" },
       filterLifeInMinutes: {
         dataPoint: "4",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
         min: 0,
@@ -40,16 +52,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
         min: 0,
         max: 86400,
         invert: true,
       },
-      uvSterilization: { dataPoint: "10", kind: "switch" },
+      uvSterilization: { dataPoint: "10", kind: "switch", category: "config" },
       waterLevel: {
         dataPoint: "12",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "level_1", value: "low" },
@@ -61,6 +75,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -68,6 +83,7 @@ const entry: TuyaDeviceEntry = {
       ecoMode: {
         dataPoint: "102",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 1, value: false },
           { raw: 2, value: true },
@@ -80,7 +96,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
       },
       tankEmpty: { dataPoint: "104", kind: "sensor", readOnly: true },
-      ipcDid: { dataPoint: "110", kind: "text" },
+      ipcDid: { dataPoint: "110", kind: "text", category: "config" },
     },
   },
   source: {

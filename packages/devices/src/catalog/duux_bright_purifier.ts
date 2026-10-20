@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["go2ndjijilncwuf7"],
+  products: [
+    { productKey: "go2ndjijilncwuf7", manufacturer: "Duux", model: "Bright" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -36,20 +38,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
       filterLifeInPercent: {
         dataPoint: "5",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      ionizer: { dataPoint: "6", kind: "switch" },
-      filterReset: { dataPoint: "11", kind: "button" },
+      ionizer: { dataPoint: "6", kind: "switch", category: "config" },
+      filterReset: { dataPoint: "11", kind: "button", category: "config" },
       timer: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "2h", value: "2h" },
@@ -61,6 +66,7 @@ const entry: TuyaDeviceEntry = {
       airQuality: {
         dataPoint: "21",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "great", value: "excellent" },

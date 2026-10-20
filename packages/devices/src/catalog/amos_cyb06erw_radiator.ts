@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Oil radiator",
-  productKeys: ["crubfklrts4o5cyf"],
+  products: [
+    {
+      productKey: "crubfklrts4o5cyf",
+      manufacturer: "AMOS",
+      model: "CY-B06ERW",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -44,6 +50,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

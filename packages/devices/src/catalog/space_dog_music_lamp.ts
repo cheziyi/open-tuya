@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Music lamp",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -62,6 +62,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "111",
         kind: "select",
+        category: "config",
         values: [
           { raw: "00", value: "Passion - Single colors" },
           { raw: "01", value: "Passion - Mixed colors" },
@@ -108,6 +109,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

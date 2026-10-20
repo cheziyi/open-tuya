@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater with light",
-  productKeys: ["trsas9jlfgcbxhq9"],
+  products: [
+    {
+      productKey: "trsas9jlfgcbxhq9",
+      manufacturer: "Kesser",
+      model: "3000W Floodlights",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "string" },

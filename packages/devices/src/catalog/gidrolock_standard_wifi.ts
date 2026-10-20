@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water leak detector",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "101": { type: "boolean" },

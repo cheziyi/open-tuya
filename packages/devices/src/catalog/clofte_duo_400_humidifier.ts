@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["aa8iuikeenvbsznx"],
+  products: [
+    {
+      productKey: "aa8iuikeenvbsznx",
+      manufacturer: "Clofte",
+      model: "Duo 400",
+      modelId: "T3-CLOFTE",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer", optional: true },
@@ -46,27 +53,30 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
       waterLevel: {
         dataPoint: "108",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "low", value: "low" },
           { raw: "high", value: "high" },
         ],
       },
-      filterReset: { dataPoint: "11", kind: "button" },
+      filterReset: { dataPoint: "11", kind: "button", category: "config" },
       filterLifeInPercent: {
         dataPoint: "16",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      uvSterilization: { dataPoint: "9", kind: "switch" },
-      childLock: { dataPoint: "7", kind: "switch" },
+      uvSterilization: { dataPoint: "9", kind: "switch", category: "config" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       alarm: {
         dataPoint: "104",
         kind: "event",
@@ -88,12 +98,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "112",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
       timerInHours: {
         dataPoint: "113",
         kind: "number",
+        category: "config",
         unit: "h",
         min: 0,
         max: 8,
@@ -101,6 +113,7 @@ const entry: TuyaDeviceEntry = {
       autoLevel: {
         dataPoint: "114",
         kind: "select",
+        category: "config",
         values: [
           { raw: "A0", value: "off" },
           { raw: "A1", value: "low" },
@@ -142,7 +155,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    indicator: { on: { dataPoint: "115", kind: "switch" } },
+    indicator: { on: { dataPoint: "115", kind: "switch", category: "config" } },
   },
   source: {
     file: "clofte_duo_400_humidifier.yaml",

@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Power outage alarm",
-  productKeys: ["q9f91lov6e6fphyp"],
+  products: [{ productKey: "q9f91lov6e6fphyp", manufacturer: "Satisure" }],
   dataPoints: { "101": { type: "boolean" } },
   components: {
     device: {
@@ -13,6 +13,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "power",
+        category: "diagnostic",
         readOnly: true,
       },
     },

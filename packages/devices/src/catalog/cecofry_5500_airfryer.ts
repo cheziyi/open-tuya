@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air fryer",
-  productKeys: ["xxwvfk9qrn56r4n6"],
+  products: [
+    {
+      productKey: "xxwvfk9qrn56r4n6",
+      manufacturer: "Cecofry",
+      model: "5500 Connected",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean", optional: true },
     "2": { type: "boolean" },
@@ -94,12 +100,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

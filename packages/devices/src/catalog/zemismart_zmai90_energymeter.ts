@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Energy meter",
-  productKeys: ["a6djabzmpbbp62gw"],
+  products: [
+    {
+      productKey: "a6djabzmpbbp62gw",
+      manufacturer: "Zemismart",
+      model: "ZMAi-90",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "17": { type: "integer" },
@@ -16,11 +22,13 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1", kind: "switch" },
+      on: { dataPoint: "1", kind: "switch", category: "config" },
       energyInKwh: {
         dataPoint: "17",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
+        category: "diagnostic",
         readOnly: true,
         unit: "kWh",
         scale: 1000,
@@ -29,6 +37,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "A",
         scale: 1000,
@@ -37,6 +47,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "W",
         scale: 10,
@@ -45,6 +57,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 10,
@@ -53,12 +67,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "26",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "26", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "26",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

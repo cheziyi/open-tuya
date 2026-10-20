@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["xhrfqobcbyk2br0z"],
+  products: [{ productKey: "xhrfqobcbyk2br0z", model: "NX-100AP Rapid" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -38,6 +38,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -55,12 +56,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
       timer: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Cancel", value: "cancel" },
           { raw: "2H", value: "2h" },
@@ -72,12 +75,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "24H", value: "24h" },
         ],
       },
-      filterReset: { dataPoint: "11", kind: "button" },
-      ionizer: { dataPoint: "6", kind: "switch" },
-      uvSterilization: { dataPoint: "9", kind: "switch" },
+      filterReset: { dataPoint: "11", kind: "button", category: "config" },
+      ionizer: { dataPoint: "6", kind: "switch", category: "config" },
+      uvSterilization: { dataPoint: "9", kind: "switch", category: "config" },
       filterLifeInPercent: {
         dataPoint: "5",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -85,11 +89,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

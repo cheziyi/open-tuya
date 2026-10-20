@@ -5,7 +5,20 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Smart scene switch",
-  productKeys: ["unowxanmum3uzkur", "qcyyaszyvr5bwkm4"],
+  products: [
+    {
+      productKey: "unowxanmum3uzkur",
+      manufacturer: "Moes",
+      model: "Star Feather Quad Switch",
+      modelId: "fc1eu0",
+    },
+    {
+      productKey: "qcyyaszyvr5bwkm4",
+      manufacturer: "Moes",
+      model: "Star Feather Triple Switch",
+      modelId: "e1kbqips",
+    },
+  ],
   dataPoints: {
     "18": { type: "string" },
     "19": { type: "string", optional: true },
@@ -26,6 +39,7 @@ const entry: TuyaDeviceEntry = {
       switch1Mode: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "switch_1", value: "switch" },
           { raw: "scene_1", value: "scene" },
@@ -34,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       switch2Mode: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "switch_2", value: "switch" },
           { raw: "scene_2", value: "scene" },
@@ -42,6 +57,7 @@ const entry: TuyaDeviceEntry = {
       switch3Mode: {
         dataPoint: "20",
         kind: "select",
+        category: "config",
         values: [
           { raw: "switch_3", value: "switch" },
           { raw: "scene_3", value: "scene" },
@@ -50,6 +66,7 @@ const entry: TuyaDeviceEntry = {
       switch4Mode: {
         dataPoint: "21",
         kind: "select",
+        category: "config",
         values: [
           { raw: "switch_4", value: "switch" },
           { raw: "scene_4", value: "scene" },
@@ -62,6 +79,7 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "37",
         kind: "select",
+        category: "config",
         values: [
           { raw: "none", value: "off" },
           { raw: "relay", value: "state" },
@@ -71,16 +89,18 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           { raw: "on", value: "on" },
           { raw: "off", value: "off" },
           { raw: "memory", value: "memory" },
         ],
       },
-      induction: { dataPoint: "101", kind: "switch" },
+      induction: { dataPoint: "101", kind: "switch", category: "config" },
       hapticFeedback: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "low" },
@@ -89,7 +109,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    backlight: { on: { dataPoint: "36", kind: "switch" } },
+    backlight: { on: { dataPoint: "36", kind: "switch", category: "config" } },
   },
   source: {
     file: "moes_starfeather_switch.yaml",

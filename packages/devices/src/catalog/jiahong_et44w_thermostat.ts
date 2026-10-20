@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -92,7 +92,7 @@ const entry: TuyaDeviceEntry = {
       holidayDays: { dataPoint: "109", kind: "number" },
     },
     device: {
-      childLock: { dataPoint: "108", kind: "switch" },
+      childLock: { dataPoint: "108", kind: "switch", category: "config" },
       runtimeInHours: {
         dataPoint: "117",
         kind: "sensor",
@@ -103,6 +103,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "C" },
           { raw: true, value: "F" },
@@ -112,6 +113,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "121",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unitFrom: "roomTemperatureLimitUnit",
         min: 100,
         max: 400,
@@ -132,6 +134,7 @@ const entry: TuyaDeviceEntry = {
       roomTemperatureLimitUnit: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "C" },
           { raw: true, value: "F" },
@@ -140,6 +143,7 @@ const entry: TuyaDeviceEntry = {
       temperatureSensor: {
         dataPoint: "111",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Room" },
           { raw: "1", value: "Floor" },
@@ -149,6 +153,7 @@ const entry: TuyaDeviceEntry = {
       schedule: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "7" },
           { raw: 1, value: "5+1+1" },

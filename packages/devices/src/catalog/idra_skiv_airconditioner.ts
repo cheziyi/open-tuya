@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["f3goccgfj6qino4c"],
+  products: [
+    {
+      productKey: "f3goccgfj6qino4c",
+      manufacturer: "Tekno Point",
+      model: "Idra Skiv",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -131,6 +137,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "21",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -163,14 +170,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      usageCounter: { dataPoint: "101", kind: "sensor", readOnly: true },
+      usageCounter: {
+        dataPoint: "101",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       totalTimeInHours: {
         dataPoint: "102",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
       },
@@ -178,14 +192,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
+        category: "diagnostic",
         readOnly: true,
         unit: "kWh",
         scale: 10,
       },
-      energyReportNumber: { dataPoint: "104", kind: "sensor", readOnly: true },
+      energyReportNumber: {
+        dataPoint: "104",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       temperatureUnit: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -194,6 +216,7 @@ const entry: TuyaDeviceEntry = {
       verticalPosition: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "Off" },
           { raw: "15", value: "Swing" },
@@ -204,12 +227,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "5", value: "Bottom" },
         ],
       },
-      sleep: { dataPoint: "109", kind: "switch" },
+      sleep: { dataPoint: "109", kind: "switch", category: "config" },
       plasmaFilter: { dataPoint: "110", kind: "switch" },
       fault: {
         dataPoint: "20",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           {
@@ -223,10 +247,16 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "20", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "20",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "20",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -278,10 +308,15 @@ const entry: TuyaDeviceEntry = {
           { raw: 8388608, value: "Error (PE)" },
         ],
       },
-      faultCode2: { dataPoint: "113", kind: "sensor", readOnly: true },
-      selfClean: { dataPoint: "111", kind: "switch" },
+      faultCode2: {
+        dataPoint: "113",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      selfClean: { dataPoint: "111", kind: "switch", category: "config" },
     },
-    backlight: { on: { dataPoint: "13", kind: "switch" } },
+    backlight: { on: { dataPoint: "13", kind: "switch", category: "config" } },
   },
   source: {
     file: "idra_skiv_airconditioner.yaml",

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["8r39c874v4r9j5yc"],
+  products: [
+    {
+      productKey: "8r39c874v4r9j5yc",
+      manufacturer: "Sofucor",
+      model: "KBS-52144",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string", optional: true },
@@ -42,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       fanTimerInMinutes: {
         dataPoint: "64",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 540,
@@ -49,6 +56,7 @@ const entry: TuyaDeviceEntry = {
       sound: {
         dataPoint: "66",
         kind: "switch",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -58,12 +66,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "67",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "67", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "67",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     fan: {
       on: { dataPoint: "60", kind: "switch" },

@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Laundry rack",
-  productKeys: ["ttawi9yohqflpt4a", "9yqs0oycooefxxwz"],
+  products: [
+    {
+      productKey: "ttawi9yohqflpt4a",
+      manufacturer: "YU HOME",
+      model: "Yu Turbo",
+    },
+    {
+      productKey: "9yqs0oycooefxxwz",
+      manufacturer: "YU HOME",
+      model: "Yu Prime",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -72,10 +83,11 @@ const entry: TuyaDeviceEntry = {
       uvSterilization: { dataPoint: "5", kind: "switch" },
       windDry: { dataPoint: "6", kind: "switch" },
       hotDry: { dataPoint: "7", kind: "switch" },
-      voiceControl: { dataPoint: "104", kind: "switch" },
+      voiceControl: { dataPoint: "104", kind: "switch", category: "config" },
       disinfectionTimer: {
         dataPoint: "10",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -95,6 +107,7 @@ const entry: TuyaDeviceEntry = {
       hotDryTimer: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -114,6 +127,7 @@ const entry: TuyaDeviceEntry = {
       windDryTimer: {
         dataPoint: "13",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -134,6 +148,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "15",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -141,6 +156,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "16",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -148,6 +164,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "17",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -155,14 +172,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "18",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "18",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -172,11 +196,13 @@ const entry: TuyaDeviceEntry = {
       disinfectionTime: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [{ raw: "30min", value: "30m" }],
       },
       hotDryTime: {
         dataPoint: "21",
         kind: "select",
+        category: "config",
         values: [
           { raw: "3h", value: "3h" },
           { raw: "6h", value: "6h" },
@@ -185,6 +211,7 @@ const entry: TuyaDeviceEntry = {
       windDryTime: {
         dataPoint: "20",
         kind: "select",
+        category: "config",
         values: [
           { raw: "3h", value: "3h" },
           { raw: "6h", value: "6h" },
@@ -194,6 +221,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "25",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -201,6 +229,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -208,6 +237,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

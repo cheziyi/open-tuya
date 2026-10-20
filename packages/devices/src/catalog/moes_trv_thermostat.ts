@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Radiator valve",
-  productKeys: ["b6wax7g0"],
+  products: [
+    {
+      productKey: "b6wax7g0",
+      manufacturer: "Moes",
+      model: "Zigbee BRT-100-TRV",
+    },
+  ],
   dataPoints: {
     "1": { type: "string", optional: true },
     "2": { type: "integer", optional: true },
@@ -148,6 +154,7 @@ const entry: TuyaDeviceEntry = {
       holidayMode: {
         dataPoint: "1",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "holidays", value: true },
           { raw: "auto", value: false },
@@ -158,25 +165,36 @@ const entry: TuyaDeviceEntry = {
       boostTimerRapidCountdownInMinutes: {
         dataPoint: "5",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 720,
         step: 15,
       },
-      boostTimerSchedule: { dataPoint: "101", kind: "text" },
+      boostTimerSchedule: {
+        dataPoint: "101",
+        kind: "text",
+        category: "config",
+      },
       boostTimerInSeconds: {
         dataPoint: "103",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 100,
         max: 900,
       },
-      windowOpenDetection: { dataPoint: "8", kind: "switch" },
+      windowOpenDetection: {
+        dataPoint: "8",
+        kind: "switch",
+        category: "config",
+      },
       window: {
         dataPoint: "9",
         kind: "sensor",
         measures: "window",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "opened", value: true },
@@ -186,7 +204,7 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: true,
       },
-      childLock: { dataPoint: "13", kind: "switch" },
+      childLock: { dataPoint: "13", kind: "switch", category: "config" },
       batteryInPercent: {
         dataPoint: "14",
         kind: "sensor",
@@ -199,6 +217,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -9,
         max: 9,
@@ -207,6 +226,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 15,
         max: 45,
@@ -215,6 +235,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 0,
         max: 15,

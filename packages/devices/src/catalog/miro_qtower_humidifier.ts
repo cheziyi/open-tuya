@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["rjuiybfrzif1m5qm"],
+  products: [
+    { productKey: "rjuiybfrzif1m5qm", manufacturer: "Miro", model: "Q-Tower" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "14": { type: "integer" },
@@ -41,12 +43,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "2h", value: "2h" },
@@ -62,6 +66,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -69,6 +74,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -76,7 +82,12 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       tankEmpty: {
         dataPoint: "22",
         kind: "sensor",
@@ -84,11 +95,12 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: 1, value: true }],
         otherwise: false,
       },
-      childLock: { dataPoint: "29", kind: "switch" },
-      auto: { dataPoint: "101", kind: "switch" },
+      childLock: { dataPoint: "29", kind: "switch", category: "config" },
+      auto: { dataPoint: "101", kind: "switch", category: "config" },
       heating: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "low", value: "low" },
@@ -98,6 +110,7 @@ const entry: TuyaDeviceEntry = {
       sound: {
         dataPoint: "103",
         kind: "switch",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },

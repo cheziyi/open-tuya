@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "IR remote with sensors",
-  productKeys: ["deaf0nqhy4chqpdn"],
+  products: [
+    { productKey: "deaf0nqhy4chqpdn", manufacturer: "Woox", model: "R7246" },
+  ],
   dataPoints: {
     "2": { type: "integer" },
     "11": { type: "string", optional: true },
@@ -20,6 +22,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unitFrom: "temperatureUnit",
         scale: 10,
@@ -36,11 +39,12 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
         scale: 10,
       },
-      displayOn: { dataPoint: "101", kind: "switch" },
+      displayOn: { dataPoint: "101", kind: "switch", category: "config" },
       send: { dataPoint: "201", kind: "text" },
       receive: { dataPoint: "202", kind: "text" },
     },

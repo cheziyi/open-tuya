@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fish feeder",
-  productKeys: ["3jskpz3pwqn9oojn"],
+  products: [
+    { productKey: "3jskpz3pwqn9oojn", manufacturer: "iLonda", model: "L88" },
+  ],
   dataPoints: { "1": { type: "boolean" }, "6": { type: "integer" } },
   components: {
     device: {
@@ -13,6 +15,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "6",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

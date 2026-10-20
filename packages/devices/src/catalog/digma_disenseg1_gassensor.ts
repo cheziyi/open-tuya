@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Gas leak detector",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "string", optional: true },
     "2": { type: "string" },
@@ -21,6 +21,7 @@ const entry: TuyaDeviceEntry = {
       selfCheckResult: {
         dataPoint: "1",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "checking", value: "checking" },
@@ -42,6 +43,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "3",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 60,
@@ -50,30 +52,40 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "sensor",
         measures: "volatileOrganicCompounds",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "ppm",
         scale: 10,
       },
-      selfCheck: { dataPoint: "9", kind: "button" },
+      selfCheck: { dataPoint: "9", kind: "button", category: "config" },
       cold: {
         dataPoint: "10",
         kind: "sensor",
         measures: "cold",
+        category: "diagnostic",
         readOnly: true,
       },
-      mute: { dataPoint: "14", kind: "button" },
+      mute: { dataPoint: "14", kind: "button", category: "config" },
       fault: {
         dataPoint: "45",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "45",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "45",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },

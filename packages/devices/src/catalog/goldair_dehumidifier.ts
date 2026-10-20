@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["gynthidZEhTUCoMN"],
+  products: [
+    {
+      productKey: "gynthidZEhTUCoMN",
+      manufacturer: "Goldair",
+      model: "GPDH420",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -50,18 +56,20 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       airClean: { dataPoint: "5", kind: "switch" },
       temperatureInC: {
         dataPoint: "103",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
       tankFull: {
         dataPoint: "11",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 8, value: true }],
         otherwise: false,
@@ -70,6 +78,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -77,12 +86,23 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
-      defrost: { dataPoint: "105", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      defrost: {
+        dataPoint: "105",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timerInHours: {
         dataPoint: "12",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 24,
@@ -116,7 +136,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    display: { on: { dataPoint: "102", kind: "switch" } },
+    display: { on: { dataPoint: "102", kind: "switch", category: "config" } },
   },
   source: {
     file: "goldair_dehumidifier.yaml",

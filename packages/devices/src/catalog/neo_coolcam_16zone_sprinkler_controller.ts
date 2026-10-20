@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Sprinkler controller",
-  productKeys: ["ajg67sq0tpjxgd40"],
+  products: [
+    {
+      productKey: "ajg67sq0tpjxgd40",
+      manufacturer: "NEO Coolcam",
+      model: "Smart Sprinkler Controller v1.1",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -55,6 +61,7 @@ const entry: TuyaDeviceEntry = {
       weatherDelay: {
         dataPoint: "37",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "24h", value: "1d" },
@@ -62,10 +69,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "72h", value: "3d" },
         ],
       },
-      schedule: { dataPoint: "38", kind: "text" },
+      schedule: { dataPoint: "38", kind: "text", category: "config" },
       status: {
         dataPoint: "39",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "idle", value: "idle" },
@@ -73,21 +81,27 @@ const entry: TuyaDeviceEntry = {
           { raw: "manual", value: "manual" },
         ],
       },
-      weather: { dataPoint: "42", kind: "switch" },
+      weather: { dataPoint: "42", kind: "switch", category: "config" },
       skip: { dataPoint: "43", kind: "button" },
       irrigationMode: {
         dataPoint: "44",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Order1", value: "Independent valves" },
           { raw: "Order2", value: "Master valve" },
         ],
       },
-      irrigationRestrictionSchedule: { dataPoint: "46", kind: "text" },
+      irrigationRestrictionSchedule: {
+        dataPoint: "46",
+        kind: "text",
+        category: "config",
+      },
       countdownValve: {
         dataPoint: "105",
         mask: "FF000000",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       countdownRemainingInSeconds: {
@@ -95,6 +109,8 @@ const entry: TuyaDeviceEntry = {
         mask: "00FFFFFF",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -102,6 +118,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         mask: "FF000000",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       lastIrrigationDurationInSeconds: {
@@ -109,12 +126,15 @@ const entry: TuyaDeviceEntry = {
         mask: "00FFFFFF",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
       fault: {
         dataPoint: "107",
         kind: "event",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "normal", value: "clear" },

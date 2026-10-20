@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["iodpj2gtttcqpu4c"],
+  products: [
+    {
+      productKey: "iodpj2gtttcqpu4c",
+      manufacturer: "Fiero",
+      model: "Bravia",
+      modelId: "46Wi",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -41,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       sound: {
         dataPoint: "105",
         kind: "switch",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -49,6 +57,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

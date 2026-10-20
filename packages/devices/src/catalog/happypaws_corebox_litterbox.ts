@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Litter box",
-  productKeys: ["xniit4zwcaqmzrl7"],
+  products: [
+    {
+      productKey: "xniit4zwcaqmzrl7",
+      manufacturer: "Happy Paws",
+      model: "CoreBox",
+    },
+  ],
   dataPoints: {
     "4": { type: "boolean" },
     "5": { type: "integer" },
@@ -30,11 +36,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      autoClean: { dataPoint: "4", kind: "switch" },
+      autoClean: { dataPoint: "4", kind: "switch", category: "config" },
       autoCleanDelayInMinutes: {
         dataPoint: "5",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 1,
         max: 60,
@@ -45,10 +52,11 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "times",
       },
-      sleep: { dataPoint: "10", kind: "switch" },
+      sleep: { dataPoint: "10", kind: "switch", category: "config" },
       sleepStartInMinutes: {
         dataPoint: "11",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1435,
@@ -57,6 +65,7 @@ const entry: TuyaDeviceEntry = {
       sleepEndInMinutes: {
         dataPoint: "12",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1435,
@@ -87,14 +96,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -105,7 +121,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 16, value: "Waste bin missing" },
         ],
       },
-      factoryReset: { dataPoint: "23", kind: "button" },
+      factoryReset: { dataPoint: "23", kind: "button", category: "config" },
       status: {
         dataPoint: "24",
         kind: "sensor",
@@ -128,6 +144,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "mA",
       },
@@ -138,7 +156,7 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: "Used",
       },
-      childLock: { dataPoint: "103", kind: "switch" },
+      childLock: { dataPoint: "103", kind: "switch", category: "config" },
       manualEmpty: {
         dataPoint: "104",
         kind: "button",
@@ -149,7 +167,7 @@ const entry: TuyaDeviceEntry = {
         kind: "button",
         values: [{ raw: "pause1", value: true }],
       },
-      sound: { dataPoint: "105", kind: "switch" },
+      sound: { dataPoint: "105", kind: "switch", category: "config" },
       manualClean: {
         dataPoint: "106",
         kind: "button",
@@ -163,6 +181,7 @@ const entry: TuyaDeviceEntry = {
       history: {
         dataPoint: "107",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "enter", value: "Cat entered" },
@@ -179,11 +198,16 @@ const entry: TuyaDeviceEntry = {
       kittenMode: {
         dataPoint: "108",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
-      deodorizerReminder: { dataPoint: "111", kind: "switch" },
+      deodorizerReminder: {
+        dataPoint: "111",
+        kind: "switch",
+        category: "config",
+      },
     },
-    indicator: { on: { dataPoint: "109", kind: "switch" } },
+    indicator: { on: { dataPoint: "109", kind: "switch", category: "config" } },
   },
   source: {
     file: "happypaws_corebox_litterbox.yaml",

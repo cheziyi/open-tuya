@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Lights",
-  productKeys: ["md1jguhfrhdklqyh"],
+  products: [
+    {
+      productKey: "md1jguhfrhdklqyh",
+      manufacturer: "Feit",
+      model: "OneSync Smart Bridge",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string", optional: true },
@@ -39,10 +45,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "5000K", value: 5000 },
         ],
       },
-      scene: { dataPoint: "25", kind: "text" },
+      scene: { dataPoint: "25", kind: "text", category: "config" },
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

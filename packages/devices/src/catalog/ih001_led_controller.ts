@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "LED controller",
-  productKeys: ["ajqxccmgfnhvtew4"],
+  products: [{ productKey: "ajqxccmgfnhvtew4", model: "iH001" }],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -55,6 +55,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "25",
         kind: "select",
+        category: "config",
         type: "string",
         values: [
           { raw: "000c0d0000000000000000c80000", value: "night" },
@@ -82,6 +83,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

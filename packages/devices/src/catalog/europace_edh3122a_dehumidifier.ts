@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["yfozn0xg1gkbmawq"],
+  products: [
+    {
+      productKey: "yfozn0xg1gkbmawq",
+      manufacturer: "EuropAce",
+      model: "EDH3122A 12L",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -56,19 +62,26 @@ const entry: TuyaDeviceEntry = {
           { raw: "1", value: 50 },
         ],
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       fault: {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "11",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -97,6 +110,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "12",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -129,12 +143,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
       antiMould: {
         dataPoint: "101",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
     },

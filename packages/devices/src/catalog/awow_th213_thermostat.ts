@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -66,17 +66,19 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "idle" },
         ],
       },
-      childLock: { dataPoint: "6", kind: "switch" },
+      childLock: { dataPoint: "6", kind: "switch", category: "config" },
       externalTemperatureInC: {
         dataPoint: "101",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
       temperatureSensor: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "Internal" },
           { raw: 1, value: "External" },
@@ -87,6 +89,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -9,
         max: 9,
@@ -95,6 +98,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: 1,
         max: 9,
@@ -103,11 +107,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

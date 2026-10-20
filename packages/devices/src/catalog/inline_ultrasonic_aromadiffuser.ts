@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Aroma diffuser",
-  productKeys: ["jhScexmS2WhfeOnt"],
+  products: [{ productKey: "jhScexmS2WhfeOnt", manufacturer: "InLine" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string", optional: true },
@@ -92,6 +92,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "3",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -103,6 +104,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -110,6 +112,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -118,7 +121,12 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       tankEmpty: {
         dataPoint: "22",
         kind: "sensor",
@@ -127,7 +135,7 @@ const entry: TuyaDeviceEntry = {
         otherwise: false,
       },
       on: { dataPoint: "10", kind: "switch" },
-      keytone: { dataPoint: "101", kind: "switch" },
+      keytone: { dataPoint: "101", kind: "switch", category: "config" },
     },
   },
   source: {

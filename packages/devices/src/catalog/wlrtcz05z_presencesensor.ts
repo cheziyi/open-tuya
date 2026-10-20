@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Human presence",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "string" },
     "101": { type: "integer" },
@@ -54,6 +54,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "distance",
+        reading: "instant",
         readOnly: true,
         unit: "cm",
       },
@@ -61,6 +62,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "illuminance",
+        reading: "instant",
         readOnly: true,
         unit: "lx",
       },
@@ -68,15 +70,25 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 28800,
       },
-      goneDelayMinutes: { dataPoint: "105", kind: "number" },
-      goneDelaySeconds: { dataPoint: "106", kind: "number" },
+      goneDelayMinutes: {
+        dataPoint: "105",
+        kind: "number",
+        category: "config",
+      },
+      goneDelaySeconds: {
+        dataPoint: "106",
+        kind: "number",
+        category: "config",
+      },
       maximumMotionDistanceInCm: {
         dataPoint: "107",
         kind: "number",
+        category: "config",
         unit: "cm",
         min: 0,
         max: 1000,
@@ -84,6 +96,7 @@ const entry: TuyaDeviceEntry = {
       minimumMotionDistanceInCm: {
         dataPoint: "108",
         kind: "number",
+        category: "config",
         unit: "cm",
         min: 0,
         max: 1000,
@@ -91,6 +104,7 @@ const entry: TuyaDeviceEntry = {
       maximumBreathingDistanceInCm: {
         dataPoint: "109",
         kind: "number",
+        category: "config",
         unit: "cm",
         min: 0,
         max: 600,
@@ -98,6 +112,7 @@ const entry: TuyaDeviceEntry = {
       minimumBreathingDistanceInCm: {
         dataPoint: "110",
         kind: "number",
+        category: "config",
         unit: "cm",
         min: 0,
         max: 600,
@@ -105,11 +120,13 @@ const entry: TuyaDeviceEntry = {
       factoryReset: {
         dataPoint: "113",
         kind: "button",
+        category: "config",
         values: [{ raw: "reset", value: true }],
       },
       maximumSmallMovementDistanceInCm: {
         dataPoint: "114",
         kind: "number",
+        category: "config",
         unit: "cm",
         min: 0,
         max: 600,
@@ -117,20 +134,29 @@ const entry: TuyaDeviceEntry = {
       minimumSmallMovementDistanceInCm: {
         dataPoint: "115",
         kind: "number",
+        category: "config",
         unit: "cm",
         min: 0,
         max: 600,
       },
-      motionSensitivity: { dataPoint: "116", kind: "number", min: 0, max: 10 },
+      motionSensitivity: {
+        dataPoint: "116",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 10,
+      },
       smallMovementSensitivity: {
         dataPoint: "117",
         kind: "number",
+        category: "config",
         min: 0,
         max: 10,
       },
       breathingSensitivity: {
         dataPoint: "118",
         kind: "number",
+        category: "config",
         min: 0,
         max: 10,
       },
@@ -143,7 +169,7 @@ const entry: TuyaDeviceEntry = {
       },
       detectionMotionType: { dataPoint: "119", kind: "sensor", readOnly: true },
     },
-    indicator: { on: { dataPoint: "104", kind: "switch" } },
+    indicator: { on: { dataPoint: "104", kind: "switch", category: "config" } },
   },
   source: {
     file: "wlrtcz05z_presencesensor.yaml",

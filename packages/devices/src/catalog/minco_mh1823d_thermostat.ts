@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -135,6 +135,7 @@ const entry: TuyaDeviceEntry = {
       temperatureSensor: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "in", value: "Internal" },
           { raw: "out", value: "External" },
@@ -143,6 +144,7 @@ const entry: TuyaDeviceEntry = {
       calibrationOffsetInternal: {
         dataPoint: "35",
         kind: "number",
+        category: "config",
         min: -9,
         max: 9,
         dependsOn: {
@@ -160,6 +162,7 @@ const entry: TuyaDeviceEntry = {
       calibrationOffsetExternal: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         min: -9,
         max: 9,
         dependsOn: {
@@ -177,6 +180,7 @@ const entry: TuyaDeviceEntry = {
       calibrationSwing: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         min: 1,
         max: 9,
         dependsOn: {
@@ -195,6 +199,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "number",
         measures: "temperature",
+        category: "config",
         min: 5,
         max: 65,
         dependsOn: {
@@ -219,6 +224,7 @@ const entry: TuyaDeviceEntry = {
       schedule: {
         dataPoint: "39",
         kind: "select",
+        category: "config",
         values: [
           { raw: "7", value: "7 day" },
           { raw: "6_1", value: "6+1 day" },
@@ -229,6 +235,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unitFrom: "externalTemperatureUnit",
         dependsOn: {
@@ -255,8 +262,8 @@ const entry: TuyaDeviceEntry = {
           { raw: "f", value: "F" },
         ],
       },
-      childLock: { dataPoint: "5", kind: "switch" },
-      antiFrost: { dataPoint: "9", kind: "switch" },
+      childLock: { dataPoint: "5", kind: "switch", category: "config" },
+      antiFrost: { dataPoint: "9", kind: "switch", category: "config" },
     },
   },
   source: {

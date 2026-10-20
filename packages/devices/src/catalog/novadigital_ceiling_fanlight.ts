@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["ya9ilaxfrltq6win"],
+  products: [{ productKey: "ya9ilaxfrltq6win", manufacturer: "Novadigital" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer", optional: true },
@@ -30,6 +30,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "2",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -37,6 +38,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -45,7 +47,7 @@ const entry: TuyaDeviceEntry = {
       },
     },
     light: { on: { dataPoint: "5", kind: "switch" } },
-    backlight: { on: { dataPoint: "13", kind: "switch" } },
+    backlight: { on: { dataPoint: "13", kind: "switch", category: "config" } },
   },
   source: {
     file: "novadigital_ceiling_fanlight.yaml",

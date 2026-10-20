@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "2": { type: "string" },
     "3": { type: "string" },
@@ -48,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "3",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -68,12 +69,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
       tankEmpty: {
         dataPoint: "9",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -82,6 +85,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -89,7 +93,12 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "9", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "9",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     intensity: {
       speed: {

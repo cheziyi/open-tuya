@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "EV charger",
-  productKeys: ["lvoduiglznasnnsr"],
+  products: [
+    {
+      productKey: "lvoduiglznasnnsr",
+      manufacturer: "ADPOW",
+      model: "GO-B6 Pro 32A",
+    },
+  ],
   dataPoints: {
     "1": { type: "integer", optional: true },
     "3": { type: "string" },
@@ -34,6 +40,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 100,
@@ -42,6 +49,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "number",
         measures: "current",
+        category: "config",
         unit: "A",
         min: 13,
         max: 32,
@@ -50,6 +58,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "kW",
         scale: 1000,
@@ -57,6 +67,7 @@ const entry: TuyaDeviceEntry = {
       connectionState: {
         dataPoint: "13",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "controlpi_12v", value: "standby" },
@@ -72,6 +83,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "17",
         kind: "number",
         measures: "energyStorage",
+        category: "config",
         unit: "kWh",
         min: 0,
         max: 2000000,
@@ -82,12 +94,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
       },
       lastChargeInKwh: {
         dataPoint: "25",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "kWh",
         scale: 100,

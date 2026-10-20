@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Door lock",
-  productKeys: ["a6nttc41"],
+  products: [
+    { productKey: "a6nttc41", manufacturer: "Intelbras", model: "IFR 7000" },
+  ],
   dataPoints: {
     "1": { type: "integer", optional: true },
     "2": { type: "integer", optional: true },
@@ -64,6 +66,7 @@ const entry: TuyaDeviceEntry = {
       keyVolume: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "mute", value: "Mute" },
           { raw: "low", value: "Low" },
@@ -71,15 +74,21 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: "High" },
         ],
       },
-      enableRemoteUnlock: { dataPoint: "23", kind: "button" },
+      enableRemoteUnlock: {
+        dataPoint: "23",
+        kind: "button",
+        category: "config",
+      },
       disableRemoteUnlock: {
         dataPoint: "23",
         kind: "button",
+        category: "config",
         values: [{ raw: false, value: true }],
       },
       hijack: {
         dataPoint: "35",
         kind: "event",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: true, value: "hijack" },
@@ -89,6 +98,7 @@ const entry: TuyaDeviceEntry = {
       doorOpen: {
         dataPoint: "38",
         kind: "event",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: true, value: "opened" },
@@ -98,6 +108,7 @@ const entry: TuyaDeviceEntry = {
       oneTimePasswordEnabled: {
         dataPoint: "61",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: true },
       },
     },

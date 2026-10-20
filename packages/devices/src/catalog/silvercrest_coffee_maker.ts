@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Coffee maker",
-  productKeys: ["iegq4tjqeuiew5cl"],
+  products: [
+    {
+      productKey: "iegq4tjqeuiew5cl",
+      manufacturer: "Silvercrest",
+      model: "SKMS 900 A1",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "string" },
@@ -19,23 +25,31 @@ const entry: TuyaDeviceEntry = {
       aroma: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "normal", value: "Normal" },
           { raw: "strong", value: "Strong" },
           { raw: "extra_strong", value: "Extra Strong" },
         ],
       },
-      workState: { dataPoint: "4", kind: "sensor", readOnly: true },
+      workState: {
+        dataPoint: "4",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timeRemainingInMinutes: {
         dataPoint: "12",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
       tankEmpty: {
         dataPoint: "105",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

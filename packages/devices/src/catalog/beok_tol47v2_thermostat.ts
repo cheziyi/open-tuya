@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["9cqoypoauuvhdjq4"],
+  products: [
+    {
+      productKey: "9cqoypoauuvhdjq4",
+      manufacturer: "Beok",
+      model: "TOL47WIFI New",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -124,20 +130,27 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      childLock: { dataPoint: "9", kind: "switch" },
+      childLock: { dataPoint: "9", kind: "switch", category: "config" },
       fault: {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       maximumTemperatureInC: {
         dataPoint: "15",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 15,
         max: 95,
@@ -146,16 +159,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -99,
         max: 99,
         scale: 10,
       },
-      schedule: { dataPoint: "28", kind: "text" },
+      schedule: { dataPoint: "28", kind: "text", category: "config" },
       temperatureHysteresisInC: {
         dataPoint: "101",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: 5,
         max: 100,
@@ -166,15 +181,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 25,
         max: 95,
       },
-      antiFrost: { dataPoint: "103", kind: "switch" },
-      factoryReset: { dataPoint: "104", kind: "button" },
+      antiFrost: { dataPoint: "103", kind: "switch", category: "config" },
+      factoryReset: { dataPoint: "104", kind: "button", category: "config" },
       output: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "Heating" },
           { raw: true, value: "Cooling" },
@@ -183,18 +200,20 @@ const entry: TuyaDeviceEntry = {
       temperatureSensor: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "Internal" },
           { raw: "2", value: "External" },
           { raw: "3", value: "Both" },
         ],
       },
-      wakeup: { dataPoint: "113", kind: "button" },
+      wakeup: { dataPoint: "113", kind: "button", category: "config" },
     },
     backlight: {
       brightness: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: 0 },
           { raw: "2", value: 128 },

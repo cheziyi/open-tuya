@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["3glq4enbzoahd41t"],
+  products: [
+    { productKey: "3glq4enbzoahd41t", manufacturer: "Vine", model: "TJ550" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -240,6 +242,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "3",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "aux_heating", value: true },
@@ -248,13 +251,14 @@ const entry: TuyaDeviceEntry = {
         otherwise: false,
       },
       keytone: { dataPoint: "7", kind: "switch" },
-      sleep: { dataPoint: "9", kind: "switch" },
-      antiFrost: { dataPoint: "10", kind: "switch" },
-      valveCheck: { dataPoint: "11", kind: "switch" },
+      sleep: { dataPoint: "9", kind: "switch", category: "config" },
+      antiFrost: { dataPoint: "10", kind: "switch", category: "config" },
+      valveCheck: { dataPoint: "11", kind: "switch", category: "config" },
       maximumTemperature: {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unitFrom: "maximumTemperatureUnit",
         min: 10,
         max: 40,
@@ -280,6 +284,7 @@ const entry: TuyaDeviceEntry = {
       maximumTemperatureMaxTemperatureInF: {
         dataPoint: "18",
         kind: "number",
+        category: "config",
         unit: "F",
         min: 50,
         max: 99,
@@ -287,6 +292,7 @@ const entry: TuyaDeviceEntry = {
       maximumTemperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -296,6 +302,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "26",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unitFrom: "minimumTemperatureUnit",
         min: 0,
         max: 30,
@@ -321,6 +328,7 @@ const entry: TuyaDeviceEntry = {
       minimumTemperatureMinTemperatureInF: {
         dataPoint: "20",
         kind: "number",
+        category: "config",
         unit: "F",
         min: 40,
         max: 90,
@@ -328,6 +336,7 @@ const entry: TuyaDeviceEntry = {
       minimumTemperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -336,6 +345,7 @@ const entry: TuyaDeviceEntry = {
       presenceSet: {
         dataPoint: "21",
         kind: "select",
+        category: "config",
         values: [
           { raw: "enter", value: "enter" },
           { raw: "exit", value: "exit" },
@@ -344,17 +354,19 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
         ],
       },
-      factoryReset: { dataPoint: "39", kind: "button" },
-      childLock: { dataPoint: "40", kind: "switch" },
+      factoryReset: { dataPoint: "39", kind: "button", category: "config" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       timeRemainingInMinutes: {
         dataPoint: "42",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -362,14 +374,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "45",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "45",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       backlightTimeout: {
         dataPoint: "52",
         kind: "select",
+        category: "config",
         values: [
           { raw: "20s", value: "20 seconds" },
           { raw: "1minute", value: "1 minute" },
@@ -380,6 +399,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "54",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unitFrom: "heatTemperatureUnit",
         min: 5,
         max: 37,
@@ -405,12 +425,14 @@ const entry: TuyaDeviceEntry = {
       heatTemperatureHeatF: {
         dataPoint: "55",
         kind: "number",
+        category: "config",
         min: 42,
         max: 99,
       },
       heatTemperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -420,6 +442,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "56",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "d",
         min: 15,
         max: 360,
@@ -428,6 +451,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "57",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unitFrom: "coolTemperatureUnit",
         min: 5,
         max: 37,
@@ -453,6 +477,7 @@ const entry: TuyaDeviceEntry = {
       coolTemperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -461,12 +486,14 @@ const entry: TuyaDeviceEntry = {
       coolTemperatureCoolF: {
         dataPoint: "59",
         kind: "number",
+        category: "config",
         min: 42,
         max: 99,
       },
       faultHandling: {
         dataPoint: "58",
         kind: "select",
+        category: "config",
         values: [
           { raw: "close", value: "Turn off" },
           { raw: "short", value: "Fuse" },
@@ -476,17 +503,20 @@ const entry: TuyaDeviceEntry = {
       ventilation: {
         dataPoint: "64",
         kind: "select",
+        category: "config",
         values: [
           { raw: "auto", value: "Auto" },
           { raw: "on", value: "On" },
           { raw: "circulation", value: "Circulate" },
         ],
       },
-      alarmSwitch: { dataPoint: "101", kind: "switch" },
+      alarmSwitch: { dataPoint: "101", kind: "switch", category: "config" },
       averageTemperatureInF: {
         dataPoint: "107",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "F",
       },
@@ -494,6 +524,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "F",
       },
@@ -501,6 +533,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "F",
       },
@@ -508,6 +542,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -515,6 +551,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -522,6 +560,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "112",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -529,13 +569,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
     },
     display: {
-      on: { dataPoint: "6", kind: "switch" },
-      brightness: { dataPoint: "44", kind: "number", min: 0, max: 255 },
+      on: { dataPoint: "6", kind: "switch", category: "config" },
+      brightness: {
+        dataPoint: "44",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 255,
+      },
     },
   },
   source: {

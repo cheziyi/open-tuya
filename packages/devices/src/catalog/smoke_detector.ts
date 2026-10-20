@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Smoke detector",
-  productKeys: ["lsjnzox4skgduemo"],
+  products: [{ productKey: "lsjnzox4skgduemo" }],
   dataPoints: {
     "1": { type: "integer" },
     "2": { type: "integer" },
@@ -28,6 +28,8 @@ const entry: TuyaDeviceEntry = {
       smokeLevelInPpm: {
         dataPoint: "2",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "ppm",
       },
@@ -35,15 +37,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       batteryInPercent: {
         dataPoint: "15",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -56,7 +65,7 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: true },
         ],
       },
-      test: { dataPoint: "101", kind: "button" },
+      test: { dataPoint: "101", kind: "button", category: "config" },
     },
   },
   source: {

@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Oscillating fan",
-  productKeys: ["rastwarkmv7aa3oo"],
+  products: [
+    {
+      productKey: "rastwarkmv7aa3oo",
+      manufacturer: "Homebase",
+      model: "DC fan XJ-30-5SDC-W",
+      modelId: "XJ-35-1SDC",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -35,12 +42,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Robot vacuum and mop",
-  productKeys: ["rxmacvgkaz640r4q"],
+  products: [
+    { productKey: "rxmacvgkaz640r4q", manufacturer: "Honiture", model: "G20" },
+  ],
   dataPoints: {
     "2": { type: "boolean" },
     "3": { type: "string" },
@@ -91,34 +93,42 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
       edgeBrushLifeInPercent: {
         dataPoint: "7",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       rollBrushLifeInPercent: {
         dataPoint: "8",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       filterLifeInPercent: {
         dataPoint: "9",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      resetEdgeBrush: { dataPoint: "10", kind: "button" },
-      resetRollBrush: { dataPoint: "11", kind: "button" },
-      filterReset: { dataPoint: "12", kind: "button" },
+      resetEdgeBrush: { dataPoint: "10", kind: "button", category: "config" },
+      resetRollBrush: { dataPoint: "11", kind: "button", category: "config" },
+      filterReset: { dataPoint: "12", kind: "button", category: "config" },
       cleaningAreaInM2: {
         dataPoint: "16",
         kind: "sensor",
         measures: "area",
+        category: "diagnostic",
         readOnly: true,
         unit: "m²",
       },
@@ -126,6 +136,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "17",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -133,14 +144,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "18",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "18",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -156,6 +174,7 @@ const entry: TuyaDeviceEntry = {
       mopping: {
         dataPoint: "20",
         kind: "select",
+        category: "config",
         values: [
           { raw: "low", value: "low" },
           { raw: "middle", value: "medium" },
@@ -165,17 +184,19 @@ const entry: TuyaDeviceEntry = {
       cleaningMode: {
         dataPoint: "24",
         kind: "select",
+        category: "config",
         values: [
           { raw: "only_sweep", value: "sweep" },
           { raw: "only_mop", value: "mop" },
           { raw: "both_work", value: "sweep_and_mop" },
         ],
       },
-      carpetBoost: { dataPoint: "101", kind: "switch" },
-      carpetDetection: { dataPoint: "102", kind: "switch" },
+      carpetBoost: { dataPoint: "101", kind: "switch", category: "config" },
+      carpetDetection: { dataPoint: "102", kind: "switch", category: "config" },
       volume: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "vol_mute", value: "mute" },
           { raw: "vol_normal", value: "normal" },
@@ -185,6 +206,7 @@ const entry: TuyaDeviceEntry = {
       language: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "english", value: "english" },
           { raw: "german", value: "german" },

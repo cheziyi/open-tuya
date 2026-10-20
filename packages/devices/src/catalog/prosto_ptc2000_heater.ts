@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -87,6 +87,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -99,7 +100,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "8h", value: "8h" },
         ],
       },
-      windowDetection: { dataPoint: "101", kind: "switch" },
+      windowDetection: { dataPoint: "101", kind: "switch", category: "config" },
     },
   },
   source: {

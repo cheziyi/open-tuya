@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "RGBIC string light",
-  productKeys: ["2znvfkx64d4fkzxp"],
+  products: [{ productKey: "2znvfkx64d4fkzxp", model: "Smart Light RGB48" }],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -42,6 +42,7 @@ const entry: TuyaDeviceEntry = {
       segmentMode: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "RGB", value: "RGB" },
           { raw: "RGBIC", value: "RGBIC" },
@@ -49,16 +50,23 @@ const entry: TuyaDeviceEntry = {
           { raw: "SCENE", value: "Scene" },
         ],
       },
-      ledCount: { dataPoint: "58", kind: "number", min: 1, max: 5000 },
+      ledCount: {
+        dataPoint: "58",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 5000,
+      },
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
       },
-      scene: { dataPoint: "56", kind: "text" },
-      drawTool: { dataPoint: "59", kind: "text" },
+      scene: { dataPoint: "56", kind: "text", category: "config" },
+      drawTool: { dataPoint: "59", kind: "text", category: "config" },
     },
   },
   source: {

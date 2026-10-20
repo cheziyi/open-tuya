@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["qrjffdu2bjrd7v42"],
+  products: [
+    {
+      productKey: "qrjffdu2bjrd7v42",
+      manufacturer: "Vivosun",
+      model: "DE0003 10L",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -51,13 +57,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "F",
       },
-      childLock: { dataPoint: "16", kind: "switch" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
       timer: {
         dataPoint: "17",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -89,6 +97,7 @@ const entry: TuyaDeviceEntry = {
       tankFull: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -97,6 +106,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -105,10 +115,16 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },

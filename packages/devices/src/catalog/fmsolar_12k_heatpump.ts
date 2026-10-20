@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heat pump",
-  productKeys: ["deedvplnx2yvge08", "swda8udjkwmydxhe"],
+  products: [
+    {
+      productKey: "deedvplnx2yvge08",
+      manufacturer: "FM Solar",
+      model: "12K portable split with heating",
+    },
+    {
+      productKey: "swda8udjkwmydxhe",
+      manufacturer: "Qlima",
+      model: "Q Split Flex",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -107,11 +118,12 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       model: { dataPoint: "110", kind: "text" },
-      autoDry: { dataPoint: "109", kind: "switch" },
+      autoDry: { dataPoint: "109", kind: "switch", category: "config" },
       timerInHours: {
         dataPoint: "103",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 24,
@@ -120,14 +132,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      defrost: { dataPoint: "102", kind: "sensor", readOnly: true },
+      defrost: {
+        dataPoint: "102",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       fault: {
         dataPoint: "106",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

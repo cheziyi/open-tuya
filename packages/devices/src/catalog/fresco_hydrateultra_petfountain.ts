@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet fountain",
-  productKeys: ["cuw2k3ho3e25fade"],
+  products: [
+    {
+      productKey: "cuw2k3ho3e25fade",
+      manufacturer: "Petoneer",
+      model: "Fresco Hydrate Ultra",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "integer" },
@@ -23,24 +29,28 @@ const entry: TuyaDeviceEntry = {
       resetWater: {
         dataPoint: "103",
         kind: "button",
+        category: "config",
         values: [{ raw: 0, value: true }],
       },
       waterAgeInMinutes: {
         dataPoint: "103",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
       resetFilter: {
         dataPoint: "104",
         kind: "button",
+        category: "config",
         values: [{ raw: 0, value: true }],
       },
       filterLifeInMinutes: {
         dataPoint: "104",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
         min: 0,
@@ -49,12 +59,14 @@ const entry: TuyaDeviceEntry = {
       resetPump: {
         dataPoint: "105",
         kind: "button",
+        category: "config",
         values: [{ raw: 0, value: true }],
       },
       pumpMaintenanceInMinutes: {
         dataPoint: "105",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
         min: 0,
@@ -63,13 +75,15 @@ const entry: TuyaDeviceEntry = {
       waterQualityInTds: {
         dataPoint: "106",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "TDS",
       },
-      uvSterilization: { dataPoint: "107", kind: "switch" },
+      uvSterilization: { dataPoint: "107", kind: "switch", category: "config" },
       waterLevel: {
         dataPoint: "108",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "1", value: 1 },
@@ -82,12 +96,19 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
     },
     indicator: {
-      brightness: { dataPoint: "102", kind: "number", min: 1, max: 10 },
+      brightness: {
+        dataPoint: "102",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 10,
+      },
     },
   },
   source: {

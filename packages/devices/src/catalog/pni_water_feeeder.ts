@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water feeder",
-  productKeys: ["ajkayo9kucq6vttv"],
+  products: [
+    {
+      productKey: "ajkayo9kucq6vttv",
+      manufacturer: "PNI",
+      model: "TA-WF-SMART(UV)",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "10": { type: "boolean" },
@@ -14,16 +20,22 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       on: { dataPoint: "1", kind: "switch" },
-      uvSterilization: { dataPoint: "10", kind: "switch" },
+      uvSterilization: { dataPoint: "10", kind: "switch", category: "config" },
       fault: {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

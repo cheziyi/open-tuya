@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "EV charger",
-  productKeys: ["skbzo8y3ud2htya4"],
+  products: [
+    { productKey: "skbzo8y3ud2htya4", manufacturer: "Voldt", model: "8-13A" },
+  ],
   dataPoints: {
     "1": { type: "integer" },
     "3": { type: "string" },
@@ -27,6 +29,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "energy",
+        reading: "total",
         readOnly: true,
         unit: "kWh",
         scale: 100,
@@ -59,6 +62,7 @@ const entry: TuyaDeviceEntry = {
       setCurrentInA: {
         dataPoint: "4",
         kind: "number",
+        category: "config",
         unit: "A",
         min: 8,
         max: 13,
@@ -68,6 +72,7 @@ const entry: TuyaDeviceEntry = {
         mask: "FFFF000000000000",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
         readOnly: true,
         unit: "V",
         scale: 10,
@@ -77,6 +82,7 @@ const entry: TuyaDeviceEntry = {
         mask: "000000FFFF000000",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
         readOnly: true,
         unit: "A",
         scale: 1000,
@@ -85,6 +91,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
         readOnly: true,
         unit: "kW",
         scale: 1000,
@@ -93,15 +100,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "10", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "10",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "10",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "Ready" },
@@ -141,12 +155,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
       },
       lastChargeInKwh: {
         dataPoint: "25",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "kWh",
         scale: 100,
@@ -154,6 +171,7 @@ const entry: TuyaDeviceEntry = {
       refresh: {
         dataPoint: "27",
         kind: "button",
+        category: "config",
         values: [
           { raw: "offline", value: false },
           { raw: "online", value: true },

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["6bspwvsqhl4vuanj"],
+  products: [
+    {
+      productKey: "6bspwvsqhl4vuanj",
+      manufacturer: "Cleverio",
+      model: "AP100",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "integer" },
@@ -23,12 +29,14 @@ const entry: TuyaDeviceEntry = {
       filterLifeInPercent: {
         dataPoint: "5",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancle", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -40,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       airQuality: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "1", value: "excellent" },

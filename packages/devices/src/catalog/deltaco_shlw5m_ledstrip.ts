@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "LED strip",
-  productKeys: ["gplzywt8cht24mhs"],
+  products: [
+    {
+      productKey: "gplzywt8cht24mhs",
+      manufacturer: "Deltaco",
+      model: "SH-LW5M",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer", optional: true },

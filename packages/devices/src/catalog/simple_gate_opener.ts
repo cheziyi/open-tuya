@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Simple garage-door-gate opener",
-  productKeys: ["b1uk4ftduaqopxv1"],
+  products: [{ productKey: "b1uk4ftduaqopxv1" }],
   dataPoints: {
     "1": { type: "boolean" },
     "7": { type: "integer", optional: true },
@@ -25,6 +25,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air quality monitor",
-  productKeys: ["ugjbnqj2mffaexp5"],
+  products: [
+    { productKey: "ugjbnqj2mffaexp5", model: "Air Housekeeper 6-in-1" },
+  ],
   dataPoints: {
     "2": { type: "integer" },
     "18": { type: "integer" },
@@ -20,6 +22,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
@@ -27,6 +30,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -35,6 +39,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
         scale: 10,
@@ -43,6 +48,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "volatileOrganicCompounds",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
@@ -50,6 +56,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "volatileOrganicCompounds",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
@@ -57,6 +64,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "carbonDioxide",
+        reading: "instant",
         readOnly: true,
         unit: "ppm",
       },

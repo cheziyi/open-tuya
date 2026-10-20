@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["sgodozglgymucvq2"],
+  products: [
+    {
+      productKey: "sgodozglgymucvq2",
+      manufacturer: "Tesla Smart",
+      model: "Mini",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "string" },
@@ -29,17 +35,19 @@ const entry: TuyaDeviceEntry = {
       },
     },
     light: {
-      on: { dataPoint: "8", kind: "switch" },
-      ionizer: { dataPoint: "6", kind: "switch" },
+      on: { dataPoint: "8", kind: "switch", category: "config" },
+      ionizer: { dataPoint: "6", kind: "switch", category: "config" },
       filterLifeInPercent: {
         dataPoint: "5",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       timer: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

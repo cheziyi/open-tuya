@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["28rajsdar2as0rhv"],
+  products: [{ productKey: "28rajsdar2as0rhv", model: "AP402" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer", optional: true },
@@ -47,18 +47,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
       filterLifeInPercent: {
         dataPoint: "5",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       timer: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "2h", value: "2h" },
@@ -70,11 +73,12 @@ const entry: TuyaDeviceEntry = {
       timeRemainingInMinutes: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      childLock: { dataPoint: "7", kind: "switch" },
-      filterReset: { dataPoint: "11", kind: "button" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
+      filterReset: { dataPoint: "11", kind: "button", category: "config" },
       airQuality: {
         dataPoint: "21",
         kind: "sensor",
@@ -90,12 +94,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

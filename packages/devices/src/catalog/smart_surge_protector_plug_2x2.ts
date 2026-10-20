@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Two outlet two USB smartplug",
-  productKeys: ["cianx1tz1ifyvyqm"],
+  products: [
+    { productKey: "cianx1tz1ifyvyqm", model: "Surge protector plug 2x2" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -25,6 +27,7 @@ const entry: TuyaDeviceEntry = {
       timer1InSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -32,6 +35,7 @@ const entry: TuyaDeviceEntry = {
       timer2InSeconds: {
         dataPoint: "10",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -39,6 +43,7 @@ const entry: TuyaDeviceEntry = {
       timerUsb1InSeconds: {
         dataPoint: "15",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -46,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       timerUsb2InSeconds: {
         dataPoint: "16",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

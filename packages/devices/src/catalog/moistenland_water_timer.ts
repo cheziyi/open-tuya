@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Irrigation timer",
-  productKeys: ["8t5hebn0"],
+  products: [{ productKey: "8t5hebn0", manufacturer: "MoistenLand" }],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "bitfield" },
@@ -23,11 +23,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "4", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "4",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       batteryInPercent: {
         dataPoint: "7",
         kind: "sensor",
@@ -38,6 +44,7 @@ const entry: TuyaDeviceEntry = {
       batteryStatus: {
         dataPoint: "8",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "low", value: "Replace Battery" },
@@ -48,6 +55,7 @@ const entry: TuyaDeviceEntry = {
       weatherDelay: {
         dataPoint: "10",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "24h", value: "24h" },
@@ -58,6 +66,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "11",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -65,6 +74,7 @@ const entry: TuyaDeviceEntry = {
       workMode: {
         dataPoint: "12",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "manual", value: "Manual" },
@@ -76,6 +86,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "15",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
         min: 0,

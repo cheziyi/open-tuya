@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Door lock",
-  productKeys: ["ofwvna43"],
+  products: [{ productKey: "ofwvna43", manufacturer: "Nice Digi" }],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "2": { type: "base64", optional: true },
@@ -53,12 +53,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "8",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       alert: {
         dataPoint: "21",
         kind: "event",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "wrong_finger", value: "wrong_finger" },
@@ -75,6 +78,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "32",
         kind: "sensor",
         measures: "lock",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: true, value: true },
@@ -83,10 +87,11 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: true,
       },
-      autoLock: { dataPoint: "33", kind: "switch" },
+      autoLock: { dataPoint: "33", kind: "switch", category: "config" },
       autoLockDelayInSeconds: {
         dataPoint: "36",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 5,
         max: 60,
@@ -94,16 +99,17 @@ const entry: TuyaDeviceEntry = {
       specialFunction: {
         dataPoint: "68",
         kind: "select",
+        category: "config",
         values: [
           { raw: "function1", value: "Function 1" },
           { raw: "function2", value: "Function 2" },
         ],
       },
-      specialControl: { dataPoint: "78", kind: "switch" },
-      newCredential: { dataPoint: "1", kind: "text" },
-      deleteCredential: { dataPoint: "2", kind: "text" },
-      modifyCredential: { dataPoint: "3", kind: "text" },
-      syncCredentials: { dataPoint: "54", kind: "text" },
+      specialControl: { dataPoint: "78", kind: "switch", category: "config" },
+      newCredential: { dataPoint: "1", kind: "text", category: "config" },
+      deleteCredential: { dataPoint: "2", kind: "text", category: "config" },
+      modifyCredential: { dataPoint: "3", kind: "text", category: "config" },
+      syncCredentials: { dataPoint: "54", kind: "text", category: "config" },
     },
   },
   source: {

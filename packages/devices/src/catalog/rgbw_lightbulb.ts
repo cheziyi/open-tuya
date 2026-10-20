@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "RGBW lightbulb",
-  productKeys: ["cqekgipywslyavsr", "p2i2oapbnxftdukj"],
+  products: [
+    { productKey: "cqekgipywslyavsr", manufacturer: "Merkury", model: "BW904" },
+    { productKey: "p2i2oapbnxftdukj", manufacturer: "Merkury", model: "BW904" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },

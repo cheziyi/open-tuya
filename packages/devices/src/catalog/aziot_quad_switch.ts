@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Quad switch",
-  productKeys: ["vbjatuxv6yoezkk5", "yiijiejtycigal7g"],
+  products: [
+    {
+      productKey: "vbjatuxv6yoezkk5",
+      manufacturer: "Aziot",
+      model: "4 Node smart switch",
+    },
+    {
+      productKey: "yiijiejtycigal7g",
+      manufacturer: "Aziot",
+      model: "4 Node smart switch",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -58,6 +69,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -67,15 +79,16 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "15",
         kind: "select",
+        category: "config",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
           { raw: "none", value: "off" },
         ],
       },
-      schedule: { dataPoint: "17", kind: "text" },
-      randomSchedule: { dataPoint: "18", kind: "text" },
-      inching: { dataPoint: "19", kind: "text" },
+      schedule: { dataPoint: "17", kind: "text", category: "config" },
+      randomSchedule: { dataPoint: "18", kind: "text", category: "config" },
+      inching: { dataPoint: "19", kind: "text", category: "config" },
     },
   },
   source: {

@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Human presence sensor",
-  productKeys: ["wzp9yjsobanavsut", "bemwtiswj5euk9rr"],
+  products: [
+    { productKey: "wzp9yjsobanavsut", model: "ZY-HPS01-5.8G" },
+    { productKey: "bemwtiswj5euk9rr", model: "ZY-HPS01-2.4G" },
+  ],
   dataPoints: {
     "11": { type: "integer", optional: true },
     "101": { type: "string" },
@@ -38,6 +41,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "distance",
+        reading: "instant",
         readOnly: true,
         unit: "cm",
       },
@@ -45,6 +49,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "illuminance",
+        reading: "instant",
         readOnly: true,
         unit: "lx",
         whenAbsent: { redirect: { dataPoint: "11" } },
@@ -53,6 +58,7 @@ const entry: TuyaDeviceEntry = {
       presenceDelayInSeconds: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 180,
@@ -61,6 +67,7 @@ const entry: TuyaDeviceEntry = {
       motionSensitivity: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "x",
         min: 0,
         max: 10,
@@ -68,6 +75,7 @@ const entry: TuyaDeviceEntry = {
       breathSensitivity: {
         dataPoint: "107",
         kind: "number",
+        category: "config",
         unit: "x",
         min: 0,
         max: 10,
@@ -75,6 +83,7 @@ const entry: TuyaDeviceEntry = {
       motionMaximumDistanceInCm: {
         dataPoint: "109",
         kind: "number",
+        category: "config",
         unit: "cm",
         min: 0,
         max: 600,
@@ -83,6 +92,7 @@ const entry: TuyaDeviceEntry = {
       motionMinimumDistanceInCm: {
         dataPoint: "110",
         kind: "number",
+        category: "config",
         unit: "cm",
         min: 0,
         max: 600,
@@ -91,6 +101,7 @@ const entry: TuyaDeviceEntry = {
       breathMaximumDistanceInCm: {
         dataPoint: "111",
         kind: "number",
+        category: "config",
         unit: "cm",
         min: 0,
         max: 600,
@@ -99,6 +110,7 @@ const entry: TuyaDeviceEntry = {
       breathMinimumDistanceInCm: {
         dataPoint: "112",
         kind: "number",
+        category: "config",
         unit: "cm",
         min: 0,
         max: 600,

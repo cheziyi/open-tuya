@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["g5wedazavod2wg3h"],
+  products: [
+    {
+      productKey: "g5wedazavod2wg3h",
+      manufacturer: "Carro",
+      model: "PH-805-24",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -43,10 +49,16 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      sleep: { dataPoint: "16", kind: "switch", whenAbsent: { value: false } },
+      sleep: {
+        dataPoint: "16",
+        kind: "switch",
+        category: "config",
+        whenAbsent: { value: false },
+      },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -63,11 +75,17 @@ const entry: TuyaDeviceEntry = {
       tankEmpty: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      tankEmptyFaultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      tankEmptyFaultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     spray: {
       on: { dataPoint: "1", kind: "switch" },
@@ -85,6 +103,7 @@ const entry: TuyaDeviceEntry = {
       on: {
         dataPoint: "5",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },

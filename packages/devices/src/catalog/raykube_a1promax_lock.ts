@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Door lock",
-  productKeys: ["rlyxv7pe", "hc7n0urm"],
+  products: [
+    { productKey: "rlyxv7pe", manufacturer: "Raykube", model: "A1 Pro Max" },
+    { productKey: "hc7n0urm", manufacturer: "Raykube", model: "A1 Ultra" },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "2": { type: "base64", optional: true },
@@ -81,23 +84,26 @@ const entry: TuyaDeviceEntry = {
       keytone: {
         dataPoint: "31",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "normal", value: true },
           { raw: "mute", value: false },
         ],
       },
-      autoLock: { dataPoint: "33", kind: "switch" },
+      autoLock: { dataPoint: "33", kind: "switch", category: "config" },
       autoLockTimeInSeconds: {
         dataPoint: "36",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 1,
         max: 1800,
       },
-      syncClock: { dataPoint: "44", kind: "button" },
+      syncClock: { dataPoint: "44", kind: "button", category: "config" },
       specialFunction: {
         dataPoint: "68",
         kind: "select",
+        category: "config",
         values: [
           { raw: "function1", value: "Recalibrate" },
           { raw: "function2", value: "Unlock more" },
@@ -105,11 +111,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "function4", value: "Add force" },
         ],
       },
-      changeDirection: { dataPoint: "78", kind: "switch" },
-      newCredential: { dataPoint: "1", kind: "text" },
-      deleteCredential: { dataPoint: "2", kind: "text" },
-      modifyCredential: { dataPoint: "3", kind: "text" },
-      syncCredentials: { dataPoint: "54", kind: "text" },
+      changeDirection: { dataPoint: "78", kind: "switch", category: "config" },
+      newCredential: { dataPoint: "1", kind: "text", category: "config" },
+      deleteCredential: { dataPoint: "2", kind: "text", category: "config" },
+      modifyCredential: { dataPoint: "3", kind: "text", category: "config" },
+      syncCredentials: { dataPoint: "54", kind: "text", category: "config" },
     },
   },
   source: {

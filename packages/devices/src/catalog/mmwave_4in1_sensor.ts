@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Room sensor",
-  productKeys: ["gnpflcoq"],
+  products: [{ productKey: "gnpflcoq", model: "Zigbee 4-in-1" }],
   dataPoints: {
     "1": { type: "string" },
     "4": { type: "integer" },
@@ -39,6 +39,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -47,12 +48,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "8",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
       motionSensitivity: {
         dataPoint: "9",
         kind: "select",
+        category: "config",
         values: [
           { raw: "low", value: "low" },
           { raw: "middle", value: "medium" },
@@ -63,6 +66,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "illuminance",
+        reading: "instant",
         readOnly: true,
         unit: "lx",
       },
@@ -70,6 +74,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 10,
         max: 180,
@@ -78,6 +83,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 1,
         max: 60,
@@ -86,6 +92,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -100,
         max: 100,
@@ -94,6 +101,7 @@ const entry: TuyaDeviceEntry = {
       humidityCalibrationInPercent: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "%",
         min: -30,
         max: 30,

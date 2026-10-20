@@ -5,7 +5,20 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Bathroom radiator",
-  productKeys: ["bc6gdgt0cpq1jmjz", "7pojgyvxlwa4igrm"],
+  products: [
+    {
+      productKey: "bc6gdgt0cpq1jmjz",
+      manufacturer: "Eurom",
+      model: "Sani",
+      modelId: "LBH-63",
+    },
+    {
+      productKey: "7pojgyvxlwa4igrm",
+      manufacturer: "Eurom",
+      model: "Sani",
+      modelId: "LBH-63A",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -131,11 +144,12 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      ecoMode: { dataPoint: "102", kind: "switch" },
+      ecoMode: { dataPoint: "102", kind: "switch", category: "config" },
       surfaceTemperatureInC: {
         dataPoint: "105",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -143,6 +157,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "3",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -150,11 +165,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

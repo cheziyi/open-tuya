@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Aroma diffuser",
-  productKeys: ["if1nolcm"],
+  products: [
+    { productKey: "if1nolcm", manufacturer: "Dituo", model: "DT-T2190A" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -25,6 +27,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "5",
         kind: "select",
+        category: "config",
         values: [
           { raw: "on", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -36,6 +39,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -75,15 +79,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       scene: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "night", value: "night" },
           { raw: "read", value: "reading" },

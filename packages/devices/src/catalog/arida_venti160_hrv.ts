@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ventilation",
-  productKeys: ["npf4762xatmaw29g"],
+  products: [
+    {
+      productKey: "npf4762xatmaw29g",
+      manufacturer: "Arida",
+      model: "Venti 160",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -38,10 +44,11 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       speed: { dataPoint: "3", kind: "number", min: 1, max: 3 },
-      ionizer: { dataPoint: "9", kind: "switch" },
+      ionizer: { dataPoint: "9", kind: "switch", category: "config" },
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -62,6 +69,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -69,23 +77,31 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "24", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "24",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       connectivity: {
         dataPoint: "101",
         kind: "sensor",
         measures: "connectivity",
+        category: "diagnostic",
         readOnly: true,
       },
-      co2Control: { dataPoint: "103", kind: "switch" },
+      co2Control: { dataPoint: "103", kind: "switch", category: "config" },
       carbonDioxideSettingInPpm: {
         dataPoint: "104",
         kind: "number",
         measures: "carbonDioxide",
+        category: "config",
         unit: "ppm",
         min: 400,
         max: 2000,
@@ -94,6 +110,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "carbonDioxide",
+        reading: "instant",
         readOnly: true,
         unit: "ppm",
       },
@@ -101,11 +118,12 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
       boost: { dataPoint: "107", kind: "switch" },
     },
-    indicator: { on: { dataPoint: "15", kind: "switch" } },
+    indicator: { on: { dataPoint: "15", kind: "switch", category: "config" } },
     freeCooling: {
       hvacMode: {
         dataPoint: "102",

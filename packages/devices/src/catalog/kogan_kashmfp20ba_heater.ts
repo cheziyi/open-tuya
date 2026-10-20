@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Electric fireplace",
-  productKeys: ["eqyne046pnqkysqh"],
+  products: [
+    {
+      productKey: "eqyne046pnqkysqh",
+      manufacturer: "Kogan",
+      model: "SmarterHome™ 2000W flame heater",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },

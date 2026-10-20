@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dishwasher",
-  productKeys: ["hmwl5vpd1zanu6ma"],
+  products: [
+    { productKey: "hmwl5vpd1zanu6ma", manufacturer: "Etna", model: "VW644MC" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -39,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       timerInMinutes: {
         dataPoint: "6",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,
@@ -46,6 +49,7 @@ const entry: TuyaDeviceEntry = {
       washingMode: {
         dataPoint: "7",
         kind: "select",
+        category: "config",
         values: [
           { raw: "neutral", value: "neutral" },
           { raw: "eco", value: "eco" },
@@ -65,6 +69,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "8",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -72,14 +78,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       status: {
         dataPoint: "16",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "unwash", value: "unwashed" },
@@ -95,32 +108,47 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "17",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
       },
       childLock: {
         dataPoint: "101",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
-      delayedStart: { dataPoint: "102", kind: "switch" },
+      delayedStart: { dataPoint: "102", kind: "switch", category: "config" },
       door: {
         dataPoint: "103",
         kind: "sensor",
         measures: "door",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
         ],
       },
-      rinseAid: { dataPoint: "104", kind: "sensor", readOnly: true },
-      salt: { dataPoint: "105", kind: "sensor", readOnly: true },
+      rinseAid: {
+        dataPoint: "104",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      salt: {
+        dataPoint: "105",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       pause: { dataPoint: "107", kind: "button" },
-      autoOpen: { dataPoint: "110", kind: "switch" },
+      autoOpen: { dataPoint: "110", kind: "switch", category: "config" },
       waterHardness: {
         dataPoint: "111",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "1" },
           { raw: "2", value: "2" },

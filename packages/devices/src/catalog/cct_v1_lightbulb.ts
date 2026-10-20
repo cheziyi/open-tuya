@@ -5,12 +5,32 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "CCT light",
-  productKeys: [
-    "xhkuywg6rwwqocl6",
-    "hvfqgkigk9nj0p6p",
-    "41xqxqiflb6lqaqv",
-    "gbi4ljmlyrxx23mz",
-    "xhkuywg6rwwqocl6",
+  products: [
+    {
+      productKey: "xhkuywg6rwwqocl6",
+      manufacturer: "Connect",
+      model: "White GU10",
+    },
+    {
+      productKey: "hvfqgkigk9nj0p6p",
+      manufacturer: "Geeni",
+      model: "GN-BW223-999",
+    },
+    {
+      productKey: "41xqxqiflb6lqaqv",
+      manufacturer: "Geeni",
+      model: "GN-BW223-999",
+    },
+    {
+      productKey: "gbi4ljmlyrxx23mz",
+      manufacturer: "Geeni",
+      model: "GN-BW230-999",
+    },
+    {
+      productKey: "xhkuywg6rwwqocl6",
+      manufacturer: "Laser",
+      model: "SMT-WWDL53-L",
+    },
   ],
   dataPoints: {
     "1": { type: "boolean" },

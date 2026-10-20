@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["zjqqpvhra3ep0fpk"],
+  products: [
+    {
+      productKey: "zjqqpvhra3ep0fpk",
+      manufacturer: "Hoenofly",
+      model: "Smart Amari",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "22": { type: "integer" },
@@ -35,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -43,6 +50,7 @@ const entry: TuyaDeviceEntry = {
       fanTimerInMinutes: {
         dataPoint: "64",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 540,

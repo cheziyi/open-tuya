@@ -5,7 +5,23 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Litter box",
-  productKeys: ["93at0k76rfvteseb", "00i1mobdtdstfvqr", "y3xefowizhyexugf"],
+  products: [
+    {
+      productKey: "93at0k76rfvteseb",
+      manufacturer: "Migou",
+      model: "MINI-B-Public",
+    },
+    {
+      productKey: "00i1mobdtdstfvqr",
+      manufacturer: "Migou",
+      model: "MINI-C-Public",
+    },
+    {
+      productKey: "y3xefowizhyexugf",
+      manufacturer: "Migou",
+      model: "MINI-F-Public",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -37,6 +53,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 1,
         max: 60,
@@ -45,6 +62,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "weight",
+        reading: "instant",
         readOnly: true,
         unit: "kg",
         scale: 10,
@@ -63,7 +81,7 @@ const entry: TuyaDeviceEntry = {
         unit: "s",
       },
       clean: { dataPoint: "9", kind: "button" },
-      factoryReset: { dataPoint: "23", kind: "button" },
+      factoryReset: { dataPoint: "23", kind: "button", category: "config" },
       cleaningTimes: {
         dataPoint: "103",
         kind: "sensor",
@@ -95,6 +113,7 @@ const entry: TuyaDeviceEntry = {
       weightUnit: {
         dataPoint: "111",
         kind: "select",
+        category: "config",
         values: [
           { raw: "KG", value: "Kilograms" },
           { raw: "LB", value: "Pounds" },
@@ -102,7 +121,13 @@ const entry: TuyaDeviceEntry = {
       },
     },
     backlight: {
-      brightness: { dataPoint: "106", kind: "number", min: 0, max: 100 },
+      brightness: {
+        dataPoint: "106",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
     },
   },
   source: {

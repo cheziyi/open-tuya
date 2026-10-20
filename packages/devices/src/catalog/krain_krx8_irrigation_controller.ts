@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Irrigation controller",
-  productKeys: ["o4lzusmr4igv5ux3", "9lgavgvaygh8ibgs"],
+  products: [
+    { productKey: "o4lzusmr4igv5ux3", manufacturer: "KRain", model: "KRX8" },
+    { productKey: "9lgavgvaygh8ibgs", manufacturer: "KRain", model: "KRX6" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "101": { type: "boolean" },
@@ -39,7 +42,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1", kind: "switch" },
+      on: { dataPoint: "1", kind: "switch", category: "config" },
       running: {
         dataPoint: "132",
         kind: "sensor",
@@ -50,12 +53,12 @@ const entry: TuyaDeviceEntry = {
       startB: { dataPoint: "118", kind: "button" },
       startC: { dataPoint: "119", kind: "button" },
       startD: { dataPoint: "120", kind: "button" },
-      enablePrograms: { dataPoint: "121", kind: "switch" },
-      programA: { dataPoint: "122", kind: "switch" },
-      programB: { dataPoint: "123", kind: "switch" },
-      programC: { dataPoint: "124", kind: "switch" },
-      programD: { dataPoint: "125", kind: "switch" },
-      programDEnabled: { dataPoint: "121", kind: "switch" },
+      enablePrograms: { dataPoint: "121", kind: "switch", category: "config" },
+      programA: { dataPoint: "122", kind: "switch", category: "config" },
+      programB: { dataPoint: "123", kind: "switch", category: "config" },
+      programC: { dataPoint: "124", kind: "switch", category: "config" },
+      programD: { dataPoint: "125", kind: "switch", category: "config" },
+      programDEnabled: { dataPoint: "121", kind: "switch", category: "config" },
       battery: {
         dataPoint: "130",
         kind: "sensor",
@@ -72,11 +75,12 @@ const entry: TuyaDeviceEntry = {
         measures: "plugged",
         readOnly: true,
       },
-      wateringDelay: { dataPoint: "136", kind: "switch" },
+      wateringDelay: { dataPoint: "136", kind: "switch", category: "config" },
       wateringDelaySettingInDays: {
         dataPoint: "126",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "d",
         min: 1,
         max: 15,
@@ -86,6 +90,8 @@ const entry: TuyaDeviceEntry = {
         mask: "0000FF00",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "d",
       },
@@ -95,13 +101,14 @@ const entry: TuyaDeviceEntry = {
         measures: "moisture",
         readOnly: true,
       },
-      schedule: { dataPoint: "127", kind: "text" },
-      zoneConfig: { dataPoint: "128", kind: "text" },
-      dateAndTime: { dataPoint: "129", kind: "text" },
-      manualCommand: { dataPoint: "133", kind: "text" },
+      schedule: { dataPoint: "127", kind: "text", category: "config" },
+      zoneConfig: { dataPoint: "128", kind: "text", category: "config" },
+      dateAndTime: { dataPoint: "129", kind: "text", category: "config" },
+      manualCommand: { dataPoint: "133", kind: "text", category: "config" },
       wateringDelayTechnicalInfo: {
         dataPoint: "134",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
     },

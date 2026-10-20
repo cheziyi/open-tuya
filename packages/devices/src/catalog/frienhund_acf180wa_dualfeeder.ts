@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dual pet feeder",
-  productKeys: ["zamvomvycqa48ovw"],
+  products: [
+    {
+      productKey: "zamvomvycqa48ovw",
+      manufacturer: "Frienhund",
+      model: "ACF180W-A",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "boolean", optional: true },
@@ -33,27 +39,29 @@ const entry: TuyaDeviceEntry = {
     "223": { type: "base64", optional: true },
   },
   components: {
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
     device: {
-      listen: { dataPoint: "102", kind: "switch" },
-      flipImage: { dataPoint: "103", kind: "switch" },
-      watermark: { dataPoint: "104", kind: "switch" },
+      listen: { dataPoint: "102", kind: "switch", category: "config" },
+      flipImage: { dataPoint: "103", kind: "switch", category: "config" },
+      watermark: { dataPoint: "104", kind: "switch", category: "config" },
       recording: { dataPoint: "150", kind: "switch" },
-      motionDetection: { dataPoint: "134", kind: "switch" },
+      motionDetection: { dataPoint: "134", kind: "switch", category: "config" },
       cameraPrivacy: { dataPoint: "105", kind: "switch" },
       motionSensitivity: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
           { raw: "2", value: "high" },
         ],
       },
-      slowFeed: { dataPoint: "107", kind: "switch" },
+      slowFeed: { dataPoint: "107", kind: "switch", category: "config" },
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -63,6 +71,7 @@ const entry: TuyaDeviceEntry = {
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -76,12 +85,18 @@ const entry: TuyaDeviceEntry = {
       sdStatusMemoryCardCapacity: {
         dataPoint: "109",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
-      formatSdCard: { dataPoint: "111", kind: "button" },
+      formatSdCard: {
+        dataPoint: "111",
+        kind: "button",
+        category: "diagnostic",
+      },
       formatSdCardSdFormatStatus: {
         dataPoint: "117",
         kind: "select",
+        category: "diagnostic",
         values: [
           { raw: 2000, value: "Formatting" },
           { raw: 2001, value: "Format error" },
@@ -92,6 +107,7 @@ const entry: TuyaDeviceEntry = {
       feedVoiceRecord: {
         dataPoint: "112",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "stop" },
           { raw: "1", value: "record" },
@@ -101,6 +117,7 @@ const entry: TuyaDeviceEntry = {
       recordingMode: {
         dataPoint: "151",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
@@ -109,6 +126,7 @@ const entry: TuyaDeviceEntry = {
       volumeInPercent: {
         dataPoint: "160",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 1,
         max: 100,
@@ -116,6 +134,7 @@ const entry: TuyaDeviceEntry = {
       manualFeedInPortions: {
         dataPoint: "203",
         kind: "number",
+        category: "config",
         unit: "portions",
         min: 1,
         max: 12,
@@ -123,6 +142,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "204",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -155,12 +175,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "219",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "219", kind: "sensor", readOnly: true },
-      mealPlan: { dataPoint: "223", kind: "text" },
+      faultCode: {
+        dataPoint: "219",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      mealPlan: { dataPoint: "223", kind: "text", category: "config" },
     },
   },
   source: {

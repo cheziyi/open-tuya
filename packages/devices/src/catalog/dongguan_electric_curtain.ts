@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain robot",
-  productKeys: ["kcy0x4pi", "stp9bwdi1zmd5mkr"],
+  products: [
+    {
+      productKey: "kcy0x4pi",
+      manufacturer: "Dongguan Lianyou",
+      model: "LY1678-2",
+    },
+    {
+      productKey: "stp9bwdi1zmd5mkr",
+      manufacturer: "RSH Tech",
+      model: "MC20-WiFi",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "3": { type: "integer", optional: true },
@@ -42,6 +53,7 @@ const entry: TuyaDeviceEntry = {
       closedPosition: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "left", value: "left" },
           { raw: "right", value: "right" },
@@ -51,6 +63,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -58,6 +71,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "illuminance",
+        reading: "instant",
         readOnly: true,
         unit: "lx",
       },
@@ -65,11 +79,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       batteryInPercent: {
         dataPoint: "13",
         kind: "sensor",

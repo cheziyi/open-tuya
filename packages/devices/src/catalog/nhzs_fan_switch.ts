@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan speed switch",
-  productKeys: ["cwwc6ga2gz8mvrqo"],
+  products: [{ productKey: "cwwc6ga2gz8mvrqo", manufacturer: "NHZS" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer", optional: true },
@@ -20,6 +20,7 @@ const entry: TuyaDeviceEntry = {
       timerInMinutes: {
         dataPoint: "2",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,
@@ -27,6 +28,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "on", value: "on" },
           { raw: "off", value: "off" },
@@ -34,7 +36,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    backlight: { on: { dataPoint: "13", kind: "switch" } },
+    backlight: { on: { dataPoint: "13", kind: "switch", category: "config" } },
   },
   source: {
     file: "nhzs_fan_switch.yaml",

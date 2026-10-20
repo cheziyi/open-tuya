@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Accent lighting",
-  productKeys: ["bau7S9LJYvPgynWc"],
+  products: [
+    {
+      productKey: "bau7S9LJYvPgynWc",
+      manufacturer: "Richelieu",
+      model: "166142030",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },

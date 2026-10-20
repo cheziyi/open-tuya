@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer" },
@@ -58,14 +58,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       indicators: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "Humidity off" },
           { raw: "2", value: "All off" },
@@ -81,19 +88,22 @@ const entry: TuyaDeviceEntry = {
           { raw: "dehum30_air", value: "dehumidify_and_purify" },
         ],
       },
-      internalDry: { dataPoint: "108", kind: "switch" },
-      silent: { dataPoint: "109", kind: "switch" },
-      childLock: { dataPoint: "16", kind: "switch" },
+      internalDry: { dataPoint: "108", kind: "switch", category: "config" },
+      silent: { dataPoint: "109", kind: "switch", category: "config" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
       temperatureInC: {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
       },
       timer: {
         dataPoint: "17",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -105,12 +115,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
       sleep: {
         dataPoint: "102",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "manual", value: false },
           { raw: "night", value: true },

@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["enasdcyucyl7tgrz"],
+  products: [
+    { productKey: "enasdcyucyl7tgrz", manufacturer: "ET", model: "ET_4A F32" },
+  ],
   dataPoints: {
     "2": { type: "string" },
     "16": { type: "integer" },
@@ -78,6 +80,7 @@ const entry: TuyaDeviceEntry = {
       sensor: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Internal" },
           { raw: "1", value: "External" },
@@ -87,6 +90,7 @@ const entry: TuyaDeviceEntry = {
       temperatureCalibration: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         min: -9,
         max: 9,
         scale: 10,
@@ -94,6 +98,7 @@ const entry: TuyaDeviceEntry = {
       temperatureHysteresis: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0_5", value: "0.5°C" },
           { raw: "1", value: "1.0°C" },
@@ -101,23 +106,45 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "3.0°C" },
         ],
       },
-      holidayDays: { dataPoint: "101", kind: "number", min: 0, max: 99 },
-      adaptive: { dataPoint: "110", kind: "switch" },
-      openWindowDetection: { dataPoint: "111", kind: "switch" },
-      childLock: { dataPoint: "40", kind: "switch" },
-      factoryReset: { dataPoint: "39", kind: "button" },
+      holidayDays: {
+        dataPoint: "101",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 99,
+      },
+      adaptive: { dataPoint: "110", kind: "switch", category: "config" },
+      openWindowDetection: {
+        dataPoint: "111",
+        kind: "switch",
+        category: "config",
+      },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
+      factoryReset: { dataPoint: "39", kind: "button", category: "config" },
       fault: {
         dataPoint: "45",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "45",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     display: {
-      brightness: { dataPoint: "115", kind: "number", min: 1, max: 8 },
+      brightness: {
+        dataPoint: "115",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 8,
+      },
     },
   },
   source: {

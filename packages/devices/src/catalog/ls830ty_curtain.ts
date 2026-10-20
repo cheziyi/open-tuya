@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain",
-  productKeys: ["550grkojy40jodv0"],
+  products: [{ productKey: "550grkojy40jodv0", model: "LS830-TY" }],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer", optional: true },
@@ -43,6 +43,7 @@ const entry: TuyaDeviceEntry = {
       direction: {
         dataPoint: "5",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "Clockwise" },
           { raw: true, value: "Anti-clockwise" },
@@ -52,16 +53,24 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "10", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "10",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       runningTimeInSeconds: {
         dataPoint: "11",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
         whenAbsent: { value: 0 },

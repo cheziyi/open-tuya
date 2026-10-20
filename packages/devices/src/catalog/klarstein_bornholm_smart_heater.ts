@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["dcxerfhhzu2x1bei"],
+  products: [
+    {
+      productKey: "dcxerfhhzu2x1bei",
+      manufacturer: "Klarstein",
+      model: "Bornholm (1kW, based on WBR3)",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -80,6 +86,7 @@ const entry: TuyaDeviceEntry = {
       on: {
         dataPoint: "5",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -90,6 +97,7 @@ const entry: TuyaDeviceEntry = {
       on: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -97,10 +105,11 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      childLock: { dataPoint: "6", kind: "switch" },
+      childLock: { dataPoint: "6", kind: "switch", category: "config" },
       timer: {
         dataPoint: "10",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -133,6 +142,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -140,14 +151,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       temperatureUnit: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "C", value: "C" },
           { raw: "F", value: "F" },

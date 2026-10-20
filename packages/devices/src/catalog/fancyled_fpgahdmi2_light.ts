@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "HDMI sync light",
-  productKeys: ["eoiix1chj4q8wyxq"],
+  products: [
+    {
+      productKey: "eoiix1chj4q8wyxq",
+      manufacturer: "Fancy LED",
+      model: "Screen sync smart light 2.0",
+      modelId: "fpga-hdmi2.0",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -55,6 +62,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -62,6 +70,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "25",
         kind: "select",
+        category: "config",
         values: [
           { raw: "80000000000000000000000000000000", value: "Screen - Movie" },
           { raw: "81000000000000000000000000000000", value: "Screen - Video" },
@@ -119,6 +128,7 @@ const entry: TuyaDeviceEntry = {
       installationSide: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "Left" },
           { raw: 1, value: "Right" },
@@ -127,6 +137,7 @@ const entry: TuyaDeviceEntry = {
       lampType: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "Light strip" },
           { raw: 1, value: "Light post" },

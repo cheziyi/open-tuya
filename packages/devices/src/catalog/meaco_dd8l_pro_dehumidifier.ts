@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["vvsrpq0oavmf2vou"],
+  products: [
+    {
+      productKey: "vvsrpq0oavmf2vou",
+      manufacturer: "Meaco",
+      model: "DD8L Pro",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -50,6 +56,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "17",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -78,10 +85,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "24h", value: "24h" },
         ],
       },
-      timerRemaining: { dataPoint: "102", kind: "text" },
+      timerRemaining: { dataPoint: "102", kind: "text", category: "config" },
       fanMode: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "200w", value: "low" },
           { raw: "400w", value: "medium" },
@@ -92,6 +100,7 @@ const entry: TuyaDeviceEntry = {
       swingMode: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "b_swing", value: "high" },
           { raw: "m_swing", value: "medium" },
@@ -110,6 +119,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -118,9 +128,14 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
-      childLock: { dataPoint: "16", kind: "switch" },
-      ionizer: { dataPoint: "10", kind: "switch" },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
+      ionizer: { dataPoint: "10", kind: "switch", category: "config" },
     },
   },
   source: {

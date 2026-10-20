@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pergola",
-  productKeys: ["pyfin3kae081iczb"],
+  products: [
+    {
+      productKey: "pyfin3kae081iczb",
+      manufacturer: "Shanglin Motor",
+      model: "FD-1515",
+    },
+  ],
   dataPoints: {
     "101": { type: "string" },
     "102": { type: "string", optional: true },

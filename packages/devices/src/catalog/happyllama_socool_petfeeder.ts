@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["l0opxehxjnmzyree"],
+  products: [
+    {
+      productKey: "l0opxehxjnmzyree",
+      manufacturer: "Happy Llama Tech",
+      model: "SoCool",
+    },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "3": { type: "integer", optional: true },
@@ -30,7 +36,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      mealPlan: { dataPoint: "1", kind: "text" },
+      mealPlan: { dataPoint: "1", kind: "text", category: "config" },
       manualFeedInPortions: {
         dataPoint: "3",
         kind: "number",
@@ -41,6 +47,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "4",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -52,21 +59,25 @@ const entry: TuyaDeviceEntry = {
       statusFirmwareVersion: {
         dataPoint: "130",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       statusHardwareVersion: {
         dataPoint: "131",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       statusDeviceCapabilities: {
         dataPoint: "132",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       foodLevel: {
         dataPoint: "6",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "enough", value: "high" },
@@ -78,34 +89,56 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
-      faultErrorCode: { dataPoint: "150", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultErrorCode: {
+        dataPoint: "150",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       lastFeedInPortions: {
         dataPoint: "14",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "portions",
       },
-      factoryReset: { dataPoint: "24", kind: "button" },
-      alarm: { dataPoint: "106", kind: "switch" },
-      stainlessSteelInserts: { dataPoint: "110", kind: "switch" },
+      factoryReset: { dataPoint: "24", kind: "button", category: "config" },
+      alarm: { dataPoint: "106", kind: "switch", category: "config" },
+      stainlessSteelInserts: {
+        dataPoint: "110",
+        kind: "switch",
+        category: "config",
+      },
       brightness: { dataPoint: "111", kind: "number", min: 0, max: 10 },
-      resetCounter: { dataPoint: "120", kind: "button" },
-      counterEnable: { dataPoint: "125", kind: "switch" },
-      quickFeedCommand: { dataPoint: "140", kind: "text" },
+      resetCounter: { dataPoint: "120", kind: "button", category: "config" },
+      counterEnable: { dataPoint: "125", kind: "switch", category: "config" },
+      quickFeedCommand: { dataPoint: "140", kind: "text", category: "config" },
       manualDefrost: {
         dataPoint: "142",
         kind: "number",
+        category: "config",
         min: -2147483647,
         max: 2147483647,
       },
-      counter: { dataPoint: "145", kind: "sensor", readOnly: true },
-      logs: { dataPoint: "151", kind: "text" },
+      counter: {
+        dataPoint: "145",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      logs: { dataPoint: "151", kind: "text", category: "config" },
     },
   },
   source: {

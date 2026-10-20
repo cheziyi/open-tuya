@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fish feeder",
-  productKeys: ["yq5jiyjynyduydw6"],
+  products: [
+    {
+      productKey: "yq5jiyjynyduydw6",
+      manufacturer: "Dxophiex",
+      model: "AF2020WIFI",
+    },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "3": { type: "integer" },
@@ -18,7 +24,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      mealPlan: { dataPoint: "1", kind: "text" },
+      mealPlan: { dataPoint: "1", kind: "text", category: "config" },
       manualFeedInPortions: {
         dataPoint: "3",
         kind: "number",
@@ -26,22 +32,25 @@ const entry: TuyaDeviceEntry = {
         min: 1,
         max: 12,
       },
-      factoryReset: { dataPoint: "9", kind: "button" },
+      factoryReset: { dataPoint: "9", kind: "button", category: "config" },
       lastManualFeedInPortions: {
         dataPoint: "101",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "portions",
       },
       lastAutoFeedInPortions: {
         dataPoint: "102",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "portions",
       },
       autoFirstFeedInPortions: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         unit: "portions",
         min: 1,
         max: 12,
@@ -49,6 +58,7 @@ const entry: TuyaDeviceEntry = {
       autoSecondFeedInPortions: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "portions",
         min: 1,
         max: 12,
@@ -56,6 +66,7 @@ const entry: TuyaDeviceEntry = {
       autoFeeding: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "once", value: "Once a day" },
           { raw: "twice", value: "Twice a day" },

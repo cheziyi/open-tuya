@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["7ingxzrs0wo9rqsd"],
+  products: [
+    { productKey: "7ingxzrs0wo9rqsd", manufacturer: "Myuet", model: "ME82" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -87,12 +89,14 @@ const entry: TuyaDeviceEntry = {
       antiFrost: {
         dataPoint: "103",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       maximumTemperatureInC: {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 200,
         max: 700,
@@ -103,6 +107,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "26",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 50,
         max: 200,
@@ -113,19 +118,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -9,
         max: 9,
       },
-      factoryReset: { dataPoint: "39", kind: "button" },
+      factoryReset: { dataPoint: "39", kind: "button", category: "config" },
       childLock: {
         dataPoint: "40",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       temperatureSensor: {
         dataPoint: "43",
         kind: "select",
+        category: "config",
         values: [
           { raw: "in", value: "Internal" },
           { raw: "out", value: "External" },
@@ -137,14 +145,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "45",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "45",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       programType: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "Disabled" },
           { raw: "weekend", value: "Weekend" },
@@ -157,6 +172,7 @@ const entry: TuyaDeviceEntry = {
       brightness: {
         dataPoint: "52",
         kind: "select",
+        category: "config",
         values: [
           { raw: "closed", value: 0 },
           { raw: "20_bright", value: 51 },

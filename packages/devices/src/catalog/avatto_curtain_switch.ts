@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain switch",
-  productKeys: [],
+  products: [],
   dataPoints: { "1": { type: "string" }, "101": { type: "boolean" } },
   components: {
     cover: {
@@ -19,7 +19,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    backlight: { on: { dataPoint: "101", kind: "switch" } },
+    backlight: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "avatto_curtain_switch.yaml",

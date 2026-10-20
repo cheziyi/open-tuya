@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Circuit breaker",
-  productKeys: ["ifig8xvdbelujwt5"],
+  products: [
+    {
+      productKey: "ifig8xvdbelujwt5",
+      manufacturer: "Taffware",
+      model: "1P-J-63",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "9": { type: "integer" },
@@ -31,6 +37,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -39,6 +46,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
         readOnly: true,
         unit: "A",
         scale: 1000,
@@ -48,6 +56,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
         readOnly: true,
         unit: "W",
         scale: 10,
@@ -63,6 +72,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
         readOnly: true,
         unit: "V",
         scale: 10,
@@ -71,6 +81,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -80,6 +91,7 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "40",
         kind: "select",
+        category: "config",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
@@ -87,11 +99,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "on", value: "on" },
         ],
       },
-      childLock: { dataPoint: "41", kind: "switch" },
-      schedule: { dataPoint: "42", kind: "text" },
+      childLock: { dataPoint: "41", kind: "switch", category: "config" },
+      schedule: { dataPoint: "42", kind: "text", category: "config" },
       liveUpdates: {
         dataPoint: "66",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "online", value: true },
           { raw: "offline", value: false },

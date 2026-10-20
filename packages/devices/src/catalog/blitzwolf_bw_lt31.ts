@@ -5,7 +5,23 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "LED strip",
-  productKeys: ["khu3zzkkjemj6oat", "mzlyh8vz7p33qbz9", "9x2n4bqcuych0odo"],
+  products: [
+    {
+      productKey: "khu3zzkkjemj6oat",
+      manufacturer: "Blitzwolf",
+      model: "BW-LT31",
+    },
+    {
+      productKey: "mzlyh8vz7p33qbz9",
+      manufacturer: "Casalux",
+      model: "LR1321",
+    },
+    {
+      productKey: "9x2n4bqcuych0odo",
+      manufacturer: "Huwaile Direct",
+      model: "Corner floor lamp",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -55,6 +71,7 @@ const entry: TuyaDeviceEntry = {
       music: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "119", value: "Classic 25%" },
           { raw: "132", value: "Classic 50%" },
@@ -77,6 +94,7 @@ const entry: TuyaDeviceEntry = {
       dynamic: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "013264000003e803e8", value: "Breath" },
           { raw: "023264000003e803e8", value: "Flash" },
@@ -95,10 +113,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "0932640000000003e8", value: "Adjoint" },
         ],
       },
-      dynamicScene: { dataPoint: "106", kind: "text", type: "hex" },
+      dynamicScene: {
+        dataPoint: "106",
+        kind: "text",
+        category: "config",
+        type: "hex",
+      },
       scene: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "CJ_YD", value: "reading" },
           { raw: "CJ_QC", value: "morning" },
@@ -111,6 +135,7 @@ const entry: TuyaDeviceEntry = {
       rgbOrder: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: 1, value: "RGB" },
           { raw: 2, value: "RBG" },
@@ -120,7 +145,13 @@ const entry: TuyaDeviceEntry = {
           { raw: 6, value: "BGR" },
         ],
       },
-      stripPoints: { dataPoint: "104", kind: "number", min: 10, max: 200 },
+      stripPoints: {
+        dataPoint: "104",
+        kind: "number",
+        category: "config",
+        min: 10,
+        max: 200,
+      },
     },
   },
   source: {

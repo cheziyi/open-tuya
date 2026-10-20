@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan and light controller",
-  productKeys: ["hqq73kftvzh8c92u"],
+  products: [
+    {
+      productKey: "hqq73kftvzh8c92u",
+      manufacturer: "3A Nue",
+      model: "LGT-SWCH10006",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "string" },
@@ -29,6 +35,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 6,
@@ -37,6 +44,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

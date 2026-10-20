@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["hbiwalfrzqfzv2cq"],
+  products: [
+    {
+      productKey: "hbiwalfrzqfzv2cq",
+      manufacturer: "Rojeco",
+      model: "PTM-001",
+    },
+  ],
   dataPoints: {
     "2": { type: "boolean", optional: true },
     "3": { type: "integer" },
@@ -22,12 +28,14 @@ const entry: TuyaDeviceEntry = {
       lastAmountInPortions: {
         dataPoint: "14",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "portions",
       },
       feedState: {
         dataPoint: "4",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -38,15 +46,17 @@ const entry: TuyaDeviceEntry = {
       manualFeedInPortions: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "portions",
         min: 1,
         max: 60,
       },
-      slowFeed: { dataPoint: "23", kind: "switch" },
+      slowFeed: { dataPoint: "23", kind: "switch", category: "config" },
       emptyFood: {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,
@@ -55,6 +65,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -62,16 +73,23 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       batteryLevelInPercent: {
         dataPoint: "10",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
     },
-    indicator: { on: { dataPoint: "17", kind: "switch" } },
+    indicator: { on: { dataPoint: "17", kind: "switch", category: "config" } },
   },
   source: {
     file: "rojeco_pet_feeder.yaml",

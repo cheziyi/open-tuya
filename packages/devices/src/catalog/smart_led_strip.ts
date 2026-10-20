@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "LED strip",
-  productKeys: ["oblx20mxzsclpahi"],
+  products: [{ productKey: "oblx20mxzsclpahi", manufacturer: "Nedis" }],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -67,6 +67,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -74,6 +75,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "25",
         kind: "select",
+        category: "config",
         type: "string",
         values: [
           { raw: "000e0d0000000000000000c80000", value: "Good Night" },

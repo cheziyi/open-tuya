@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Electric fireplace",
-  productKeys: ["pkgk72uonlqlzcil"],
+  products: [
+    {
+      productKey: "pkgk72uonlqlzcil",
+      manufacturer: "Touchstone",
+      model: "Sideline (red/blue flame variant)",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer", optional: true },
@@ -28,6 +34,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "13",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -36,6 +43,7 @@ const entry: TuyaDeviceEntry = {
       flameSpeed: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "1" },
           { raw: "2", value: "2" },
@@ -47,6 +55,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "0", value: "cancel", readOnly: true },
@@ -61,7 +70,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "8H", value: "8h" },
         ],
       },
-      childLock: { dataPoint: "107", kind: "switch" },
+      childLock: { dataPoint: "107", kind: "switch", category: "config" },
     },
     heater: {
       targetTemperature: {
@@ -141,6 +150,7 @@ const entry: TuyaDeviceEntry = {
       brightness: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: 0 },
           { raw: "1", value: 51 },
@@ -153,6 +163,7 @@ const entry: TuyaDeviceEntry = {
       effect: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "Red + Blue" },
           { raw: "2", value: "Red" },
@@ -164,6 +175,7 @@ const entry: TuyaDeviceEntry = {
       brightness: {
         dataPoint: "109",
         kind: "select",
+        category: "config",
         values: [
           { raw: "L5", value: 0 },
           { raw: "L0", value: 51 },
@@ -177,6 +189,7 @@ const entry: TuyaDeviceEntry = {
       colorName: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "orange" },
           { raw: "2", value: "red" },

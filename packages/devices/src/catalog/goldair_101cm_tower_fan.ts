@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Tower fan",
-  productKeys: ["xonvukal96pf99s6"],
+  products: [
+    {
+      productKey: "xonvukal96pf99s6",
+      manufacturer: "Goldair",
+      model: "101cm Tower Fan",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -32,6 +38,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -39,6 +46,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 12,

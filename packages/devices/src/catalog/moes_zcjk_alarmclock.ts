@@ -5,7 +5,19 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Alarm clock",
-  productKeys: ["rslo8vqc1xjtaoy9", "ya39qahrcdhvxowz"],
+  products: [
+    {
+      productKey: "rslo8vqc1xjtaoy9",
+      manufacturer: "Moes House",
+      model: "Smart Wake Up Light",
+      modelId: "ZC-JK",
+    },
+    {
+      productKey: "ya39qahrcdhvxowz",
+      model: "Wake Up Light II",
+      modelId: "ACA002-II-WWA",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "integer" },
@@ -38,6 +50,7 @@ const entry: TuyaDeviceEntry = {
       displayBrightness: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "off" },
           { raw: 1, value: "day" },
@@ -47,12 +60,13 @@ const entry: TuyaDeviceEntry = {
       },
       radio: { dataPoint: "105", kind: "switch" },
       volume: { dataPoint: "106", kind: "number", min: 1, max: 16 },
-      stationList: { dataPoint: "107", kind: "text" },
-      alarm1: { dataPoint: "109", kind: "switch" },
+      stationList: { dataPoint: "107", kind: "text", category: "config" },
+      alarm1: { dataPoint: "109", kind: "switch", category: "config" },
       snoozeDurationInMinutes: {
         dataPoint: "116",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 8,
         max: 15,
@@ -60,6 +74,7 @@ const entry: TuyaDeviceEntry = {
       snoozeAction: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "sound_radio" },
           { raw: "2", value: "light" },
@@ -68,10 +83,10 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       sleep: { dataPoint: "121", kind: "switch" },
-      alarm2: { dataPoint: "122", kind: "switch" },
-      alarm3: { dataPoint: "123", kind: "switch" },
-      alarm4: { dataPoint: "124", kind: "switch" },
-      networkTime: { dataPoint: "125", kind: "switch" },
+      alarm2: { dataPoint: "122", kind: "switch", category: "config" },
+      alarm3: { dataPoint: "123", kind: "switch", category: "config" },
+      alarm4: { dataPoint: "124", kind: "switch", category: "config" },
+      networkTime: { dataPoint: "125", kind: "switch", category: "config" },
       radioSeek: { dataPoint: "126", kind: "button" },
       radioStop: {
         dataPoint: "126",
@@ -81,12 +96,13 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: true },
         ],
       },
-      alarmSettings: { dataPoint: "127", kind: "text" },
-      sleepSettings: { dataPoint: "128", kind: "text" },
+      alarmSettings: { dataPoint: "127", kind: "text", category: "config" },
+      sleepSettings: { dataPoint: "128", kind: "text", category: "config" },
       snooze: { dataPoint: "130", kind: "switch" },
       timeFormat: {
         dataPoint: "131",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "12_hour" },
           { raw: true, value: "24_hour" },

@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Watering timer",
-  productKeys: ["6pahkcau"],
+  products: [
+    { productKey: "6pahkcau", manufacturer: "Parkside", model: "PBB A1" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "5": { type: "integer" },
@@ -18,6 +20,7 @@ const entry: TuyaDeviceEntry = {
       timerInMinutes: {
         dataPoint: "5",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1439,

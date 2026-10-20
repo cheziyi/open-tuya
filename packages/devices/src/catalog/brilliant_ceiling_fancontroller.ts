@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["3dqkjstvaybnlaye"],
+  products: [
+    {
+      productKey: "3dqkjstvaybnlaye",
+      manufacturer: "Brilliant Smart",
+      model: "Ceiling fan remote controller",
+    },
+  ],
   dataPoints: {
     "67": { type: "bitfield", optional: true },
     "101": { type: "boolean" },
@@ -46,15 +52,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "67",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "67", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "67",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timer: {
         dataPoint: "122",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "10m" },
@@ -69,6 +82,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "123",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

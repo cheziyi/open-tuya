@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Garage door",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "101": { type: "string" },
     "102": { type: "string" },
@@ -44,6 +44,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "garageDoor",
+        category: "diagnostic",
         readOnly: true,
       },
     },

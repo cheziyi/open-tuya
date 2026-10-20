@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Floor heating",
-  productKeys: ["ye6jdjnv5quxq3wb"],
+  products: [
+    { productKey: "ye6jdjnv5quxq3wb", manufacturer: "Magnum", model: "MRC" },
+  ],
   dataPoints: {
     "101": { type: "string" },
     "102": { type: "integer" },
@@ -102,6 +104,7 @@ const entry: TuyaDeviceEntry = {
       nightDisplay: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "time_date_temp", value: "Time, date and temperature" },
           { raw: "time_temp", value: "Time and temperature" },
@@ -112,14 +115,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "104", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "104",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "104",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -131,6 +141,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unitFrom: "floorTemperatureUnit",
         scale: 10,
@@ -145,16 +156,18 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "C" },
           { raw: true, value: "F" },
         ],
       },
-      childLock: { dataPoint: "108", kind: "switch" },
+      childLock: { dataPoint: "108", kind: "switch", category: "config" },
       holidayLengthInDays: {
         dataPoint: "109",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "d",
         min: 0,
         max: 99,
@@ -162,6 +175,7 @@ const entry: TuyaDeviceEntry = {
       schedulePhase: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "Phase 1-2" },
           { raw: "2", value: "Phase 3-4" },
@@ -171,6 +185,7 @@ const entry: TuyaDeviceEntry = {
       sensorSelection: {
         dataPoint: "111",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Room" },
           { raw: "1", value: "Floor" },
@@ -181,6 +196,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "112",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unitFrom: "roomCalibrationUnit",
         min: -90,
         max: 90,
@@ -189,6 +205,7 @@ const entry: TuyaDeviceEntry = {
       roomCalibrationUnit: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [{ raw: true, value: "F" }],
         otherwise: "C",
       },
@@ -196,6 +213,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unitFrom: "floorCalibrationUnit",
         min: -90,
         max: 90,
@@ -204,12 +222,14 @@ const entry: TuyaDeviceEntry = {
       floorCalibrationUnit: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [{ raw: true, value: "F" }],
         otherwise: "C",
       },
       temperatureHysteresis: {
         dataPoint: "114",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0_5", value: "0.5°" },
           { raw: "1", value: "1°" },
@@ -220,6 +240,7 @@ const entry: TuyaDeviceEntry = {
       displayBrightnessInPercent: {
         dataPoint: "115",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 1,
         max: 10,
@@ -229,16 +250,19 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "117",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 5,
         max: 60,
         step: 5,
       },
-      schedule: { dataPoint: "119", kind: "text" },
+      schedule: { dataPoint: "119", kind: "text", category: "config" },
       averageMonthlyConsumptionInPercent: {
         dataPoint: "123",
         mask: "00FF",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -246,11 +270,13 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "123",
         mask: "FF00",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       floor: {
         dataPoint: "124",
         kind: "select",
+        category: "config",
         values: [
           { raw: "wood", value: "Wood" },
           { raw: "other", value: "Other" },
@@ -259,14 +285,19 @@ const entry: TuyaDeviceEntry = {
       sensorType: {
         dataPoint: "125",
         kind: "select",
+        category: "config",
         values: [
           { raw: "10k", value: "10k" },
           { raw: "12k", value: "12k" },
         ],
       },
-      intelligence: { dataPoint: "126", kind: "switch" },
-      openWindowDetection: { dataPoint: "127", kind: "switch" },
-      factoryReset: { dataPoint: "128", kind: "button" },
+      intelligence: { dataPoint: "126", kind: "switch", category: "config" },
+      openWindowDetection: {
+        dataPoint: "127",
+        kind: "switch",
+        category: "config",
+      },
+      factoryReset: { dataPoint: "128", kind: "button", category: "config" },
     },
   },
   source: {

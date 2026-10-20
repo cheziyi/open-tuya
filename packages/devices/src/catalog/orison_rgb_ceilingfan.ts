@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Light and fan",
-  productKeys: ["8k3ss1tcresem1bh"],
+  products: [
+    {
+      productKey: "8k3ss1tcresem1bh",
+      manufacturer: "Orison",
+      model: "RGB ambient light bladeless ceiling fan",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -37,6 +43,7 @@ const entry: TuyaDeviceEntry = {
       lightTimerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -45,6 +52,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "64",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 540,

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "BBQ thermometer",
-  productKeys: ["h8qbni4ouwn5gjh0"],
+  products: [
+    {
+      productKey: "h8qbni4ouwn5gjh0",
+      manufacturer: "Inkbird",
+      model: "IBT-26S",
+    },
+  ],
   dataPoints: {
     "19": { type: "string" },
     "101": { type: "integer" },
@@ -32,6 +38,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "F",
         scale: 100,
@@ -40,6 +47,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "F",
         scale: 100,
@@ -48,6 +56,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "F",
         scale: 100,
@@ -56,6 +65,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "F",
         scale: 100,
@@ -64,6 +74,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "124",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "F",
         scale: 100,
@@ -72,6 +83,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "125",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "F",
         scale: 100,
@@ -80,12 +92,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "112",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
       },
       temperatureUnit: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "F", value: "F" },
           { raw: "C", value: "C" },
@@ -102,6 +117,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "128",
         kind: "sensor",
         measures: "batteryCharging",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
@@ -110,14 +126,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "128",
         kind: "sensor",
         measures: "connectivity",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 2048, value: true }],
         otherwise: false,
       },
-      alarmSound: { dataPoint: "104", kind: "switch" },
+      alarmSound: { dataPoint: "104", kind: "switch", category: "config" },
       calibrationProbe1InF: {
         dataPoint: "116",
         kind: "number",
+        category: "config",
         unit: "F",
         min: -126,
         max: 126,
@@ -125,6 +143,7 @@ const entry: TuyaDeviceEntry = {
       calibrationProbe2InF: {
         dataPoint: "117",
         kind: "number",
+        category: "config",
         unit: "F",
         min: -126,
         max: 126,
@@ -132,6 +151,7 @@ const entry: TuyaDeviceEntry = {
       calibrationProbe3InF: {
         dataPoint: "118",
         kind: "number",
+        category: "config",
         unit: "F",
         min: -126,
         max: 126,
@@ -139,6 +159,7 @@ const entry: TuyaDeviceEntry = {
       calibrationProbe4InF: {
         dataPoint: "119",
         kind: "number",
+        category: "config",
         unit: "F",
         min: -126,
         max: 126,
@@ -146,6 +167,7 @@ const entry: TuyaDeviceEntry = {
       calibrationProbe5InF: {
         dataPoint: "111",
         kind: "number",
+        category: "config",
         unit: "F",
         min: -126,
         max: 126,
@@ -153,13 +175,20 @@ const entry: TuyaDeviceEntry = {
       calibrationProbeOvenInF: {
         dataPoint: "115",
         kind: "number",
+        category: "config",
         unit: "F",
         min: -126,
         max: 126,
       },
     },
     backlight: {
-      brightness: { dataPoint: "102", kind: "number", min: 5, max: 100 },
+      brightness: {
+        dataPoint: "102",
+        kind: "number",
+        category: "config",
+        min: 5,
+        max: 100,
+      },
     },
   },
   source: {

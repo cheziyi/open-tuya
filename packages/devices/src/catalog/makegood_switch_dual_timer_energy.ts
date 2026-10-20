@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dual switch",
-  productKeys: ["XdGCESvXTI5Mvfx2"],
+  products: [
+    {
+      productKey: "XdGCESvXTI5Mvfx2",
+      manufacturer: "MakeGood",
+      model: "MG-MD04W",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -22,6 +28,7 @@ const entry: TuyaDeviceEntry = {
       timer1InSeconds: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -29,6 +36,7 @@ const entry: TuyaDeviceEntry = {
       timer2InSeconds: {
         dataPoint: "8",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -37,6 +45,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "A",
         scale: 1000,
@@ -45,6 +55,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "W",
         scale: 10,
@@ -53,6 +65,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 10,

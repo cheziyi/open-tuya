@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water heater",
-  productKeys: ["gbna0cgw5i7lhjup"],
+  products: [
+    {
+      productKey: "gbna0cgw5i7lhjup",
+      manufacturer: "SPT",
+      model: "Dark Knight WH315A-RE",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -52,11 +58,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "9", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "9",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

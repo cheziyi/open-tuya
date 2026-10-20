@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan",
-  productKeys: ["unqopjvzu4ut6hb0"],
+  products: [
+    { productKey: "unqopjvzu4ut6hb0", manufacturer: "Lexy", model: "F501" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -42,12 +44,13 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       speed: { dataPoint: "102", kind: "number", min: 1, max: 15 },
-      childLock: { dataPoint: "16", kind: "switch" },
-      sound: { dataPoint: "17", kind: "switch" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
+      sound: { dataPoint: "17", kind: "switch", category: "config" },
       timerInHours: {
         dataPoint: "6",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 7,
@@ -57,6 +60,7 @@ const entry: TuyaDeviceEntry = {
       on: {
         dataPoint: "9",
         kind: "select",
+        category: "config",
         values: [{ raw: true }, { raw: false }],
       },
     },

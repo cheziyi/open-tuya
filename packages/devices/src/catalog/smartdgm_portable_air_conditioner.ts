@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Portable air conditioner",
-  productKeys: ["keyj38wgshgk7jcn"],
+  products: [
+    {
+      productKey: "keyj38wgshgk7jcn",
+      manufacturer: "SmartDGM",
+      model: "PAC-W11C01",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "integer" },
@@ -100,15 +106,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "15",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "15", kind: "sensor", readOnly: true },
-      sleep: { dataPoint: "17", kind: "switch" },
+      faultCode: {
+        dataPoint: "15",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      sleep: { dataPoint: "17", kind: "switch", category: "config" },
       timerMode: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "None" },
           { raw: 1, value: "Off timer" },
@@ -118,6 +131,7 @@ const entry: TuyaDeviceEntry = {
       onTimerInMinutes: {
         dataPoint: "14",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,
@@ -125,6 +139,7 @@ const entry: TuyaDeviceEntry = {
       offTimerInMinutes: {
         dataPoint: "13",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,

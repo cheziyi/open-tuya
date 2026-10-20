@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Double power point",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "2": { type: "integer" },
     "4": { type: "integer" },
@@ -23,6 +23,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 10,
@@ -31,6 +33,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "mA",
       },
@@ -38,6 +42,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "W",
         scale: 10,
@@ -45,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       timer1InSeconds: {
         dataPoint: "2",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -52,6 +59,7 @@ const entry: TuyaDeviceEntry = {
       timer2InSeconds: {
         dataPoint: "14",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

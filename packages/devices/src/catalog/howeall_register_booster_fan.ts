@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Register booster fan",
-  productKeys: ["zbhikxau56accfsp"],
+  products: [
+    { productKey: "zbhikxau56accfsp", manufacturer: "Howeall / Sanycasa" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -84,7 +86,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "SLEEP", value: "sleep" },
         ],
       },
-      childLock: { dataPoint: "14", kind: "switch" },
+      childLock: { dataPoint: "14", kind: "switch", category: "config" },
     },
     fan: {
       on: { dataPoint: "1", kind: "switch" },

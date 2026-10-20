@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Door lock",
-  productKeys: ["oufbykkic2alxcjw"],
+  products: [
+    {
+      productKey: "oufbykkic2alxcjw",
+      manufacturer: "SmarDeer",
+      model: "Lock33",
+    },
+  ],
   dataPoints: {
     "1": { type: "integer", optional: true },
     "2": { type: "integer", optional: true },
@@ -35,7 +41,12 @@ const entry: TuyaDeviceEntry = {
       unlockApp: { dataPoint: "15", kind: "sensor", readOnly: true },
       unlockMulti: { dataPoint: "44", kind: "sensor", readOnly: true },
       pushMessage: { dataPoint: "212", kind: "text" },
-      error: { dataPoint: "8", kind: "sensor", readOnly: true },
+      error: {
+        dataPoint: "8",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       batteryInPercent: {
         dataPoint: "11",
         kind: "sensor",
@@ -55,11 +66,13 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "16",
         kind: "sensor",
         measures: "hazard",
+        category: "diagnostic",
         readOnly: true,
       },
       doorbell: {
         dataPoint: "19",
         kind: "event",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: true, value: "ring" },

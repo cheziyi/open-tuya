@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fireplace",
-  productKeys: ["x6yepotm52a8pfbv"],
+  products: [
+    { productKey: "x6yepotm52a8pfbv", manufacturer: "Kennedy", model: "JR" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer" },
@@ -115,6 +117,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -132,12 +135,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
       flameRed: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Off" },
           { raw: "1", value: "Low" },
@@ -149,6 +154,7 @@ const entry: TuyaDeviceEntry = {
       flameBlue: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Off" },
           { raw: "1", value: "Low" },
@@ -160,6 +166,7 @@ const entry: TuyaDeviceEntry = {
       flameYellow: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Off" },
           { raw: "1", value: "Low" },
@@ -171,6 +178,7 @@ const entry: TuyaDeviceEntry = {
       embers: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Off" },
           { raw: "1", value: "Red" },
@@ -184,7 +192,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    flame: { on: { dataPoint: "101", kind: "switch" } },
+    flame: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "kennedy_fireplace.yaml",

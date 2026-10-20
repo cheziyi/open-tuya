@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet fountain",
-  productKeys: ["vjuxcwidghe5tmin"],
+  products: [
+    { productKey: "vjuxcwidghe5tmin", manufacturer: "Hapaw", model: "P002" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -31,6 +33,7 @@ const entry: TuyaDeviceEntry = {
       activationMode: {
         dataPoint: "2",
         kind: "select",
+        category: "config",
         values: [
           { raw: "normal", value: "normal" },
           { raw: "smart", value: "smart" },
@@ -42,6 +45,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "3",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "d",
       },
@@ -49,6 +54,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "d",
         min: 0,
         max: 90,
@@ -57,14 +63,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "d",
       },
-      filterReset: { dataPoint: "5", kind: "button" },
-      maintenanceReset: { dataPoint: "6", kind: "button" },
+      filterReset: { dataPoint: "5", kind: "button", category: "config" },
+      maintenanceReset: { dataPoint: "6", kind: "button", category: "config" },
       maintenanceIntervalInDays: {
         dataPoint: "8",
         kind: "number",
+        category: "config",
         unit: "d",
         min: 0,
         max: 31,
@@ -73,6 +82,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "plugged",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "strong_power", value: true },
@@ -86,13 +96,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      clean: { dataPoint: "101", kind: "button" },
+      clean: { dataPoint: "101", kind: "button", category: "config" },
       cleaningInterval: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "24", value: "24h" },
           { raw: "48", value: "48h" },
@@ -101,6 +114,8 @@ const entry: TuyaDeviceEntry = {
       drank: {
         dataPoint: "103",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "times",
       },
@@ -108,6 +123,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "man", value: true },
@@ -121,6 +137,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "battery",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "low", value: true },
@@ -130,8 +147,8 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: true,
       },
-      manualWater: { dataPoint: "106", kind: "button" },
-      heat: { dataPoint: "107", kind: "switch" },
+      manualWater: { dataPoint: "106", kind: "button", category: "config" },
+      heat: { dataPoint: "107", kind: "switch", category: "config" },
     },
   },
   source: {

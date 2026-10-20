@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Litter box",
-  productKeys: ["djxo7tynpa1aocaa", "dqdhcckklsbbkksz"],
+  products: [
+    { productKey: "djxo7tynpa1aocaa", manufacturer: "Vevor", model: "76L" },
+    { productKey: "dqdhcckklsbbkksz", manufacturer: "Hazrela" },
+  ],
   dataPoints: {
     "1": { type: "boolean", optional: true },
     "2": { type: "string" },
@@ -36,18 +39,26 @@ const entry: TuyaDeviceEntry = {
       cleaning: {
         dataPoint: "2",
         kind: "select",
+        category: "config",
         values: [
           { raw: "auto_clean", value: "Auto" },
           { raw: "manual_clean", value: "Manual" },
         ],
       },
       start: { dataPoint: "3", kind: "button" },
-      childLock: { dataPoint: "4", kind: "switch" },
-      cleaningDelay: { dataPoint: "5", kind: "number", min: 1, max: 60 },
+      childLock: { dataPoint: "4", kind: "switch", category: "config" },
+      cleaningDelay: {
+        dataPoint: "5",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 60,
+      },
       weight: {
         dataPoint: "6",
         kind: "sensor",
         measures: "weight",
+        reading: "instant",
         readOnly: true,
         unitFrom: "weightUnit",
         dependsOn: {
@@ -82,6 +93,7 @@ const entry: TuyaDeviceEntry = {
       dailyUsage: {
         dataPoint: "7",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "times",
       },
@@ -89,14 +101,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "8",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
       clean: { dataPoint: "9", kind: "button" },
-      factoryReset: { dataPoint: "23", kind: "button" },
+      factoryReset: { dataPoint: "23", kind: "button", category: "config" },
       visitCount: {
         dataPoint: "101",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "times",
       },
@@ -113,7 +127,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "white", value: "white" },
         ],
       },
-      cleansInBin: { dataPoint: "103", kind: "sensor", readOnly: true },
+      cleansInBin: {
+        dataPoint: "103",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       notification: {
         dataPoint: "104",
         kind: "event",
@@ -133,15 +152,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "0", value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "105", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "105",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "105",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "0", value: "ok" },
@@ -153,6 +179,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "Standby", value: "standby" },
@@ -172,10 +199,21 @@ const entry: TuyaDeviceEntry = {
           { raw: "Cat_into", value: "occupied" },
         ],
       },
-      statusTrigger: { dataPoint: "109", kind: "sensor", readOnly: true },
+      statusTrigger: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     backlight: {
-      brightness: { dataPoint: "106", kind: "number", min: 0, max: 255 },
+      brightness: {
+        dataPoint: "106",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 255,
+      },
     },
   },
   source: {

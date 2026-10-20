@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water meter",
-  productKeys: ["vuwtqx0t"],
+  products: [
+    { productKey: "vuwtqx0t", manufacturer: "ZPMeter", model: "214C-Z" },
+  ],
   dataPoints: {
     "1": { type: "integer" },
     "2": { type: "string", optional: true },
@@ -27,6 +29,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "water",
+        reading: "risingTotal",
         readOnly: true,
         unit: "m³",
         scale: 1000,
@@ -39,6 +42,7 @@ const entry: TuyaDeviceEntry = {
       reportingPeriod: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1h", value: "1h" },
           { raw: "2h", value: "2h" },
@@ -54,17 +58,24 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "5", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "5",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       open: { dataPoint: "13", kind: "switch" },
-      autoClean: { dataPoint: "14", kind: "switch" },
+      autoClean: { dataPoint: "14", kind: "switch", category: "config" },
       volumeFlowRateInM3PerH: {
         dataPoint: "21",
         kind: "sensor",
         measures: "volumeFlowRate",
+        reading: "instant",
         readOnly: true,
         unit: "m³/h",
         scale: 1000,
@@ -73,6 +84,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 100,
@@ -81,6 +93,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "26",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 100,

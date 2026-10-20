@@ -20,6 +20,10 @@ for link in $links; do
   if [ -d "$target/.git" ]; then
     echo "Updating $repository"
     git -C "$target" pull --ff-only --quiet
+    # A second folder of one repository, such as home-assistant/core's, joins the first.
+    if [ -n "$folder" ]; then
+      git -C "$target" sparse-checkout add "$folder"
+    fi
   elif [ -n "$folder" ]; then
     echo "Cloning $folder from $repository"
     # Full history, but files only for the linked folder: a whole repository such as home-assistant/core runs to gigabytes.

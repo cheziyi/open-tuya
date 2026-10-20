@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Circuit breaker",
-  productKeys: ["yrzel5nutomegk6z"],
+  products: [{ productKey: "yrzel5nutomegk6z", manufacturer: "ASC" }],
   dataPoints: {
     "1": { type: "boolean" },
     "7": { type: "integer" },
@@ -19,6 +19,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -27,6 +28,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
         readOnly: true,
         unit: "A",
         scale: 1000,
@@ -35,6 +37,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
         readOnly: true,
         unit: "V",
         scale: 10,
@@ -43,6 +46,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
         readOnly: true,
         unit: "W",
         scale: 10,

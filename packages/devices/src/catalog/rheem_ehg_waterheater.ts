@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water heater",
-  productKeys: ["nkclmliibkaygjd9"],
+  products: [
+    { productKey: "nkclmliibkaygjd9", manufacturer: "Rheem", model: "EHG" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -78,15 +80,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "9", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "9",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       startTimeInHours: {
         dataPoint: "102",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 23,
@@ -95,6 +104,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 23,

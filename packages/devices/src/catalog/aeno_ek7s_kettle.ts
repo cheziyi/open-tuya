@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Kettle",
-  productKeys: ["ryy1qf80nhv1rspe", "pgruqekfbbgwtov9"],
+  products: [
+    { productKey: "ryy1qf80nhv1rspe", manufacturer: "Aeno", model: "EK7S" },
+    {
+      productKey: "pgruqekfbbgwtov9",
+      manufacturer: "Kogan",
+      model: "KASMTSSKTLA",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -124,10 +131,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "temp_boiling", value: "boil" },
         ],
       },
-      keepWarm: { dataPoint: "13", kind: "switch" },
+      keepWarm: { dataPoint: "13", kind: "switch", category: "config" },
       keepWarmTimeInMinutes: {
         dataPoint: "14",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,
@@ -136,6 +144,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "15",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -154,6 +163,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -161,11 +171,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Robot vacuum",
-  productKeys: ["jtyaym20ydwcrith"],
+  products: [
+    {
+      productKey: "jtyaym20ydwcrith",
+      manufacturer: "Blaupunkt",
+      model: "XBoost",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "11": { type: "bitfield", optional: true },
@@ -96,14 +102,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
-      sound: { dataPoint: "31", kind: "switch" },
+      sound: { dataPoint: "31", kind: "switch", category: "config" },
       cleanTimeInMinutes: {
         dataPoint: "33",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -111,19 +120,32 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "32",
         kind: "sensor",
         measures: "area",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "m2",
       },
-      cleanAreaCleanRecord: { dataPoint: "34", kind: "sensor", readOnly: true },
+      cleanAreaCleanRecord: {
+        dataPoint: "34",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       fault: {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

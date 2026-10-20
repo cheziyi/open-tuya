@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Kitchen hood",
-  productKeys: ["xfw4ckzxljs4ncta"],
+  products: [
+    {
+      productKey: "xfw4ckzxljs4ncta",
+      manufacturer: "KKT Kolbe",
+      model: "Easy HCM",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean", optional: true },
     "4": { type: "boolean", optional: true },
@@ -24,11 +30,12 @@ const entry: TuyaDeviceEntry = {
     fan: {
       on: { dataPoint: "1", kind: "switch" },
       speed: { dataPoint: "102", kind: "number", min: 0, max: 9 },
-      washMode: { dataPoint: "7", kind: "switch" },
+      washMode: { dataPoint: "7", kind: "switch", category: "config" },
       carbonFilterRemainingInDays: {
         dataPoint: "103",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "d",
         min: 0,
         max: 250,
@@ -37,6 +44,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 60,
@@ -44,6 +52,7 @@ const entry: TuyaDeviceEntry = {
       metalFilterRemainingInDays: {
         dataPoint: "109",
         kind: "number",
+        category: "config",
         unit: "d",
         min: 0,
         max: 40,

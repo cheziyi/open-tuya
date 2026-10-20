@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Indoor temperature humidity",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "integer" },
     "2": { type: "integer" },
@@ -24,6 +24,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -31,6 +32,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -49,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "9",
         kind: "select",
+        category: "config",
         values: [
           { raw: "f", value: "F" },
           { raw: "c", value: "C" },
@@ -58,6 +61,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -20,
         max: 70,
@@ -66,6 +70,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -20,
         max: 70,
@@ -74,6 +79,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "number",
         measures: "humidity",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -82,6 +88,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "number",
         measures: "humidity",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,

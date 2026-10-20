@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan switch",
-  productKeys: ["qmijt70hk4op6snl"],
+  products: [
+    {
+      productKey: "qmijt70hk4op6snl",
+      manufacturer: "Treatlife",
+      model: "DS02-F",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -27,6 +33,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "2",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

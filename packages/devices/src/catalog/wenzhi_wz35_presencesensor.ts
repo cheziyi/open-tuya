@@ -5,7 +5,20 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Presence sensor",
-  productKeys: ["19m3dfjwe46njety", "pmnjl6jvjbmrdw9s"],
+  products: [
+    {
+      productKey: "19m3dfjwe46njety",
+      manufacturer: "Wenzhi",
+      model: "WZ35 24GHz",
+      modelId: "MTG236-WF-RL",
+    },
+    {
+      productKey: "pmnjl6jvjbmrdw9s",
+      manufacturer: "Wenzhi",
+      model: "WZ75 24GHz",
+      modelId: "MTG276-WF-RL",
+    },
+  ],
   dataPoints: {
     "1": { type: "string", optional: true },
     "2": { type: "integer", optional: true },
@@ -35,16 +48,29 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "occupancy",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "presence", value: true }],
         otherwise: false,
       },
-      occupancyCline: { dataPoint: "103", kind: "sensor", readOnly: true },
-      sensitivity: { dataPoint: "2", kind: "number", min: 1, max: 9 },
+      occupancyCline: {
+        dataPoint: "103",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      sensitivity: {
+        dataPoint: "2",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 9,
+      },
       nearestRangeInM: {
         dataPoint: "3",
         kind: "number",
         measures: "distance",
+        category: "config",
         unit: "m",
         min: 0,
         max: 1000,
@@ -55,6 +81,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "number",
         measures: "distance",
+        category: "config",
         unit: "m",
         min: 150,
         max: 1000,
@@ -65,6 +92,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "check_failure", value: true },
@@ -74,12 +102,23 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: false,
       },
-      faultDescription: { dataPoint: "6", kind: "sensor", readOnly: true },
-      faultParamResult: { dataPoint: "113", kind: "sensor", readOnly: true },
+      faultDescription: {
+        dataPoint: "6",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultParamResult: {
+        dataPoint: "113",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       distanceInM: {
         dataPoint: "9",
         kind: "sensor",
         measures: "distance",
+        reading: "instant",
         readOnly: true,
         unit: "m",
         scale: 100,
@@ -87,6 +126,7 @@ const entry: TuyaDeviceEntry = {
       detectionDelayInSeconds: {
         dataPoint: "101",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 200,
@@ -95,6 +135,7 @@ const entry: TuyaDeviceEntry = {
       departureDelayInSeconds: {
         dataPoint: "102",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 5,
         max: 1500,
@@ -103,15 +144,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "illuminance",
+        reading: "instant",
         readOnly: true,
         unit: "lx",
         scale: 10,
       },
-      triggerSensitivity: { dataPoint: "105", kind: "number", min: 1, max: 9 },
+      triggerSensitivity: {
+        dataPoint: "105",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 9,
+      },
       triggerDistanceInM: {
         dataPoint: "106",
         kind: "number",
         measures: "distance",
+        category: "config",
         unit: "m",
         min: 0,
         max: 1000,
@@ -120,6 +169,7 @@ const entry: TuyaDeviceEntry = {
       relayMode: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [
           { raw: "standard", value: "Manual control" },
           { raw: "local", value: "Presence control" },
@@ -140,6 +190,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "off", value: false },
@@ -153,6 +204,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "number",
         measures: "illuminance",
+        category: "config",
         unit: "lx",
         min: 0,
         max: 10000,
@@ -162,6 +214,7 @@ const entry: TuyaDeviceEntry = {
       relayPolarity: {
         dataPoint: "111",
         kind: "select",
+        category: "config",
         values: [
           { raw: "close", value: "Normally closed" },
           { raw: "open", value: "Normally open" },
@@ -171,6 +224,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "112",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 1,
         max: 600,
@@ -179,11 +233,13 @@ const entry: TuyaDeviceEntry = {
       factoryReset: {
         dataPoint: "114",
         kind: "button",
+        category: "config",
         values: [{ raw: "reset_setting", value: true }],
       },
       sensorMode: {
         dataPoint: "115",
         kind: "select",
+        category: "config",
         values: [
           { raw: "no", value: "Turn on" },
           { raw: "off", value: "Turn off" },

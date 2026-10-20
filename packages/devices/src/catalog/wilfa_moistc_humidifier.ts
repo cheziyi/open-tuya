@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["d6i3plbgjh3urikx"],
+  products: [
+    {
+      productKey: "d6i3plbgjh3urikx",
+      manufacturer: "Wilfa",
+      model: "Moist C",
+      modelId: "HU-430CW",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "10": { type: "integer" },
@@ -46,18 +53,20 @@ const entry: TuyaDeviceEntry = {
       continuousMode: {
         dataPoint: "13",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 95, value: true },
           { raw: 40, value: false },
         ],
       },
-      sleep: { dataPoint: "16", kind: "switch" },
-      heat: { dataPoint: "26", kind: "switch" },
-      ionizer: { dataPoint: "35", kind: "switch" },
+      sleep: { dataPoint: "16", kind: "switch", category: "config" },
+      heat: { dataPoint: "26", kind: "switch", category: "config" },
+      ionizer: { dataPoint: "35", kind: "switch", category: "config" },
       temperature: {
         dataPoint: "10",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unitFrom: "temperatureUnit",
       },
@@ -72,6 +81,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -91,12 +101,14 @@ const entry: TuyaDeviceEntry = {
       timeRemainingInMinutes: {
         dataPoint: "20",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
       tankEmpty: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -105,6 +117,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -112,7 +125,12 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     mistLevel: {
       on: { dataPoint: "1", kind: "switch" },

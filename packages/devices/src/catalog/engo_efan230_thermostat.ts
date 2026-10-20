@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan coil thermostat",
-  productKeys: ["tnvv9nnqnz8nljgt"],
+  products: [
+    { productKey: "tnvv9nnqnz8nljgt", manufacturer: "Engo", model: "EFAN230W" },
+  ],
   dataPoints: {
     "2": { type: "string" },
     "3": { type: "string" },
@@ -80,11 +82,12 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
-      childLock: { dataPoint: "40", kind: "switch" },
-      fanControl: { dataPoint: "132", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
+      fanControl: { dataPoint: "132", kind: "switch", category: "config" },
     },
   },
   source: {

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Door lock",
-  productKeys: ["yfqp0shy"],
+  products: [
+    {
+      productKey: "yfqp0shy",
+      manufacturer: "Gainsborough",
+      model: "Liberty Smart Entrance Lock",
+    },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "2": { type: "base64", optional: true },
@@ -107,6 +113,7 @@ const entry: TuyaDeviceEntry = {
       alert: {
         dataPoint: "21",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "wrong_finger", value: "Wrong Finger" },
@@ -148,6 +155,7 @@ const entry: TuyaDeviceEntry = {
       lockVolumeInPercent: {
         dataPoint: "31",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -161,6 +169,7 @@ const entry: TuyaDeviceEntry = {
       autoLock: {
         dataPoint: "33",
         kind: "switch",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -169,6 +178,7 @@ const entry: TuyaDeviceEntry = {
       multifactor: {
         dataPoint: "34",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "combination", value: true },
           { raw: "single_unlock", value: false },
@@ -178,6 +188,7 @@ const entry: TuyaDeviceEntry = {
       autoLockDelayInSeconds: {
         dataPoint: "36",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 1800,
@@ -185,27 +196,57 @@ const entry: TuyaDeviceEntry = {
       localClock: {
         dataPoint: "44",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
-      newCredential: { dataPoint: "1", kind: "text" },
-      deleteCredential: { dataPoint: "2", kind: "text" },
-      modifyCredential: { dataPoint: "3", kind: "text" },
-      newTemporaryPassword: { dataPoint: "51", kind: "text" },
-      deleteTemporaryPassword: { dataPoint: "52", kind: "text" },
-      modifyTemporaryPassword: { dataPoint: "53", kind: "text" },
-      syncCredentials: { dataPoint: "54", kind: "text" },
-      offlinePasswordTimestamp: { dataPoint: "64", kind: "text" },
-      usedOfflinePassword: { dataPoint: "65", kind: "sensor", readOnly: true },
+      newCredential: { dataPoint: "1", kind: "text", category: "config" },
+      deleteCredential: { dataPoint: "2", kind: "text", category: "config" },
+      modifyCredential: { dataPoint: "3", kind: "text", category: "config" },
+      newTemporaryPassword: {
+        dataPoint: "51",
+        kind: "text",
+        category: "config",
+      },
+      deleteTemporaryPassword: {
+        dataPoint: "52",
+        kind: "text",
+        category: "config",
+      },
+      modifyTemporaryPassword: {
+        dataPoint: "53",
+        kind: "text",
+        category: "config",
+      },
+      syncCredentials: { dataPoint: "54", kind: "text", category: "config" },
+      offlinePasswordTimestamp: {
+        dataPoint: "64",
+        kind: "text",
+        category: "config",
+      },
+      usedOfflinePassword: {
+        dataPoint: "65",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       clearOfflinePasswords: {
         dataPoint: "66",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
     },
     snib: {
-      locked: { dataPoint: "32", kind: "switch", whenAbsent: { value: false } },
+      locked: {
+        dataPoint: "32",
+        kind: "switch",
+        category: "diagnostic",
+        whenAbsent: { value: false },
+      },
     },
-    lockdown: { locked: { dataPoint: "46", kind: "switch" } },
+    lockdown: {
+      locked: { dataPoint: "46", kind: "switch", category: "config" },
+    },
   },
   source: {
     file: "gainsboroughliberty_entrance_lock.yaml",

@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["rljmhle02id4m40q"],
+  products: [
+    {
+      productKey: "rljmhle02id4m40q",
+      manufacturer: "Petoneer",
+      model: "Nutri",
+      modelId: "PF004",
+    },
+  ],
   dataPoints: {
     "2": { type: "boolean", optional: true },
     "3": { type: "integer" },
@@ -20,20 +27,33 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       quickFeed: { dataPoint: "2", kind: "button" },
-      manualFeed: { dataPoint: "3", kind: "number", min: 1, max: 12 },
-      factoryReset: { dataPoint: "9", kind: "button" },
+      manualFeed: {
+        dataPoint: "3",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 12,
+      },
+      factoryReset: { dataPoint: "9", kind: "button", category: "config" },
       fault: {
         dataPoint: "14",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "14", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "14",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "14",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "OK" },
@@ -45,21 +65,28 @@ const entry: TuyaDeviceEntry = {
       lastAmountInPortions: {
         dataPoint: "15",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "portions",
       },
       numberOfPortionsToDispense: {
         dataPoint: "101",
         kind: "number",
+        category: "config",
         min: 1,
         max: 12,
       },
-      manualFeedButton: { dataPoint: "102", kind: "switch" },
-      sound: { dataPoint: "103", kind: "switch" },
+      manualFeedButton: {
+        dataPoint: "102",
+        kind: "switch",
+        category: "config",
+      },
+      sound: { dataPoint: "103", kind: "switch", category: "config" },
       plug: {
         dataPoint: "105",
         kind: "sensor",
         measures: "plugged",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,

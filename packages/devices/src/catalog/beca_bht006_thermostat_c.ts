@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["7jzdtn4pwujmtskd"],
+  products: [
+    {
+      productKey: "7jzdtn4pwujmtskd",
+      manufacturer: "Beca",
+      model: "BAC-006 fancoil",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string", optional: true },
@@ -115,11 +121,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: "high" },
         ],
       },
-      childLock: { dataPoint: "40", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       temperatureCalibrationInC: {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -9,
         max: 9,
@@ -128,6 +135,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: 1,
         max: 5,
@@ -136,6 +144,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 100,
         max: 300,
@@ -146,14 +155,25 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 100,
         max: 300,
         scale: 10,
         step: 10,
       },
-      scheduleManual: { dataPoint: "101", kind: "sensor", readOnly: true },
-      fanControl: { dataPoint: "102", kind: "sensor", readOnly: true },
+      scheduleManual: {
+        dataPoint: "101",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      fanControl: {
+        dataPoint: "102",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

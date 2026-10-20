@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water meter",
-  productKeys: ["mqqna0px"],
+  products: [
+    { productKey: "mqqna0px", manufacturer: "Restmo", model: "FML026A" },
+  ],
   dataPoints: {
     "4": { type: "integer" },
     "5": { type: "integer" },
@@ -17,6 +19,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "sensor",
         measures: "water",
+        reading: "risingTotal",
         readOnly: true,
         unit: "L",
         scale: 10,
@@ -25,6 +28,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "sensor",
         measures: "volumeFlowRate",
+        reading: "instant",
         readOnly: true,
         unit: "L/min",
         scale: 10,
@@ -33,6 +37,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },

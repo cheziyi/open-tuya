@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "BBQ thermometer",
-  productKeys: ["coa4tu1646wdybzy"],
+  products: [
+    {
+      productKey: "coa4tu1646wdybzy",
+      manufacturer: "Inkbird",
+      model: "IBBQ-4BW",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "13": { type: "bitfield" },
@@ -30,6 +36,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "F",
         scale: 100,
@@ -38,6 +45,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "F",
         scale: 100,
@@ -46,6 +54,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "F",
         scale: 100,
@@ -54,6 +63,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "F",
         scale: 100,
@@ -63,14 +73,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       temperatureUnit: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "F", value: "F" },
           { raw: "C", value: "C" },
@@ -87,15 +104,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 3600,
       },
-      alarm: { dataPoint: "104", kind: "switch" },
+      alarm: { dataPoint: "104", kind: "switch", category: "config" },
       internalTemperatureInC: {
         dataPoint: "112",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
       },
@@ -103,6 +123,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "116",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unitFrom: "calibrationProbe1Unit",
         min: -126,
         max: 126,
@@ -111,6 +132,7 @@ const entry: TuyaDeviceEntry = {
       calibrationProbe1Unit: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "F", value: "F" },
           { raw: "C", value: "C" },
@@ -120,6 +142,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "117",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unitFrom: "calibrationProbe2Unit",
         min: -126,
         max: 126,
@@ -128,6 +151,7 @@ const entry: TuyaDeviceEntry = {
       calibrationProbe2Unit: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "F", value: "F" },
           { raw: "C", value: "C" },
@@ -137,6 +161,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "118",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unitFrom: "calibrationProbe3Unit",
         min: -126,
         max: 126,
@@ -145,6 +170,7 @@ const entry: TuyaDeviceEntry = {
       calibrationProbe3Unit: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "F", value: "F" },
           { raw: "C", value: "C" },
@@ -154,6 +180,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "119",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unitFrom: "calibrationProbe4Unit",
         min: -126,
         max: 126,
@@ -162,13 +189,14 @@ const entry: TuyaDeviceEntry = {
       calibrationProbe4Unit: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "F", value: "F" },
           { raw: "C", value: "C" },
         ],
       },
     },
-    backlight: { on: { dataPoint: "111", kind: "switch" } },
+    backlight: { on: { dataPoint: "111", kind: "switch", category: "config" } },
   },
   source: {
     file: "inkbird_ibbq4bw_thermometer.yaml",

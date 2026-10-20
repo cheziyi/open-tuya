@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Shutter controller",
-  productKeys: ["hG8tA80YAj0YyxWP"],
+  products: [
+    {
+      productKey: "hG8tA80YAj0YyxWP",
+      manufacturer: "KY motor",
+      model: "35W-10",
+    },
+  ],
   dataPoints: {
     "101": { type: "string" },
     "102": { type: "integer" },
@@ -45,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       sleepInPercent: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -53,6 +60,7 @@ const entry: TuyaDeviceEntry = {
       riseInPercent: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -61,6 +69,7 @@ const entry: TuyaDeviceEntry = {
       viewInPercent: {
         dataPoint: "106",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -69,6 +78,7 @@ const entry: TuyaDeviceEntry = {
       direction: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "Forward" },
           { raw: true, value: "Reverse" },
@@ -77,6 +87,7 @@ const entry: TuyaDeviceEntry = {
       handPulled: {
         dataPoint: "108",
         kind: "switch",
+        category: "config",
         values: [{ raw: false }],
       },
     },

@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Milk maker",
-  productKeys: ["angbuf5wfbu1fnz0"],
+  products: [
+    { productKey: "angbuf5wfbu1fnz0", manufacturer: "Wandai", model: "GS-801" },
+  ],
   dataPoints: {
     "8": { type: "boolean" },
     "9": { type: "boolean" },
@@ -21,25 +23,33 @@ const entry: TuyaDeviceEntry = {
       mode: {
         dataPoint: "8",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: "water" },
           { raw: false, value: "infant_formula" },
         ],
       },
-      disinfection: { dataPoint: "9", kind: "switch" },
+      disinfection: { dataPoint: "9", kind: "switch", category: "config" },
       fault: {
         dataPoint: "17",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "17", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "17",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       waterAmountInMl: {
         dataPoint: "101",
         kind: "number",
         measures: "volumeStorage",
+        category: "config",
         unit: "mL",
         min: 30,
         max: 240,
@@ -71,6 +81,7 @@ const entry: TuyaDeviceEntry = {
       formulaRatioInGPer30ml: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "g/30mL",
         min: 30,
         max: 80,

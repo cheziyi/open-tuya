@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["ifasqsxbghku3bwk", "ifbnzf2j2rwr0upp"],
+  products: [
+    {
+      productKey: "ifasqsxbghku3bwk",
+      manufacturer: "Aktobis",
+      model: "WDH-310EKW",
+    },
+    {
+      productKey: "ifbnzf2j2rwr0upp",
+      manufacturer: "Aktobis",
+      model: "WDH-930EEW",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer" },
@@ -44,6 +55,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -51,6 +63,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -58,6 +71,7 @@ const entry: TuyaDeviceEntry = {
       faultDescription: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -67,12 +81,28 @@ const entry: TuyaDeviceEntry = {
           { raw: 5, value: "E5 MCU Communication Failure" },
         ],
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
-      tankFull: { dataPoint: "101", kind: "sensor", readOnly: true },
-      defrost: { dataPoint: "102", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      tankFull: {
+        dataPoint: "101",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      defrost: {
+        dataPoint: "102",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timer: {
         dataPoint: "17",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

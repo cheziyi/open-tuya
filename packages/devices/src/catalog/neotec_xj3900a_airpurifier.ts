@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["aeazj0gwjjmgpmrw"],
+  products: [
+    {
+      productKey: "aeazj0gwjjmgpmrw",
+      manufacturer: "Neotec",
+      model: "XJ-3900A",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -48,21 +54,26 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
       hepaFilterLifeInPercent: {
         dataPoint: "5",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       ionizer: { dataPoint: "6", kind: "switch" },
-      childLock: { dataPoint: "7", kind: "switch" },
-      uvSterilization: { dataPoint: "9", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
+      uvSterilization: { dataPoint: "9", kind: "switch", category: "config" },
       preFilterLifeInPercent: {
         dataPoint: "16",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -81,11 +92,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

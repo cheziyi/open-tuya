@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["k2vv9hr0yumh0vo8"],
+  products: [
+    {
+      productKey: "k2vv9hr0yumh0vo8",
+      manufacturer: "Polytherm",
+      model: "Polyalpha",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -101,18 +107,25 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      childLock: { dataPoint: "40", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       floorTemperatureInC: {
         dataPoint: "103",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
       },
     },
     backlight: {
-      brightness: { dataPoint: "105", kind: "number", min: 0, max: 255 },
+      brightness: {
+        dataPoint: "105",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 255,
+      },
     },
   },
   source: {

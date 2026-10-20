@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "TV sync backlight",
-  productKeys: ["apajjkjcr4wvhqmq"],
+  products: [{ productKey: "apajjkjcr4wvhqmq", model: "TV-TYA238-AK-2MP" }],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -26,10 +26,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "20", kind: "switch" },
+      on: { dataPoint: "20", kind: "switch", category: "config" },
       effect: {
         dataPoint: "21",
         kind: "select",
+        category: "config",
         values: [
           { raw: "white", value: "none", readOnly: true },
           { raw: "colour", value: "none" },
@@ -41,6 +42,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         mask: "FFFF00000000",
         kind: "number",
+        category: "config",
         min: 0,
         max: 360,
       },
@@ -48,6 +50,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         mask: "0000FFFF0000",
         kind: "number",
+        category: "config",
         min: 0,
         max: 1000,
       },
@@ -55,16 +58,26 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         mask: "00000000FFFF",
         kind: "number",
+        category: "config",
         min: 0,
         max: 1000,
       },
-      musicData: { dataPoint: "27", kind: "text" },
-      dreamlightSceneMode: { dataPoint: "51", kind: "text" },
-      dreamlightmicMusicData: { dataPoint: "52", kind: "text" },
-      paintColorData: { dataPoint: "61", kind: "text" },
+      musicData: { dataPoint: "27", kind: "text", category: "config" },
+      dreamlightSceneMode: {
+        dataPoint: "51",
+        kind: "text",
+        category: "config",
+      },
+      dreamlightmicMusicData: {
+        dataPoint: "52",
+        kind: "text",
+        category: "config",
+      },
+      paintColorData: { dataPoint: "61", kind: "text", category: "config" },
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -72,6 +85,7 @@ const entry: TuyaDeviceEntry = {
       videoScene: {
         dataPoint: "58",
         kind: "select",
+        category: "config",
         values: [
           { raw: "movie", value: "Movie" },
           { raw: "game", value: "Game" },
@@ -80,6 +94,7 @@ const entry: TuyaDeviceEntry = {
       tvSize: {
         dataPoint: "60",
         kind: "select",
+        category: "config",
         values: [
           { raw: "55_to_64_inch", value: "55-64 inch" },
           { raw: "65_to_74_inch", value: "65-74 inch" },
@@ -89,6 +104,7 @@ const entry: TuyaDeviceEntry = {
       videoSyncMode: {
         dataPoint: "62",
         kind: "select",
+        category: "config",
         values: [
           { raw: "nor_closed", value: "None" },
           { raw: "multiple_colour", value: "Color" },
@@ -98,6 +114,7 @@ const entry: TuyaDeviceEntry = {
       videoIntensity: {
         dataPoint: "63",
         kind: "select",
+        category: "config",
         values: [
           { raw: "low", value: "Low" },
           { raw: "middle", value: "Medium" },
@@ -108,6 +125,7 @@ const entry: TuyaDeviceEntry = {
       stripInputPosition: {
         dataPoint: "65",
         kind: "select",
+        category: "config",
         values: [
           { raw: "up_right", value: "Top right" },
           { raw: "up_left", value: "Top left" },
@@ -118,15 +136,28 @@ const entry: TuyaDeviceEntry = {
       stripDirection: {
         dataPoint: "66",
         kind: "select",
+        category: "config",
         values: [
           { raw: "clockwise", value: "Clockwise" },
           { raw: "anti_clockwise", value: "Anti-clockwise" },
         ],
       },
-      whiteBalance: { dataPoint: "72", kind: "number", min: 0, max: 100 },
+      whiteBalance: {
+        dataPoint: "72",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
     },
     device: {
-      saturation: { dataPoint: "71", kind: "number", min: 0, max: 100 },
+      saturation: {
+        dataPoint: "71",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
     },
   },
   source: {

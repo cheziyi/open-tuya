@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["cqoisddoci9i3yer"],
+  products: [
+    {
+      productKey: "cqoisddoci9i3yer",
+      manufacturer: "Clean Air Optima",
+      model: "CA-604B Smart",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "8": { type: "boolean" },
@@ -55,6 +61,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -87,6 +94,7 @@ const entry: TuyaDeviceEntry = {
       tankEmpty: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -95,15 +103,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,
       },
       ionizer: { dataPoint: "25", kind: "switch" },
-      filterReset: { dataPoint: "28", kind: "button" },
+      filterReset: { dataPoint: "28", kind: "button", category: "config" },
       filterLifeInPercent: {
         dataPoint: "33",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },

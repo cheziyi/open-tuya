@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Blind motor",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -37,7 +37,7 @@ const entry: TuyaDeviceEntry = {
         max: 100,
         invert: true,
       },
-      reversed: { dataPoint: "5", kind: "switch" },
+      reversed: { dataPoint: "5", kind: "switch", category: "config" },
     },
   },
   source: {

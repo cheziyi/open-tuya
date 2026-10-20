@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Vacuum",
-  productKeys: ["gejo2t2mgux3avdq"],
+  products: [
+    {
+      productKey: "gejo2t2mgux3avdq",
+      manufacturer: "iHome",
+      model: "AutoVac Nova",
+      modelId: "iHRV6",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean", optional: true },
     "2": { type: "boolean", optional: true },
@@ -101,11 +108,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "110", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "110",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air quality monitor",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "2": { type: "integer" },
     "18": { type: "integer" },
@@ -17,6 +17,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "carbonDioxide",
+        reading: "instant",
         readOnly: true,
         unit: "ppm",
       },
@@ -24,6 +25,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -31,6 +33,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },

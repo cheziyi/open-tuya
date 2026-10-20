@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Energy meter",
-  productKeys: ["kmnzgh4yn8pa0lqh"],
+  products: [
+    {
+      productKey: "kmnzgh4yn8pa0lqh",
+      manufacturer: "Tongou",
+      model: "TO-Q-SYS-WT",
+    },
+  ],
   dataPoints: {
     "1": { type: "integer" },
     "6": { type: "base64", optional: true },
@@ -44,6 +50,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
+        category: "diagnostic",
         readOnly: true,
         unit: "kWh",
         scale: 100,
@@ -51,15 +59,22 @@ const entry: TuyaDeviceEntry = {
       energyFapA: {
         dataPoint: "125",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         scale: 100,
       },
-      energyCycleTime: { dataPoint: "138", kind: "sensor", readOnly: true },
+      energyCycleTime: {
+        dataPoint: "138",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       voltageInV: {
         dataPoint: "6",
         mask: "FFFF000000000000",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
         readOnly: true,
         unit: "V",
         scale: 10,
@@ -69,6 +84,7 @@ const entry: TuyaDeviceEntry = {
         mask: "0000FFFFFF000000",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
         readOnly: true,
         unit: "A",
         scale: 1000,
@@ -78,16 +94,19 @@ const entry: TuyaDeviceEntry = {
         mask: "0000000000FFFFFF",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
         readOnly: true,
         unit: "kW",
         scale: 1000,
       },
-      prepay: { dataPoint: "11", kind: "switch" },
-      clearEnergy: { dataPoint: "12", kind: "button" },
+      prepay: { dataPoint: "11", kind: "switch", category: "config" },
+      clearEnergy: { dataPoint: "12", kind: "button", category: "config" },
       balanceEnergyInKwh: {
         dataPoint: "13",
         kind: "sensor",
         measures: "energyStorage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "kWh",
         scale: 100,
@@ -96,6 +115,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "number",
         measures: "energyStorage",
+        category: "config",
         unit: "kWh",
         min: 0,
         max: 999999,
@@ -105,6 +125,7 @@ const entry: TuyaDeviceEntry = {
       breakerPrepayShortageAction: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Closed", value: "ignore" },
           { raw: "Alarm", value: "alarm" },
@@ -113,6 +134,7 @@ const entry: TuyaDeviceEntry = {
       breakerOverVoltageAction: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Closed", value: "ignore" },
           { raw: "Alarm", value: "alarm" },
@@ -122,6 +144,7 @@ const entry: TuyaDeviceEntry = {
       breakerUndervoltageAction: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Closed", value: "ignore" },
           { raw: "Alarm", value: "alarm" },
@@ -131,6 +154,7 @@ const entry: TuyaDeviceEntry = {
       breakerOverCurrentAction: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Closed", value: "ignore" },
           { raw: "Alarm", value: "alarm" },
@@ -140,6 +164,7 @@ const entry: TuyaDeviceEntry = {
       breakerOverPowerAction: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Closed", value: "ignore" },
           { raw: "Alarm", value: "alarm" },
@@ -149,6 +174,7 @@ const entry: TuyaDeviceEntry = {
       breakerHighTemperatureAction: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Closed", value: "ignore" },
           { raw: "Alarm", value: "alarm" },
@@ -158,11 +184,13 @@ const entry: TuyaDeviceEntry = {
       liveUpdates: {
         dataPoint: "109",
         kind: "button",
+        category: "config",
         values: [{ raw: "online", value: true }],
       },
       status: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "Normal", value: "normal" },
@@ -190,12 +218,17 @@ const entry: TuyaDeviceEntry = {
           { raw: "Timing_switch_OFF", value: "timer_off" },
         ],
       },
-      reportStateChanges: { dataPoint: "111", kind: "switch" },
-      autoReset: { dataPoint: "112", kind: "switch" },
+      reportStateChanges: {
+        dataPoint: "111",
+        kind: "switch",
+        category: "config",
+      },
+      autoReset: { dataPoint: "112", kind: "switch", category: "config" },
       overCurrentThresholdInA: {
         dataPoint: "114",
         kind: "number",
         measures: "current",
+        category: "config",
         unit: "A",
         min: 1,
         max: 50,
@@ -204,6 +237,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "115",
         kind: "number",
         measures: "voltage",
+        category: "config",
         unit: "V",
         min: 100,
         max: 280,
@@ -212,6 +246,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "116",
         kind: "number",
         measures: "voltage",
+        category: "config",
         unit: "V",
         min: 100,
         max: 280,
@@ -220,6 +255,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "118",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -250,
         max: 800,
@@ -229,6 +265,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "119",
         kind: "number",
         measures: "power",
+        category: "config",
         unit: "W",
         min: 10,
         max: 12500,
@@ -238,6 +275,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "120",
         kind: "number",
         measures: "energyStorage",
+        category: "config",
         unit: "kWh",
         min: 10,
         max: 500,
@@ -246,6 +284,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "131",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -253,6 +293,7 @@ const entry: TuyaDeviceEntry = {
       reportFrequencyInSeconds: {
         dataPoint: "137",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 60,
         max: 600,
@@ -260,15 +301,23 @@ const entry: TuyaDeviceEntry = {
       on: {
         dataPoint: "141",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
         ],
       },
-      brightness: { dataPoint: "140", kind: "number", min: 1, max: 5 },
+      brightness: {
+        dataPoint: "140",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 5,
+      },
       initialState: {
         dataPoint: "142",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },

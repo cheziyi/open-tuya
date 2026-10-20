@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "mmWave presence sensor",
-  productKeys: ["qbapy7r4deyp6zbx", "uykwakpl6rbxvjdd"],
+  products: [
+    { productKey: "qbapy7r4deyp6zbx", model: "ZG-205W" },
+    { productKey: "uykwakpl6rbxvjdd", model: "ZG-205W/A" },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer", optional: true },
@@ -48,10 +51,17 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: true,
       },
-      motionSensitivity: { dataPoint: "2", kind: "number", min: 0, max: 10 },
+      motionSensitivity: {
+        dataPoint: "2",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 10,
+      },
       motionDetectionDistanceInM: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "m",
         min: 0,
         max: 1000,
@@ -61,6 +71,7 @@ const entry: TuyaDeviceEntry = {
       stationaryDetectionDistanceInM: {
         dataPoint: "4",
         kind: "number",
+        category: "config",
         unit: "m",
         min: 0,
         max: 600,
@@ -71,24 +82,28 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "illuminance",
+        reading: "instant",
         readOnly: true,
         unit: "lx",
       },
       distanceInCm: {
         dataPoint: "122",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "cm",
       },
       stationarySensitivity: {
         dataPoint: "102",
         kind: "number",
+        category: "config",
         min: 0,
         max: 10,
       },
       alarmMode: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "armed", value: "Armed" },
           { raw: "disarm", value: "Disarm" },
@@ -98,6 +113,7 @@ const entry: TuyaDeviceEntry = {
       smallMotionDetectionDistanceInM: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "m",
         min: 0,
         max: 600,
@@ -107,12 +123,14 @@ const entry: TuyaDeviceEntry = {
       smallMotionSensitivity: {
         dataPoint: "106",
         kind: "number",
+        category: "config",
         min: 0,
         max: 10,
       },
       alarmVolume: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [
           { raw: "high", value: "High" },
           { raw: "middle", value: "Middle" },
@@ -124,6 +142,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 28800,
@@ -132,6 +151,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 1,
         max: 30,
@@ -139,6 +159,7 @@ const entry: TuyaDeviceEntry = {
       motionMinimumDetectionDistanceInM: {
         dataPoint: "110",
         kind: "number",
+        category: "config",
         unit: "m",
         min: 0,
         max: 1000,
@@ -148,6 +169,7 @@ const entry: TuyaDeviceEntry = {
       smallMotionMinimumDetectionDistanceInM: {
         dataPoint: "111",
         kind: "number",
+        category: "config",
         unit: "m",
         min: 0,
         max: 1000,
@@ -157,6 +179,7 @@ const entry: TuyaDeviceEntry = {
       breathingMinimumDetectionDistanceInM: {
         dataPoint: "112",
         kind: "number",
+        category: "config",
         unit: "m",
         min: 0,
         max: 1000,
@@ -167,12 +190,13 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 300,
       },
-      adaptiveTest: { dataPoint: "114", kind: "switch" },
-      factoryReset: { dataPoint: "115", kind: "button" },
+      adaptiveTest: { dataPoint: "114", kind: "switch", category: "config" },
+      factoryReset: { dataPoint: "115", kind: "button", category: "config" },
       movementState: {
         dataPoint: "116",
         kind: "sensor",
@@ -186,17 +210,30 @@ const entry: TuyaDeviceEntry = {
           { raw: "near", value: "Near" },
         ],
       },
-      smallMotionSelfTest: { dataPoint: "117", kind: "switch" },
-      breathingSelfTest: { dataPoint: "118", kind: "switch" },
+      smallMotionSelfTest: {
+        dataPoint: "117",
+        kind: "switch",
+        category: "config",
+      },
+      breathingSelfTest: {
+        dataPoint: "118",
+        kind: "switch",
+        category: "config",
+      },
       motionFalseDetection: {
         dataPoint: "119",
         kind: "number",
+        category: "config",
         min: 0,
         max: 10,
       },
-      breathingFalseDetection: { dataPoint: "120", kind: "switch" },
+      breathingFalseDetection: {
+        dataPoint: "120",
+        kind: "switch",
+        category: "config",
+      },
     },
-    indicator: { on: { dataPoint: "103", kind: "switch" } },
+    indicator: { on: { dataPoint: "103", kind: "switch", category: "config" } },
   },
   source: {
     file: "zg205w_mmWave_presence_sensor.yaml",

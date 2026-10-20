@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet water fountain",
-  productKeys: ["hpa87ady0hndivqn"],
+  products: [
+    {
+      productKey: "hpa87ady0hndivqn",
+      manufacturer: "Sobralik",
+      model: "FW-W01",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer" },
@@ -43,18 +49,20 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: 4, value: true }],
         otherwise: false,
       },
-      filterReset: { dataPoint: "5", kind: "button" },
-      cleanReset: { dataPoint: "6", kind: "button" },
+      filterReset: { dataPoint: "5", kind: "button", category: "config" },
+      cleanReset: { dataPoint: "6", kind: "button", category: "config" },
       filterLifeInDays: {
         dataPoint: "3",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "d",
       },
       filterLifeSettingInDays: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "d",
         min: 0,
         max: 90,
@@ -63,6 +71,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "d",
         min: 0,
@@ -71,6 +80,7 @@ const entry: TuyaDeviceEntry = {
       cleanLifeInDays: {
         dataPoint: "8",
         kind: "number",
+        category: "config",
         unit: "d",
         min: 0,
         max: 31,
@@ -78,6 +88,7 @@ const entry: TuyaDeviceEntry = {
       waterLevel: {
         dataPoint: "9",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "level_1", value: "low" },

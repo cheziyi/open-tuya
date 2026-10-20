@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["umrsvtfdzbyfkskl"],
+  products: [
+    { productKey: "umrsvtfdzbyfkskl", manufacturer: "Arida", model: "S7L-2" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -55,20 +57,27 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: "60", value: true }],
         otherwise: false,
       },
-      ionizer: { dataPoint: "10", kind: "switch" },
+      ionizer: { dataPoint: "10", kind: "switch", category: "config" },
       fault: {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timer: {
         dataPoint: "12",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "2h" },
@@ -80,6 +89,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

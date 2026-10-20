@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["lfibaelags9yo9ol"],
+  products: [
+    {
+      productKey: "lfibaelags9yo9ol",
+      manufacturer: "Eberg",
+      model: "HUMI H03G1",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "string" },
@@ -48,18 +54,20 @@ const entry: TuyaDeviceEntry = {
       mist: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "level_1", value: "low" },
           { raw: "level_2", value: "medium" },
           { raw: "level_3", value: "high" },
         ],
       },
-      sleep: { dataPoint: "16", kind: "switch" },
-      ionizer: { dataPoint: "21", kind: "switch" },
-      warmMist: { dataPoint: "26", kind: "switch" },
+      sleep: { dataPoint: "16", kind: "switch", category: "config" },
+      ionizer: { dataPoint: "21", kind: "switch", category: "config" },
+      warmMist: { dataPoint: "26", kind: "switch", category: "config" },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -78,6 +86,7 @@ const entry: TuyaDeviceEntry = {
       tankEmpty: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -86,6 +95,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -93,7 +103,12 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

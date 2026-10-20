@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["8zrzjldq07tlxnlv"],
+  products: [
+    {
+      productKey: "8zrzjldq07tlxnlv",
+      manufacturer: "Momo's Choice",
+      model: "Ceres Plus",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "104": { type: "boolean", optional: true },
@@ -40,37 +46,48 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
       },
       statusFeedReport: { dataPoint: "246", kind: "sensor", readOnly: true },
-      watermark: { dataPoint: "104", kind: "switch" },
+      watermark: { dataPoint: "104", kind: "switch", category: "config" },
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
           { raw: "2", value: "on" },
         ],
       },
-      formatSdCard: { dataPoint: "111", kind: "button" },
+      formatSdCard: { dataPoint: "111", kind: "button", category: "config" },
       formatSdCardStatus: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "Formatted" },
           { raw: "4", value: "Formatting" },
         ],
       },
-      formatSdCardCapacity: { dataPoint: "109", kind: "text" },
-      formatSdCardFormatState: { dataPoint: "117", kind: "number" },
-      recording: { dataPoint: "150", kind: "switch" },
+      formatSdCardCapacity: {
+        dataPoint: "109",
+        kind: "text",
+        category: "config",
+      },
+      formatSdCardFormatState: {
+        dataPoint: "117",
+        kind: "number",
+        category: "config",
+      },
+      recording: { dataPoint: "150", kind: "switch", category: "config" },
       recordingMode: {
         dataPoint: "151",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
         ],
       },
-      restart: { dataPoint: "111", kind: "button" },
+      restart: { dataPoint: "111", kind: "button", category: "config" },
       batteryInPercent: {
         dataPoint: "238",
         kind: "sensor",
@@ -82,11 +99,17 @@ const entry: TuyaDeviceEntry = {
           { raw: "low", value: 20 },
         ],
       },
-      foodBucket: { dataPoint: "239", kind: "sensor", readOnly: true },
+      foodBucket: {
+        dataPoint: "239",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       foodBlockage: {
         dataPoint: "240",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "", value: false }],
         whenAbsent: { value: false },
@@ -96,6 +119,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "241",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "", value: false }],
         whenAbsent: { value: false },
@@ -113,12 +137,13 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "232",
         kind: "number",
         measures: "weight",
+        category: "config",
         unit: "g",
         min: 1,
         max: 255,
       },
     },
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "ceres_plus_petfeeder.yaml",

@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["vuizkgeyohvpcrmr"],
+  products: [
+    { productKey: "vuizkgeyohvpcrmr", manufacturer: "Petwant", model: "F13-W" },
+  ],
   dataPoints: {
     "3": { type: "integer" },
     "4": { type: "string" },
@@ -23,6 +25,7 @@ const entry: TuyaDeviceEntry = {
       manualFeed: {
         dataPoint: "3",
         kind: "button",
+        category: "config",
         values: [{ raw: 1, value: true }],
       },
       status: {
@@ -41,12 +44,20 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
         scale: 50,
       },
-      mealPlan: { dataPoint: "101", kind: "number", min: 1, max: 5 },
-      mealPlanData: { dataPoint: "108", kind: "text" },
+      mealPlan: {
+        dataPoint: "101",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 5,
+      },
+      mealPlanData: { dataPoint: "108", kind: "text", category: "config" },
       alert: {
         dataPoint: "113",
         kind: "event",
@@ -62,6 +73,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "114",
         kind: "sensor",
         measures: "battery",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 8, value: true }],
         otherwise: false,
@@ -70,6 +82,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "116",
         kind: "sensor",
         measures: "plugged",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: true, value: false },

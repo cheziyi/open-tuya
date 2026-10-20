@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dimmer smartplug",
-  productKeys: ["zbisbtukzuiifmp6"],
+  products: [
+    { productKey: "zbisbtukzuiifmp6", manufacturer: "Newone", model: "WF39M" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -23,6 +25,7 @@ const entry: TuyaDeviceEntry = {
       lightType: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "led", value: "LED" },
           { raw: "incandescent", value: "Incandescent" },
@@ -32,6 +35,7 @@ const entry: TuyaDeviceEntry = {
       minimumBrightneessInPercent: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 10,
         max: 1000,
@@ -40,6 +44,7 @@ const entry: TuyaDeviceEntry = {
       maximumBrightnessInPercent: {
         dataPoint: "5",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 10,
         max: 1000,
@@ -48,6 +53,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "6",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -55,6 +61,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -64,6 +71,7 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "21",
         kind: "select",
+        category: "config",
         values: [
           { raw: "none", value: "off" },
           { raw: "relay", value: "state" },

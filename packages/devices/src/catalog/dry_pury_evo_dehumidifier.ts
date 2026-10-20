@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["oya6k3fqen43zyi7"],
+  products: [
+    {
+      productKey: "oya6k3fqen43zyi7",
+      manufacturer: "Argo",
+      model: "Dry Pury EVO",
+      modelId: "WF21",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -49,14 +56,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
-      ionizer: { dataPoint: "10", kind: "switch" },
-      childLock: { dataPoint: "16", kind: "switch" },
+      ionizer: { dataPoint: "10", kind: "switch", category: "config" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
       tankFull: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 16, value: true }],
         otherwise: false,
@@ -65,6 +74,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -73,7 +83,12 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     fan: {
       on: { dataPoint: "1", kind: "switch" },

@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["4w2fzgr62c1oyjsx"],
+  products: [{ productKey: "4w2fzgr62c1oyjsx", manufacturer: "Luko" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -48,6 +48,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "45",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 50,
         max: 350,
@@ -57,6 +58,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -65,6 +67,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "sensor",
         measures: "absoluteHumidity",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "g/m³",
         scale: 10,
@@ -73,6 +77,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
       },
@@ -80,6 +86,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -107,7 +115,15 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    freshAir: { open: { dataPoint: "109", kind: "number", min: 1, max: 99 } },
+    freshAir: {
+      open: {
+        dataPoint: "109",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 99,
+      },
+    },
   },
   source: {
     file: "luko_dehumidifier.yaml",

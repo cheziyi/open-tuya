@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["lf1ikizwmvevldbp"],
+  products: [
+    { productKey: "lf1ikizwmvevldbp", manufacturer: "iHunt", model: "400m³/h" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -47,29 +49,33 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
       filterLifeInPercent: {
         dataPoint: "5",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      ionizer: { dataPoint: "6", kind: "switch" },
-      childLock: { dataPoint: "7", kind: "switch" },
-      uvSterilization: { dataPoint: "9", kind: "switch" },
+      ionizer: { dataPoint: "6", kind: "switch", category: "config" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
+      uvSterilization: { dataPoint: "9", kind: "switch", category: "config" },
       filterRemainingInHours: {
         dataPoint: "16",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
       },
-      filterReset: { dataPoint: "11", kind: "button" },
+      filterReset: { dataPoint: "11", kind: "button", category: "diagnostic" },
       timer: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

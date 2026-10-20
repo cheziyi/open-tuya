@@ -5,7 +5,19 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heat pump",
-  productKeys: ["9xvzf8c0bg33eenj", "keycnvksyhjcrg8t"],
+  products: [
+    {
+      productKey: "9xvzf8c0bg33eenj",
+      manufacturer: "Vivax",
+      model: "ACP-12CH35REWI",
+    },
+    {
+      productKey: "keycnvksyhjcrg8t",
+      manufacturer: "Thermor",
+      model: "Nagano",
+      modelId: "HEWRQU1",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -173,12 +185,13 @@ const entry: TuyaDeviceEntry = {
       power: { dataPoint: "112", kind: "number" },
       cleaning56c: { dataPoint: "119", kind: "switch" },
       emergencyHeat: { dataPoint: "12", kind: "switch" },
-      quiet: { dataPoint: "108", kind: "switch" },
-      sleep: { dataPoint: "109", kind: "switch" },
-      health: { dataPoint: "106", kind: "switch" },
+      quiet: { dataPoint: "108", kind: "switch", category: "config" },
+      sleep: { dataPoint: "109", kind: "switch", category: "config" },
+      health: { dataPoint: "106", kind: "switch", category: "config" },
       verticalSwing: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: "ud_00", value: "Top" },
           { raw: "ud_01", value: "Upper" },
@@ -191,6 +204,7 @@ const entry: TuyaDeviceEntry = {
       horizontalSwing: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: "lr_00", value: "Leftmost" },
           { raw: "lr_01", value: "Left" },
@@ -204,13 +218,19 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "116",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "116", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "116",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
-    display: { on: { dataPoint: "13", kind: "switch" } },
+    display: { on: { dataPoint: "13", kind: "switch", category: "config" } },
   },
   source: {
     file: "vivax_heatpump.yaml",

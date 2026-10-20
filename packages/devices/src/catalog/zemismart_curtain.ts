@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -41,17 +41,23 @@ const entry: TuyaDeviceEntry = {
         invert: true,
       },
       workState: { dataPoint: "7", kind: "text" },
-      reverse: { dataPoint: "5", kind: "switch" },
+      reverse: { dataPoint: "5", kind: "switch", category: "config" },
       fault: {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

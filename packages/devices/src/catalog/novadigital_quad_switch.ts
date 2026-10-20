@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Quad switch",
-  productKeys: ["6u3rzfddlfajqvn5"],
+  products: [{ productKey: "6u3rzfddlfajqvn5", manufacturer: "Novadigital" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -27,6 +27,7 @@ const entry: TuyaDeviceEntry = {
       timer1InSeconds: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -34,6 +35,7 @@ const entry: TuyaDeviceEntry = {
       timer2InSeconds: {
         dataPoint: "8",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -41,6 +43,7 @@ const entry: TuyaDeviceEntry = {
       timer3InSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -48,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       timer4InSeconds: {
         dataPoint: "10",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -55,6 +59,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "on" },
@@ -62,7 +67,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    backlight: { on: { dataPoint: "16", kind: "switch" } },
+    backlight: { on: { dataPoint: "16", kind: "switch", category: "config" } },
   },
   source: {
     file: "novadigital_quad_switch.yaml",

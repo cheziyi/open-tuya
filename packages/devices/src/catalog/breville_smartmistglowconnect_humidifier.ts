@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["i8rxusuw56e1kr3q"],
+  products: [
+    {
+      productKey: "i8rxusuw56e1kr3q",
+      manufacturer: "Breville",
+      model: "Smart Mist Glow Connect",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "6": { type: "string" },
@@ -52,6 +58,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -71,6 +78,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

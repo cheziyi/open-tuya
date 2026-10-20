@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "IR remote control",
-  productKeys: ["nuzvlkjtqgsjbjfh"],
+  products: [{ productKey: "nuzvlkjtqgsjbjfh", manufacturer: "Senda" }],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "string", optional: true },

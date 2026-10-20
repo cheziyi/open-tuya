@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["64z8cyptsfd23tas"],
+  products: [
+    {
+      productKey: "64z8cyptsfd23tas",
+      manufacturer: "Kältebringer",
+      model: "KBO Series (Split R290)",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -92,7 +98,7 @@ const entry: TuyaDeviceEntry = {
       },
       sleep: { dataPoint: "101", kind: "switch" },
     },
-    display: { on: { dataPoint: "104", kind: "switch" } },
+    display: { on: { dataPoint: "104", kind: "switch", category: "config" } },
   },
   source: {
     file: "kaeltebringer_kbo_airconditioner.yaml",

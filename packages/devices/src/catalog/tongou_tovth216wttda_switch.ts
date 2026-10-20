@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Sensor switch",
-  productKeys: ["oj6soirdngp9jijy"],
+  products: [
+    {
+      productKey: "oj6soirdngp9jijy",
+      manufacturer: "Tongou",
+      model: "TOVTH-216WTTDA",
+    },
+  ],
   dataPoints: {
     "2": { type: "boolean" },
     "27": { type: "integer" },
@@ -18,6 +24,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -26,6 +33,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "46",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },

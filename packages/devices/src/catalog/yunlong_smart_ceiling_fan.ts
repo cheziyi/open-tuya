@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["nay3m50enerxo9av"],
+  products: [{ productKey: "nay3m50enerxo9av", manufacturer: "Yunlong" }],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -45,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       lightTimerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -52,6 +53,7 @@ const entry: TuyaDeviceEntry = {
       fanTimerInMinutes: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 540,

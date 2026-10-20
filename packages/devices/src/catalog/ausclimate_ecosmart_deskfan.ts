@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Desk fan",
-  productKeys: ["shrf3e1oo92aaijt"],
+  products: [
+    {
+      productKey: "shrf3e1oo92aaijt",
+      manufacturer: "Ausclimate",
+      model: "EcoSmart Desk Air Circulator",
+      modelId: "ACAC230",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer" },
@@ -20,10 +27,15 @@ const entry: TuyaDeviceEntry = {
       on: { dataPoint: "1", kind: "switch" },
       speed: { dataPoint: "3", kind: "number", min: 1, max: 12 },
       oscillating: { dataPoint: "5", kind: "switch" },
-      verticalOscillation: { dataPoint: "4", kind: "switch" },
+      verticalOscillation: {
+        dataPoint: "4",
+        kind: "switch",
+        category: "config",
+      },
       onTimer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -36,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       offTimer: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1H", value: "1h" },

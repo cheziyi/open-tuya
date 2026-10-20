@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pool heat pump",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -51,6 +51,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
@@ -59,6 +60,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         type: "bitfield",
         values: [
@@ -70,6 +72,7 @@ const entry: TuyaDeviceEntry = {
       faultCode: {
         dataPoint: "9",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         type: "bitfield",
       },

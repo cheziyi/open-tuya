@@ -5,11 +5,27 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: [
-    "b07ueqf4ymelhbi9",
-    "6cguug02fnygou5c",
-    "m0wtqltrepknlpdj",
-    "lovfhvt2xkrexf8z",
+  products: [
+    {
+      productKey: "b07ueqf4ymelhbi9",
+      manufacturer: "Klarstein",
+      model: "DryFy Pro Connect",
+    },
+    {
+      productKey: "6cguug02fnygou5c",
+      manufacturer: "Klarstein",
+      model: "Dryfy Pro Connect",
+    },
+    {
+      productKey: "m0wtqltrepknlpdj",
+      manufacturer: "Morris",
+      model: "Premier Plus",
+    },
+    {
+      productKey: "lovfhvt2xkrexf8z",
+      manufacturer: "Electriq",
+      model: "CD12PRO-LE",
+    },
   ],
   dataPoints: {
     "1": { type: "boolean" },
@@ -54,6 +70,7 @@ const entry: TuyaDeviceEntry = {
       direction: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0_90", value: "45°-90°" },
           { raw: "45", value: "45°" },
@@ -66,11 +83,12 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
     },
-    display: { on: { dataPoint: "101", kind: "switch" } },
+    display: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "electriq_cd20pro_dehumidifier.yaml",

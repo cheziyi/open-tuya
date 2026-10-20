@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["lsaqajsvhpjq0mmp"],
+  products: [
+    { productKey: "lsaqajsvhpjq0mmp", manufacturer: "Gologi", model: "GO021" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "string", optional: true },
@@ -43,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "17",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "2H", value: "2h" },
@@ -55,6 +58,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -62,11 +66,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

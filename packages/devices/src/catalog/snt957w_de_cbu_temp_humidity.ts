@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Temperature and humidity sensor",
-  productKeys: ["dnoq3j5m9nhxw9a1"],
+  products: [{ productKey: "dnoq3j5m9nhxw9a1", model: "SNT957W-DE CBU" }],
   dataPoints: {
     "1": { type: "integer" },
     "2": { type: "integer" },
@@ -25,6 +25,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -33,6 +34,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
         scale: 10,
@@ -40,6 +42,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "9",
         kind: "select",
+        category: "config",
         values: [
           { raw: "f", value: "F" },
           { raw: "c", value: "C" },
@@ -49,6 +52,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -400,
         max: 1200,
@@ -58,6 +62,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -400,
         max: 1200,
@@ -67,6 +72,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "number",
         measures: "humidity",
+        category: "config",
         unit: "%",
         min: 0,
         max: 1000,
@@ -76,6 +82,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "number",
         measures: "humidity",
+        category: "config",
         unit: "%",
         min: 0,
         max: 1000,
@@ -84,6 +91,7 @@ const entry: TuyaDeviceEntry = {
       temperatureAlarm: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "loweralarm", value: "Low temperature" },
           { raw: "upperalarm", value: "High temperature" },
@@ -93,6 +101,7 @@ const entry: TuyaDeviceEntry = {
       humidityAlarm: {
         dataPoint: "15",
         kind: "select",
+        category: "config",
         values: [
           { raw: "loweralarm", value: "Low humidity" },
           { raw: "upperalarm", value: "High humidity" },
@@ -103,6 +112,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -100,
         max: 100,
@@ -111,6 +121,7 @@ const entry: TuyaDeviceEntry = {
       humidityCalibrationInPercent: {
         dataPoint: "24",
         kind: "number",
+        category: "config",
         unit: "%",
         min: -100,
         max: 100,

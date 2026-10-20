@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["ebdq15yidek4phti"],
+  products: [
+    {
+      productKey: "ebdq15yidek4phti",
+      manufacturer: "Oneisall",
+      model: "PF-002 Pro IR",
+    },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "2": { type: "boolean", optional: true },
@@ -24,11 +30,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      mealPlan: { dataPoint: "1", kind: "text" },
+      mealPlan: { dataPoint: "1", kind: "text", category: "config" },
       quickFeed: { dataPoint: "2", kind: "button" },
       manualFeedInPortions: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "portions",
         min: 1,
         max: 60,
@@ -61,6 +68,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "opening",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "on", value: false },
@@ -74,6 +82,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -82,10 +91,16 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "13",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -101,6 +116,7 @@ const entry: TuyaDeviceEntry = {
       tankEmpty: {
         dataPoint: "13",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
@@ -109,6 +125,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "plugged",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 64, value: false }],
         otherwise: true,
@@ -122,12 +139,17 @@ const entry: TuyaDeviceEntry = {
       },
       feedAmount: { dataPoint: "14", kind: "sensor", readOnly: true },
       on: { dataPoint: "17", kind: "switch" },
-      slowFeed: { dataPoint: "23", kind: "switch" },
-      factoryReset: { dataPoint: "24", kind: "button" },
-      weightCalibration: { dataPoint: "26", kind: "switch" },
+      slowFeed: { dataPoint: "23", kind: "switch", category: "config" },
+      factoryReset: { dataPoint: "24", kind: "button", category: "config" },
+      weightCalibration: {
+        dataPoint: "26",
+        kind: "switch",
+        category: "config",
+      },
       powerMode: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "strong_power", value: "Full power" },
           { raw: "battery_power", value: "Battery saver" },

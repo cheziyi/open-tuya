@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Camera",
-  productKeys: ["rahgfyryabpbyrql"],
+  products: [
+    { productKey: "rahgfyryabpbyrql", manufacturer: "Kerui", model: "200W" },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "103": { type: "boolean" },
@@ -51,21 +53,24 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         type: "utf16b64",
       },
-      motionDetection: { dataPoint: "134", kind: "switch" },
+      motionDetection: { dataPoint: "134", kind: "switch", category: "config" },
       cameraPrivacy: { dataPoint: "105", kind: "switch" },
       flipImage: {
         dataPoint: "103",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       watermark: {
         dataPoint: "104",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       motionSensitivity: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
@@ -75,6 +80,7 @@ const entry: TuyaDeviceEntry = {
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -84,6 +90,7 @@ const entry: TuyaDeviceEntry = {
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -94,11 +101,17 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "normal" },
       },
-      sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
-      sdFormat: { dataPoint: "111", kind: "button" },
+      sdStatusCapacity: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      sdFormat: { dataPoint: "111", kind: "button", category: "config" },
       sdFormatState: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: 2000, value: "Formatting" },
           { raw: 2001, value: "Format failed" },
@@ -108,64 +121,73 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "Formatted" },
       },
-      ptzStop: { dataPoint: "116", kind: "button" },
+      ptzStop: { dataPoint: "116", kind: "button", category: "config" },
       ptzUp: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "0", value: true }],
         otherwise: false,
       },
       ptzRightUp: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "1", value: true }],
         otherwise: false,
       },
       ptzRight: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "2", value: true }],
         otherwise: false,
       },
       ptzRightDown: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "3", value: true }],
         otherwise: false,
       },
       ptzDown: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "4", value: true }],
         otherwise: false,
       },
       ptzLeftDown: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "5", value: true }],
         otherwise: false,
       },
       ptzLeft: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "6", value: true }],
         otherwise: false,
       },
       ptzLeftUp: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "7", value: true }],
         otherwise: false,
       },
       recordingMode: {
         dataPoint: "151",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
         ],
       },
-      motionTracking: { dataPoint: "161", kind: "switch" },
+      motionTracking: { dataPoint: "161", kind: "switch", category: "config" },
       alarm: {
         dataPoint: "185",
         kind: "event",
@@ -180,7 +202,7 @@ const entry: TuyaDeviceEntry = {
         type: "utf16b64",
       },
     },
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "kerui_200w_camera.yaml",

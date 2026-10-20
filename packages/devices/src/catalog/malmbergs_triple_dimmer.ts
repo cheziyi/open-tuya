@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Triple dimmer",
-  productKeys: ["kgrgldje301tqiav"],
+  products: [
+    {
+      productKey: "kgrgldje301tqiav",
+      manufacturer: "Malmbergs",
+      model: "NV-SWQ triple dimmer CB2S",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -42,18 +48,21 @@ const entry: TuyaDeviceEntry = {
       minimumBrightness1: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         min: 10,
         max: 1000,
       },
       maximumBrightness1: {
         dataPoint: "5",
         kind: "number",
+        category: "config",
         min: 10,
         max: 1000,
       },
       timer1InSeconds: {
         dataPoint: "6",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -61,18 +70,21 @@ const entry: TuyaDeviceEntry = {
       minimumBrightness2: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         min: 10,
         max: 1000,
       },
       maximumBrightness2: {
         dataPoint: "11",
         kind: "number",
+        category: "config",
         min: 10,
         max: 1000,
       },
       timer2InSeconds: {
         dataPoint: "12",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -80,6 +92,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -89,18 +102,21 @@ const entry: TuyaDeviceEntry = {
       minimumBrightness3: {
         dataPoint: "17",
         kind: "number",
+        category: "config",
         min: 10,
         max: 1000,
       },
       maximumBrightness3: {
         dataPoint: "19",
         kind: "number",
+        category: "config",
         min: 10,
         max: 1000,
       },
       timer3InSeconds: {
         dataPoint: "20",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -108,6 +124,7 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "21",
         kind: "select",
+        category: "config",
         values: [
           { raw: "none", value: "off" },
           { raw: "relay", value: "state" },

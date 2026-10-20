@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["k5hu1er7silr7miw"],
+  products: [
+    { productKey: "k5hu1er7silr7miw", manufacturer: "HaoLeSi", model: "Mini" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -70,16 +72,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -5,
         max: 5,
       },
-      childLock: { dataPoint: "40", kind: "switch" },
-      schedule: { dataPoint: "53", kind: "text" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
+      schedule: { dataPoint: "53", kind: "text", category: "config" },
       boostTimeInHours: {
         dataPoint: "101",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 1,
         max: 8,
@@ -87,6 +91,7 @@ const entry: TuyaDeviceEntry = {
       highTemperatureProtection: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "htemp1", value: "Level 1" },
           { raw: "htemp2", value: "Level 2" },
@@ -96,6 +101,7 @@ const entry: TuyaDeviceEntry = {
       openWindowDetection: {
         dataPoint: "112",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "60", value: "60m" },

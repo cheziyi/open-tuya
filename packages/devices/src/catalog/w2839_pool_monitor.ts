@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water quality monitor",
-  productKeys: ["muwcszgae41ccndk"],
+  products: [{ productKey: "muwcszgae41ccndk", model: "W-2839" }],
   dataPoints: {
     "8": { type: "integer" },
     "102": { type: "integer", optional: true },
@@ -23,6 +23,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "8",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -31,6 +32,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "ph",
+        reading: "instant",
         readOnly: true,
         values: [{ raw: 1500, value: null }],
         scale: 100,
@@ -38,6 +40,7 @@ const entry: TuyaDeviceEntry = {
       oxidationReductionPotentialInMillivolts: {
         dataPoint: "131",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "mV",
       },
@@ -45,6 +48,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -100,
         max: 1100,
@@ -54,6 +58,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -100,
         max: 1100,
@@ -63,6 +68,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "number",
         measures: "ph",
+        category: "config",
         min: 0,
         max: 1500,
         scale: 100,
@@ -71,6 +77,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "number",
         measures: "ph",
+        category: "config",
         min: 0,
         max: 1500,
         scale: 100,
@@ -78,6 +85,7 @@ const entry: TuyaDeviceEntry = {
       maximumOrpInMillivolts: {
         dataPoint: "132",
         kind: "number",
+        category: "config",
         unit: "mV",
         min: -2000,
         max: 2000,
@@ -85,6 +93,7 @@ const entry: TuyaDeviceEntry = {
       minimumOrpInMillivolts: {
         dataPoint: "133",
         kind: "number",
+        category: "config",
         unit: "mV",
         min: -2000,
         max: 2000,

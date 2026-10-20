@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Aroma diffuser",
-  productKeys: ["yishet3p12fvohmd"],
+  products: [
+    {
+      productKey: "yishet3p12fvohmd",
+      manufacturer: "Liplasting",
+      model: "YX-025WB",
+    },
+  ],
   dataPoints: {
     "2": { type: "boolean" },
     "3": { type: "string" },
@@ -87,14 +93,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timer: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "2h", value: "2h" },
           { raw: "4h", value: "4h" },
@@ -105,6 +118,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
         min: 0,

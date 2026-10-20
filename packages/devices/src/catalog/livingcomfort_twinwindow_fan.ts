@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Window fan",
-  productKeys: ["tqs2qloiq4hqiuso"],
+  products: [
+    {
+      productKey: "tqs2qloiq4hqiuso",
+      manufacturer: "Living Comfort",
+      model: "LC310S Series",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },

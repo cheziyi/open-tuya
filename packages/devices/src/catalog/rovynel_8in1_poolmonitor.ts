@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pool monitor",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "integer" },
     "2": { type: "integer" },
@@ -24,11 +24,18 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      tdsInPpm: { dataPoint: "1", kind: "sensor", readOnly: true, unit: "ppm" },
+      tdsInPpm: {
+        dataPoint: "1",
+        kind: "sensor",
+        reading: "instant",
+        readOnly: true,
+        unit: "ppm",
+      },
       temperature: {
         dataPoint: "2",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unitFrom: "temperatureUnit",
         dependsOn: {
@@ -61,11 +68,18 @@ const entry: TuyaDeviceEntry = {
         unit: "F",
         scale: 10,
       },
-      ph: { dataPoint: "10", kind: "sensor", measures: "ph", readOnly: true },
+      ph: {
+        dataPoint: "10",
+        kind: "sensor",
+        measures: "ph",
+        reading: "instant",
+        readOnly: true,
+      },
       conductivityInUsPerCm: {
         dataPoint: "11",
         kind: "sensor",
         measures: "conductivity",
+        reading: "instant",
         readOnly: true,
         unit: "µS/cm",
         scale: 100,
@@ -74,12 +88,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
         readOnly: true,
         unit: "mV",
       },
       salinityInPpt: {
         dataPoint: "105",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "ppt",
         scale: 10,
@@ -100,11 +116,13 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "connectivity",
+        category: "diagnostic",
         readOnly: true,
       },
       residualChlorineInMgPerL: {
         dataPoint: "106",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "mg/L",
         scale: 10,
@@ -117,7 +135,7 @@ const entry: TuyaDeviceEntry = {
         unit: "%",
       },
     },
-    display: { on: { dataPoint: "101", kind: "switch" } },
+    display: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "rovynel_8in1_poolmonitor.yaml",

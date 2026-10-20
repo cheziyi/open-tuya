@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Aroma diffuser",
-  productKeys: ["istgdkmlsv3nwnbn"],
+  products: [
+    {
+      productKey: "istgdkmlsv3nwnbn",
+      manufacturer: "Revesien",
+      model: "Q-Pro-W",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "103": { type: "string" },
@@ -49,6 +55,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 5,
         max: 300,
@@ -58,17 +65,20 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 5,
         max: 300,
         step: 5,
       },
-      schedule: { dataPoint: "106", kind: "text" },
+      schedule: { dataPoint: "106", kind: "text", category: "config" },
       deviceLifeInSeconds: {
         dataPoint: "108",
         mask: "FFFFFFFF00000000",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -77,12 +87,15 @@ const entry: TuyaDeviceEntry = {
         mask: "00000000FFFFFFFF",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
       resetCapacity: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "25%" },
           { raw: "1", value: "50%" },

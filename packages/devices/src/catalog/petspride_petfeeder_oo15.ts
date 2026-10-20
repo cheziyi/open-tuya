@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["kknufilajvq2zh7t"],
+  products: [
+    {
+      productKey: "kknufilajvq2zh7t",
+      manufacturer: "PetsPride",
+      model: "2Bowl-4L",
+      modelId: "OO15",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean", optional: true },
     "104": { type: "boolean", optional: true },
@@ -31,13 +38,14 @@ const entry: TuyaDeviceEntry = {
     "247": { type: "string", optional: true },
   },
   components: {
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
     device: {
-      watermark: { dataPoint: "104", kind: "switch" },
-      privateMode: { dataPoint: "105", kind: "switch" },
+      watermark: { dataPoint: "104", kind: "switch", category: "config" },
+      privateMode: { dataPoint: "105", kind: "switch", category: "config" },
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -47,6 +55,7 @@ const entry: TuyaDeviceEntry = {
       soundVolumeInPercent: {
         dataPoint: "160",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -56,6 +65,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "232",
         kind: "sensor",
         measures: "weight",
+        category: "diagnostic",
         readOnly: true,
         unit: "g",
         min: 5,
@@ -65,14 +75,37 @@ const entry: TuyaDeviceEntry = {
       controlCode: {
         dataPoint: "233",
         kind: "number",
+        category: "config",
         min: 0,
         max: 2147483646,
       },
-      controlCodeReturnCode: { dataPoint: "234", kind: "number" },
-      controlCodeHistory: { dataPoint: "236", kind: "number" },
-      autoRation: { dataPoint: "235", kind: "number", min: 0, max: 255 },
-      autoRationSchedule: { dataPoint: "237", kind: "text" },
-      autoRationBackupLog: { dataPoint: "247", kind: "text" },
+      controlCodeReturnCode: {
+        dataPoint: "234",
+        kind: "number",
+        category: "config",
+      },
+      controlCodeHistory: {
+        dataPoint: "236",
+        kind: "number",
+        category: "config",
+      },
+      autoRation: {
+        dataPoint: "235",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 255,
+      },
+      autoRationSchedule: {
+        dataPoint: "237",
+        kind: "text",
+        category: "config",
+      },
+      autoRationBackupLog: {
+        dataPoint: "247",
+        kind: "text",
+        category: "config",
+      },
       batteryInPercent: {
         dataPoint: "238",
         kind: "sensor",
@@ -88,6 +121,7 @@ const entry: TuyaDeviceEntry = {
       foodLevel: {
         dataPoint: "239",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "full", value: "Full" },
@@ -99,12 +133,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "240",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
       jammed: {
         dataPoint: "241",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
       voiceRecording: {

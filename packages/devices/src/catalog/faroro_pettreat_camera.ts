@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Camera pet feeder",
-  productKeys: ["m6xa97cporn9eqzy"],
+  products: [
+    {
+      productKey: "m6xa97cporn9eqzy",
+      manufacturer: "Faroro",
+      model: "Pet Treat Camera",
+      modelId: "TD20",
+    },
+  ],
   dataPoints: {
     "103": { type: "boolean" },
     "108": { type: "string" },
@@ -18,22 +25,24 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       feed: { dataPoint: "231", kind: "button" },
-      flipImage: { dataPoint: "103", kind: "switch" },
+      flipImage: { dataPoint: "103", kind: "switch", category: "config" },
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "on" },
           { raw: "2", value: "off" },
         ],
       },
-      motionDetection: { dataPoint: "134", kind: "switch" },
-      limitMotionArea: { dataPoint: "168", kind: "switch" },
-      motionArea: { dataPoint: "169", kind: "text" },
+      motionDetection: { dataPoint: "134", kind: "switch", category: "config" },
+      limitMotionArea: { dataPoint: "168", kind: "switch", category: "config" },
+      motionArea: { dataPoint: "169", kind: "text", category: "config" },
       status: {
         dataPoint: "236",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "fault" },

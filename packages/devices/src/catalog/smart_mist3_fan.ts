@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Mist fan",
-  productKeys: ["xlnzyrme4ddyzqhw"],
+  products: [
+    {
+      productKey: "xlnzyrme4ddyzqhw",
+      manufacturer: "Smart",
+      model: "Mist3",
+      modelId: "TX-1602MF",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },

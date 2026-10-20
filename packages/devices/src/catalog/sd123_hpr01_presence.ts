@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Human presence radar",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "string" },
     "101": { type: "string" },
@@ -41,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       safeRange: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0_meters", value: "0m" },
           { raw: "1_meters", value: "1m" },
@@ -54,6 +55,7 @@ const entry: TuyaDeviceEntry = {
       maxRange: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0_meters", value: "0m" },
           { raw: "1_meters", value: "1m" },
@@ -68,6 +70,7 @@ const entry: TuyaDeviceEntry = {
       delay: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "case_0", value: "10s" },
           { raw: "case_1", value: "30s" },
@@ -81,6 +84,7 @@ const entry: TuyaDeviceEntry = {
       configuration: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "case_0", value: "Sleep/Micro motion" },
           { raw: "case_1", value: "Meeting/Office" },
@@ -91,6 +95,7 @@ const entry: TuyaDeviceEntry = {
       triggerPower: {
         dataPoint: "107",
         kind: "number",
+        category: "config",
         min: 0,
         max: 5000,
         step: 100,
@@ -98,20 +103,46 @@ const entry: TuyaDeviceEntry = {
       maintainPower: {
         dataPoint: "108",
         kind: "number",
+        category: "config",
         min: 0,
         max: 5000,
         step: 100,
       },
-      triggerFrames: { dataPoint: "109", kind: "number", min: 0, max: 20 },
-      interruptFrames: { dataPoint: "110", kind: "number", min: 0, max: 20 },
-      triggerPoints: { dataPoint: "112", kind: "number", min: 0, max: 10 },
-      maintainPoints: { dataPoint: "113", kind: "number", min: 0, max: 10 },
-      on: { dataPoint: "114", kind: "switch" },
+      triggerFrames: {
+        dataPoint: "109",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 20,
+      },
+      interruptFrames: {
+        dataPoint: "110",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 20,
+      },
+      triggerPoints: {
+        dataPoint: "112",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 10,
+      },
+      maintainPoints: {
+        dataPoint: "113",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 10,
+      },
+      on: { dataPoint: "114", kind: "switch", category: "config" },
     },
     indicator: {
       on: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "normal", value: true },
           { raw: "slient", value: false },

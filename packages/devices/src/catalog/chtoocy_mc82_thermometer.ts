@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Refrigerator thermometer",
-  productKeys: ["rfiojakzjdjmgyrz"],
+  products: [
+    { productKey: "rfiojakzjdjmgyrz", manufacturer: "Chtoocy", model: "MC82" },
+  ],
   dataPoints: {
     "1": { type: "integer" },
     "6": { type: "integer" },
@@ -28,6 +30,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -49,6 +52,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -400,
         max: 1000,
@@ -58,6 +62,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -400,
         max: 1000,
@@ -67,6 +72,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 10,
@@ -75,6 +81,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 1,
         max: 10,
@@ -82,6 +89,7 @@ const entry: TuyaDeviceEntry = {
       alarmRepeat: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1h", value: "1h" },
           { raw: "2h", value: "2h" },
@@ -101,26 +109,33 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "17",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
       },
       temperatureUnit: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
         ],
       },
-      sound: { dataPoint: "103", kind: "switch" },
-      appPushNotifications: { dataPoint: "104", kind: "switch" },
+      sound: { dataPoint: "103", kind: "switch", category: "config" },
+      appPushNotifications: {
+        dataPoint: "104",
+        kind: "switch",
+        category: "config",
+      },
       samplingIntervalInMinutes: {
         dataPoint: "6",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
       },
-      masterAlarm: { dataPoint: "111", kind: "switch" },
-      forceUpdate: { dataPoint: "107", kind: "button" },
+      masterAlarm: { dataPoint: "111", kind: "switch", category: "config" },
+      forceUpdate: { dataPoint: "107", kind: "button", category: "config" },
     },
   },
   source: {

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain switch",
-  productKeys: ["81dyy7vqe426s0yc"],
+  products: [
+    {
+      productKey: "81dyy7vqe426s0yc",
+      manufacturer: "Etersky",
+      model: "WF-CS01",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "7": { type: "boolean" },
@@ -26,12 +32,13 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 10,
         max: 180,
       },
     },
-    backlight: { on: { dataPoint: "7", kind: "switch" } },
+    backlight: { on: { dataPoint: "7", kind: "switch", category: "config" } },
   },
   source: {
     file: "etersky_curtain_switch.yaml",

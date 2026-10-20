@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Door Light",
-  productKeys: ["jahu6lbhx0o5opo2"],
+  products: [
+    {
+      productKey: "jahu6lbhx0o5opo2",
+      manufacturer: "Pirnar",
+      model: "SmartLux",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "22": { type: "integer" },

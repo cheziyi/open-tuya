@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan and light",
-  productKeys: ["qx9ovwpe9isccpb6"],
+  products: [
+    {
+      productKey: "qx9ovwpe9isccpb6",
+      manufacturer: "Casafan",
+      model: "ECO Neo III",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -33,6 +39,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

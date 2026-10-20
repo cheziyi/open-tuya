@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Aroma diffuser",
-  productKeys: ["GQxEe5orh45cMgA6"],
+  products: [
+    {
+      productKey: "GQxEe5orh45cMgA6",
+      manufacturer: "Delixing",
+      model: "KCL-M1803A-M",
+    },
+  ],
   dataPoints: {
     "2": { type: "string" },
     "4": { type: "integer" },
@@ -49,6 +55,7 @@ const entry: TuyaDeviceEntry = {
       timeRemainingInMinutes: {
         dataPoint: "4",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -56,15 +63,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "9", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "9",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timerInMinutes: {
         dataPoint: "102",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 360,

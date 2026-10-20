@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["hsgge3yju1dzkdof"],
+  products: [{ productKey: "hsgge3yju1dzkdof", manufacturer: "Brandson" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -70,6 +70,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "None", value: "cancel" },
           { raw: "1hr", value: "1h" },
@@ -98,7 +99,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "24hrs", value: "24h" },
         ],
       },
-      childLock: { dataPoint: "16", kind: "switch" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
     },
   },
   source: {

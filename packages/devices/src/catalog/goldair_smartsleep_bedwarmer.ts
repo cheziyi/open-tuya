@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Electric blanket",
-  productKeys: ["mqcffjumdpuahxmi"],
+  products: [
+    {
+      productKey: "mqcffjumdpuahxmi",
+      manufacturer: "Goldair",
+      model: "Platinum SmartSleep",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "14": { type: "string" },
@@ -21,6 +27,7 @@ const entry: TuyaDeviceEntry = {
       bodyLevel: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "level_1", value: "0" },
           { raw: "level_2", value: "1" },
@@ -34,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       feetLevel: {
         dataPoint: "15",
         kind: "select",
+        category: "config",
         values: [
           { raw: "level_1", value: "0" },
           { raw: "level_2", value: "1" },
@@ -84,6 +92,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -91,6 +100,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },

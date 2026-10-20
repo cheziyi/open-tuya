@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dishwasher",
-  productKeys: ["tmmk3646acwxrsg3"],
+  products: [{ productKey: "tmmk3646acwxrsg3", manufacturer: "Amenzo" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -18,11 +18,12 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       on: { dataPoint: "1", kind: "switch" },
-      start: { dataPoint: "2", kind: "button" },
-      stop: { dataPoint: "3", kind: "button" },
+      start: { dataPoint: "2", kind: "button", category: "config" },
+      stop: { dataPoint: "3", kind: "button", category: "config" },
       washingMode: {
         dataPoint: "6",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Cold", value: "fruit" },
           { raw: "Intensive", value: "intensive" },
@@ -34,6 +35,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "7",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -45,6 +47,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -52,12 +56,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "18",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

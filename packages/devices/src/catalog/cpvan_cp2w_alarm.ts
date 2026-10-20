@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Alarm system",
-  productKeys: ["ito65xcfxhrkiya7"],
+  products: [
+    { productKey: "ito65xcfxhrkiya7", manufacturer: "CPVAN", model: "CP2W" },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -52,6 +54,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 300,
@@ -60,15 +63,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "28",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 300,
       },
-      keytone: { dataPoint: "12", kind: "switch" },
+      keytone: { dataPoint: "12", kind: "switch", category: "config" },
       batteryCharging: {
         dataPoint: "15",
         kind: "sensor",
         measures: "batteryCharging",
+        category: "diagnostic",
         readOnly: true,
       },
       batteryInPercent: {
@@ -90,6 +95,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "32",
         kind: "sensor",
         measures: "sound",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "alarm", value: true }],
         otherwise: false,
@@ -100,7 +106,11 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         type: "utf16b64",
       },
-      alarmNotifications: { dataPoint: "27", kind: "switch" },
+      alarmNotifications: {
+        dataPoint: "27",
+        kind: "switch",
+        category: "config",
+      },
       notification: {
         dataPoint: "101",
         kind: "event",
@@ -136,6 +146,7 @@ const entry: TuyaDeviceEntry = {
       subClass: {
         dataPoint: "36",
         kind: "select",
+        category: "config",
         values: [
           { raw: "detector", value: "detector" },
           { raw: "remote_controller", value: "remote_controller" },
@@ -144,6 +155,7 @@ const entry: TuyaDeviceEntry = {
       subType: {
         dataPoint: "37",
         kind: "select",
+        category: "config",
         values: [
           { raw: "motion_sensor", value: "motion_sensor" },
           { raw: "contact_sensor", value: "contact_sensor" },
@@ -165,10 +177,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "others", value: "other" },
         ],
       },
-      subAdmin: { dataPoint: "38", kind: "text" },
+      subAdmin: { dataPoint: "38", kind: "text", category: "config" },
       subState: {
         dataPoint: "39",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "normal", value: "normal" },
@@ -180,6 +193,7 @@ const entry: TuyaDeviceEntry = {
       language: {
         dataPoint: "40",
         kind: "select",
+        category: "config",
         values: [
           { raw: "chinese_simplified", value: "chinese" },
           { raw: "chinese_traditional", value: "chinese_traditional" },
@@ -193,13 +207,29 @@ const entry: TuyaDeviceEntry = {
           { raw: "japanese", value: "japanese" },
         ],
       },
-      stateDetection: { dataPoint: "102", kind: "sensor", readOnly: true },
-      alarmDetection: { dataPoint: "103", kind: "sensor", readOnly: true },
-      openDetection: { dataPoint: "104", kind: "sensor", readOnly: true },
+      stateDetection: {
+        dataPoint: "102",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      alarmDetection: {
+        dataPoint: "103",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      openDetection: {
+        dataPoint: "104",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       power: {
         dataPoint: "105",
         kind: "sensor",
         measures: "power",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: true, value: false }],
         otherwise: true,
@@ -208,6 +238,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "battery",
+        category: "diagnostic",
         readOnly: true,
         whenAbsent: { value: false },
       },
@@ -244,7 +275,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    alarm: { on: { dataPoint: "6", kind: "switch" } },
+    alarm: { on: { dataPoint: "6", kind: "switch", category: "config" } },
     zone: {
       alarmState: {
         dataPoint: "24",

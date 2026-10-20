@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pool heat pump",
-  productKeys: ["4t4vo1voussnybbd"],
+  products: [
+    {
+      productKey: "4t4vo1voussnybbd",
+      manufacturer: "Henden",
+      model: "Essential Inverter Heat Pump",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "string" },
@@ -117,6 +123,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "powerFactor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -124,6 +132,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
@@ -132,6 +141,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           {
@@ -159,12 +169,24 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "110", kind: "sensor", readOnly: true },
-      faultCode2: { dataPoint: "111", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "110",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultCode2: {
+        dataPoint: "111",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       powerInW: {
         dataPoint: "112",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "W",
       },

@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain module",
-  productKeys: ["ujrix5o9vgovrctb", "ol1uhvza"],
+  products: [
+    { productKey: "ujrix5o9vgovrctb", model: "QS-WIFI-C01" },
+    { productKey: "ol1uhvza", model: "QS-ZIGBEE-C01" },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -34,6 +37,7 @@ const entry: TuyaDeviceEntry = {
       motorReverseMode: {
         dataPoint: "8",
         kind: "select",
+        category: "config",
         values: [
           { raw: "forward", value: "Forward" },
           { raw: "back", value: "Back" },
@@ -43,6 +47,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 1,
         max: 60,

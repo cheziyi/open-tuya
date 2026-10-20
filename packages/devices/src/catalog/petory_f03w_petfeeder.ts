@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["qjeljtse9t3brf9l"],
+  products: [
+    { productKey: "qjeljtse9t3brf9l", manufacturer: "Petory", model: "F03W" },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "2": { type: "boolean", optional: true },
@@ -23,11 +25,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      mealPlan: { dataPoint: "1", kind: "text" },
+      mealPlan: { dataPoint: "1", kind: "text", category: "config" },
       quickFeed: { dataPoint: "2", kind: "button" },
       manualFeedInPortions: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "portions",
         min: 1,
         max: 50,
@@ -46,14 +49,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "14", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "14",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "14",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -67,6 +77,7 @@ const entry: TuyaDeviceEntry = {
       lastFeedInPortions: {
         dataPoint: "15",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "portions",
       },
@@ -74,13 +85,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 10,
       },
-      feedingReminder: { dataPoint: "101", kind: "switch" },
-      doNotDisturb: { dataPoint: "102", kind: "switch" },
-      childLock: { dataPoint: "103", kind: "switch" },
+      feedingReminder: { dataPoint: "101", kind: "switch", category: "config" },
+      doNotDisturb: { dataPoint: "102", kind: "switch", category: "config" },
+      childLock: { dataPoint: "103", kind: "switch", category: "config" },
       batteryInPercent: {
         dataPoint: "104",
         kind: "sensor",
@@ -101,9 +113,9 @@ const entry: TuyaDeviceEntry = {
           { raw: "10", value: 100 },
         ],
       },
-      restart: { dataPoint: "105", kind: "button" },
+      restart: { dataPoint: "105", kind: "button", category: "config" },
     },
-    indicator: { on: { dataPoint: "19", kind: "switch" } },
+    indicator: { on: { dataPoint: "19", kind: "switch", category: "config" } },
   },
   source: {
     file: "petory_f03w_petfeeder.yaml",

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water heater",
-  productKeys: ["sbno8dlqbq1kjlku"],
+  products: [
+    {
+      productKey: "sbno8dlqbq1kjlku",
+      manufacturer: "Modena",
+      model: "ES-15-SKY",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "10": { type: "integer" },
@@ -59,6 +65,7 @@ const entry: TuyaDeviceEntry = {
       energyInKwh: {
         dataPoint: "10",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "kWh",
       },
@@ -66,6 +73,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 30,
         max: 75,
@@ -74,6 +82,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 30,
         max: 75,
@@ -82,6 +91,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 30,
         max: 75,
@@ -90,6 +100,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 30,
         max: 75,
@@ -98,15 +109,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "107", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "107",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       volumeInL: {
         dataPoint: "109",
         kind: "number",
         measures: "volume",
+        category: "config",
         unit: "L",
         min: 0,
         max: 10,
@@ -115,6 +133,7 @@ const entry: TuyaDeviceEntry = {
       schedule1HourInHours: {
         dataPoint: "111",
         kind: "number",
+        category: "config",
         unit: "h",
         min: 0,
         max: 23,
@@ -122,6 +141,7 @@ const entry: TuyaDeviceEntry = {
       schedule1MinuteInHours: {
         dataPoint: "110",
         kind: "number",
+        category: "config",
         unit: "h",
         min: 0,
         max: 59,
@@ -129,6 +149,7 @@ const entry: TuyaDeviceEntry = {
       schedule2HourInHours: {
         dataPoint: "112",
         kind: "number",
+        category: "config",
         unit: "h",
         min: 0,
         max: 23,
@@ -136,6 +157,7 @@ const entry: TuyaDeviceEntry = {
       schedule2MinuteInHours: {
         dataPoint: "113",
         kind: "number",
+        category: "config",
         unit: "h",
         min: 0,
         max: 59,
@@ -144,15 +166,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "114",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
       },
-      morning: { dataPoint: "118", kind: "switch" },
-      afternoon: { dataPoint: "118", kind: "switch" },
+      morning: { dataPoint: "118", kind: "switch", category: "config" },
+      afternoon: { dataPoint: "118", kind: "switch", category: "config" },
     },
     device: {
       mode: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "Mode 0" },
           { raw: 1, value: "Mode 1" },

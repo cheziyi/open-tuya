@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["dfgsetrdnabqeimr"],
+  products: [
+    {
+      productKey: "dfgsetrdnabqeimr",
+      manufacturer: "Arlec",
+      model: "APR005HA",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -32,12 +38,13 @@ const entry: TuyaDeviceEntry = {
       speed: { dataPoint: "4", kind: "number", min: 1, max: 3 },
     },
     device: {
-      ionizer: { dataPoint: "6", kind: "switch" },
-      uvSterilization: { dataPoint: "9", kind: "switch" },
-      childLock: { dataPoint: "7", kind: "switch" },
+      ionizer: { dataPoint: "6", kind: "switch", category: "config" },
+      uvSterilization: { dataPoint: "9", kind: "switch", category: "config" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       timer: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -58,6 +65,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
@@ -65,6 +73,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "17",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
       },

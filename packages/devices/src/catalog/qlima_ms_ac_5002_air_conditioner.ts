@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["ryylocvd0dyrdekd"],
+  products: [
+    {
+      productKey: "ryylocvd0dyrdekd",
+      manufacturer: "Qlima",
+      model: "MS-AC 5002",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer", optional: true },
@@ -89,11 +95,17 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: false,
       },
-      defrost: { dataPoint: "102", kind: "sensor", readOnly: true },
+      defrost: {
+        dataPoint: "102",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timerInHours: {
         dataPoint: "103",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 24,
@@ -102,6 +114,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -109,6 +123,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           {
@@ -125,8 +140,18 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "106", kind: "sensor", readOnly: true },
-      faultCode2: { dataPoint: "111", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "106",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultCode2: {
+        dataPoint: "111",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

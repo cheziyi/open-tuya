@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan light",
-  productKeys: ["ufrvcfjnmhnqebge"],
+  products: [
+    { productKey: "ufrvcfjnmhnqebge", manufacturer: "Varin", model: "VA-E003" },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "22": { type: "integer", optional: true },

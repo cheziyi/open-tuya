@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["keycnvksyhjcrg8t"],
+  products: [
+    {
+      productKey: "keycnvksyhjcrg8t",
+      manufacturer: "Haier",
+      model: "Airmart wall AC",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },

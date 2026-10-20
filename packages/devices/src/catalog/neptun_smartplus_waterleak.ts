@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water leak detector",
-  productKeys: ["fbewfxzogbzphuy3"],
+  products: [
+    { productKey: "fbewfxzogbzphuy3", manufacturer: "Neptun", model: "Smart+" },
+  ],
   dataPoints: {
     "1": { type: "boolean", optional: true },
     "3": { type: "string", optional: true },
@@ -45,6 +47,7 @@ const entry: TuyaDeviceEntry = {
       volume: {
         dataPoint: "8",
         kind: "select",
+        category: "config",
         values: [
           { raw: "mute", value: 0 },
           { raw: "low", value: 0.33 },
@@ -52,24 +55,47 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: 1 },
         ],
       },
-      duration: { dataPoint: "141", kind: "number", min: 0, max: 255 },
-      childLock: { dataPoint: "108", kind: "switch" },
+      duration: {
+        dataPoint: "141",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 255,
+      },
+      childLock: { dataPoint: "108", kind: "switch", category: "config" },
       fault: {
         dataPoint: "119",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "119", kind: "sensor", readOnly: true },
-      faultSerialNumber: { dataPoint: "121", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "119",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultSerialNumber: {
+        dataPoint: "121",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultLineSensorErrors: {
         dataPoint: "139",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
-      faultErrorCode: { dataPoint: "140", kind: "sensor", readOnly: true },
+      faultErrorCode: {
+        dataPoint: "140",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       notification: {
         dataPoint: "120",
         kind: "event",

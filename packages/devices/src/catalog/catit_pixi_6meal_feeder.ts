@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["wmkepdif6qzirl7a"],
+  products: [
+    {
+      productKey: "wmkepdif6qzirl7a",
+      manufacturer: "Catit",
+      model: "Pixi 6-Meal",
+    },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "2": { type: "boolean", optional: true },
@@ -17,23 +23,30 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       quickFeed: { dataPoint: "2", kind: "button" },
-      mealPlan: { dataPoint: "1", kind: "text" },
-      feedReport: { dataPoint: "15", kind: "sensor", readOnly: true },
+      mealPlan: { dataPoint: "1", kind: "text", category: "config" },
+      feedReport: {
+        dataPoint: "15",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       batteryInPercent: {
         dataPoint: "11",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       voiceConfiguration: {
         dataPoint: "18",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
         ],
       },
-      factoryReset: { dataPoint: "9", kind: "button" },
+      factoryReset: { dataPoint: "9", kind: "button", category: "config" },
     },
   },
   source: {

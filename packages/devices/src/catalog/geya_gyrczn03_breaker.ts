@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Circuit breaker",
-  productKeys: ["gnb8pdd1sutdaxmc"],
+  products: [
+    {
+      productKey: "gnb8pdd1sutdaxmc",
+      manufacturer: "Geya",
+      model: "GYRC-ZN03",
+    },
+  ],
   dataPoints: {
     "16": { type: "boolean" },
     "35": { type: "string", optional: true },
@@ -31,12 +37,14 @@ const entry: TuyaDeviceEntry = {
       refresh: {
         dataPoint: "35",
         kind: "button",
+        category: "config",
         values: [{ raw: "online", value: true }],
       },
       voltagePhaseAInV: {
         dataPoint: "102",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
         readOnly: true,
         unit: "V",
         scale: 10,
@@ -45,6 +53,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
         readOnly: true,
         unit: "V",
         scale: 10,
@@ -53,6 +62,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
         readOnly: true,
         unit: "V",
         scale: 10,
@@ -61,6 +71,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "sensor",
         measures: "frequency",
+        reading: "instant",
         readOnly: true,
         unit: "Hz",
       },
@@ -68,6 +79,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "141",
         kind: "number",
         measures: "voltage",
+        category: "config",
         unit: "V",
         min: 250,
         max: 300,
@@ -76,6 +88,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "142",
         kind: "number",
         measures: "voltage",
+        category: "config",
         unit: "V",
         min: 160,
         max: 200,
@@ -84,6 +97,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "151",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 1,
         max: 10,
@@ -92,6 +106,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "152",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 1,
         max: 10,
@@ -100,6 +115,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "153",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 1,
         max: 10,
@@ -107,6 +123,7 @@ const entry: TuyaDeviceEntry = {
       breakerOvervoltageAction: {
         dataPoint: "161",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Close", value: "ignore" },
           { raw: "Alarm", value: "alarm" },
@@ -116,6 +133,7 @@ const entry: TuyaDeviceEntry = {
       breakerUndervoltageAction: {
         dataPoint: "162",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Close", value: "ignore" },
           { raw: "Alarm", value: "alarm" },
@@ -125,13 +143,14 @@ const entry: TuyaDeviceEntry = {
       breakerPhaseLossAction: {
         dataPoint: "163",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Close", value: "ignore" },
           { raw: "Alarm", value: "alarm" },
           { raw: "Trip", value: "trip_breaker" },
         ],
       },
-      autoReset: { dataPoint: "165", kind: "switch" },
+      autoReset: { dataPoint: "165", kind: "switch", category: "config" },
       status: {
         dataPoint: "191",
         kind: "sensor",
@@ -152,7 +171,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "Normal", value: "normal" },
         ],
       },
-      factoryReset: { dataPoint: "192", kind: "button" },
+      factoryReset: { dataPoint: "192", kind: "button", category: "config" },
     },
   },
   source: {

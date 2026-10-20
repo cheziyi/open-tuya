@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["atfenlerda169ygw"],
+  products: [{ productKey: "atfenlerda169ygw", manufacturer: "Homlit" }],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string", optional: true },
@@ -48,19 +48,21 @@ const entry: TuyaDeviceEntry = {
         max: 1000,
         targetRange: { min: 2700, max: 6500 },
       },
-      lightControl: { dataPoint: "28", kind: "text" },
-      doNotDisturb: { dataPoint: "34", kind: "switch" },
+      lightControl: { dataPoint: "28", kind: "text", category: "config" },
+      doNotDisturb: { dataPoint: "34", kind: "switch", category: "config" },
       fanTimerInMinutes: {
         dataPoint: "64",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 540,
       },
-      sound: { dataPoint: "66", kind: "switch" },
+      sound: { dataPoint: "66", kind: "switch", category: "config" },
       colorTemperaturePreset: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "daylight", value: "daylight" },
           { raw: "neutral", value: "neutral" },
@@ -70,6 +72,7 @@ const entry: TuyaDeviceEntry = {
       musicMode: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "mode_1", value: "Mode 1" },
@@ -82,6 +85,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "mode_1", value: "Mode 1" },
@@ -111,11 +115,12 @@ const entry: TuyaDeviceEntry = {
       direction: { dataPoint: "63", kind: "text" },
     },
     rgb: {
-      on: { dataPoint: "104", kind: "switch" },
+      on: { dataPoint: "104", kind: "switch", category: "config" },
       hue: {
         dataPoint: "24",
         mask: "FFFF00000000",
         kind: "number",
+        category: "config",
         min: 0,
         max: 360,
       },
@@ -123,6 +128,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         mask: "0000FFFF0000",
         kind: "number",
+        category: "config",
         min: 0,
         max: 1000,
       },
@@ -130,6 +136,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         mask: "00000000FFFF",
         kind: "number",
+        category: "config",
         min: 0,
         max: 1000,
       },

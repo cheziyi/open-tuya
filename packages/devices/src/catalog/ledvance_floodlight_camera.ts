@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Floodlight camera",
-  productKeys: ["w8uuhywphjjcwosc"],
+  products: [
+    {
+      productKey: "w8uuhywphjjcwosc",
+      manufacturer: "LEDVANCE",
+      model: "SMART+ Floodlight Camera",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean", optional: true },
     "103": { type: "boolean" },
@@ -29,23 +35,31 @@ const entry: TuyaDeviceEntry = {
       brightness: { dataPoint: "158", kind: "number", min: 1, max: 100 },
     },
     device: {
-      siren: { dataPoint: "159", kind: "switch", whenAbsent: { value: false } },
+      siren: {
+        dataPoint: "159",
+        kind: "switch",
+        category: "config",
+        whenAbsent: { value: false },
+      },
       siren2: {
         dataPoint: "120",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
-      cameraPrivacy: { dataPoint: "105", kind: "switch" },
-      motionDetection: { dataPoint: "134", kind: "switch" },
-      flipImage: { dataPoint: "103", kind: "switch" },
+      cameraPrivacy: { dataPoint: "105", kind: "switch", category: "config" },
+      motionDetection: { dataPoint: "134", kind: "switch", category: "config" },
+      flipImage: { dataPoint: "103", kind: "switch", category: "config" },
       watermark: {
         dataPoint: "104",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -56,11 +70,17 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "missing" },
       },
-      sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
-      sdFormat: { dataPoint: "111", kind: "button" },
+      sdStatusCapacity: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      sdFormat: { dataPoint: "111", kind: "button", category: "config" },
       sdFormatStatus: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "Formatted" },
           { raw: 100, value: "Formatted" },
@@ -70,17 +90,18 @@ const entry: TuyaDeviceEntry = {
           { raw: 2003, value: "Card error" },
         ],
       },
-      recording: { dataPoint: "150", kind: "switch" },
+      recording: { dataPoint: "150", kind: "switch", category: "config" },
       recordingMode: {
         dataPoint: "151",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
         ],
       },
     },
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "ledvance_floodlight_camera.yaml",

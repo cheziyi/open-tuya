@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["9l3riftrq9acjunt"],
+  products: [
+    {
+      productKey: "9l3riftrq9acjunt",
+      manufacturer: "Kogan",
+      model: "Premium glass panel heater",
+      modelId: "KASMGPH15YA",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -69,6 +76,7 @@ const entry: TuyaDeviceEntry = {
       timeRemainingInMinutes: {
         dataPoint: "20",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "min",
       },

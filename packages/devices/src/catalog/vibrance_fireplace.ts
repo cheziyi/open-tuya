@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fireplace",
-  productKeys: ["nabdubjo2qqnrxs6"],
+  products: [
+    {
+      productKey: "nabdubjo2qqnrxs6",
+      manufacturer: "Modern Ember",
+      model: "Vibrance",
+      modelId: "XH-BG-15W/30WZKWIFI-10",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -108,6 +115,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "30m", value: "30m" },

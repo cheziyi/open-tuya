@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["psetc59fvtm5gexl"],
+  products: [
+    {
+      productKey: "psetc59fvtm5gexl",
+      manufacturer: "ETOP / Jaga",
+      model: "FCU / JRT-100TW",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -72,6 +78,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -80,12 +87,13 @@ const entry: TuyaDeviceEntry = {
       programmingMode: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Disable", value: "Manual" },
           { raw: "Enable", value: "Automatic" },
         ],
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
     },
   },
   source: {

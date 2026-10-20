@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water dispenser",
-  productKeys: ["szx3eawxigxumxi5"],
+  products: [
+    {
+      productKey: "szx3eawxigxumxi5",
+      manufacturer: "Casdon",
+      model: "KG1",
+      modelId: "Y-GX1200-KG1",
+    },
+  ],
   dataPoints: {
     "4": { type: "integer" },
     "5": { type: "string" },
@@ -47,8 +54,8 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       childLock: { dataPoint: "9", kind: "switch" },
-      autoClean: { dataPoint: "11", kind: "switch" },
-      autoLight: { dataPoint: "103", kind: "switch" },
+      autoClean: { dataPoint: "11", kind: "switch", category: "config" },
+      autoLight: { dataPoint: "103", kind: "switch", category: "config" },
       volumeSettingInMl: {
         dataPoint: "101",
         kind: "number",
@@ -62,6 +69,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "26",
         kind: "sensor",
         measures: "volume",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "mL",
       },
@@ -69,11 +78,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "6", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "6",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     coldWater: {
       hvacMode: {

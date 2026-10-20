@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan with light",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -44,6 +44,7 @@ const entry: TuyaDeviceEntry = {
       fixedColorTemperature: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "night", value: "Night" },
           { raw: "warm", value: "Warm white" },
@@ -55,12 +56,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -81,12 +84,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "24", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "24",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     light: {
       on: { dataPoint: "15", kind: "switch" },

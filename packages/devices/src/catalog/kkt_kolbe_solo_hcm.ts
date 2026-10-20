@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Kitchen Hood",
-  productKeys: ["bgvbvjwomgbisd8x"],
+  products: [
+    {
+      productKey: "bgvbvjwomgbisd8x",
+      manufacturer: "KKT Kolbe",
+      model: "SOLO HCM",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "boolean" },

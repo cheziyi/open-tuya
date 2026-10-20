@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fireplace",
-  productKeys: ["e58vczrz6qmqvvdu"],
+  products: [
+    {
+      productKey: "e58vczrz6qmqvvdu",
+      manufacturer: "Livn",
+      model: "Arosa",
+      modelId: "EF61D",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -115,10 +122,11 @@ const entry: TuyaDeviceEntry = {
       model: { dataPoint: "114", kind: "text" },
     },
     device: {
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       temperatureUnit: {
         dataPoint: "13",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -128,6 +136,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -135,35 +144,50 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "23", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "23",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       on: { dataPoint: "101", kind: "switch" },
-      presetFlame: { dataPoint: "102", kind: "number", min: 1, max: 9 },
+      presetFlame: {
+        dataPoint: "102",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 9,
+      },
       presetSave: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "7", value: "7" },
           { raw: "8", value: "8" },
           { raw: "9", value: "9" },
         ],
       },
-      configureFlame: { dataPoint: "104", kind: "text" },
+      configureFlame: { dataPoint: "104", kind: "text", category: "config" },
       timerInMinutes: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,
       },
-      flameSchedule: { dataPoint: "106", kind: "text" },
-      heatingSchedule: { dataPoint: "107", kind: "text" },
+      flameSchedule: { dataPoint: "106", kind: "text", category: "config" },
+      heatingSchedule: { dataPoint: "107", kind: "text", category: "config" },
       flameMode: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "manual", value: "manual" },
@@ -172,6 +196,7 @@ const entry: TuyaDeviceEntry = {
       backlightColor: {
         dataPoint: "111",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "0" },
           { raw: "1", value: "1" },
@@ -190,10 +215,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "14", value: "14" },
         ],
       },
-      sound: { dataPoint: "112", kind: "switch" },
+      sound: { dataPoint: "112", kind: "switch", category: "config" },
       volumeInPercent: {
         dataPoint: "115",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -201,6 +227,7 @@ const entry: TuyaDeviceEntry = {
       flameSpeed: {
         dataPoint: "116",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "0" },
           { raw: "1", value: "1" },
@@ -216,6 +243,7 @@ const entry: TuyaDeviceEntry = {
       voice: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "0" },
           { raw: "1", value: "1" },

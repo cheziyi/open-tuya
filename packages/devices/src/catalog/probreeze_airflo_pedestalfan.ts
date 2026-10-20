@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pedestal fan",
-  productKeys: ["eq55l7rjcygz1rpg"],
+  products: [
+    {
+      productKey: "eq55l7rjcygz1rpg",
+      manufacturer: "Pro Breeze",
+      model: "AirFlow 43inch",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "string" },
@@ -36,6 +42,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -53,6 +60,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -60,14 +68,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       verticalMovement: {
         dataPoint: "124",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "None" },
           { raw: "30", value: "30°" },

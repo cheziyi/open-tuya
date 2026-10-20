@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water timer",
-  productKeys: ["tqzkwarw"],
+  products: [{ productKey: "tqzkwarw", model: "HCT-611" }],
   dataPoints: {
     "1": { type: "boolean" },
     "7": { type: "integer" },
@@ -50,6 +50,7 @@ const entry: TuyaDeviceEntry = {
       weatherDelay: {
         dataPoint: "10",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "24h", value: "24h" },
@@ -61,6 +62,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "11",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -68,6 +70,7 @@ const entry: TuyaDeviceEntry = {
       smartWeather: {
         dataPoint: "13",
         kind: "select",
+        category: "config",
         values: [
           { raw: "sunny", value: "sunny" },
           { raw: "clear", value: "clear-night" },
@@ -78,7 +81,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "fog", value: "fog" },
         ],
       },
-      smartWeatherSwitch: { dataPoint: "14", kind: "switch" },
+      smartWeatherSwitch: {
+        dataPoint: "14",
+        kind: "switch",
+        category: "config",
+      },
     },
   },
   source: {

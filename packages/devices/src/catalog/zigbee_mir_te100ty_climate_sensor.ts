@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Climate sensor",
-  productKeys: ["a476raq2"],
+  products: [
+    {
+      productKey: "a476raq2",
+      manufacturer: "MultiIR",
+      model: "Zigbee TE100-TY",
+    },
+  ],
   dataPoints: {
     "101": { type: "integer" },
     "102": { type: "integer" },
@@ -17,6 +23,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
         scale: 100,
@@ -25,6 +32,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 100,
@@ -33,6 +41,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
         scale: 5,

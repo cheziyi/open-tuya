@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Temperature and humidity sensor",
-  productKeys: ["rocfghml4gy1vvr8"],
+  products: [
+    { productKey: "rocfghml4gy1vvr8", manufacturer: "HRT", model: "AS90" },
+  ],
   dataPoints: {
     "1": { type: "integer" },
     "2": { type: "integer" },
@@ -31,6 +33,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -39,6 +42,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
         scale: 10,
@@ -47,13 +51,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      charger: { dataPoint: "8", kind: "switch" },
+      charger: { dataPoint: "8", kind: "switch", category: "config" },
       temperatureUnit: {
         dataPoint: "9",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -63,6 +70,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -190,
         max: 1500,
@@ -72,6 +80,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -190,
         max: 1500,
@@ -81,6 +90,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "number",
         measures: "humidity",
+        category: "config",
         unit: "%",
         min: 0,
         max: 1000,
@@ -90,6 +100,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "number",
         measures: "humidity",
+        category: "config",
         unit: "%",
         min: 0,
         max: 1000,
@@ -98,6 +109,7 @@ const entry: TuyaDeviceEntry = {
       temperatureAlarm: {
         dataPoint: "14",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "upperalarm", value: "High temperature" },
@@ -108,6 +120,7 @@ const entry: TuyaDeviceEntry = {
       humidityAlarm: {
         dataPoint: "15",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "upperalarm", value: "High humidity" },
@@ -118,12 +131,14 @@ const entry: TuyaDeviceEntry = {
       illuminationInPercent: {
         dataPoint: "16",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
       temperatureReportIntervalInSeconds: {
         dataPoint: "17",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 1,
         max: 3600,
@@ -131,6 +146,7 @@ const entry: TuyaDeviceEntry = {
       humidityReportIntervalInSeconds: {
         dataPoint: "18",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 1,
         max: 3600,
@@ -139,6 +155,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -80,
         max: 80,
@@ -148,13 +165,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         kind: "number",
         measures: "humidity",
+        category: "config",
         unit: "%",
         min: -500,
         max: 500,
         scale: 10,
       },
     },
-    backlight: { on: { dataPoint: "21", kind: "switch" } },
+    backlight: { on: { dataPoint: "21", kind: "switch", category: "config" } },
   },
   source: {
     file: "hrt_as90_climatealarm.yaml",

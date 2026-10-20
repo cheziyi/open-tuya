@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pool monitor",
-  productKeys: ["p2mgaks6ic4ptxl1"],
+  products: [
+    {
+      productKey: "p2mgaks6ic4ptxl1",
+      manufacturer: "Ryakka",
+      model: "7-in-1 water monitor 9.0",
+    },
+  ],
   dataPoints: {
     "1": { type: "integer" },
     "2": { type: "integer" },
@@ -23,11 +29,18 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      tdsInPpm: { dataPoint: "1", kind: "sensor", readOnly: true, unit: "ppm" },
+      tdsInPpm: {
+        dataPoint: "1",
+        kind: "sensor",
+        reading: "instant",
+        readOnly: true,
+        unit: "ppm",
+      },
       temperature: {
         dataPoint: "2",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unitFrom: "temperatureUnit",
         dependsOn: {
@@ -57,6 +70,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -64,12 +79,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "sensor",
         measures: "ph",
+        reading: "instant",
         readOnly: true,
         scale: 100,
       },
       conductivityInUsPerCm: {
         dataPoint: "11",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "μS/cm",
       },
@@ -77,20 +94,24 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
         readOnly: true,
         unit: "mV",
       },
       chlorineInMgPerL: {
         dataPoint: "13",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "mg/L",
         scale: 10,
       },
-      on: { dataPoint: "101", kind: "switch" },
+      on: { dataPoint: "101", kind: "switch", category: "config" },
       salinityInPpm: {
         dataPoint: "102",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "ppm",
         scale: 100,
@@ -98,6 +119,8 @@ const entry: TuyaDeviceEntry = {
       specificGravity: {
         dataPoint: "103",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         scale: 1000,
       },
@@ -105,6 +128,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "122",
         kind: "sensor",
         measures: "volumeFlowRate",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "L/min",
         scale: 10,

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Outdoor camera",
-  productKeys: ["irt8xftriwhxbzsn"],
+  products: [
+    {
+      productKey: "irt8xftriwhxbzsn",
+      manufacturer: "Nedis",
+      model: "WIFICO11CWT",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "103": { type: "boolean", optional: true },
@@ -40,20 +46,23 @@ const entry: TuyaDeviceEntry = {
         otherwise: "detected",
       },
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
-      motionDetection: { dataPoint: "134", kind: "switch" },
+      motionDetection: { dataPoint: "134", kind: "switch", category: "config" },
       flipImage: {
         dataPoint: "103",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       watermark: {
         dataPoint: "104",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       motionSensitivity: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
@@ -63,6 +72,7 @@ const entry: TuyaDeviceEntry = {
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -72,6 +82,7 @@ const entry: TuyaDeviceEntry = {
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -82,11 +93,17 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "normal" },
       },
-      sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
-      sdFormat: { dataPoint: "111", kind: "button" },
+      sdStatusCapacity: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      sdFormat: { dataPoint: "111", kind: "button", category: "config" },
       sdFormatState: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: 2000, value: "Formatting" },
           { raw: 2001, value: "Format failed" },
@@ -98,12 +115,18 @@ const entry: TuyaDeviceEntry = {
       soundDetection: {
         dataPoint: "139",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
-      soundDetectionUpload: { dataPoint: "141", kind: "text" },
+      soundDetectionUpload: {
+        dataPoint: "141",
+        kind: "text",
+        category: "config",
+      },
       soundSensitivity: {
         dataPoint: "140",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Low" },
           { raw: "1", value: "High" },
@@ -113,6 +136,7 @@ const entry: TuyaDeviceEntry = {
       recordingMode: {
         dataPoint: "151",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
@@ -121,18 +145,28 @@ const entry: TuyaDeviceEntry = {
       motionAlarmAreaEnabled: {
         dataPoint: "168",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
-      motionAlarmArea: { dataPoint: "169", kind: "text" },
+      motionAlarmArea: { dataPoint: "169", kind: "text", category: "config" },
       onvifStream: {
         dataPoint: "255",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
-      onvifStreamIpAddress: { dataPoint: "254", kind: "text" },
-      onvifStreamPasswordChange: { dataPoint: "253", kind: "text" },
+      onvifStreamIpAddress: {
+        dataPoint: "254",
+        kind: "text",
+        category: "config",
+      },
+      onvifStreamPasswordChange: {
+        dataPoint: "253",
+        kind: "text",
+        category: "config",
+      },
     },
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "nedis_outdoor_camera.yaml",

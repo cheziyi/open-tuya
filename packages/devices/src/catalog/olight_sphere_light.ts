@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ambient light",
-  productKeys: ["d0dpga0h"],
+  products: [
+    { productKey: "d0dpga0h", manufacturer: "oLight", model: "Sphere C" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string", optional: true },
@@ -64,6 +66,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "colour_1", value: "Colorful" },
           { raw: "colour_2", value: "Aurora" },
@@ -101,6 +104,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -112,7 +116,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      sleep: { dataPoint: "104", kind: "switch" },
+      sleep: { dataPoint: "104", kind: "switch", category: "config" },
     },
   },
   source: {

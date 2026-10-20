@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Light controller",
-  productKeys: ["nzmllynz7tligqp0"],
+  products: [
+    {
+      productKey: "nzmllynz7tligqp0",
+      manufacturer: "Spa Electrics",
+      model: "RM-WF Iris",
+    },
+  ],
   dataPoints: {
     "103": { type: "string", optional: true },
     "104": { type: "string", optional: true },
@@ -120,31 +126,66 @@ const entry: TuyaDeviceEntry = {
       zone1Type: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "RGB Lighting" },
           { raw: true, value: "General power outlet" },
         ],
       },
-      zone1TypeTemporaryGpo: { dataPoint: "174", kind: "switch" },
+      zone1TypeTemporaryGpo: {
+        dataPoint: "174",
+        kind: "switch",
+        category: "config",
+      },
       zone2Type: {
         dataPoint: "118",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "RGB Lighting" },
           { raw: true, value: "General power outlet" },
         ],
       },
-      zone2TypeTemporaryGpo: { dataPoint: "175", kind: "switch" },
-      zone1EffectSpeed: { dataPoint: "114", kind: "number", min: 1, max: 3 },
-      zone2EffectSpeed: { dataPoint: "126", kind: "number", min: 1, max: 3 },
-      linkZones: { dataPoint: "116", kind: "switch" },
-      linkZonesTemporaryLinked: { dataPoint: "176", kind: "switch" },
-      linkOnMainPanel: { dataPoint: "117", kind: "switch" },
-      schedulesEnabled: { dataPoint: "130", kind: "switch" },
-      schedulesEnabledTemporaryEnable: { dataPoint: "177", kind: "switch" },
+      zone2TypeTemporaryGpo: {
+        dataPoint: "175",
+        kind: "switch",
+        category: "config",
+      },
+      zone1EffectSpeed: {
+        dataPoint: "114",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 3,
+      },
+      zone2EffectSpeed: {
+        dataPoint: "126",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 3,
+      },
+      linkZones: { dataPoint: "116", kind: "switch", category: "config" },
+      linkZonesTemporaryLinked: {
+        dataPoint: "176",
+        kind: "switch",
+        category: "config",
+      },
+      linkOnMainPanel: { dataPoint: "117", kind: "switch", category: "config" },
+      schedulesEnabled: {
+        dataPoint: "130",
+        kind: "switch",
+        category: "config",
+      },
+      schedulesEnabledTemporaryEnable: {
+        dataPoint: "177",
+        kind: "switch",
+        category: "config",
+      },
       zone1ScheduleInHours: {
         dataPoint: "132",
         kind: "number",
+        category: "config",
         unit: "h",
         min: 0,
         max: 23,
@@ -156,6 +197,7 @@ const entry: TuyaDeviceEntry = {
       zone1ScheduleInMinutes: {
         dataPoint: "134",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 59,
@@ -164,10 +206,15 @@ const entry: TuyaDeviceEntry = {
           conditions: [{ when: [true], redirect: { dataPoint: "155" } }],
         },
       },
-      zone1ScheduleColorScheduleEnabled: { dataPoint: "130", kind: "switch" },
+      zone1ScheduleColorScheduleEnabled: {
+        dataPoint: "130",
+        kind: "switch",
+        category: "config",
+      },
       zone1ScheduleColor: {
         dataPoint: "136",
         kind: "select",
+        category: "config",
         values: [
           { raw: "WHITE", value: "White" },
           { raw: "AQUA", value: "Aqua" },
@@ -185,13 +232,21 @@ const entry: TuyaDeviceEntry = {
       zone1ScheduleBrightness: {
         dataPoint: "137",
         kind: "number",
+        category: "config",
         min: 1,
         max: 3,
       },
-      zone1ScheduleSpeed: { dataPoint: "138", kind: "number", min: 1, max: 3 },
+      zone1ScheduleSpeed: {
+        dataPoint: "138",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 3,
+      },
       zone2ScheduleInHours: {
         dataPoint: "140",
         kind: "number",
+        category: "config",
         unit: "h",
         min: 0,
         max: 23,
@@ -203,6 +258,7 @@ const entry: TuyaDeviceEntry = {
       zone2ScheduleInMinutes: {
         dataPoint: "142",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 59,
@@ -214,6 +270,7 @@ const entry: TuyaDeviceEntry = {
       zone2ScheduleColor: {
         dataPoint: "144",
         kind: "select",
+        category: "config",
         values: [
           { raw: "WHITE", value: "White" },
           { raw: "AQUA", value: "Aqua" },
@@ -231,18 +288,37 @@ const entry: TuyaDeviceEntry = {
       zone2ScheduleBrightness: {
         dataPoint: "146",
         kind: "number",
+        category: "config",
         min: 1,
         max: 3,
       },
-      zone2ScheduleSpeed: { dataPoint: "148", kind: "number", min: 1, max: 3 },
-      zone1Timer: { dataPoint: "150", kind: "switch" },
-      zone2Timer: { dataPoint: "152", kind: "switch" },
+      zone2ScheduleSpeed: {
+        dataPoint: "148",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 3,
+      },
+      zone1Timer: { dataPoint: "150", kind: "switch", category: "config" },
+      zone2Timer: { dataPoint: "152", kind: "switch", category: "config" },
       sync: { dataPoint: "160", kind: "button" },
-      factoryReset: { dataPoint: "162", kind: "button" },
-      factoryResetFirmwareVersion: { dataPoint: "168", kind: "text" },
-      factoryResetStartupStatus: { dataPoint: "170", kind: "text" },
-      factoryResetServiceModeStatus: { dataPoint: "180", kind: "text" },
-      lightSetMode: { dataPoint: "164", kind: "switch" },
+      factoryReset: { dataPoint: "162", kind: "button", category: "config" },
+      factoryResetFirmwareVersion: {
+        dataPoint: "168",
+        kind: "text",
+        category: "config",
+      },
+      factoryResetStartupStatus: {
+        dataPoint: "170",
+        kind: "text",
+        category: "config",
+      },
+      factoryResetServiceModeStatus: {
+        dataPoint: "180",
+        kind: "text",
+        category: "config",
+      },
+      lightSetMode: { dataPoint: "164", kind: "switch", category: "config" },
       reset: {
         dataPoint: "166",
         kind: "event",
@@ -252,7 +328,7 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: null },
         ],
       },
-      appReset: { dataPoint: "179", kind: "button" },
+      appReset: { dataPoint: "179", kind: "button", category: "config" },
     },
   },
   source: {

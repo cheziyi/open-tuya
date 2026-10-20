@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Weather station",
-  productKeys: ["nghjvn2pcjllwska"],
+  products: [{ productKey: "nghjvn2pcjllwska", model: "WeatherStation Pro™" }],
   dataPoints: {
     "101": { type: "base64", optional: true },
     "102": { type: "boolean" },
@@ -37,6 +37,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "131",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -66,6 +67,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "132",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -73,6 +75,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "133",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -81,6 +84,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "134",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -88,6 +92,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "135",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -96,6 +101,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "136",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -103,6 +109,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "137",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -111,21 +118,24 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "138",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
       timeMode: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: "24h" },
           { raw: false, value: "12h" },
         ],
       },
-      alarm: { dataPoint: "104", kind: "switch" },
+      alarm: { dataPoint: "104", kind: "switch", category: "config" },
       alarmState: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Alarm" },
           { raw: "1", value: "Silent" },
@@ -133,27 +143,42 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "Disabled" },
         ],
       },
-      alarmSettingsPayload: { dataPoint: "109", kind: "text" },
-      alarmNotificationsPayload: { dataPoint: "117", kind: "number" },
+      alarmSettingsPayload: {
+        dataPoint: "109",
+        kind: "text",
+        category: "config",
+      },
+      alarmNotificationsPayload: {
+        dataPoint: "117",
+        kind: "number",
+        category: "config",
+      },
       temperatureUnit: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
         ],
       },
-      networkTime: { dataPoint: "111", kind: "switch" },
-      networkTimePayload: { dataPoint: "101", kind: "text" },
+      networkTime: { dataPoint: "111", kind: "switch", category: "config" },
+      networkTimePayload: {
+        dataPoint: "101",
+        kind: "text",
+        category: "config",
+      },
       networkTimeYear: {
         dataPoint: "101",
         mask: "FF000000000000",
         kind: "number",
+        category: "config",
       },
       networkTimeMonth: {
         dataPoint: "101",
         mask: "00FF0000000000",
         kind: "select",
+        category: "config",
         values: [
           { raw: 1, value: "January" },
           { raw: 2, value: "February" },
@@ -173,26 +198,31 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         mask: "0000FF00000000",
         kind: "number",
+        category: "config",
       },
       networkTimeHour: {
         dataPoint: "101",
         mask: "000000FF000000",
         kind: "number",
+        category: "config",
       },
       networkTimeMinute: {
         dataPoint: "101",
         mask: "00000000FF0000",
         kind: "number",
+        category: "config",
       },
       networkTimeSecond: {
         dataPoint: "101",
         mask: "0000000000FF00",
         kind: "number",
+        category: "config",
       },
       networkTimeWeekday: {
         dataPoint: "101",
         mask: "000000000000FF",
         kind: "select",
+        category: "config",
         values: [
           { raw: 1, value: "Monday" },
           { raw: 2, value: "Tuesday" },
@@ -203,32 +233,41 @@ const entry: TuyaDeviceEntry = {
           { raw: 7, value: "Sunday" },
         ],
       },
-      lcdNightMode: { dataPoint: "129", kind: "switch" },
-      lcdNightModePayload: { dataPoint: "130", kind: "text" },
+      lcdNightMode: { dataPoint: "129", kind: "switch", category: "config" },
+      lcdNightModePayload: {
+        dataPoint: "130",
+        kind: "text",
+        category: "config",
+      },
       lcdNightModeStartHour: {
         dataPoint: "130",
         mask: "FF000000",
         kind: "number",
+        category: "config",
       },
       lcdNightModeStartMinute: {
         dataPoint: "130",
         mask: "00FF0000",
         kind: "number",
+        category: "config",
       },
       lcdNightModeEndHour: {
         dataPoint: "130",
         mask: "0000FF00",
         kind: "number",
+        category: "config",
       },
       lcdNightModeEndMinute: {
         dataPoint: "130",
         mask: "000000FF",
         kind: "number",
+        category: "config",
       },
       displaySettings: {
         dataPoint: "108",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         whenAbsent: { value: true },
         otherwise: false,
@@ -236,12 +275,14 @@ const entry: TuyaDeviceEntry = {
       displaySettingsPayload: {
         dataPoint: "108",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       displaySettingsUvIndex: {
         dataPoint: "108",
         mask: "FF00000000000000000000",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: true },
@@ -252,6 +293,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         mask: "00FF000000000000000000",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: true },
@@ -262,6 +304,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         mask: "0000FF0000000000000000",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: true },
@@ -272,6 +315,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         mask: "000000FF00000000000000",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: true },
@@ -282,6 +326,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         mask: "00000000FF000000000000",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: true },
@@ -292,6 +337,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         mask: "0000000000FF0000000000",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: true },
@@ -302,6 +348,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         mask: "000000000000FF00000000",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: true },
@@ -312,6 +359,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         mask: "00000000000000FF000000",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: true },
@@ -322,6 +370,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         mask: "0000000000000000FF0000",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: true },
@@ -332,6 +381,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         mask: "000000000000000000FF00",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: true },
@@ -342,6 +392,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         mask: "00000000000000000000FF",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: true },
@@ -352,6 +403,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         mask: "FF000000000000",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "Offline" },
@@ -362,6 +414,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         mask: "00FF0000000000",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "Offline" },
@@ -374,6 +427,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         mask: "0000FF00000000",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "Offline" },
@@ -386,6 +440,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         mask: "000000FF000000",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "Offline" },
@@ -398,6 +453,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         mask: "00000000FF0000",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "Low" },
@@ -409,6 +465,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         mask: "0000000000FF00",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "Low" },
@@ -420,6 +477,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         mask: "000000000000FF",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "Low" },
@@ -431,6 +489,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -441,12 +500,18 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: true,
       },
-      faultCode: { dataPoint: "113", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "113",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     display: {
       brightness: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: 0 },
           { raw: 1, value: 85 },

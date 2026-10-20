@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Temperature and humidity sensor",
-  productKeys: ["04nb6kdt"],
+  products: [{ productKey: "04nb6kdt", model: "PT216 / PT19DB-2" }],
   dataPoints: {
     "1": { type: "integer" },
     "2": { type: "integer" },
@@ -20,6 +20,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -28,6 +29,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -35,12 +37,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       reportIntervalInSeconds: {
         dataPoint: "17",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 5,
         max: 60,
@@ -48,6 +53,7 @@ const entry: TuyaDeviceEntry = {
       temperatureSensitivityInC: {
         dataPoint: "19",
         kind: "number",
+        category: "config",
         unit: "C",
         min: 1,
         max: 10,
@@ -56,6 +62,7 @@ const entry: TuyaDeviceEntry = {
       humiditySensitivityInPercent: {
         dataPoint: "20",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 3,
         max: 10,

@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Sprinkler controller",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "102": { type: "integer" },
     "103": { type: "integer" },
@@ -19,6 +19,7 @@ const entry: TuyaDeviceEntry = {
       openInPercent: {
         dataPoint: "103",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -26,12 +27,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
       timerInSeconds: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -40,11 +43,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "108", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "108",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

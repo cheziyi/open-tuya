@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Panel heater",
-  productKeys: ["gshakqhah24xdssy"],
+  products: [
+    {
+      productKey: "gshakqhah24xdssy",
+      manufacturer: "ETA",
+      model: "2625 Sole Smart",
+      modelId: "ETA-YBX04-EW",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -66,11 +73,12 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      nightMode: { dataPoint: "103", kind: "switch" },
-      childLock: { dataPoint: "7", kind: "switch" },
+      nightMode: { dataPoint: "103", kind: "switch", category: "config" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -103,22 +111,30 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      schedule: { dataPoint: "26", kind: "text" },
+      schedule: { dataPoint: "26", kind: "text", category: "config" },
       fault: {
         dataPoint: "21",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "21", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "21",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "21",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },

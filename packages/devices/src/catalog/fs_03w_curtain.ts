@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain module",
-  productKeys: ["5rr5k8fzjcogubkt"],
+  products: [{ productKey: "5rr5k8fzjcogubkt", model: "FS-03W" }],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -36,6 +36,7 @@ const entry: TuyaDeviceEntry = {
       motorDirection: {
         dataPoint: "8",
         kind: "select",
+        category: "config",
         values: [
           { raw: "forward", value: "Forward" },
           { raw: "back", value: "Back" },
@@ -45,6 +46,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 1,
         max: 60,
@@ -52,6 +54,7 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
@@ -59,7 +62,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    backlight: { on: { dataPoint: "7", kind: "switch" } },
+    backlight: { on: { dataPoint: "7", kind: "switch", category: "config" } },
   },
   source: {
     file: "fs_03w_curtain.yaml",

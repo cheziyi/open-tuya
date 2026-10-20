@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["wcpmk08nnnynbhy7", "qhpaegcadawabwct"],
+  products: [
+    {
+      productKey: "wcpmk08nnnynbhy7",
+      manufacturer: "Lehmann",
+      model: "LHOHC-2013C",
+    },
+    {
+      productKey: "qhpaegcadawabwct",
+      manufacturer: "Jocel",
+      model: "JCT007452",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -73,6 +84,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -105,6 +117,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -112,12 +125,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

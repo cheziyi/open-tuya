@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Roller shade",
-  productKeys: ["8nuvcigdwbth6dj7"],
+  products: [
+    {
+      productKey: "8nuvcigdwbth6dj7",
+      manufacturer: "Zemismart",
+      model: "ZM25R2",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer", optional: true },
@@ -80,6 +86,7 @@ const entry: TuyaDeviceEntry = {
       curtainMode: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "morning", value: "morning" },
           { raw: "night", value: "night" },
@@ -89,27 +96,35 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       travelTimeInMs: {
         dataPoint: "10",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "ms",
       },
       clickControl: {
         dataPoint: "20",
         kind: "select",
+        category: "config",
         values: [
           { raw: "continuous", value: "Continuous" },
           { raw: "Intermittently", value: "Intermittent" },
         ],
       },
-      remotePairing: { dataPoint: "101", kind: "button" },
+      remotePairing: { dataPoint: "101", kind: "button", category: "config" },
     },
   },
   source: {

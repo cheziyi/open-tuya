@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["yttlroi7nr18vqbo"],
+  products: [{ productKey: "yttlroi7nr18vqbo", manufacturer: "Vacplus" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -50,6 +50,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "°F",
       },
@@ -57,6 +58,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -64,10 +66,16 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "101", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "101",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       tankFull: {
         dataPoint: "101",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -75,6 +83,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "8",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },

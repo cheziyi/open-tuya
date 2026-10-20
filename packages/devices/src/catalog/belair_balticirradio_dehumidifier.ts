@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["5i6ty2ejpu7lmme"],
+  products: [
+    {
+      productKey: "5i6ty2ejpu7lmme",
+      manufacturer: "Belair",
+      model: "Baltic Irradio 20L",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -60,12 +66,13 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       oscillating: { dataPoint: "102", kind: "switch" },
-      childLock: { dataPoint: "16", kind: "switch" },
-      sleep: { dataPoint: "104", kind: "switch" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
+      sleep: { dataPoint: "104", kind: "switch", category: "config" },
       temperatureInC: {
         dataPoint: "103",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -73,11 +80,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     indicator: { on: { dataPoint: "101", kind: "switch" } },
   },

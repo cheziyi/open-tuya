@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan",
-  productKeys: ["rxhpjq5pk6kha69e"],
+  products: [
+    {
+      productKey: "rxhpjq5pk6kha69e",
+      manufacturer: "EcoNour",
+      model: "42inch Tower Fan",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -32,12 +38,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0h", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -58,7 +66,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    display: { on: { dataPoint: "15", kind: "switch" } },
+    display: { on: { dataPoint: "15", kind: "switch", category: "config" } },
   },
   source: {
     file: "econour_towerfan.yaml",

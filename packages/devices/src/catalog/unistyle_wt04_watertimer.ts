@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water timer",
-  productKeys: ["ojrvmfkk"],
+  products: [
+    { productKey: "ojrvmfkk", manufacturer: "Unistyle", model: "WT-04W" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "10": { type: "string" },
@@ -43,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       weatherDelay: {
         dataPoint: "10",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1day", value: "1d" },
@@ -57,6 +60,7 @@ const entry: TuyaDeviceEntry = {
       timer1InSeconds: {
         dataPoint: "11",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -64,6 +68,7 @@ const entry: TuyaDeviceEntry = {
       valve1Status: {
         dataPoint: "12",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "auto", value: "auto" },
@@ -76,16 +81,19 @@ const entry: TuyaDeviceEntry = {
       weather: {
         dataPoint: "13",
         kind: "select",
+        category: "config",
         values: [
           { raw: "sunny", value: "Sunny" },
           { raw: "rainy", value: "Rainy" },
         ],
       },
-      useWeather: { dataPoint: "14", kind: "switch" },
+      useWeather: { dataPoint: "14", kind: "switch", category: "config" },
       batteryInPercent: {
         dataPoint: "101",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -93,24 +101,35 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
-      valve1Schedule1: { dataPoint: "104", kind: "text" },
-      valve1Schedule2: { dataPoint: "105", kind: "text" },
-      valve1Schedule3: { dataPoint: "106", kind: "text" },
-      valve1Schedule4: { dataPoint: "107", kind: "text" },
-      valve1CyclicSchedule: { dataPoint: "108", kind: "text" },
-      valve1Schedule5: { dataPoint: "109", kind: "text" },
-      valve2CyclicSchedule: { dataPoint: "110", kind: "text" },
-      valve2Schedule1: { dataPoint: "113", kind: "text" },
-      valve2Schedule2: { dataPoint: "114", kind: "text" },
-      valve2Schedule3: { dataPoint: "115", kind: "text" },
-      valve2Schedule4: { dataPoint: "116", kind: "text" },
-      valve2Schedule5: { dataPoint: "117", kind: "text" },
+      valve1Schedule1: { dataPoint: "104", kind: "text", category: "config" },
+      valve1Schedule2: { dataPoint: "105", kind: "text", category: "config" },
+      valve1Schedule3: { dataPoint: "106", kind: "text", category: "config" },
+      valve1Schedule4: { dataPoint: "107", kind: "text", category: "config" },
+      valve1CyclicSchedule: {
+        dataPoint: "108",
+        kind: "text",
+        category: "config",
+      },
+      valve1Schedule5: { dataPoint: "109", kind: "text", category: "config" },
+      valve2CyclicSchedule: {
+        dataPoint: "110",
+        kind: "text",
+        category: "config",
+      },
+      valve2Schedule1: { dataPoint: "113", kind: "text", category: "config" },
+      valve2Schedule2: { dataPoint: "114", kind: "text", category: "config" },
+      valve2Schedule3: { dataPoint: "115", kind: "text", category: "config" },
+      valve2Schedule4: { dataPoint: "116", kind: "text", category: "config" },
+      valve2Schedule5: { dataPoint: "117", kind: "text", category: "config" },
       timer2InSeconds: {
         dataPoint: "122",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -118,6 +137,7 @@ const entry: TuyaDeviceEntry = {
       valve2Status: {
         dataPoint: "123",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "auto", value: "auto" },
@@ -131,6 +151,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "124",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },

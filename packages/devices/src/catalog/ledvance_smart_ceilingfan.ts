@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["h2xswd4oyce7bikh"],
+  products: [
+    {
+      productKey: "h2xswd4oyce7bikh",
+      manufacturer: "Ledvance",
+      model: "Ceiling fan with light",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -21,10 +27,11 @@ const entry: TuyaDeviceEntry = {
     fan: {
       on: { dataPoint: "51", kind: "switch" },
       speed: { dataPoint: "53", kind: "number", min: 1, max: 3 },
-      scene: { dataPoint: "25", kind: "text" },
+      scene: { dataPoint: "25", kind: "text", category: "config" },
       lightTimerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -32,6 +39,7 @@ const entry: TuyaDeviceEntry = {
       fanTimerInSeconds: {
         dataPoint: "55",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,

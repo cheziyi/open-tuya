@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Tower heater",
-  productKeys: ["jyota3jcxuelyf9t"],
+  products: [
+    {
+      productKey: "jyota3jcxuelyf9t",
+      manufacturer: "Kogan",
+      model: "KASTHFP2KWA",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -72,11 +78,13 @@ const entry: TuyaDeviceEntry = {
       flameEffect: {
         dataPoint: "10",
         kind: "switch",
+        category: "config",
         values: [{ raw: true }, { raw: false }],
       },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -97,11 +105,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "21", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "21",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

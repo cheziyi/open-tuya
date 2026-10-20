@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Three outlet powerstrip",
-  productKeys: ["haay5f2zrjedat8z"],
+  products: [
+    { productKey: "haay5f2zrjedat8z", manufacturer: "LSC Smart Connect" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -42,15 +44,21 @@ const entry: TuyaDeviceEntry = {
       timer1InSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
       },
-      timer1Schedule: { dataPoint: "42", kind: "text" },
-      timer1RandomSchedule: { dataPoint: "43", kind: "text" },
+      timer1Schedule: { dataPoint: "42", kind: "text", category: "config" },
+      timer1RandomSchedule: {
+        dataPoint: "43",
+        kind: "text",
+        category: "config",
+      },
       timer2InSeconds: {
         dataPoint: "10",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -58,6 +66,7 @@ const entry: TuyaDeviceEntry = {
       timer3InSeconds: {
         dataPoint: "11",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -66,41 +75,69 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "mA",
       },
-      currentCalibration: { dataPoint: "23", kind: "sensor", readOnly: true },
+      currentCalibration: {
+        dataPoint: "23",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       powerInW: {
         dataPoint: "19",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "W",
         scale: 10,
       },
-      powerCalibration: { dataPoint: "24", kind: "sensor", readOnly: true },
+      powerCalibration: {
+        dataPoint: "24",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       voltageInV: {
         dataPoint: "20",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 10,
       },
-      voltageCalibration: { dataPoint: "22", kind: "sensor", readOnly: true },
+      voltageCalibration: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       fault: {
         dataPoint: "26",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "26", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "26",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       initialState: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           { raw: "on", value: "on" },
           { raw: "off", value: "off" },
@@ -111,6 +148,7 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "40",
         kind: "select",
+        category: "config",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
@@ -118,7 +156,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "on", value: "on" },
         ],
       },
-      childLock: { dataPoint: "41", kind: "switch", whenAbsent: {} },
+      childLock: {
+        dataPoint: "41",
+        kind: "switch",
+        category: "config",
+        whenAbsent: {},
+      },
     },
   },
   source: {

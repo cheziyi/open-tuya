@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["knpje5j2wsqlkhna", "hdvemiqnknebgflm"],
+  products: [
+    { productKey: "knpje5j2wsqlkhna", manufacturer: "LSC Smart Connect" },
+    { productKey: "hdvemiqnknebgflm", manufacturer: "Tesla Smart" },
+  ],
   dataPoints: {
     "103": { type: "boolean" },
     "106": { type: "string", optional: true },
@@ -36,15 +39,17 @@ const entry: TuyaDeviceEntry = {
         otherwise: "detected",
       },
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
-      motionDetection: { dataPoint: "134", kind: "switch" },
+      motionDetection: { dataPoint: "134", kind: "switch", category: "config" },
       flipImage: {
         dataPoint: "103",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       motionSensitivity: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
@@ -54,6 +59,7 @@ const entry: TuyaDeviceEntry = {
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -63,6 +69,7 @@ const entry: TuyaDeviceEntry = {
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -76,12 +83,14 @@ const entry: TuyaDeviceEntry = {
       sdStatusMemoryCardCapacity: {
         dataPoint: "109",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
-      formatSdCard: { dataPoint: "111", kind: "button" },
+      formatSdCard: { dataPoint: "111", kind: "button", category: "config" },
       formatSdCardSdFormatStatus: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: 2000, value: "Formatting" },
           { raw: 2001, value: "Format error" },
@@ -92,6 +101,7 @@ const entry: TuyaDeviceEntry = {
       recordingMode: {
         dataPoint: "151",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
@@ -110,6 +120,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "232",
         kind: "number",
         measures: "weight",
+        category: "config",
         unit: "g",
         min: 1,
         max: 100,
@@ -127,14 +138,16 @@ const entry: TuyaDeviceEntry = {
       voiceRecord: {
         dataPoint: "235",
         kind: "button",
+        category: "config",
         values: [{ raw: "1", value: true }],
       },
       stopVoiceRecord: {
         dataPoint: "235",
         kind: "button",
+        category: "config",
         values: [{ raw: "0", value: true }],
       },
-      mealPlan: { dataPoint: "236", kind: "text" },
+      mealPlan: { dataPoint: "236", kind: "text", category: "config" },
     },
   },
   source: {

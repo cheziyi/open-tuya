@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Oven",
-  productKeys: ["wab6oustdukujpkn"],
+  products: [
+    {
+      productKey: "wab6oustdukujpkn",
+      manufacturer: "Casdon",
+      model: "TD Pro 2",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -107,6 +113,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
         readOnly: true,
         unit: "min",
         min: 0,
@@ -116,14 +123,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      problemFaultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      problemFaultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       problemDescription: {
         dataPoint: "13",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -154,6 +168,7 @@ const entry: TuyaDeviceEntry = {
       ovenBuiltInRecipe: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "none" },
           { raw: "1", value: "steamed_egg_with_okra" },

@@ -5,7 +5,15 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Smartplug with USB",
-  productKeys: ["zmql6aexy8ua5rox", "re5wqraswcozglky", "uofbqh4uyqkiac1l"],
+  products: [
+    { productKey: "zmql6aexy8ua5rox", manufacturer: "Gosund", model: "SP112" },
+    { productKey: "re5wqraswcozglky", manufacturer: "Gosund", model: "SP6" },
+    {
+      productKey: "uofbqh4uyqkiac1l",
+      manufacturer: "Green Power",
+      model: "GP-SP1U",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "7": { type: "boolean" },
@@ -36,32 +44,55 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 10,
       },
-      voltageCalibration: { dataPoint: "22", kind: "sensor", readOnly: true },
+      voltageCalibration: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       currentInMilliamps: {
         dataPoint: "18",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "mA",
       },
-      currentCalibration: { dataPoint: "23", kind: "sensor", readOnly: true },
+      currentCalibration: {
+        dataPoint: "23",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       powerInW: {
         dataPoint: "19",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "W",
         scale: 10,
       },
-      powerCalibration: { dataPoint: "24", kind: "sensor", readOnly: true },
+      powerCalibration: {
+        dataPoint: "24",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       energyInKwh: {
         dataPoint: "17",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
+        category: "diagnostic",
         readOnly: true,
         unit: "kWh",
         scale: 1000,
@@ -69,6 +100,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -76,6 +108,7 @@ const entry: TuyaDeviceEntry = {
       timerUsbInSeconds: {
         dataPoint: "15",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -83,6 +116,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           {
             raw: "power_on",
@@ -212,6 +246,7 @@ const entry: TuyaDeviceEntry = {
       initialStateStandard: {
         dataPoint: "38",
         kind: "text",
+        category: "config",
         otherwise: false,
         dependsOn: {
           dataPoint: "38",
@@ -224,6 +259,7 @@ const entry: TuyaDeviceEntry = {
       initialStateAlternate: {
         dataPoint: "38",
         kind: "text",
+        category: "config",
         otherwise: false,
         dependsOn: {
           dataPoint: "38",
@@ -235,6 +271,7 @@ const entry: TuyaDeviceEntry = {
       initialStateNumeric: {
         dataPoint: "38",
         kind: "text",
+        category: "config",
         otherwise: false,
         dependsOn: {
           dataPoint: "38",
@@ -244,25 +281,32 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "39",
         kind: "select",
+        category: "config",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
           { raw: "none", value: "off" },
         ],
       },
-      childLock: { dataPoint: "40", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       fault: {
         dataPoint: "26",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "26", kind: "sensor", readOnly: true },
-      schedule: { dataPoint: "41", kind: "text" },
-      randomizedSchedule: { dataPoint: "42", kind: "text" },
-      inching: { dataPoint: "43", kind: "text" },
+      faultCode: {
+        dataPoint: "26",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      schedule: { dataPoint: "41", kind: "text", category: "config" },
+      randomizedSchedule: { dataPoint: "42", kind: "text", category: "config" },
+      inching: { dataPoint: "43", kind: "text", category: "config" },
     },
   },
   source: {

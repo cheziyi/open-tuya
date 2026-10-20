@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["o1knnbvabpech1ak"],
+  products: [
+    {
+      productKey: "o1knnbvabpech1ak",
+      manufacturer: "Klarstein",
+      model: "Airfold Smart",
+    },
+  ],
   dataPoints: {
     "22": { type: "integer" },
     "23": { type: "integer" },
@@ -38,7 +44,7 @@ const entry: TuyaDeviceEntry = {
       oscillating: { dataPoint: "112", kind: "switch" },
     },
     light: {
-      sound: { dataPoint: "107", kind: "switch" },
+      sound: { dataPoint: "107", kind: "switch", category: "config" },
       on: { dataPoint: "108", kind: "switch" },
       brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
       colorTemperatureInK: {
@@ -52,6 +58,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "109",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -66,6 +73,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -73,12 +82,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "111", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "111",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

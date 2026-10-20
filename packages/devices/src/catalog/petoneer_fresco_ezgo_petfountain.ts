@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet fountain",
-  productKeys: ["jfyxbljcu1lz99hg"],
+  products: [
+    {
+      productKey: "jfyxbljcu1lz99hg",
+      manufacturer: "Petoneer",
+      model: "Fresco EzGo",
+      modelId: "WF005",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -24,6 +31,7 @@ const entry: TuyaDeviceEntry = {
       activationMode: {
         dataPoint: "2",
         kind: "select",
+        category: "config",
         values: [
           { raw: "normal", value: "normal" },
           { raw: "smart", value: "smart" },
@@ -33,6 +41,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "3",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "d",
       },
@@ -40,14 +49,20 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "d",
       },
-      filterReset: { dataPoint: "5", kind: "button" },
-      resetPumpCleaningTimer: { dataPoint: "6", kind: "button" },
+      filterReset: { dataPoint: "5", kind: "button", category: "diagnostic" },
+      resetPumpCleaningTimer: {
+        dataPoint: "6",
+        kind: "button",
+        category: "diagnostic",
+      },
       waterLevel: {
         dataPoint: "9",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "0", value: "empty" },
@@ -61,6 +76,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -68,10 +84,16 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "23", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "23",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "23",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -94,6 +116,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
       },
     },
@@ -101,6 +124,7 @@ const entry: TuyaDeviceEntry = {
       on: {
         dataPoint: "12",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },

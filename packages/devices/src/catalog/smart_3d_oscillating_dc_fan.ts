@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan",
-  productKeys: ["udqi9qir8xu7fxmb"],
+  products: [
+    {
+      productKey: "udqi9qir8xu7fxmb",
+      manufacturer: "Kogan",
+      model: "Smart 3D Oscillating DC Fan",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -45,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       verticalOscillation: {
         dataPoint: "6",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Run", value: "On" },
           { raw: "Stop", value: "Off" },
@@ -53,6 +60,7 @@ const entry: TuyaDeviceEntry = {
       horizontalSwing: {
         dataPoint: "7",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Cancel", value: "Off" },
           { raw: "0", value: "0°" },
@@ -65,6 +73,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -77,6 +86,7 @@ const entry: TuyaDeviceEntry = {
       sound: {
         dataPoint: "101",
         kind: "switch",
+        category: "config",
         values: [
           { raw: false, value: true },
           { raw: true, value: false },

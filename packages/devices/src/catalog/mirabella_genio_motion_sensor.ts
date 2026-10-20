@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Motion sensor",
-  productKeys: ["p0y7ucexietpcqlq"],
+  products: [
+    { productKey: "p0y7ucexietpcqlq", manufacturer: "Mirabella Genio" },
+  ],
   dataPoints: {
     "101": { type: "string" },
     "103": { type: "integer" },

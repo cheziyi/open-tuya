@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Toggle switch",
-  productKeys: ["7kvomtxxfqcrbiqq", "nobhkdmuof1zhgle"],
+  products: [
+    {
+      productKey: "7kvomtxxfqcrbiqq",
+      manufacturer: "Jasco",
+      model: "UltraPro Toggle Switch",
+    },
+    {
+      productKey: "nobhkdmuof1zhgle",
+      manufacturer: "Loratap",
+      model: "QCRR400W-WB2S",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "7": { type: "integer", optional: true },
@@ -18,6 +29,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "memory", value: "memory" },
           { raw: "on", value: "on" },
@@ -27,6 +39,7 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "15",
         kind: "select",
+        category: "config",
         values: [
           { raw: "none", value: "off" },
           { raw: "pos", value: "locator" },
@@ -36,6 +49,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

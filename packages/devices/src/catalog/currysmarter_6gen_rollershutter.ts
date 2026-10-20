@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Roller shutter",
-  productKeys: ["csgb8eqhczvjaetl", "xqvhthwkbmp3aghs"],
+  products: [
+    {
+      productKey: "csgb8eqhczvjaetl",
+      manufacturer: "Curry Smarter",
+      model: "6Gen",
+    },
+    {
+      productKey: "xqvhthwkbmp3aghs",
+      manufacturer: "Curry Smarter",
+      model: "6Gen",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -35,6 +46,7 @@ const entry: TuyaDeviceEntry = {
       calibration: {
         dataPoint: "3",
         kind: "select",
+        category: "config",
         values: [
           { raw: "start", value: "Start" },
           { raw: "end", value: "End" },
@@ -44,6 +56,7 @@ const entry: TuyaDeviceEntry = {
       motorReverseMode: {
         dataPoint: "8",
         kind: "select",
+        category: "config",
         values: [
           { raw: "forward", value: "Forward" },
           { raw: "back", value: "Back" },

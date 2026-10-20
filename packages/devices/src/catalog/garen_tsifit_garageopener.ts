@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Garage opener",
-  productKeys: ["c1tdykjhzgasntuz", "key5ckdnys3pqgec"],
+  products: [
+    { productKey: "c1tdykjhzgasntuz", manufacturer: "Garen", model: "TSI Fit" },
+    { productKey: "key5ckdnys3pqgec", manufacturer: "Garen", model: "TSI Fit" },
+  ],
   dataPoints: {
     "1": { type: "boolean", optional: true },
     "3": { type: "boolean" },

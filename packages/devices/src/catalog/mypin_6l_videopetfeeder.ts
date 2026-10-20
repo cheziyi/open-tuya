@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Video pet feeder",
-  productKeys: ["8zrzjldq07tlxnlv"],
+  products: [
+    { productKey: "8zrzjldq07tlxnlv", manufacturer: "Mypin", model: "6L" },
+  ],
   dataPoints: {
     "101": { type: "boolean", optional: true },
     "104": { type: "boolean", optional: true },
@@ -38,11 +40,12 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       recording: { dataPoint: "150", kind: "switch" },
-      motionDetection: { dataPoint: "113", kind: "switch" },
-      watermark: { dataPoint: "104", kind: "switch" },
+      motionDetection: { dataPoint: "113", kind: "switch", category: "config" },
+      watermark: { dataPoint: "104", kind: "switch", category: "config" },
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -52,6 +55,7 @@ const entry: TuyaDeviceEntry = {
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -62,11 +66,17 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "normal" },
       },
-      sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
-      sdFormat: { dataPoint: "111", kind: "button" },
+      sdStatusCapacity: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      sdFormat: { dataPoint: "111", kind: "button", category: "config" },
       sdFormatState: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: 2000, value: "Formatting" },
           { raw: 2001, value: "Format failed" },
@@ -79,6 +89,7 @@ const entry: TuyaDeviceEntry = {
       recordingMode: {
         dataPoint: "151",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
@@ -89,6 +100,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "232",
         kind: "sensor",
         measures: "weight",
+        category: "diagnostic",
         readOnly: true,
         unit: "g",
         min: 1,
@@ -99,13 +111,32 @@ const entry: TuyaDeviceEntry = {
       controlCode: {
         dataPoint: "233",
         kind: "number",
+        category: "config",
         min: 0,
         max: 2147483646,
       },
-      controlCodeReturnCode: { dataPoint: "234", kind: "number" },
-      controlCodeHistory: { dataPoint: "236", kind: "number" },
-      autoRation: { dataPoint: "235", kind: "number", min: 0, max: 255 },
-      autoRationBackupLog: { dataPoint: "247", kind: "text" },
+      controlCodeReturnCode: {
+        dataPoint: "234",
+        kind: "number",
+        category: "config",
+      },
+      controlCodeHistory: {
+        dataPoint: "236",
+        kind: "number",
+        category: "config",
+      },
+      autoRation: {
+        dataPoint: "235",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 255,
+      },
+      autoRationBackupLog: {
+        dataPoint: "247",
+        kind: "text",
+        category: "config",
+      },
       mealPlan: { dataPoint: "237", kind: "text" },
       batteryInPercent: {
         dataPoint: "238",
@@ -122,6 +153,7 @@ const entry: TuyaDeviceEntry = {
       foodLevel: {
         dataPoint: "239",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "full", value: "Full" },
@@ -133,12 +165,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "240",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
       jammed: {
         dataPoint: "241",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
       voiceRecording: {
@@ -195,7 +229,7 @@ const entry: TuyaDeviceEntry = {
       },
       feedPortions: { dataPoint: "246", kind: "sensor", readOnly: true },
     },
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "mypin_6l_videopetfeeder.yaml",

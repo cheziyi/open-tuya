@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["xmpy4utews9k3waf"],
+  products: [
+    { productKey: "xmpy4utews9k3waf", manufacturer: "Kalado", model: "KPF01" },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "3": { type: "integer" },
@@ -20,7 +22,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      mealPlan: { dataPoint: "1", kind: "text" },
+      mealPlan: { dataPoint: "1", kind: "text", category: "config" },
       manualFeedInPortions: {
         dataPoint: "3",
         kind: "number",
@@ -28,11 +30,12 @@ const entry: TuyaDeviceEntry = {
         min: 1,
         max: 20,
       },
-      factoryReset: { dataPoint: "9", kind: "button" },
+      factoryReset: { dataPoint: "9", kind: "button", category: "config" },
       batteryInPercent: {
         dataPoint: "11",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -46,11 +49,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "14", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "14",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       feedReport: {
         dataPoint: "15",
         kind: "event",

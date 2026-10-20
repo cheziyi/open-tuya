@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["ptiFKEk2bgAslxOA"],
+  products: [
+    {
+      productKey: "ptiFKEk2bgAslxOA",
+      manufacturer: "Betterlife",
+      model: "BL1500",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -53,10 +59,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "2", value: "eco" },
         ],
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       timer: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -77,6 +84,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

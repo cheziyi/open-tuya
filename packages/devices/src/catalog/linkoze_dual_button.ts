@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dual buttons",
-  productKeys: ["l8yaz4um5b3pwyvf"],
+  products: [
+    {
+      productKey: "l8yaz4um5b3pwyvf",
+      manufacturer: "Linkoze",
+      model: "LKWSW201",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "string" },

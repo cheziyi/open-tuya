@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Electric water heater",
-  productKeys: ["edqofyucyuo4zk8a"],
+  products: [
+    {
+      productKey: "edqofyucyuo4zk8a",
+      manufacturer: "A.O. Smith",
+      model: "HeatBot 15L",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "9": { type: "integer" },
@@ -41,6 +47,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
       },

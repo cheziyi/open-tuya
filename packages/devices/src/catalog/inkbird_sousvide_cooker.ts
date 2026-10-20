@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Sous vide",
-  productKeys: ["ljrmmds82n6kln4u"],
+  products: [
+    {
+      productKey: "ljrmmds82n6kln4u",
+      manufacturer: "Silvercrest",
+      model: "SSVSS 1200 A1",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "string", optional: true },
@@ -61,6 +67,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 5999,
@@ -69,6 +76,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -76,6 +84,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         type: "bitfield",
         values: [{ raw: 0, value: false }],
@@ -84,22 +93,31 @@ const entry: TuyaDeviceEntry = {
       faultCode: {
         dataPoint: "107",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         type: "bitfield",
       },
       temperatureUnit: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: "C" },
           { raw: false, value: "F" },
         ],
       },
-      recipe: { dataPoint: "109", kind: "number", min: 0, max: 1000 },
+      recipe: {
+        dataPoint: "109",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 1000,
+      },
       temperatureCalibrationInC: {
         dataPoint: "110",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -99,
         max: 99,

@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer" },
@@ -30,6 +30,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "cancel" },
           { raw: "2hour", value: "2h" },

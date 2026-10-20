@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Sprinkler controller",
-  productKeys: ["nqhft5inckqtnewv"],
+  products: [
+    {
+      productKey: "nqhft5inckqtnewv",
+      manufacturer: "Haozee",
+      model: "12 zone",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean", optional: true },
     "2": { type: "boolean", optional: true },
@@ -71,6 +77,7 @@ const entry: TuyaDeviceEntry = {
       weatherDelay: {
         dataPoint: "37",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "24h", value: "1d" },
@@ -78,9 +85,9 @@ const entry: TuyaDeviceEntry = {
           { raw: "72h", value: "3d" },
         ],
       },
-      schedule: { dataPoint: "38", kind: "text" },
-      scheduleCountdown: { dataPoint: "105", kind: "text" },
-      scheduleUsage: { dataPoint: "106", kind: "text" },
+      schedule: { dataPoint: "38", kind: "text", category: "config" },
+      scheduleCountdown: { dataPoint: "105", kind: "text", category: "config" },
+      scheduleUsage: { dataPoint: "106", kind: "text", category: "config" },
       status: {
         dataPoint: "39",
         kind: "sensor",
@@ -96,6 +103,7 @@ const entry: TuyaDeviceEntry = {
       weather: {
         dataPoint: "41",
         kind: "select",
+        category: "config",
         values: [
           { raw: "sunny", value: "sunny" },
           { raw: "cloudy", value: "cloudy" },
@@ -103,11 +111,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "snowy", value: "snowy" },
         ],
       },
-      weatherEnabled: { dataPoint: "42", kind: "switch" },
+      weatherEnabled: { dataPoint: "42", kind: "switch", category: "config" },
       skip: { dataPoint: "43", kind: "button" },
       irrigationMode: {
         dataPoint: "44",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Order1", value: "Mode 1" },
           { raw: "Order2", value: "Mode 2" },
@@ -118,6 +127,7 @@ const entry: TuyaDeviceEntry = {
         mask: "FFFF00000000000000000000000000000000000000000000",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
         readOnly: true,
         unit: "min",
       },
@@ -126,6 +136,7 @@ const entry: TuyaDeviceEntry = {
         mask: "0000FFFF0000000000000000000000000000000000000000",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
         readOnly: true,
         unit: "min",
       },
@@ -134,6 +145,7 @@ const entry: TuyaDeviceEntry = {
         mask: "00000000FFFF000000000000000000000000000000000000",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
         readOnly: true,
         unit: "min",
       },
@@ -142,6 +154,7 @@ const entry: TuyaDeviceEntry = {
         mask: "000000000000FFFF00000000000000000000000000000000",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
         readOnly: true,
         unit: "min",
       },
@@ -150,6 +163,7 @@ const entry: TuyaDeviceEntry = {
         mask: "0000000000000000FFFF0000000000000000000000000000",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
         readOnly: true,
         unit: "min",
       },
@@ -158,6 +172,7 @@ const entry: TuyaDeviceEntry = {
         mask: "00000000000000000000FFFF000000000000000000000000",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
         readOnly: true,
         unit: "min",
       },
@@ -166,6 +181,7 @@ const entry: TuyaDeviceEntry = {
         mask: "000000000000000000000000FFFF00000000000000000000",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
         readOnly: true,
         unit: "min",
       },
@@ -174,6 +190,7 @@ const entry: TuyaDeviceEntry = {
         mask: "0000000000000000000000000000FFFF0000000000000000",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
         readOnly: true,
         unit: "min",
       },
@@ -182,6 +199,7 @@ const entry: TuyaDeviceEntry = {
         mask: "00000000000000000000000000000000FFFF000000000000",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
         readOnly: true,
         unit: "min",
       },
@@ -190,6 +208,7 @@ const entry: TuyaDeviceEntry = {
         mask: "000000000000000000000000000000000000FFFF00000000",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
         readOnly: true,
         unit: "min",
       },
@@ -198,6 +217,7 @@ const entry: TuyaDeviceEntry = {
         mask: "0000000000000000000000000000000000000000FFFF0000",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
         readOnly: true,
         unit: "min",
       },
@@ -206,13 +226,19 @@ const entry: TuyaDeviceEntry = {
         mask: "00000000000000000000000000000000000000000000FFFF",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
         readOnly: true,
         unit: "min",
       },
-      irrigationRestrictionSchedule: { dataPoint: "46", kind: "text" },
+      irrigationRestrictionSchedule: {
+        dataPoint: "46",
+        kind: "text",
+        category: "config",
+      },
       valve1IrrigationTimeInMinutes: {
         dataPoint: "101",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 1,
         max: 60,
@@ -220,6 +246,7 @@ const entry: TuyaDeviceEntry = {
       valve2IrrigationTimeInMinutes: {
         dataPoint: "102",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 1,
         max: 60,
@@ -227,6 +254,7 @@ const entry: TuyaDeviceEntry = {
       valve3IrrigationTimeInMinutes: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 1,
         max: 60,
@@ -234,6 +262,7 @@ const entry: TuyaDeviceEntry = {
       valve4IrrigationTimeInMinutes: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 1,
         max: 60,
@@ -269,6 +298,7 @@ const entry: TuyaDeviceEntry = {
       rainSensor: {
         dataPoint: "109",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "cancel" },
           { raw: "24", value: "1d" },
@@ -281,6 +311,7 @@ const entry: TuyaDeviceEntry = {
       valve5IrrigationTimeInMinutes: {
         dataPoint: "110",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 1,
         max: 60,
@@ -288,6 +319,7 @@ const entry: TuyaDeviceEntry = {
       valve6IrrigationTimeInMinutes: {
         dataPoint: "111",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 1,
         max: 60,
@@ -295,6 +327,7 @@ const entry: TuyaDeviceEntry = {
       valve7IrrigationTimeInMinutes: {
         dataPoint: "112",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 1,
         max: 60,
@@ -302,6 +335,7 @@ const entry: TuyaDeviceEntry = {
       valve8IrrigationTimeInMinutes: {
         dataPoint: "113",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 1,
         max: 60,
@@ -309,6 +343,7 @@ const entry: TuyaDeviceEntry = {
       valve9IrrigationTimeInMinutes: {
         dataPoint: "114",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 1,
         max: 60,
@@ -316,6 +351,7 @@ const entry: TuyaDeviceEntry = {
       valve10IrrigationTimeInMinutes: {
         dataPoint: "115",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 1,
         max: 60,
@@ -323,6 +359,7 @@ const entry: TuyaDeviceEntry = {
       valve11IrrigationTimeInMinutes: {
         dataPoint: "116",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 1,
         max: 60,
@@ -330,6 +367,7 @@ const entry: TuyaDeviceEntry = {
       valve12IrrigationTimeInMinutes: {
         dataPoint: "117",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 1,
         max: 60,
@@ -338,12 +376,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "118",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "mA",
       },
-      areas: { dataPoint: "119", kind: "text" },
-      refresh: { dataPoint: "120", kind: "button" },
-      timer: { dataPoint: "121", kind: "text" },
+      areas: { dataPoint: "119", kind: "text", category: "config" },
+      refresh: { dataPoint: "120", kind: "button", category: "config" },
+      timer: { dataPoint: "121", kind: "text", category: "config" },
       overload: {
         dataPoint: "122",
         kind: "event",
@@ -353,7 +393,7 @@ const entry: TuyaDeviceEntry = {
           { raw: true, value: "alert" },
         ],
       },
-      areaData: { dataPoint: "123", kind: "text" },
+      areaData: { dataPoint: "123", kind: "text", category: "config" },
     },
   },
   source: {

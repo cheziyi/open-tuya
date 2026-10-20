@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -95,20 +95,27 @@ const entry: TuyaDeviceEntry = {
         measures: "temperature",
         unit: "C",
       },
-      childLock: { dataPoint: "8", kind: "switch" },
-      sound: { dataPoint: "13", kind: "switch" },
+      childLock: { dataPoint: "8", kind: "switch", category: "config" },
+      sound: { dataPoint: "13", kind: "switch", category: "config" },
       fault: {
         dataPoint: "16",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "16", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "16",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       temperatureCalibrationInC: {
         dataPoint: "20",
         kind: "number",
+        category: "config",
         unit: "C",
         min: -90,
         max: 90,
@@ -118,6 +125,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 15,
         max: 95,
@@ -125,16 +133,18 @@ const entry: TuyaDeviceEntry = {
       sensorSelection: {
         dataPoint: "25",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "Internal" },
           { raw: "2", value: "External" },
           { raw: "3", value: "Both" },
         ],
       },
-      antiFrost: { dataPoint: "26", kind: "switch" },
+      antiFrost: { dataPoint: "26", kind: "switch", category: "config" },
       backlightBrightness: {
         dataPoint: "41",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "None" },
           { raw: "1", value: "Low" },
@@ -145,16 +155,22 @@ const entry: TuyaDeviceEntry = {
       schedule: {
         dataPoint: "42",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "Weekday+Weekend" },
           { raw: "2", value: "Mon-Sat+Sun" },
           { raw: "3", value: "Daily" },
         ],
       },
-      outputMainReverse: { dataPoint: "101", kind: "switch" },
+      outputMainReverse: {
+        dataPoint: "101",
+        kind: "switch",
+        category: "config",
+      },
       temperatureControlSwitchDifferenceInC: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "C",
         min: 5,
         max: 95,
@@ -164,6 +180,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 5,
         max: 60,

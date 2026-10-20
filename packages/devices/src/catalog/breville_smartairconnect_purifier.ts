@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["tltdxtehttjbkjni"],
+  products: [
+    {
+      productKey: "tltdxtehttjbkjni",
+      manufacturer: "Breville",
+      model: "Smart Air Connect",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -44,21 +50,24 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
-      nightMode: { dataPoint: "8", kind: "switch" },
-      microShield: { dataPoint: "9", kind: "switch" },
+      nightMode: { dataPoint: "8", kind: "switch", category: "config" },
+      microShield: { dataPoint: "9", kind: "switch", category: "config" },
       filterLifeInDays: {
         dataPoint: "16",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "d",
       },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancle", value: "cancel" },
           { raw: "2", value: "2h" },
@@ -70,6 +79,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Video doorbell",
-  productKeys: ["i3olzxc2chxmlz9l", "qi0vjgvbtzun2bbr"],
+  products: [
+    {
+      productKey: "i3olzxc2chxmlz9l",
+      manufacturer: "LSC Smart Connect",
+      model: "3208999",
+    },
+    {
+      productKey: "qi0vjgvbtzun2bbr",
+      manufacturer: "LSC Smart Connect",
+      model: "1296P BT",
+    },
+  ],
   dataPoints: {
     "104": { type: "boolean", optional: true },
     "108": { type: "string", optional: true },
@@ -31,10 +42,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     siren: {
-      watermark: { dataPoint: "104", kind: "switch" },
+      watermark: { dataPoint: "104", kind: "switch", category: "config" },
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -44,6 +56,7 @@ const entry: TuyaDeviceEntry = {
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -53,11 +66,17 @@ const entry: TuyaDeviceEntry = {
           { raw: 5, value: "missing" },
         ],
       },
-      sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
-      sdFormat: { dataPoint: "111", kind: "button" },
+      sdStatusCapacity: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      sdFormat: { dataPoint: "111", kind: "button", category: "config" },
       sdFormatStatus: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: 2000, value: "Formatting" },
           { raw: 2001, value: "Format error" },
@@ -86,6 +105,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "145",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -93,6 +114,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "146",
         kind: "sensor",
         measures: "plugged",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "0", value: false },
@@ -105,6 +127,7 @@ const entry: TuyaDeviceEntry = {
       lowBatteryThresholdInPercent: {
         dataPoint: "147",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 10,
         max: 50,
@@ -113,11 +136,13 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "149",
         kind: "sensor",
         measures: "power",
+        category: "diagnostic",
         readOnly: true,
       },
       motionSensitivity: {
         dataPoint: "152",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "low" },
@@ -127,7 +152,7 @@ const entry: TuyaDeviceEntry = {
       },
       on: { dataPoint: "159", kind: "switch" },
       volume: { dataPoint: "160", kind: "number", min: 1, max: 10, scale: 10 },
-      humanoidFilter: { dataPoint: "170", kind: "switch" },
+      humanoidFilter: { dataPoint: "170", kind: "switch", category: "config" },
       alarm: {
         dataPoint: "185",
         kind: "event",
@@ -139,6 +164,7 @@ const entry: TuyaDeviceEntry = {
       antiFlicker: {
         dataPoint: "188",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Off" },
           { raw: "1", value: "50Hz" },
@@ -153,7 +179,7 @@ const entry: TuyaDeviceEntry = {
         otherwise: "message",
       },
       notificationMessage: { dataPoint: "212", kind: "sensor", readOnly: true },
-      hideVoiceChange: { dataPoint: "231", kind: "switch" },
+      hideVoiceChange: { dataPoint: "231", kind: "switch", category: "config" },
     },
   },
   source: {

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Presence sensor",
-  productKeys: ["chaayllciae8dlhn"],
+  products: [
+    {
+      productKey: "chaayllciae8dlhn",
+      manufacturer: "iHseno",
+      model: "ZTU 24GHz mmWave WiFi",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "9": { type: "string" },
@@ -26,6 +32,7 @@ const entry: TuyaDeviceEntry = {
       motionSensitivity: {
         dataPoint: "9",
         kind: "select",
+        category: "config",
         values: [
           { raw: "low", value: "low" },
           { raw: "middle", value: "medium" },
@@ -36,12 +43,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "illuminance",
+        reading: "instant",
         readOnly: true,
         unit: "lx",
       },
       presenceSensitivity: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "low", value: "Low" },
           { raw: "middle", value: "Medium" },
@@ -52,6 +61,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 10,
         max: 600,

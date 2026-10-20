@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan coils",
-  productKeys: ["t1hqfqvgutkalxvo"],
+  products: [
+    {
+      productKey: "t1hqfqvgutkalxvo",
+      manufacturer: "Fercofloor",
+      model: "FT2C10V",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -102,19 +108,26 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       fault: {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "13",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -124,7 +137,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 8, value: "Low protect" },
         ],
       },
-      schedule: { dataPoint: "17", kind: "text" },
+      schedule: { dataPoint: "17", kind: "text", category: "config" },
     },
   },
   source: {

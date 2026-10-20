@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Vacuum and mop",
-  productKeys: ["ela0pxryflaldubr"],
+  products: [
+    { productKey: "ela0pxryflaldubr", manufacturer: "MAMNV", model: "BR151" },
+  ],
   dataPoints: {
     "2": { type: "boolean" },
     "3": { type: "string" },
@@ -72,6 +74,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -79,6 +82,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "17",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -86,14 +90,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "18",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "18",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -116,6 +127,7 @@ const entry: TuyaDeviceEntry = {
       mopping: {
         dataPoint: "20",
         kind: "select",
+        category: "config",
         values: [
           { raw: "closed", value: "off" },
           { raw: "low", value: "low" },

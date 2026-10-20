@@ -5,7 +5,11 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Universal remote control",
-  productKeys: ["whs3cty93fzrqkpt", "jbe3snv4tki8oo9c", "b1codgjxh0wf7qrf"],
+  products: [
+    { productKey: "whs3cty93fzrqkpt" },
+    { productKey: "jbe3snv4tki8oo9c", model: "S09" },
+    { productKey: "b1codgjxh0wf7qrf" },
+  ],
   dataPoints: {
     "101": { type: "integer" },
     "102": { type: "integer" },
@@ -22,6 +26,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -30,6 +35,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -37,6 +43,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -20,
         max: 20,
@@ -46,6 +53,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "number",
         measures: "humidity",
+        category: "config",
         unit: "%",
         min: -10,
         max: 10,

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["ajiidg1xj03fdut3"],
+  products: [
+    {
+      productKey: "ajiidg1xj03fdut3",
+      manufacturer: "Computherm",
+      model: "Q20",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean", optional: true },
     "39": { type: "boolean", optional: true },
@@ -142,27 +148,55 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      factoryReset: { dataPoint: "39", kind: "button" },
-      dataPackage: { dataPoint: "101", kind: "text" },
-      temperatureWeeklySchedule: { dataPoint: "106", kind: "text" },
-      temperatureWorkWeekSchedule: { dataPoint: "107", kind: "text" },
-      temperatureDailySchedule: { dataPoint: "108", kind: "text" },
-      humidityWeeklySchedule: { dataPoint: "109", kind: "text" },
-      humidityWorkWeekSchedule: { dataPoint: "110", kind: "text" },
-      humidityDailySchedule: { dataPoint: "111", kind: "text" },
-      copySchedule: { dataPoint: "112", kind: "text" },
+      factoryReset: { dataPoint: "39", kind: "button", category: "config" },
+      dataPackage: { dataPoint: "101", kind: "text", category: "config" },
+      temperatureWeeklySchedule: {
+        dataPoint: "106",
+        kind: "text",
+        category: "config",
+      },
+      temperatureWorkWeekSchedule: {
+        dataPoint: "107",
+        kind: "text",
+        category: "config",
+      },
+      temperatureDailySchedule: {
+        dataPoint: "108",
+        kind: "text",
+        category: "config",
+      },
+      humidityWeeklySchedule: {
+        dataPoint: "109",
+        kind: "text",
+        category: "config",
+      },
+      humidityWorkWeekSchedule: {
+        dataPoint: "110",
+        kind: "text",
+        category: "config",
+      },
+      humidityDailySchedule: {
+        dataPoint: "111",
+        kind: "text",
+        category: "config",
+      },
+      copySchedule: { dataPoint: "112", kind: "text", category: "config" },
       timeRemainingInMinutes: {
         dataPoint: "113",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      timeElectric: { dataPoint: "114", kind: "text" },
+      timeElectric: { dataPoint: "114", kind: "text", category: "config" },
       floorTemperature: {
         dataPoint: "117",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unitFrom: "floorTemperatureUnit",
         scale: 10,
@@ -170,12 +204,24 @@ const entry: TuyaDeviceEntry = {
       floorTemperatureUnit: {
         dataPoint: "127",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
-      appState: { dataPoint: "186", kind: "number", min: 0, max: 100 },
-      totalTime: { dataPoint: "187", kind: "sensor", readOnly: true },
+      appState: {
+        dataPoint: "186",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
+      totalTime: {
+        dataPoint: "187",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

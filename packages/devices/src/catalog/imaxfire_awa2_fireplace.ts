@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water vapor fireplace",
-  productKeys: ["ogoql4oqaedx4mpu"],
+  products: [
+    {
+      productKey: "ogoql4oqaedx4mpu",
+      manufacturer: "Imaxfire",
+      model: "Water vapor fireplace (AWA2-NN)",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "24": { type: "hex" },
@@ -68,6 +74,7 @@ const entry: TuyaDeviceEntry = {
       waterLevel: {
         dataPoint: "101",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "high", value: "high" },
@@ -75,26 +82,34 @@ const entry: TuyaDeviceEntry = {
           { raw: "low", value: "low" },
         ],
       },
-      volume: { dataPoint: "102", kind: "number", min: 0, max: 16 },
+      volume: {
+        dataPoint: "102",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 16,
+      },
       timerInMinutes: {
         dataPoint: "103",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 540,
       },
-      timer: { dataPoint: "107", kind: "switch" },
+      timer: { dataPoint: "107", kind: "switch", category: "config" },
       sound: {
         dataPoint: "108",
         kind: "switch",
+        category: "config",
         values: [
           { raw: false, value: true },
           { raw: true, value: false },
         ],
       },
-      fillTank: { dataPoint: "110", kind: "switch" },
-      emptyTank: { dataPoint: "111", kind: "switch" },
+      fillTank: { dataPoint: "110", kind: "switch", category: "config" },
+      emptyTank: { dataPoint: "111", kind: "switch", category: "config" },
       flameLevel: { dataPoint: "112", kind: "number", min: 1, max: 5 },
     },
   },

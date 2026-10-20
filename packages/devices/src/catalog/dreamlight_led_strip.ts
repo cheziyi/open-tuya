@@ -5,14 +5,42 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "RGBCW light strip",
-  productKeys: [
-    "aok3caeleulg1neh",
-    "w0fgeqctlnwgq3yf",
-    "rqrkvuxebofiaifp",
-    "m6abhkeubvtdfjgw",
-    "hsltadjcxvc7l2jk",
-    "tiwbma6desgbs2if",
-    "pkljecmr24wfp2wf",
+  products: [
+    {
+      productKey: "aok3caeleulg1neh",
+      manufacturer: "LSC Smart Connect",
+      model: "RGBIC+CCT 2x5M",
+    },
+    {
+      productKey: "w0fgeqctlnwgq3yf",
+      manufacturer: "LSC Smart Connect",
+      model: "RGB/IC + CCT/IC 5m",
+    },
+    {
+      productKey: "rqrkvuxebofiaifp",
+      manufacturer: "Fancy LED",
+      model: "Fancy Lightstrip  3",
+    },
+    {
+      productKey: "m6abhkeubvtdfjgw",
+      manufacturer: "Arlec",
+      model: "Smart Sound Sync Mood Lamp - ALP018HA",
+    },
+    {
+      productKey: "hsltadjcxvc7l2jk",
+      manufacturer: "LSC Smart Connect",
+      model: "1x10m RGBIC+CCT",
+    },
+    {
+      productKey: "tiwbma6desgbs2if",
+      manufacturer: "LSC Smart Connect",
+      model: "10M LED strip RGBIC+CCT",
+    },
+    {
+      productKey: "pkljecmr24wfp2wf",
+      manufacturer: "LSC Smart Connect",
+      model: "RGBCCTIC 20M LED strip",
+    },
   ],
   dataPoints: {
     "20": { type: "boolean" },
@@ -85,6 +113,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -92,6 +121,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "51",
         kind: "select",
+        category: "config",
         type: "string",
         values: [
           { raw: "ARUKUlLgAABkAMFhALQwALVSAMRj", value: "Iceland blue" },
@@ -140,9 +170,17 @@ const entry: TuyaDeviceEntry = {
           { raw: "AToCXV3gAABNALReARxkAOhJAMZf", value: "Planet journey" },
         ],
       },
-      soundSync: { dataPoint: "52", kind: "text" },
+      soundSync: { dataPoint: "52", kind: "text", category: "config" },
     },
-    device: { pixels: { dataPoint: "53", kind: "number", min: 1, max: 1000 } },
+    device: {
+      pixels: {
+        dataPoint: "53",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 1000,
+      },
+    },
   },
   source: {
     file: "dreamlight_led_strip.yaml",

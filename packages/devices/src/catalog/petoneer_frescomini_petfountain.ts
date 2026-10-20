@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet fountain",
-  productKeys: ["uoihz7w5myinwrdx"],
+  products: [
+    {
+      productKey: "uoihz7w5myinwrdx",
+      manufacturer: "Petoneer",
+      model: "Fresco Mini",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "integer" },
@@ -20,6 +26,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -27,15 +34,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      waterLevel: { dataPoint: "108", kind: "sensor", readOnly: true },
+      waterLevel: {
+        dataPoint: "108",
+        kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     indicator: {
       on: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },

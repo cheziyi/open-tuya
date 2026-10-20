@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["anAaZAfvsdrdl9Oy"],
+  products: [
+    {
+      productKey: "anAaZAfvsdrdl9Oy",
+      manufacturer: "Honeywell",
+      model: "TP series",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "6": { type: "integer" },
@@ -45,20 +51,28 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "25",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
       fault: {
         dataPoint: "15",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "15", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "15",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "15",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },

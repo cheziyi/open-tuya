@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Video doorbell",
-  productKeys: ["rdopirknpltovvth"],
+  products: [{ productKey: "rdopirknpltovvth", manufacturer: "Kerui" }],
   dataPoints: {
     "103": { type: "boolean", optional: true },
     "104": { type: "boolean", optional: true },
@@ -32,16 +32,19 @@ const entry: TuyaDeviceEntry = {
       flipImage: {
         dataPoint: "103",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       watermark: {
         dataPoint: "104",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -52,11 +55,17 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "normal" },
       },
-      sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
-      sdFormat: { dataPoint: "111", kind: "button" },
+      sdStatusCapacity: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      sdFormat: { dataPoint: "111", kind: "button", category: "config" },
       sdFormatState: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: -2000, value: "Formatting" },
           { raw: -2001, value: "Format failed" },
@@ -98,6 +107,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "146",
         kind: "sensor",
         measures: "batteryCharging",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "1", value: true }],
         otherwise: false,
@@ -106,6 +116,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "147",
         kind: "number",
         measures: "battery",
+        category: "config",
         unit: "%",
         min: 10,
         max: 50,
@@ -114,11 +125,13 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "149",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
       },
       pirSensitivity: {
         dataPoint: "152",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "low" },
@@ -155,6 +168,7 @@ const entry: TuyaDeviceEntry = {
       antiFlicker: {
         dataPoint: "188",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "50Hz" },
@@ -174,6 +188,7 @@ const entry: TuyaDeviceEntry = {
       installation: {
         dataPoint: "232",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Indoors" },
           { raw: "1", value: "Outdoors" },

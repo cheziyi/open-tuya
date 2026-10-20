@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan switch",
-  productKeys: ["sqxyktpwizo2yuhc"],
+  products: [
+    {
+      productKey: "sqxyktpwizo2yuhc",
+      manufacturer: "Aziot",
+      model: "Fan modular switch",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },

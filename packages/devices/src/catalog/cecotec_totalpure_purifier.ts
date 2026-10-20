@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["0ala38ikctugsmng"],
+  products: [
+    {
+      productKey: "0ala38ikctugsmng",
+      manufacturer: "Cecotec",
+      model: "TotalPure 7500",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -46,12 +52,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
       filterInPercent: {
         dataPoint: "5",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -59,6 +68,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -66,12 +76,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
       timer: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -79,9 +91,9 @@ const entry: TuyaDeviceEntry = {
           { raw: "8h", value: "8h" },
         ],
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
     },
-    indicator: { on: { dataPoint: "8", kind: "switch" } },
+    indicator: { on: { dataPoint: "8", kind: "switch", category: "config" } },
   },
   source: {
     file: "cecotec_totalpure_purifier.yaml",

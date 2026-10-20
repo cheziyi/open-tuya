@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Circuit breaker",
-  productKeys: ["azpywu5zfg5wyzpn"],
+  products: [
+    { productKey: "azpywu5zfg5wyzpn", manufacturer: "EARU", model: "SW MCB" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "18": { type: "integer" },
@@ -18,11 +20,13 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       on: { dataPoint: "1", kind: "switch" },
-      childLock: { dataPoint: "41", kind: "switch" },
+      childLock: { dataPoint: "41", kind: "switch", category: "config" },
       voltageInV: {
         dataPoint: "20",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 10,
@@ -31,6 +35,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "A",
         scale: 1000,
@@ -39,6 +45,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "W",
         scale: 10,
@@ -47,6 +55,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "47",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
       },
@@ -54,15 +64,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "26",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "26", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "26",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "26",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },

@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Multi switch",
-  productKeys: ["iHRCXog1Au8bh7XG", "higlgjzngsrapyev"],
+  products: [
+    {
+      productKey: "iHRCXog1Au8bh7XG",
+      manufacturer: "eMylo",
+      model: "US-08e3 2 gang+USB wall outlet",
+    },
+    {
+      productKey: "higlgjzngsrapyev",
+      manufacturer: "Nine&One",
+      model: "HYS-02-017",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean", optional: true },
@@ -33,6 +44,8 @@ const entry: TuyaDeviceEntry = {
       addElectricityInKwh: {
         dataPoint: "17",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "kWh",
         scale: 1000,
@@ -41,6 +54,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
         readOnly: true,
         unit: "A",
         scale: 1000,
@@ -49,6 +63,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
         readOnly: true,
         unit: "W",
         scale: 10,
@@ -57,6 +72,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
         readOnly: true,
         unit: "V",
         scale: 10,

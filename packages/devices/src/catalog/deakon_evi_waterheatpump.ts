@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Radiator heat pump",
-  productKeys: ["02ek8thasvo40fmd"],
+  products: [
+    {
+      productKey: "02ek8thasvo40fmd",
+      manufacturer: "Deakon",
+      model: "EVI A2pro",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -83,6 +89,7 @@ const entry: TuyaDeviceEntry = {
       combinedMode: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "hot", value: "Heating only" },
           { raw: "cold", value: "Cooling only" },
@@ -94,6 +101,7 @@ const entry: TuyaDeviceEntry = {
       temperatureTarget: {
         dataPoint: "5",
         kind: "select",
+        category: "config",
         values: [
           { raw: "HotWater", value: "Hot water" },
           { raw: "Hot", value: "Heating" },
@@ -104,41 +112,58 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
-      faultErrorCodeTable: { dataPoint: "109", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultErrorCodeTable: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultErrorCodeTable2: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       faultDriverErrorCode1: {
         dataPoint: "111",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       faultDriverErrorCode2: {
         dataPoint: "112",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       faultSenSystemErrorCode1: {
         dataPoint: "113",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       faultSenSystemErrorCode2: {
         dataPoint: "114",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       antiFreeze: {
         dataPoint: "103",
         kind: "sensor",
         measures: "cold",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "antifrozen", value: true }],
         otherwise: false,
@@ -146,6 +171,7 @@ const entry: TuyaDeviceEntry = {
       diagnosticQuery: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "Version" },
           { raw: "2", value: "Ambient temperature" },
@@ -180,10 +206,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "31", value: "Error history" },
         ],
       },
-      diagnosticValue: { dataPoint: "105", kind: "sensor", readOnly: true },
+      diagnosticValue: {
+        dataPoint: "105",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       parameterId: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "d01", value: "Heating temperature" },
           { raw: "d02", value: "Water tank temperature" },
@@ -202,7 +234,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "d15", value: "Water pump control" },
         ],
       },
-      parameterValue: { dataPoint: "107", kind: "number", min: -100, max: 999 },
+      parameterValue: {
+        dataPoint: "107",
+        kind: "number",
+        category: "config",
+        min: -100,
+        max: 999,
+      },
     },
   },
   source: {

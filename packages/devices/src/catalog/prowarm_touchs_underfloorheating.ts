@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Underfloor heating",
-  productKeys: ["abe2ogjiak94ix0j"],
+  products: [
+    {
+      productKey: "abe2ogjiak94ix0j",
+      manufacturer: "ProWarm",
+      model: "Touch Button S series",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "string" },
@@ -133,10 +139,11 @@ const entry: TuyaDeviceEntry = {
       mcuVersion: { dataPoint: "110", kind: "number" },
     },
     device: {
-      antiFrost: { dataPoint: "10", kind: "switch" },
+      antiFrost: { dataPoint: "10", kind: "switch", category: "config" },
       temperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -146,6 +153,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "32",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unitFrom: "holidayTemperatureUnit",
         min: 50,
         max: 350,
@@ -178,6 +186,7 @@ const entry: TuyaDeviceEntry = {
       holidayTemperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
@@ -185,15 +194,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "33",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "d",
         min: 1,
         max: 90,
       },
-      schedule: { dataPoint: "37", kind: "text" },
-      childLock: { dataPoint: "40", kind: "switch" },
+      schedule: { dataPoint: "37", kind: "text", category: "config" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       sensor: {
         dataPoint: "43",
         kind: "select",
+        category: "config",
         values: [
           { raw: "air_floor", value: "Internal + floor" },
           { raw: "air", value: "Internal" },
@@ -206,16 +217,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "45",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "45",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       boostTemperature: {
         dataPoint: "101",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unitFrom: "boostTemperatureUnit",
         min: 50,
         max: 350,
@@ -248,6 +266,7 @@ const entry: TuyaDeviceEntry = {
       boostTemperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
@@ -255,6 +274,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 240,
@@ -265,6 +285,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unitFrom: "antifrostTemperatureUnit",
         min: 50,
         max: 160,
@@ -297,12 +318,14 @@ const entry: TuyaDeviceEntry = {
       antifrostTemperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
       heatingType: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "electric_underfloor", value: "Electric under floor" },
           { raw: "water_underfloor", value: "Water under floor" },
@@ -314,6 +337,7 @@ const entry: TuyaDeviceEntry = {
       floorType: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "tiles", value: "Tile" },
           { raw: "wood_laminate", value: "Wood" },
@@ -325,6 +349,7 @@ const entry: TuyaDeviceEntry = {
       displayTimeout: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [
           { raw: "30s", value: "30s" },
           { raw: "1min", value: "1m" },
@@ -336,6 +361,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unitFrom: "floorMaximumTemperatureUnit",
         min: 50,
         max: 350,
@@ -368,6 +394,7 @@ const entry: TuyaDeviceEntry = {
       floorMaximumTemperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
@@ -375,6 +402,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 15,
@@ -383,6 +411,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "112",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unitFrom: "floorTemperatureUnit",
         min: 50,
         max: 350,
@@ -415,14 +444,20 @@ const entry: TuyaDeviceEntry = {
       floorTemperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
-      openWindowDetection: { dataPoint: "114", kind: "switch" },
-      learningMode: { dataPoint: "115", kind: "switch" },
+      openWindowDetection: {
+        dataPoint: "114",
+        kind: "switch",
+        category: "config",
+      },
+      learningMode: { dataPoint: "115", kind: "switch", category: "config" },
       learningPrewarmTimeInHours: {
         dataPoint: "116",
         kind: "number",
+        category: "config",
         unit: "h",
         min: 1,
         max: 3,
@@ -430,6 +465,7 @@ const entry: TuyaDeviceEntry = {
       consumptionType: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: "electric", value: "Electricity" },
           { raw: "water", value: "Water" },
@@ -438,6 +474,7 @@ const entry: TuyaDeviceEntry = {
       electricityTariffInPounds: {
         dataPoint: "118",
         kind: "number",
+        category: "config",
         unit: "£",
         min: 0,
         max: 999,
@@ -447,14 +484,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "119",
         kind: "number",
         measures: "power",
+        category: "config",
         unit: "W",
         min: 0,
         max: 99999,
       },
-      boost: { dataPoint: "120", kind: "switch" },
+      boost: { dataPoint: "120", kind: "switch", category: "config" },
       scheduleType: {
         dataPoint: "121",
         kind: "select",
+        category: "config",
         values: [
           { raw: "edit_mode_5_2", value: "Weekdays+Weekends" },
           { raw: "edit_mode_5_1_1", value: "Weekdays+Sat+Sun" },
@@ -462,11 +501,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "edit_mode_all", value: "Single" },
         ],
       },
-      target: { dataPoint: "124", kind: "switch" },
+      target: { dataPoint: "124", kind: "switch", category: "config" },
       runtimeInHours: {
         dataPoint: "126",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
         scale: 10,
@@ -474,13 +515,20 @@ const entry: TuyaDeviceEntry = {
       costInPoundsPerH: {
         dataPoint: "127",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "£/h",
         scale: 100,
       },
     },
     backlight: {
-      brightness: { dataPoint: "44", kind: "number", min: 5, max: 100 },
+      brightness: {
+        dataPoint: "44",
+        kind: "number",
+        category: "config",
+        min: 5,
+        max: 100,
+      },
     },
   },
   source: {

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["g7qj4zfr2rq5meak"],
+  products: [
+    {
+      productKey: "g7qj4zfr2rq5meak",
+      manufacturer: "RZTK",
+      model: "Aqua Pro Wifi",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "5": { type: "boolean" },
@@ -47,17 +53,19 @@ const entry: TuyaDeviceEntry = {
           { raw: "80", value: 80 },
         ],
       },
-      uvSterilization: { dataPoint: "21", kind: "switch" },
+      uvSterilization: { dataPoint: "21", kind: "switch", category: "config" },
       temperatureInC: {
         dataPoint: "10",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -70,10 +78,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "8h", value: "8h" },
         ],
       },
-      timerRemaining: { dataPoint: "20", kind: "number" },
+      timerRemaining: { dataPoint: "20", kind: "number", category: "config" },
       tankEmpty: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -82,6 +91,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -90,7 +100,12 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     sprayLevel: {
       on: { dataPoint: "1", kind: "switch" },
@@ -105,11 +120,12 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    backlight: { on: { dataPoint: "5", kind: "switch" } },
+    backlight: { on: { dataPoint: "5", kind: "switch", category: "config" } },
     display: {
       on: {
         dataPoint: "16",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },

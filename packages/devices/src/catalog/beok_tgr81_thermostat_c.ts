@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["gw173aldekvpzalg", "gogb05wrtredz3bs"],
+  products: [
+    {
+      productKey: "gw173aldekvpzalg",
+      manufacturer: "Avatto",
+      model: "WT200W-EH",
+    },
+    { productKey: "gogb05wrtredz3bs", manufacturer: "Avatto", model: "ME81" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -99,6 +106,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -9,
         max: 9,
@@ -106,12 +114,14 @@ const entry: TuyaDeviceEntry = {
       antiFrost: {
         dataPoint: "10",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
-      childLock: { dataPoint: "40", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       sensorSelection: {
         dataPoint: "43",
         kind: "select",
+        category: "config",
         values: [
           { raw: "in", value: "Internal" },
           { raw: "out", value: "External" },
@@ -122,15 +132,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "45",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "45",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       maximumTemperatureInC: {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 30,
         max: 90,
@@ -139,14 +156,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "26",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 5,
         max: 20,
       },
-      factoryReset: { dataPoint: "39", kind: "button" },
+      factoryReset: { dataPoint: "39", kind: "button", category: "config" },
       workingWeek: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           { raw: "00", value: "Off" },
           { raw: "52", value: "5 days" },
@@ -169,6 +188,7 @@ const entry: TuyaDeviceEntry = {
       workingWeekAlt: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "00", value: "Off" },
           { raw: "52", value: "5 days" },
@@ -181,6 +201,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: 1,
         max: 5,

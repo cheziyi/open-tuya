@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heat recovery ventilator",
-  productKeys: ["5p0togo3y3yzgp2p"],
+  products: [
+    {
+      productKey: "5p0togo3y3yzgp2p",
+      manufacturer: "KCvents",
+      model: "VT-501",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "101": { type: "boolean" },
@@ -283,6 +289,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
         scale: 10,
@@ -291,11 +298,12 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
       },
-      sleep: { dataPoint: "104", kind: "switch" },
+      sleep: { dataPoint: "104", kind: "switch", category: "config" },
     },
   },
   source: {

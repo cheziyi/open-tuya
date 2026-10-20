@@ -5,7 +5,16 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dual water timer",
-  productKeys: ["fdrbxxbg", "jntxv3q4", "qycalacn", "hfgdqhho"],
+  products: [
+    { productKey: "fdrbxxbg", manufacturer: "Diivoo", model: "WT-05" },
+    {
+      productKey: "jntxv3q4",
+      manufacturer: "Insoma",
+      model: "YZD02B,SGW02MB,SGW08MB",
+    },
+    { productKey: "qycalacn", manufacturer: "Yohgee" },
+    { productKey: "hfgdqhho", manufacturer: "Insoma", model: "SGW02" },
+  ],
   dataPoints: {
     "11": { type: "integer" },
     "103": { type: "integer", optional: true },
@@ -30,12 +39,23 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      operation1: { dataPoint: "112", kind: "sensor", readOnly: true },
-      operation2: { dataPoint: "113", kind: "sensor", readOnly: true },
+      operation1: {
+        dataPoint: "112",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      operation2: {
+        dataPoint: "113",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       lastUseTime1InSeconds: {
         dataPoint: "111",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -43,12 +63,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
       irrigationTime1InMinutes: {
         dataPoint: "106",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,
@@ -56,6 +78,7 @@ const entry: TuyaDeviceEntry = {
       irrigationTime2InMinutes: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,
@@ -63,6 +86,7 @@ const entry: TuyaDeviceEntry = {
       weatherDelay1: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: "OFF", value: "Off" },
           { raw: "1", value: "1 day" },
@@ -77,6 +101,7 @@ const entry: TuyaDeviceEntry = {
       weatherDelay2: {
         dataPoint: "114",
         kind: "select",
+        category: "config",
         values: [
           { raw: "OFF", value: "Off" },
           { raw: "1", value: "1 day" },

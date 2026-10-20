@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Towel rack",
-  productKeys: ["sbcafqr6tykxq4bm"],
+  products: [{ productKey: "sbcafqr6tykxq4bm", manufacturer: "Sai Me Tei" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -106,6 +106,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "12",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -138,6 +139,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

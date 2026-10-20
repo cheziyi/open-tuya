@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Blind controller",
-  productKeys: ["3r8gc33pnqsxfe1g"],
+  products: [{ productKey: "3r8gc33pnqsxfe1g", model: "CCB-11" }],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -69,6 +69,7 @@ const entry: TuyaDeviceEntry = {
       motorDirection: {
         dataPoint: "8",
         kind: "select",
+        category: "config",
         values: [
           { raw: "forward", value: "Forward" },
           { raw: "back", value: "Reverse" },

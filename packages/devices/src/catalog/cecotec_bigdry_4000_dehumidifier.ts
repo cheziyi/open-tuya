@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["d44nan1uokr1hlwf"],
+  products: [
+    {
+      productKey: "d44nan1uokr1hlwf",
+      manufacturer: "Cecotec",
+      model: "BigDry 4000 Expert",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "string" },
@@ -53,6 +59,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },

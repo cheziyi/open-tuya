@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain",
-  productKeys: ["dy1jPRPGVR9G7PWY"],
+  products: [{ productKey: "dy1jPRPGVR9G7PWY", model: "CC smart curtain 1" }],
   dataPoints: { "2": { type: "string" }, "101": { type: "string" } },
   components: {
     cover: {

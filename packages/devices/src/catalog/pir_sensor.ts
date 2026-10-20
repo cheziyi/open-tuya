@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "PIR sensor",
-  productKeys: ["gaczanu8noooebfe"],
+  products: [{ productKey: "gaczanu8noooebfe" }],
   dataPoints: { "1": { type: "string" }, "4": { type: "integer" } },
   components: {
     device: {

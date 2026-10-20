@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Temperature and humidity sensor",
-  productKeys: ["7akwzwfwhukkdsib"],
+  products: [
+    { productKey: "7akwzwfwhukkdsib", model: "TH16", modelId: "TH06WB3S" },
+  ],
   dataPoints: {
     "1": { type: "integer" },
     "2": { type: "integer" },
@@ -18,6 +20,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -26,19 +29,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
       temperatureUnit: {
         dataPoint: "9",
         kind: "select",
+        category: "config",
         values: [
           { raw: "f", value: "F" },
           { raw: "c", value: "C" },
         ],
       },
     },
-    display: { on: { dataPoint: "21", kind: "switch" } },
+    display: { on: { dataPoint: "21", kind: "switch", category: "config" } },
   },
   source: {
     file: "th16_temp_humidity_sensor.yaml",

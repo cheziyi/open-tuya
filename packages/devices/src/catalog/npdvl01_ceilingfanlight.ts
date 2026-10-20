@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["oyvkkiagwcstatfy"],
+  products: [{ productKey: "oyvkkiagwcstatfy", model: "NP-DVL-01" }],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string", optional: true },
@@ -71,17 +71,18 @@ const entry: TuyaDeviceEntry = {
       },
     },
     fan: {
-      scene: { dataPoint: "25", kind: "text" },
+      scene: { dataPoint: "25", kind: "text", category: "config" },
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
       },
-      lightControl: { dataPoint: "28", kind: "text" },
-      mixedScene: { dataPoint: "36", kind: "text" },
-      color: { dataPoint: "51", kind: "text" },
+      lightControl: { dataPoint: "28", kind: "text", category: "config" },
+      mixedScene: { dataPoint: "36", kind: "text", category: "config" },
+      color: { dataPoint: "51", kind: "text", category: "config" },
       on: { dataPoint: "60", kind: "switch" },
       preset: {
         dataPoint: "61",
@@ -97,6 +98,7 @@ const entry: TuyaDeviceEntry = {
       fanTimerInMinutes: {
         dataPoint: "64",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 540,

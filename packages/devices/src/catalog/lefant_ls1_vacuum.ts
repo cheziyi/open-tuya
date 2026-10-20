@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Robot vacuum",
-  productKeys: ["4tt4wulynvwcqicp"],
+  products: [
+    {
+      productKey: "4tt4wulynvwcqicp",
+      manufacturer: "Lefant",
+      model: "LS1 Pro",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -81,6 +87,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -88,6 +95,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "area",
+        category: "diagnostic",
         readOnly: true,
         unit: "m2",
         scale: 10,
@@ -96,12 +104,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "8",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
       waterTank: {
         dataPoint: "10",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "low", value: "Low" },
@@ -113,11 +123,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "28",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "28", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "28",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

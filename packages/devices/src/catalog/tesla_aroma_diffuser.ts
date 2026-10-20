@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Aroma diffuser",
-  productKeys: ["izm17rnzcc2akjis"],
+  products: [
+    {
+      productKey: "izm17rnzcc2akjis",
+      manufacturer: "Tesla Smart",
+      model: "TSL-AC-JS01W",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -80,14 +86,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timer: {
         dataPoint: "13",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -99,12 +112,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
       lightMode: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "Multicolor" },
           { raw: "2", value: "Chosen color" },

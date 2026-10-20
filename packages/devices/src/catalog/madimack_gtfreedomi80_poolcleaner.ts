@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pool cleaning robot",
-  productKeys: ["7up9kxk6vx0e7pcm"],
+  products: [
+    {
+      productKey: "7up9kxk6vx0e7pcm",
+      manufacturer: "Madimack",
+      model: "GT Freedom i80",
+    },
+  ],
   dataPoints: {
     "103": { type: "integer" },
     "104": { type: "boolean" },
@@ -18,15 +24,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 30,
         max: 480,
       },
-      wallCleaning: { dataPoint: "104", kind: "switch" },
+      wallCleaning: { dataPoint: "104", kind: "switch", category: "config" },
       batteryInPercent: {
         dataPoint: "107",
         kind: "sensor",
         measures: "battery",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
         values: [
@@ -39,6 +47,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 168,

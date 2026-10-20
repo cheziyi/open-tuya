@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Motion sensor light",
-  productKeys: ["vwqnz1sn", "3towulqd"],
+  products: [
+    { productKey: "vwqnz1sn", manufacturer: "Moes", model: "XZ-CGV3" },
+    { productKey: "3towulqd", model: "ZG-204L" },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "4": { type: "integer" },
@@ -33,6 +36,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "illuminance",
+        reading: "instant",
         readOnly: true,
         unit: "lx",
         whenAbsent: { redirect: { dataPoint: "12" } },
@@ -47,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       sensitivity: {
         dataPoint: "9",
         kind: "select",
+        category: "config",
         values: [
           { raw: "low", value: "Low" },
           { raw: "middle", value: "Medium" },
@@ -56,6 +61,7 @@ const entry: TuyaDeviceEntry = {
       keepTime: {
         dataPoint: "10",
         kind: "select",
+        category: "config",
         values: [
           { raw: "30s", value: "30" },
           { raw: "60s", value: "60" },

@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ball lights",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "101": { type: "string" },
@@ -32,10 +32,16 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       brightness: { dataPoint: "107", kind: "number", min: 10, max: 64 },
-      speed: { dataPoint: "108", kind: "number", min: 10, max: 50 },
-      mode1Data: { dataPoint: "109", kind: "text" },
-      mode2Data: { dataPoint: "110", kind: "text" },
-      mode4Data: { dataPoint: "111", kind: "text" },
+      speed: {
+        dataPoint: "108",
+        kind: "number",
+        category: "config",
+        min: 10,
+        max: 50,
+      },
+      mode1Data: { dataPoint: "109", kind: "text", category: "config" },
+      mode2Data: { dataPoint: "110", kind: "text", category: "config" },
+      mode4Data: { dataPoint: "111", kind: "text", category: "config" },
     },
   },
   source: {

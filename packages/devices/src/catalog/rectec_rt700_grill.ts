@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Grill",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "102": { type: "integer" },
@@ -47,6 +47,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "F",
       },
@@ -54,6 +55,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "F",
       },
@@ -68,6 +70,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "F",
         min: -127,
         max: 128,

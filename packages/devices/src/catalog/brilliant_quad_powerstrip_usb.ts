@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Quad powerstrip with USB",
-  productKeys: ["keyphg5es7xsedyr"],
+  products: [
+    { productKey: "keyphg5es7xsedyr", manufacturer: "Brilliant Smart" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },

@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain",
-  productKeys: ["8kzqqzu4", "v7ooovn9oamttmre"],
+  products: [
+    { productKey: "8kzqqzu4", manufacturer: "Loratap", model: "SC500ZB-V2" },
+    { productKey: "v7ooovn9oamttmre", manufacturer: "Loratap" },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -35,6 +38,7 @@ const entry: TuyaDeviceEntry = {
       reverseMotorDirection: {
         dataPoint: "8",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "forward", value: false },
           { raw: "back", value: true },
@@ -43,6 +47,7 @@ const entry: TuyaDeviceEntry = {
       calibration: {
         dataPoint: "3",
         kind: "select",
+        category: "config",
         values: [
           { raw: "start", value: "On" },
           { raw: "end", value: "Off" },

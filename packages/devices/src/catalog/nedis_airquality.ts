@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air quality monitor",
-  productKeys: ["ipbqjatfsxghe3dc", "hryy1di7ozhgpj6p"],
+  products: [
+    {
+      productKey: "ipbqjatfsxghe3dc",
+      manufacturer: "Nedis",
+      model: "WIFISA10CWT",
+    },
+    { productKey: "hryy1di7ozhgpj6p", model: "RSH-AirBox01" },
+  ],
   dataPoints: {
     "2": { type: "integer" },
     "18": { type: "integer" },
@@ -19,6 +26,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "volatileOrganicCompounds",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
         scale: 0.1,
@@ -27,6 +35,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -35,6 +44,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
         scale: 10,
@@ -43,6 +53,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "volatileOrganicCompounds",
+        reading: "instant",
         readOnly: true,
         unit: "ppm",
         scale: 10,
@@ -51,6 +62,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "carbonDioxide",
+        reading: "instant",
         readOnly: true,
         unit: "ppm",
       },

@@ -7,7 +7,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Sauna",
-  productKeys: ["acl5qrawgmjajabn"],
+  products: [
+    {
+      productKey: "acl5qrawgmjajabn",
+      manufacturer: "TyloHelo",
+      model: "SaunaLogic2",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -61,7 +67,12 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "min",
       },
-      saunaMode: { dataPoint: "4", kind: "sensor", readOnly: true },
+      saunaMode: {
+        dataPoint: "4",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     light: {
       effect: {

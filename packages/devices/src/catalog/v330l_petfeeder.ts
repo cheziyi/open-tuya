@@ -5,7 +5,19 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["ibnk6keua0zzc2gr", "cjrm04np59ut4pwb", "7bkqbfbpv7qbfskr"],
+  products: [
+    {
+      productKey: "ibnk6keua0zzc2gr",
+      model: "V330L",
+      modelId: "V330L_AF3V_223A",
+    },
+    {
+      productKey: "cjrm04np59ut4pwb",
+      model: "V330L",
+      modelId: "V330L-DU4L-VS",
+    },
+    { productKey: "7bkqbfbpv7qbfskr", manufacturer: "iGET Home", model: "9LC" },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "103": { type: "boolean", optional: true },
@@ -40,12 +52,13 @@ const entry: TuyaDeviceEntry = {
       manualFeedWeight: { dataPoint: "205", kind: "number" },
       manualFeedSchedule: { dataPoint: "207", kind: "text" },
       manualFeedVoiceRecord: { dataPoint: "208", kind: "text" },
-      flipImage: { dataPoint: "103", kind: "switch" },
-      watermark: { dataPoint: "104", kind: "switch" },
-      motionDetection: { dataPoint: "134", kind: "switch" },
+      flipImage: { dataPoint: "103", kind: "switch", category: "config" },
+      watermark: { dataPoint: "104", kind: "switch", category: "config" },
+      motionDetection: { dataPoint: "134", kind: "switch", category: "config" },
       motionSensitivity: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
@@ -55,6 +68,7 @@ const entry: TuyaDeviceEntry = {
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -65,15 +79,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "206",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 16777216, value: true }],
         otherwise: false,
       },
-      foodEmptyRaw: { dataPoint: "206", kind: "sensor", readOnly: true },
+      foodEmptyRaw: {
+        dataPoint: "206",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       notEnoughFood: {
         dataPoint: "206",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 33554432, value: true }],
         otherwise: false,
@@ -82,6 +103,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "206",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 67108864, value: true }],
         otherwise: false,
@@ -89,11 +111,12 @@ const entry: TuyaDeviceEntry = {
       recording: {
         dataPoint: "113",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
-      recordingSnapshot: { dataPoint: "115", kind: "text" },
+      recordingSnapshot: { dataPoint: "115", kind: "text", category: "config" },
     },
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "v330l_petfeeder.yaml",

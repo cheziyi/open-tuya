@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Smartplug",
-  productKeys: ["eimdzrehi6a6vixn"],
+  products: [
+    { productKey: "eimdzrehi6a6vixn", manufacturer: "Nooie", model: "PU13" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "9": { type: "integer" },
@@ -18,14 +20,16 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
       },
-      childLock: { dataPoint: "41", kind: "switch" },
+      childLock: { dataPoint: "41", kind: "switch", category: "config" },
       initialState: {
         dataPoint: "39",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "on" },
           { raw: "0", value: "off" },

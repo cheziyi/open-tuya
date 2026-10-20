@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan coil thermostat",
-  productKeys: ["oqe2ba267qac12ng"],
+  products: [
+    {
+      productKey: "oqe2ba267qac12ng",
+      manufacturer: "Beok",
+      model: "TR9HB-WIFI-AC2",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -93,20 +99,22 @@ const entry: TuyaDeviceEntry = {
       model: { dataPoint: "105", kind: "text" },
     },
     device: {
-      antiFrost: { dataPoint: "10", kind: "switch" },
+      antiFrost: { dataPoint: "10", kind: "switch", category: "config" },
       temperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
         ],
       },
-      childLock: { dataPoint: "40", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       temperatureCalibration: {
         dataPoint: "109",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unitFrom: "temperatureCalibrationUnit",
         min: -99,
         max: 99,
@@ -115,6 +123,7 @@ const entry: TuyaDeviceEntry = {
       temperatureCalibrationUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -123,6 +132,7 @@ const entry: TuyaDeviceEntry = {
       temperatureCalibrationStep: {
         dataPoint: "108",
         kind: "number",
+        category: "config",
         scale: 10,
       },
     },

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "TV mount",
-  productKeys: ["etspz6new8zb1vdy"],
+  products: [
+    {
+      productKey: "etspz6new8zb1vdy",
+      manufacturer: "Speaka",
+      model: "SP-TVCM-510",
+    },
+  ],
   dataPoints: {
     "101": { type: "string" },
     "102": { type: "string", optional: true },
@@ -38,11 +44,13 @@ const entry: TuyaDeviceEntry = {
       left: {
         dataPoint: "101",
         kind: "button",
+        category: "config",
         values: [{ raw: "move_left", value: true }],
       },
       right: {
         dataPoint: "101",
         kind: "button",
+        category: "config",
         values: [{ raw: "move_right", value: true }],
       },
       preset: {
@@ -73,11 +81,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "105", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "105",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

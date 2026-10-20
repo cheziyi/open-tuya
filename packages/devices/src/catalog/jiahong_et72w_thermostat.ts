@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["m2dkohai78cwr3yd"],
+  products: [
+    {
+      productKey: "m2dkohai78cwr3yd",
+      manufacturer: "Jiahong",
+      model: "ET-72GW",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "integer" },
@@ -98,11 +104,12 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "idle" },
         ],
       },
-      childLock: { dataPoint: "108", kind: "switch" },
+      childLock: { dataPoint: "108", kind: "switch", category: "config" },
       roomTemperature: {
         dataPoint: "105",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unitFrom: "roomTemperatureUnit",
         scale: 10,
@@ -125,6 +132,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unitFrom: "floorTemperatureUnit",
         scale: 10,
@@ -154,6 +162,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "121",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unitFrom: "roomTemperatureLimitUnit",
         min: 100,
         max: 400,
@@ -174,6 +183,7 @@ const entry: TuyaDeviceEntry = {
       roomTemperatureLimitUnit: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "C" },
           { raw: true, value: "F" },
@@ -182,6 +192,7 @@ const entry: TuyaDeviceEntry = {
       temperatureSensor: {
         dataPoint: "111",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Room" },
           { raw: "1", value: "Floor" },
@@ -191,6 +202,7 @@ const entry: TuyaDeviceEntry = {
       autoSchedule: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "7" },
           { raw: 1, value: "5+1+1" },
@@ -201,6 +213,7 @@ const entry: TuyaDeviceEntry = {
       floorSensorPower: {
         dataPoint: "116",
         kind: "select",
+        category: "config",
         values: [
           { raw: 3950, value: "3950" },
           { raw: 3600, value: "3600" },
@@ -210,6 +223,7 @@ const entry: TuyaDeviceEntry = {
       location: {
         dataPoint: "109",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "Home" },
           { raw: true, value: "Office" },

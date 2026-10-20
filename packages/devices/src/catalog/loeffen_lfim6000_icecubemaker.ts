@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ice cube maker",
-  productKeys: ["2y44i6euwk9eeiz8"],
+  products: [
+    {
+      productKey: "2y44i6euwk9eeiz8",
+      manufacturer: "Loeffen",
+      model: "LFIM6000",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -19,6 +25,7 @@ const entry: TuyaDeviceEntry = {
       iceCubeSize: {
         dataPoint: "2",
         kind: "select",
+        category: "config",
         values: [
           { raw: "big", value: "Large" },
           { raw: "small", value: "Small" },
@@ -28,13 +35,19 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "3",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "3", kind: "sensor", readOnly: true },
-      uvSterilization: { dataPoint: "101", kind: "switch" },
-      cleaningMode: { dataPoint: "102", kind: "switch" },
+      faultCode: {
+        dataPoint: "3",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      uvSterilization: { dataPoint: "101", kind: "switch", category: "config" },
+      cleaningMode: { dataPoint: "102", kind: "switch", category: "config" },
     },
   },
   source: {

@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Siren",
-  productKeys: ["tgcajioatssnquwh"],
+  products: [{ productKey: "tgcajioatssnquwh", manufacturer: "Neo" }],
   dataPoints: {
     "101": { type: "string" },
     "102": { type: "string" },
@@ -84,6 +84,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "batteryCharging",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "4", value: true }],
         otherwise: false,
@@ -92,6 +93,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -100,12 +102,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
       lowTemperatureThresholdInC: {
         dataPoint: "107",
         kind: "number",
+        category: "config",
         unit: "C",
         min: -20,
         max: 50,
@@ -113,6 +117,7 @@ const entry: TuyaDeviceEntry = {
       highTemperatureThresholdInC: {
         dataPoint: "108",
         kind: "number",
+        category: "config",
         unit: "C",
         min: -20,
         max: 50,
@@ -120,6 +125,7 @@ const entry: TuyaDeviceEntry = {
       lowHumidityThresholdInPercent: {
         dataPoint: "109",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -127,6 +133,7 @@ const entry: TuyaDeviceEntry = {
       highHumidityThresholdInPercent: {
         dataPoint: "110",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -134,16 +141,22 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "112",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: "C" },
           { raw: false, value: "F" },
         ],
       },
-      temperatureAlarm: { dataPoint: "113", kind: "switch" },
-      humidityAlarm: { dataPoint: "114", kind: "switch" },
+      temperatureAlarm: {
+        dataPoint: "113",
+        kind: "switch",
+        category: "config",
+      },
+      humidityAlarm: { dataPoint: "114", kind: "switch", category: "config" },
       alarmStatus: {
         dataPoint: "115",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "0", value: "High temperature" },

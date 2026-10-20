@@ -5,7 +5,15 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water timer valve",
-  productKeys: ["c8800fd30884068f", "nxquc5lb", "so5ybnw9"],
+  products: [
+    { productKey: "c8800fd30884068f", manufacturer: "Johgee" },
+    { productKey: "nxquc5lb", manufacturer: "Insoma", model: "SOP10" },
+    {
+      productKey: "so5ybnw9",
+      manufacturer: "Royal Gardineer",
+      model: "BWC-495.bt",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "bitfield", optional: true },
@@ -37,17 +45,29 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "4", kind: "sensor", readOnly: true },
-      operation: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "4",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      operation: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       accumulatedUseTimeInSeconds: {
         dataPoint: "9",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -55,12 +75,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "15",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
       weatherDelay: {
         dataPoint: "10",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "24h", value: "24h" },
@@ -71,11 +93,16 @@ const entry: TuyaDeviceEntry = {
       irrigationTimeInSeconds: {
         dataPoint: "11",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
       },
-      smartWeatherSwitch: { dataPoint: "14", kind: "switch" },
+      smartWeatherSwitch: {
+        dataPoint: "14",
+        kind: "switch",
+        category: "config",
+      },
     },
   },
   source: {

@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat smartplug",
-  productKeys: ["kw2kh2jfzxaej5tb"],
+  products: [
+    { productKey: "kw2kh2jfzxaej5tb", manufacturer: "Beca", model: "BHT-12" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -124,18 +126,20 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
         ],
       },
-      eco: { dataPoint: "4", kind: "switch" },
-      childLock: { dataPoint: "40", kind: "switch" },
-      schedule: { dataPoint: "71", kind: "text" },
+      eco: { dataPoint: "4", kind: "switch", category: "config" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
+      schedule: { dataPoint: "71", kind: "text", category: "config" },
       holidayLengthInDays: {
         dataPoint: "101",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "d",
         min: 0,
         max: 99,
@@ -144,6 +148,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -151,12 +157,14 @@ const entry: TuyaDeviceEntry = {
       externalTemperatureInF: {
         dataPoint: "103",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "F",
       },
       ecoTemperatureInC: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "C",
         min: 100,
         max: 500,
@@ -168,8 +176,16 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 10,
       },
-      ecoTemperatureHeatF: { dataPoint: "106", kind: "number" },
-      ecoTemperatureColdF: { dataPoint: "108", kind: "number" },
+      ecoTemperatureHeatF: {
+        dataPoint: "106",
+        kind: "number",
+        category: "config",
+      },
+      ecoTemperatureColdF: {
+        dataPoint: "108",
+        kind: "number",
+        category: "config",
+      },
     },
   },
   source: {

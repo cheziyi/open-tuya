@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Temperature humidity sensor",
-  productKeys: ["cirvgep4"],
+  products: [{ productKey: "cirvgep4", model: "ZTH08ZTU" }],
   dataPoints: {
     "1": { type: "integer" },
     "2": { type: "integer" },
@@ -17,6 +17,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -25,6 +26,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },

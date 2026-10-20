@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "5": { type: "boolean" },
@@ -46,10 +46,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "SLEEP", value: "sleep" },
         ],
       },
-      sound: { dataPoint: "8", kind: "switch" },
+      sound: { dataPoint: "8", kind: "switch", category: "config" },
       waterLevelInPercent: {
         dataPoint: "101",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
         values: [
@@ -59,9 +60,9 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       ionizer: { dataPoint: "25", kind: "switch" },
-      childLock: { dataPoint: "29", kind: "switch" },
+      childLock: { dataPoint: "29", kind: "switch", category: "config" },
     },
-    display: { on: { dataPoint: "5", kind: "switch" } },
+    display: { on: { dataPoint: "5", kind: "switch", category: "config" } },
   },
   source: {
     file: "wetair_wawh1210lw_humidifier.yaml",

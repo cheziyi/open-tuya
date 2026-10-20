@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Bathroom heater",
-  productKeys: ["crtjvuaaipzpatlk"],
+  products: [
+    { productKey: "crtjvuaaipzpatlk", manufacturer: "essentials Smart Home" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -58,14 +60,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -5,
         max: 5,
       },
-      childLock: { dataPoint: "40", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       openWindowDetection: {
         dataPoint: "112",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Off" },
           { raw: "60", value: "60 min" },

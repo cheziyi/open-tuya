@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -39,11 +39,12 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "C",
       },
-      childLock: { dataPoint: "2", kind: "switch" },
+      childLock: { dataPoint: "2", kind: "switch", category: "config" },
       timerInHours: {
         dataPoint: "5",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 24,
@@ -52,11 +53,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "6", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "6",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

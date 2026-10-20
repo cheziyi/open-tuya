@@ -5,11 +5,11 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Valve controller",
-  productKeys: [
-    "nguto5atyd2xxnap",
-    "key5ckdnys3pqgec",
-    "keyfxuj3d5wg53wx",
-    "key7axydcvmea3x9",
+  products: [
+    { productKey: "nguto5atyd2xxnap", model: "ARD-100+" },
+    { productKey: "key5ckdnys3pqgec" },
+    { productKey: "keyfxuj3d5wg53wx" },
+    { productKey: "key7axydcvmea3x9", manufacturer: "Nous", model: "L3" },
   ],
   dataPoints: {
     "1": { type: "boolean" },
@@ -22,6 +22,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -29,6 +30,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },

@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["dpks5tfgim6o3faw"],
+  products: [
+    { productKey: "dpks5tfgim6o3faw", manufacturer: "Qlima", model: "D720" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -51,6 +53,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "°C",
       },
@@ -58,14 +61,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       tankFull: {
         dataPoint: "25",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "off", value: false },
@@ -75,11 +85,12 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: true,
       },
-      waterPump: { dataPoint: "101", kind: "switch" },
+      waterPump: { dataPoint: "101", kind: "switch", category: "config" },
       waterCapacityInL: {
         dataPoint: "102",
         kind: "number",
         measures: "volumeStorage",
+        category: "config",
         unit: "L",
         min: 1,
         max: 4,

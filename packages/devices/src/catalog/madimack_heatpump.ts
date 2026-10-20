@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pool heat pump",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "102": { type: "integer" },
@@ -113,6 +113,7 @@ const entry: TuyaDeviceEntry = {
       powerLevelInPercent: {
         dataPoint: "104",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -120,12 +121,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "120",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unitFrom: "evaporatorCoilPipeTemperatureUnit",
       },
       evaporatorCoilPipeTemperatureUnit: {
         dataPoint: "103",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: false, value: "F" },
@@ -136,6 +140,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "115",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
@@ -144,6 +149,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "116",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           {
@@ -157,19 +163,36 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "115", kind: "sensor", readOnly: true },
-      faultFalseCode2: { dataPoint: "116", kind: "sensor", readOnly: true },
-      defrost: { dataPoint: "130", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "115",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultFalseCode2: {
+        dataPoint: "116",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      defrost: {
+        dataPoint: "130",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       exhaustGasTemperature: {
         dataPoint: "122",
         kind: "sensor",
         measures: "temperature",
+        category: "diagnostic",
         readOnly: true,
         unitFrom: "exhaustGasTemperatureUnit",
       },
       exhaustGasTemperatureUnit: {
         dataPoint: "103",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: false, value: "F" },
@@ -180,6 +203,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "124",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unitFrom: "ambientTemperatureUnit",
       },
@@ -195,6 +219,7 @@ const entry: TuyaDeviceEntry = {
       compressorSpeedInPercent: {
         dataPoint: "125",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -202,20 +227,33 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "127",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unitFrom: "coolingPlateTemperatureUnit",
       },
       coolingPlateTemperatureUnit: {
         dataPoint: "103",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: false, value: "F" },
           { raw: true, value: "C" },
         ],
       },
-      eevOpening: { dataPoint: "128", kind: "sensor", readOnly: true },
-      fanSpeed: { dataPoint: "129", kind: "sensor", readOnly: true },
+      eevOpening: {
+        dataPoint: "128",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      fanSpeed: {
+        dataPoint: "129",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

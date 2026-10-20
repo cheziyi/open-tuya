@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Energy saver",
-  productKeys: ["ky6frnbgpz0s33sp"],
+  products: [
+    { productKey: "ky6frnbgpz0s33sp", manufacturer: "CF", model: "VS" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "string" },
@@ -163,6 +165,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           {
@@ -176,8 +179,18 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "21", kind: "sensor", readOnly: true },
-      faultCode2: { dataPoint: "114", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "21",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultCode2: {
+        dataPoint: "114",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       safety: {
         dataPoint: "116",
         kind: "sensor",

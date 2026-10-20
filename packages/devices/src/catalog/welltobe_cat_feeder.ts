@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["qqzpxhisd6zs8zyq"],
+  products: [
+    {
+      productKey: "qqzpxhisd6zs8zyq",
+      manufacturer: "WellToBe",
+      model: "WB S36D",
+    },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "3": { type: "integer", optional: true },
@@ -23,17 +29,23 @@ const entry: TuyaDeviceEntry = {
         min: 1,
         max: 6,
       },
-      mealPlan: { dataPoint: "1", kind: "text" },
+      mealPlan: { dataPoint: "1", kind: "text", category: "config" },
       slowFeed: { dataPoint: "6", kind: "switch" },
       fault: {
         dataPoint: "14",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "14", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "14",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       clockType: {
         dataPoint: "102",
         kind: "select",
@@ -42,7 +54,12 @@ const entry: TuyaDeviceEntry = {
           { raw: true, value: "24 hour" },
         ],
       },
-      battery: { dataPoint: "103", kind: "sensor", readOnly: true },
+      battery: {
+        dataPoint: "103",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

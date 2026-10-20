@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain switch",
-  productKeys: ["6tb9dko4t15optxz"],
+  products: [
+    {
+      productKey: "6tb9dko4t15optxz",
+      manufacturer: "Moes",
+      model: "SCS80 Touch",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "7": { type: "boolean" },
@@ -27,13 +33,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 10,
         max: 120,
       },
-      stopButton: { dataPoint: "101", kind: "button" },
+      stopButton: { dataPoint: "101", kind: "button", category: "config" },
     },
-    backlight: { on: { dataPoint: "7", kind: "switch" } },
+    backlight: { on: { dataPoint: "7", kind: "switch", category: "config" } },
   },
   source: {
     file: "moes_touch_curtain_switch.yaml",

@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["t2wk7ze0aiafakw2"],
+  products: [
+    { productKey: "t2wk7ze0aiafakw2", manufacturer: "Anwo", model: "Brezza" },
+  ],
   dataPoints: {
     "60": { type: "boolean" },
     "61": { type: "string", optional: true },
@@ -29,6 +31,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "64",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "cancel" },
           { raw: 60, value: "1h" },

@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Portable fan",
-  productKeys: ["cjsa4k7tqbpuyq3l", "bjfu3mwhhxybovvj"],
+  products: [
+    {
+      productKey: "cjsa4k7tqbpuyq3l",
+      manufacturer: "Duux",
+      model: "Whisper Flex Ultimate",
+    },
+    {
+      productKey: "bjfu3mwhhxybovvj",
+      manufacturer: "Duux",
+      model: "Duux Blade Fan",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -31,6 +42,7 @@ const entry: TuyaDeviceEntry = {
       horizontalOscillation: {
         dataPoint: "4",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "0", value: false },
           { raw: "1", value: true },
@@ -39,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       verticalOscillation: {
         dataPoint: "5",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "0", value: false },
           { raw: "1", value: true },
@@ -47,6 +60,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "6",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -69,6 +83,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 17,
         max: 28,

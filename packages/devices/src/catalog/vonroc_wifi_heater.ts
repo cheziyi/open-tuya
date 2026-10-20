@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["igx4agetzjknlnhr"],
+  products: [
+    {
+      productKey: "igx4agetzjknlnhr",
+      manufacturer: "Vonroc",
+      model: "GPH-XA-HEMAN",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -136,10 +142,11 @@ const entry: TuyaDeviceEntry = {
           conditions: [{ when: ["low", "high", "AF"], value: false }],
         },
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

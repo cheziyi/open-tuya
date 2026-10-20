@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Tower fan",
-  productKeys: ["8yxnkegycpds3zay"],
+  products: [
+    {
+      productKey: "8yxnkegycpds3zay",
+      manufacturer: "Brandson",
+      model: "Tower Fan DC motor",
+      modelId: "307362",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -59,6 +66,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "6",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -75,20 +83,22 @@ const entry: TuyaDeviceEntry = {
           { raw: "12", value: "12h" },
         ],
       },
-      keytone: { dataPoint: "13", kind: "switch" },
+      keytone: { dataPoint: "13", kind: "switch", category: "config" },
       temperatureInC: {
         dataPoint: "19",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
-      ionizer: { dataPoint: "9", kind: "switch" },
+      ionizer: { dataPoint: "9", kind: "switch", category: "config" },
     },
     display: {
       on: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },

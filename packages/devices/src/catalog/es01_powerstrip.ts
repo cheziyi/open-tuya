@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Smart plug with USB",
-  productKeys: ["hsoiigeykxh9m4hx"],
+  products: [{ productKey: "hsoiigeykxh9m4hx", model: "ES-01" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -25,6 +25,7 @@ const entry: TuyaDeviceEntry = {
       timer1InSeconds: {
         dataPoint: "5",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -32,6 +33,7 @@ const entry: TuyaDeviceEntry = {
       timer2InSeconds: {
         dataPoint: "6",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -39,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       timer3InSeconds: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -46,6 +49,7 @@ const entry: TuyaDeviceEntry = {
       timerUsbInSeconds: {
         dataPoint: "8",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

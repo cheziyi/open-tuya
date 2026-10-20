@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -84,9 +84,13 @@ const entry: TuyaDeviceEntry = {
           { raw: true, value: "vertical" },
         ],
       },
-      openWindowDetector: { dataPoint: "101", kind: "switch" },
+      openWindowDetector: {
+        dataPoint: "101",
+        kind: "switch",
+        category: "config",
+      },
     },
-    display: { on: { dataPoint: "10", kind: "switch" } },
+    display: { on: { dataPoint: "10", kind: "switch", category: "config" } },
   },
   source: {
     file: "purline_m100_heater.yaml",

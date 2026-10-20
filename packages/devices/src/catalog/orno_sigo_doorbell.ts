@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Doorbell",
-  productKeys: ["anic3m16jmjo80ao"],
+  products: [
+    {
+      productKey: "anic3m16jmjo80ao",
+      manufacturer: "Orno",
+      model: "Sigo",
+      modelId: "OR-DB-MK-174",
+    },
+  ],
   dataPoints: {
     "1": { type: "string", optional: true },
     "2": { type: "integer" },
@@ -89,7 +96,11 @@ const entry: TuyaDeviceEntry = {
       buttonConfig: { dataPoint: "1", kind: "text" },
       undisturbSchedule: { dataPoint: "7", kind: "text" },
       doorbellCall: { dataPoint: "10", kind: "number" },
-      mobileNotifications: { dataPoint: "6", kind: "switch" },
+      mobileNotifications: {
+        dataPoint: "6",
+        kind: "switch",
+        category: "config",
+      },
       doorbell: {
         dataPoint: "5",
         kind: "event",

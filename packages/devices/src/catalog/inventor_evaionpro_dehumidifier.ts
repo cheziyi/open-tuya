@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["mmm72scanusbicie"],
+  products: [
+    {
+      productKey: "mmm72scanusbicie",
+      manufacturer: "Inventor",
+      model: "Eva II Pro",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -50,11 +56,12 @@ const entry: TuyaDeviceEntry = {
       },
       pump: { dataPoint: "103", kind: "switch" },
       waterLevel: { dataPoint: "104", kind: "number" },
-      ionizer: { dataPoint: "10", kind: "switch" },
+      ionizer: { dataPoint: "10", kind: "switch", category: "config" },
       temperatureInC: {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -62,6 +69,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -69,8 +77,18 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
-      tankFull: { dataPoint: "101", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      tankFull: {
+        dataPoint: "101",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     fan: {
       on: { dataPoint: "1", kind: "switch" },

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Register booster fan",
-  productKeys: ["smagt9q8bb74cqgr"],
+  products: [
+    {
+      productKey: "smagt9q8bb74cqgr",
+      manufacturer: "VIVOHOME",
+      model: "AirBoost Louver Series",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -85,10 +91,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "all", value: "Auto" },
         ],
       },
-      childLock: { dataPoint: "14", kind: "switch" },
+      childLock: { dataPoint: "14", kind: "switch", category: "config" },
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -103,12 +110,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
       temperatureUnit: {
         dataPoint: "28",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -117,12 +126,13 @@ const entry: TuyaDeviceEntry = {
       standbyLouver: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Open", value: "Open" },
           { raw: "Close", value: "Close" },
         ],
       },
-      mute: { dataPoint: "105", kind: "switch" },
+      mute: { dataPoint: "105", kind: "switch", category: "config" },
     },
     fan: {
       on: { dataPoint: "1", kind: "switch" },

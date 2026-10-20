@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["t0qzrmur7pyzjuco"],
+  products: [
+    { productKey: "t0qzrmur7pyzjuco", manufacturer: "Roomratv", model: "9003" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer", optional: true },
@@ -23,6 +25,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

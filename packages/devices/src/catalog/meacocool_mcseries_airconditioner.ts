@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["uhczsyv4vdrcscwv"],
+  products: [
+    {
+      productKey: "uhczsyv4vdrcscwv",
+      manufacturer: "MeacoCool",
+      model: "MC Series 10000 Pro CH",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -89,10 +95,11 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: "C_H", value: true }],
         otherwise: false,
       },
-      childLock: { dataPoint: "14", kind: "switch" },
+      childLock: { dataPoint: "14", kind: "switch", category: "config" },
       temperatureUnit: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -102,11 +109,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       sleep: { dataPoint: "101", kind: "switch" },
       ionizer: { dataPoint: "104", kind: "switch" },
     },

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fish feeder",
-  productKeys: ["vd9dyozjl2jestpz"],
+  products: [
+    {
+      productKey: "vd9dyozjl2jestpz",
+      manufacturer: "Tesla Smart",
+      model: "TSL-PC-059DW",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer", optional: true },
@@ -28,6 +34,7 @@ const entry: TuyaDeviceEntry = {
       feeding: {
         dataPoint: "3",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "3h", value: "3h" },
@@ -39,11 +46,12 @@ const entry: TuyaDeviceEntry = {
       autoFeedInPortions: {
         dataPoint: "4",
         kind: "number",
+        category: "config",
         unit: "portions",
         min: 0,
         max: 3,
       },
-      mealPlan: { dataPoint: "5", kind: "text" },
+      mealPlan: { dataPoint: "5", kind: "text", category: "config" },
       manualFeedReport: {
         dataPoint: "6",
         kind: "event",

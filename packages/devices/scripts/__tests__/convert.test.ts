@@ -21,7 +21,15 @@ describe("convertDeviceFile", () => {
   it("converts a plug into its controls, named for what each controls", () => {
     expect(entry(fixture("smartplugv1.yaml"))).toEqual({
       name: "Energy monitoring smartplug",
-      productKeys: ["37mnhia3pojleqfh", "kOKEJBFoF9VNB5FR", "bWBb4e6BTZGie0Lv"],
+      products: [
+        { productKey: "37mnhia3pojleqfh", model: "SP111-A" },
+        { productKey: "kOKEJBFoF9VNB5FR", model: "HYS-U1S-13A" },
+        {
+          productKey: "bWBb4e6BTZGie0Lv",
+          manufacturer: "TopGreener",
+          model: "TGWF115PRM",
+        },
+      ],
       dataPoints: {
         "1": { type: "boolean" },
         "2": { type: "integer" },
@@ -37,6 +45,8 @@ describe("convertDeviceFile", () => {
             dataPoint: "6",
             kind: "sensor",
             measures: "voltage",
+            reading: "instant",
+            category: "diagnostic",
             readOnly: true,
             unit: "V",
             scale: 10,
@@ -45,6 +55,8 @@ describe("convertDeviceFile", () => {
             dataPoint: "4",
             kind: "sensor",
             measures: "current",
+            reading: "instant",
+            category: "diagnostic",
             readOnly: true,
             unit: "mA",
           },
@@ -52,6 +64,8 @@ describe("convertDeviceFile", () => {
             dataPoint: "5",
             kind: "sensor",
             measures: "power",
+            reading: "instant",
+            category: "diagnostic",
             readOnly: true,
             unit: "W",
             scale: 10,
@@ -60,12 +74,14 @@ describe("convertDeviceFile", () => {
             dataPoint: "7",
             kind: "sensor",
             measures: "fault",
+            category: "diagnostic",
             readOnly: true,
             whenAbsent: { value: false },
           },
           timerInSeconds: {
             dataPoint: "2",
             kind: "number",
+            category: "config",
             unit: "s",
             min: 0,
             max: 86400,
@@ -511,6 +527,71 @@ entities:
       kind: "sensor",
       measures: "fault",
       readOnly: true,
+    });
+  });
+
+  it("lists each product a key is sold as, with its model's code", () => {
+    const { products } = entry(`name: Ceiling fan light
+products:
+  - id: ujya7f5twjovh1kf
+    manufacturer: Lumary
+    model: A1
+    model_id: L-CFL18A1
+  - id: ujya7f5twjovh1kf
+    manufacturer: Serene
+  - manufacturer: Unknown
+entities:
+  - entity: switch
+    dps:
+      - id: 1
+        type: boolean
+        name: switch
+`);
+
+    expect(products).toEqual([
+      {
+        productKey: "ujya7f5twjovh1kf",
+        manufacturer: "Lumary",
+        model: "A1",
+        modelId: "L-CFL18A1",
+      },
+      { productKey: "ujya7f5twjovh1kf", manufacturer: "Serene" },
+    ]);
+  });
+
+  it("gives an energy meter's total its reading, and each of an entity's controls its category", () => {
+    const { components } = entry(`name: Meter
+entities:
+  - entity: sensor
+    class: energy
+    category: diagnostic
+    dps:
+      - id: 1
+        type: integer
+        name: sensor
+        class: total_increasing
+        unit: kWh
+      - id: 2
+        type: integer
+        name: today
+`);
+
+    expect(components.device).toEqual({
+      energyInKwh: {
+        dataPoint: "1",
+        kind: "sensor",
+        measures: "energy",
+        reading: "risingTotal",
+        category: "diagnostic",
+        readOnly: true,
+        unit: "kWh",
+      },
+      energyToday: {
+        dataPoint: "2",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     });
   });
 

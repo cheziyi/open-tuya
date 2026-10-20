@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Smart lock",
-  productKeys: ["stugc8dl", "xicdxood"],
+  products: [
+    { productKey: "stugc8dl", model: "HU06" },
+    {
+      productKey: "xicdxood",
+      manufacturer: "Impression",
+      model: "ImSmart C502",
+    },
+  ],
   dataPoints: {
     "8": { type: "integer" },
     "13": { type: "integer", optional: true },
@@ -56,6 +63,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "8",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -63,6 +72,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "wrong_password", value: true },
@@ -74,6 +84,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "tamper",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "pry", value: true },
@@ -85,6 +96,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "battery",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "low_battery", value: true },
@@ -97,6 +109,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "defense", value: true },
@@ -104,17 +117,24 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: false,
       },
-      faultDescription: { dataPoint: "21", kind: "sensor", readOnly: true },
+      faultDescription: {
+        dataPoint: "21",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       duress: {
         dataPoint: "22",
         kind: "sensor",
         measures: "hazard",
+        category: "diagnostic",
         readOnly: true,
         whenAbsent: { value: false },
       },
       doorbell: {
         dataPoint: "24",
         kind: "event",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: true, value: "ring" },
@@ -124,6 +144,7 @@ const entry: TuyaDeviceEntry = {
       doorbellVolumeInPercent: {
         dataPoint: "27",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -132,10 +153,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "voice", value: 100 },
         ],
       },
-      autoLock: { dataPoint: "33", kind: "switch" },
+      autoLock: { dataPoint: "33", kind: "switch", category: "config" },
       autoLockDelayInSeconds: {
         dataPoint: "36",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 10,
         max: 180,
@@ -145,6 +167,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "40",
         kind: "sensor",
         measures: "door",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "unknown", value: null },
@@ -159,12 +182,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
       },
       keypadBatteryInPercent: {
         dataPoint: "103",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -172,6 +198,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "sensor",
         measures: "connectivity",
+        category: "diagnostic",
         readOnly: true,
       },
     },

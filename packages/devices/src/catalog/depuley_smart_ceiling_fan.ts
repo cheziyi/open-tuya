@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan light",
-  productKeys: ["czvfkmtazfs0ohaq"],
+  products: [
+    {
+      productKey: "czvfkmtazfs0ohaq",
+      manufacturer: "Depuley",
+      model: "WS-FPZ37-18I-EU",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -30,7 +36,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      lights: { dataPoint: "20", kind: "switch" },
+      lights: { dataPoint: "20", kind: "switch", category: "config" },
       power: { dataPoint: "20", kind: "switch" },
       on: {
         dataPoint: "51",
@@ -87,6 +93,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "25",
         kind: "select",
+        category: "config",
         type: "string",
         values: [
           {
@@ -147,11 +154,12 @@ const entry: TuyaDeviceEntry = {
           },
         ],
       },
-      mixScene: { dataPoint: "36", kind: "text" },
-      mixRgbcw: { dataPoint: "51", kind: "text" },
+      mixScene: { dataPoint: "36", kind: "text", category: "config" },
+      mixRgbcw: { dataPoint: "51", kind: "text", category: "config" },
       lightType: {
         dataPoint: "59",
         kind: "select",
+        category: "config",
         values: [
           { raw: "led", value: "led" },
           { raw: "incandescent", value: "incandescent" },
@@ -161,6 +169,7 @@ const entry: TuyaDeviceEntry = {
       lightTimerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -169,6 +178,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "64",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 540,
@@ -184,7 +194,12 @@ const entry: TuyaDeviceEntry = {
         otherwise: true,
       },
       faultCode: { dataPoint: "56", kind: "sensor", readOnly: true },
-      sound: { dataPoint: "57", kind: "switch", whenAbsent: { value: false } },
+      sound: {
+        dataPoint: "57",
+        kind: "switch",
+        category: "config",
+        whenAbsent: { value: false },
+      },
     },
     backlight: {
       on: {

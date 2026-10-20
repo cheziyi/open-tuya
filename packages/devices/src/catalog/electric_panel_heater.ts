@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Panel heater",
-  productKeys: ["urxauhwqufusih5h"],
+  products: [
+    {
+      productKey: "urxauhwqufusih5h",
+      manufacturer: "Cleverio",
+      model: "AR10 / AR20",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -65,10 +71,11 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       temperatureUnit: { dataPoint: "103", kind: "text" },
-      childLock: { dataPoint: "6", kind: "switch" },
+      childLock: { dataPoint: "6", kind: "switch", category: "config" },
       timer: {
         dataPoint: "10",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -101,6 +108,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -108,11 +116,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

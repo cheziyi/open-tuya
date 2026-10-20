@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pedestal fan",
-  productKeys: ["smrux6jwhnrmbbyl"],
+  products: [
+    {
+      productKey: "smrux6jwhnrmbbyl",
+      manufacturer: "Ausclimate",
+      model: "EcoSmart Pedestal Air Circulator",
+      modelId: "ACAC300",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer" },
@@ -32,10 +39,15 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      verticalOscillation: { dataPoint: "4", kind: "switch" },
+      verticalOscillation: {
+        dataPoint: "4",
+        kind: "switch",
+        category: "config",
+      },
       onTimer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -46,6 +58,7 @@ const entry: TuyaDeviceEntry = {
       offTimer: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1H", value: "1h" },

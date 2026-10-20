@@ -5,7 +5,23 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["q1z0isgflmccqzpz", "3ofbq4q9ewc8yc4e", "rcbmbxfhfjka1kap"],
+  products: [
+    {
+      productKey: "q1z0isgflmccqzpz",
+      manufacturer: "Beltax",
+      model: "Air Condition-A011_D2",
+    },
+    {
+      productKey: "3ofbq4q9ewc8yc4e",
+      manufacturer: "Medion",
+      model: "Life P901",
+    },
+    {
+      productKey: "rcbmbxfhfjka1kap",
+      manufacturer: "Monzana",
+      model: "Klimaanlage",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -116,13 +132,24 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
-      faultClientId: { dataPoint: "102", kind: "sensor", readOnly: true },
-      childLock: { dataPoint: "14", kind: "switch" },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultClientId: {
+        dataPoint: "102",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      childLock: { dataPoint: "14", kind: "switch", category: "config" },
     },
   },
   source: {

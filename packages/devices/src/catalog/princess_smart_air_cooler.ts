@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air cooler",
-  productKeys: ["y7qqmrwarh8e6jji"],
+  products: [
+    {
+      productKey: "y7qqmrwarh8e6jji",
+      manufacturer: "Princess",
+      model: "Smart Air Cooler",
+      modelId: "358640 / 357250",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -37,6 +44,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 24,

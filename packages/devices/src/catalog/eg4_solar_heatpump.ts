@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heat pump",
-  productKeys: ["gpjca2vt"],
+  products: [
+    { productKey: "gpjca2vt", manufacturer: "EG4", model: "DWA4-ACDC1-12K" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -146,11 +148,12 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      ionizer: { dataPoint: "9", kind: "switch" },
-      emergencyHeat: { dataPoint: "10", kind: "switch" },
+      ionizer: { dataPoint: "9", kind: "switch", category: "config" },
+      emergencyHeat: { dataPoint: "10", kind: "switch", category: "config" },
       temperatureUnit: {
         dataPoint: "21",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -160,16 +163,24 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "24", kind: "sensor", readOnly: true },
-      sleep: { dataPoint: "101", kind: "switch" },
+      faultCode: {
+        dataPoint: "24",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      sleep: { dataPoint: "101", kind: "switch", category: "config" },
       energyInWh: {
         dataPoint: "110",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
+        category: "diagnostic",
         readOnly: true,
         unit: "Wh",
       },
@@ -177,12 +188,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "W",
       },
-      acLimiter: { dataPoint: "112", kind: "switch" },
+      acLimiter: { dataPoint: "112", kind: "switch", category: "config" },
     },
-    display: { on: { dataPoint: "11", kind: "switch" } },
+    display: { on: { dataPoint: "11", kind: "switch", category: "config" } },
   },
   source: {
     file: "eg4_solar_heatpump.yaml",

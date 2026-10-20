@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Decorative lights",
-  productKeys: ["wcx02kgo8o1qwaf8"],
+  products: [
+    {
+      productKey: "wcx02kgo8o1qwaf8",
+      manufacturer: "Asahom",
+      model: "S105A C",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -91,29 +97,38 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
       },
-      memory: { dataPoint: "113", kind: "switch" },
+      memory: { dataPoint: "113", kind: "switch", category: "config" },
       remotePairing: {
         dataPoint: "114",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
-      remotePairingInformation: { dataPoint: "115", kind: "text" },
+      remotePairingInformation: {
+        dataPoint: "115",
+        kind: "text",
+        category: "config",
+      },
       lightMode: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: "color", value: "Color" },
           { raw: "fav", value: "Favorite" },
         ],
       },
-      reconfigure: { dataPoint: "105", kind: "button" },
+      reconfigure: { dataPoint: "105", kind: "button", category: "config" },
     },
-    indicator: { on: { dataPoint: "112", kind: "switch" } },
-    device: { colorSync: { dataPoint: "118", kind: "switch" } },
+    indicator: { on: { dataPoint: "112", kind: "switch", category: "config" } },
+    device: {
+      colorSync: { dataPoint: "118", kind: "switch", category: "config" },
+    },
   },
   source: {
     file: "asahom_outdoor_rgbcw_lights.yaml",

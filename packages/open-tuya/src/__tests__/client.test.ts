@@ -482,7 +482,7 @@ describe("createTuyaClient", () => {
         routes: [{ cloud: account }],
         entry: {
           name: "Meter",
-          productKeys: [],
+          products: [],
           dataPoints: {
             "4": { type: "integer", optional: true },
             "8": { type: "integer", optional: true },

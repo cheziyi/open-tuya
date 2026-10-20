@@ -5,7 +5,19 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain switch",
-  productKeys: ["qa8s8vca", "nnfrmb3val45av1n", "cqcew2xvoqjdaixe"],
+  products: [
+    { productKey: "qa8s8vca", manufacturer: "LoraTap", model: "QCSC400ZB-V2" },
+    {
+      productKey: "nnfrmb3val45av1n",
+      manufacturer: "LoraTap",
+      model: "QCSC500W-V2N2",
+    },
+    {
+      productKey: "cqcew2xvoqjdaixe",
+      manufacturer: "LoraTap",
+      model: "SC400W",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "8": { type: "string" },

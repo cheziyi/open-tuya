@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Refrigeration thermostat",
-  productKeys: ["hcsrgtxqugqadvms"],
+  products: [
+    {
+      productKey: "hcsrgtxqugqadvms",
+      manufacturer: "Elitech",
+      model: "ECS-974T",
+    },
+  ],
   dataPoints: {
     "45": { type: "bitfield", optional: true },
     "101": { type: "integer" },
@@ -87,31 +93,46 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
         scale: 10,
       },
-      defrost: { dataPoint: "104", kind: "sensor", readOnly: true },
+      defrost: {
+        dataPoint: "104",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       fan: {
         dataPoint: "105",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
       },
       fault: {
         dataPoint: "45",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "45",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       manualDefrost: { dataPoint: "138", kind: "switch" },
       compressorMaxOnTimeInMinutes: {
         dataPoint: "111",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 250,
@@ -120,6 +141,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "112",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 250,
@@ -128,6 +150,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 250,
@@ -136,6 +159,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "114",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 250,
@@ -144,6 +168,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "126",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 250,
@@ -152,6 +177,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "116",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 1,
         max: 250,
@@ -159,6 +185,7 @@ const entry: TuyaDeviceEntry = {
       defrostIntervalMethod: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Compressor run time" },
           { raw: "1", value: "Real time" },
@@ -169,6 +196,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "118",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 59,
@@ -177,6 +205,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "119",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 250,
@@ -185,6 +214,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "121",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -500,
         max: 990,
@@ -193,6 +223,7 @@ const entry: TuyaDeviceEntry = {
       defrostAtPowerOn: {
         dataPoint: "122",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "0", value: false },
           { raw: "1", value: true },
@@ -201,6 +232,7 @@ const entry: TuyaDeviceEntry = {
       defrostDisplayMode: {
         dataPoint: "137",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Current temperature" },
           { raw: "1", value: "Lock at temperature" },
@@ -211,6 +243,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "123",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -500,
         max: 990,
@@ -220,6 +253,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "124",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: 10,
         max: 500,
@@ -229,6 +263,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "125",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 250,
@@ -236,6 +271,7 @@ const entry: TuyaDeviceEntry = {
       defrostFanDisable: {
         dataPoint: "127",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "0", value: false },
           { raw: "1", value: true },
@@ -245,6 +281,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "131",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 15,
@@ -253,6 +290,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "132",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 250,
@@ -261,6 +299,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "133",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 250,
@@ -268,6 +307,7 @@ const entry: TuyaDeviceEntry = {
       evaporatorSensor: {
         dataPoint: "120",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "0", value: false },
           { raw: "1", value: true },
@@ -276,6 +316,7 @@ const entry: TuyaDeviceEntry = {
       decimalPointDisplay: {
         dataPoint: "134",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "0", value: false },
           { raw: "1", value: true },
@@ -285,6 +326,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: 10,
         max: 500,
@@ -294,6 +336,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -500,
         max: 990,
@@ -303,6 +346,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -500,
         max: 990,
@@ -311,6 +355,7 @@ const entry: TuyaDeviceEntry = {
       defrostType: {
         dataPoint: "115",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Electric" },
           { raw: "1", value: "Hot gas" },
@@ -319,6 +364,7 @@ const entry: TuyaDeviceEntry = {
       fanContinuousOperation: {
         dataPoint: "128",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "0", value: false },
           { raw: "1", value: true },
@@ -328,6 +374,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "129",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -500,
         max: 990,
@@ -337,6 +384,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "130",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -500,
         max: 990,
@@ -345,6 +393,7 @@ const entry: TuyaDeviceEntry = {
       temperatureCalibrationInC: {
         dataPoint: "135",
         kind: "number",
+        category: "config",
         unit: "C",
         min: -100,
         max: 100,
@@ -353,6 +402,7 @@ const entry: TuyaDeviceEntry = {
       evaporatorSensorCalibrationInC: {
         dataPoint: "136",
         kind: "number",
+        category: "config",
         unit: "C",
         min: -100,
         max: 100,

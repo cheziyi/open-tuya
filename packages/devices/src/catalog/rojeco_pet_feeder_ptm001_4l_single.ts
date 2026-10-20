@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["opnbfbjlnpdjwior"],
+  products: [
+    {
+      productKey: "opnbfbjlnpdjwior",
+      manufacturer: "Rojeco",
+      model: "PTM-001 4L Single Bowl",
+    },
+  ],
   dataPoints: {
     "3": { type: "integer", optional: true },
     "4": { type: "string" },
@@ -21,12 +27,14 @@ const entry: TuyaDeviceEntry = {
       lastAmountInPortions: {
         dataPoint: "15",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "portions",
       },
       feedState: {
         dataPoint: "4",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -37,15 +45,17 @@ const entry: TuyaDeviceEntry = {
       manualFeedInPortions: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "portions",
         min: 1,
         max: 60,
       },
-      slowFeed: { dataPoint: "16", kind: "switch" },
+      slowFeed: { dataPoint: "16", kind: "switch", category: "config" },
       emptyFood: {
         dataPoint: "14",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,
@@ -54,6 +64,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },

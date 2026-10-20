@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["me73ary4ppn8bt5b"],
+  products: [
+    { productKey: "me73ary4ppn8bt5b", manufacturer: "Webber", model: "AP9750" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "string" },
@@ -51,7 +53,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      uvSterilization: { dataPoint: "9", kind: "switch" },
+      uvSterilization: { dataPoint: "9", kind: "switch", category: "config" },
       on: { dataPoint: "10", kind: "switch" },
       currentHumidityInPercent: {
         dataPoint: "13",
@@ -82,6 +84,7 @@ const entry: TuyaDeviceEntry = {
       timerInHours: {
         dataPoint: "102",
         kind: "number",
+        category: "config",
         unit: "h",
         min: 0,
         max: 24,
@@ -115,6 +118,7 @@ const entry: TuyaDeviceEntry = {
       on: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },

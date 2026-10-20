@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Oil radiator",
-  productKeys: ["fuqsuq41dqdtzq0n"],
+  products: [
+    {
+      productKey: "fuqsuq41dqdtzq0n",
+      manufacturer: "Juskys",
+      model: "OH125BW2",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -42,10 +48,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "2", value: "comfort" },
         ],
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -78,13 +85,19 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "21", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "21",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
-    indicator: { on: { dataPoint: "10", kind: "switch" } },
+    indicator: { on: { dataPoint: "10", kind: "switch", category: "config" } },
   },
   source: {
     file: "juskys_oh125bw2_radiator.yaml",

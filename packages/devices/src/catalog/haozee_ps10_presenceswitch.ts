@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Presence lightswitch",
-  productKeys: ["o9a6at9cyfchb47y"],
+  products: [
+    { productKey: "o9a6at9cyfchb47y", manufacturer: "Haozee", model: "PS10" },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "101": { type: "string" },
@@ -33,6 +35,7 @@ const entry: TuyaDeviceEntry = {
       lightSwitching: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Auto", value: "Auto" },
           { raw: "Manual", value: "Manual" },
@@ -42,15 +45,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "motion",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "none", value: false }],
         otherwise: true,
       },
-      motionMovementType: { dataPoint: "102", kind: "sensor", readOnly: true },
+      motionMovementType: {
+        dataPoint: "102",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       presenceDelayInSeconds: {
         dataPoint: "103",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 3,
         max: 10,
@@ -59,15 +69,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "number",
         measures: "distance",
+        category: "config",
         unit: "cm",
         min: 150,
         max: 600,
         step: 75,
       },
-      motionSensitivity: { dataPoint: "105", kind: "number", min: 0, max: 7 },
+      motionSensitivity: {
+        dataPoint: "105",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 7,
+      },
       breathingSensitivity: {
         dataPoint: "106",
         kind: "number",
+        category: "config",
         min: 0,
         max: 7,
       },
@@ -75,12 +93,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "sensor",
         measures: "distance",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "cm",
       },
       lightThreshold: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "10Lux", value: "10 lux" },
           { raw: "20Lux", value: "20 lux" },
@@ -92,6 +113,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 10,
         max: 1800,
@@ -99,7 +121,7 @@ const entry: TuyaDeviceEntry = {
       },
       on: { dataPoint: "110", kind: "switch" },
     },
-    indicator: { on: { dataPoint: "111", kind: "switch" } },
+    indicator: { on: { dataPoint: "111", kind: "switch", category: "config" } },
   },
   source: {
     file: "haozee_ps10_presenceswitch.yaml",

@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "mmWave presence sensor",
-  productKeys: ["4cjzlliucdjaanvl", "j5tnwuyrqc2oaupd"],
+  products: [
+    { productKey: "4cjzlliucdjaanvl", model: "ZY-M100-WIFI24G" },
+    { productKey: "j5tnwuyrqc2oaupd", model: "ZY-M100-24G-WIFI" },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer", optional: true },
@@ -27,10 +30,17 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: "move", value: true }],
         otherwise: false,
       },
-      sensitivity: { dataPoint: "2", kind: "number", min: 1, max: 10 },
+      sensitivity: {
+        dataPoint: "2",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 10,
+      },
       minimumDistanceInM: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "m",
         min: 150,
         max: 900,
@@ -40,6 +50,7 @@ const entry: TuyaDeviceEntry = {
       maximumDistanceInM: {
         dataPoint: "4",
         kind: "number",
+        category: "config",
         unit: "m",
         min: 150,
         max: 975,
@@ -50,6 +61,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "distance",
+        reading: "instant",
         readOnly: true,
         unit: "m",
         scale: 10,
@@ -57,6 +69,7 @@ const entry: TuyaDeviceEntry = {
       presenceSensitivity: {
         dataPoint: "102",
         kind: "number",
+        category: "config",
         min: 1,
         max: 10,
       },
@@ -64,6 +77,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "illuminance",
+        reading: "instant",
         readOnly: true,
         unit: "lx",
       },
@@ -83,6 +97,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 5,
         max: 15000,

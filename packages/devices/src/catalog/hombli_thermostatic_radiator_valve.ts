@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Radiator thermostat",
-  productKeys: ["ngxyxyc8"],
+  products: [
+    { productKey: "ngxyxyc8", manufacturer: "Hombli", model: "HBRT-0109" },
+  ],
   dataPoints: {
     "8": { type: "boolean" },
     "10": { type: "boolean" },
@@ -58,11 +60,12 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "home" },
         ],
       },
-      windowCheck: { dataPoint: "8", kind: "switch" },
-      antiFrost: { dataPoint: "10", kind: "switch" },
+      windowCheck: { dataPoint: "8", kind: "switch", category: "config" },
+      antiFrost: { dataPoint: "10", kind: "switch", category: "config" },
       temperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -72,26 +75,29 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -60,
         max: 60,
         scale: 10,
         step: 5,
       },
-      childLock: { dataPoint: "40", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       battery: {
         dataPoint: "105",
         kind: "sensor",
         measures: "battery",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      schedule: { dataPoint: "108", kind: "switch" },
-      antiscale: { dataPoint: "130", kind: "switch" },
+      schedule: { dataPoint: "108", kind: "switch", category: "config" },
+      antiscale: { dataPoint: "130", kind: "switch", category: "config" },
       valveInPercent: {
         dataPoint: "104",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },

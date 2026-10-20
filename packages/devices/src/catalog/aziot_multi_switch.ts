@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Multi switch",
-  productKeys: ["xs4fwrqy9rxg5tak", "kqkj2vssnbwqq34j"],
+  products: [
+    {
+      productKey: "xs4fwrqy9rxg5tak",
+      manufacturer: "Aziot",
+      model: "8 Node Smart Switch",
+    },
+    {
+      productKey: "kqkj2vssnbwqq34j",
+      manufacturer: "Aziot",
+      model: "7 Node-IO Smart Switch",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -39,6 +50,7 @@ const entry: TuyaDeviceEntry = {
       timer1InSeconds: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -46,6 +58,7 @@ const entry: TuyaDeviceEntry = {
       timer2InSeconds: {
         dataPoint: "8",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -53,6 +66,7 @@ const entry: TuyaDeviceEntry = {
       timer3InSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -60,6 +74,7 @@ const entry: TuyaDeviceEntry = {
       timer4InSeconds: {
         dataPoint: "10",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -67,6 +82,7 @@ const entry: TuyaDeviceEntry = {
       timer5InSeconds: {
         dataPoint: "11",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -74,6 +90,7 @@ const entry: TuyaDeviceEntry = {
       timer6InSeconds: {
         dataPoint: "12",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -81,6 +98,7 @@ const entry: TuyaDeviceEntry = {
       timer7InSeconds: {
         dataPoint: "143",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -88,6 +106,7 @@ const entry: TuyaDeviceEntry = {
       timer8InSeconds: {
         dataPoint: "172",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

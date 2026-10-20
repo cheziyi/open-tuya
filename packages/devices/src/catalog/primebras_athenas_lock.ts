@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Door lock",
-  productKeys: ["6fibxtph", "99gv5nmz"],
+  products: [
+    { productKey: "6fibxtph", manufacturer: "Primebras", model: "Athenas" },
+    {
+      productKey: "99gv5nmz",
+      manufacturer: "Foxgard",
+      model: "Smart Fingerprint Door Lock",
+    },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "2": { type: "base64", optional: true },
@@ -166,6 +173,7 @@ const entry: TuyaDeviceEntry = {
       lockVolumeInPercent: {
         dataPoint: "31",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -179,6 +187,7 @@ const entry: TuyaDeviceEntry = {
       autoLock: {
         dataPoint: "33",
         kind: "switch",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -187,6 +196,7 @@ const entry: TuyaDeviceEntry = {
       multifactor: {
         dataPoint: "34",
         kind: "select",
+        category: "config",
         values: [
           { raw: "single_unlock", value: "off" },
           { raw: "finger_password", value: "Finger + password" },
@@ -200,6 +210,7 @@ const entry: TuyaDeviceEntry = {
       autoLockDelayInSeconds: {
         dataPoint: "36",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 1800,
@@ -207,27 +218,46 @@ const entry: TuyaDeviceEntry = {
       localClock: {
         dataPoint: "44",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       lockMotorDirection: {
         dataPoint: "50",
         kind: "select",
+        category: "config",
         values: [
           { raw: "clockwise", value: "Clockwise" },
           { raw: "anticlockwise", value: "Anti-clockwise" },
         ],
       },
-      newCredential: { dataPoint: "1", kind: "text" },
-      deleteCredential: { dataPoint: "2", kind: "text" },
-      modifyCredential: { dataPoint: "3", kind: "text" },
-      newTemporaryPassword: { dataPoint: "51", kind: "text" },
-      deleteTemporaryPassword: { dataPoint: "52", kind: "text" },
-      modifyTemporaryPassword: { dataPoint: "53", kind: "text" },
-      syncCredentials: { dataPoint: "54", kind: "text" },
-      offlinePasswordTimestamp: { dataPoint: "64", kind: "text" },
+      newCredential: { dataPoint: "1", kind: "text", category: "config" },
+      deleteCredential: { dataPoint: "2", kind: "text", category: "config" },
+      modifyCredential: { dataPoint: "3", kind: "text", category: "config" },
+      newTemporaryPassword: {
+        dataPoint: "51",
+        kind: "text",
+        category: "config",
+      },
+      deleteTemporaryPassword: {
+        dataPoint: "52",
+        kind: "text",
+        category: "config",
+      },
+      modifyTemporaryPassword: {
+        dataPoint: "53",
+        kind: "text",
+        category: "config",
+      },
+      syncCredentials: { dataPoint: "54", kind: "text", category: "config" },
+      offlinePasswordTimestamp: {
+        dataPoint: "64",
+        kind: "text",
+        category: "config",
+      },
       language: {
         dataPoint: "28",
         kind: "select",
+        category: "config",
         values: [
           { raw: "chinese_simplified", value: "chinese" },
           { raw: "english", value: "english" },

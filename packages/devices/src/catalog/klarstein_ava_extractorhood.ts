@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Extractor hood",
-  productKeys: ["zggqz0s1atd9qce4"],
+  products: [
+    { productKey: "zggqz0s1atd9qce4", manufacturer: "Klarstein", model: "Ava" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "boolean" },
@@ -31,11 +33,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 100,
       },
-      totalRuntime: { dataPoint: "12", kind: "sensor", readOnly: true },
+      totalRuntime: {
+        dataPoint: "12",
+        kind: "sensor",
+        reading: "instant",
+        readOnly: true,
+      },
     },
     fan: {
       on: { dataPoint: "1", kind: "switch" },

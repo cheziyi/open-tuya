@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Camera with light",
-  productKeys: ["wauxpj9p977uxhvb"],
+  products: [
+    { productKey: "wauxpj9p977uxhvb", manufacturer: "EMOS", model: "IP-300" },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "103": { type: "boolean", optional: true },
@@ -53,20 +55,23 @@ const entry: TuyaDeviceEntry = {
         otherwise: "detected",
       },
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
-      motionDetection: { dataPoint: "134", kind: "switch" },
+      motionDetection: { dataPoint: "134", kind: "switch", category: "config" },
       flipImage: {
         dataPoint: "103",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       watermark: {
         dataPoint: "104",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       motionSensitivity: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
@@ -76,6 +81,7 @@ const entry: TuyaDeviceEntry = {
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -85,6 +91,7 @@ const entry: TuyaDeviceEntry = {
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -95,11 +102,17 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "normal" },
       },
-      sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
-      formatSdCard: { dataPoint: "111", kind: "button" },
+      sdStatusCapacity: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      formatSdCard: { dataPoint: "111", kind: "button", category: "config" },
       formatSdCardSdFormatStatus: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: -2000, value: "Formatting" },
           { raw: -2001, value: "Format error" },
@@ -107,33 +120,37 @@ const entry: TuyaDeviceEntry = {
           { raw: -2003, value: "Card error" },
         ],
       },
-      sdCardRecording: { dataPoint: "113", kind: "switch" },
-      ptzStop: { dataPoint: "116", kind: "button" },
+      sdCardRecording: { dataPoint: "113", kind: "switch", category: "config" },
+      ptzStop: { dataPoint: "116", kind: "button", category: "config" },
       ptzRight: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "2", value: true }],
         otherwise: false,
       },
       ptzLeft: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "6", value: true }],
         otherwise: false,
       },
       recordingMode: {
         dataPoint: "151",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
         ],
         whenAbsent: { value: null },
       },
-      on: { dataPoint: "159", kind: "switch" },
+      on: { dataPoint: "159", kind: "switch", category: "config" },
       durationInSeconds: {
         dataPoint: "194",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 10,
         max: 600,
@@ -142,6 +159,7 @@ const entry: TuyaDeviceEntry = {
       volume: {
         dataPoint: "195",
         kind: "number",
+        category: "config",
         min: 10,
         max: 100,
         scale: 100,
@@ -149,23 +167,31 @@ const entry: TuyaDeviceEntry = {
       motionTracking: {
         dataPoint: "161",
         kind: "switch",
+        category: "config",
         values: [{ raw: false }],
         whenAbsent: { value: false },
       },
       motionAreaLimit: {
         dataPoint: "168",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
-      motionAreaLimitArea: { dataPoint: "169", kind: "text" },
+      motionAreaLimitArea: {
+        dataPoint: "169",
+        kind: "text",
+        category: "config",
+      },
       lightWarning: {
         dataPoint: "172",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       lightWarningDurationInSeconds: {
         dataPoint: "173",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 5,
         max: 600,
@@ -199,12 +225,20 @@ const entry: TuyaDeviceEntry = {
       pirSensor: {
         dataPoint: "240",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: null },
       },
-      pirSensitivity: { dataPoint: "241", kind: "number", min: 1, max: 10 },
+      pirSensitivity: {
+        dataPoint: "241",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 10,
+      },
       sceneLinkage: {
         dataPoint: "244",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "None" },
           { raw: "1", value: "Scene 1" },
@@ -216,11 +250,20 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "None" },
       },
-      onvif: { dataPoint: "255", kind: "switch", whenAbsent: { value: false } },
-      onvifIpAddress: { dataPoint: "254", kind: "text" },
-      onvifPasswordChange: { dataPoint: "253", kind: "text" },
+      onvif: {
+        dataPoint: "255",
+        kind: "switch",
+        category: "config",
+        whenAbsent: { value: false },
+      },
+      onvifIpAddress: { dataPoint: "254", kind: "text", category: "config" },
+      onvifPasswordChange: {
+        dataPoint: "253",
+        kind: "text",
+        category: "config",
+      },
     },
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
     floodlight: {
       on: { dataPoint: "138", kind: "switch", whenAbsent: { value: false } },
       brightness: { dataPoint: "158", kind: "number", min: 20, max: 100 },

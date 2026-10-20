@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["xhx9h0duu9b9bobs"],
+  products: [
+    { productKey: "xhx9h0duu9b9bobs", manufacturer: "Hysen", model: "HY08ACF" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -121,22 +123,29 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       program: { dataPoint: "121", kind: "number" },
-      childLock: { dataPoint: "7", kind: "switch" },
-      childLockType: { dataPoint: "105", kind: "text" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
+      childLockType: { dataPoint: "105", kind: "text", category: "config" },
       fault: {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
-      sleep: { dataPoint: "117", kind: "switch" },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      sleep: { dataPoint: "117", kind: "switch", category: "config" },
       externalTemperatureInC: {
         dataPoint: "101",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -145,6 +154,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -90,
         max: 90,
@@ -154,6 +164,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 16,
         max: 50,
@@ -162,6 +173,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 5,
         max: 15,
@@ -169,6 +181,7 @@ const entry: TuyaDeviceEntry = {
       fanEco: {
         dataPoint: "106",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "eco", value: true },
           { raw: "nosaving", value: false },
@@ -177,17 +190,27 @@ const entry: TuyaDeviceEntry = {
       schedule: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [
           { raw: "2daysrest", value: "Weekdays+Weekend" },
           { raw: "1daysrest", value: "6 days+Sunday" },
           { raw: "0daysrest", value: "Daily" },
         ],
       },
-      scheduleWorkdayConfig: { dataPoint: "108", kind: "text" },
-      scheduleRestdayConfig: { dataPoint: "109", kind: "text" },
+      scheduleWorkdayConfig: {
+        dataPoint: "108",
+        kind: "text",
+        category: "config",
+      },
+      scheduleRestdayConfig: {
+        dataPoint: "109",
+        kind: "text",
+        category: "config",
+      },
       sensor: {
         dataPoint: "120",
         kind: "select",
+        category: "config",
         values: [
           { raw: "in", value: "Internal" },
           { raw: "out", value: "External" },

@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water timer",
-  productKeys: ["7wptjnujjkf1gzm1"],
+  products: [{ productKey: "7wptjnujjkf1gzm1", manufacturer: "Moes" }],
   dataPoints: {
     "2": { type: "string" },
     "56": { type: "integer" },
@@ -17,6 +17,7 @@ const entry: TuyaDeviceEntry = {
       mode: {
         dataPoint: "2",
         kind: "select",
+        category: "config",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "manual", value: "manual" },
@@ -26,6 +27,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "56",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 600,
@@ -34,6 +36,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 1,
         max: 360,
@@ -42,6 +45,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
       },

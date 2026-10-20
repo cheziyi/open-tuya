@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "PCIe controller",
-  productKeys: ["ycsoojvkvwipbubo"],
+  products: [
+    {
+      productKey: "ycsoojvkvwipbubo",
+      manufacturer: "BTBcoin",
+      model: "AC5299",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "101": { type: "boolean" },
@@ -20,20 +26,24 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       on: { dataPoint: "1", kind: "switch" },
-      forceShutdown: { dataPoint: "101", kind: "button" },
-      autoPowerOn: { dataPoint: "102", kind: "switch" },
-      childLock: { dataPoint: "103", kind: "switch" },
-      reset: { dataPoint: "104", kind: "button" },
+      forceShutdown: { dataPoint: "101", kind: "button", category: "config" },
+      autoPowerOn: { dataPoint: "102", kind: "switch", category: "config" },
+      childLock: { dataPoint: "103", kind: "switch", category: "config" },
+      reset: { dataPoint: "104", kind: "button", category: "config" },
       temperatureInC: {
         dataPoint: "105",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
       },
       fanSpeedInRpm: {
         dataPoint: "106",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "rpm",
         scale: 0.016667,
@@ -57,6 +67,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "108",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

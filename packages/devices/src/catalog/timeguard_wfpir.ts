@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "PIR relay",
-  productKeys: ["i0lqhz9ejwtuykz5"],
+  products: [
+    {
+      productKey: "i0lqhz9ejwtuykz5",
+      manufacturer: "Timeguard",
+      model: "WFPIR",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "101": { type: "boolean" },
@@ -30,10 +36,11 @@ const entry: TuyaDeviceEntry = {
         measures: "motion",
         readOnly: true,
       },
-      factoryReset: { dataPoint: "102", kind: "button" },
+      factoryReset: { dataPoint: "102", kind: "button", category: "config" },
       function: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Auto", value: "Auto" },
           { raw: "SemiAuto", value: "Semi-auto" },
@@ -44,6 +51,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 30,
         max: 1800,
@@ -53,6 +61,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "number",
         measures: "illuminance",
+        category: "config",
         unit: "lx",
         min: 5,
         max: 2000,
@@ -61,6 +70,7 @@ const entry: TuyaDeviceEntry = {
       sensitivity: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Level1", value: "25%" },
           { raw: "Level2", value: "50%" },
@@ -68,11 +78,19 @@ const entry: TuyaDeviceEntry = {
           { raw: "Level4", value: "100%" },
         ],
       },
-      learnLightLevel: { dataPoint: "109", kind: "switch" },
-      ignoreLightLevel: { dataPoint: "110", kind: "switch" },
-      temporaryDisable: { dataPoint: "117", kind: "switch" },
+      learnLightLevel: { dataPoint: "109", kind: "switch", category: "config" },
+      ignoreLightLevel: {
+        dataPoint: "110",
+        kind: "switch",
+        category: "config",
+      },
+      temporaryDisable: {
+        dataPoint: "117",
+        kind: "switch",
+        category: "config",
+      },
     },
-    indicator: { on: { dataPoint: "108", kind: "switch" } },
+    indicator: { on: { dataPoint: "108", kind: "switch", category: "config" } },
   },
   source: {
     file: "timeguard_wfpir.yaml",

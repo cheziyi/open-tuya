@@ -9,7 +9,7 @@ function entry(
 ): TuyaDeviceEntry {
   return {
     name,
-    productKeys,
+    products: productKeys.map((productKey) => ({ productKey })),
     dataPoints,
     components: {},
     source: { file: `${name}.yaml`, commit: "0".repeat(40) },

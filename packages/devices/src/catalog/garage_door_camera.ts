@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Garage door camera",
-  productKeys: ["bwalvfjqrhmediec"],
+  products: [{ productKey: "bwalvfjqrhmediec" }],
   dataPoints: {
     "101": { type: "boolean" },
     "103": { type: "boolean", optional: true },
@@ -29,16 +29,18 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       recording: { dataPoint: "150", kind: "switch" },
-      motionDetection: { dataPoint: "134", kind: "switch" },
+      motionDetection: { dataPoint: "134", kind: "switch", category: "config" },
       flipImage: {
         dataPoint: "103",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
-      watermark: { dataPoint: "104", kind: "switch" },
+      watermark: { dataPoint: "104", kind: "switch", category: "config" },
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -48,6 +50,7 @@ const entry: TuyaDeviceEntry = {
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -58,11 +61,17 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "normal" },
       },
-      sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
-      formatSdCard: { dataPoint: "111", kind: "button" },
+      sdStatusCapacity: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      formatSdCard: { dataPoint: "111", kind: "button", category: "config" },
       formatSdCardSdFormatStatus: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: 2000, value: "Formatting" },
           { raw: 2001, value: "Format error" },
@@ -73,6 +82,7 @@ const entry: TuyaDeviceEntry = {
       recordingMode: {
         dataPoint: "151",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
@@ -81,6 +91,7 @@ const entry: TuyaDeviceEntry = {
       motion: {
         dataPoint: "115",
         kind: "event",
+        category: "diagnostic",
         readOnly: true,
         whenAbsent: { value: "clear" },
         otherwise: "detected",
@@ -88,17 +99,18 @@ const entry: TuyaDeviceEntry = {
       motionImageDetails: {
         dataPoint: "115",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         type: "base64",
       },
-      buzzer: { dataPoint: "204", kind: "switch" },
+      buzzer: { dataPoint: "204", kind: "switch", category: "config" },
       door1: { dataPoint: "205", kind: "switch" },
       door2: { dataPoint: "206", kind: "switch" },
       door3: { dataPoint: "214", kind: "switch" },
       door4: { dataPoint: "215", kind: "switch" },
       door5: { dataPoint: "216", kind: "switch" },
     },
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "garage_door_camera.yaml",

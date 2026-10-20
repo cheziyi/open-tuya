@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["yxhdmalt36kbawev"],
+  products: [{ productKey: "yxhdmalt36kbawev", manufacturer: "Nedis" }],
   dataPoints: {
     "101": { type: "integer" },
     "102": { type: "bitfield" },
@@ -25,6 +25,7 @@ const entry: TuyaDeviceEntry = {
       timerFeedInPortions: {
         dataPoint: "101",
         kind: "number",
+        category: "config",
         unit: "portions",
         min: 0,
         max: 12,
@@ -32,6 +33,7 @@ const entry: TuyaDeviceEntry = {
       expressFeedInPortions: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         unit: "portions",
         min: 0,
         max: 12,
@@ -46,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       manualFeedInPortions: {
         dataPoint: "106",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "portions",
       },
@@ -53,33 +56,47 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "number",
         measures: "weight",
+        category: "config",
         unit: "g",
         min: 1,
         max: 255,
       },
-      voiceSwitch: { dataPoint: "111", kind: "switch" },
+      voiceSwitch: { dataPoint: "111", kind: "switch", category: "config" },
       fault: {
         dataPoint: "102",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "102", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "102",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       expressResultInPortions: {
         dataPoint: "107",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "portions",
       },
       timerResultInPortions: {
         dataPoint: "108",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "portions",
       },
-      historyData: { dataPoint: "109", kind: "sensor", readOnly: true },
+      historyData: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

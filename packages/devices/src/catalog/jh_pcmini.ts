@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pcie computer power",
-  productKeys: ["na90jncjlvw5t0ba"],
+  products: [{ productKey: "na90jncjlvw5t0ba", model: "JH-PC mini" }],
   dataPoints: { "1": { type: "boolean" }, "101": { type: "string" } },
   components: {
     device: {

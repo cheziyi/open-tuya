@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Bed warmer",
-  productKeys: ["pjvxl1wsyqxivsaf", "yqtzxglv6x9rqods"],
+  products: [
+    { productKey: "pjvxl1wsyqxivsaf", manufacturer: "Sunbeam" },
+    { productKey: "yqtzxglv6x9rqods", manufacturer: "Sunbeam" },
+  ],
   dataPoints: {
     "1": { type: "boolean", optional: true },
     "4": { type: "string", optional: true },
@@ -39,6 +42,7 @@ const entry: TuyaDeviceEntry = {
       combinedLevel: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "level_1", value: "1" },
           { raw: "level_2", value: "2" },
@@ -52,20 +56,27 @@ const entry: TuyaDeviceEntry = {
           { raw: "level_10", value: "10" },
         ],
       },
-      combinedPreheat: { dataPoint: "8", kind: "switch" },
+      combinedPreheat: { dataPoint: "8", kind: "switch", category: "config" },
       fault: {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       zone: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "NO_ZONE", value: "Combined" },
           { raw: "ZONE_A", value: "Zone A" },
@@ -78,6 +89,7 @@ const entry: TuyaDeviceEntry = {
       levelA: {
         dataPoint: "20",
         kind: "select",
+        category: "config",
         values: [
           { raw: "level_1", value: "1" },
           { raw: "level_2", value: "2" },
@@ -94,6 +106,7 @@ const entry: TuyaDeviceEntry = {
       levelB: {
         dataPoint: "21",
         kind: "select",
+        category: "config",
         values: [
           { raw: "level_1", value: "1" },
           { raw: "level_2", value: "2" },
@@ -107,11 +120,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "level_10", value: "10" },
         ],
       },
-      preheatA: { dataPoint: "24", kind: "switch" },
-      preheatB: { dataPoint: "25", kind: "switch" },
+      preheatA: { dataPoint: "24", kind: "switch", category: "config" },
+      preheatB: { dataPoint: "25", kind: "switch", category: "config" },
       autoOffA: {
         dataPoint: "26",
         kind: "select",
+        category: "config",
         values: [
           { raw: "30m", value: "30m" },
           { raw: "1h", value: "1h" },
@@ -139,6 +153,7 @@ const entry: TuyaDeviceEntry = {
       autoOffB: {
         dataPoint: "27",
         kind: "select",
+        category: "config",
         values: [
           { raw: "30m", value: "30m" },
           { raw: "1h", value: "1h" },
@@ -167,6 +182,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "28",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -174,6 +190,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "29",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -181,6 +198,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -188,6 +206,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },

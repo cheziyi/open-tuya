@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain lights",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -48,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -55,6 +56,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "56",
         kind: "select",
+        category: "config",
         type: "string",
         values: [
           {

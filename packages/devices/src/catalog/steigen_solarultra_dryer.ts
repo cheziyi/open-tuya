@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Drying rack",
-  productKeys: ["z8cdwcirki1ethwc"],
+  products: [
+    {
+      productKey: "z8cdwcirki1ethwc",
+      manufacturer: "Steigen",
+      model: "Solar Ultra",
+    },
+  ],
   dataPoints: {
     "2": { type: "string", optional: true },
     "4": { type: "boolean" },
@@ -53,12 +59,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "bottom", value: 100 },
         ],
       },
-      ionizer: { dataPoint: "5", kind: "switch" },
+      ionizer: { dataPoint: "5", kind: "switch", category: "config" },
       fan: { dataPoint: "6", kind: "switch" },
       heat: { dataPoint: "7", kind: "switch" },
       ionizerTimer: {
         dataPoint: "10",
         kind: "select",
+        category: "config",
         values: [
           { raw: "10min", value: "10m" },
           { raw: "20min", value: "20m" },
@@ -68,6 +75,7 @@ const entry: TuyaDeviceEntry = {
       heatTimer: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -81,6 +89,7 @@ const entry: TuyaDeviceEntry = {
       windTimer: {
         dataPoint: "13",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -92,6 +101,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "15",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -99,6 +109,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "16",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -106,6 +117,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "17",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -113,11 +125,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "18",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     light: { on: { dataPoint: "4", kind: "switch" } },
   },

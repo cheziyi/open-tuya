@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["4xcjyqplnfenhplh", "36sgz5ez8f4kaap7"],
+  products: [
+    {
+      productKey: "4xcjyqplnfenhplh",
+      manufacturer: "Sygonix",
+      model: "Smarter",
+    },
+    {
+      productKey: "36sgz5ez8f4kaap7",
+      manufacturer: "Anslut",
+      model: "Dehumidifier 20L",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -58,6 +69,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unitFrom: "temperatureUnit",
       },
@@ -69,10 +81,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "f", value: "F" },
         ],
       },
-      childLock: { dataPoint: "16", kind: "switch" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
       timer: {
         dataPoint: "17",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -104,6 +117,7 @@ const entry: TuyaDeviceEntry = {
       tankFull: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -112,6 +126,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,
@@ -120,6 +135,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -129,10 +145,16 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -146,15 +168,17 @@ const entry: TuyaDeviceEntry = {
           { raw: 128, value: "MOTOR: fan failure" },
         ],
       },
-      filterReset: { dataPoint: "20", kind: "button" },
+      filterReset: { dataPoint: "20", kind: "button", category: "config" },
       filterLifeInPercent: {
         dataPoint: "23",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      runtimeReset: { dataPoint: "28", kind: "button" },
-      ionizer: { dataPoint: "10", kind: "switch" },
+      runtimeReset: { dataPoint: "28", kind: "button", category: "config" },
+      ionizer: { dataPoint: "10", kind: "switch", category: "config" },
     },
     fan: {
       on: { dataPoint: "1", kind: "switch" },

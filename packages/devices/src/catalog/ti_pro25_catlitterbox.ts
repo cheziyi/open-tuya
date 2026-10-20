@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Cat litter box",
-  productKeys: ["yn6wqmizg7abe5k8"],
+  products: [
+    {
+      productKey: "yn6wqmizg7abe5k8",
+      manufacturer: "Ti",
+      model: "Ti Pro25 Smart Cat Litter Box",
+    },
+  ],
   dataPoints: {
     "6": { type: "integer" },
     "7": { type: "integer" },
@@ -37,6 +43,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "weight",
+        reading: "instant",
         readOnly: true,
         unitFrom: "catWeightUnit",
         dependsOn: {
@@ -79,6 +86,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "8",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
         readOnly: true,
         unit: "s",
       },
@@ -86,14 +94,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "Motor malfunction" },
@@ -107,6 +122,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "24",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standly", value: "standby" },
@@ -133,12 +149,13 @@ const entry: TuyaDeviceEntry = {
         measures: "occupancy",
         readOnly: true,
       },
-      autoClean: { dataPoint: "105", kind: "switch" },
+      autoClean: { dataPoint: "105", kind: "switch", category: "config" },
       deviceRestart: { dataPoint: "113", kind: "button" },
-      childLock: { dataPoint: "114", kind: "switch" },
+      childLock: { dataPoint: "114", kind: "switch", category: "config" },
       unit: {
         dataPoint: "116",
         kind: "select",
+        category: "config",
         values: [
           { raw: "pound", value: "kilogram" },
           { raw: "kilogram", value: "pound" },
@@ -148,6 +165,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "117",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 60,
@@ -155,6 +173,7 @@ const entry: TuyaDeviceEntry = {
       cleanIntervalInMinutes: {
         dataPoint: "118",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 120,
@@ -162,6 +181,7 @@ const entry: TuyaDeviceEntry = {
       binFullCalibration: {
         dataPoint: "123",
         kind: "number",
+        category: "config",
         unit: "cleanings",
         min: 15,
         max: 35,
@@ -169,16 +189,22 @@ const entry: TuyaDeviceEntry = {
       numberOfCleanings: {
         dataPoint: "124",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "cleanings",
       },
-      deepClean: { dataPoint: "125", kind: "switch" },
+      deepClean: { dataPoint: "125", kind: "switch", category: "config" },
       levelLitter: { dataPoint: "126", kind: "button" },
       bagReplace: { dataPoint: "127", kind: "button" },
-      odorRemovalAfterCleaning: { dataPoint: "129", kind: "switch" },
+      odorRemovalAfterCleaning: {
+        dataPoint: "129",
+        kind: "switch",
+        category: "config",
+      },
       litterType: {
         dataPoint: "131",
         kind: "select",
+        category: "config",
         values: [
           { raw: "mineral_cat_litter", value: "Mineral" },
           { raw: "mix_cat_litter", value: "Mixed" },

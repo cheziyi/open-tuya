@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan with light",
-  productKeys: ["8tai0lslpwgaexzv"],
+  products: [
+    {
+      productKey: "8tai0lslpwgaexzv",
+      manufacturer: "Hunter Pacific",
+      model: "6 speed",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string", optional: true },
@@ -27,6 +33,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "64",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 540,
@@ -47,7 +54,7 @@ const entry: TuyaDeviceEntry = {
       },
       sceneData: { dataPoint: "25", kind: "text" },
     },
-    backlight: { on: { dataPoint: "101", kind: "switch" } },
+    backlight: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "hunterpacific_6speed_fanlight.yaml",

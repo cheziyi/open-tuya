@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pool heat pump",
-  productKeys: ["qhrpnqjhakrn3jvv"],
+  products: [
+    {
+      productKey: "qhrpnqjhakrn3jvv",
+      manufacturer: "Poolex",
+      model: "Qline Q-7",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -129,6 +135,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "heating", value: true }],
         otherwise: false,

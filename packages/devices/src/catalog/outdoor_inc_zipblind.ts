@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Blind",
-  productKeys: ["f91miyhj"],
+  products: [
+    { productKey: "f91miyhj", manufacturer: "Outdoor Inc", model: "DC1545BE" },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "3": { type: "string", optional: true },
@@ -43,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       reverse: {
         dataPoint: "11",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "back", value: true },
           { raw: "forward", value: false },

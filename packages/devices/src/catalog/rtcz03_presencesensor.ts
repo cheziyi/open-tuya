@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Human presence detector",
-  productKeys: ["e833v6jexwfkjrij"],
+  products: [{ productKey: "e833v6jexwfkjrij", model: "RTCZ-03" }],
   dataPoints: {
     "1": { type: "string" },
     "101": { type: "integer" },
@@ -60,6 +60,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "distance",
+        reading: "instant",
         readOnly: true,
         unit: "cm",
       },
@@ -67,6 +68,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "illuminance",
+        reading: "instant",
         readOnly: true,
         unit: "lx",
       },
@@ -86,6 +88,7 @@ const entry: TuyaDeviceEntry = {
       maximumDetectionDistanceInCm: {
         dataPoint: "107",
         kind: "number",
+        category: "config",
         unit: "cm",
         min: 0,
         max: 840,
@@ -93,6 +96,7 @@ const entry: TuyaDeviceEntry = {
       minimumDetectionDistanceInCm: {
         dataPoint: "108",
         kind: "number",
+        category: "config",
         unit: "cm",
         min: 0,
         max: 840,
@@ -100,12 +104,19 @@ const entry: TuyaDeviceEntry = {
       detectionSensitivity: {
         dataPoint: "111",
         kind: "number",
+        category: "config",
         min: 0,
         max: 10,
       },
-      holdSensitivity: { dataPoint: "112", kind: "number", min: 0, max: 10 },
+      holdSensitivity: {
+        dataPoint: "112",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 10,
+      },
     },
-    indicator: { on: { dataPoint: "104", kind: "switch" } },
+    indicator: { on: { dataPoint: "104", kind: "switch", category: "config" } },
   },
   source: {
     file: "rtcz03_presencesensor.yaml",

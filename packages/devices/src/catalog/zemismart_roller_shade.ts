@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Roller shade",
-  productKeys: ["jzmy5ut0vishwscm"],
+  products: [
+    {
+      productKey: "jzmy5ut0vishwscm",
+      manufacturer: "Zemismart",
+      model: "ZM25TQ",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -66,6 +72,7 @@ const entry: TuyaDeviceEntry = {
       direction: {
         dataPoint: "5",
         kind: "select",
+        category: "config",
         values: [
           { raw: "forward", value: "Forward" },
           { raw: "back", value: "Reverse" },
@@ -74,6 +81,7 @@ const entry: TuyaDeviceEntry = {
       situation: {
         dataPoint: "11",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "fully_open", value: "Fully open" },
@@ -84,24 +92,35 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       motorMode: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "contiuation", value: "Auto" },
           { raw: "point", value: "Manual" },
         ],
       },
-      upperLimitReset: { dataPoint: "103", kind: "button" },
-      intermediateLimitReset: { dataPoint: "104", kind: "button" },
-      lowerLimitReset: { dataPoint: "105", kind: "button" },
-      remotePairing: { dataPoint: "101", kind: "button" },
-      allLimitsReset: { dataPoint: "102", kind: "button" },
+      upperLimitReset: { dataPoint: "103", kind: "button", category: "config" },
+      intermediateLimitReset: {
+        dataPoint: "104",
+        kind: "button",
+        category: "config",
+      },
+      lowerLimitReset: { dataPoint: "105", kind: "button", category: "config" },
+      remotePairing: { dataPoint: "101", kind: "button", category: "config" },
+      allLimitsReset: { dataPoint: "102", kind: "button", category: "config" },
     },
   },
   source: {

@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["uym25ctpiq6rjtmv"],
+  products: [
+    { productKey: "uym25ctpiq6rjtmv", manufacturer: "Duux", model: "North" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -132,20 +134,27 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      power: { dataPoint: "1", kind: "switch" },
+      power: { dataPoint: "1", kind: "switch", category: "config" },
       fault: {
         dataPoint: "20",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "20", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "20",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timerInHours: {
         dataPoint: "105",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 24,

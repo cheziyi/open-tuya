@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Kettle",
-  productKeys: ["d9wi3si7ytqma30a", "h6MjwrnldNTu4kX3"],
+  products: [
+    {
+      productKey: "d9wi3si7ytqma30a",
+      manufacturer: "Koenic",
+      model: "KTM 221723 M",
+    },
+    {
+      productKey: "h6MjwrnldNTu4kX3",
+      manufacturer: "ProfiCook",
+      model: "PC-WKS 1167 G",
+    },
+  ],
   dataPoints: {
     "101": { type: "string" },
     "102": { type: "integer" },
@@ -74,14 +85,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "104", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "104",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "104",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -94,6 +112,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -101,6 +120,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 240,

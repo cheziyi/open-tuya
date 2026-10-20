@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Towel radiator",
-  productKeys: ["yghsoyzoicezv8sy"],
+  products: [
+    {
+      productKey: "yghsoyzoicezv8sy",
+      manufacturer: "Emke",
+      model: "Orbrad PTR",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer", optional: true },
@@ -87,6 +93,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "9",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -95,6 +102,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "12",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -112,6 +120,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -119,6 +128,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },

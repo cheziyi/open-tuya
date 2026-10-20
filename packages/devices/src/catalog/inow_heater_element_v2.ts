@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heating element",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -53,8 +53,8 @@ const entry: TuyaDeviceEntry = {
           { raw: "water_temp", value: "Radiator" },
         ],
       },
-      childLock: { dataPoint: "108", kind: "switch" },
-      programEnabled: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "108", kind: "switch", category: "config" },
+      programEnabled: { dataPoint: "7", kind: "switch", category: "config" },
       boost: {
         dataPoint: "19",
         kind: "select",

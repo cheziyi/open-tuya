@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain motor",
-  productKeys: ["h2wipnagcunsar5r"],
+  products: [{ productKey: "h2wipnagcunsar5r", manufacturer: "Sherko" }],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -67,8 +67,12 @@ const entry: TuyaDeviceEntry = {
           },
         ],
       },
-      reverseMotorDirection: { dataPoint: "101", kind: "switch" },
-      autoPower: { dataPoint: "6", kind: "switch" },
+      reverseMotorDirection: {
+        dataPoint: "101",
+        kind: "switch",
+        category: "config",
+      },
+      autoPower: { dataPoint: "6", kind: "switch", category: "config" },
     },
   },
   source: {

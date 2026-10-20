@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Alarm system",
-  productKeys: ["a4xyigjpkcmfafvh"],
+  products: [
+    { productKey: "a4xyigjpkcmfafvh", manufacturer: "Digoo", model: "DG-HAMB" },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -47,6 +49,7 @@ const entry: TuyaDeviceEntry = {
       exitDelayInSeconds: {
         dataPoint: "2",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 300,
@@ -54,19 +57,25 @@ const entry: TuyaDeviceEntry = {
       alarmTimeInMinutes: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 60,
       },
-      armBeep: { dataPoint: "4", kind: "switch" },
-      alarmSiren: { dataPoint: "6", kind: "switch" },
+      armBeep: { dataPoint: "4", kind: "switch", category: "config" },
+      alarmSiren: { dataPoint: "6", kind: "switch", category: "config" },
       keytone: { dataPoint: "12", kind: "switch" },
-      alarmCall: { dataPoint: "20", kind: "switch" },
-      alarmCallPhoneNumber: { dataPoint: "18", kind: "text" },
-      alarmSms: { dataPoint: "21", kind: "switch" },
+      alarmCall: { dataPoint: "20", kind: "switch", category: "config" },
+      alarmCallPhoneNumber: {
+        dataPoint: "18",
+        kind: "text",
+        category: "config",
+      },
+      alarmSms: { dataPoint: "21", kind: "switch", category: "config" },
       zoneActivation: {
         dataPoint: "24",
         kind: "select",
+        category: "config",
         values: [
           { raw: "MODE_HOME_ARM", value: "armed_home" },
           { raw: "MODE_ARM", value: "armed_away" },
@@ -78,7 +87,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "ARM_NO_DELAY", value: "armed_away_immediate" },
         ],
       },
-      zoneActivationZone: { dataPoint: "103", kind: "text" },
+      zoneActivationZone: {
+        dataPoint: "103",
+        kind: "text",
+        category: "config",
+      },
       alarm: {
         dataPoint: "26",
         kind: "event",
@@ -90,6 +103,7 @@ const entry: TuyaDeviceEntry = {
       entryDelayInSeconds: {
         dataPoint: "28",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 100,
@@ -98,6 +112,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "plugged",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "normal", value: true }],
         otherwise: false,
@@ -106,6 +121,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "battery",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "BatteryIsLow", value: true }],
         otherwise: false,
@@ -114,12 +130,13 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "tamper",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "TAMPER", value: true }],
         otherwise: false,
       },
     },
-    backlight: { on: { dataPoint: "13", kind: "switch" } },
+    backlight: { on: { dataPoint: "13", kind: "switch", category: "config" } },
   },
   source: {
     file: "digoo_hamb_alarm.yaml",

@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Radon detector",
-  productKeys: ["wgaxdhly7e9irlze"],
+  products: [
+    { productKey: "wgaxdhly7e9irlze", manufacturer: "GZAIR", model: "PT07" },
+  ],
   dataPoints: {
     "2": { type: "integer" },
     "4": { type: "boolean" },
@@ -35,6 +37,7 @@ const entry: TuyaDeviceEntry = {
       radonInPciPerL: {
         dataPoint: "2",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "pCi/L",
         scale: 100,
@@ -43,20 +46,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "sensor",
         measures: "tamper",
+        category: "diagnostic",
         readOnly: true,
       },
       seriousWarningDurationInSeconds: {
         dataPoint: "7",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 60,
       },
-      selfTest: { dataPoint: "8", kind: "button" },
+      selfTest: { dataPoint: "8", kind: "button", category: "config" },
       selfTestResult: {
         dataPoint: "9",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "checking", value: "Checking ..." },
@@ -69,11 +75,13 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "sensor",
         measures: "cold",
+        category: "diagnostic",
         readOnly: true,
       },
       sound: {
         dataPoint: "16",
         kind: "switch",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -82,6 +90,7 @@ const entry: TuyaDeviceEntry = {
       detectionValueInPciPerL: {
         dataPoint: "101",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "pCi/L",
         scale: 100,
@@ -89,6 +98,7 @@ const entry: TuyaDeviceEntry = {
       severeThresholdInPciPerL: {
         dataPoint: "102",
         kind: "number",
+        category: "config",
         unit: "pCi/L",
         min: 0,
         max: 999,
@@ -97,6 +107,7 @@ const entry: TuyaDeviceEntry = {
       badThresholdInPciPerL: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "pCi/L",
         min: 0,
         max: 999,
@@ -105,6 +116,7 @@ const entry: TuyaDeviceEntry = {
       dailyAverageInPciPerL: {
         dataPoint: "104",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "pCi/L",
         scale: 100,
@@ -112,6 +124,7 @@ const entry: TuyaDeviceEntry = {
       weeklyAverageInPciPerL: {
         dataPoint: "105",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "pCi/L",
         scale: 100,
@@ -120,6 +133,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "sensor",
         measures: "gas",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "mormal", value: false },
@@ -132,6 +146,7 @@ const entry: TuyaDeviceEntry = {
       yellowWarningThresholdInPciPerL: {
         dataPoint: "109",
         kind: "number",
+        category: "config",
         unit: "pCi/L",
         min: 0,
         max: 999,
@@ -140,6 +155,7 @@ const entry: TuyaDeviceEntry = {
       alarmThresholdInPciPerL: {
         dataPoint: "110",
         kind: "number",
+        category: "config",
         unit: "pCi/L",
         min: 0,
         max: 999,
@@ -148,6 +164,7 @@ const entry: TuyaDeviceEntry = {
       maximumThresholdInPciPerL: {
         dataPoint: "112",
         kind: "number",
+        category: "config",
         unit: "pCi/L",
         min: 0,
         max: 999,
@@ -156,6 +173,7 @@ const entry: TuyaDeviceEntry = {
       minimumThresholdInPciPerL: {
         dataPoint: "113",
         kind: "number",
+        category: "config",
         unit: "pCi/L",
         min: 0,
         max: 999,
@@ -166,6 +184,7 @@ const entry: TuyaDeviceEntry = {
       volume: {
         dataPoint: "5",
         kind: "select",
+        category: "config",
         values: [
           { raw: "mute", value: 0 },
           { raw: "low", value: 0.3 },
@@ -176,6 +195,7 @@ const entry: TuyaDeviceEntry = {
       tone: {
         dataPoint: "6",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "1" },
           { raw: "2", value: "2" },
@@ -184,16 +204,17 @@ const entry: TuyaDeviceEntry = {
           { raw: "5", value: "5" },
         ],
       },
-      on: { dataPoint: "13", kind: "switch" },
+      on: { dataPoint: "13", kind: "switch", category: "config" },
       durationInSeconds: {
         dataPoint: "111",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 60,
       },
     },
-    display: { on: { dataPoint: "107", kind: "switch" } },
+    display: { on: { dataPoint: "107", kind: "switch", category: "config" } },
   },
   source: {
     file: "gzair_radon_gas_detector.yaml",

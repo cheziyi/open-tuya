@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Lamp",
-  productKeys: ["xaq7njftocha1f6z"],
+  products: [
+    { productKey: "xaq7njftocha1f6z", manufacturer: "Outron", model: "CTBRGB" },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -61,6 +63,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -68,6 +71,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "56",
         kind: "select",
+        category: "config",
         type: "string",
         values: [
           { raw: "000e0d0000000000000000c80000", value: "night" },

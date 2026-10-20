@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Kettle",
-  productKeys: ["2vuvtw0cj8wmjrpc"],
+  products: [
+    {
+      productKey: "2vuvtw0cj8wmjrpc",
+      manufacturer: "Korex",
+      model: "AX-WF306N",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "5": { type: "integer" },
@@ -118,6 +124,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "104",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "0", value: "idle" },
@@ -132,14 +139,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "10", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "10",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "10",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -147,7 +161,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 2, value: "no_water" },
         ],
       },
-      keepWarm: { dataPoint: "103", kind: "switch" },
+      keepWarm: { dataPoint: "103", kind: "switch", category: "config" },
       keepWarmTemperature: {
         dataPoint: "102",
         kind: "select",

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["mipcgdnh7tlckmrn"],
+  products: [
+    {
+      productKey: "mipcgdnh7tlckmrn",
+      manufacturer: "Lucci",
+      model: "Air Radar Connect",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "22": { type: "integer" },
@@ -47,6 +53,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "26",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 64800,
@@ -54,11 +61,12 @@ const entry: TuyaDeviceEntry = {
       fanTimerInMinutes: {
         dataPoint: "64",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 540,
       },
-      lightControl: { dataPoint: "28", kind: "text" },
+      lightControl: { dataPoint: "28", kind: "text", category: "config" },
     },
   },
   source: {

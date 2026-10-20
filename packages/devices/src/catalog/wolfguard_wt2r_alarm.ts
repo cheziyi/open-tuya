@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Alarm system",
-  productKeys: ["dscqpiq1gdfltjt3"],
+  products: [
+    {
+      productKey: "dscqpiq1gdfltjt3",
+      manufacturer: "Wolf Guard",
+      model: "WT2R",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -72,6 +78,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 99,
@@ -80,27 +87,32 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "tamper",
+        category: "diagnostic",
         readOnly: true,
         whenAbsent: { value: false },
       },
-      keytone: { dataPoint: "12", kind: "switch" },
+      keytone: { dataPoint: "12", kind: "switch", category: "config" },
       batteryCharging: {
         dataPoint: "15",
         kind: "sensor",
         measures: "batteryCharging",
+        category: "diagnostic",
         readOnly: true,
       },
       batteryInPercent: {
         dataPoint: "16",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      lowBatteryAlarm: { dataPoint: "17", kind: "switch" },
+      lowBatteryAlarm: { dataPoint: "17", kind: "switch", category: "config" },
       mobileNetworkStatus: {
         dataPoint: "23",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "normal", value: "Normal" },
@@ -118,28 +130,40 @@ const entry: TuyaDeviceEntry = {
       mobileNetworkStatusAlarmCallNumber: {
         dataPoint: "18",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       mobileNetworkStatusAlarmSmsNumber: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
-      pushNotifications: { dataPoint: "27", kind: "switch" },
-      pushNotificationsAlarmMessage: { dataPoint: "26", kind: "text" },
+      pushNotifications: {
+        dataPoint: "27",
+        kind: "switch",
+        category: "config",
+      },
+      pushNotificationsAlarmMessage: {
+        dataPoint: "26",
+        kind: "text",
+        category: "config",
+      },
       alarmDelayInSeconds: {
         dataPoint: "28",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 99,
       },
-      doorbell: { dataPoint: "29", kind: "switch" },
-      factoryReset: { dataPoint: "34", kind: "button" },
+      doorbell: { dataPoint: "29", kind: "switch", category: "config" },
+      factoryReset: { dataPoint: "34", kind: "button", category: "config" },
       language: {
         dataPoint: "40",
         kind: "select",
+        category: "config",
         values: [
           { raw: "chinese_simplified", value: "chinese" },
           { raw: "english", value: "english" },
@@ -157,6 +181,7 @@ const entry: TuyaDeviceEntry = {
       durationInMinutes: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 1,
         max: 5,
@@ -164,6 +189,7 @@ const entry: TuyaDeviceEntry = {
       tone: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "on" },
@@ -172,6 +198,7 @@ const entry: TuyaDeviceEntry = {
       volume: {
         dataPoint: "25",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: 1 },
           { raw: true, value: 0.1 },

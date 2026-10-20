@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Popup socket",
-  productKeys: ["hfeuatvaoedf2mqo"],
+  products: [{ productKey: "hfeuatvaoedf2mqo" }],
   dataPoints: {
     "1": { type: "string" },
     "3": { type: "string" },
@@ -19,6 +19,7 @@ const entry: TuyaDeviceEntry = {
       brightness: {
         dataPoint: "1",
         kind: "select",
+        category: "config",
         values: [
           { raw: "S3", value: 0 },
           { raw: "S1", value: 153 },
@@ -31,12 +32,13 @@ const entry: TuyaDeviceEntry = {
       childLock: {
         dataPoint: "3",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "start", value: false },
           { raw: "off", value: true },
         ],
       },
-      enableOutlets: { dataPoint: "7", kind: "switch" },
+      enableOutlets: { dataPoint: "7", kind: "switch", category: "config" },
       command: {
         dataPoint: "6",
         kind: "select",

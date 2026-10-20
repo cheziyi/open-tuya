@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["drwezxukumr9ohuh"],
+  products: [
+    {
+      productKey: "drwezxukumr9ohuh",
+      manufacturer: "Beca",
+      model: "BHP-6000 (°C)",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -61,9 +67,9 @@ const entry: TuyaDeviceEntry = {
           { raw: true, value: "on" },
         ],
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
     },
-    display: { on: { dataPoint: "1", kind: "switch" } },
+    display: { on: { dataPoint: "1", kind: "switch", category: "config" } },
   },
   source: {
     file: "beca_bhp6000_thermostat_c.yaml",

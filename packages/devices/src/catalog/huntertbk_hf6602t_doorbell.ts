@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Video doorbell",
-  productKeys: ["tftanqr9elztfkdp", "is5yumkqdhcfxskv"],
+  products: [
+    {
+      productKey: "tftanqr9elztfkdp",
+      manufacturer: "HunterTBK",
+      model: "HF-6602T",
+    },
+    { productKey: "is5yumkqdhcfxskv", model: "M18" },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "103": { type: "boolean" },
@@ -55,15 +62,17 @@ const entry: TuyaDeviceEntry = {
         otherwise: "ring",
       },
       doorImageSnapshot: { dataPoint: "154", kind: "sensor", readOnly: true },
-      motionDetection: { dataPoint: "113", kind: "switch" },
+      motionDetection: { dataPoint: "113", kind: "switch", category: "config" },
       flipImage: {
         dataPoint: "103",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -73,6 +82,7 @@ const entry: TuyaDeviceEntry = {
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -82,11 +92,17 @@ const entry: TuyaDeviceEntry = {
           { raw: 5, value: "missing" },
         ],
       },
-      sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
-      sdFormat: { dataPoint: "111", kind: "button" },
+      sdStatusCapacity: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      sdFormat: { dataPoint: "111", kind: "button", category: "config" },
       sdFormatState: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: 2000, value: "Formatting" },
           { raw: 2001, value: "Format failed" },
@@ -96,7 +112,7 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "Formatted" },
       },
-      sdUnmount: { dataPoint: "112", kind: "button" },
+      sdUnmount: { dataPoint: "112", kind: "button", category: "config" },
       doorbell: {
         dataPoint: "136",
         kind: "event",
@@ -109,6 +125,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "155",
         kind: "sensor",
         measures: "connectivity",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "1", value: true }],
         otherwise: false,
@@ -118,14 +135,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "145",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      batteryCapability: { dataPoint: "126", kind: "sensor", readOnly: true },
+      batteryCapability: {
+        dataPoint: "126",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       plug: {
         dataPoint: "146",
         kind: "sensor",
         measures: "plugged",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "1", value: true }],
         otherwise: false,
@@ -133,6 +158,7 @@ const entry: TuyaDeviceEntry = {
       lowBatteryAlarmLevelInPercent: {
         dataPoint: "147",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 10,
         max: 30,
@@ -141,11 +167,13 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "149",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
       },
       recordingMode: {
         dataPoint: "151",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
@@ -154,6 +182,7 @@ const entry: TuyaDeviceEntry = {
       pirSensitivity: {
         dataPoint: "152",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Off" },
           { raw: "1", value: "Low" },
@@ -164,11 +193,13 @@ const entry: TuyaDeviceEntry = {
       pairDoorbell: {
         dataPoint: "155",
         kind: "button",
+        category: "config",
         values: [{ raw: "1", value: true }],
       },
       unpairDoorbell: {
         dataPoint: "155",
         kind: "button",
+        category: "config",
         values: [{ raw: "0", value: true }],
       },
       on: { dataPoint: "159", kind: "switch" },
@@ -179,7 +210,7 @@ const entry: TuyaDeviceEntry = {
         max: 100,
         scale: 100,
       },
-      humanFilter: { dataPoint: "170", kind: "switch" },
+      humanFilter: { dataPoint: "170", kind: "switch", category: "config" },
       alarm: {
         dataPoint: "185",
         kind: "event",
@@ -191,6 +222,7 @@ const entry: TuyaDeviceEntry = {
       ecoMode: {
         dataPoint: "189",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Energy saving" },
           { raw: "1", value: "Always awake" },
@@ -214,7 +246,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "huntertbk_hf6602t_doorbell.yaml",

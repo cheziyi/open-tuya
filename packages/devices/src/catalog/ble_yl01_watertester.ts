@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water quality monitor",
-  productKeys: ["v1jqz5cy"],
+  products: [{ productKey: "v1jqz5cy", model: "BLE-YL01" }],
   dataPoints: {
     "1": { type: "integer" },
     "2": { type: "integer" },
@@ -37,11 +37,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "°C",
         scale: 10,
       },
-      tdsInPpm: { dataPoint: "1", kind: "sensor", readOnly: true, unit: "ppm" },
+      tdsInPpm: {
+        dataPoint: "1",
+        kind: "sensor",
+        reading: "instant",
+        readOnly: true,
+        unit: "ppm",
+      },
       batteryInPercent: {
         dataPoint: "7",
         kind: "sensor",
@@ -53,24 +60,28 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "sensor",
         measures: "ph",
+        reading: "instant",
         readOnly: true,
         scale: 10,
       },
       ecInUsPerCm: {
         dataPoint: "11",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "uS/cm",
       },
       orpInMillivolts: {
         dataPoint: "101",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "mV",
       },
       clInMgPerL: {
         dataPoint: "102",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "mg/L",
         scale: 10,
@@ -78,6 +89,7 @@ const entry: TuyaDeviceEntry = {
       phBufferStandard: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "AsiaStandard", value: "Asia" },
           { raw: "EUStandard", value: "EU" },
@@ -86,12 +98,14 @@ const entry: TuyaDeviceEntry = {
       update: {
         dataPoint: "105",
         kind: "button",
+        category: "config",
         values: [{ raw: 1, value: true }],
       },
       maximumPh: {
         dataPoint: "106",
         kind: "number",
         measures: "ph",
+        category: "config",
         min: 0,
         max: 140,
         scale: 10,
@@ -100,6 +114,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "number",
         measures: "ph",
+        category: "config",
         min: 0,
         max: 140,
         scale: 10,
@@ -107,6 +122,7 @@ const entry: TuyaDeviceEntry = {
       maximumEcInUsPerCm: {
         dataPoint: "108",
         kind: "number",
+        category: "config",
         unit: "uS/cm",
         min: 0,
         max: 20000,
@@ -114,6 +130,7 @@ const entry: TuyaDeviceEntry = {
       minimumEcInUsPerCm: {
         dataPoint: "109",
         kind: "number",
+        category: "config",
         unit: "uS/cm",
         min: 0,
         max: 20000,
@@ -121,6 +138,7 @@ const entry: TuyaDeviceEntry = {
       maximumOrpInMillivolts: {
         dataPoint: "110",
         kind: "number",
+        category: "config",
         unit: "mV",
         min: -1200,
         max: 1200,
@@ -128,6 +146,7 @@ const entry: TuyaDeviceEntry = {
       minimumOrpInMillivolts: {
         dataPoint: "111",
         kind: "number",
+        category: "config",
         unit: "mV",
         min: -1200,
         max: 1200,
@@ -135,6 +154,7 @@ const entry: TuyaDeviceEntry = {
       maximumClInMgPerL: {
         dataPoint: "112",
         kind: "number",
+        category: "config",
         unit: "mg/L",
         min: 0,
         max: 40,
@@ -142,6 +162,7 @@ const entry: TuyaDeviceEntry = {
       minimumClInMgPerL: {
         dataPoint: "113",
         kind: "number",
+        category: "config",
         unit: "mg/L",
         min: 0,
         max: 40,
@@ -149,6 +170,7 @@ const entry: TuyaDeviceEntry = {
       phCalibration: {
         dataPoint: "114",
         kind: "number",
+        category: "config",
         min: 0,
         max: 1400,
         scale: 100,
@@ -156,6 +178,7 @@ const entry: TuyaDeviceEntry = {
       ecCalibrationInUsPerCm: {
         dataPoint: "115",
         kind: "number",
+        category: "config",
         unit: "uS/cm",
         min: 0,
         max: 20000,
@@ -163,6 +186,7 @@ const entry: TuyaDeviceEntry = {
       orpCalibrationInMillivolts: {
         dataPoint: "116",
         kind: "number",
+        category: "config",
         unit: "mV",
         min: -1200,
         max: 1200,
@@ -170,12 +194,13 @@ const entry: TuyaDeviceEntry = {
       salinityInPpm: {
         dataPoint: "117",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "ppm",
       },
-      phReset: { dataPoint: "118", kind: "button" },
+      phReset: { dataPoint: "118", kind: "button", category: "config" },
     },
-    backlight: { on: { dataPoint: "104", kind: "switch" } },
+    backlight: { on: { dataPoint: "104", kind: "switch", category: "config" } },
   },
   source: {
     file: "ble_yl01_watertester.yaml",

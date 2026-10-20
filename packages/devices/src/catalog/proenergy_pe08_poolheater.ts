@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pool heater",
-  productKeys: ["kirzfzcxypdjo2ay"],
+  products: [
+    {
+      productKey: "kirzfzcxypdjo2ay",
+      manufacturer: "Pro-Energy",
+      model: "PE08",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -52,11 +58,13 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      childLock: { dataPoint: "3", kind: "switch" },
+      childLock: { dataPoint: "3", kind: "switch", category: "config" },
       inletTemperatureInC: {
         dataPoint: "25",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
       },

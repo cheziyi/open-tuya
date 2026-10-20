@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["tqS7rb8AmQtwAza1", "zy0etdu2dn118ahm"],
+  products: [
+    {
+      productKey: "tqS7rb8AmQtwAza1",
+      manufacturer: "ThermoLife",
+      model: "ET-61",
+    },
+    { productKey: "zy0etdu2dn118ahm", manufacturer: "Jiahong", model: "ET-81" },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "integer" },
@@ -96,11 +103,12 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      childLock: { dataPoint: "108", kind: "switch" },
+      childLock: { dataPoint: "108", kind: "switch", category: "config" },
       roomTemperature: {
         dataPoint: "105",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unitFrom: "roomTemperatureUnit",
         scale: 10,
@@ -116,6 +124,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unitFrom: "floorTemperatureUnit",
         scale: 10,
@@ -137,6 +146,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "C" },
           { raw: true, value: "F" },
@@ -146,6 +156,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "121",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unitFrom: "floorTemperatureLimitUnit",
         min: 200,
         max: 500,
@@ -164,12 +175,14 @@ const entry: TuyaDeviceEntry = {
       floorTemperatureLimitUnit: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [{ raw: true, value: "F" }],
         otherwise: "C",
       },
       temperatureSensor: {
         dataPoint: "111",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Room" },
           { raw: "1", value: "Floor" },
@@ -179,6 +192,7 @@ const entry: TuyaDeviceEntry = {
       autoSchedule: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "7" },
           { raw: 1, value: "5+1+1" },
@@ -190,6 +204,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "116",
         kind: "number",
         measures: "power",
+        category: "config",
         unit: "W",
         min: 0,
         max: 4500,
@@ -199,25 +214,33 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "104", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "104",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       holidayLengthInDays: {
         dataPoint: "109",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "d",
         min: 0,
         max: 99,
       },
-      factoryReset: { dataPoint: "115", kind: "button" },
-      schedule: { dataPoint: "119", kind: "text" },
+      factoryReset: { dataPoint: "115", kind: "button", category: "config" },
+      schedule: { dataPoint: "119", kind: "text", category: "config" },
       floorTemperatureCalibration: {
         dataPoint: "112",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unitFrom: "floorTemperatureCalibrationUnit",
         min: -90,
         max: 90,
@@ -226,6 +249,7 @@ const entry: TuyaDeviceEntry = {
       floorTemperatureCalibrationUnit: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [{ raw: true, value: "F" }],
         otherwise: "C",
       },
@@ -233,6 +257,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unitFrom: "roomTemperatureCalibrationUnit",
         min: -90,
         max: 90,
@@ -241,12 +266,14 @@ const entry: TuyaDeviceEntry = {
       roomTemperatureCalibrationUnit: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [{ raw: true, value: "F" }],
         otherwise: "C",
       },
       temperatureHysteresis: {
         dataPoint: "114",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0_5", value: "0.5°" },
           { raw: "1", value: "1°" },
@@ -254,7 +281,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "3°" },
         ],
       },
-      refreshSchedule: { dataPoint: "122", kind: "button" },
+      refreshSchedule: { dataPoint: "122", kind: "button", category: "config" },
     },
   },
   source: {

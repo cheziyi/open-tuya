@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Bladeless fan",
-  productKeys: ["u4uqz3dlvplyhyde"],
+  products: [
+    { productKey: "u4uqz3dlvplyhyde", manufacturer: "Hiper", model: "T3" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -49,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -65,6 +68,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -72,12 +76,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
-      sound: { dataPoint: "102", kind: "switch" },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      sound: { dataPoint: "102", kind: "switch", category: "config" },
     },
     light: { on: { dataPoint: "101", kind: "switch" } },
   },

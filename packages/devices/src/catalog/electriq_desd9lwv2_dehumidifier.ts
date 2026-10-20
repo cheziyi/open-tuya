@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["g2hl04s82mgtkpec"],
+  products: [
+    {
+      productKey: "g2hl04s82mgtkpec",
+      manufacturer: "ElectriQ",
+      model: "DESD9LW-V2",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },

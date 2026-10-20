@@ -54,8 +54,8 @@ function score(
   reported: DataPoints,
   ids: readonly string[],
 ): number {
-  const productMatch = productKeys.some((key) =>
-    entry.productKeys.includes(key),
+  const productMatch = entry.products.some((product) =>
+    productKeys.includes(product.productKey),
   );
   let named = 0;
   for (const id of ids) {

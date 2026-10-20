@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Spa",
-  productKeys: ["chsaskllmust5d7a", "bksofco59ud7eovz"],
+  products: [
+    { productKey: "chsaskllmust5d7a", manufacturer: "Intex", model: "PureSpa" },
+    { productKey: "bksofco59ud7eovz", manufacturer: "Intex", model: "PureSpa" },
+  ],
   dataPoints: {
     "103": { type: "boolean" },
     "104": { type: "boolean" },
@@ -51,6 +54,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "114",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

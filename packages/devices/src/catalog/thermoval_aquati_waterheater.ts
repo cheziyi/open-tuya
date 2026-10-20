@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Electric water heater",
-  productKeys: ["jxma5t0bc0sagddh"],
+  products: [
+    {
+      productKey: "jxma5t0bc0sagddh",
+      manufacturer: "Thermoval",
+      model: "Aqua Ti",
+      modelId: "WS-42S-2",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -122,14 +129,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "20", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "20",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       status: {
         dataPoint: "13",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "Stop", value: "idle" },
@@ -145,13 +159,14 @@ const entry: TuyaDeviceEntry = {
       scheduleEnabled: {
         dataPoint: "2",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "jiheat", value: false },
           { raw: "yuyue", value: true },
         ],
         otherwise: null,
       },
-      schedule: { dataPoint: "16", kind: "text" },
+      schedule: { dataPoint: "16", kind: "text", category: "config" },
     },
   },
   source: {

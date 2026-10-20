@@ -5,7 +5,19 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Portable air conditioner",
-  productKeys: ["86sjxqebxymrjt3z", "av6ejal3j9epuw3e", "asgmtdjvhragxx24"],
+  products: [
+    { productKey: "86sjxqebxymrjt3z", manufacturer: "Costway" },
+    {
+      productKey: "av6ejal3j9epuw3e",
+      manufacturer: "Hantech",
+      model: "9000 BTU",
+    },
+    {
+      productKey: "asgmtdjvhragxx24",
+      manufacturer: "Costway",
+      model: "FP10351GB-WH",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -71,16 +83,22 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       featureFlags: { dataPoint: "109", kind: "number" },
-      sleep: { dataPoint: "103", kind: "switch" },
+      sleep: { dataPoint: "103", kind: "switch", category: "config" },
       fault: {
         dataPoint: "20",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "20", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "20",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

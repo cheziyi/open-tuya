@@ -1,5 +1,11 @@
 import type { DataPointId, DataPointValue } from "@open-tuya/core";
-import type { ControlKind, KnownControlName, Measure } from "./vocabulary.js";
+import type {
+  ControlCategory,
+  ControlKind,
+  KnownControlName,
+  Measure,
+  Reading,
+} from "./vocabulary.js";
 
 /** A data point's type, as tuya-local names it. */
 export type TuyaDataPointType =
@@ -52,7 +58,13 @@ export interface ControlRule {
  * control is. It can redirect again. */
 export type ControlTarget = Omit<
   TuyaControl,
-  "kind" | "measures" | "unit" | "unitFrom" | "defaultValue"
+  | "kind"
+  | "measures"
+  | "reading"
+  | "category"
+  | "unit"
+  | "unitFrom"
+  | "defaultValue"
 >;
 
 export interface ControlMapping extends ControlRule {
@@ -123,6 +135,10 @@ export interface TuyaControl {
   littleEndian?: true;
   kind: ControlKind;
   measures?: Measure;
+  /** How a sensor's value accrues, where tuya-local says. */
+  reading?: Reading;
+  /** Absent for a control of the device's main function. */
+  category?: ControlCategory;
   readOnly?: true;
   /** The unit of the control's value, as tuya-local writes it. */
   unit?: string;
@@ -181,12 +197,22 @@ export type TuyaComponent = Readonly<
   Partial<Record<KnownControlName, TuyaControl>> & Record<string, TuyaControl>
 >;
 
+/** A product the entry matches, as its maker sells it. */
+export interface TuyaProduct {
+  productKey: string;
+  manufacturer?: string;
+  model?: string;
+  /** The model's code, where the model also has a name, such as `L-CFL18A1`
+   * for Lumary's A1. */
+  modelId?: string;
+}
+
 /** A device as the catalog describes it. */
 export interface TuyaDeviceEntry {
   name: string;
-  /** The product keys it matches. One product key can match more than one
-   * entry. */
-  productKeys: readonly string[];
+  /** The products it matches. Makers rebrand one product key, so it can
+   * appear more than once here, and in more than one entry. */
+  products: readonly TuyaProduct[];
   /** Every data point the entry names, for matching a device by those it
    * reports. */
   dataPoints: Readonly<Record<DataPointId, TuyaDataPointSpec>>;

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Panel heater",
-  productKeys: ["71v2TpoRp54r0Vmj"],
+  products: [
+    {
+      productKey: "71v2TpoRp54r0Vmj",
+      manufacturer: "Goldair",
+      model: "PH-ET07EA",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -42,10 +48,11 @@ const entry: TuyaDeviceEntry = {
       mod: { dataPoint: "101", kind: "text" },
     },
     device: {
-      childLock: { dataPoint: "2", kind: "switch" },
+      childLock: { dataPoint: "2", kind: "switch", category: "config" },
       timerInMinutes: {
         dataPoint: "5",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,

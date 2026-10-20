@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Robot vacuum",
-  productKeys: ["vg6qvrgj99ase4xd"],
+  products: [
+    { productKey: "vg6qvrgj99ase4xd", manufacturer: "Lubluelu", model: "A901" },
+  ],
   dataPoints: {
     "1": { type: "boolean", optional: true },
     "2": { type: "boolean", optional: true },
@@ -84,18 +86,21 @@ const entry: TuyaDeviceEntry = {
           { raw: "select_room", value: "selecting_room" },
         ],
       },
-      charge: { dataPoint: "3", kind: "switch" },
+      charge: { dataPoint: "3", kind: "switch", category: "config" },
       batteryInPercent: {
         dataPoint: "8",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      pathData: { dataPoint: "14", kind: "text" },
+      pathData: { dataPoint: "14", kind: "text", category: "config" },
       request: {
         dataPoint: "16",
         kind: "select",
+        category: "config",
         values: [
           { raw: "get_map", value: "Fetch map" },
           { raw: "get_path", value: "Fetch path" },
@@ -105,6 +110,7 @@ const entry: TuyaDeviceEntry = {
       volumeInPercent: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -113,14 +119,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "28",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "28", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "28",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       language: {
         dataPoint: "36",
         kind: "select",
+        category: "config",
         values: [
           { raw: "chinese_simplified", value: "chinese" },
           { raw: "chinese_traditional", value: "chinese_traditional" },
@@ -136,9 +149,14 @@ const entry: TuyaDeviceEntry = {
           { raw: "italian", value: "italian" },
         ],
       },
-      batteryInfo: { dataPoint: "154", kind: "sensor", readOnly: true },
+      batteryInfo: {
+        dataPoint: "154",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
-    device: { command: { dataPoint: "15", kind: "text" } },
+    device: { command: { dataPoint: "15", kind: "text", category: "config" } },
   },
   source: {
     file: "lubluelu_a901_vacuum.yaml",

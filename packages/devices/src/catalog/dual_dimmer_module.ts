@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dual dimmer",
-  productKeys: ["3ovuf2vazfsz2hfd"],
+  products: [{ productKey: "3ovuf2vazfsz2hfd", model: "LG921" }],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer" },
@@ -23,7 +23,13 @@ const entry: TuyaDeviceEntry = {
       brightness: { dataPoint: "3", kind: "number", min: 25, max: 255 },
     },
     device: {
-      minimumBrightness: { dataPoint: "104", kind: "number", min: 0, max: 255 },
+      minimumBrightness: {
+        dataPoint: "104",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 255,
+      },
     },
   },
   source: {

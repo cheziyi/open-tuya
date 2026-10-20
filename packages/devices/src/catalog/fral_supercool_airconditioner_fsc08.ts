@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Portable air conditioner",
-  productKeys: ["pkudk18s3u1dshxn"],
+  products: [
+    {
+      productKey: "pkudk18s3u1dshxn",
+      manufacturer: "Fral",
+      model: "Super Cool FSC08 WiFi",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer", optional: true },
@@ -127,6 +133,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "20",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -159,6 +166,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

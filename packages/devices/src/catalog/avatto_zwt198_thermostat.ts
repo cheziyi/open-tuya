@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["viy9ihs7"],
+  products: [
+    { productKey: "viy9ihs7", manufacturer: "Avatto", model: "ZWT198" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -85,20 +87,27 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      childLock: { dataPoint: "9", kind: "switch" },
+      childLock: { dataPoint: "9", kind: "switch", category: "config" },
       fault: {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       maximumTemperatureInC: {
         dataPoint: "15",
         kind: "number",
+        category: "config",
         unit: "C",
         min: 150,
         max: 950,
@@ -108,17 +117,19 @@ const entry: TuyaDeviceEntry = {
       minimumTemperatureInC: {
         dataPoint: "16",
         kind: "number",
+        category: "config",
         unit: "C",
         min: 50,
         max: 150,
         scale: 10,
         step: 5,
       },
-      antiFrost: { dataPoint: "102", kind: "switch" },
-      factoryReset: { dataPoint: "103", kind: "button" },
+      antiFrost: { dataPoint: "102", kind: "switch", category: "config" },
+      factoryReset: { dataPoint: "103", kind: "button", category: "config" },
       schedule: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Disabled" },
           { raw: "1", value: "Weekday+Weekend" },
@@ -126,11 +137,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "Daily" },
         ],
       },
-      scheduleData: { dataPoint: "109", kind: "text" },
+      scheduleData: { dataPoint: "109", kind: "text", category: "config" },
       temperatureHysteresisInC: {
         dataPoint: "107",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: 5,
         max: 100,
@@ -142,6 +154,7 @@ const entry: TuyaDeviceEntry = {
       brightness: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: 0 },
           { raw: "1", value: 85 },

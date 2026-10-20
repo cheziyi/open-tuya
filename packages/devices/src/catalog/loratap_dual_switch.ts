@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dual switch",
-  productKeys: ["keyjnuy4s3kre7m7"],
+  products: [
+    {
+      productKey: "keyjnuy4s3kre7m7",
+      manufacturer: "LoraTap",
+      model: "RR620W-JL",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -27,15 +33,17 @@ const entry: TuyaDeviceEntry = {
       timer1InSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
       },
-      timer1RandomTime: { dataPoint: "42", kind: "text" },
-      timer1CycleTime: { dataPoint: "43", kind: "text" },
+      timer1RandomTime: { dataPoint: "42", kind: "text", category: "config" },
+      timer1CycleTime: { dataPoint: "43", kind: "text", category: "config" },
       timer2InSeconds: {
         dataPoint: "10",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -43,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "on" },
@@ -52,6 +61,7 @@ const entry: TuyaDeviceEntry = {
       switchType: {
         dataPoint: "47",
         kind: "select",
+        category: "config",
         values: [
           { raw: "flip", value: "Flip" },
           { raw: "sync", value: "Synchronized" },
@@ -61,6 +71,8 @@ const entry: TuyaDeviceEntry = {
       energyInKwh: {
         dataPoint: "20",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "kWh",
         scale: 1000,
@@ -69,6 +81,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "mA",
       },
@@ -76,6 +90,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "W",
         scale: 10,
@@ -84,6 +100,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 10,

@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Aroma diffuser",
-  productKeys: ["7x87ndiyat1sv6os", "uwP5ueRSh5k5Ccuw"],
+  products: [
+    {
+      productKey: "7x87ndiyat1sv6os",
+      manufacturer: "Asakuki",
+      model: "Cube WiFi",
+    },
+    {
+      productKey: "uwP5ueRSh5k5Ccuw",
+      manufacturer: "Our Garden",
+      model: "GD-30W",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "11": { type: "boolean" },
@@ -32,11 +43,12 @@ const entry: TuyaDeviceEntry = {
       },
     },
     light: {
-      on: { dataPoint: "11", kind: "switch" },
+      on: { dataPoint: "11", kind: "switch", category: "config" },
       red: {
         dataPoint: "108",
         mask: "FF000000000000",
         kind: "number",
+        category: "config",
         min: 0,
         max: 255,
       },
@@ -44,6 +56,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         mask: "00FF0000000000",
         kind: "number",
+        category: "config",
         min: 0,
         max: 255,
       },
@@ -51,6 +64,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         mask: "0000FF00000000",
         kind: "number",
+        category: "config",
         min: 0,
         max: 255,
       },
@@ -58,6 +72,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         mask: "000000FFFF0000",
         kind: "number",
+        category: "config",
         min: 0,
         max: 360,
       },
@@ -65,6 +80,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         mask: "0000000000FF00",
         kind: "number",
+        category: "config",
         min: 0,
         max: 255,
       },
@@ -72,12 +88,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         mask: "000000000000FF",
         kind: "number",
+        category: "config",
         min: 0,
         max: 255,
       },
       effect: {
         dataPoint: "109",
         kind: "select",
+        category: "config",
         values: [
           { raw: "white", value: "white", readOnly: true },
           { raw: "colour", value: "off" },
@@ -88,10 +106,17 @@ const entry: TuyaDeviceEntry = {
           { raw: "scene4", value: "Scene 4" },
         ],
       },
-      brightness: { dataPoint: "111", kind: "number", min: 0, max: 255 },
+      brightness: {
+        dataPoint: "111",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 255,
+      },
       moodLighting: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "Cycle" },
           { raw: "2", value: "Fixed" },
@@ -102,15 +127,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timer: {
         dataPoint: "13",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -122,6 +154,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

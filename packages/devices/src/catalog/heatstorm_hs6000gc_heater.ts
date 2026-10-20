@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["wta6rb1zqwayghxv", "gifk0oubmovuz3ky"],
+  products: [
+    {
+      productKey: "wta6rb1zqwayghxv",
+      manufacturer: "Heatstorm",
+      model: "HS-6000-GC",
+    },
+    {
+      productKey: "gifk0oubmovuz3ky",
+      manufacturer: "Heatstorm",
+      model: "HS-1500",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -92,6 +103,7 @@ const entry: TuyaDeviceEntry = {
       childLock: {
         dataPoint: "7",
         kind: "switch",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -101,14 +113,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "13",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -122,6 +141,7 @@ const entry: TuyaDeviceEntry = {
       brightness: {
         dataPoint: "5",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Off", value: 0 },
           { raw: "10", value: 26 },

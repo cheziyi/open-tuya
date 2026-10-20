@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["k8j78n65zeu3orz7"],
+  products: [
+    { productKey: "k8j78n65zeu3orz7", manufacturer: "Eglo", model: "Surf" },
+  ],
   dataPoints: {
     "20": { type: "boolean", optional: true },
     "22": { type: "integer", optional: true },
@@ -68,6 +70,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "64",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 540,

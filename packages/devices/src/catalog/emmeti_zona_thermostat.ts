@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["snflej6i7rpqnmhv"],
+  products: [
+    { productKey: "snflej6i7rpqnmhv", manufacturer: "Emmeti", model: "Zona" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -79,20 +81,28 @@ const entry: TuyaDeviceEntry = {
       mcuDate: { dataPoint: "107", kind: "text" },
     },
     device: {
-      childLock: { dataPoint: "6", kind: "switch" },
+      childLock: { dataPoint: "6", kind: "switch", category: "config" },
       fault: {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       floorTemperatureInC: {
         dataPoint: "101",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -100,6 +110,7 @@ const entry: TuyaDeviceEntry = {
       temperatureSensor: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Internal" },
           { raw: "1", value: "External" },
@@ -110,6 +121,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -9,
         max: 9,
@@ -118,18 +130,20 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: 1,
         max: 9,
       },
-      temporaryProgram: { dataPoint: "106", kind: "text" },
-      optimumStartup: { dataPoint: "108", kind: "switch" },
-      geofencing: { dataPoint: "109", kind: "switch" },
-      boost: { dataPoint: "110", kind: "switch" },
+      temporaryProgram: { dataPoint: "106", kind: "text", category: "config" },
+      optimumStartup: { dataPoint: "108", kind: "switch", category: "config" },
+      geofencing: { dataPoint: "109", kind: "switch", category: "config" },
+      boost: { dataPoint: "110", kind: "switch", category: "config" },
       boostTimeInHours: {
         dataPoint: "111",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 24,
@@ -138,16 +152,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "112",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 50,
         max: 350,
         scale: 10,
       },
-      holiday: { dataPoint: "113", kind: "switch" },
+      holiday: { dataPoint: "113", kind: "switch", category: "config" },
       holidayLengthInDays: {
         dataPoint: "114",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "d",
         min: 0,
         max: 300,
@@ -155,6 +171,7 @@ const entry: TuyaDeviceEntry = {
       holidayTemperatureInC: {
         dataPoint: "115",
         kind: "number",
+        category: "config",
         unit: "C",
         min: 50,
         max: 350,
@@ -163,6 +180,7 @@ const entry: TuyaDeviceEntry = {
       programMode: {
         dataPoint: "116",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "7 days" },
           { raw: "1", value: "5+2 days" },

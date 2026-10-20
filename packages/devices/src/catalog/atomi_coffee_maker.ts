@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Coffee maker",
-  productKeys: ["gmbbmrpkqecjoeoa"],
+  products: [
+    {
+      productKey: "gmbbmrpkqecjoeoa",
+      manufacturer: "Atomi",
+      model: "RE70X-TC02",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -19,10 +25,16 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      brewing: { dataPoint: "1", kind: "sensor", readOnly: true },
+      brewing: {
+        dataPoint: "1",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       brewStrength: {
         dataPoint: "2",
         kind: "select",
+        category: "config",
         values: [
           { raw: "smart", value: "Regular" },
           { raw: "auto", value: "Strong" },
@@ -51,6 +63,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -58,7 +71,12 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "6", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "6",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       tankEmpty: {
         dataPoint: "18",
         kind: "sensor",
@@ -69,6 +87,7 @@ const entry: TuyaDeviceEntry = {
       brewTimerInMinutes: {
         dataPoint: "102",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1439,
@@ -86,6 +105,7 @@ const entry: TuyaDeviceEntry = {
       warmTimerInMinutes: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1439,
@@ -93,6 +113,7 @@ const entry: TuyaDeviceEntry = {
       syncTime: {
         dataPoint: "105",
         kind: "button",
+        category: "config",
         values: [{ raw: "calibration", value: "calibration" }],
       },
     },

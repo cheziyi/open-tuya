@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Control panel",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "16": { type: "boolean" },
     "17": { type: "boolean" },
@@ -22,8 +22,8 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     mediaPlayer: {
-      switch1: { dataPoint: "16", kind: "switch" },
-      switch2: { dataPoint: "17", kind: "switch" },
+      switch1: { dataPoint: "16", kind: "switch", category: "config" },
+      switch2: { dataPoint: "17", kind: "switch", category: "config" },
       volume: { dataPoint: "80", kind: "number", min: 0, max: 100, scale: 100 },
       play: { dataPoint: "82", kind: "switch" },
       source: {
@@ -57,10 +57,10 @@ const entry: TuyaDeviceEntry = {
         otherwise: "off",
         ownRuleReadOnly: true,
       },
-      microphone: { dataPoint: "81", kind: "switch" },
-      bluetooth: { dataPoint: "84", kind: "switch" },
-      alarmClock: { dataPoint: "88", kind: "text" },
-      alert: { dataPoint: "89", kind: "text" },
+      microphone: { dataPoint: "81", kind: "switch", category: "config" },
+      bluetooth: { dataPoint: "84", kind: "switch", category: "config" },
+      alarmClock: { dataPoint: "88", kind: "text", category: "config" },
+      alert: { dataPoint: "89", kind: "text", category: "config" },
     },
   },
   source: {

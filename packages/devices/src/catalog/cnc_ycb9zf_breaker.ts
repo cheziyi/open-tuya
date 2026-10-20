@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Circuit breaker",
-  productKeys: ["bryydwbntbjkq8pk"],
+  products: [
+    {
+      productKey: "bryydwbntbjkq8pk",
+      manufacturer: "Faens",
+      model: "FSZN03-100AP 2P",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "22": { type: "integer" },
@@ -30,14 +36,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 10,
       },
-      voltageCalibration: { dataPoint: "25", kind: "sensor", readOnly: true },
+      voltageCalibration: {
+        dataPoint: "25",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       overvoltageThresholdInPercent: {
         dataPoint: "102",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 110,
         max: 200,
@@ -45,6 +59,7 @@ const entry: TuyaDeviceEntry = {
       undervoltageThresholdInPercent: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 50,
         max: 90,
@@ -53,6 +68,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "number",
         measures: "voltage",
+        category: "config",
         unit: "V",
         min: 150,
         max: 300,
@@ -60,6 +76,7 @@ const entry: TuyaDeviceEntry = {
       breakerOvervoltageAction: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Shut", value: "ignore" },
           { raw: "Alarm", value: "alarm" },
@@ -69,6 +86,7 @@ const entry: TuyaDeviceEntry = {
       breakerUndervoltageAction: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Shut", value: "ignore" },
           { raw: "Alarm", value: "alarm" },
@@ -79,6 +97,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 100,
         max: 10000,
@@ -89,11 +108,12 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 1,
         max: 10,
       },
-      autoReset: { dataPoint: "109", kind: "switch" },
+      autoReset: { dataPoint: "109", kind: "switch", category: "config" },
     },
   },
   source: {

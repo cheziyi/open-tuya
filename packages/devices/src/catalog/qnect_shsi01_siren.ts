@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Siren",
-  productKeys: ["hf0phcrchgkquvke"],
+  products: [
+    {
+      productKey: "hf0phcrchgkquvke",
+      manufacturer: "Qnect",
+      model: "SH-SI01-QNE",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "5": { type: "string" },
@@ -45,6 +51,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "power",
+        category: "diagnostic",
         readOnly: true,
       },
       muffling: { dataPoint: "15", kind: "switch" },
@@ -52,12 +59,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "tamper",
+        category: "diagnostic",
         readOnly: true,
       },
       battery: {
         dataPoint: "102",
         kind: "sensor",
         measures: "battery",
+        category: "diagnostic",
         readOnly: true,
       },
     },

@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Moisture sensor",
-  productKeys: ["gvygg3m8", "nt4pquef"],
+  products: [
+    { productKey: "gvygg3m8", model: "SGS01" },
+    { productKey: "nt4pquef", model: "SGS02Z" },
+  ],
   dataPoints: {
     "2": { type: "string", optional: true },
     "3": { type: "integer" },
@@ -20,6 +23,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "3",
         kind: "sensor",
         measures: "moisture",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -27,6 +31,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unitFrom: "soilTemperatureUnit",
         scale: 10,
@@ -49,6 +54,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "9",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -57,6 +63,7 @@ const entry: TuyaDeviceEntry = {
       refresh: {
         dataPoint: "9",
         kind: "button",
+        category: "config",
         values: [
           {
             raw: "c",
@@ -80,7 +87,7 @@ const entry: TuyaDeviceEntry = {
           },
         ],
       },
-      refreshCurrent: { dataPoint: "9", kind: "text" },
+      refreshCurrent: { dataPoint: "9", kind: "text", category: "config" },
       lightIntensity: {
         dataPoint: "2",
         kind: "sensor",

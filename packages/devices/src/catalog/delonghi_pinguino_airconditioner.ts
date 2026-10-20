@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Portable air conditioner",
-  productKeys: ["KzuG6E0LBir4AwXE"],
+  products: [
+    {
+      productKey: "KzuG6E0LBir4AwXE",
+      manufacturer: "De'Longhi",
+      model: "Pinguino",
+      modelId: "PACEL276HGRFK",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "5": { type: "string" },
@@ -79,6 +86,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "15",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -86,7 +94,12 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "15", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "15",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       tankFull: {
         dataPoint: "15",
         kind: "sensor",
@@ -97,6 +110,7 @@ const entry: TuyaDeviceEntry = {
       comfortLevel: {
         dataPoint: "20",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "0", value: "uncomfortable" },
@@ -105,10 +119,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "yellow" },
         ],
       },
-      schedule: { dataPoint: "23", kind: "text" },
+      schedule: { dataPoint: "23", kind: "text", category: "config" },
       command: {
         dataPoint: "24",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "on" },
@@ -123,11 +138,13 @@ const entry: TuyaDeviceEntry = {
       silent: {
         dataPoint: "24",
         kind: "button",
+        category: "config",
         values: [{ raw: "6", value: true }],
       },
       oscillation: {
         dataPoint: "24",
         kind: "button",
+        category: "config",
         values: [{ raw: "7", value: true }],
       },
     },

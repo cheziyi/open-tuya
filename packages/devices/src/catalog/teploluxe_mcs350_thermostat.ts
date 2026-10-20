@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["tfmfbr341u0tx3fb"],
+  products: [
+    {
+      productKey: "tfmfbr341u0tx3fb",
+      manufacturer: "Teploluxe",
+      model: "MCS350",
+    },
+  ],
   dataPoints: {
     "2": { type: "string" },
     "16": { type: "integer" },
@@ -88,6 +94,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -9,
         max: 9,
@@ -96,6 +103,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "number",
         measures: "temperature",
+        category: "config",
         min: 5,
         max: 45,
       },
@@ -103,6 +111,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
         readOnly: true,
         unit: "kW",
         scale: 10,
@@ -111,12 +120,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "°C",
       },
       openWindowDetection: {
         dataPoint: "110",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "OFF", value: false },
           { raw: "ON", value: true },
@@ -125,6 +136,7 @@ const entry: TuyaDeviceEntry = {
       temperatureSensor: {
         dataPoint: "43",
         kind: "select",
+        category: "config",
         values: [
           { raw: "flor", value: "Floor" },
           { raw: "air", value: "Room" },
@@ -134,6 +146,7 @@ const entry: TuyaDeviceEntry = {
       learningMode: {
         dataPoint: "107",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "OFF", value: false },
           { raw: "ON", value: true },

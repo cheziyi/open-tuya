@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Relay 16ch",
-  productKeys: ["05iqw2misedc8pgv"],
+  products: [{ productKey: "05iqw2misedc8pgv", model: "RCU-16" }],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "boolean" },
@@ -53,6 +53,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -62,6 +63,7 @@ const entry: TuyaDeviceEntry = {
       ioMode18: {
         dataPoint: "118",
         kind: "select",
+        category: "config",
         values: [
           { raw: "eturn", value: "Button" },
           { raw: "switch", value: "Switch" },
@@ -71,6 +73,7 @@ const entry: TuyaDeviceEntry = {
       ioMode916: {
         dataPoint: "119",
         kind: "select",
+        category: "config",
         values: [
           { raw: "eturn", value: "Button" },
           { raw: "switch", value: "Switch" },
@@ -80,6 +83,7 @@ const entry: TuyaDeviceEntry = {
       function1112: {
         dataPoint: "120",
         kind: "select",
+        category: "config",
         values: [
           { raw: "switch", value: "Switch" },
           { raw: "curtain", value: "Curtain" },
@@ -88,6 +92,7 @@ const entry: TuyaDeviceEntry = {
       function1314: {
         dataPoint: "121",
         kind: "select",
+        category: "config",
         values: [
           { raw: "switch", value: "Switch" },
           { raw: "curtain", value: "Curtain" },
@@ -96,6 +101,7 @@ const entry: TuyaDeviceEntry = {
       function1516: {
         dataPoint: "122",
         kind: "select",
+        category: "config",
         values: [
           { raw: "switch", value: "Switch" },
           { raw: "curtain", value: "Curtain" },
@@ -104,6 +110,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "123",
         kind: "select",
+        category: "config",
         values: [
           { raw: "ready", value: "none" },
           { raw: "scene1", value: "Scene 1" },
@@ -115,7 +122,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "scene7", value: "Scene 7" },
         ],
       },
-      number: { dataPoint: "125", kind: "number", min: 1, max: 30 },
+      number: {
+        dataPoint: "125",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 30,
+      },
     },
   },
   source: {

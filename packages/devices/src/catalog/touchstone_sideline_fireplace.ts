@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Electric fireplace",
-  productKeys: ["qhwld7e4eqvu5fbp"],
+  products: [
+    {
+      productKey: "qhwld7e4eqvu5fbp",
+      manufacturer: "Touchstone",
+      model: "Sideline",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -108,18 +114,20 @@ const entry: TuyaDeviceEntry = {
       flameSpeed: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "Slow" },
           { raw: "2", value: "Medium" },
           { raw: "3", value: "Fast" },
         ],
       },
-      childLock: { dataPoint: "108", kind: "switch" },
+      childLock: { dataPoint: "108", kind: "switch", category: "config" },
     },
     flame: {
       brightness: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: 51 },
           { raw: "2", value: 102 },
@@ -131,6 +139,7 @@ const entry: TuyaDeviceEntry = {
       effect: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "Orange" },
           { raw: "2", value: "Blue" },
@@ -145,6 +154,7 @@ const entry: TuyaDeviceEntry = {
       brightness: {
         dataPoint: "109",
         kind: "select",
+        category: "config",
         values: [
           { raw: "L0", value: 0 },
           { raw: "L1", value: 51 },
@@ -158,6 +168,7 @@ const entry: TuyaDeviceEntry = {
       colorName: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "orange" },
           { raw: "2", value: "red" },
@@ -176,6 +187,7 @@ const entry: TuyaDeviceEntry = {
       effect: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "12", value: "Mystery" },
           { raw: "11", value: "Cycle" },
@@ -189,6 +201,7 @@ const entry: TuyaDeviceEntry = {
       brightness: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: 21 },
           { raw: "2", value: 43 },

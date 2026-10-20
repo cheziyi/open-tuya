@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Plant light",
-  productKeys: ["ba8nq6kussycm5l1"],
+  products: [{ productKey: "ba8nq6kussycm5l1", manufacturer: "SunnyBot" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -20,9 +20,9 @@ const entry: TuyaDeviceEntry = {
       on: { dataPoint: "1", kind: "switch" },
       workMode: { dataPoint: "2", kind: "text" },
       brightness: { dataPoint: "3", kind: "number", min: 0, max: 1000 },
-      timer: { dataPoint: "37", kind: "text" },
-      timerReport: { dataPoint: "38", kind: "text" },
-      multiswitch: { dataPoint: "56", kind: "text" },
+      timer: { dataPoint: "37", kind: "text", category: "config" },
+      timerReport: { dataPoint: "38", kind: "text", category: "config" },
+      multiswitch: { dataPoint: "56", kind: "text", category: "config" },
     },
     violet: {
       brightness: { dataPoint: "54", kind: "number", min: 0, max: 1000 },

@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Irrigation system",
-  productKeys: ["r3stdie1u7vswo38"],
+  products: [{ productKey: "r3stdie1u7vswo38", manufacturer: "Sunlary" }],
   dataPoints: {
     "1": { type: "boolean" },
     "102": { type: "integer" },
@@ -23,6 +23,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "106",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "0", value: "idle" },
@@ -30,11 +31,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "2", value: "manual" },
         ],
       },
-      autoRun: { dataPoint: "109", kind: "switch" },
+      autoRun: { dataPoint: "109", kind: "switch", category: "config" },
       durationInSeconds: {
         dataPoint: "102",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 20,
         max: 1800,
@@ -42,6 +44,7 @@ const entry: TuyaDeviceEntry = {
       intervalInHours: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "h",
         min: 1,
         max: 168,
@@ -50,6 +53,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -57,6 +61,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -78,11 +83,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "105", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "105",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

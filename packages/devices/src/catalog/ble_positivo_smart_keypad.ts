@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Keypad lock",
-  productKeys: ["bb0nmoax"],
+  products: [
+    { productKey: "bb0nmoax", manufacturer: "Positivo", model: "Smart KeyPad" },
+  ],
   dataPoints: {
     "1": { type: "string", optional: true },
     "2": { type: "string", optional: true },
@@ -70,15 +72,17 @@ const entry: TuyaDeviceEntry = {
       keytone: {
         dataPoint: "22",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "mute", value: false },
           { raw: "normal", value: true },
         ],
       },
-      verifyLock: { dataPoint: "27", kind: "switch" },
+      verifyLock: { dataPoint: "27", kind: "switch", category: "config" },
       unlockMultipleDoors: {
         dataPoint: "28",
         kind: "select",
+        category: "config",
         values: [
           { raw: "single", value: "single" },
           { raw: "multiple", value: "multiple" },
@@ -88,12 +92,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "40",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       batteryState: {
         dataPoint: "41",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "high", value: "high" },

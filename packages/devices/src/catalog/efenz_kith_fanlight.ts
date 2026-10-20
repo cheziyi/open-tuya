@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling Fan",
-  productKeys: ["knhfgnbpneqras2y"],
+  products: [
+    { productKey: "knhfgnbpneqras2y", manufacturer: "Efenz", model: "Kith" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string", optional: true },
@@ -44,7 +46,7 @@ const entry: TuyaDeviceEntry = {
         max: 1000,
         targetRange: { min: 2700, max: 6500 },
       },
-      power: { dataPoint: "1", kind: "switch" },
+      power: { dataPoint: "1", kind: "switch", category: "config" },
     },
   },
   source: {

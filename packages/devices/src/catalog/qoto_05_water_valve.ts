@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water valve",
-  productKeys: ["arge1ptm"],
+  products: [{ productKey: "arge1ptm", manufacturer: "QOTO", model: "05" }],
   dataPoints: {
     "2": { type: "integer" },
     "3": { type: "integer" },
@@ -20,6 +20,7 @@ const entry: TuyaDeviceEntry = {
       currentValvePositionInPercent: {
         dataPoint: "3",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -27,6 +28,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -34,6 +36,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 84960,
@@ -51,11 +54,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "104", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "104",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

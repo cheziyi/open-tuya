@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "string" },
@@ -43,13 +43,15 @@ const entry: TuyaDeviceEntry = {
       activeFilterLifeInPercent: {
         dataPoint: "5",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      filterReset: { dataPoint: "11", kind: "button" },
+      filterReset: { dataPoint: "11", kind: "button", category: "config" },
       timer: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "4h", value: "4h" },
@@ -60,12 +62,13 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
       airQuality: { dataPoint: "22", kind: "sensor", readOnly: true },
     },
-    aqIndicator: { on: { dataPoint: "8", kind: "switch" } },
+    aqIndicator: { on: { dataPoint: "8", kind: "switch", category: "config" } },
   },
   source: {
     file: "himox_h06_purifier.yaml",

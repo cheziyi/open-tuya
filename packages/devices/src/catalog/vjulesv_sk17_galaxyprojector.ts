@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Galaxy projector",
-  productKeys: ["hfvolspgnicmjhv2"],
+  products: [
+    {
+      productKey: "hfvolspgnicmjhv2",
+      manufacturer: "V Jules.V",
+      model: "SK17",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string", optional: true },
@@ -41,15 +47,16 @@ const entry: TuyaDeviceEntry = {
       lightTimerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
       },
-      control: { dataPoint: "28", kind: "text" },
-      music: { dataPoint: "42", kind: "text" },
+      control: { dataPoint: "28", kind: "text", category: "config" },
+      music: { dataPoint: "42", kind: "text", category: "config" },
       on: { dataPoint: "60", kind: "switch", whenAbsent: { value: false } },
       speed: { dataPoint: "62", kind: "number", min: 1, max: 100 },
-      starScene: { dataPoint: "65", kind: "text" },
+      starScene: { dataPoint: "65", kind: "text", category: "config" },
       play: { dataPoint: "66", kind: "button" },
       previous: {
         dataPoint: "67",
@@ -72,6 +79,7 @@ const entry: TuyaDeviceEntry = {
       musicTimerInSeconds: {
         dataPoint: "69",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -96,6 +104,7 @@ const entry: TuyaDeviceEntry = {
       effect: {
         dataPoint: "72",
         kind: "select",
+        category: "config",
         values: [
           { raw: "normal", value: "Normal" },
           { raw: "classical", value: "Classical" },
@@ -113,14 +122,21 @@ const entry: TuyaDeviceEntry = {
       bluetooth: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "connect", value: "Connect" },
           { raw: "disconnect", value: "Disconnect" },
         ],
       },
-      laserBreathe: { dataPoint: "103", kind: "switch" },
-      laserBreatheSpeed: { dataPoint: "104", kind: "number", min: 1, max: 100 },
-      alarmClock: { dataPoint: "105", kind: "text" },
+      laserBreathe: { dataPoint: "103", kind: "switch", category: "config" },
+      laserBreatheSpeed: {
+        dataPoint: "104",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 100,
+      },
+      alarmClock: { dataPoint: "105", kind: "text", category: "config" },
     },
     white: {
       on: { dataPoint: "63", kind: "switch" },

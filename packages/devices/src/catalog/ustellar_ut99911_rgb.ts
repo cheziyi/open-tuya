@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Monitor light bar",
-  productKeys: ["oqtk22eg6jxorl78"],
+  products: [
+    {
+      productKey: "oqtk22eg6jxorl78",
+      manufacturer: "Ustellar",
+      model: "UT99911-RGB",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -73,6 +79,7 @@ const entry: TuyaDeviceEntry = {
       music: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "119", value: "Classic 25%" },
           { raw: "132", value: "Classic 50%" },
@@ -95,6 +102,7 @@ const entry: TuyaDeviceEntry = {
       mode: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "013264000003e803e8", value: "Breath" },
           { raw: "023264000003e803e8", value: "Flash" },
@@ -116,6 +124,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "CJ_YD", value: "reading" },
           { raw: "CJ_QC", value: "morning" },
@@ -125,7 +134,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "CJ_YS", value: "movie" },
         ],
       },
-      stripPoints: { dataPoint: "104", kind: "number", min: 10, max: 42 },
+      stripPoints: {
+        dataPoint: "104",
+        kind: "number",
+        category: "config",
+        min: 10,
+        max: 42,
+      },
     },
   },
   source: {

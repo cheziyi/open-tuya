@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Double curtain switch",
-  productKeys: ["uri85umga4f86p2j"],
+  products: [
+    {
+      productKey: "uri85umga4f86p2j",
+      manufacturer: "Moes",
+      model: "WS-USR-2C",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -49,6 +55,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 2,
         max: 240,
@@ -57,6 +64,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 2,
         max: 240,
@@ -64,6 +72,7 @@ const entry: TuyaDeviceEntry = {
       direction1: {
         dataPoint: "8",
         kind: "select",
+        category: "config",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "back", value: "back" },
@@ -72,13 +81,14 @@ const entry: TuyaDeviceEntry = {
       direction2: {
         dataPoint: "9",
         kind: "select",
+        category: "config",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "back", value: "back" },
         ],
       },
     },
-    backlight: { on: { dataPoint: "7", kind: "switch" } },
+    backlight: { on: { dataPoint: "7", kind: "switch", category: "config" } },
   },
   source: {
     file: "moes_double_curtainswitch.yaml",

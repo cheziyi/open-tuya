@@ -5,7 +5,20 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Panel light",
-  productKeys: ["key9cdjdeqjph5sh", "2zjsc9dxfxlr7yf3"],
+  products: [
+    {
+      productKey: "key9cdjdeqjph5sh",
+      manufacturer: "Ledvance",
+      model: "Smart+ Planon plus backlight",
+      modelId: "BL100x25B",
+    },
+    {
+      productKey: "2zjsc9dxfxlr7yf3",
+      manufacturer: "Annaror",
+      model: "Dual ceiling light",
+      modelId: "5LRGB",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string", optional: true },
@@ -72,11 +85,12 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
       },
-      control: { dataPoint: "28", kind: "text" },
+      control: { dataPoint: "28", kind: "text", category: "config" },
     },
     backlight: {
       power: { dataPoint: "20", kind: "switch" },
@@ -156,7 +170,7 @@ const entry: TuyaDeviceEntry = {
         max: 65535,
       },
     },
-    device: { on: { dataPoint: "20", kind: "switch" } },
+    device: { on: { dataPoint: "20", kind: "switch", category: "config" } },
   },
   source: {
     file: "ledvance_smart_plabl100x25b.yaml",

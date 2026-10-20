@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain motor",
-  productKeys: ["4D47uCTGNqKBSdHm"],
+  products: [
+    { productKey: "4D47uCTGNqKBSdHm", manufacturer: "HHC", model: "AM68" },
+  ],
   dataPoints: {
     "101": { type: "string" },
     "102": { type: "integer" },
@@ -35,16 +37,18 @@ const entry: TuyaDeviceEntry = {
       direction: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "forward" },
           { raw: true, value: "reverse" },
         ],
       },
-      manualOverride: { dataPoint: "108", kind: "switch" },
+      manualOverride: { dataPoint: "108", kind: "switch", category: "config" },
       schedule: {
         dataPoint: "109",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
       },
     },

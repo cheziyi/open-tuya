@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Aquarium light",
-  productKeys: ["v6pejhqu"],
+  products: [
+    {
+      productKey: "v6pejhqu",
+      manufacturer: "NemoLight",
+      model: "Extreme Series",
+    },
+  ],
   dataPoints: {
     "3": { type: "integer", optional: true },
     "101": { type: "boolean", optional: true },
@@ -51,6 +57,7 @@ const entry: TuyaDeviceEntry = {
       preview: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "none", value: "None" },
           { raw: "auto", value: "Auto" },
@@ -63,23 +70,25 @@ const entry: TuyaDeviceEntry = {
       timeFormat: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "12_hour" },
           { raw: true, value: "24_hour" },
         ],
       },
-      autoConfig: { dataPoint: "109", kind: "text" },
-      acclimationConfig: { dataPoint: "110", kind: "text" },
-      lunarConfig: { dataPoint: "111", kind: "text" },
-      lightingConfig: { dataPoint: "112", kind: "text" },
-      cloudyConfig: { dataPoint: "113", kind: "text" },
-      schedule12v: { dataPoint: "114", kind: "text" },
-      schedule24v: { dataPoint: "115", kind: "text" },
-      schedulePump: { dataPoint: "116", kind: "text" },
+      autoConfig: { dataPoint: "109", kind: "text", category: "config" },
+      acclimationConfig: { dataPoint: "110", kind: "text", category: "config" },
+      lunarConfig: { dataPoint: "111", kind: "text", category: "config" },
+      lightingConfig: { dataPoint: "112", kind: "text", category: "config" },
+      cloudyConfig: { dataPoint: "113", kind: "text", category: "config" },
+      schedule12v: { dataPoint: "114", kind: "text", category: "config" },
+      schedule24v: { dataPoint: "115", kind: "text", category: "config" },
+      schedulePump: { dataPoint: "116", kind: "text", category: "config" },
       powerLedInPercent: {
         dataPoint: "117",
         mask: "FF0000",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 70,
@@ -88,6 +97,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "117",
         mask: "00FF00",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 20,
@@ -96,6 +106,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "117",
         mask: "0000FF",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 10,
@@ -103,6 +114,7 @@ const entry: TuyaDeviceEntry = {
       equipment: {
         dataPoint: "118",
         kind: "select",
+        category: "config",
         values: [
           { raw: "24v", value: "General 24V" },
           { raw: "pump", value: "Pump" },
@@ -111,6 +123,7 @@ const entry: TuyaDeviceEntry = {
       channel: {
         dataPoint: "119",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "1" },
           { raw: "2", value: "2" },
@@ -123,19 +136,43 @@ const entry: TuyaDeviceEntry = {
           { raw: "9", value: "9" },
         ],
       },
-      pairing: { dataPoint: "120", kind: "switch" },
+      pairing: { dataPoint: "120", kind: "switch", category: "config" },
     },
     channelA: {
-      brightness: { dataPoint: "105", kind: "number", min: 0, max: 100 },
+      brightness: {
+        dataPoint: "105",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
     },
     channelB: {
-      brightness: { dataPoint: "106", kind: "number", min: 0, max: 100 },
+      brightness: {
+        dataPoint: "106",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
     },
     channelC: {
-      brightness: { dataPoint: "107", kind: "number", min: 0, max: 100 },
+      brightness: {
+        dataPoint: "107",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
     },
     channelD: {
-      brightness: { dataPoint: "108", kind: "number", min: 0, max: 100 },
+      brightness: {
+        dataPoint: "108",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
     },
   },
   source: {

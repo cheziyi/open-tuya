@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Doorbell",
-  productKeys: ["26xtgamy3tv1awhl"],
+  products: [{ productKey: "26xtgamy3tv1awhl", model: "WGH-ML-001" }],
   dataPoints: {
     "1": { type: "string", optional: true },
     "2": { type: "integer", optional: true },
@@ -67,7 +67,11 @@ const entry: TuyaDeviceEntry = {
       buttonConfig: { dataPoint: "1", kind: "text" },
       undisturbSchedule: { dataPoint: "7", kind: "text" },
       doorbellCall: { dataPoint: "10", kind: "number" },
-      mobileNotifications: { dataPoint: "6", kind: "switch" },
+      mobileNotifications: {
+        dataPoint: "6",
+        kind: "switch",
+        category: "config",
+      },
       doorbell: {
         dataPoint: "5",
         kind: "event",

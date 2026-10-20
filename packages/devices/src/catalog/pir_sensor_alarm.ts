@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "PIR sensor alarm",
-  productKeys: ["y5tdmwmb2ieknmkb"],
+  products: [{ productKey: "y5tdmwmb2ieknmkb" }],
   dataPoints: {
     "1": { type: "string" },
     "4": { type: "integer" },
@@ -29,6 +29,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "batteryCharging",
+        category: "diagnostic",
         readOnly: true,
       },
       batteryInPercent: {
@@ -42,6 +43,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 255,
@@ -49,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       warningMode: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "SoundLight_mode", value: "Sound and Light" },
           { raw: "OnlyLight_mode", value: "Only Light" },

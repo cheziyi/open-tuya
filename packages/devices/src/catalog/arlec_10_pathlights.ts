@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Path lights",
-  productKeys: ["42urjhkizqsaj01v"],
+  products: [
+    {
+      productKey: "42urjhkizqsaj01v",
+      manufacturer: "Arlec",
+      model: "LVG106HA",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -56,15 +62,22 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
       },
-      music: { dataPoint: "27", kind: "text" },
-      dreamlightMusic: { dataPoint: "52", kind: "text" },
-      linearScene: { dataPoint: "56", kind: "text" },
-      ledCount: { dataPoint: "58", kind: "number", min: 1, max: 5000 },
-      fineControl: { dataPoint: "59", kind: "text" },
+      music: { dataPoint: "27", kind: "text", category: "config" },
+      dreamlightMusic: { dataPoint: "52", kind: "text", category: "config" },
+      linearScene: { dataPoint: "56", kind: "text", category: "config" },
+      ledCount: {
+        dataPoint: "58",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 5000,
+      },
+      fineControl: { dataPoint: "59", kind: "text", category: "config" },
     },
   },
   source: {

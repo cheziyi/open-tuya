@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["mzeflj6aygwytyoy"],
+  products: [
+    {
+      productKey: "mzeflj6aygwytyoy",
+      manufacturer: "ComfortZone",
+      model: "AP100",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "string" },
@@ -29,12 +35,13 @@ const entry: TuyaDeviceEntry = {
       },
     },
     light: {
-      ionizer: { dataPoint: "6", kind: "switch" },
+      ionizer: { dataPoint: "6", kind: "switch", category: "config" },
       on: { dataPoint: "8", kind: "switch" },
-      filterReset: { dataPoint: "11", kind: "button" },
+      filterReset: { dataPoint: "11", kind: "button", category: "config" },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -55,6 +62,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

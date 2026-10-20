@@ -10,24 +10,36 @@ import type {
   TuyaDataPointSpec,
   TuyaDataPointType,
   TuyaDeviceEntry,
+  TuyaProduct,
 } from "../src/entry.js";
 import { pyStr } from "../src/python.ts";
 import {
+  CONTROL_CATEGORIES,
+  type ControlCategory,
   type ControlKind,
   type ControlName,
   MEASURES,
   type Measure,
+  type Reading,
   type UnitSuffix,
 } from "../src/vocabulary.ts";
 
 interface DeviceFile {
   name: string;
-  products?: { id?: string }[];
+  products?: ProductConfig[];
   entities: EntityConfig[];
+}
+
+interface ProductConfig {
+  id?: string;
+  manufacturer?: string;
+  model?: string;
+  model_id?: string;
 }
 
 interface EntityConfig {
   entity: string;
+  category?: string;
   name?: string;
   translation_key?: string;
   translation_only_key?: string;
@@ -51,6 +63,7 @@ interface DataPointConfig {
   mask_signed?: boolean;
   endianness?: string;
   format?: FormatField[];
+  class?: string;
   /** The type the data point's first declaration gives, set as the file is
    * read. */
   specType?: string;
@@ -400,6 +413,19 @@ const UNMEASURED_CLASSES: ReadonlySet<string> = new Set([
   "measurement",
 ]);
 
+// Source: A sensor's `class` data point key is its state class, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/devices/README.md#L277-L281,
+// which tuya-local reads from its `sensor` data point alone, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/sensor.py#L66-L71.
+// What each class means is in
+// https://github.com/home-assistant/core/blob/506d5c077399457a9557bbe4a887f5b3229d2520/homeassistant/components/sensor/const.py#L577-L597.
+const READINGS_BY_CLASS: Record<string, Reading> = {
+  measurement: "instant",
+  measurement_angle: "angle",
+  total: "total",
+  total_increasing: "risingTotal",
+};
+
 // What a composite entity's control measures, by its name.
 const COMPOSITE_MEASURES: Partial<Record<ControlName, Measure>> = {
   coolingTargetTemperature: "temperature",
@@ -580,9 +606,7 @@ export function convertDeviceFile(text: string): Conversion {
     return {
       entry: {
         name: file.name,
-        productKeys: (file.products ?? []).flatMap((product) =>
-          product.id ? [String(product.id)] : [],
-        ),
+        products: (file.products ?? []).flatMap(product),
         dataPoints: dataPointSpecs(file),
         components: components(file),
       },
@@ -593,6 +617,28 @@ export function convertDeviceFile(text: string): Conversion {
     }
     throw error;
   }
+}
+
+// Source: A product names its product key as `id`, beside its
+// `manufacturer`, `model` and `model_id`, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/devices/README.md#L19-L31.
+// A product without an `id` matches no device, so it is left out.
+function product(config: ProductConfig): TuyaProduct[] {
+  if (!config.id) {
+    return [];
+  }
+  return [
+    {
+      productKey: String(config.id),
+      ...(config.manufacturer !== undefined && {
+        manufacturer: String(config.manufacturer),
+      }),
+      ...(config.model !== undefined && { model: String(config.model) }),
+      ...(config.model_id !== undefined && {
+        modelId: String(config.model_id),
+      }),
+    },
+  ];
 }
 
 function unsupportedFeature(file: DeviceFile): string | undefined {
@@ -950,6 +996,8 @@ const PLAIN_FIELDS: ReadonlySet<string> = new Set([
   "type",
   "kind",
   "measures",
+  "reading",
+  "category",
   "readOnly",
   "unit",
   "unitFrom",
@@ -1407,10 +1455,12 @@ function addSimpleControls(
       dp.name === primary ||
       (entity.entity === "lock" && dp.name === "lock")
     ) {
+      const reading = entity.entity === "sensor" ? readingOf(dp) : undefined;
       addControl(draft, base, dp, entity, {
         ...(unitName && { unitFrom: unitName }),
         ...(kind && { kind }),
         ...(measures && { measures }),
+        ...(reading && { reading }),
       });
     } else if (dp === unitDp && unitName) {
       addControl(draft, unitName, dp, entity, {});
@@ -1454,6 +1504,31 @@ function entityMeasures(entity: EntityConfig): Measure | undefined {
     throw new Error(`Add "${measures}" to MEASURES in src/vocabulary.ts`);
   }
   return measures as Measure;
+}
+
+// A class tuya-local adds stops the run until READINGS_BY_CLASS names it.
+function readingOf(dp: DataPointConfig): Reading | undefined {
+  if (dp.class === undefined) {
+    return undefined;
+  }
+  const reading = READINGS_BY_CLASS[dp.class];
+  if (!reading) {
+    throw new Error(`Add "${dp.class}" to READINGS_BY_CLASS`);
+  }
+  return reading;
+}
+
+// Source: An entity's `category` is `config` or `diagnostic`, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/devices/README.md#L87-L93.
+// Another stops the run until CONTROL_CATEGORIES names it.
+function categoryOf(entity: EntityConfig): ControlCategory | undefined {
+  if (entity.category === undefined) {
+    return undefined;
+  }
+  if (!(CONTROL_CATEGORIES as readonly string[]).includes(entity.category)) {
+    throw new Error(`Add "${entity.category}" to CONTROL_CATEGORIES`);
+  }
+  return entity.category as ControlCategory;
 }
 
 function simpleBase(
@@ -1600,11 +1675,13 @@ function addControl(
     unitFrom?: string;
     kind?: ControlKind;
     measures?: Measure;
+    reading?: Reading;
     defaultValue?: ControlValue;
     attribute?: true;
   },
 ): void {
   const { unitFrom } = options;
+  const category = categoryOf(entity);
   const shortest =
     unitFrom || dp.unit === undefined ? base : controlName(base, dp.unit);
   const longest =
@@ -1654,6 +1731,8 @@ function addControl(
     ...(littleEndian && { littleEndian }),
     kind,
     ...(options.measures && { measures: options.measures }),
+    ...(options.reading && { reading: options.reading }),
+    ...(category && { category }),
     ...(readOnly && { readOnly: true as const }),
     ...(dp.unit !== undefined && { unit: String(dp.unit) }),
     ...(unitFrom && { unitFrom }),

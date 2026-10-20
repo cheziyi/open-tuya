@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan light",
-  productKeys: ["05nijjtjtotiiuyw"],
+  products: [
+    {
+      productKey: "05nijjtjtotiiuyw",
+      manufacturer: "Coibeu",
+      model: "WKFS-004",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "22": { type: "integer" },
@@ -20,10 +26,11 @@ const entry: TuyaDeviceEntry = {
     light: {
       on: { dataPoint: "20", kind: "switch" },
       brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
-      sound: { dataPoint: "103", kind: "switch" },
+      sound: { dataPoint: "103", kind: "switch", category: "config" },
       timerInSeconds: {
         dataPoint: "112",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Drying rack",
-  productKeys: ["5gtjlyeeljy7ufe4"],
+  products: [
+    {
+      productKey: "5gtjlyeeljy7ufe4",
+      manufacturer: "Steigen",
+      model: "Solar Pro",
+    },
+  ],
   dataPoints: {
     "2": { type: "string" },
     "3": { type: "integer", optional: true },
@@ -47,6 +53,7 @@ const entry: TuyaDeviceEntry = {
       heatTimer: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -60,6 +67,7 @@ const entry: TuyaDeviceEntry = {
       windTimer: {
         dataPoint: "13",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -71,6 +79,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "15",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -78,6 +87,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "16",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -85,14 +95,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "18",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       clothesPosition: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "center", value: "Center" },
           { raw: "top", value: "Top" },

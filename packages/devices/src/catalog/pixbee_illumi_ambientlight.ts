@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ambient light",
-  productKeys: ["bzovzknpiaaiakl7"],
+  products: [
+    { productKey: "bzovzknpiaaiakl7", manufacturer: "Pixbee", model: "Illumi" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -93,6 +95,7 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "breath", value: "flash" },
           { raw: "light_on", value: "on" },
@@ -102,6 +105,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "12",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Ascend", value: "Ascend" },
           { raw: "Deep_Ocean", value: "Deep ocean" },
@@ -116,6 +120,7 @@ const entry: TuyaDeviceEntry = {
       customScene: {
         dataPoint: "13",
         kind: "select",
+        category: "config",
         values: [
           { raw: "mode_1", value: "Custom 1" },
           { raw: "mode_2", value: "Custom 2" },
@@ -127,9 +132,9 @@ const entry: TuyaDeviceEntry = {
           { raw: "mode_8", value: "Custom 8" },
         ],
       },
-      customSceneData: { dataPoint: "14", kind: "text" },
-      wakeUpSettings: { dataPoint: "15", kind: "text" },
-      sleepSettings: { dataPoint: "16", kind: "text" },
+      customSceneData: { dataPoint: "14", kind: "text", category: "config" },
+      wakeUpSettings: { dataPoint: "15", kind: "text", category: "config" },
+      sleepSettings: { dataPoint: "16", kind: "text", category: "config" },
       snooze: { dataPoint: "17", kind: "switch" },
       status: {
         dataPoint: "19",
@@ -150,6 +155,7 @@ const entry: TuyaDeviceEntry = {
       timerInMinutes: {
         dataPoint: "20",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1439,
@@ -157,6 +163,7 @@ const entry: TuyaDeviceEntry = {
       timeFormat: {
         dataPoint: "21",
         kind: "select",
+        category: "config",
         values: [
           { raw: "24h", value: "24_hour" },
           { raw: "12h", value: "12_hour" },
@@ -165,17 +172,20 @@ const entry: TuyaDeviceEntry = {
       disconnectBluetooth: {
         dataPoint: "101",
         kind: "button",
+        category: "config",
         values: [{ raw: "DIS_BT", value: true }],
       },
       bluetooth: {
         dataPoint: "102",
         kind: "sensor",
         measures: "connectivity",
+        category: "diagnostic",
         readOnly: true,
       },
       musicScene: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Night_Club", value: "Night club" },
           { raw: "Pulse", value: "Pulsate" },
@@ -184,15 +194,16 @@ const entry: TuyaDeviceEntry = {
       focus: {
         dataPoint: "104",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "Start", value: true },
           { raw: "Stop", value: false },
         ],
       },
-      focusSettings: { dataPoint: "105", kind: "text" },
-      childLock: { dataPoint: "106", kind: "switch" },
-      setTime: { dataPoint: "107", kind: "text" },
-      sceneRun: { dataPoint: "110", kind: "switch" },
+      focusSettings: { dataPoint: "105", kind: "text", category: "config" },
+      childLock: { dataPoint: "106", kind: "switch", category: "config" },
+      setTime: { dataPoint: "107", kind: "text", category: "config" },
+      sceneRun: { dataPoint: "110", kind: "switch", category: "config" },
     },
     mediaPlayer: {
       on: { dataPoint: "8", kind: "switch" },
@@ -232,7 +243,13 @@ const entry: TuyaDeviceEntry = {
       mediaGenre: { dataPoint: "108", kind: "text" },
     },
     backlight: {
-      brightness: { dataPoint: "22", kind: "number", min: 0, max: 100 },
+      brightness: {
+        dataPoint: "22",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
     },
     device: { on: { dataPoint: "1", kind: "switch" } },
   },

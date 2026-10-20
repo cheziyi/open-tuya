@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Clamp meter",
-  productKeys: ["gk3jvsduy5ixzff3"],
+  products: [
+    {
+      productKey: "gk3jvsduy5ixzff3",
+      manufacturer: "Meterk",
+      model: "QS-WIFI-CT01",
+    },
+  ],
   dataPoints: {
     "101": { type: "string" },
     "102": { type: "string" },
@@ -27,6 +33,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 1000,
@@ -61,6 +68,7 @@ const entry: TuyaDeviceEntry = {
       secondRealTime: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "ok", value: "OK" },
           { raw: "clear", value: "Clear" },
@@ -70,6 +78,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "103",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "close", value: "close" },
@@ -82,6 +91,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
         readOnly: true,
         unit: "W",
         scale: 10,
@@ -90,6 +100,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
         readOnly: true,
         unit: "A",
         scale: 1000,
@@ -98,6 +109,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
         readOnly: true,
         unit: "V",
         scale: 10,
@@ -106,6 +118,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "normal", value: false },
@@ -119,6 +132,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         kind: "number",
         measures: "power",
+        category: "config",
         unit: "W",
         min: 200,
         max: 50000,
@@ -126,6 +140,7 @@ const entry: TuyaDeviceEntry = {
       networkStatus: {
         dataPoint: "113",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "cloud_net", value: "Cloud" },

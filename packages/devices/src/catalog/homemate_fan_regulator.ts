@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan",
-  productKeys: ["ewdmma4uccqydpmj"],
+  products: [
+    {
+      productKey: "ewdmma4uccqydpmj",
+      manufacturer: "HomeMate",
+      model: "Fan Regulator",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer" },
@@ -15,7 +21,7 @@ const entry: TuyaDeviceEntry = {
     fan: {
       on: { dataPoint: "1", kind: "switch" },
       speed: { dataPoint: "3", kind: "number", min: 1, max: 5 },
-      childLock: { dataPoint: "14", kind: "switch" },
+      childLock: { dataPoint: "14", kind: "switch", category: "config" },
     },
   },
   source: {

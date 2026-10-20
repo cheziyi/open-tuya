@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["fd1a3ahheqbq6pqv"],
+  products: [
+    {
+      productKey: "fd1a3ahheqbq6pqv",
+      manufacturer: "Advwin",
+      model: "13L Smart Humidifier",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "5": { type: "boolean", optional: true },
@@ -45,18 +51,20 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      uvSterilization: { dataPoint: "21", kind: "switch" },
-      warmMist: { dataPoint: "25", kind: "switch" },
+      uvSterilization: { dataPoint: "21", kind: "switch", category: "config" },
+      warmMist: { dataPoint: "25", kind: "switch", category: "config" },
       temperatureInC: {
         dataPoint: "10",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -73,6 +81,7 @@ const entry: TuyaDeviceEntry = {
       tankEmpty: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,
@@ -81,6 +90,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -91,12 +101,21 @@ const entry: TuyaDeviceEntry = {
       faultCode: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         type: "integer",
       },
     },
-    indicator: { on: { dataPoint: "5", kind: "switch" } },
-    sprayLevel: { speed: { dataPoint: "23", kind: "number", min: 0, max: 6 } },
+    indicator: { on: { dataPoint: "5", kind: "switch", category: "config" } },
+    sprayLevel: {
+      speed: {
+        dataPoint: "23",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 6,
+      },
+    },
   },
   source: {
     file: "advwin_humidifier.yaml",

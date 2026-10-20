@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heat pump",
-  productKeys: ["4RUISW6Lmtz2u1l8", "h1afb3lohjefjmmb"],
+  products: [
+    {
+      productKey: "4RUISW6Lmtz2u1l8",
+      manufacturer: "ElectriQ",
+      model: "Airflex 15W",
+    },
+    {
+      productKey: "h1afb3lohjefjmmb",
+      manufacturer: "OBI",
+      model: "KGM 12000-58",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -146,21 +157,28 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      power: { dataPoint: "1", kind: "switch" },
+      power: { dataPoint: "1", kind: "switch", category: "config" },
       fault: {
         dataPoint: "20",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "20", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "20",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       sleep: { dataPoint: "103", kind: "switch" },
       timerInHours: {
         dataPoint: "105",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 24,

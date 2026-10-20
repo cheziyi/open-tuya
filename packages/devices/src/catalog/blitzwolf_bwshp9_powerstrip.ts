@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "USB+3 outlet powerstrip",
-  productKeys: ["4es44udrj48pqtlb"],
+  products: [
+    {
+      productKey: "4es44udrj48pqtlb",
+      manufacturer: "BlitzWolf",
+      model: "SHP-9",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },

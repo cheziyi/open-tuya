@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["kaycs2s3r7xqmxrr"],
+  products: [
+    {
+      productKey: "kaycs2s3r7xqmxrr",
+      manufacturer: "Xtuos",
+      model: "2&PFA0004",
+    },
+  ],
   dataPoints: {
     "1": { type: "base64" },
     "3": { type: "integer" },
@@ -24,7 +30,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      mealPlan: { dataPoint: "1", kind: "text" },
+      mealPlan: { dataPoint: "1", kind: "text", category: "config" },
       manualFeedInPortions: {
         dataPoint: "3",
         kind: "number",
@@ -43,6 +49,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -50,6 +58,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "batteryCharging",
+        category: "diagnostic",
         readOnly: true,
         whenAbsent: { value: false },
       },
@@ -57,14 +66,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "14", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "14",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "14",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -77,18 +93,21 @@ const entry: TuyaDeviceEntry = {
       feedReportInPortions: {
         dataPoint: "15",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "portions",
       },
       feedReport2InPortions: {
         dataPoint: "118",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "portions",
       },
       powerState: {
         dataPoint: "101",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "ac_power_on1", value: "ac_power_on1" },
@@ -104,17 +123,29 @@ const entry: TuyaDeviceEntry = {
       mode: {
         dataPoint: "103",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "eco_mode", value: "eco_mode" },
           { raw: "real_time_mode", value: "real_time_mode" },
         ],
       },
-      volume: { dataPoint: "112", kind: "number", min: 0, max: 3 },
-      factoryReset: { dataPoint: "9", kind: "button" },
-      helpEmail: { dataPoint: "138", kind: "sensor", readOnly: true },
+      volume: {
+        dataPoint: "112",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 3,
+      },
+      factoryReset: { dataPoint: "9", kind: "button", category: "config" },
+      helpEmail: {
+        dataPoint: "138",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
-    indicator: { on: { dataPoint: "19", kind: "switch" } },
+    indicator: { on: { dataPoint: "19", kind: "switch", category: "config" } },
   },
   source: {
     file: "xtuos_2x_petfeeder.yaml",

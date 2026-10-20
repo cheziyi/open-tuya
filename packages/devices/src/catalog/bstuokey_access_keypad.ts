@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Access control keypad",
-  productKeys: ["5k8h97qska6pf5cm"],
+  products: [{ productKey: "5k8h97qska6pf5cm", manufacturer: "BSTUOKEY" }],
   dataPoints: {
     "10": { type: "string", optional: true },
     "11": { type: "string", optional: true },
@@ -51,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       doorbellVolumeInPercent: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -61,11 +62,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: 100 },
         ],
       },
-      doorbellVolumeTune: { dataPoint: "24", kind: "text" },
-      autoLock: { dataPoint: "30", kind: "switch" },
+      doorbellVolumeTune: { dataPoint: "24", kind: "text", category: "config" },
+      autoLock: { dataPoint: "30", kind: "switch", category: "config" },
       autoLockTimeInSeconds: {
         dataPoint: "31",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 1,
         max: 99,
@@ -73,6 +75,7 @@ const entry: TuyaDeviceEntry = {
       alarmTimeoutInSeconds: {
         dataPoint: "34",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 180,
@@ -87,11 +90,12 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: null },
         ],
       },
-      beepOnError: { dataPoint: "102", kind: "switch" },
+      beepOnError: { dataPoint: "102", kind: "switch", category: "config" },
       tamper: {
         dataPoint: "103",
         kind: "sensor",
         measures: "tamper",
+        category: "diagnostic",
         readOnly: true,
         whenAbsent: { value: false },
       },
@@ -99,6 +103,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "door",
+        category: "diagnostic",
         readOnly: true,
       },
     },

@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pool thermometer",
-  productKeys: ["qirx90k6hg4qzpbz"],
+  products: [
+    {
+      productKey: "qirx90k6hg4qzpbz",
+      manufacturer: "Raddy",
+      model: "PT-5",
+      modelId: "EM3406B-TY",
+    },
+  ],
   dataPoints: {
     "101": { type: "integer" },
     "102": { type: "integer" },
@@ -17,6 +24,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -25,6 +33,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -32,6 +41,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,

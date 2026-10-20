@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["qdxoacewdnbqrgeh"],
+  products: [
+    {
+      productKey: "qdxoacewdnbqrgeh",
+      manufacturer: "ElectriQ",
+      model: "CD20PRO-LE-V4",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -50,26 +56,33 @@ const entry: TuyaDeviceEntry = {
           { raw: "Laundry", value: "laundry" },
         ],
       },
-      ionizer: { dataPoint: "10", kind: "switch" },
-      uvSterilization: { dataPoint: "13", kind: "switch" },
-      childLock: { dataPoint: "16", kind: "switch" },
+      ionizer: { dataPoint: "10", kind: "switch", category: "config" },
+      uvSterilization: { dataPoint: "13", kind: "switch", category: "config" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
       fault: {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       temperatureInC: {
         dataPoint: "103",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
-      sleep: { dataPoint: "104", kind: "switch" },
+      sleep: { dataPoint: "104", kind: "switch", category: "config" },
     },
     fan: {
       on: { dataPoint: "1", kind: "switch" },
@@ -87,7 +100,7 @@ const entry: TuyaDeviceEntry = {
       },
       oscillating: { dataPoint: "102", kind: "switch" },
     },
-    display: { on: { dataPoint: "101", kind: "switch" } },
+    display: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "electriq_cd20prolev4_dehumidifier.yaml",

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain and lights",
-  productKeys: ["jcw6pwi3f7ew4s0f"],
+  products: [
+    {
+      productKey: "jcw6pwi3f7ew4s0f",
+      manufacturer: "Avatto",
+      model: "SYS-CLS02",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -44,6 +50,7 @@ const entry: TuyaDeviceEntry = {
       calibration: {
         dataPoint: "3",
         kind: "select",
+        category: "config",
         values: [
           { raw: "start", value: "Start" },
           { raw: "end", value: "End" },
@@ -52,6 +59,7 @@ const entry: TuyaDeviceEntry = {
       direction: {
         dataPoint: "8",
         kind: "select",
+        category: "config",
         values: [
           { raw: "forward", value: "Forward" },
           { raw: "back", value: "Back" },
@@ -61,6 +69,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 10,
         max: 120,
@@ -68,6 +77,7 @@ const entry: TuyaDeviceEntry = {
       timer1InSeconds: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -75,6 +85,7 @@ const entry: TuyaDeviceEntry = {
       timer2InSeconds: {
         dataPoint: "107",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -82,16 +93,18 @@ const entry: TuyaDeviceEntry = {
       percentageSwitch: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: "percent_on" },
           { raw: false, value: "percent_off" },
         ],
       },
-      randomSchedule1: { dataPoint: "103", kind: "text" },
-      randomSchedule2: { dataPoint: "106", kind: "text" },
+      randomSchedule1: { dataPoint: "103", kind: "text", category: "config" },
+      randomSchedule2: { dataPoint: "106", kind: "text", category: "config" },
       calibrationPositionInPercent: {
         dataPoint: "108",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -99,7 +112,7 @@ const entry: TuyaDeviceEntry = {
     },
     light1: { on: { dataPoint: "102", kind: "switch" } },
     light2: { on: { dataPoint: "105", kind: "switch" } },
-    backlight: { on: { dataPoint: "7", kind: "switch" } },
+    backlight: { on: { dataPoint: "7", kind: "switch", category: "config" } },
   },
   source: {
     file: "avatto_cls02_curtainduallights.yaml",

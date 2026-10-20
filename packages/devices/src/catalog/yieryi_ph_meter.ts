@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "pH meter",
-  productKeys: ["5ok0wq7drlqyo2hb", "kyzep93ngjs4up3b"],
+  products: [
+    {
+      productKey: "5ok0wq7drlqyo2hb",
+      manufacturer: "Yieryi",
+      model: "YY-9909",
+    },
+    {
+      productKey: "kyzep93ngjs4up3b",
+      manufacturer: "RC Yago",
+      model: "PH-W3988",
+    },
+  ],
   dataPoints: {
     "8": { type: "integer" },
     "101": { type: "string", optional: true },
@@ -40,6 +51,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "ph",
+        reading: "instant",
         readOnly: true,
         values: [{ raw: 1500, value: null }],
         scale: 100,
@@ -48,6 +60,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "8",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -55,6 +68,7 @@ const entry: TuyaDeviceEntry = {
       totalDisolvedSolidsInPpm: {
         dataPoint: "107",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "ppm",
       },
@@ -62,6 +76,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "sensor",
         measures: "conductivity",
+        reading: "instant",
         readOnly: true,
         unit: "μS/cm",
       },
@@ -73,12 +88,14 @@ const entry: TuyaDeviceEntry = {
       salinityInPpm: {
         dataPoint: "113",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "ppm",
       },
       specificGravityInGPerMl: {
         dataPoint: "116",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "g/ml",
         scale: 1000,
@@ -86,6 +103,7 @@ const entry: TuyaDeviceEntry = {
       oxidationReductionPotentialInMillivolts: {
         dataPoint: "119",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "mV",
       },
@@ -93,6 +111,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "139",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -100,6 +120,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "number",
         measures: "ph",
+        category: "config",
         min: 0,
         max: 1500,
         scale: 100,
@@ -108,6 +129,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "number",
         measures: "ph",
+        category: "config",
         min: 0,
         max: 1500,
         scale: 100,
@@ -116,6 +138,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -100,
         max: 1100,
@@ -125,6 +148,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -100,
         max: 1100,
@@ -133,6 +157,7 @@ const entry: TuyaDeviceEntry = {
       maximumTdsInPpm: {
         dataPoint: "108",
         kind: "number",
+        category: "config",
         unit: "ppm",
         min: 0,
         max: 199999,
@@ -140,6 +165,7 @@ const entry: TuyaDeviceEntry = {
       minimumTdsInPpm: {
         dataPoint: "109",
         kind: "number",
+        category: "config",
         unit: "ppm",
         min: 0,
         max: 199999,
@@ -148,6 +174,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         kind: "number",
         measures: "conductivity",
+        category: "config",
         unit: "μS/cm",
         min: 0,
         max: 199999,
@@ -156,6 +183,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "112",
         kind: "number",
         measures: "conductivity",
+        category: "config",
         unit: "μS/cm",
         min: 0,
         max: 199999,
@@ -163,6 +191,7 @@ const entry: TuyaDeviceEntry = {
       maximumSalinityInPpm: {
         dataPoint: "114",
         kind: "number",
+        category: "config",
         unit: "ppm",
         min: 0,
         max: 199999,
@@ -170,6 +199,7 @@ const entry: TuyaDeviceEntry = {
       minimumSalinityInPpm: {
         dataPoint: "115",
         kind: "number",
+        category: "config",
         unit: "ppm",
         min: 0,
         max: 199999,
@@ -177,6 +207,7 @@ const entry: TuyaDeviceEntry = {
       maximumSpecificGravityInGPerMl: {
         dataPoint: "117",
         kind: "number",
+        category: "config",
         unit: "g/ml",
         min: 500,
         max: 2000,
@@ -185,6 +216,7 @@ const entry: TuyaDeviceEntry = {
       minimumSpecificGravityInGPerMl: {
         dataPoint: "118",
         kind: "number",
+        category: "config",
         unit: "g/ml",
         min: 500,
         max: 2000,
@@ -193,6 +225,7 @@ const entry: TuyaDeviceEntry = {
       maximumOrpInMillivolts: {
         dataPoint: "120",
         kind: "number",
+        category: "config",
         unit: "mV",
         min: -2000,
         max: 2000,
@@ -200,6 +233,7 @@ const entry: TuyaDeviceEntry = {
       minimumOrpInMillivolts: {
         dataPoint: "121",
         kind: "number",
+        category: "config",
         unit: "mV",
         min: -2000,
         max: 2000,
@@ -208,6 +242,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "140",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -215,6 +251,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "141",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },

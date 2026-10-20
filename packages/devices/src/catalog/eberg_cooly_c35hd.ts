@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heat pump",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "integer" },

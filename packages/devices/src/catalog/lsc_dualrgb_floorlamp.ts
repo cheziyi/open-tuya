@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Floor lamp",
-  productKeys: ["oyvz9kqyvcl7b45n"],
+  products: [
+    {
+      productKey: "oyvz9kqyvcl7b45n",
+      manufacturer: "LSC Smart Connect",
+      model: "RGB Floor lamp",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -58,14 +64,15 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
       },
-      scene: { dataPoint: "51", kind: "text" },
-      music: { dataPoint: "52", kind: "text" },
-      paint: { dataPoint: "61", kind: "text" },
-      baseScene: { dataPoint: "107", kind: "text" },
+      scene: { dataPoint: "51", kind: "text", category: "config" },
+      music: { dataPoint: "52", kind: "text", category: "config" },
+      paint: { dataPoint: "61", kind: "text", category: "config" },
+      baseScene: { dataPoint: "107", kind: "text", category: "config" },
     },
     base: {
       on: { dataPoint: "102", kind: "switch" },

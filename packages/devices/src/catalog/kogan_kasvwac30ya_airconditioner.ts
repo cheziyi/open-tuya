@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["jlzjetbqsrix7ne2"],
+  products: [
+    {
+      productKey: "jlzjetbqsrix7ne2",
+      manufacturer: "Kogan",
+      model: "Vertical window air conditioner",
+      modelId: "KASVWAC30YA",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -138,10 +145,11 @@ const entry: TuyaDeviceEntry = {
       },
       pump: { dataPoint: "109", kind: "switch" },
       followMe: { dataPoint: "110", kind: "switch" },
-      childLock: { dataPoint: "14", kind: "switch" },
+      childLock: { dataPoint: "14", kind: "switch", category: "config" },
       timer: {
         dataPoint: "20",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "cancel" },
           { raw: "2", value: "1h" },
@@ -170,13 +178,23 @@ const entry: TuyaDeviceEntry = {
           { raw: "25", value: "24h" },
         ],
       },
-      evaporatorCleaning: { dataPoint: "27", kind: "switch" },
-      uvSterilization: { dataPoint: "38", kind: "switch" },
-      defrost: { dataPoint: "101", kind: "sensor", readOnly: true },
+      evaporatorCleaning: {
+        dataPoint: "27",
+        kind: "switch",
+        category: "config",
+      },
+      uvSterilization: { dataPoint: "38", kind: "switch", category: "config" },
+      defrost: {
+        dataPoint: "101",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       fault: {
         dataPoint: "103",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           {
@@ -190,18 +208,29 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "103", kind: "sensor", readOnly: true },
-      faultCode2: { dataPoint: "105", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "103",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultCode2: {
+        dataPoint: "105",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timeRemainingInMinutes: {
         dataPoint: "104",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      sleep: { dataPoint: "111", kind: "switch" },
+      sleep: { dataPoint: "111", kind: "switch", category: "config" },
     },
-    display: { on: { dataPoint: "36", kind: "switch" } },
+    display: { on: { dataPoint: "36", kind: "switch", category: "config" } },
   },
   source: {
     file: "kogan_kasvwac30ya_airconditioner.yaml",

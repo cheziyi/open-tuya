@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Portable air conditioner",
-  productKeys: ["4vtaekm8epj9cdlu"],
+  products: [
+    {
+      productKey: "4vtaekm8epj9cdlu",
+      manufacturer: "Costway",
+      model: "FD10584DE-WH",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -78,17 +84,24 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "C", value: "C" },
           { raw: "F", value: "F" },
         ],
       },
-      sleep: { dataPoint: "101", kind: "switch" },
-      defrost: { dataPoint: "102", kind: "sensor", readOnly: true },
+      sleep: { dataPoint: "101", kind: "switch", category: "config" },
+      defrost: {
+        dataPoint: "102",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timerInMinutes: {
         dataPoint: "105",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 7200,
@@ -97,6 +110,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "", value: false }],
         whenAbsent: { value: null },

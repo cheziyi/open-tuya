@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Outdoor heater",
-  productKeys: ["hkni0drxyokiqyxd"],
+  products: [
+    {
+      productKey: "hkni0drxyokiqyxd",
+      manufacturer: "Heatstrip",
+      model: "Elegance",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "5": { type: "string" },
@@ -26,6 +32,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -37,6 +44,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

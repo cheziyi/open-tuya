@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "BBQ smoker",
-  productKeys: ["s6xz314im2e1glep"],
+  products: [
+    {
+      productKey: "s6xz314im2e1glep",
+      manufacturer: "Inkbird",
+      model: "ISC-007BW",
+    },
+  ],
   dataPoints: {
     "101": { type: "integer" },
     "102": { type: "integer" },
@@ -62,6 +68,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 100,
@@ -70,6 +77,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 100,
@@ -77,23 +85,32 @@ const entry: TuyaDeviceEntry = {
       fanSpeedInPercent: {
         dataPoint: "105",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      parameters: { dataPoint: "107", kind: "text" },
-      parametersMacAddr: { dataPoint: "122", kind: "text" },
+      parameters: { dataPoint: "107", kind: "text", category: "config" },
+      parametersMacAddr: { dataPoint: "122", kind: "text", category: "config" },
       fault: {
         dataPoint: "108",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "108", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "108",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "108",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "NA" },
@@ -133,6 +150,7 @@ const entry: TuyaDeviceEntry = {
       alarmAcknowledge: {
         dataPoint: "109",
         kind: "button",
+        category: "config",
         values: [
           { raw: false, value: true },
           { raw: true, value: false },
@@ -141,6 +159,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "C" },
           { raw: true, value: "F" },
@@ -150,40 +169,50 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 0,
         max: 590,
       },
-      probe1AlarmExtra: { dataPoint: "116", kind: "text" },
+      probe1AlarmExtra: { dataPoint: "116", kind: "text", category: "config" },
       probe2AlarmInC: {
         dataPoint: "114",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 0,
         max: 590,
       },
-      probe2AlarmExtra: { dataPoint: "117", kind: "text" },
+      probe2AlarmExtra: { dataPoint: "117", kind: "text", category: "config" },
       probe3AlarmInC: {
         dataPoint: "115",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 0,
         max: 590,
       },
-      probe3AlarmExtra: { dataPoint: "118", kind: "text" },
+      probe3AlarmExtra: { dataPoint: "118", kind: "text", category: "config" },
       usageTimeInHours: {
         dataPoint: "119",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
       },
-      usageTimeMinutes: { dataPoint: "120", kind: "sensor", readOnly: true },
+      usageTimeMinutes: {
+        dataPoint: "120",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       grillType: {
         dataPoint: "121",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "22inch ceramic" },
           { raw: 1, value: "15inch ceramic" },

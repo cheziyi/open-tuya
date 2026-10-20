@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Energy recovery ventilator",
-  productKeys: ["7788bnexpeq7j8or"],
+  products: [
+    {
+      productKey: "7788bnexpeq7j8or",
+      manufacturer: "Holtop",
+      model: "CFA-500t",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -49,7 +55,15 @@ const entry: TuyaDeviceEntry = {
       },
       speed: { dataPoint: "104", kind: "number", min: 1, max: 5 },
     },
-    exhaust: { speed: { dataPoint: "103", kind: "number", min: 1, max: 5 } },
+    exhaust: {
+      speed: {
+        dataPoint: "103",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 5,
+      },
+    },
     heater: {
       hvacMode: {
         dataPoint: "111",
@@ -102,6 +116,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "carbonDioxide",
+        reading: "instant",
         readOnly: true,
         unit: "ppm",
       },
@@ -109,6 +124,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "d",
       },
@@ -116,14 +133,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "18",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       filterReplacement: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "60d" },
@@ -132,11 +156,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "4", value: "120d" },
         ],
       },
-      factoryReset: { dataPoint: "107", kind: "button" },
-      filterReset: { dataPoint: "108", kind: "button" },
+      factoryReset: { dataPoint: "107", kind: "button", category: "config" },
+      filterReset: { dataPoint: "108", kind: "button", category: "config" },
       co2ThresholdInPpm: {
         dataPoint: "109",
         kind: "number",
+        category: "config",
         unit: "ppm",
         min: 800,
         max: 2000,
@@ -146,6 +171,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -10,
         max: 10,
@@ -155,6 +181,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "115",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 1,
         max: 120,
@@ -163,11 +190,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "118",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: 2,
         max: 15,
       },
-      balanceRate: { dataPoint: "119", kind: "number", min: -50, max: 50 },
+      balanceRate: {
+        dataPoint: "119",
+        kind: "number",
+        category: "config",
+        min: -50,
+        max: 50,
+      },
     },
     bypass: {
       hvacMode: {

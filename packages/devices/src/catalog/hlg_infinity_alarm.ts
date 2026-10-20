@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Alarm control",
-  productKeys: ["f4gbbzyp0e6asfnt"],
+  products: [
+    { productKey: "f4gbbzyp0e6asfnt", manufacturer: "HLG", model: "Infinity" },
+  ],
   dataPoints: {
     "33": { type: "string" },
     "101": { type: "string" },
@@ -38,6 +40,7 @@ const entry: TuyaDeviceEntry = {
       sector1: {
         dataPoint: "101",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "Armado", value: "Armed" },
@@ -46,10 +49,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "Disparado", value: "Triggered" },
         ],
       },
-      sector1SectorName: { dataPoint: "120", kind: "sensor", readOnly: true },
+      sector1SectorName: {
+        dataPoint: "120",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       sector2: {
         dataPoint: "102",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "Armado", value: "Armed" },
@@ -58,10 +67,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "Disparado", value: "Triggered" },
         ],
       },
-      sector2SectorName: { dataPoint: "121", kind: "sensor", readOnly: true },
+      sector2SectorName: {
+        dataPoint: "121",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       sector3: {
         dataPoint: "103",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "Armado", value: "Armed" },
@@ -70,10 +85,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "Disparado", value: "Triggered" },
         ],
       },
-      sector3SectorName: { dataPoint: "122", kind: "sensor", readOnly: true },
+      sector3SectorName: {
+        dataPoint: "122",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       sector4: {
         dataPoint: "104",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "Armado", value: "Armed" },
@@ -82,10 +103,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "Disparado", value: "Triggered" },
         ],
       },
-      sector4SectorName: { dataPoint: "123", kind: "sensor", readOnly: true },
+      sector4SectorName: {
+        dataPoint: "123",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       sectorSelection: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Todos", value: "All sectors" },
           { raw: "S1", value: "Sector 1" },
@@ -98,12 +125,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "S2_S3_S4", value: "Sectors 2, 3 and 4" },
         ],
       },
-      siren: { dataPoint: "106", kind: "switch" },
-      led: { dataPoint: "107", kind: "switch" },
-      panic: { dataPoint: "108", kind: "switch" },
+      siren: { dataPoint: "106", kind: "switch", category: "config" },
+      led: { dataPoint: "107", kind: "switch", category: "config" },
+      panic: { dataPoint: "108", kind: "switch", category: "config" },
       lastEvent: {
         dataPoint: "109",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "ARMADO", value: "ARMED" },
@@ -119,10 +147,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "REINICIADO", value: "RESTARTED" },
         ],
       },
-      armBeep: { dataPoint: "110", kind: "switch" },
+      armBeep: { dataPoint: "110", kind: "switch", category: "config" },
       learnRemoteControl: {
         dataPoint: "111",
         kind: "select",
+        category: "config",
         values: [
           { raw: "S1_S2_S3_S4", value: "All Sectors" },
           { raw: "S1", value: "Sector 1" },
@@ -144,10 +173,15 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "Cancel" },
       },
-      learnRemoteControlButtonsLearned: { dataPoint: "113", kind: "number" },
+      learnRemoteControlButtonsLearned: {
+        dataPoint: "113",
+        kind: "number",
+        category: "config",
+      },
       learnSensor: {
         dataPoint: "112",
         kind: "select",
+        category: "config",
         values: [
           { raw: "S1", value: "Sector 1" },
           { raw: "S2", value: "Sector 2" },
@@ -157,35 +191,44 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "Cancel" },
       },
-      learnSensorSensorsLearned: { dataPoint: "114", kind: "number" },
+      learnSensorSensorsLearned: {
+        dataPoint: "114",
+        kind: "number",
+        category: "config",
+      },
       plug: {
         dataPoint: "115",
         kind: "sensor",
         measures: "plugged",
+        category: "diagnostic",
         readOnly: true,
       },
       sector1Battery: {
         dataPoint: "116",
         kind: "sensor",
         measures: "battery",
+        category: "diagnostic",
         readOnly: true,
       },
       sector2Battery: {
         dataPoint: "117",
         kind: "sensor",
         measures: "battery",
+        category: "diagnostic",
         readOnly: true,
       },
       sector3Battery: {
         dataPoint: "118",
         kind: "sensor",
         measures: "battery",
+        category: "diagnostic",
         readOnly: true,
       },
       sector4Battery: {
         dataPoint: "119",
         kind: "sensor",
         measures: "battery",
+        category: "diagnostic",
         readOnly: true,
       },
     },

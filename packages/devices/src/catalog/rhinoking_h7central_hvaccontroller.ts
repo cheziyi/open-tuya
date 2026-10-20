@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Central HVAC controller",
-  productKeys: ["ddbcuqy4usocv9lv"],
+  products: [
+    { productKey: "ddbcuqy4usocv9lv", manufacturer: "Rhino King", model: "H7" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -143,16 +145,22 @@ const entry: TuyaDeviceEntry = {
       auxiliaryBypassCount: {
         dataPoint: "109",
         kind: "number",
+        category: "config",
         min: 0,
         max: 6,
       },
       bypassDValveClosingTriggerCount: {
         dataPoint: "111",
         kind: "number",
+        category: "config",
         min: 0,
         max: 10,
       },
-      indoorOutdoorUnitLinkage: { dataPoint: "142", kind: "switch" },
+      indoorOutdoorUnitLinkage: {
+        dataPoint: "142",
+        kind: "switch",
+        category: "config",
+      },
       calculatedDewPointInC: {
         dataPoint: "102",
         kind: "sensor",
@@ -165,6 +173,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "115",
         kind: "sensor",
         measures: "temperature",
+        category: "diagnostic",
         readOnly: true,
         unit: "°C",
         scale: 10,
@@ -173,6 +182,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "116",
         kind: "sensor",
         measures: "temperature",
+        category: "diagnostic",
         readOnly: true,
         unit: "°C",
         scale: 10,
@@ -184,11 +194,17 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "µg/m³",
       },
-      status: { dataPoint: "125", kind: "sensor", readOnly: true },
+      status: {
+        dataPoint: "125",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       outdoorUnitSupplyWaterTemperatureInC: {
         dataPoint: "126",
         kind: "sensor",
         measures: "temperature",
+        category: "diagnostic",
         readOnly: true,
         unit: "°C",
       },
@@ -196,10 +212,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "127",
         kind: "sensor",
         measures: "temperature",
+        category: "diagnostic",
         readOnly: true,
         unit: "°C",
       },
-      operatingModeStatus: { dataPoint: "128", kind: "sensor", readOnly: true },
+      operatingModeStatus: {
+        dataPoint: "128",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       carbonDioxideInPpm: {
         dataPoint: "130",
         kind: "sensor",
@@ -210,6 +232,7 @@ const entry: TuyaDeviceEntry = {
       pumpStatus: {
         dataPoint: "131",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "all_off", value: "All off" },
@@ -236,6 +259,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "122",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "0", value: false },
@@ -247,6 +271,7 @@ const entry: TuyaDeviceEntry = {
       faultDescription: {
         dataPoint: "122",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "0", value: "Normal" },
@@ -260,6 +285,7 @@ const entry: TuyaDeviceEntry = {
       outdoorUnitModel: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "HITACHI", value: "Hitachi" },
           { raw: "YORK_012_018", value: "York" },
@@ -270,6 +296,7 @@ const entry: TuyaDeviceEntry = {
       outdoorUnitInterface: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "RS485", value: "RS485 bus" },
           { raw: "RELAY", value: "Dry contact" },
@@ -279,6 +306,7 @@ const entry: TuyaDeviceEntry = {
       outdoorWaterTemperatureControl: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "manual", value: "manual" },
           { raw: "auto", value: "auto" },
@@ -287,13 +315,21 @@ const entry: TuyaDeviceEntry = {
       groupControlAddress: {
         dataPoint: "108",
         kind: "number",
+        category: "config",
         min: 0,
         max: 32,
       },
-      freshAirUnitCount: { dataPoint: "110", kind: "number", min: 0, max: 10 },
+      freshAirUnitCount: {
+        dataPoint: "110",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 10,
+      },
       mixingValveType: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: "220V", value: "220V" },
           { raw: "24V", value: "24V" },
@@ -303,6 +339,7 @@ const entry: TuyaDeviceEntry = {
       outdoorWaterTemperatureControlMethod: {
         dataPoint: "123",
         kind: "select",
+        category: "config",
         values: [
           { raw: "water_return_control", value: "Return water control" },
           { raw: "water_out_control", value: "Supply water control" },
@@ -311,6 +348,7 @@ const entry: TuyaDeviceEntry = {
       masterSlaveMode: {
         dataPoint: "133",
         kind: "select",
+        category: "config",
         values: [
           { raw: "master", value: "Master" },
           { raw: "slave", value: "Slave" },
@@ -319,6 +357,7 @@ const entry: TuyaDeviceEntry = {
       dryContactMode: {
         dataPoint: "136",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cold_open", value: "Close on cooling" },
           { raw: "cold_close", value: "Close on heating" },
@@ -327,6 +366,7 @@ const entry: TuyaDeviceEntry = {
       dryContactSwitching: {
         dataPoint: "137",
         kind: "select",
+        category: "config",
         values: [
           { raw: "relay_onoff_open", value: "Close when on" },
           { raw: "relay_onoff_close", value: "Close when off" },
@@ -335,17 +375,37 @@ const entry: TuyaDeviceEntry = {
       seasonalMode: {
         dataPoint: "139",
         kind: "select",
+        category: "config",
         values: [
           { raw: "hand", value: "manual" },
           { raw: "auto", value: "auto" },
         ],
       },
-      outdoorUnitCount: { dataPoint: "104", kind: "number", min: 0, max: 6 },
-      indoorUnitCount: { dataPoint: "107", kind: "number", min: 0, max: 32 },
-      localBusAddress: { dataPoint: "118", kind: "number", min: 0, max: 32 },
+      outdoorUnitCount: {
+        dataPoint: "104",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 6,
+      },
+      indoorUnitCount: {
+        dataPoint: "107",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 32,
+      },
+      localBusAddress: {
+        dataPoint: "118",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 32,
+      },
       slaveControlPanelCount: {
         dataPoint: "134",
         kind: "number",
+        category: "config",
         min: 0,
         max: 10,
       },
@@ -353,6 +413,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "119",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "°C",
         min: 25,
         max: 55,
@@ -361,6 +422,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "120",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "°C",
         min: 1,
         max: 5,
@@ -369,6 +431,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "124",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "°C",
         min: 25,
         max: 45,
@@ -377,6 +440,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "129",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "°C",
         min: 5,
         max: 20,
@@ -384,12 +448,14 @@ const entry: TuyaDeviceEntry = {
       coolingValveChangeoverStartMonth: {
         dataPoint: "140",
         kind: "number",
+        category: "config",
         min: 1,
         max: 4,
       },
       heatingValveChangeoverStartMonth: {
         dataPoint: "141",
         kind: "number",
+        category: "config",
         min: 10,
         max: 12,
       },
@@ -397,6 +463,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 250,
@@ -406,6 +473,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "112",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 250,
@@ -415,6 +483,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 250,
@@ -424,15 +493,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 250,
         step: 5,
       },
-      radiantMixingControl: { dataPoint: "114", kind: "switch" },
+      radiantMixingControl: {
+        dataPoint: "114",
+        kind: "switch",
+        category: "config",
+      },
       outdoorUnitOperatingState: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "ON", value: "Running" },
           { raw: "OFF", value: "Stopped" },
@@ -441,11 +516,16 @@ const entry: TuyaDeviceEntry = {
       boilerTemperatureSettingInPercent: {
         dataPoint: "143",
         kind: "number",
+        category: "config",
         unit: "%",
         min: -15,
         max: 20,
       },
-      boilerAuxiliarySystem: { dataPoint: "132", kind: "switch" },
+      boilerAuxiliarySystem: {
+        dataPoint: "132",
+        kind: "switch",
+        category: "config",
+      },
     },
   },
   source: {

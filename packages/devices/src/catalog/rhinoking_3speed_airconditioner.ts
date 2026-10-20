@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Three-speed AC controller",
-  productKeys: ["p4ykyk6ljdcoktyq", "z7acaw0j7l7xg4to"],
+  products: [
+    {
+      productKey: "p4ykyk6ljdcoktyq",
+      manufacturer: "Rhino King",
+      model: "XNW-AC",
+    },
+    {
+      productKey: "z7acaw0j7l7xg4to",
+      manufacturer: "Rhino King",
+      model: "XNW-AC",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },

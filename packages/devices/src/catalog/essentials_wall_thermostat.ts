@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Wall thermostat",
-  productKeys: ["v6k5nh9tnahpgo31", "eenbkdf7rlsusdfc"],
+  products: [
+    { productKey: "v6k5nh9tnahpgo31", manufacturer: "Essentials Smart Home" },
+    { productKey: "eenbkdf7rlsusdfc", manufacturer: "Essentials Smart Home" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -66,12 +69,13 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      antiFrost: { dataPoint: "10", kind: "switch" },
-      childLock: { dataPoint: "40", kind: "switch" },
+      antiFrost: { dataPoint: "10", kind: "switch", category: "config" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       floorTemperatureLimitInC: {
         dataPoint: "102",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 20,
         max: 60,
@@ -80,6 +84,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -87,6 +92,7 @@ const entry: TuyaDeviceEntry = {
       temperatureSensor: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "con_in", value: "Internal" },
           {
@@ -112,6 +118,7 @@ const entry: TuyaDeviceEntry = {
       temperatureSensorFloorFitted: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },

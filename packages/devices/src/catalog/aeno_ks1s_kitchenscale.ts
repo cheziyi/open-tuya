@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Kitchen scale",
-  productKeys: ["wuimqx2t"],
+  products: [
+    {
+      productKey: "wuimqx2t",
+      manufacturer: "Aeno",
+      model: "KS1S",
+      modelId: "EC5402-BT",
+    },
+  ],
   dataPoints: {
     "1": { type: "integer" },
     "2": { type: "boolean" },
@@ -22,6 +29,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "weight",
+        reading: "instant",
         readOnly: true,
         unit: "g",
       },
@@ -29,6 +37,7 @@ const entry: TuyaDeviceEntry = {
       units: {
         dataPoint: "3",
         kind: "select",
+        category: "config",
         values: [
           { raw: "g", value: "g" },
           { raw: "oz", value: "oz" },
@@ -46,11 +55,16 @@ const entry: TuyaDeviceEntry = {
           },
         ],
       },
-      unitsDataIdentification: { dataPoint: "4", kind: "text" },
+      unitsDataIdentification: {
+        dataPoint: "4",
+        kind: "text",
+        category: "config",
+      },
       battery: {
         dataPoint: "5",
         kind: "sensor",
         measures: "battery",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "low", value: true }],
         otherwise: false,
@@ -59,6 +73,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "weight",
+        reading: "instant",
         readOnly: true,
         unit: "g",
       },
@@ -66,11 +81,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "7", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "7",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

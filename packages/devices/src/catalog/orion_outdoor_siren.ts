@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Outdoor siren",
-  productKeys: ["im2eqqhj72suwwko", "likuc5ld1ap3apcm"],
+  products: [
+    { productKey: "im2eqqhj72suwwko", manufacturer: "Orion", model: "SWS08HA" },
+    {
+      productKey: "likuc5ld1ap3apcm",
+      manufacturer: "Elesion",
+      model: "NX-4980",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "5": { type: "string" },
@@ -48,6 +55,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "batteryCharging",
+        category: "diagnostic",
         readOnly: true,
       },
       batteryInPercent: {
@@ -61,6 +69,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "tamper",
+        category: "diagnostic",
         readOnly: true,
       },
     },

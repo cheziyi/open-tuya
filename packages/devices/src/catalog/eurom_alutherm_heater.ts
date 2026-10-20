@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["20qAGCEd0AxowwTA", "awnds45afwineiul"],
+  products: [
+    {
+      productKey: "20qAGCEd0AxowwTA",
+      manufacturer: "Eurom",
+      model: "Alutherm 2000",
+    },
+    {
+      productKey: "awnds45afwineiul",
+      manufacturer: "Eurom",
+      model: "Alutherm 2500",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -73,20 +84,27 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       schedule: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "holiday", value: "Holiday" },
           { raw: "program", value: "Program" },
         ],
       },
-      scheduleData: { dataPoint: "103", kind: "text" },
+      scheduleData: { dataPoint: "103", kind: "text", category: "config" },
     },
   },
   source: {

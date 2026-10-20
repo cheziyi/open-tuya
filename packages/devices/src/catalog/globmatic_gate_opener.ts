@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Gate opener",
-  productKeys: ["4iispvj6a6vsavxl"],
+  products: [
+    {
+      productKey: "4iispvj6a6vsavxl",
+      manufacturer: "Globmatic",
+      model: "Castor",
+    },
+  ],
   dataPoints: {
     "10": { type: "string", optional: true },
     "101": { type: "integer" },

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["okwjubkm9ndbq3j"],
+  products: [
+    {
+      productKey: "okwjubkm9ndbq3j",
+      manufacturer: "Goldair / Saneo",
+      model: "GPDH340 / D025",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -51,17 +57,19 @@ const entry: TuyaDeviceEntry = {
         unit: "%",
       },
       modelCode: { dataPoint: "105", kind: "number" },
-      childLock: { dataPoint: "106", kind: "switch" },
+      childLock: { dataPoint: "106", kind: "switch", category: "config" },
       temperatureInC: {
         dataPoint: "103",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
       tankFull: {
         dataPoint: "11",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 16, value: true }],
         otherwise: false,
@@ -70,6 +78,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -77,14 +86,20 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       filterCleanRequired: {
         dataPoint: "108",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
-      liftPump: { dataPoint: "109", kind: "switch" },
+      liftPump: { dataPoint: "109", kind: "switch", category: "config" },
     },
     fan: {
       on: { dataPoint: "1", kind: "switch" },
@@ -98,7 +113,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    display: { on: { dataPoint: "107", kind: "switch" } },
+    display: { on: { dataPoint: "107", kind: "switch", category: "config" } },
   },
   source: {
     file: "goldair_gpdh340_dehumidifier.yaml",

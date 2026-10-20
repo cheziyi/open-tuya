@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["i8cej9chgwebzrmp"],
+  products: [
+    { productKey: "i8cej9chgwebzrmp", manufacturer: "Klarta", model: "Humea" },
+  ],
   dataPoints: {
     "10": { type: "boolean" },
     "101": { type: "string" },
@@ -57,6 +59,7 @@ const entry: TuyaDeviceEntry = {
       sprayLevel: {
         dataPoint: "106",
         kind: "number",
+        category: "config",
         min: 1,
         max: 4,
         values: [
@@ -66,11 +69,22 @@ const entry: TuyaDeviceEntry = {
           { raw: "4", value: 4 },
         ],
       },
-      waterLevel: { dataPoint: "101", kind: "sensor", readOnly: true },
-      filterLife: { dataPoint: "107", kind: "sensor", readOnly: true },
+      waterLevel: {
+        dataPoint: "101",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      filterLife: {
+        dataPoint: "107",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timer: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -92,6 +106,7 @@ const entry: TuyaDeviceEntry = {
       brightness: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: 0 },
           { raw: "1", value: 50 },

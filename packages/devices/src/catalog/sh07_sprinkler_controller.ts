@@ -5,11 +5,15 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Sprinkler controller",
-  productKeys: [
-    "e8fwsklivj87msao",
-    "mxh2sjigimo463mg",
-    "figmzixtki7bourh",
-    "krvsermlavj3lypv",
+  products: [
+    { productKey: "e8fwsklivj87msao", model: "SH07-8" },
+    {
+      productKey: "mxh2sjigimo463mg",
+      manufacturer: "Aquarobo",
+      model: "SH07S-TY",
+    },
+    { productKey: "figmzixtki7bourh", manufacturer: "Leictory", model: "LK06" },
+    { productKey: "krvsermlavj3lypv" },
   ],
   dataPoints: {
     "101": { type: "boolean" },
@@ -37,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       weather: {
         dataPoint: "108",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "sunny", value: "sunny" },
@@ -46,7 +51,7 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "unavailable" },
       },
-      schedules: { dataPoint: "107", kind: "text" },
+      schedules: { dataPoint: "107", kind: "text", category: "config" },
     },
     allValves: { open: { dataPoint: "109", kind: "switch" } },
   },

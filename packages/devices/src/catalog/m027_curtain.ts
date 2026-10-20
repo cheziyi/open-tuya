@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -73,6 +73,7 @@ const entry: TuyaDeviceEntry = {
       curtainMode: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "morning", value: "morning" },
           { raw: "night", value: "night" },
@@ -82,12 +83,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
       travelTimeInMs: {
         dataPoint: "10",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "ms",
       },
@@ -95,11 +98,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

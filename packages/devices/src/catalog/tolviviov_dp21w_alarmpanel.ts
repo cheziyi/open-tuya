@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Alarm security system",
-  productKeys: ["bsck4bhwubkpggmb"],
+  products: [
+    {
+      productKey: "bsck4bhwubkpggmb",
+      manufacturer: "Tolviviov",
+      model: "DP-W2.1",
+    },
+  ],
   dataPoints: {
     "101": { type: "string" },
     "103": { type: "boolean" },
@@ -38,6 +44,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 600,
@@ -46,39 +53,67 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "114",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 600,
       },
-      remoteNotification: { dataPoint: "111", kind: "switch" },
-      sensorNotification: { dataPoint: "112", kind: "switch" },
+      remoteNotification: {
+        dataPoint: "111",
+        kind: "switch",
+        category: "config",
+      },
+      sensorNotification: {
+        dataPoint: "112",
+        kind: "switch",
+        category: "config",
+      },
       remote: {
         dataPoint: "115",
         kind: "event",
+        category: "diagnostic",
         readOnly: true,
         whenAbsent: { value: null },
         otherwise: "triggered",
       },
-      remoteMessage: { dataPoint: "115", kind: "sensor", readOnly: true },
+      remoteMessage: {
+        dataPoint: "115",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       accessory: {
         dataPoint: "116",
         kind: "event",
+        category: "diagnostic",
         readOnly: true,
         whenAbsent: { value: null },
         otherwise: "triggered",
       },
-      accessoryMessage: { dataPoint: "116", kind: "sensor", readOnly: true },
+      accessoryMessage: {
+        dataPoint: "116",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       sensor: {
         dataPoint: "120",
         kind: "event",
+        category: "diagnostic",
         readOnly: true,
         whenAbsent: { value: null },
         otherwise: "detected",
       },
-      sensorMessage: { dataPoint: "120", kind: "sensor", readOnly: true },
+      sensorMessage: {
+        dataPoint: "120",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       accessoryHistory: {
         dataPoint: "121",
         kind: "event",
+        category: "diagnostic",
         readOnly: true,
         whenAbsent: { value: null },
         otherwise: "logged",
@@ -86,6 +121,7 @@ const entry: TuyaDeviceEntry = {
       accessoryHistoryInformation: {
         dataPoint: "121",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         type: "utf16b64",
       },
@@ -94,6 +130,7 @@ const entry: TuyaDeviceEntry = {
       durationInMinutes: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 1,
         max: 60,
@@ -101,6 +138,7 @@ const entry: TuyaDeviceEntry = {
       tone: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "Tone 1" },
           { raw: "2", value: "Tone 2" },
@@ -115,6 +153,7 @@ const entry: TuyaDeviceEntry = {
       volume: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: 0 },
           { raw: "25", value: 0.25 },
@@ -124,7 +163,9 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    nightlight: { on: { dataPoint: "104", kind: "switch" } },
+    nightlight: {
+      on: { dataPoint: "104", kind: "switch", category: "config" },
+    },
   },
   source: {
     file: "tolviviov_dp21w_alarmpanel.yaml",

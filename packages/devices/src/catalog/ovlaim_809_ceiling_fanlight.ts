@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["ftqsaibnb3insvp9"],
+  products: [
+    { productKey: "ftqsaibnb3insvp9", manufacturer: "Ovlaim", model: "809" },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string", optional: true },
@@ -35,6 +37,7 @@ const entry: TuyaDeviceEntry = {
       lightTimerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -42,11 +45,12 @@ const entry: TuyaDeviceEntry = {
       timerInMinutes: {
         dataPoint: "64",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1439,
       },
-      scene: { dataPoint: "25", kind: "text" },
+      scene: { dataPoint: "25", kind: "text", category: "config" },
     },
     fan: {
       on: { dataPoint: "60", kind: "switch" },

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dimmer switch",
-  productKeys: ["zdbapiyvwyi4wtrr"],
+  products: [
+    {
+      productKey: "zdbapiyvwyi4wtrr",
+      manufacturer: "Deta",
+      model: "6910HA series2",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -19,6 +25,7 @@ const entry: TuyaDeviceEntry = {
       minimumBrightnessInPercent: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 10,
         max: 1000,
@@ -27,6 +34,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "6",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

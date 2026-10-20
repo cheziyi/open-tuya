@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Sunrise alarm clock",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "2": { type: "boolean" },
     "5": { type: "integer" },
@@ -125,18 +125,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         mask: "FF00000000000000000000000000",
         kind: "number",
+        category: "config",
         unit: "h",
       },
       alarm1TimeInMinutes: {
         dataPoint: "109",
         mask: "00FF000000000000000000000000",
         kind: "number",
+        category: "config",
         unit: "min",
       },
       alarm1DaySunday: {
         dataPoint: "109",
         mask: "0000010000000000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -148,6 +151,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         mask: "0000020000000000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -159,6 +163,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         mask: "0000040000000000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -170,6 +175,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         mask: "0000080000000000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -181,6 +187,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         mask: "0000100000000000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -192,6 +199,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         mask: "0000200000000000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -203,6 +211,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         mask: "0000400000000000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -214,6 +223,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         mask: "00000000FF000000000000000000",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "normal" },
           { raw: 1, value: "fade_in" },
@@ -224,6 +234,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         mask: "00000000000000FF000000000000",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "no_light" },
           { raw: 1, value: "rainbow" },
@@ -241,6 +252,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         mask: "0000000000000000FF0000000000",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 120,
@@ -249,6 +261,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         mask: "000000000000000000FF00000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -260,6 +273,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         mask: "00000000000000000000FF000000",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 5,
         max: 20,
@@ -268,6 +282,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         mask: "0000000000000000000000FF0000",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "mute" },
           { raw: 1, value: "mute_light" },
@@ -278,18 +293,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         mask: "FF00000000000000000000000000",
         kind: "number",
+        category: "config",
         unit: "h",
       },
       alarm2TimeInMinutes: {
         dataPoint: "111",
         mask: "00FF000000000000000000000000",
         kind: "number",
+        category: "config",
         unit: "min",
       },
       alarm2DaySunday: {
         dataPoint: "111",
         mask: "0000010000000000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -301,6 +319,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         mask: "0000020000000000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -312,6 +331,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         mask: "0000040000000000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -323,6 +343,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         mask: "0000080000000000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -334,6 +355,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         mask: "0000100000000000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -345,6 +367,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         mask: "0000200000000000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -356,6 +379,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         mask: "0000400000000000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -367,6 +391,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         mask: "00000000FF000000000000000000",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "normal" },
           { raw: 1, value: "fade_in" },
@@ -377,6 +402,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         mask: "00000000000000FF000000000000",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "no_light" },
           { raw: 1, value: "rainbow" },
@@ -394,6 +420,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         mask: "0000000000000000FF0000000000",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 120,
@@ -402,6 +429,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         mask: "000000000000000000FF00000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -413,6 +441,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         mask: "00000000000000000000FF000000",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 5,
         max: 20,
@@ -421,6 +450,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         mask: "0000000000000000000000FF0000",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "mute" },
           { raw: 1, value: "mute_light" },
@@ -432,11 +462,13 @@ const entry: TuyaDeviceEntry = {
       alarm1Reset: {
         dataPoint: "109",
         kind: "button",
+        category: "config",
         values: [{ raw: "AAB/AwAGDwEeAQkAAAA=", value: true }],
       },
       alarm2Reset: {
         dataPoint: "111",
         kind: "button",
+        category: "config",
         values: [{ raw: "AAB/AwAGDwEeAQkAAAA=", value: true }],
       },
       musicPlayback: { dataPoint: "129", kind: "switch" },
@@ -461,25 +493,29 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "114",
         mask: "000000FF000000",
         kind: "number",
+        category: "config",
         unit: "h",
       },
       clockTimeInMinutes: {
         dataPoint: "114",
         mask: "00000000FF0000",
         kind: "number",
+        category: "config",
         unit: "min",
       },
       clockTimeInSeconds: {
         dataPoint: "114",
         mask: "0000000000FF00",
         kind: "number",
+        category: "config",
         unit: "s",
       },
-      networkTime: { dataPoint: "115", kind: "switch" },
-      nightMode: { dataPoint: "121", kind: "switch" },
+      networkTime: { dataPoint: "115", kind: "switch", category: "config" },
+      nightMode: { dataPoint: "121", kind: "switch", category: "config" },
       timeFormat: {
         dataPoint: "125",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "12_hour" },
           { raw: true, value: "24_hour" },
@@ -488,6 +524,7 @@ const entry: TuyaDeviceEntry = {
       displayBrightness: {
         dataPoint: "116",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "dim" },
@@ -498,6 +535,7 @@ const entry: TuyaDeviceEntry = {
       secondsDot: {
         dataPoint: "118",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "static" },
           { raw: "1", value: "blinking" },
@@ -506,6 +544,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "119",
         kind: "select",
+        category: "config",
         values: [
           { raw: "C", value: "C" },
           { raw: "F", value: "F" },
@@ -514,6 +553,7 @@ const entry: TuyaDeviceEntry = {
       wirelessCharging: {
         dataPoint: "117",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "IDlE", value: "idle" },
@@ -525,6 +565,7 @@ const entry: TuyaDeviceEntry = {
       activeLights: {
         dataPoint: "134",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "ALL_OFF", value: "all_off" },
@@ -536,43 +577,79 @@ const entry: TuyaDeviceEntry = {
       colorLightRaw: {
         dataPoint: "11",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         type: "string",
       },
       nightLightRaw: {
         dataPoint: "105",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         type: "string",
       },
       colorLightBrightnessRaw: {
         dataPoint: "101",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       ambientLightBrightnessRaw: {
         dataPoint: "123",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       nightLightBrightnessRaw: {
         dataPoint: "124",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
-      alarmStatusRaw: { dataPoint: "126", kind: "sensor", readOnly: true },
-      alarm1StatusRaw: { dataPoint: "109", kind: "sensor", readOnly: true },
-      alarm2StatusRaw: { dataPoint: "111", kind: "sensor", readOnly: true },
-      sleepAidStatusRaw: { dataPoint: "128", kind: "sensor", readOnly: true },
-      weatherRaw: { dataPoint: "113", kind: "sensor", readOnly: true },
-      deviceTimeRaw: { dataPoint: "114", kind: "sensor", readOnly: true },
+      alarmStatusRaw: {
+        dataPoint: "126",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      alarm1StatusRaw: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      alarm2StatusRaw: {
+        dataPoint: "111",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      sleepAidStatusRaw: {
+        dataPoint: "128",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      weatherRaw: {
+        dataPoint: "113",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      deviceTimeRaw: {
+        dataPoint: "114",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     alarm1: {
-      on: { dataPoint: "108", kind: "switch" },
+      on: { dataPoint: "108", kind: "switch", category: "config" },
       volume: {
         dataPoint: "109",
         mask: "0000000000FF0000000000000000",
         kind: "number",
+        category: "config",
         min: 1,
         max: 10,
         scale: 10,
@@ -581,6 +658,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         mask: "000000000000FF00000000000000",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 5,
         max: 30,
@@ -589,6 +667,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         mask: "000000FF00000000000000000000",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "none" },
           { raw: 1, value: "birds" },
@@ -603,11 +682,12 @@ const entry: TuyaDeviceEntry = {
       },
     },
     alarm2: {
-      on: { dataPoint: "110", kind: "switch" },
+      on: { dataPoint: "110", kind: "switch", category: "config" },
       volume: {
         dataPoint: "111",
         mask: "0000000000FF0000000000000000",
         kind: "number",
+        category: "config",
         min: 1,
         max: 10,
         scale: 10,
@@ -616,6 +696,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         mask: "000000000000FF00000000000000",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 5,
         max: 30,
@@ -624,6 +705,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         mask: "000000FF00000000000000000000",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "none" },
           { raw: 1, value: "birds" },

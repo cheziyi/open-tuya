@@ -5,7 +5,23 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Simple curtain switch",
-  productKeys: ["tuh2eatk4hsq336s", "n3xgr5pdmpinictg", "hwbhrbadjynv7w70"],
+  products: [
+    {
+      productKey: "tuh2eatk4hsq336s",
+      manufacturer: "Loratap",
+      model: "SC500W-V1",
+    },
+    {
+      productKey: "n3xgr5pdmpinictg",
+      manufacturer: "LoraTap",
+      model: "SC500W-V2",
+    },
+    {
+      productKey: "hwbhrbadjynv7w70",
+      manufacturer: "Zemismart",
+      model: "ZM16L",
+    },
+  ],
   dataPoints: { "1": { type: "string" } },
   components: {
     cover: {

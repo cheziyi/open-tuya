@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "14": { type: "integer" },
     "101": { type: "integer" },
@@ -17,8 +17,13 @@ const entry: TuyaDeviceEntry = {
     device: {
       manualFeed: { dataPoint: "14", kind: "number", min: 1, max: 12 },
       manualFeedMealPlan: { dataPoint: "104", kind: "text" },
-      feedReport: { dataPoint: "101", kind: "sensor", readOnly: true },
-      factoryReset: { dataPoint: "103", kind: "button" },
+      feedReport: {
+        dataPoint: "101",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      factoryReset: { dataPoint: "103", kind: "button", category: "config" },
     },
   },
   source: {

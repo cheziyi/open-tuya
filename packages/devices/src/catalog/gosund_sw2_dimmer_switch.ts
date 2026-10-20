@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dimmer switch",
-  productKeys: ["qcgkaqmaivuwfwz4"],
+  products: [
+    { productKey: "qcgkaqmaivuwfwz4", manufacturer: "Gosund", model: "SW2-AR" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer" },
@@ -19,6 +21,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "heat",
+        category: "diagnostic",
         readOnly: true,
       },
     },

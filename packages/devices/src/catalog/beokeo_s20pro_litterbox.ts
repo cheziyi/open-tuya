@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Cat litter box",
-  productKeys: ["l9gslsbbrd50r79y"],
+  products: [
+    { productKey: "l9gslsbbrd50r79y", manufacturer: "Beokeo", model: "S20Pro" },
+  ],
   dataPoints: {
     "101": { type: "integer" },
     "102": { type: "boolean" },
@@ -30,9 +32,13 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       clean: { dataPoint: "107", kind: "button" },
-      resetWeight: { dataPoint: "108", kind: "button" },
-      resetLitterLevel: { dataPoint: "113", kind: "button" },
-      factoryReset: { dataPoint: "115", kind: "button" },
+      resetWeight: { dataPoint: "108", kind: "button", category: "config" },
+      resetLitterLevel: {
+        dataPoint: "113",
+        kind: "button",
+        category: "config",
+      },
+      factoryReset: { dataPoint: "115", kind: "button", category: "config" },
       status: {
         dataPoint: "109",
         kind: "sensor",
@@ -57,6 +63,7 @@ const entry: TuyaDeviceEntry = {
       usesToday: {
         dataPoint: "105",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "times",
       },
@@ -64,12 +71,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
       litterLevel: {
         dataPoint: "112",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "full", value: "full" },
@@ -81,14 +91,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "114",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "114", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "114",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "114",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -104,14 +121,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 60,
         max: 1800,
       },
-      sleep: { dataPoint: "102", kind: "switch" },
+      sleep: { dataPoint: "102", kind: "switch", category: "config" },
       sleepStartInMinutes: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1439,
@@ -119,24 +138,26 @@ const entry: TuyaDeviceEntry = {
       sleepEndInMinutes: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1439,
       },
-      childLock: { dataPoint: "110", kind: "switch" },
-      kittenMode: { dataPoint: "111", kind: "switch" },
-      sound: { dataPoint: "117", kind: "switch" },
+      childLock: { dataPoint: "110", kind: "switch", category: "config" },
+      kittenMode: { dataPoint: "111", kind: "switch", category: "config" },
+      sound: { dataPoint: "117", kind: "switch", category: "config" },
       weightUnit: {
         dataPoint: "118",
         kind: "select",
+        category: "config",
         values: [
           { raw: "kg", value: "Kilograms" },
           { raw: "lb", value: "Pounds" },
         ],
       },
-      autoClean: { dataPoint: "119", kind: "switch" },
+      autoClean: { dataPoint: "119", kind: "switch", category: "config" },
     },
-    indicator: { on: { dataPoint: "116", kind: "switch" } },
+    indicator: { on: { dataPoint: "116", kind: "switch", category: "config" } },
   },
   source: {
     file: "beokeo_s20pro_litterbox.yaml",

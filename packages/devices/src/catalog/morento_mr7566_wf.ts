@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["l7eugrdimmatauv9"],
+  products: [
+    {
+      productKey: "l7eugrdimmatauv9",
+      manufacturer: "Morento",
+      model: "MR7566-WF",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -35,20 +41,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
       filterLifeInPercent: {
         dataPoint: "5",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      childLock: { dataPoint: "7", kind: "switch" },
-      filterReset: { dataPoint: "11", kind: "button" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
+      filterReset: { dataPoint: "11", kind: "button", category: "config" },
       timer: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -81,6 +90,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "m",
       },

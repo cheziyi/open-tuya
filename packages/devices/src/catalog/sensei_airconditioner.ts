@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["f3goccgfj6qino4c"],
+  products: [{ productKey: "f3goccgfj6qino4c", manufacturer: "Sensei" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -148,6 +148,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "21",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -180,20 +181,28 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      usageCounter: { dataPoint: "101", kind: "sensor", readOnly: true },
+      usageCounter: {
+        dataPoint: "101",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       totalTimeInHours: {
         dataPoint: "102",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
       },
       electricityInKwh: {
         dataPoint: "103",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "kWh",
         scale: 10,
@@ -201,11 +210,13 @@ const entry: TuyaDeviceEntry = {
       electricityReportNumber: {
         dataPoint: "104",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       temperatureUnit: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -214,6 +225,7 @@ const entry: TuyaDeviceEntry = {
       horizontal: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "Off" },
           { raw: "same", value: "Focus" },
@@ -223,6 +235,7 @@ const entry: TuyaDeviceEntry = {
       vertical: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "Off" },
           { raw: "15", value: "Swing" },
@@ -233,14 +246,15 @@ const entry: TuyaDeviceEntry = {
           { raw: "5", value: "5" },
         ],
       },
-      swing3d: { dataPoint: "108", kind: "switch" },
-      sleep: { dataPoint: "109", kind: "switch" },
+      swing3d: { dataPoint: "108", kind: "switch", category: "config" },
+      sleep: { dataPoint: "109", kind: "switch", category: "config" },
       uvSterilization: { dataPoint: "110", kind: "switch" },
       ionizer: { dataPoint: "111", kind: "switch" },
       fault: {
         dataPoint: "20",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           {
@@ -254,11 +268,21 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "20", kind: "sensor", readOnly: true },
-      faultCode2: { dataPoint: "113", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "20",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultCode2: {
+        dataPoint: "113",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       antiFrost: { dataPoint: "115", kind: "switch" },
     },
-    backlight: { on: { dataPoint: "13", kind: "switch" } },
+    backlight: { on: { dataPoint: "13", kind: "switch", category: "config" } },
   },
   source: {
     file: "sensei_airconditioner.yaml",

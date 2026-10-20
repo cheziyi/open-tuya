@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Smart bird feeder camera",
-  productKeys: ["bk9uhkngejjo8wup"],
+  products: [
+    {
+      productKey: "bk9uhkngejjo8wup",
+      manufacturer: "Pinelake",
+      model: "BF002",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean", optional: true },
     "103": { type: "boolean", optional: true },
@@ -26,7 +32,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       recording: { dataPoint: "150", kind: "switch" },
-      motionDetection: { dataPoint: "134", kind: "switch" },
+      motionDetection: { dataPoint: "134", kind: "switch", category: "config" },
       siren: { dataPoint: "159", kind: "switch" },
       batteryInPercent: {
         dataPoint: "145",
@@ -39,6 +45,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "146",
         kind: "sensor",
         measures: "plugged",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "0", value: false },
@@ -52,13 +59,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "149",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
       },
-      flipImage: { dataPoint: "103", kind: "switch" },
-      watermark: { dataPoint: "104", kind: "switch" },
+      flipImage: { dataPoint: "103", kind: "switch", category: "config" },
+      watermark: { dataPoint: "104", kind: "switch", category: "config" },
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -68,17 +77,23 @@ const entry: TuyaDeviceEntry = {
       motionSensitivity: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
           { raw: "2", value: "high" },
         ],
       },
-      motionDetectionTimer: { dataPoint: "135", kind: "switch" },
-      motionRecord: { dataPoint: "137", kind: "switch" },
+      motionDetectionTimer: {
+        dataPoint: "135",
+        kind: "switch",
+        category: "config",
+      },
+      motionRecord: { dataPoint: "137", kind: "switch", category: "config" },
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -93,10 +108,11 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "246",
         kind: "sensor",
         measures: "connectivity",
+        category: "diagnostic",
         readOnly: true,
       },
     },
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "pinelake_birdfeeder.yaml",

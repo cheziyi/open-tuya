@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Noise meter",
-  productKeys: ["yjebgze5hxevyji"],
+  products: [
+    {
+      productKey: "yjebgze5hxevyji",
+      manufacturer: "Dienmern",
+      model: "DM165A",
+    },
+  ],
   dataPoints: {
     "2": { type: "integer" },
     "13": { type: "boolean" },
@@ -18,15 +24,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "soundPressure",
+        reading: "instant",
         readOnly: true,
         unit: "dBA",
         scale: 10,
       },
-      alarm: { dataPoint: "13", kind: "switch" },
+      alarm: { dataPoint: "13", kind: "switch", category: "config" },
       temperatureInC: {
         dataPoint: "18",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -34,6 +42,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },

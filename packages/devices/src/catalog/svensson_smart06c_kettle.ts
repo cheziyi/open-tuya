@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Kettle",
-  productKeys: ["c0abgyio6epc07b2"],
+  products: [
+    {
+      productKey: "c0abgyio6epc07b2",
+      manufacturer: "Svensson",
+      model: "Smart06C",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -49,6 +55,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 720,
@@ -56,6 +63,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "8",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -68,14 +76,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "10", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "10",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "10",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -87,6 +102,7 @@ const entry: TuyaDeviceEntry = {
       kettleMode: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "diy", value: "custom" },
           { raw: "boiled_water", value: "boil" },
@@ -98,11 +114,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "milk_powder", value: "infant_formula" },
         ],
       },
-      keepWarm: { dataPoint: "14", kind: "switch" },
+      keepWarm: { dataPoint: "14", kind: "switch", category: "config" },
       keepWarmTemperatureInC: {
         dataPoint: "15",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 0,
         max: 100,
@@ -111,6 +128,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "17",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

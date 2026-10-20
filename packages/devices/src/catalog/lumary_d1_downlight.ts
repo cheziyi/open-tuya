@@ -5,7 +5,20 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Recessed downlight",
-  productKeys: ["nko0qtqcv4dsddvh", "key5q5hf8heh9xag"],
+  products: [
+    {
+      productKey: "nko0qtqcv4dsddvh",
+      manufacturer: "Lumary",
+      model: "D1",
+      modelId: "L-DL6D1",
+    },
+    {
+      productKey: "key5q5hf8heh9xag",
+      manufacturer: "Lumary",
+      model: "D1",
+      modelId: "L-DL6D1",
+    },
+  ],
   dataPoints: {
     "22": { type: "integer" },
     "23": { type: "integer", optional: true },

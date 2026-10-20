@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Smart watering device",
-  productKeys: ["abzzvtulukkwzynv"],
+  products: [
+    {
+      productKey: "abzzvtulukkwzynv",
+      manufacturer: "Beca Smart",
+      model: "BAF-908",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -32,6 +38,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "56",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 360,
@@ -39,6 +46,7 @@ const entry: TuyaDeviceEntry = {
       pump: {
         dataPoint: "28",
         kind: "select",
+        category: "config",
         values: [
           { raw: "PumpA", value: "Pump A" },
           { raw: "PumpB", value: "Pump B" },
@@ -48,6 +56,7 @@ const entry: TuyaDeviceEntry = {
       repeatIntervalInHours: {
         dataPoint: "101",
         kind: "number",
+        category: "config",
         unit: "h",
         min: 0,
         max: 60,

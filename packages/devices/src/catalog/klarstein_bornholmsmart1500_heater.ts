@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["movachsonarakbut"],
+  products: [
+    {
+      productKey: "movachsonarakbut",
+      manufacturer: "Klarstein",
+      model: "Bornholm Smart 1500",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -73,10 +79,11 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      childLock: { dataPoint: "6", kind: "switch" },
+      childLock: { dataPoint: "6", kind: "switch", category: "config" },
       timer: {
         dataPoint: "10",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -109,6 +116,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -116,15 +125,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
-      sleep: { dataPoint: "102", kind: "switch" },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      sleep: { dataPoint: "102", kind: "switch", category: "config" },
     },
-    display: { on: { dataPoint: "104", kind: "switch" } },
+    display: { on: { dataPoint: "104", kind: "switch", category: "config" } },
   },
   source: {
     file: "klarstein_bornholmsmart1500_heater.yaml",

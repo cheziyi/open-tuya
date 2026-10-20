@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Circuit breaker",
-  productKeys: ["qndxewijhpsz3ixr"],
+  products: [
+    {
+      productKey: "qndxewijhpsz3ixr",
+      manufacturer: "Aulifants",
+      model: "SMES200",
+    },
+  ],
   dataPoints: {
     "1": { type: "integer" },
     "6": { type: "base64" },
@@ -24,6 +30,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 100,
@@ -33,6 +40,7 @@ const entry: TuyaDeviceEntry = {
         mask: "FFFF000000000000",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
         readOnly: true,
         unit: "V",
         scale: 10,
@@ -42,6 +50,7 @@ const entry: TuyaDeviceEntry = {
         mask: "0000FFFFFF000000",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
         readOnly: true,
         unit: "A",
         scale: 1000,
@@ -51,31 +60,43 @@ const entry: TuyaDeviceEntry = {
         mask: "0000000000FFFFFF",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
         readOnly: true,
         unit: "kW",
         scale: 1000,
       },
-      clearEnergy: { dataPoint: "12", kind: "button" },
-      breaker: { dataPoint: "16", kind: "switch" },
+      clearEnergy: { dataPoint: "12", kind: "button", category: "config" },
+      breaker: { dataPoint: "16", kind: "switch", category: "config" },
       voltageProtectionInV: {
         dataPoint: "101",
         kind: "number",
+        category: "config",
         unit: "V",
         min: 230,
         max: 240,
       },
-      voltageProtectionTriggerCount: { dataPoint: "103", kind: "number" },
+      voltageProtectionTriggerCount: {
+        dataPoint: "103",
+        kind: "number",
+        category: "config",
+      },
       currentProtectionInA: {
         dataPoint: "102",
         kind: "number",
+        category: "config",
         unit: "A",
         min: 0,
         max: 60,
       },
-      currentProtectionTriggerCount: { dataPoint: "104", kind: "number" },
+      currentProtectionTriggerCount: {
+        dataPoint: "104",
+        kind: "number",
+        category: "config",
+      },
       currentProtection: {
         dataPoint: "107",
         kind: "switch",
+        category: "config",
         values: [
           { raw: false, value: true },
           { raw: true, value: false },
@@ -84,6 +105,7 @@ const entry: TuyaDeviceEntry = {
       voltageProtection: {
         dataPoint: "108",
         kind: "switch",
+        category: "config",
         values: [
           { raw: false, value: true },
           { raw: true, value: false },

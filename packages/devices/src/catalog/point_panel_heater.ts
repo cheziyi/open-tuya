@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Panel heater",
-  productKeys: ["nqj51hxb2tx5kklv"],
+  products: [
+    {
+      productKey: "nqj51hxb2tx5kklv",
+      manufacturer: "Point",
+      model: "POPANW600",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -48,9 +54,9 @@ const entry: TuyaDeviceEntry = {
           { raw: "Comfort", value: "comfort" },
         ],
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
     },
-    display: { on: { dataPoint: "109", kind: "switch" } },
+    display: { on: { dataPoint: "109", kind: "switch", category: "config" } },
   },
   source: {
     file: "point_panel_heater.yaml",

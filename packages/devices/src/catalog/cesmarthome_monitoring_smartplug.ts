@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Smart plug",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -26,6 +26,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "2",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -33,6 +34,7 @@ const entry: TuyaDeviceEntry = {
       addElectricityInKwh: {
         dataPoint: "3",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "kWh",
         scale: 1000,
@@ -40,12 +42,14 @@ const entry: TuyaDeviceEntry = {
       addElectricityCalibration: {
         dataPoint: "11",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       currentInMilliamps: {
         dataPoint: "4",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
         readOnly: true,
         unit: "mA",
       },
@@ -54,6 +58,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
         readOnly: true,
         unit: "W",
         scale: 10,
@@ -63,6 +68,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
         readOnly: true,
         unit: "V",
         scale: 10,

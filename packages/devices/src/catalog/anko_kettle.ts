@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Kettle",
-  productKeys: ["dft4ebatvon3ha5s"],
+  products: [
+    { productKey: "dft4ebatvon3ha5s", manufacturer: "Anko", model: "LD-K3068" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -56,6 +58,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "15",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },

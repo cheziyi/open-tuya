@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -45,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "2h", value: "2h" },
@@ -60,6 +61,7 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "31",
         kind: "select",
+        category: "config",
         values: [
           { raw: "ligth_off", value: "Light Off" },
           { raw: "light_mode1", value: "Light mode 1" },
@@ -71,6 +73,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },

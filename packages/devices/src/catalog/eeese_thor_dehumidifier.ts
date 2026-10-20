@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["kga5rstkass0sroi"],
+  products: [
+    {
+      productKey: "kga5rstkass0sroi",
+      manufacturer: "Eeese Air Care",
+      model: "Thor",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -52,15 +58,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
-      swing: { dataPoint: "8", kind: "switch" },
-      ionizer: { dataPoint: "10", kind: "switch" },
-      childLock: { dataPoint: "16", kind: "switch" },
+      swing: { dataPoint: "8", kind: "switch", category: "config" },
+      ionizer: { dataPoint: "10", kind: "switch", category: "config" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
       timer: {
         dataPoint: "17",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -93,6 +101,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -100,6 +109,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -108,15 +118,21 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       tankFull: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
       },
-      sound: { dataPoint: "101", kind: "switch" },
+      sound: { dataPoint: "101", kind: "switch", category: "config" },
     },
   },
   source: {

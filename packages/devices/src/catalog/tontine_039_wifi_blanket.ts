@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Electric blanket",
-  productKeys: ["m3kmcn9evognklsp"],
+  products: [
+    { productKey: "m3kmcn9evognklsp", manufacturer: "Tontine", model: "O39" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "string" },

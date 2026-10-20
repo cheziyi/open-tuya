@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "RF heat cold thermostat",
-  productKeys: ["5p5bakocfzfxj7bc"],
+  products: [
+    {
+      productKey: "5p5bakocfzfxj7bc",
+      manufacturer: "Ferco Floor",
+      model: "GN1",
+      modelId: "ETOP-HT-CH",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -92,7 +99,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "window_opened", value: "idle" },
         ],
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
     },
   },
   source: {

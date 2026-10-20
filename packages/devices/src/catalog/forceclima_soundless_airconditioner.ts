@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Portable air conditioner",
-  productKeys: ["njvdabnnx51jiqiq"],
+  products: [
+    {
+      productKey: "njvdabnnx51jiqiq",
+      manufacturer: "ForceClima",
+      model: "Soundless",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -77,10 +83,11 @@ const entry: TuyaDeviceEntry = {
           { raw: true, value: "vertical" },
         ],
       },
-      sleep: { dataPoint: "103", kind: "switch" },
+      sleep: { dataPoint: "103", kind: "switch", category: "config" },
       tankFull: {
         dataPoint: "20",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
@@ -89,6 +96,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -96,10 +104,16 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "20", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "20",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "20",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "Room temperature sensor fault" },

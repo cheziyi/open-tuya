@@ -5,7 +5,15 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Gate opener",
-  productKeys: ["1wwbzczt9hrtwqjr", "deyeioifmyvdalnc", "key8tg9kykj4g8dw"],
+  products: [
+    {
+      productKey: "1wwbzczt9hrtwqjr",
+      manufacturer: "Dongguan Pinjia",
+      model: "PJ-WGDOOR01",
+    },
+    { productKey: "deyeioifmyvdalnc" },
+    { productKey: "key8tg9kykj4g8dw" },
+  ],
   dataPoints: {
     "1": { type: "boolean", optional: true },
     "2": { type: "integer" },
@@ -29,6 +37,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "2",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -36,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       runTimesInSeconds: {
         dataPoint: "4",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 10,
         max: 120,
@@ -43,6 +53,7 @@ const entry: TuyaDeviceEntry = {
       alarmTimeoutInSeconds: {
         dataPoint: "5",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -50,6 +61,7 @@ const entry: TuyaDeviceEntry = {
       voiceControl: {
         dataPoint: "11",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       fault: { dataPoint: "12", kind: "sensor", readOnly: true },

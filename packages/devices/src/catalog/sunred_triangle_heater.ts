@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["f2sycol9awtabrsp"],
+  products: [
+    {
+      productKey: "f2sycol9awtabrsp",
+      manufacturer: "Sunred",
+      model: "Smart Triangle Dark Wall",
+      modelId: "ZHQ2582",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer" },
@@ -19,12 +26,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "3",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
       level: {
         dataPoint: "5",
         kind: "number",
+        category: "config",
         min: 0,
         max: 9,
         values: [
@@ -43,6 +52,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },

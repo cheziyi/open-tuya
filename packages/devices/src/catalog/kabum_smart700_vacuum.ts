@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Robot vacuum",
-  productKeys: ["pu5cpxucdrdrr21a"],
+  products: [
+    {
+      productKey: "pu5cpxucdrdrr21a",
+      manufacturer: "KaBuM! Smart",
+      model: "700",
+    },
+  ],
   dataPoints: {
     "2": { type: "boolean" },
     "3": { type: "string" },
@@ -95,6 +101,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -102,6 +109,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "16",
         kind: "sensor",
         measures: "area",
+        category: "diagnostic",
         readOnly: true,
         unit: "m2",
       },
@@ -109,6 +117,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "17",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -116,14 +125,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "18",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "18",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -145,6 +161,7 @@ const entry: TuyaDeviceEntry = {
       mopping: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "low" },
@@ -152,14 +169,23 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "high" },
         ],
       },
-      resetMap: { dataPoint: "103", kind: "button" },
-      resetMapRequest: { dataPoint: "104", kind: "text" },
-      resetMapComplexCommand: { dataPoint: "105", kind: "text" },
-      resetMapPathData: { dataPoint: "106", kind: "text" },
-      resetMapSmartRooms: { dataPoint: "108", kind: "text" },
+      resetMap: { dataPoint: "103", kind: "button", category: "config" },
+      resetMapRequest: { dataPoint: "104", kind: "text", category: "config" },
+      resetMapComplexCommand: {
+        dataPoint: "105",
+        kind: "text",
+        category: "config",
+      },
+      resetMapPathData: { dataPoint: "106", kind: "text", category: "config" },
+      resetMapSmartRooms: {
+        dataPoint: "108",
+        kind: "text",
+        category: "config",
+      },
       resetMapRoomsMessage: {
         dataPoint: "109",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "None" },
           { raw: 1, value: "split" },
@@ -177,11 +203,12 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "None" },
       },
-      doNotDisturb: { dataPoint: "107", kind: "switch" },
-      breakClean: { dataPoint: "110", kind: "switch" },
+      doNotDisturb: { dataPoint: "107", kind: "switch", category: "config" },
+      breakClean: { dataPoint: "110", kind: "switch", category: "config" },
       language: {
         dataPoint: "111",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cn", value: "chinese" },
           { raw: "en", value: "english" },
@@ -190,11 +217,12 @@ const entry: TuyaDeviceEntry = {
       volumeInPercent: {
         dataPoint: "112",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
       },
-      yMopping: { dataPoint: "113", kind: "switch" },
+      yMopping: { dataPoint: "113", kind: "switch", category: "config" },
     },
   },
   source: {

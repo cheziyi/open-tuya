@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Switchboard with fan",
-  productKeys: ["haqyilpinwntqgzj"],
+  products: [
+    {
+      productKey: "haqyilpinwntqgzj",
+      manufacturer: "Imagine",
+      model: "IT31LFW",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -37,6 +43,7 @@ const entry: TuyaDeviceEntry = {
       timer1InSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -44,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       timer2InSeconds: {
         dataPoint: "10",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -51,6 +59,7 @@ const entry: TuyaDeviceEntry = {
       timer3InSeconds: {
         dataPoint: "11",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -58,6 +67,7 @@ const entry: TuyaDeviceEntry = {
       fanTimerInSeconds: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,

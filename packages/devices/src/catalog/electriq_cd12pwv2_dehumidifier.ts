@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -42,10 +42,11 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      sleep: { dataPoint: "104", kind: "switch" },
+      sleep: { dataPoint: "104", kind: "switch", category: "config" },
       tankFull: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -54,6 +55,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         type: "bitfield",
         values: [
@@ -65,11 +67,12 @@ const entry: TuyaDeviceEntry = {
       faultCode: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         type: "bitfield",
       },
     },
-    display: { on: { dataPoint: "101", kind: "switch" } },
+    display: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "electriq_cd12pwv2_dehumidifier.yaml",

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["lpmzzlrklbkvsizu"],
+  products: [
+    {
+      productKey: "lpmzzlrklbkvsizu",
+      manufacturer: "TrueLife",
+      model: "Air Purifier P7 WIFI",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -44,23 +50,26 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
-      ionizer: { dataPoint: "6", kind: "switch" },
-      childLock: { dataPoint: "7", kind: "switch" },
-      uvSterilization: { dataPoint: "9", kind: "switch" },
-      filterReset: { dataPoint: "11", kind: "button" },
+      ionizer: { dataPoint: "6", kind: "switch", category: "config" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
+      uvSterilization: { dataPoint: "9", kind: "switch", category: "config" },
+      filterReset: { dataPoint: "11", kind: "button", category: "config" },
       filterLifeInHours: {
         dataPoint: "16",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
       },
       timer: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancle", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -77,6 +86,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

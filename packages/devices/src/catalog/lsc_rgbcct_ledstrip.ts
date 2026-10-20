@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "LED strip",
-  productKeys: ["jdsjyhct8uotmaiw", "h4xcs3aemqldhnr9"],
+  products: [
+    {
+      productKey: "jdsjyhct8uotmaiw",
+      manufacturer: "LSC Smart Connect",
+      model: "5m RGBIC+CCTIC",
+    },
+    {
+      productKey: "h4xcs3aemqldhnr9",
+      manufacturer: "LSC Smart Connect",
+      model: "5m RGBIC+CCTIC",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -67,28 +78,35 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
       },
-      musicData: { dataPoint: "27", kind: "text" },
-      controlData: { dataPoint: "28", kind: "text" },
+      musicData: { dataPoint: "27", kind: "text", category: "config" },
+      controlData: { dataPoint: "28", kind: "text", category: "config" },
       pixelsInPx: {
         dataPoint: "47",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "px",
       },
-      scene: { dataPoint: "51", kind: "text" },
-      dreamlightMusicData: { dataPoint: "52", kind: "text" },
+      scene: { dataPoint: "51", kind: "text", category: "config" },
+      dreamlightMusicData: {
+        dataPoint: "52",
+        kind: "text",
+        category: "config",
+      },
       setPixelsInPx: {
         dataPoint: "53",
         kind: "number",
+        category: "config",
         unit: "px",
         min: 1,
         max: 1000,
       },
-      paintData: { dataPoint: "61", kind: "text" },
+      paintData: { dataPoint: "61", kind: "text", category: "config" },
     },
   },
   source: {

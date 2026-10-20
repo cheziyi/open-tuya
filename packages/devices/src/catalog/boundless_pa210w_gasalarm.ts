@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Gas alarm",
-  productKeys: ["bnfiludpq3myldf9"],
+  products: [
+    {
+      productKey: "bnfiludpq3myldf9",
+      manufacturer: "Boundless Brothers",
+      model: "PA-210W",
+    },
+  ],
   dataPoints: {
     "2": { type: "string" },
     "5": { type: "integer" },
@@ -20,23 +26,42 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "gas",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "alarm", value: true }],
         otherwise: false,
       },
-      gasInLel: { dataPoint: "5", kind: "sensor", readOnly: true, unit: "LEL" },
-      gasLifecycle: { dataPoint: "11", kind: "sensor", readOnly: true },
-      mute: { dataPoint: "14", kind: "button" },
-      muteLanguage: { dataPoint: "101", kind: "text" },
+      gasInLel: {
+        dataPoint: "5",
+        kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
+        readOnly: true,
+        unit: "LEL",
+      },
+      gasLifecycle: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      mute: { dataPoint: "14", kind: "button", category: "config" },
+      muteLanguage: { dataPoint: "101", kind: "text", category: "config" },
       fault: {
         dataPoint: "45",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "45",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

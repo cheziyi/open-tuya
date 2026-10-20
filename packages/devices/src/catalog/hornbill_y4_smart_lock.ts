@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Keypad lock",
-  productKeys: ["g7rboh0x"],
+  products: [{ productKey: "g7rboh0x", manufacturer: "Hornbill", model: "Y4" }],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "2": { type: "base64", optional: true },
@@ -132,6 +132,7 @@ const entry: TuyaDeviceEntry = {
       language: {
         dataPoint: "28",
         kind: "select",
+        category: "config",
         values: [
           { raw: "chinese_simplified", value: "chinese" },
           { raw: "english", value: "english" },
@@ -140,6 +141,7 @@ const entry: TuyaDeviceEntry = {
       volume: {
         dataPoint: "31",
         kind: "select",
+        category: "config",
         values: [
           { raw: "mute", value: "Mute" },
           { raw: "low", value: "Low" },
@@ -147,26 +149,49 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: "High" },
         ],
       },
-      automaticLock: { dataPoint: "33", kind: "switch" },
+      automaticLock: { dataPoint: "33", kind: "switch", category: "config" },
       automaticLockDelayInSeconds: {
         dataPoint: "36",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 1,
         max: 1800,
       },
-      newCredential: { dataPoint: "1", kind: "text" },
-      deleteCredential: { dataPoint: "2", kind: "text" },
-      modifyCredential: { dataPoint: "3", kind: "text" },
-      newTemporaryPassword: { dataPoint: "51", kind: "text" },
-      deleteTemporaryPassword: { dataPoint: "52", kind: "text" },
-      modifyTemporaryPassword: { dataPoint: "53", kind: "text" },
-      syncCredentials: { dataPoint: "54", kind: "text" },
-      offlinePasswordTimestamp: { dataPoint: "64", kind: "text" },
-      usedOfflinePassword: { dataPoint: "65", kind: "sensor", readOnly: true },
+      newCredential: { dataPoint: "1", kind: "text", category: "config" },
+      deleteCredential: { dataPoint: "2", kind: "text", category: "config" },
+      modifyCredential: { dataPoint: "3", kind: "text", category: "config" },
+      newTemporaryPassword: {
+        dataPoint: "51",
+        kind: "text",
+        category: "config",
+      },
+      deleteTemporaryPassword: {
+        dataPoint: "52",
+        kind: "text",
+        category: "config",
+      },
+      modifyTemporaryPassword: {
+        dataPoint: "53",
+        kind: "text",
+        category: "config",
+      },
+      syncCredentials: { dataPoint: "54", kind: "text", category: "config" },
+      offlinePasswordTimestamp: {
+        dataPoint: "64",
+        kind: "text",
+        category: "config",
+      },
+      usedOfflinePassword: {
+        dataPoint: "65",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       clearedOfflinePasswords: {
         dataPoint: "66",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
     },

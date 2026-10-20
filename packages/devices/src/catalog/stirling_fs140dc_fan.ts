@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pedestal fan",
-  productKeys: ["smhdmlhcphmigvse"],
+  products: [
+    {
+      productKey: "smhdmlhcphmigvse",
+      manufacturer: "Arlec",
+      model: "APDC160WHA",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -30,6 +36,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "0_5", value: "30m" },

@@ -5,7 +5,23 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["cwoaxapwqubwkg6o", "vd6bt2zlpmjmm02o", "lcvb9ivikrml5f1v"],
+  products: [
+    {
+      productKey: "cwoaxapwqubwkg6o",
+      manufacturer: "Advwin",
+      model: "6L camera",
+    },
+    {
+      productKey: "vd6bt2zlpmjmm02o",
+      manufacturer: "Papifeed",
+      model: "7L camera 202301",
+    },
+    {
+      productKey: "lcvb9ivikrml5f1v",
+      manufacturer: "Cat Elite",
+      model: "Sync",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean", optional: true },
     "103": { type: "boolean" },
@@ -27,7 +43,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      motionDetection: { dataPoint: "134", kind: "switch" },
+      motionDetection: { dataPoint: "134", kind: "switch", category: "config" },
       motion: {
         dataPoint: "115",
         kind: "event",
@@ -36,11 +52,12 @@ const entry: TuyaDeviceEntry = {
         otherwise: "detected",
       },
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
-      flipImage: { dataPoint: "103", kind: "switch" },
-      watermark: { dataPoint: "104", kind: "switch" },
+      flipImage: { dataPoint: "103", kind: "switch", category: "config" },
+      watermark: { dataPoint: "104", kind: "switch", category: "config" },
       motionSensitivity: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
@@ -50,6 +67,7 @@ const entry: TuyaDeviceEntry = {
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -59,11 +77,12 @@ const entry: TuyaDeviceEntry = {
       volumeInPercent: {
         dataPoint: "160",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 1,
         max: 100,
       },
-      restart: { dataPoint: "162", kind: "button" },
+      restart: { dataPoint: "162", kind: "button", category: "config" },
       notification: {
         dataPoint: "212",
         kind: "event",
@@ -76,6 +95,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "232",
         kind: "sensor",
         measures: "weight",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "g",
         scale: 10,
@@ -83,6 +104,7 @@ const entry: TuyaDeviceEntry = {
       foodWeightHistoryData: {
         dataPoint: "234",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       feedProblem: {
@@ -97,14 +119,16 @@ const entry: TuyaDeviceEntry = {
       voiceRecord: {
         dataPoint: "235",
         kind: "button",
+        category: "config",
         values: [{ raw: "1", value: true }],
       },
       stopVoiceRecord: {
         dataPoint: "235",
         kind: "button",
+        category: "config",
         values: [{ raw: "0", value: true }],
       },
-      mealPlan: { dataPoint: "236", kind: "text" },
+      mealPlan: { dataPoint: "236", kind: "text", category: "config" },
       manualFeedInPortions: {
         dataPoint: "237",
         kind: "number",
@@ -115,11 +139,12 @@ const entry: TuyaDeviceEntry = {
       lastFeedInPortions: {
         dataPoint: "238",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "portions",
       },
     },
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "advwin_6l_petfeeder.yaml",

@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ambient light strip",
-  productKeys: ["wwcrxa8jl4mj0jib"],
+  products: [{ productKey: "wwcrxa8jl4mj0jib", model: "HDMI TV Lighting/65" }],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -60,17 +60,43 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
       },
-      upperLights: { dataPoint: "107", kind: "number", min: 1, max: 8 },
-      rightLights: { dataPoint: "110", kind: "number", min: 9, max: 16 },
-      leftLights: { dataPoint: "109", kind: "number", min: 1, max: 8 },
-      lowerLights: { dataPoint: "108", kind: "number", min: 9, max: 16 },
+      upperLights: {
+        dataPoint: "107",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 8,
+      },
+      rightLights: {
+        dataPoint: "110",
+        kind: "number",
+        category: "config",
+        min: 9,
+        max: 16,
+      },
+      leftLights: {
+        dataPoint: "109",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 8,
+      },
+      lowerLights: {
+        dataPoint: "108",
+        kind: "number",
+        category: "config",
+        min: 9,
+        max: 16,
+      },
       screenBrightnessSync: {
         dataPoint: "112",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Strong", value: "Strong" },
           { raw: "Medium", value: "Medium" },
@@ -80,6 +106,7 @@ const entry: TuyaDeviceEntry = {
       musicBrightnessSync: {
         dataPoint: "111",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Strong", value: "Strong" },
           { raw: "Medium", value: "Medium" },
@@ -89,6 +116,7 @@ const entry: TuyaDeviceEntry = {
       musicStyle: {
         dataPoint: "52",
         kind: "select",
+        category: "config",
         values: [
           {
             raw: "AQEAA2QjAAAAZAAAZAB4ZADwZAA8ZAC0ZAEsZAAAAA==",
@@ -116,6 +144,7 @@ const entry: TuyaDeviceEntry = {
       paintColor: {
         dataPoint: "61",
         kind: "select",
+        category: "config",
         values: [
           { raw: "AAIAFAAAAwCWA+g=", value: "Color 1-1 Grullo" },
           { raw: "AAIAFAAABQE2A+g=", value: "Color 1-2 Burnished Brown" },
@@ -177,6 +206,7 @@ const entry: TuyaDeviceEntry = {
       combinationColor: {
         dataPoint: "61",
         kind: "select",
+        category: "config",
         values: [
           {
             raw: "AAMAFAABUwFIA70BUgKLA+gBUgNrA+gBUwPQA9g=",
@@ -271,6 +301,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "51",
         kind: "select",
+        category: "config",
         type: "string",
         values: [
           { raw: "ARUKUlLgAABkAMFhALQwALVSAMRj", value: "Iceland blue" },

@@ -207,7 +207,11 @@ hold, such as a mode the device lacks, throws a `TypeError`. A control's range, 
 step can change with the device's state, such as a thermostat's in eco mode:
 `resolveControl(entry, control, dataPoints)` gives them as they are now. A value is the device's own, in the unit its name carries. A name the
 catalog gives alike across devices is in `CONTROL_NAMES`; any other is the
-control's own, and its `kind` and `measures` say how to handle it.
+control's own, and its `kind` and `measures` say how to handle it. A
+`category` marks a control outside the device's main function, a setting or
+a diagnostic, and a sensor's `reading` says whether it reads the moment or a
+running total. `entry.products` gives each product's `manufacturer`, `model` and
+`modelId`, to name the device by.
 `UNSUPPORTED.md` lists the devices not converted yet.
 
 ## Signing in to the Smart Life cloud
@@ -429,6 +433,7 @@ engineering.
 | [azerty9971/xtend_tuya](https://github.com/azerty9971/xtend_tuya) | GPL-3.0 | Smart Life cloud responses, captured in its issues, Home Assistant |
 | [home-assistant-libs/tuya-device-handlers](https://github.com/home-assistant-libs/tuya-device-handlers) | MIT | Fixes to the data points of misbehaving devices, by product |
 | [home-assistant/core `components/tuya`](https://github.com/home-assistant/core/tree/dev/homeassistant/components/tuya) | Apache-2.0 | Standard data point codes by device category, Home Assistant |
+| [home-assistant/core `components/sensor`](https://github.com/home-assistant/core/tree/dev/homeassistant/components/sensor) | Apache-2.0 | What a sensor's state class means, Home Assistant |
 | [tuya/TuyaOpen `src/tuya_cloud_service`](https://github.com/tuya/TuyaOpen/tree/master/src/tuya_cloud_service) | Apache-2.0 | A device's own side of the LAN protocol: what it answers to each command, by Tuya |
 
 Projects not under MIT contribute protocol facts only, never code:

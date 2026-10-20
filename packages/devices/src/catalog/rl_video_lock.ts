@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Video intercom",
-  productKeys: ["i6p5va1gvcagcude"],
+  products: [{ productKey: "i6p5va1gvcagcude", model: "RL-617B17WIFI" }],
   dataPoints: {
     "136": { type: "string", optional: true },
     "148": { type: "boolean" },
@@ -29,6 +29,7 @@ const entry: TuyaDeviceEntry = {
       doorbell: {
         dataPoint: "136",
         kind: "event",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "", value: null }],
         whenAbsent: { value: null },

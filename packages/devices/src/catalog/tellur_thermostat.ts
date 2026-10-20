@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["y0ajxpunagisd9uj"],
+  products: [{ productKey: "y0ajxpunagisd9uj", manufacturer: "Tellur" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -67,23 +67,30 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -80,
         max: 80,
         scale: 10,
         step: 5,
       },
-      antiFrost: { dataPoint: "10", kind: "switch" },
-      childLock: { dataPoint: "40", kind: "switch" },
+      antiFrost: { dataPoint: "10", kind: "switch", category: "config" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       fault: {
         dataPoint: "45",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "45",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Camera",
-  productKeys: ["2ehbrlcxfcmizamf"],
+  products: [
+    {
+      productKey: "2ehbrlcxfcmizamf",
+      manufacturer: "LSC Smart Connect",
+      model: "Dual band outdoor camera",
+    },
+  ],
   dataPoints: {
     "103": { type: "boolean", optional: true },
     "104": { type: "boolean", optional: true },
@@ -44,21 +50,24 @@ const entry: TuyaDeviceEntry = {
         otherwise: "detected",
       },
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
-      motionDetection: { dataPoint: "134", kind: "switch" },
+      motionDetection: { dataPoint: "134", kind: "switch", category: "config" },
       cameraPrivacy: { dataPoint: "105", kind: "switch" },
       flipImage: {
         dataPoint: "103",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       watermark: {
         dataPoint: "104",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       motionSensitivity: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
@@ -68,6 +77,7 @@ const entry: TuyaDeviceEntry = {
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -77,6 +87,7 @@ const entry: TuyaDeviceEntry = {
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -90,12 +101,14 @@ const entry: TuyaDeviceEntry = {
       sdStatusMemoryCardCapacity: {
         dataPoint: "109",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
-      formatSdCard: { dataPoint: "111", kind: "button" },
+      formatSdCard: { dataPoint: "111", kind: "button", category: "config" },
       formatSdCardSdFormatStatus: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: 2000, value: "Formatting" },
           { raw: 2001, value: "Format error" },
@@ -106,11 +119,13 @@ const entry: TuyaDeviceEntry = {
       soundDetection: {
         dataPoint: "139",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       soundSensitivity: {
         dataPoint: "140",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Low" },
           { raw: "1", value: "High" },
@@ -119,6 +134,7 @@ const entry: TuyaDeviceEntry = {
       recordingMode: {
         dataPoint: "151",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
@@ -127,6 +143,7 @@ const entry: TuyaDeviceEntry = {
       alarmEnabled: {
         dataPoint: "159",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       alarm: {
@@ -136,22 +153,28 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: "alert",
       },
-      humanDetection: { dataPoint: "170", kind: "switch" },
+      humanDetection: { dataPoint: "170", kind: "switch", category: "config" },
       antiFlicker: {
         dataPoint: "188",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Off" },
           { raw: "1", value: "50Hz" },
           { raw: "2", value: "60Hz" },
         ],
       },
-      restart: { dataPoint: "162", kind: "button" },
-      motionLimitAreaEnabled: { dataPoint: "168", kind: "switch" },
-      motionLimitArea: { dataPoint: "169", kind: "text" },
+      restart: { dataPoint: "162", kind: "button", category: "config" },
+      motionLimitAreaEnabled: {
+        dataPoint: "168",
+        kind: "switch",
+        category: "config",
+      },
+      motionLimitArea: { dataPoint: "169", kind: "text", category: "config" },
       detectionMode: {
         dataPoint: "127",
         kind: "select",
+        category: "config",
         values: [
           { raw: "motion", value: "Motion" },
           { raw: "human", value: "Person" },

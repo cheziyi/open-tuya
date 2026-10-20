@@ -5,7 +5,23 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["hp1sjssyokokbrsg", "to4nyl9qxvkqmcmk", "fvxjwu2oggajswbx"],
+  products: [
+    {
+      productKey: "hp1sjssyokokbrsg",
+      manufacturer: "AlecoAir",
+      model: "D12/D16 Home",
+    },
+    {
+      productKey: "to4nyl9qxvkqmcmk",
+      manufacturer: "Klarstein",
+      model: "DryFy Connect",
+    },
+    {
+      productKey: "fvxjwu2oggajswbx",
+      manufacturer: "Shinco",
+      model: "SDZ/YDZ-series",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -47,12 +63,13 @@ const entry: TuyaDeviceEntry = {
         min: 25,
         max: 80,
       },
-      ionizer: { dataPoint: "5", kind: "switch" },
-      childLock: { dataPoint: "7", kind: "switch" },
+      ionizer: { dataPoint: "5", kind: "switch", category: "config" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       fault: {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: true },
@@ -62,10 +79,16 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: false,
       },
-      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       tankFull: {
         dataPoint: "11",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 8, value: true }],
         otherwise: false,
@@ -73,6 +96,7 @@ const entry: TuyaDeviceEntry = {
       defrost: {
         dataPoint: "11",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
@@ -80,6 +104,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "12",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -112,15 +137,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
       insideDrying: {
         dataPoint: "101",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
-      waterPump: { dataPoint: "102", kind: "switch" },
+      waterPump: { dataPoint: "102", kind: "switch", category: "config" },
     },
     fan: {
       on: { dataPoint: "1", kind: "switch" },

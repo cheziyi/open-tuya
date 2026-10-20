@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Beverage center",
-  productKeys: ["qvcxc9c0wlkcuwto"],
+  products: [
+    {
+      productKey: "qvcxc9c0wlkcuwto",
+      manufacturer: "Wine Enthusiast",
+      model: "Prestige S",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -94,23 +100,28 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "none" },
         ],
       },
-      childLock: { dataPoint: "5", kind: "switch" },
+      childLock: { dataPoint: "5", kind: "switch", category: "config" },
       humidityInPercent: {
         dataPoint: "7",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       filterLifeInDays: {
         dataPoint: "106",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "days",
       },
       filterResetInterval: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "M_6", value: "6 months" },
           { raw: "M_12", value: "12 months" },
@@ -121,14 +132,21 @@ const entry: TuyaDeviceEntry = {
         mask: "7F",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "10", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "10",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "10",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -143,10 +161,11 @@ const entry: TuyaDeviceEntry = {
       },
     },
     interiorLight: {
-      on: { dataPoint: "101", kind: "switch" },
+      on: { dataPoint: "101", kind: "switch", category: "config" },
       brightness: {
         dataPoint: "13",
         kind: "number",
+        category: "config",
         min: 0,
         max: 100,
         dependsOn: {
@@ -169,6 +188,7 @@ const entry: TuyaDeviceEntry = {
       colorTemperature: {
         dataPoint: "109",
         kind: "select",
+        category: "config",
         values: [
           { raw: "white", value: 6500 },
           { raw: "yellow", value: 2700 },

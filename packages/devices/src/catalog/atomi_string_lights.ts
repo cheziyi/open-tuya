@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "String lights",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },

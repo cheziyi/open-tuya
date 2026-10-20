@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Sleep aid",
-  productKeys: ["d9tnlvjvlgwqr9ov"],
+  products: [
+    {
+      productKey: "d9tnlvjvlgwqr9ov",
+      manufacturer: "Kogan",
+      model: "KAWHTNOSLPA",
+    },
+  ],
   dataPoints: {
     "101": { type: "string" },
     "104": { type: "integer" },
@@ -18,6 +24,7 @@ const entry: TuyaDeviceEntry = {
       volume: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "low", value: "Low" },
           { raw: "high", value: "High" },

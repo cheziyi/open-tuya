@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["q0czoqfxdjynmkgj"],
+  products: [
+    { productKey: "q0czoqfxdjynmkgj", manufacturer: "Brilliant Smart" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -44,6 +46,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "6",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "10m" },
@@ -58,6 +61,7 @@ const entry: TuyaDeviceEntry = {
       timeRemainingInMinutes: {
         dataPoint: "7",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Blind controller",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },

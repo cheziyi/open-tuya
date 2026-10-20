@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Irrigation controller",
-  productKeys: ["x7hkmeis8yqj6ntj"],
+  products: [
+    {
+      productKey: "x7hkmeis8yqj6ntj",
+      manufacturer: "Inkbird",
+      model: "IIC400",
+    },
+  ],
   dataPoints: {
     "38": { type: "hex" },
     "44": { type: "string" },
@@ -24,16 +30,17 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     valve: {
-      schedule: { dataPoint: "38", kind: "text" },
+      schedule: { dataPoint: "38", kind: "text", category: "config" },
       irrigationMode: {
         dataPoint: "44",
         kind: "select",
+        category: "config",
         values: [
           { raw: "order", value: "Sequential" },
           { raw: "together", value: "Together" },
         ],
       },
-      irrigationTimer: { dataPoint: "45", kind: "text" },
+      irrigationTimer: { dataPoint: "45", kind: "text", category: "config" },
       mode: {
         dataPoint: "101",
         kind: "select",
@@ -43,10 +50,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "Auto", value: "auto" },
         ],
       },
-      rainSensor: { dataPoint: "102", kind: "switch" },
+      rainSensor: { dataPoint: "102", kind: "switch", category: "config" },
       seasonalAdjustmentInPercent: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "%",
         min: -90,
         max: 100,
@@ -83,11 +91,12 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: 1, value: true }],
         otherwise: false,
       },
-      factoryReset: { dataPoint: "105", kind: "button" },
+      factoryReset: { dataPoint: "105", kind: "button", category: "config" },
       fault: {
         dataPoint: "106",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
       zone1: {
@@ -95,6 +104,7 @@ const entry: TuyaDeviceEntry = {
         mask: "01",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -108,6 +118,7 @@ const entry: TuyaDeviceEntry = {
         mask: "02",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -121,6 +132,7 @@ const entry: TuyaDeviceEntry = {
         mask: "04",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -134,6 +146,7 @@ const entry: TuyaDeviceEntry = {
         mask: "08",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -146,6 +159,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         mask: "01",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -158,6 +172,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         mask: "02",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -170,6 +185,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         mask: "04",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -182,6 +198,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         mask: "08",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -190,8 +207,12 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: true,
       },
-      cancelTimerFaultAlarm: { dataPoint: "109", kind: "button" },
-      otaUpgradeMode: { dataPoint: "110", kind: "switch" },
+      cancelTimerFaultAlarm: {
+        dataPoint: "109",
+        kind: "button",
+        category: "config",
+      },
+      otaUpgradeMode: { dataPoint: "110", kind: "switch", category: "config" },
       open: { dataPoint: "111", kind: "switch" },
     },
   },

@@ -5,11 +5,20 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Star projector",
-  productKeys: [
-    "okyhahmixunjmbca",
-    "jteg9ktrhbxtiicz",
-    "l8xe7jasktrwjd7a",
-    "shz7blrfcpfccvo3",
+  products: [
+    { productKey: "okyhahmixunjmbca", model: "Galaxy" },
+    {
+      productKey: "jteg9ktrhbxtiicz",
+      manufacturer: "BlissLights",
+      model: "Sky Lite Evolve",
+      modelId: "SKY-EVOLVE-B-RCW8",
+    },
+    { productKey: "l8xe7jasktrwjd7a", model: "Aurora Galaxy Star Projector" },
+    {
+      productKey: "shz7blrfcpfccvo3",
+      manufacturer: "Mirabella Genio",
+      model: "Genio Galaxy Starship Projector I004545",
+    },
   ],
   dataPoints: {
     "20": { type: "boolean" },
@@ -59,6 +68,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -66,6 +76,7 @@ const entry: TuyaDeviceEntry = {
       theme: {
         dataPoint: "58",
         kind: "select",
+        category: "config",
         type: "string",
         values: [
           { raw: "AAA=", value: "Cosmos" },
@@ -74,7 +85,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "AAM=", value: "Ocean" },
         ],
       },
-      musicSync: { dataPoint: "42", kind: "text" },
+      musicSync: { dataPoint: "42", kind: "text", category: "config" },
     },
     laser: {
       on: { dataPoint: "53", kind: "switch" },

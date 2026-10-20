@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Irrigation system",
-  productKeys: ["2ak7r2culspkc7hx"],
+  products: [
+    {
+      productKey: "2ak7r2culspkc7hx",
+      manufacturer: "Aubess",
+      model: "RainPoint TTP106W",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "102": { type: "integer" },
@@ -23,6 +29,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "106",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "0", value: "unknown" },
@@ -31,11 +38,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "manual" },
         ],
       },
-      autoRun: { dataPoint: "109", kind: "switch" },
+      autoRun: { dataPoint: "109", kind: "switch", category: "config" },
       durationInSeconds: {
         dataPoint: "102",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 6,
         max: 1440,
@@ -43,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       intervalInHours: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "h",
         min: 1,
         max: 720,
@@ -51,6 +60,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -58,6 +68,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -73,11 +84,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "105", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "105",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water meter",
-  productKeys: ["zlwr0raf"],
+  products: [
+    { productKey: "zlwr0raf", manufacturer: "ZPMeter", model: "214C" },
+  ],
   dataPoints: {
     "1": { type: "integer" },
     "4": { type: "string" },
@@ -20,6 +22,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "water",
+        reading: "risingTotal",
         readOnly: true,
         unit: "m³",
         scale: 1000,
@@ -28,6 +31,7 @@ const entry: TuyaDeviceEntry = {
       reportingPeriod: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1h", value: "1h" },
           { raw: "2h", value: "2h" },
@@ -43,15 +47,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "5", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "5",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       temperatureInC: {
         dataPoint: "22",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 100,
@@ -60,6 +71,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "26",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 100,

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Gate opener",
-  productKeys: ["rzqbb9bm0mymxyqh"],
+  products: [
+    {
+      productKey: "rzqbb9bm0mymxyqh",
+      manufacturer: "BoboYun Tech",
+      model: "gatePro",
+    },
+  ],
   dataPoints: {
     "10": { type: "string" },
     "102": { type: "boolean" },
@@ -90,8 +96,8 @@ const entry: TuyaDeviceEntry = {
       },
       info: { dataPoint: "142", kind: "text" },
       brand: { dataPoint: "150", kind: "text" },
-      pedestrian: { dataPoint: "104", kind: "button" },
-      start: { dataPoint: "105", kind: "button" },
+      pedestrian: { dataPoint: "104", kind: "button", category: "config" },
+      start: { dataPoint: "105", kind: "button", category: "config" },
       alarm: {
         dataPoint: "141",
         kind: "event",
@@ -110,14 +116,15 @@ const entry: TuyaDeviceEntry = {
           { raw: "bruteForceOpening", value: "Forced open" },
         ],
       },
-      learnCode1: { dataPoint: "110", kind: "button" },
-      learnCode2: { dataPoint: "111", kind: "button" },
-      learnCode3: { dataPoint: "112", kind: "button" },
-      learnCode4: { dataPoint: "113", kind: "button" },
-      eraseCodes: { dataPoint: "114", kind: "button" },
+      learnCode1: { dataPoint: "110", kind: "button", category: "config" },
+      learnCode2: { dataPoint: "111", kind: "button", category: "config" },
+      learnCode3: { dataPoint: "112", kind: "button", category: "config" },
+      learnCode4: { dataPoint: "113", kind: "button", category: "config" },
+      eraseCodes: { dataPoint: "114", kind: "button", category: "config" },
       operationMode: {
         dataPoint: "120",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Step_by_step", value: "manual" },
           { raw: "Auto_Close", value: "Auto close" },
@@ -130,6 +137,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "121",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 299,
@@ -137,16 +145,18 @@ const entry: TuyaDeviceEntry = {
       appControl: {
         dataPoint: "139",
         kind: "select",
+        category: "config",
         values: [
           { raw: "hidden", value: "Basic" },
           { raw: "hideRadio", value: "Except RF" },
           { raw: "showAll", value: "Show all" },
         ],
       },
-      keepOpen: { dataPoint: "140", kind: "switch" },
+      keepOpen: { dataPoint: "140", kind: "switch", category: "config" },
       gateType: {
         dataPoint: "143",
         kind: "select",
+        category: "config",
         values: [
           { raw: "swing", value: "Swing" },
           { raw: "singleSwing", value: "Single swing" },

@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["vglnuveujzyrpku9", "g4coy3ffpt7nzchu"],
+  products: [
+    { productKey: "vglnuveujzyrpku9", manufacturer: "Faroro", model: "PF50" },
+    { productKey: "g4coy3ffpt7nzchu", manufacturer: "Faroro", model: "PF50" },
+  ],
   dataPoints: {
     "3": { type: "integer", optional: true },
     "4": { type: "string" },
@@ -32,12 +35,23 @@ const entry: TuyaDeviceEntry = {
           { raw: "feeding", value: "feeding" },
         ],
       },
-      factoryReset: { dataPoint: "9", kind: "button" },
-      lastFeedAmount: { dataPoint: "15", kind: "sensor", readOnly: true },
-      voiceTimes: { dataPoint: "18", kind: "sensor", readOnly: true },
+      factoryReset: { dataPoint: "9", kind: "button", category: "config" },
+      lastFeedAmount: {
+        dataPoint: "15",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      voiceTimes: {
+        dataPoint: "18",
+        kind: "sensor",
+        category: "config",
+        readOnly: true,
+      },
       indicatorLight: {
         dataPoint: "19",
         kind: "switch",
+        category: "config",
         values: [{ raw: false }],
       },
       batteryInPercent: {
@@ -66,16 +80,24 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
       stuck: {
         dataPoint: "104",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
-      reboot: { dataPoint: "105", kind: "button" },
-      buttonPortionSize: { dataPoint: "106", kind: "number", min: 1, max: 12 },
+      reboot: { dataPoint: "105", kind: "button", category: "diagnostic" },
+      buttonPortionSize: {
+        dataPoint: "106",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 12,
+      },
     },
   },
   source: {

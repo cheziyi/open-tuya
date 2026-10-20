@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["luacvecdj9biucd1"],
+  products: [
+    { productKey: "luacvecdj9biucd1", manufacturer: "HTW", model: "IX75B" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -155,12 +157,13 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       invertor: { dataPoint: "106", kind: "switch" },
-      ionizer: { dataPoint: "11", kind: "switch" },
-      emergencyHeat: { dataPoint: "12", kind: "switch" },
+      ionizer: { dataPoint: "11", kind: "switch", category: "config" },
+      emergencyHeat: { dataPoint: "12", kind: "switch", category: "config" },
       fault: {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           {
@@ -187,18 +190,24 @@ const entry: TuyaDeviceEntry = {
         },
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultIndoorFaultCode: {
         dataPoint: "108",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
-      onTimer: { dataPoint: "101", kind: "switch" },
-      offTimer: { dataPoint: "102", kind: "switch" },
-      onTimerHms: { dataPoint: "103", kind: "text" },
-      offTimerHms: { dataPoint: "104", kind: "text" },
+      onTimer: { dataPoint: "101", kind: "switch", category: "config" },
+      offTimer: { dataPoint: "102", kind: "switch", category: "config" },
+      onTimerHms: { dataPoint: "103", kind: "text", category: "config" },
+      offTimerHms: { dataPoint: "104", kind: "text", category: "config" },
     },
-    display: { on: { dataPoint: "36", kind: "switch" } },
+    display: { on: { dataPoint: "36", kind: "switch", category: "config" } },
   },
   source: {
     file: "htw_ix75b_airconditioner.yaml",
