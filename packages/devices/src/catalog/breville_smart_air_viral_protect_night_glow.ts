@@ -5,7 +5,20 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["tltdxtehttjbkjni", "yueiqf0rh2uqkzfv"],
+  products: [
+    {
+      productKey: "tltdxtehttjbkjni",
+      manufacturer: "Breville",
+      model: "Smart Air Viral Protect Night Glow",
+      modelId: "LAP168WHT2IAN1",
+    },
+    {
+      productKey: "yueiqf0rh2uqkzfv",
+      manufacturer: "Breville",
+      model: "Smart Air Viral Protect Night Glow",
+      modelId: "LAP168",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "string" },
@@ -42,20 +55,23 @@ const entry: TuyaDeviceEntry = {
       filterLifeInPercent: {
         dataPoint: "5",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      filterReset: { dataPoint: "11", kind: "button" },
+      filterReset: { dataPoint: "11", kind: "button", category: "config" },
       filterDaysLeftInDays: {
         dataPoint: "16",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "d",
       },
       timer: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "2h", value: "2h" },
@@ -67,17 +83,19 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      factoryReset: { dataPoint: "101", kind: "button" },
+      factoryReset: { dataPoint: "101", kind: "button", category: "config" },
     },
     nightlight: {
-      on: { dataPoint: "8", kind: "switch" },
+      on: { dataPoint: "8", kind: "switch", category: "config" },
       hue: {
         dataPoint: "102",
         mask: "FFFF00000000",
         kind: "number",
+        category: "config",
         min: 0,
         max: 360,
       },
@@ -85,6 +103,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         mask: "0000FFFF0000",
         kind: "number",
+        category: "config",
         min: 0,
         max: 1000,
       },
@@ -92,6 +111,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         mask: "00000000FFFF",
         kind: "number",
+        category: "config",
         min: 0,
         max: 1000,
       },

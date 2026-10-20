@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Spa",
-  productKeys: ["jbxvi3pbxjjlmec2"],
+  products: [
+    {
+      productKey: "jbxvi3pbxjjlmec2",
+      manufacturer: "Joyonway",
+      model: "PB562",
+    },
+  ],
   dataPoints: {
     "3": { type: "integer" },
     "24": { type: "integer" },
@@ -60,13 +66,26 @@ const entry: TuyaDeviceEntry = {
       jetPump: { dataPoint: "104", kind: "switch" },
       blower: { dataPoint: "125", kind: "switch" },
       on: { dataPoint: "123", kind: "switch" },
-      filtrationSchedule1: { dataPoint: "139", kind: "switch" },
-      filtrationSchedule2: { dataPoint: "140", kind: "switch" },
-      heatingSchedule: { dataPoint: "131", kind: "switch" },
-      heatingSchedule2: { dataPoint: "132", kind: "switch" },
+      filtrationSchedule1: {
+        dataPoint: "139",
+        kind: "switch",
+        category: "config",
+      },
+      filtrationSchedule2: {
+        dataPoint: "140",
+        kind: "switch",
+        category: "config",
+      },
+      heatingSchedule: { dataPoint: "131", kind: "switch", category: "config" },
+      heatingSchedule2: {
+        dataPoint: "132",
+        kind: "switch",
+        category: "config",
+      },
       heatingStartInMinutes: {
         dataPoint: "127",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1439,
@@ -74,15 +93,27 @@ const entry: TuyaDeviceEntry = {
       heatingEndInMinutes: {
         dataPoint: "128",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1439,
       },
-      heatingStart2InMinutes: { dataPoint: "129", kind: "number", unit: "min" },
-      heatingEnd2InMinutes: { dataPoint: "130", kind: "number", unit: "min" },
+      heatingStart2InMinutes: {
+        dataPoint: "129",
+        kind: "number",
+        category: "config",
+        unit: "min",
+      },
+      heatingEnd2InMinutes: {
+        dataPoint: "130",
+        kind: "number",
+        category: "config",
+        unit: "min",
+      },
       filtrationStart1InMinutes: {
         dataPoint: "135",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1439,
@@ -90,6 +121,7 @@ const entry: TuyaDeviceEntry = {
       filtrationEnd1InMinutes: {
         dataPoint: "136",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1439,
@@ -97,6 +129,7 @@ const entry: TuyaDeviceEntry = {
       filtrationStart2InMinutes: {
         dataPoint: "137",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1439,
@@ -104,6 +137,7 @@ const entry: TuyaDeviceEntry = {
       filtrationEnd2InMinutes: {
         dataPoint: "138",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1439,
@@ -112,6 +146,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
         readOnly: true,
         unit: "W",
       },
@@ -119,6 +154,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
         readOnly: true,
         unit: "V",
       },
@@ -126,11 +162,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "45",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "45",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

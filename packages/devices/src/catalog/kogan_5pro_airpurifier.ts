@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["bsgh7gwfmazrxsta"],
+  products: [
+    {
+      productKey: "bsgh7gwfmazrxsta",
+      manufacturer: "Kogan",
+      model: "AP-3029UAS",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -50,6 +56,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
@@ -59,9 +66,9 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      childLock: { dataPoint: "7", kind: "switch" },
-      uvSterilization: { dataPoint: "9", kind: "switch" },
-      filterReset: { dataPoint: "11", kind: "button" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
+      uvSterilization: { dataPoint: "9", kind: "switch", category: "config" },
+      filterReset: { dataPoint: "11", kind: "button", category: "config" },
       timeRemainingInSeconds: {
         dataPoint: "20",
         kind: "sensor",
@@ -84,11 +91,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       filterTimeInSeconds: {
         dataPoint: "101",
         kind: "sensor",
@@ -100,12 +113,13 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 12,
       },
     },
-    indicator: { on: { dataPoint: "8", kind: "switch" } },
+    indicator: { on: { dataPoint: "8", kind: "switch", category: "config" } },
   },
   source: {
     file: "kogan_5pro_airpurifier.yaml",

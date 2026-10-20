@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Roller blind",
-  productKeys: ["7qcsglvoqkrdduk6"],
+  products: [
+    {
+      productKey: "7qcsglvoqkrdduk6",
+      manufacturer: "Zemismart",
+      model: "AM25WIFI",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -50,24 +56,31 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       direction: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "forward" },
           { raw: true, value: "reverse" },
         ],
         whenAbsent: { value: "forward" },
       },
-      limitUp: { dataPoint: "104", kind: "switch" },
-      limitDown: { dataPoint: "105", kind: "switch" },
-      resetLimits: { dataPoint: "107", kind: "button" },
+      limitUp: { dataPoint: "104", kind: "switch", category: "config" },
+      limitDown: { dataPoint: "105", kind: "switch", category: "config" },
+      resetLimits: { dataPoint: "107", kind: "button", category: "config" },
     },
   },
   source: {

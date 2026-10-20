@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Door lock",
-  productKeys: ["cbs0lvyg"],
+  products: [
+    { productKey: "cbs0lvyg", manufacturer: "Afto", model: "Smart EZ" },
+  ],
   dataPoints: {
     "8": { type: "integer" },
     "16": { type: "integer", optional: true },
@@ -53,6 +55,7 @@ const entry: TuyaDeviceEntry = {
       alert: {
         dataPoint: "21",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "wrong_finger", value: "Wrong Finger" },
@@ -76,6 +79,7 @@ const entry: TuyaDeviceEntry = {
       autoLock: {
         dataPoint: "33",
         kind: "switch",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -84,6 +88,7 @@ const entry: TuyaDeviceEntry = {
       autoLockDelayInSeconds: {
         dataPoint: "36",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 1,
         max: 1800,
@@ -91,12 +96,13 @@ const entry: TuyaDeviceEntry = {
       lockDirection: {
         dataPoint: "48",
         kind: "select",
+        category: "config",
         values: [
           { raw: "clockwise", value: "Clockwise" },
           { raw: "anticlockwise", value: "Anti-clockwise" },
         ],
       },
-      syncCredentials: { dataPoint: "54", kind: "text" },
+      syncCredentials: { dataPoint: "54", kind: "text", category: "config" },
     },
   },
   source: {

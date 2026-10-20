@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Doorbell",
-  productKeys: ["h3bhzu9m0ig80rdu", "ntortv1hbykmc49z"],
+  products: [
+    {
+      productKey: "h3bhzu9m0ig80rdu",
+      manufacturer: "Bcom",
+      model: "Majic IPBox",
+    },
+    {
+      productKey: "ntortv1hbykmc49z",
+      manufacturer: "5tech",
+      model: "Versus One",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "103": { type: "boolean", optional: true },
@@ -46,11 +57,12 @@ const entry: TuyaDeviceEntry = {
         otherwise: "ring",
       },
       doorImageSnapshot: { dataPoint: "154", kind: "sensor", readOnly: true },
-      flipImage: { dataPoint: "103", kind: "switch" },
-      watermark: { dataPoint: "104", kind: "switch" },
+      flipImage: { dataPoint: "103", kind: "switch", category: "config" },
+      watermark: { dataPoint: "104", kind: "switch", category: "config" },
       motionSensitivity: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
@@ -60,6 +72,7 @@ const entry: TuyaDeviceEntry = {
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -69,6 +82,7 @@ const entry: TuyaDeviceEntry = {
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -78,11 +92,17 @@ const entry: TuyaDeviceEntry = {
           { raw: 5, value: "missing" },
         ],
       },
-      sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
-      sdFormat: { dataPoint: "111", kind: "button" },
+      sdStatusCapacity: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      sdFormat: { dataPoint: "111", kind: "button", category: "config" },
       sdFormatStatus: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: 2000, value: "Formatting" },
           { raw: 2001, value: "Format error" },
@@ -93,13 +113,19 @@ const entry: TuyaDeviceEntry = {
       recordingMode: {
         dataPoint: "151",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
         ],
       },
-      restart: { dataPoint: "162", kind: "button" },
-      channel: { dataPoint: "231", kind: "sensor", readOnly: true },
+      restart: { dataPoint: "162", kind: "button", category: "config" },
+      channel: {
+        dataPoint: "231",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       doorbell: {
         dataPoint: "136",
         kind: "event",
@@ -128,7 +154,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
     accessoryLock: {
       locked: {
         dataPoint: "148",

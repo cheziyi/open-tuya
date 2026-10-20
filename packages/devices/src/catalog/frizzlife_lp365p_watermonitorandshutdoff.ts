@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water meter",
-  productKeys: ["89tojzdfimssmkuk", "db423wsytutyipot"],
+  products: [
+    {
+      productKey: "89tojzdfimssmkuk",
+      manufacturer: "Frizzlife",
+      model: "LP365P",
+    },
+    {
+      productKey: "db423wsytutyipot",
+      manufacturer: "Frizzlife",
+      model: "LP365P",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "12": { type: "integer", optional: true },
@@ -39,6 +50,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unitFrom: "temperatureUnit",
         scale: 10,
@@ -57,6 +69,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "15",
         kind: "sensor",
         measures: "pressure",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unitFrom: "pressureUnit",
         dependsOn: {
@@ -73,6 +87,7 @@ const entry: TuyaDeviceEntry = {
       pressureUnit: {
         dataPoint: "102",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "us_units", value: "psi" }],
         otherwise: "bar",
@@ -81,14 +96,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "24", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "24",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "24",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -102,6 +124,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "water",
+        reading: "risingTotal",
         readOnly: true,
         unitFrom: "waterUnit",
         scale: 10,
@@ -117,6 +140,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "volumeFlowRate",
+        reading: "instant",
         readOnly: true,
         unitFrom: "averageFlowRateUnit",
       },
@@ -131,6 +155,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "volumeFlowRate",
+        reading: "instant",
         readOnly: true,
         unitFrom: "currentFlowRateUnit",
         scale: 1000,
@@ -158,6 +183,7 @@ const entry: TuyaDeviceEntry = {
       protectionMode: {
         dataPoint: "109",
         kind: "select",
+        category: "config",
         values: [
           { raw: "AUTO", value: "Auto" },
           { raw: "ADVANCED_SETTING", value: "Advanced" },
@@ -166,6 +192,7 @@ const entry: TuyaDeviceEntry = {
       autoMode: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [
           { raw: "mode1", value: "Mode 1" },
           { raw: "mode2", value: "Mode 2" },
@@ -175,6 +202,7 @@ const entry: TuyaDeviceEntry = {
       advancedMode: {
         dataPoint: "111",
         kind: "select",
+        category: "config",
         values: [
           { raw: "mode4", value: "Mode 4" },
           { raw: "mode5", value: "Mode 5" },
@@ -185,6 +213,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 18,
         max: 180,
@@ -221,6 +250,7 @@ const entry: TuyaDeviceEntry = {
       allowedFlowTimeMode4Value: {
         dataPoint: "112",
         kind: "number",
+        category: "config",
         min: 3,
         max: 30,
         scale: 0.1666666667,
@@ -228,6 +258,7 @@ const entry: TuyaDeviceEntry = {
       allowedFlowTimeMode5Value: {
         dataPoint: "113",
         kind: "number",
+        category: "config",
         min: 3,
         max: 30,
         scale: 0.1666666667,
@@ -235,6 +266,7 @@ const entry: TuyaDeviceEntry = {
       allowedFlowTimeMode6Value: {
         dataPoint: "114",
         kind: "number",
+        category: "config",
         min: 3,
         max: 30,
         scale: 0.1666666667,
@@ -242,12 +274,14 @@ const entry: TuyaDeviceEntry = {
       allowedFlowVolumeUnit: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [{ raw: "us_units", value: "gal" }],
         otherwise: "L",
       },
       allowedFlowVolume: {
         dataPoint: "111",
         kind: "number",
+        category: "config",
         unitFrom: "allowedFlowVolumeUnit",
         min: 0,
         max: 5000,
@@ -287,6 +321,7 @@ const entry: TuyaDeviceEntry = {
       allowedFlowVolumeMode4Value: {
         dataPoint: "115",
         kind: "select",
+        category: "config",
         min: 0,
         max: 50,
         values: [{ raw: "0", value: 50 }],
@@ -295,6 +330,7 @@ const entry: TuyaDeviceEntry = {
       allowedFlowVolumeMode5Value: {
         dataPoint: "116",
         kind: "select",
+        category: "config",
         min: 0,
         max: 50,
         values: [{ raw: 0, value: 50 }],
@@ -303,6 +339,7 @@ const entry: TuyaDeviceEntry = {
       allowedFlowVolumeMode6Value: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         min: 0,
         max: 50,
         values: [{ raw: 0, value: 50 }],
@@ -311,15 +348,21 @@ const entry: TuyaDeviceEntry = {
       measurementUnits: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "us_units", value: "US" },
           { raw: "metric_unit", value: "Metric" },
         ],
       },
-      requireMinimumFlow: { dataPoint: "118", kind: "switch" },
+      requireMinimumFlow: {
+        dataPoint: "118",
+        kind: "switch",
+        category: "config",
+      },
       minimumFlowRate: {
         dataPoint: "119",
         kind: "number",
+        category: "config",
         unitFrom: "minimumFlowRateUnit",
         min: 0,
         max: 9,
@@ -336,10 +379,15 @@ const entry: TuyaDeviceEntry = {
         },
         targetRange: { min: 2.5, max: 25 },
       },
-      minimumFlowRateModeSystem: { dataPoint: "109", kind: "text" },
+      minimumFlowRateModeSystem: {
+        dataPoint: "109",
+        kind: "text",
+        category: "config",
+      },
       minimumFlowRateUnit: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [{ raw: "us_units", value: "gal/min" }],
         otherwise: "L/h",
       },

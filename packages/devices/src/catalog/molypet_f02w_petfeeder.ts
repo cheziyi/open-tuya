@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["qf3dg2jlcvtacxpk"],
+  products: [
+    { productKey: "qf3dg2jlcvtacxpk", manufacturer: "MolyPet", model: "F02W" },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "2": { type: "boolean", optional: true },
@@ -22,11 +24,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      mealPlan: { dataPoint: "1", kind: "text" },
+      mealPlan: { dataPoint: "1", kind: "text", category: "config" },
       quickFeed: { dataPoint: "2", kind: "button" },
       manualFeedInPortions: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "portions",
         min: 1,
         max: 50,
@@ -34,6 +37,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "4",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -41,19 +45,27 @@ const entry: TuyaDeviceEntry = {
           { raw: "done", value: "feeding_complete" },
         ],
       },
-      slowFeed: { dataPoint: "6", kind: "switch" },
+      slowFeed: { dataPoint: "6", kind: "switch", category: "config" },
       fault: {
         dataPoint: "14",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "14", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "14",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       lastFeedInPortions: {
         dataPoint: "15",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "portions",
       },
@@ -61,15 +73,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 10,
       },
-      voicePlayback: { dataPoint: "101", kind: "switch" },
+      voicePlayback: { dataPoint: "101", kind: "switch", category: "config" },
       batteryInPercent: {
         dataPoint: "102",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
         values: [
@@ -87,9 +102,9 @@ const entry: TuyaDeviceEntry = {
         otherwise: null,
         ownRuleReadOnly: true,
       },
-      restart: { dataPoint: "103", kind: "button" },
+      restart: { dataPoint: "103", kind: "button", category: "config" },
     },
-    indicator: { on: { dataPoint: "19", kind: "switch" } },
+    indicator: { on: { dataPoint: "19", kind: "switch", category: "config" } },
   },
   source: {
     file: "molypet_f02w_petfeeder.yaml",

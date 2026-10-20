@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dual switch",
-  productKeys: ["jupECyrdMrUifHd8"],
+  products: [
+    {
+      productKey: "jupECyrdMrUifHd8",
+      manufacturer: "eMylo",
+      model: "WiFi/RF 2 Gang",
+    },
+  ],
   dataPoints: { "1": { type: "boolean" }, "2": { type: "boolean" } },
   components: {
     device: {

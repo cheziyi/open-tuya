@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["cior1o59zipid8xo"],
+  products: [
+    {
+      productKey: "cior1o59zipid8xo",
+      manufacturer: "Create",
+      model: "Warm Towel Advance",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -155,10 +161,11 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "off" },
         ],
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -191,6 +198,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -198,23 +206,31 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "21", kind: "sensor", readOnly: true },
-      nightMode: { dataPoint: "103", kind: "switch" },
-      windowCheck: { dataPoint: "104", kind: "switch" },
+      faultCode: {
+        dataPoint: "21",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      nightMode: { dataPoint: "103", kind: "switch", category: "config" },
+      windowCheck: { dataPoint: "104", kind: "switch", category: "config" },
       window: {
         dataPoint: "105",
         kind: "sensor",
         measures: "window",
+        category: "diagnostic",
         readOnly: true,
       },
       temperatureCalibrationInC: {
         dataPoint: "106",
         kind: "number",
+        category: "config",
         unit: "C",
         min: 0,
         max: 40,

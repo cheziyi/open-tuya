@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan heater",
-  productKeys: ["dqy0z9997a18rkaw"],
+  products: [
+    {
+      productKey: "dqy0z9997a18rkaw",
+      manufacturer: "Olimpia Splendid",
+      model: "Caldo Up T",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -56,7 +62,7 @@ const entry: TuyaDeviceEntry = {
           { raw: true, value: "on" },
         ],
       },
-      windowDetection: { dataPoint: "101", kind: "switch" },
+      windowDetection: { dataPoint: "101", kind: "switch", category: "config" },
     },
   },
   source: {

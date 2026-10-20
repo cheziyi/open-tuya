@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Smart lock",
-  productKeys: ["kdq0tdbz"],
+  products: [{ productKey: "kdq0tdbz", manufacturer: "Pulido", model: "P13" }],
   dataPoints: {
     "1": { type: "string", optional: true },
     "2": { type: "string", optional: true },
@@ -58,6 +58,7 @@ const entry: TuyaDeviceEntry = {
       alert: {
         dataPoint: "21",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "wrong_finger", value: "Wrong Finger" },
@@ -81,6 +82,7 @@ const entry: TuyaDeviceEntry = {
       autoLock: {
         dataPoint: "33",
         kind: "switch",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -89,6 +91,7 @@ const entry: TuyaDeviceEntry = {
       autoLockDelay: {
         dataPoint: "26",
         kind: "select",
+        category: "config",
         values: [
           { raw: "5s", value: "5s" },
           { raw: "10s", value: "10s" },
@@ -112,6 +115,7 @@ const entry: TuyaDeviceEntry = {
       autoLockDelayAlt: {
         dataPoint: "36",
         kind: "select",
+        category: "config",
         values: [
           { raw: "5s", value: "5s" },
           { raw: "10s", value: "10s" },
@@ -123,6 +127,7 @@ const entry: TuyaDeviceEntry = {
       lockVolumeInPercent: {
         dataPoint: "31",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -136,6 +141,7 @@ const entry: TuyaDeviceEntry = {
       doubleVerificationUnlocking: {
         dataPoint: "68",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "function1", value: false },
           { raw: "function2", value: true },
@@ -146,6 +152,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
         values: [
@@ -158,6 +166,7 @@ const entry: TuyaDeviceEntry = {
       language: {
         dataPoint: "28",
         kind: "select",
+        category: "config",
         values: [
           { raw: "chinese_simplified", value: "chinese" },
           { raw: "english", value: "english" },
@@ -169,6 +178,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "64",
         kind: "sensor",
         measures: "timestamp",
+        category: "diagnostic",
         readOnly: true,
       },
     },

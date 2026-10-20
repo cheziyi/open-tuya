@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Cover switch with backlight",
-  productKeys: ["fthu3wguzoqdayzp"],
+  products: [{ productKey: "fthu3wguzoqdayzp", model: "CST_WB_V1" }],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -27,6 +27,7 @@ const entry: TuyaDeviceEntry = {
       calibration: {
         dataPoint: "3",
         kind: "select",
+        category: "config",
         values: [
           { raw: "start", value: "Start" },
           { raw: "end", value: "End" },

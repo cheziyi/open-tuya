@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Grill",
-  productKeys: ["js3ouva4uggbifzo"],
+  products: [
+    {
+      productKey: "js3ouva4uggbifzo",
+      manufacturer: "RecTeq",
+      model: "RT-800DB",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "101": { type: "integer" },
@@ -47,6 +53,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "F",
       },
@@ -54,6 +61,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "F",
       },
@@ -68,6 +76,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "F",
         min: -127,
         max: 128,

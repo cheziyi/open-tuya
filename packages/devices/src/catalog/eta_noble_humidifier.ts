@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["vkh653vaxghgavef"],
+  products: [
+    {
+      productKey: "vkh653vaxghgavef",
+      manufacturer: "ETA",
+      model: "Noble Smart",
+      modelId: "5629 90000",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "string" },
@@ -54,10 +61,11 @@ const entry: TuyaDeviceEntry = {
       },
     },
     sprayLevel: {
-      on: { dataPoint: "1", kind: "switch" },
+      on: { dataPoint: "1", kind: "switch", category: "config" },
       speed: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "level_0", value: 0 },
           { raw: "level_1", value: 15 },
@@ -71,13 +79,14 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      warmMist: { dataPoint: "26", kind: "switch" },
-      ionizer: { dataPoint: "35", kind: "switch" },
-      sound: { dataPoint: "8", kind: "switch" },
+      warmMist: { dataPoint: "26", kind: "switch", category: "config" },
+      ionizer: { dataPoint: "35", kind: "switch", category: "config" },
+      sound: { dataPoint: "8", kind: "switch", category: "config" },
       temperatureInC: {
         dataPoint: "10",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -90,6 +99,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -110,21 +120,24 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
       temperatureUnit: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
         ],
       },
-      sleep: { dataPoint: "101", kind: "switch" },
+      sleep: { dataPoint: "101", kind: "switch", category: "config" },
       status: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "normal" },
@@ -133,7 +146,9 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    ambientLight: { on: { dataPoint: "5", kind: "switch" } },
+    ambientLight: {
+      on: { dataPoint: "5", kind: "switch", category: "config" },
+    },
   },
   source: {
     file: "eta_noble_humidifier.yaml",

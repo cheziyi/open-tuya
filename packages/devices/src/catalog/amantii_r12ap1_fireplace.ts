@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fireplace",
-  productKeys: ["aggdycelaybrbp7s"],
+  products: [
+    {
+      productKey: "aggdycelaybrbp7s",
+      manufacturer: "Amantii",
+      model: "Bespoke",
+      modelId: "R1-2-AP1",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "integer" },
@@ -27,7 +34,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     climate: {
-      on: { dataPoint: "109", kind: "switch" },
+      on: { dataPoint: "109", kind: "switch", category: "config" },
       hvacMode: {
         dataPoint: "108",
         kind: "select",
@@ -113,17 +120,60 @@ const entry: TuyaDeviceEntry = {
           { raw: "36C_96F_97F", value: 36 },
         ],
       },
-      sound: { dataPoint: "101", kind: "switch" },
-      embersRed: { dataPoint: "102", kind: "number", min: 0, max: 8 },
-      embersGreen: { dataPoint: "103", kind: "number", min: 0, max: 8 },
-      embersBlue: { dataPoint: "107", kind: "number", min: 0, max: 8 },
-      flameYellow: { dataPoint: "104", kind: "number", min: 0, max: 6 },
-      flameRed: { dataPoint: "105", kind: "number", min: 0, max: 6 },
-      flameOrange: { dataPoint: "106", kind: "number", min: 0, max: 6 },
-      flameSpeed: { dataPoint: "113", kind: "number", min: 1, max: 3 },
+      sound: { dataPoint: "101", kind: "switch", category: "config" },
+      embersRed: {
+        dataPoint: "102",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 8,
+      },
+      embersGreen: {
+        dataPoint: "103",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 8,
+      },
+      embersBlue: {
+        dataPoint: "107",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 8,
+      },
+      flameYellow: {
+        dataPoint: "104",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 6,
+      },
+      flameRed: {
+        dataPoint: "105",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 6,
+      },
+      flameOrange: {
+        dataPoint: "106",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 6,
+      },
+      flameSpeed: {
+        dataPoint: "113",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 3,
+      },
       timer: {
         dataPoint: "114",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "cancel" },
           { raw: 5, value: "30m" },
@@ -148,14 +198,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "115",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "none", value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "115", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "115",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "115",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "none", value: "ok" },
@@ -167,6 +224,7 @@ const entry: TuyaDeviceEntry = {
       canopyLight: {
         dataPoint: "112",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "Off" },
           { raw: 1, value: "Red" },
@@ -183,8 +241,8 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    embers: { on: { dataPoint: "116", kind: "switch" } },
-    flame: { on: { dataPoint: "117", kind: "switch" } },
+    embers: { on: { dataPoint: "116", kind: "switch", category: "config" } },
+    flame: { on: { dataPoint: "117", kind: "switch", category: "config" } },
   },
   source: {
     file: "amantii-r12ap1-fireplace.yaml",

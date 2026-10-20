@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Cinema screen",
-  productKeys: ["hpg7erxfe5ypgh20"],
+  products: [
+    { productKey: "hpg7erxfe5ypgh20", manufacturer: "Kimex", model: "THM-02" },
+  ],
   dataPoints: { "1": { type: "string" }, "8": { type: "string" } },
   components: {
     screen: {
@@ -33,6 +35,7 @@ const entry: TuyaDeviceEntry = {
       select: {
         dataPoint: "8",
         kind: "select",
+        category: "config",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "back", value: "reverse" },

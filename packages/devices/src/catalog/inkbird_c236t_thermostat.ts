@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Timer thermostat",
-  productKeys: ["ae6rmrnkqz7rjh66"],
+  products: [
+    { productKey: "ae6rmrnkqz7rjh66", manufacturer: "Inkbird", model: "C236T" },
+  ],
   dataPoints: {
     "101": { type: "boolean", optional: true },
     "102": { type: "integer" },
@@ -354,6 +356,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "131",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "no", value: false },
@@ -365,6 +368,7 @@ const entry: TuyaDeviceEntry = {
       faultDescription: {
         dataPoint: "131",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "no", value: "ok" },
@@ -375,10 +379,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "al_cl", value: "Low temperature cleared" },
         ],
       },
-      faultVersion: { dataPoint: "149", kind: "sensor", readOnly: true },
+      faultVersion: {
+        dataPoint: "149",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       mode: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "Thermostat" },
           { raw: 1, value: "Timer" },
@@ -389,6 +399,7 @@ const entry: TuyaDeviceEntry = {
       timerMode: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "Cyclic" },
           { raw: 1, value: "Countdown to on" },
@@ -399,6 +410,7 @@ const entry: TuyaDeviceEntry = {
       programMode: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "Cyclic thermostat" },
           { raw: 1, value: "Countdown to thermostat on" },
@@ -406,11 +418,12 @@ const entry: TuyaDeviceEntry = {
           { raw: 3, value: "Countdown to thermostat toggle" },
         ],
       },
-      childLock: { dataPoint: "116", kind: "switch" },
-      sound: { dataPoint: "120", kind: "switch" },
+      childLock: { dataPoint: "116", kind: "switch", category: "config" },
+      sound: { dataPoint: "120", kind: "switch", category: "config" },
       temperatureUnit: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "C" },
           { raw: true, value: "F" },
@@ -419,6 +432,7 @@ const entry: TuyaDeviceEntry = {
       highTemperatureAlarmLimit: {
         dataPoint: "109",
         kind: "number",
+        category: "config",
         unitFrom: "highTemperatureAlarmLimitUnit",
         min: -4000,
         max: 21200,
@@ -428,6 +442,7 @@ const entry: TuyaDeviceEntry = {
       highTemperatureAlarmLimitUnit: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: "F" },
           { raw: false, value: "C" },
@@ -436,6 +451,7 @@ const entry: TuyaDeviceEntry = {
       lowTemperatureAlarmLimit: {
         dataPoint: "110",
         kind: "number",
+        category: "config",
         unitFrom: "lowTemperatureAlarmLimitUnit",
         min: -4000,
         max: 21200,
@@ -445,25 +461,40 @@ const entry: TuyaDeviceEntry = {
       lowTemperatureAlarmLimitUnit: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: "F" },
           { raw: false, value: "C" },
         ],
       },
-      highTemperatureAlarmEnable: { dataPoint: "113", kind: "switch" },
-      lowTemperatureAlarmEnable: { dataPoint: "114", kind: "switch" },
+      highTemperatureAlarmEnable: {
+        dataPoint: "113",
+        kind: "switch",
+        category: "config",
+      },
+      lowTemperatureAlarmEnable: {
+        dataPoint: "114",
+        kind: "switch",
+        category: "config",
+      },
       compressorRestartDelayInMinutes: {
         dataPoint: "111",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 10,
       },
-      compressorDelayBypass: { dataPoint: "146", kind: "switch" },
+      compressorDelayBypass: {
+        dataPoint: "146",
+        kind: "switch",
+        category: "config",
+      },
       temperatureCalibration: {
         dataPoint: "112",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unitFrom: "temperatureCalibrationUnit",
         min: -990,
         max: 990,
@@ -473,15 +504,26 @@ const entry: TuyaDeviceEntry = {
       temperatureCalibrationUnit: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: "F" },
           { raw: false, value: "C" },
         ],
       },
-      schedule: { dataPoint: "121", kind: "text" },
-      refresh: { dataPoint: "101", kind: "button" },
-      temperatureHistory: { dataPoint: "132", kind: "sensor", readOnly: true },
-      runningTime: { dataPoint: "133", kind: "sensor", readOnly: true },
+      schedule: { dataPoint: "121", kind: "text", category: "config" },
+      refresh: { dataPoint: "101", kind: "button", category: "config" },
+      temperatureHistory: {
+        dataPoint: "132",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      runningTime: {
+        dataPoint: "133",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       alarmNotification: {
         dataPoint: "145",
         kind: "event",
@@ -495,9 +537,13 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         type: "utf16b64",
       },
-      clearHistoryLogs: { dataPoint: "147", kind: "button" },
+      clearHistoryLogs: {
+        dataPoint: "147",
+        kind: "button",
+        category: "config",
+      },
     },
-    backlight: { on: { dataPoint: "115", kind: "switch" } },
+    backlight: { on: { dataPoint: "115", kind: "switch", category: "config" } },
   },
   source: {
     file: "inkbird_c236t_thermostat.yaml",

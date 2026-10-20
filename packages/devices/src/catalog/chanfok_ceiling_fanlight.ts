@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["yos17rcreaqlpi5i"],
+  products: [{ productKey: "yos17rcreaqlpi5i", manufacturer: "Chanfok" }],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string", optional: true },
@@ -32,8 +32,8 @@ const entry: TuyaDeviceEntry = {
       },
       speed: { dataPoint: "105", kind: "number", min: 1, max: 6 },
       direction: { dataPoint: "104", kind: "text" },
-      lightControl: { dataPoint: "28", kind: "text" },
-      sound: { dataPoint: "101", kind: "switch" },
+      lightControl: { dataPoint: "28", kind: "text", category: "config" },
+      sound: { dataPoint: "101", kind: "switch", category: "config" },
     },
     light: {
       on: { dataPoint: "20", kind: "switch" },
@@ -48,7 +48,7 @@ const entry: TuyaDeviceEntry = {
         targetRange: { min: 2700, max: 6500 },
       },
     },
-    nightlight: { on: { dataPoint: "53", kind: "switch" } },
+    nightlight: { on: { dataPoint: "53", kind: "switch", category: "config" } },
   },
   source: {
     file: "chanfok_ceiling_fanlight.yaml",

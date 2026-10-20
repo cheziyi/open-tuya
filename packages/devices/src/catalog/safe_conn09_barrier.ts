@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Barrier controller",
-  productKeys: ["07kifxaohklzpj0h"],
+  products: [
+    { productKey: "07kifxaohklzpj0h", manufacturer: "Safe", model: "CON09-01" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "101": { type: "boolean" },
@@ -58,11 +60,12 @@ const entry: TuyaDeviceEntry = {
           },
         ],
       },
-      keytone: { dataPoint: "101", kind: "switch" },
+      keytone: { dataPoint: "101", kind: "switch", category: "config" },
       relayEngageTimeInSeconds: {
         dataPoint: "104",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 1,
         max: 15,

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fireplace",
-  productKeys: ["cfv4dkzpputrjgaz"],
+  products: [
+    {
+      productKey: "cfv4dkzpputrjgaz",
+      manufacturer: "Amantii",
+      model: "TRD Lumina",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -124,11 +130,18 @@ const entry: TuyaDeviceEntry = {
       },
     },
     flame: {
-      on: { dataPoint: "8", kind: "switch" },
-      brightness: { dataPoint: "109", kind: "number", min: 1, max: 6 },
+      on: { dataPoint: "8", kind: "switch", category: "config" },
+      brightness: {
+        dataPoint: "109",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 6,
+      },
       effect: {
         dataPoint: "111",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "cycle" },
@@ -136,11 +149,18 @@ const entry: TuyaDeviceEntry = {
       },
     },
     embers: {
-      on: { dataPoint: "102", kind: "switch" },
-      brightness: { dataPoint: "18", kind: "number", min: 1, max: 6 },
+      on: { dataPoint: "102", kind: "switch", category: "config" },
+      brightness: {
+        dataPoint: "18",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 6,
+      },
       effect: {
         dataPoint: "113",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "cycle" },
@@ -148,11 +168,18 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      sound: { dataPoint: "20", kind: "switch" },
-      volume: { dataPoint: "22", kind: "number", min: 1, max: 6 },
+      sound: { dataPoint: "20", kind: "switch", category: "config" },
+      volume: {
+        dataPoint: "22",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 6,
+      },
       temperatureUnit: {
         dataPoint: "25",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "C" },
           { raw: true, value: "F" },
@@ -161,6 +188,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "15C_58F", value: "15°C / 58°F" },
           { raw: "16C_60F", value: "16°C / 60°F" },
@@ -178,20 +206,26 @@ const entry: TuyaDeviceEntry = {
           { raw: "28C_84F", value: "28°C / 84°F" },
         ],
       },
-      openWindowDetection: { dataPoint: "103", kind: "switch" },
+      openWindowDetection: {
+        dataPoint: "103",
+        kind: "switch",
+        category: "config",
+      },
       flameSpeedInRpm: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "rpm",
         min: 40,
         max: 120,
       },
-      flameCycling: { dataPoint: "111", kind: "switch" },
-      embersCycling: { dataPoint: "113", kind: "switch" },
+      flameCycling: { dataPoint: "111", kind: "switch", category: "config" },
+      embersCycling: { dataPoint: "113", kind: "switch", category: "config" },
       timerInHours: {
         dataPoint: "115",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 80,
@@ -201,11 +235,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "116",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "normal", value: false }],
         otherwise: true,
       },
-      faultDescription: { dataPoint: "116", kind: "sensor", readOnly: true },
+      faultDescription: {
+        dataPoint: "116",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     accent: {
       on: { dataPoint: "104", kind: "switch" },

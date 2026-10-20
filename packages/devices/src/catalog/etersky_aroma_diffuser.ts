@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Aroma diffuser",
-  productKeys: ["rvajlvjh4qoj1lkn"],
+  products: [{ productKey: "rvajlvjh4qoj1lkn", manufacturer: "Etersky" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -31,10 +31,11 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      power: { dataPoint: "1", kind: "switch" },
+      power: { dataPoint: "1", kind: "switch", category: "config" },
       timer: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -46,6 +47,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -53,11 +55,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     nightlight: {
       on: { dataPoint: "7", kind: "switch" },

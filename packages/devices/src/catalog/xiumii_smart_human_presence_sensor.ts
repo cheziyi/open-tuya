@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Presence sensor",
-  productKeys: ["4ops1avp7zdwhyqu"],
+  products: [{ productKey: "4ops1avp7zdwhyqu", manufacturer: "Xiumii" }],
   dataPoints: {
     "1": { type: "string" },
     "4": { type: "integer" },
@@ -45,6 +45,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "distance",
+        reading: "instant",
         readOnly: true,
         unit: "cm",
       },
@@ -52,6 +53,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "illuminance",
+        reading: "instant",
         readOnly: true,
         unit: "lx",
       },
@@ -59,6 +61,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
         readOnly: true,
         unit: "s",
       },
@@ -80,7 +83,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    indicator: { on: { dataPoint: "104", kind: "switch" } },
+    indicator: { on: { dataPoint: "104", kind: "switch", category: "config" } },
   },
   source: {
     file: "xiumii_smart_human_presence_sensor.yaml",

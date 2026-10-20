@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "4 outlet + USB powerstrip",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -24,6 +24,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "7",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "on" },

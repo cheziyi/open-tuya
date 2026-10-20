@@ -45,7 +45,7 @@ jobs:
       # Opens or updates the Version Packages pull request.
       - id: version
         uses: changesets/action/version@v2
-      # A pull request updated with GITHUB_TOKEN starts no pull_request run, and a workflow_dispatch does.
+      # A pull request updated with GITHUB_TOKEN starts its pull_request run only once a person approves it, and a workflow_dispatch runs at once.
       - if: steps.version.outputs.pr-number
         env:
           GH_TOKEN: ${{ github.token }}

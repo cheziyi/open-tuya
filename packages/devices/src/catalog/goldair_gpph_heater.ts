@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -210,10 +210,11 @@ const entry: TuyaDeviceEntry = {
           },
         ],
       },
-      childLock: { dataPoint: "6", kind: "switch" },
+      childLock: { dataPoint: "6", kind: "switch", category: "config" },
       timerInMinutes: {
         dataPoint: "102",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,
@@ -221,6 +222,7 @@ const entry: TuyaDeviceEntry = {
       powerLevelInPercent: {
         dataPoint: "101",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
         values: [
@@ -237,13 +239,19 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
-    display: { on: { dataPoint: "104", kind: "switch" } },
+    display: { on: { dataPoint: "104", kind: "switch", category: "config" } },
   },
   source: {
     file: "goldair_gpph_heater.yaml",

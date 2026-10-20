@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dual temperature controller",
-  productKeys: ["84iv5eqjgvvpzyma"],
+  products: [
+    {
+      productKey: "84iv5eqjgvvpzyma",
+      manufacturer: "Konlen",
+      model: "WF72TT/WF96TT",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -126,6 +132,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -400,
         max: 1400,
@@ -135,6 +142,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -400,
         max: 1400,
@@ -142,7 +150,11 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      remoteAlarmEnable: { dataPoint: "108", kind: "switch" },
+      remoteAlarmEnable: {
+        dataPoint: "108",
+        kind: "switch",
+        category: "config",
+      },
       channel1ProbeStatus: {
         dataPoint: "109",
         kind: "sensor",
@@ -171,6 +183,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "115",
         kind: "sensor",
         measures: "temperatureDelta",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -179,6 +192,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -150,
         max: 150,
@@ -188,6 +202,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "114",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -150,
         max: 150,
@@ -197,6 +212,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "116",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -205,6 +221,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "117",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Cat litter box",
-  productKeys: ["jdxbiz2ca8x2mbfk"],
+  products: [
+    {
+      productKey: "jdxbiz2ca8x2mbfk",
+      manufacturer: "Littepets",
+      model: "Cute Baby MA2 Series",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -23,6 +29,7 @@ const entry: TuyaDeviceEntry = {
       workMode: {
         dataPoint: "2",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "auto_clean", value: "Auto" },
@@ -38,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       numberOfTimesUsed: {
         dataPoint: "7",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "times",
       },
@@ -45,12 +53,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "8",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
       status: {
         dataPoint: "24",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },

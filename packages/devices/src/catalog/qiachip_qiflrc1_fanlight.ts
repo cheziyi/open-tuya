@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan and light",
-  productKeys: ["fcldsaadc3hzf9ey", "5raogifudllfxms4"],
+  products: [
+    {
+      productKey: "fcldsaadc3hzf9ey",
+      manufacturer: "Qiachip",
+      model: "QI-FLRC-1",
+    },
+    {
+      productKey: "5raogifudllfxms4",
+      manufacturer: "Ostrich",
+      model: "Remote control kit",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "string" },
@@ -29,6 +40,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "6",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -53,10 +65,11 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      sound: { dataPoint: "17", kind: "switch" },
+      sound: { dataPoint: "17", kind: "switch", category: "config" },
     },
     light: { on: { dataPoint: "9", kind: "switch" } },
   },

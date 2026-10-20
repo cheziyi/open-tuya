@@ -5,7 +5,23 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pool pump",
-  productKeys: ["ircs2n82vgrozoew", "i0elff0w1pehctax", "skbzchwjmnf8vmm4"],
+  products: [
+    {
+      productKey: "ircs2n82vgrozoew",
+      manufacturer: "Madimack",
+      model: "Inverflow Pro P300i",
+    },
+    {
+      productKey: "i0elff0w1pehctax",
+      manufacturer: "AquaForte",
+      model: "Inverter VSP",
+    },
+    {
+      productKey: "skbzchwjmnf8vmm4",
+      manufacturer: "Aquagem",
+      model: "Inverpro v20230816",
+    },
+  ],
   dataPoints: {
     "2": { type: "bitfield" },
     "5": { type: "integer" },
@@ -33,6 +49,7 @@ const entry: TuyaDeviceEntry = {
       pumpMode: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "MI", value: "Manual" },
           {
@@ -50,12 +67,14 @@ const entry: TuyaDeviceEntry = {
       pumpModeAiflowAvailable: {
         dataPoint: "102",
         kind: "number",
+        category: "config",
         whenAbsent: { value: false },
         otherwise: true,
       },
       pumpFlowUnits: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [
           { raw: "m3_h", value: "m³/h" },
           { raw: "l_min", value: "L/min" },
@@ -67,6 +86,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 1500,
@@ -75,16 +95,26 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "number",
         measures: "volumeFlowRate",
+        category: "config",
         unitFrom: "aiFlowRateUnit",
         min: 0,
         max: 1000,
       },
-      aiFlowRateMaximum: { dataPoint: "101", kind: "number" },
-      aiFlowRateMinimum: { dataPoint: "107", kind: "number" },
-      aiFlowRateStep: { dataPoint: "113", kind: "number" },
+      aiFlowRateMaximum: {
+        dataPoint: "101",
+        kind: "number",
+        category: "config",
+      },
+      aiFlowRateMinimum: {
+        dataPoint: "107",
+        kind: "number",
+        category: "config",
+      },
+      aiFlowRateStep: { dataPoint: "113", kind: "number", category: "config" },
       aiFlowRateUnit: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [
           { raw: "m3_h", value: "m³/h" },
           { raw: "l_min", value: "L/min" },
@@ -95,6 +125,7 @@ const entry: TuyaDeviceEntry = {
       manualPercentagePowerInPercent: {
         dataPoint: "111",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 30,
         max: 120,
@@ -104,6 +135,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -111,6 +143,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
         readOnly: true,
         unit: "W",
       },
@@ -118,6 +151,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "112",
         kind: "sensor",
         measures: "volumeFlowRate",
+        reading: "instant",
         readOnly: true,
         unitFrom: "volumeFlowRateUnit",
       },
@@ -136,6 +170,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
+        category: "diagnostic",
         readOnly: true,
         unit: "kWh",
         scale: 100,
@@ -143,6 +179,7 @@ const entry: TuyaDeviceEntry = {
       actualPumpSpeedInPercent: {
         dataPoint: "102",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
         min: 30,
@@ -152,14 +189,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "2", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "2",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "2",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: "ok" }],
       },
@@ -167,6 +211,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "114",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
     },

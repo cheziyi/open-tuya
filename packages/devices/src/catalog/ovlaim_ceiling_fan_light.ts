@@ -5,7 +5,19 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["g0ewlb1vmwqljzji", "xhjltrftwebemxrq", "pg4qfin4pxs6dmdx"],
+  products: [
+    {
+      productKey: "g0ewlb1vmwqljzji",
+      manufacturer: "Ovlaim / Reiga / Point One",
+      model: "FP9805_TAIDE / 52 / Gust VSPEC-IV",
+    },
+    { productKey: "xhjltrftwebemxrq", manufacturer: "Prism+", model: "Oasis" },
+    {
+      productKey: "pg4qfin4pxs6dmdx",
+      manufacturer: "Mercator",
+      model: "Grange Ceiling Fan with Tricolour LED",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -33,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           {
             raw: "off",
@@ -179,6 +192,7 @@ const entry: TuyaDeviceEntry = {
       timerStandard: {
         dataPoint: "22",
         kind: "text",
+        category: "config",
         otherwise: false,
         dependsOn: {
           dataPoint: "22",
@@ -190,6 +204,7 @@ const entry: TuyaDeviceEntry = {
       timerNonStandard: {
         dataPoint: "22",
         kind: "text",
+        category: "config",
         otherwise: true,
         dependsOn: {
           dataPoint: "22",

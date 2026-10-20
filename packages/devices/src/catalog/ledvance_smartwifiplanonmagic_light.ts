@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling light",
-  productKeys: ["keyj3w8cmutjmwk5"],
+  products: [
+    {
+      productKey: "keyj3w8cmutjmwk5",
+      manufacturer: "LEDVANCE",
+      model: "SMART+ WiFi Planon Magic 36W",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -61,11 +67,17 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
       },
-      lightPixelCount: { dataPoint: "47", kind: "sensor", readOnly: true },
+      lightPixelCount: {
+        dataPoint: "47",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

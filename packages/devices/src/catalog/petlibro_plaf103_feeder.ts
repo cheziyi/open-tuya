@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["tyjxq8vanjxpn7kb", "e6x31cbr0cwhavv1"],
+  products: [
+    {
+      productKey: "tyjxq8vanjxpn7kb",
+      manufacturer: "Petlibro",
+      model: "PLAF103",
+    },
+    {
+      productKey: "e6x31cbr0cwhavv1",
+      manufacturer: "Petlibro",
+      model: "PLAF103",
+    },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "3": { type: "integer" },
@@ -45,13 +56,15 @@ const entry: TuyaDeviceEntry = {
           { raw: "feed_end", value: "feeding_complete" },
         ],
       },
-      mealPlan: { dataPoint: "1", kind: "text" },
+      mealPlan: { dataPoint: "1", kind: "text", category: "config" },
       manualFeed: { dataPoint: "3", kind: "number", min: 1, max: 50 },
-      factoryReset: { dataPoint: "9", kind: "button" },
+      factoryReset: { dataPoint: "9", kind: "button", category: "config" },
       batteryInPercent: {
         dataPoint: "11",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -59,25 +72,53 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "14", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "14",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       lastAmountInPortions: {
         dataPoint: "15",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "portions",
       },
-      lastAmountManual: { dataPoint: "115", kind: "sensor", readOnly: true },
-      lastAmountOffline: { dataPoint: "118", kind: "sensor", readOnly: true },
-      recordingPlayback: { dataPoint: "18", kind: "number", min: 0, max: 10 },
-      recordingPlaybackFilename: { dataPoint: "116", kind: "text" },
+      lastAmountManual: {
+        dataPoint: "115",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      lastAmountOffline: {
+        dataPoint: "118",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      recordingPlayback: {
+        dataPoint: "18",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 10,
+      },
+      recordingPlaybackFilename: {
+        dataPoint: "116",
+        kind: "text",
+        category: "config",
+      },
       plug: {
         dataPoint: "101",
         kind: "sensor",
         measures: "plugged",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "strong_power", value: true },
@@ -90,6 +131,7 @@ const entry: TuyaDeviceEntry = {
       recordingOperation: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "player", value: "Play" },
           { raw: "del", value: "Erase" },
@@ -101,6 +143,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "sound",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "no_voice", value: false },
@@ -114,6 +157,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "sensor",
         measures: "battery",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "full", value: false },
@@ -127,6 +171,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "record_start", value: true },
@@ -136,22 +181,38 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: true,
       },
-      recordings: { dataPoint: "110", kind: "sensor", readOnly: true },
-      logging: { dataPoint: "112", kind: "switch" },
+      recordings: {
+        dataPoint: "110",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      logging: { dataPoint: "112", kind: "switch", category: "config" },
       wifi: {
         dataPoint: "117",
         kind: "sensor",
         measures: "connectivity",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
         ],
       },
-      wifiSignalStrength: { dataPoint: "114", kind: "sensor", readOnly: true },
-      wifiReconnects: { dataPoint: "119", kind: "sensor", readOnly: true },
+      wifiSignalStrength: {
+        dataPoint: "114",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      wifiReconnects: {
+        dataPoint: "119",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
-    indicator: { on: { dataPoint: "113", kind: "switch" } },
+    indicator: { on: { dataPoint: "113", kind: "switch", category: "config" } },
   },
   source: {
     file: "petlibro_PLAF103_feeder.yaml",

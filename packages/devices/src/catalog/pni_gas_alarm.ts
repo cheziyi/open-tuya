@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Gas alarm",
-  productKeys: ["ryukfg7yx3zwh3f8"],
+  products: [
+    {
+      productKey: "ryukfg7yx3zwh3f8",
+      manufacturer: "PNI",
+      model: "Safe House Smart Gas 300",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "string" },
@@ -22,6 +28,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "gas",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "alarm", value: true }],
         otherwise: false,
@@ -30,19 +37,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "sensor",
         measures: "volatileOrganicCompounds",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "ppm",
         scale: 10,
       },
-      selfCheck: { dataPoint: "9", kind: "button" },
-      selfCheckResult: { dataPoint: "1", kind: "text" },
+      selfCheck: { dataPoint: "9", kind: "button", category: "config" },
+      selfCheckResult: { dataPoint: "1", kind: "text", category: "config" },
       preheat: {
         dataPoint: "10",
         kind: "sensor",
         measures: "cold",
+        category: "diagnostic",
         readOnly: true,
       },
-      alarm: { dataPoint: "12", kind: "switch" },
+      alarm: { dataPoint: "12", kind: "switch", category: "config" },
       sound: {
         dataPoint: "14",
         kind: "switch",
@@ -55,11 +65,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "45",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "45",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

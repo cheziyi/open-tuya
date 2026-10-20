@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Space heater",
-  productKeys: ["2b8tuuczxpiwdrlb"],
+  products: [
+    { productKey: "2b8tuuczxpiwdrlb", manufacturer: "NUTROMO", model: "SH014" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "string" },
@@ -62,11 +64,12 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "off" },
         ],
       },
-      childLock: { dataPoint: "7", kind: "switch" },
-      doNotDisturb: { dataPoint: "102", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
+      doNotDisturb: { dataPoint: "102", kind: "switch", category: "config" },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -99,6 +102,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -106,6 +110,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

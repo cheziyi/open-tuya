@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["l5hlpmlox3g610sm"],
+  products: [
+    {
+      productKey: "l5hlpmlox3g610sm",
+      manufacturer: "Greenmigo",
+      model: "Alpha Q13 Pro WiFi",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -47,6 +53,7 @@ const entry: TuyaDeviceEntry = {
       tankFull: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
@@ -55,6 +62,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -63,13 +71,19 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
-      swing: { dataPoint: "8", kind: "switch" },
-      ionizer: { dataPoint: "10", kind: "switch" },
-      childLock: { dataPoint: "16", kind: "switch" },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      swing: { dataPoint: "8", kind: "switch", category: "config" },
+      ionizer: { dataPoint: "10", kind: "switch", category: "config" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
       timer: {
         dataPoint: "17",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

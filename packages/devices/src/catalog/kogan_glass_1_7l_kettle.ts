@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Kettle",
-  productKeys: ["GXoLAzy1gQUbckKe"],
+  products: [{ productKey: "GXoLAzy1gQUbckKe", manufacturer: "Kogan" }],
   dataPoints: {
     "1": { type: "boolean" },
     "5": { type: "integer" },

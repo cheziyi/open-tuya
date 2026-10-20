@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fireplace",
-  productKeys: ["buigpagr3xzmj6zk"],
+  products: [
+    {
+      productKey: "buigpagr3xzmj6zk",
+      manufacturer: "Modern Flames",
+      model: "Orion",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -99,6 +105,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "13",
         kind: "select",
+        category: "config",
         values: [
           { raw: "00", value: "cancel" },
           { raw: "30", value: "30m" },
@@ -112,23 +119,25 @@ const entry: TuyaDeviceEntry = {
           { raw: "8h", value: "8h" },
         ],
       },
-      timerWeekProgram1: { dataPoint: "114", kind: "text" },
-      timerWeekProgram2: { dataPoint: "115", kind: "text" },
-      timerWeekProgram3: { dataPoint: "116", kind: "text" },
-      timerWeekProgram4: { dataPoint: "117", kind: "text" },
-      timerWeekProgram5: { dataPoint: "118", kind: "text" },
-      timerWeekProgram6: { dataPoint: "119", kind: "text" },
-      timerWeekProgram7: { dataPoint: "120", kind: "text" },
+      timerWeekProgram1: { dataPoint: "114", kind: "text", category: "config" },
+      timerWeekProgram2: { dataPoint: "115", kind: "text", category: "config" },
+      timerWeekProgram3: { dataPoint: "116", kind: "text", category: "config" },
+      timerWeekProgram4: { dataPoint: "117", kind: "text", category: "config" },
+      timerWeekProgram5: { dataPoint: "118", kind: "text", category: "config" },
+      timerWeekProgram6: { dataPoint: "119", kind: "text", category: "config" },
+      timerWeekProgram7: { dataPoint: "120", kind: "text", category: "config" },
       timeRemainingInSeconds: {
         dataPoint: "14",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
       flameStyle: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "ONE", value: "One" },
           { raw: "TWO", value: "Two" },
@@ -138,22 +147,32 @@ const entry: TuyaDeviceEntry = {
       flameSpeed: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "SLOW", value: "Slow" },
           { raw: "DEFAULT", value: "Default" },
           { raw: "FAST", value: "Fast" },
         ],
       },
-      downlightNightMode: { dataPoint: "107", kind: "switch" },
-      downlightColorCycle: { dataPoint: "108", kind: "switch" },
-      emberExtras: { dataPoint: "111", kind: "switch" },
-      emberColorCycle: { dataPoint: "112", kind: "switch" },
-      factoryReset: { dataPoint: "121", kind: "button" },
+      downlightNightMode: {
+        dataPoint: "107",
+        kind: "switch",
+        category: "config",
+      },
+      downlightColorCycle: {
+        dataPoint: "108",
+        kind: "switch",
+        category: "config",
+      },
+      emberExtras: { dataPoint: "111", kind: "switch", category: "config" },
+      emberColorCycle: { dataPoint: "112", kind: "switch", category: "config" },
+      factoryReset: { dataPoint: "121", kind: "button", category: "config" },
     },
     flame: {
       brightness: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "OFF", value: 0 },
           { raw: "DEFAULT", value: 82 },
@@ -164,6 +183,7 @@ const entry: TuyaDeviceEntry = {
       colorName: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "YELLOW", value: "yellow" },
           { raw: "ORANGE", value: "orange" },
@@ -175,10 +195,17 @@ const entry: TuyaDeviceEntry = {
       },
     },
     downlight: {
-      brightness: { dataPoint: "106", kind: "number", min: 0, max: 100 },
+      brightness: {
+        dataPoint: "106",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
       colorName: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "orange" },
           { raw: "2", value: "red" },
@@ -194,10 +221,17 @@ const entry: TuyaDeviceEntry = {
       },
     },
     embers: {
-      brightness: { dataPoint: "110", kind: "number", min: 0, max: 100 },
+      brightness: {
+        dataPoint: "110",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
       colorName: {
         dataPoint: "109",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "orange" },
           { raw: "2", value: "red" },

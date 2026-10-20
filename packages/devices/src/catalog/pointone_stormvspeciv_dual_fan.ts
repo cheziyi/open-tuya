@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Corner fan",
-  productKeys: ["lzjzcjqgzwkt6ked"],
+  products: [
+    {
+      productKey: "lzjzcjqgzwkt6ked",
+      manufacturer: "Point One Technology",
+      model: "Storm VSPEC-IV Dual-axis Smart Corner Fan",
+    },
+  ],
   dataPoints: {
     "22": { type: "integer" },
     "23": { type: "integer" },
@@ -38,6 +44,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "109",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -61,11 +68,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "111", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "111",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     fan: {
       on: { dataPoint: "101", kind: "switch" },

@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["qgrid1yqzkhmi7ua"],
+  products: [
+    { productKey: "qgrid1yqzkhmi7ua", manufacturer: "PNI", model: "CT-36 PRO" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -135,21 +137,23 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      antiFrost: { dataPoint: "10", kind: "switch" },
+      antiFrost: { dataPoint: "10", kind: "switch", category: "config" },
       window: {
         dataPoint: "3",
         kind: "sensor",
         measures: "window",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "window_opened", value: true }],
         otherwise: false,
       },
-      windowDetection: { dataPoint: "8", kind: "switch" },
-      childLock: { dataPoint: "40", kind: "switch" },
+      windowDetection: { dataPoint: "8", kind: "switch", category: "config" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       minimumTemperatureInC: {
         dataPoint: "26",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 0,
         max: 1000,
@@ -160,6 +164,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 50,
         max: 1000,
@@ -170,6 +175,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -100,
         max: 100,
@@ -180,14 +186,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "45",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "45",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       controlMode: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "heat", value: "heat" },
           { raw: "cold", value: "cool" },

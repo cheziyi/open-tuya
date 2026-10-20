@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Camera pet feeder",
-  productKeys: ["czjyrcfdgbxmta5m"],
+  products: [
+    { productKey: "czjyrcfdgbxmta5m", manufacturer: "Ningbo", model: "BF314A" },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "103": { type: "boolean" },
@@ -42,10 +44,10 @@ const entry: TuyaDeviceEntry = {
     "238": { type: "boolean" },
   },
   components: {
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
     device: {
-      flipImage: { dataPoint: "103", kind: "switch" },
-      watermark: { dataPoint: "104", kind: "switch" },
+      flipImage: { dataPoint: "103", kind: "switch", category: "config" },
+      watermark: { dataPoint: "104", kind: "switch", category: "config" },
       recording: { dataPoint: "150", kind: "switch" },
       motion: {
         dataPoint: "115",
@@ -55,11 +57,12 @@ const entry: TuyaDeviceEntry = {
         otherwise: "detected",
       },
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
-      motionDetection: { dataPoint: "134", kind: "switch" },
+      motionDetection: { dataPoint: "134", kind: "switch", category: "config" },
       cameraPrivacy: { dataPoint: "105", kind: "switch" },
       motionSensitivity: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
@@ -69,6 +72,7 @@ const entry: TuyaDeviceEntry = {
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -79,11 +83,17 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "normal" },
       },
-      sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
-      sdFormat: { dataPoint: "111", kind: "button" },
+      sdStatusCapacity: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      sdFormat: { dataPoint: "111", kind: "button", category: "config" },
       sdFormatState: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: 2000, value: "Formatting" },
           { raw: 2001, value: "Format failed" },
@@ -93,10 +103,11 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "Formatted" },
       },
-      sdUnmount: { dataPoint: "112", kind: "button" },
+      sdUnmount: { dataPoint: "112", kind: "button", category: "config" },
       nightVision: {
         dataPoint: "124",
         kind: "select",
+        category: "config",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "ir_mode", value: "on" },
@@ -106,6 +117,7 @@ const entry: TuyaDeviceEntry = {
       motionDetectMinimumInterval: {
         dataPoint: "133",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "1 minute" },
           { raw: "3", value: "3 minutes" },
@@ -115,23 +127,33 @@ const entry: TuyaDeviceEntry = {
       recordingMode: {
         dataPoint: "151",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
         ],
       },
-      recordingModeMotionRecording: { dataPoint: "113", kind: "switch" },
+      recordingModeMotionRecording: {
+        dataPoint: "113",
+        kind: "switch",
+        category: "config",
+      },
       volumeInPercent: {
         dataPoint: "160",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 1,
         max: 100,
       },
-      restart: { dataPoint: "162", kind: "button" },
-      motionAreaEnabled: { dataPoint: "168", kind: "switch" },
-      motionArea: { dataPoint: "169", kind: "text" },
-      humanoidFilter: { dataPoint: "170", kind: "switch" },
+      restart: { dataPoint: "162", kind: "button", category: "config" },
+      motionAreaEnabled: {
+        dataPoint: "168",
+        kind: "switch",
+        category: "config",
+      },
+      motionArea: { dataPoint: "169", kind: "text", category: "config" },
+      humanoidFilter: { dataPoint: "170", kind: "switch", category: "config" },
       alarm: {
         dataPoint: "185",
         kind: "event",
@@ -149,13 +171,18 @@ const entry: TuyaDeviceEntry = {
       antiFlicker: {
         dataPoint: "188",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Disabled" },
           { raw: "1", value: "50Hz" },
           { raw: "2", value: "60Hz" },
         ],
       },
-      smartObjectFrame: { dataPoint: "198", kind: "switch" },
+      smartObjectFrame: {
+        dataPoint: "198",
+        kind: "switch",
+        category: "config",
+      },
       notification: {
         dataPoint: "212",
         kind: "event",
@@ -173,18 +200,21 @@ const entry: TuyaDeviceEntry = {
       voiceRecord: {
         dataPoint: "232",
         kind: "button",
+        category: "config",
         values: [{ raw: "1", value: true }],
       },
       voiceStopRecording: {
         dataPoint: "232",
         kind: "button",
+        category: "config",
         values: [{ raw: "0", value: true }],
       },
-      schedule: { dataPoint: "233", kind: "text" },
+      schedule: { dataPoint: "233", kind: "text", category: "config" },
       fault: {
         dataPoint: "234",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         whenAbsent: { value: false },
         otherwise: true,
@@ -192,6 +222,7 @@ const entry: TuyaDeviceEntry = {
       faultDescription: {
         dataPoint: "234",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "0", value: "Low food" },
@@ -203,6 +234,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "235",
         kind: "sensor",
         measures: "weight",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "g",
       },
@@ -222,7 +255,7 @@ const entry: TuyaDeviceEntry = {
         otherwise: "fed",
       },
       feedingPortions: { dataPoint: "237", kind: "sensor", readOnly: true },
-      logFeeding: { dataPoint: "238", kind: "switch" },
+      logFeeding: { dataPoint: "238", kind: "switch", category: "config" },
     },
   },
   source: {

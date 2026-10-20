@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air Circulator",
-  productKeys: ["vuz30a7fxx9deob7", "hf57kaednmtjbynq"],
+  products: [
+    {
+      productKey: "vuz30a7fxx9deob7",
+      manufacturer: "MeacoFan",
+      model: "Sefte Pro",
+    },
+    {
+      productKey: "hf57kaednmtjbynq",
+      manufacturer: "MeacoFan",
+      model: "Sefte Pro",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -40,12 +51,13 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    display: { on: { dataPoint: "15", kind: "switch" } },
+    display: { on: { dataPoint: "15", kind: "switch", category: "config" } },
     device: {
-      keytone: { dataPoint: "13", kind: "switch" },
+      keytone: { dataPoint: "13", kind: "switch", category: "config" },
       horizontalSwing: {
         dataPoint: "7",
         kind: "select",
+        category: "config",
         values: [
           { raw: "OFF", value: "off" },
           { raw: "30", value: "30°" },
@@ -56,6 +68,7 @@ const entry: TuyaDeviceEntry = {
       verticalSwing: {
         dataPoint: "6",
         kind: "select",
+        category: "config",
         values: [
           { raw: "OFF", value: "off" },
           { raw: "20", value: "20°" },
@@ -66,6 +79,7 @@ const entry: TuyaDeviceEntry = {
       offTimer: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "00h", value: "cancel" },
           { raw: "01h", value: "1h" },
@@ -85,6 +99,7 @@ const entry: TuyaDeviceEntry = {
       onTimer: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "00h", value: "cancel" },
           { raw: "01h", value: "1h" },

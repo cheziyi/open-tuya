@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Power board",
-  productKeys: ["5dvqb3eeuhhnjnlr", "ttqj20kc2bbbpbld"],
+  products: [
+    {
+      productKey: "5dvqb3eeuhhnjnlr",
+      manufacturer: "Mirabella Genio",
+      model: "Smart 2Gnd",
+    },
+    { productKey: "ttqj20kc2bbbpbld", manufacturer: "Cerebro", model: "SPS1" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -37,6 +44,7 @@ const entry: TuyaDeviceEntry = {
       timer1InSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -44,6 +52,7 @@ const entry: TuyaDeviceEntry = {
       timer2InSeconds: {
         dataPoint: "10",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -51,6 +60,7 @@ const entry: TuyaDeviceEntry = {
       timer3InSeconds: {
         dataPoint: "11",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -58,6 +68,7 @@ const entry: TuyaDeviceEntry = {
       timer4InSeconds: {
         dataPoint: "12",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -65,6 +76,7 @@ const entry: TuyaDeviceEntry = {
       timer5InSeconds: {
         dataPoint: "13",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -72,6 +84,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           { raw: "memory", value: "memory" },
           { raw: "on", value: "on" },
@@ -81,13 +94,14 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "40",
         kind: "select",
+        category: "config",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
           { raw: "none", value: "off" },
         ],
       },
-      childLock: { dataPoint: "41", kind: "switch" },
+      childLock: { dataPoint: "41", kind: "switch", category: "config" },
     },
   },
   source: {

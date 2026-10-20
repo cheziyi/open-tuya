@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["0l6zinzwpitdndi8"],
+  products: [
+    {
+      productKey: "0l6zinzwpitdndi8",
+      manufacturer: "Balimo",
+      model: "4L automatic feeder",
+    },
+  ],
   dataPoints: {
     "101": { type: "integer", optional: true },
     "102": { type: "bitfield", optional: true },
@@ -27,6 +33,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           {
@@ -53,11 +60,23 @@ const entry: TuyaDeviceEntry = {
         },
         otherwise: true,
       },
-      faultCode: { dataPoint: "102", kind: "sensor", readOnly: true },
-      faultFeedingFault: { dataPoint: "103", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "102",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultFeedingFault: {
+        dataPoint: "103",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       lastFeedInPortions: {
         dataPoint: "105",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "portions",
       },

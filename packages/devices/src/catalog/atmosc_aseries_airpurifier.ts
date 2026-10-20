@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["acgosool4azuaz5g"],
+  products: [
+    {
+      productKey: "acgosool4azuaz5g",
+      manufacturer: "AtmosC",
+      model: "A Series",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -48,13 +54,19 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
-      ionizer: { dataPoint: "6", kind: "switch" },
-      uvSterilization: { dataPoint: "9", kind: "switch" },
-      childLock: { dataPoint: "7", kind: "switch" },
-      filterLife: { dataPoint: "17", kind: "sensor", readOnly: true },
+      ionizer: { dataPoint: "6", kind: "switch", category: "config" },
+      uvSterilization: { dataPoint: "9", kind: "switch", category: "config" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
+      filterLife: {
+        dataPoint: "17",
+        kind: "sensor",
+        category: "config",
+        readOnly: true,
+      },
     },
   },
   source: {

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["iarskv8rllonqsvo"],
+  products: [
+    {
+      productKey: "iarskv8rllonqsvo",
+      manufacturer: "Coleman-Mach",
+      model: "RVP 9420-391",
+    },
+  ],
   dataPoints: {
     "2": { type: "string" },
     "23": { type: "string" },
@@ -285,6 +291,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -294,16 +301,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -45,
         max: 45,
         scale: 10,
         step: 5,
       },
-      factoryReset: { dataPoint: "39", kind: "button" },
+      factoryReset: { dataPoint: "39", kind: "button", category: "config" },
       scheduleDays: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "74", value: "Daily" },
           { raw: "52", value: "Weekdays+Weekend" },
@@ -313,6 +322,7 @@ const entry: TuyaDeviceEntry = {
       systemType: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1H1C_C", value: "1H1C_C" },
           { raw: "1H1C_HP", value: "1H1C_HP" },
@@ -342,11 +352,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "1H1C_C_3", value: "1H1C_C_3" },
         ],
       },
-      ervMode: { dataPoint: "107", kind: "text" },
-      schedule: { dataPoint: "108", kind: "text" },
+      ervMode: { dataPoint: "107", kind: "text", category: "config" },
+      schedule: { dataPoint: "108", kind: "text", category: "config" },
       fanType: {
         dataPoint: "109",
         kind: "select",
+        category: "config",
         values: [
           { raw: "gas_oil", value: "Gas / Oil" },
           { raw: "electric", value: "Electric" },
@@ -355,6 +366,7 @@ const entry: TuyaDeviceEntry = {
       valveDirection: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cool", value: "Cool" },
           { raw: "heat", value: "Heat" },
@@ -363,6 +375,7 @@ const entry: TuyaDeviceEntry = {
       lockScreen: {
         dataPoint: "111",
         kind: "select",
+        category: "config",
         values: [
           { raw: "temp", value: "Temperature" },
           { raw: "main_menu", value: "Main menu" },
@@ -371,6 +384,7 @@ const entry: TuyaDeviceEntry = {
       autoMode: {
         dataPoint: "112",
         kind: "select",
+        category: "config",
         values: [
           { raw: "auto_changeover", value: "Auto changeover" },
           { raw: "manual_changeover", value: "Manual changeover" },
@@ -380,16 +394,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: 5,
         max: 50,
         scale: 10,
         step: 5,
       },
-      hourlyCycling: { dataPoint: "114", kind: "text" },
+      hourlyCycling: { dataPoint: "114", kind: "text", category: "config" },
       filterReminder: {
         dataPoint: "115",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "cancel" },
           { raw: "10_days", value: "10d" },
@@ -403,6 +419,7 @@ const entry: TuyaDeviceEntry = {
       compressorProtection: {
         dataPoint: "116",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "0" },
           { raw: "2", value: "2" },
@@ -416,6 +433,7 @@ const entry: TuyaDeviceEntry = {
         mask: "00000001",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -424,11 +442,12 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: true,
       },
-      temperatureRange: { dataPoint: "117", kind: "text" },
+      temperatureRange: { dataPoint: "117", kind: "text", category: "config" },
       fan: {
         dataPoint: "118",
         mask: "FF000000",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "off" },
@@ -443,6 +462,7 @@ const entry: TuyaDeviceEntry = {
         mask: "00010000",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -451,10 +471,11 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: true,
       },
-      fanDelay: { dataPoint: "119", kind: "text" },
+      fanDelay: { dataPoint: "119", kind: "text", category: "config" },
       childLock: {
         dataPoint: "120",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "no_lock", value: false },
           { raw: "lock", value: true },
@@ -464,6 +485,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "121",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -50,
         max: 500,
@@ -473,6 +495,7 @@ const entry: TuyaDeviceEntry = {
       dualFuelTemperatureSource: {
         dataPoint: "122",
         kind: "select",
+        category: "config",
         values: [
           { raw: "outdoor_sensor", value: "Outdoor sensor" },
           { raw: "cloud", value: "Cloud" },
@@ -481,16 +504,18 @@ const entry: TuyaDeviceEntry = {
       adaptiveRecovery: {
         dataPoint: "123",
         kind: "select",
+        category: "config",
         values: [
           { raw: "conventional", value: "Conventional" },
           { raw: "early", value: "Early" },
         ],
       },
-      antiFrost: { dataPoint: "124", kind: "switch" },
+      antiFrost: { dataPoint: "124", kind: "switch", category: "config" },
       antiFrostTemperatureInC: {
         dataPoint: "125",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -90,
         max: 50,
@@ -500,6 +525,7 @@ const entry: TuyaDeviceEntry = {
       powerOnBrightnessInPercent: {
         dataPoint: "126",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -507,18 +533,25 @@ const entry: TuyaDeviceEntry = {
       standbyBrightnessInPercent: {
         dataPoint: "127",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
       },
-      temperatureCompensation: { dataPoint: "128", kind: "text" },
-      relayControl: { dataPoint: "129", kind: "text" },
-      clearFanRuntime: { dataPoint: "130", kind: "button" },
+      temperatureCompensation: {
+        dataPoint: "128",
+        kind: "text",
+        category: "config",
+      },
+      relayControl: { dataPoint: "129", kind: "text", category: "config" },
+      clearFanRuntime: { dataPoint: "130", kind: "button", category: "config" },
       indoorTemperatureInC: {
         dataPoint: "131",
         mask: "FFFF0000000000000000",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -528,6 +561,8 @@ const entry: TuyaDeviceEntry = {
         mask: "0000FFFF000000000000",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -537,6 +572,8 @@ const entry: TuyaDeviceEntry = {
         mask: "00000000FFFF00000000",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -546,6 +583,8 @@ const entry: TuyaDeviceEntry = {
         mask: "000000000000FFFF0000",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
         scale: 10,
@@ -555,6 +594,7 @@ const entry: TuyaDeviceEntry = {
         mask: "0000000000000000FFFF",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -564,11 +604,13 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "131",
         mask: "0000000000000000FFFF",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       schedulePeriod: {
         dataPoint: "132",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "Default" },
@@ -579,10 +621,11 @@ const entry: TuyaDeviceEntry = {
           { raw: 5, value: "Override" },
         ],
       },
-      hysteresis: { dataPoint: "133", kind: "text" },
+      hysteresis: { dataPoint: "133", kind: "text", category: "config" },
       parameterQuery: {
         dataPoint: "133",
         kind: "select",
+        category: "config",
         type: "string",
         values: [
           { raw: "temp_set_query", value: "Temperature" },

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["pp03pgphjhirfiab"],
+  products: [
+    {
+      productKey: "pp03pgphjhirfiab",
+      manufacturer: "Morris",
+      model: "MDB-12160HIW",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -47,13 +53,14 @@ const entry: TuyaDeviceEntry = {
         max: 80,
         step: 5,
       },
-      ionizer: { dataPoint: "5", kind: "switch" },
-      uvSterilization: { dataPoint: "10", kind: "switch" },
-      childLock: { dataPoint: "16", kind: "switch" },
+      ionizer: { dataPoint: "5", kind: "switch", category: "config" },
+      uvSterilization: { dataPoint: "10", kind: "switch", category: "config" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
       fault: {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -61,7 +68,12 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       tankFull: {
         dataPoint: "19",
         kind: "sensor",
@@ -69,16 +81,17 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: 1, value: true }],
         otherwise: false,
       },
-      oscillation: { dataPoint: "102", kind: "switch" },
+      oscillation: { dataPoint: "102", kind: "switch", category: "config" },
       temperatureInC: {
         dataPoint: "103",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
-      sleep: { dataPoint: "104", kind: "switch" },
-      laundry: { dataPoint: "105", kind: "switch" },
+      sleep: { dataPoint: "104", kind: "switch", category: "config" },
+      laundry: { dataPoint: "105", kind: "switch", category: "config" },
     },
   },
   source: {

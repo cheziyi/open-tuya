@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["wzdakypl6ca1jr7m"],
+  products: [
+    {
+      productKey: "wzdakypl6ca1jr7m",
+      manufacturer: "Pro Breeze",
+      model: "Portable 4-in-1 12000BTU",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -111,11 +117,12 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: 1, value: false }],
         otherwise: true,
       },
-      sleep: { dataPoint: "101", kind: "switch" },
+      sleep: { dataPoint: "101", kind: "switch", category: "config" },
       timerInHours: {
         dataPoint: "103",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 24,
@@ -124,6 +131,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -131,6 +140,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -139,10 +149,16 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "106", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "106",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       tankFull: {
         dataPoint: "106",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -150,11 +166,12 @@ const entry: TuyaDeviceEntry = {
       defrost: {
         dataPoint: "106",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 16, value: true }],
         otherwise: false,
       },
-      antiMould: { dataPoint: "109", kind: "switch" },
+      antiMould: { dataPoint: "109", kind: "switch", category: "config" },
     },
   },
   source: {

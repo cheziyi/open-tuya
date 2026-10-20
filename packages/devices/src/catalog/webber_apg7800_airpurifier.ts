@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Purifier heater fan",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -79,6 +79,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
@@ -88,13 +89,14 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      ionizer: { dataPoint: "6", kind: "switch" },
-      childLock: { dataPoint: "7", kind: "switch" },
-      uvSterilization: { dataPoint: "9", kind: "switch" },
-      filterReset: { dataPoint: "11", kind: "button" },
+      ionizer: { dataPoint: "6", kind: "switch", category: "config" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
+      uvSterilization: { dataPoint: "9", kind: "switch", category: "config" },
+      filterReset: { dataPoint: "11", kind: "button", category: "config" },
       timer: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -107,12 +109,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
       airQuality: {
         dataPoint: "21",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "good", value: "good" },
@@ -153,7 +157,7 @@ const entry: TuyaDeviceEntry = {
         ownRuleReadOnly: true,
       },
     },
-    indicator: { on: { dataPoint: "8", kind: "switch" } },
+    indicator: { on: { dataPoint: "8", kind: "switch", category: "config" } },
   },
   source: {
     file: "webber_apg7800_airpurifier.yaml",

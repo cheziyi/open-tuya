@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Solar water heater",
-  productKeys: ["hyrswocbx6i1rveo"],
+  products: [
+    { productKey: "hyrswocbx6i1rveo", manufacturer: "Lohxa", model: "SR208C" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -66,16 +68,19 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "6",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
         ],
       },
-      instantHeating: { dataPoint: "8", kind: "switch" },
+      instantHeating: { dataPoint: "8", kind: "switch", category: "config" },
       timeRemainingInMinutes: {
         dataPoint: "14",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -83,16 +88,24 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "15",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "15", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "15",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       upperTankTemperatureInC: {
         dataPoint: "21",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
         values: [
@@ -105,6 +118,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "26",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
         values: [
@@ -117,25 +132,29 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "30",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
       },
       electricElement: {
         dataPoint: "32",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
       },
       signalStrengthInDbm: {
         dataPoint: "101",
         kind: "sensor",
         measures: "signalStrength",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "dBm",
         min: 0,
         max: 100,
         targetRange: { min: -90, max: -20 },
       },
-      configuration: { dataPoint: "102", kind: "text" },
+      configuration: { dataPoint: "102", kind: "text", category: "config" },
     },
   },
   source: {

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["zkehut3qs5tpa7i4"],
+  products: [
+    {
+      productKey: "zkehut3qs5tpa7i4",
+      manufacturer: "Weye",
+      model: "台湾向WDH29A新能效",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -51,20 +57,32 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       tankFull: { dataPoint: "101", kind: "sensor", readOnly: true },
-      defrost: { dataPoint: "102", kind: "sensor", readOnly: true },
+      defrost: {
+        dataPoint: "102",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       filter: {
         dataPoint: "103",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
-      autoOff: { dataPoint: "104", kind: "switch" },
+      autoOff: { dataPoint: "104", kind: "switch", category: "config" },
     },
     fan: {
       on: { dataPoint: "1", kind: "switch" },
@@ -77,7 +95,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    display: { on: { dataPoint: "11", kind: "switch" } },
+    display: { on: { dataPoint: "11", kind: "switch", category: "config" } },
   },
   source: {
     file: "weye_wdh29a_dehumidifier.yaml",

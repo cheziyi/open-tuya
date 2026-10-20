@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "IR heater",
-  productKeys: ["34fyo4xuj16fzaqq"],
+  products: [
+    {
+      productKey: "34fyo4xuj16fzaqq",
+      manufacturer: "Semptec",
+      model: "ZX7007",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "5": { type: "string" },
@@ -46,6 +52,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -61,6 +68,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

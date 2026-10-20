@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dual curtain module",
-  productKeys: ["eum2nnfrmfdd7ori", "ol1uhvza"],
+  products: [
+    { productKey: "eum2nnfrmfdd7ori", model: "QS-WIFI-C02" },
+    { productKey: "ol1uhvza", model: "QS-ZIGBEE-C02" },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -59,6 +62,7 @@ const entry: TuyaDeviceEntry = {
       direction1: {
         dataPoint: "8",
         kind: "select",
+        category: "config",
         values: [
           { raw: "forward", value: "Forward" },
           { raw: "back", value: "Back" },
@@ -67,6 +71,7 @@ const entry: TuyaDeviceEntry = {
       direction2: {
         dataPoint: "9",
         kind: "select",
+        category: "config",
         values: [
           { raw: "forward", value: "Forward" },
           { raw: "back", value: "Back" },
@@ -76,6 +81,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 1,
         max: 60,
@@ -84,6 +90,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 1,
         max: 60,

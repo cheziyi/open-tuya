@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Electric fireplace",
-  productKeys: ["4ty7wjbgbhocymxo"],
+  products: [
+    {
+      productKey: "4ty7wjbgbhocymxo",
+      manufacturer: "Starlight",
+      model: "EF-STAR30",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -89,6 +95,7 @@ const entry: TuyaDeviceEntry = {
       flameSpeed: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "1" },
           { raw: "2", value: "2" },
@@ -98,6 +105,7 @@ const entry: TuyaDeviceEntry = {
       volumeInPercent: {
         dataPoint: "106",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -111,6 +119,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0H", value: "cancel" },
           { raw: "30", value: "30m" },

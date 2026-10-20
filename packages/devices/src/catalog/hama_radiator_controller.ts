@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Radiator controller",
-  productKeys: ["yw7cahqs"],
+  products: [{ productKey: "yw7cahqs", manufacturer: "Hama" }],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "integer" },

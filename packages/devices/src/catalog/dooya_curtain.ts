@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain",
-  productKeys: ["spjpuwf1u2dc7tlt"],
+  products: [{ productKey: "spjpuwf1u2dc7tlt", model: "SmartCurtain 3" }],
   dataPoints: {
     "101": { type: "string" },
     "102": { type: "integer" },
@@ -28,6 +28,7 @@ const entry: TuyaDeviceEntry = {
       direction: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "Forward" },
           { raw: true, value: "Reverse" },

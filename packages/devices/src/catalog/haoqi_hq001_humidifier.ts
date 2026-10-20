@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["hmxaecm1akdukotj"],
+  products: [
+    { productKey: "hmxaecm1akdukotj", manufacturer: "Haoqi", model: "HQ 001" },
+  ],
   dataPoints: {
     "2": { type: "boolean" },
     "5": { type: "boolean" },
@@ -46,12 +48,15 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    ambientLight: { on: { dataPoint: "5", kind: "switch" } },
+    ambientLight: {
+      on: { dataPoint: "5", kind: "switch", category: "config" },
+    },
     fan: {
-      sleep: { dataPoint: "16", kind: "switch" },
+      sleep: { dataPoint: "16", kind: "switch", category: "config" },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -84,6 +89,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -98,6 +104,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -105,7 +112,12 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       on: { dataPoint: "2", kind: "switch" },
       speed: {
         dataPoint: "23",

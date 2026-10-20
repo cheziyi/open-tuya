@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Infrared heater",
-  productKeys: ["trsas9jlfgcbxhq9"],
+  products: [
+    { productKey: "trsas9jlfgcbxhq9", manufacturer: "Kesser", model: "3000W" },
+  ],
   dataPoints: { "1": { type: "boolean" }, "4": { type: "string" } },
   components: {
     device: {

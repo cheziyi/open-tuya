@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["rjhsz1vaxpp4gih3"],
+  products: [
+    {
+      productKey: "rjhsz1vaxpp4gih3",
+      manufacturer: "AlecoAir",
+      model: "PU55 Humino",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "string" },
@@ -46,6 +52,7 @@ const entry: TuyaDeviceEntry = {
       filterLifeInPercent: {
         dataPoint: "5",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -53,20 +60,22 @@ const entry: TuyaDeviceEntry = {
       cleanWaterTankInPercent: {
         dataPoint: "106",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
-      ionizer: { dataPoint: "6", kind: "switch" },
-      uvSterilization: { dataPoint: "9", kind: "switch" },
+      ionizer: { dataPoint: "6", kind: "switch", category: "config" },
+      uvSterilization: { dataPoint: "9", kind: "switch", category: "config" },
       sound: {
         dataPoint: "28",
         kind: "switch",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
         ],
       },
-      dryFan: { dataPoint: "104", kind: "switch" },
+      dryFan: { dataPoint: "104", kind: "switch", category: "config" },
       timerInHours: {
         dataPoint: "102",
         kind: "number",
@@ -107,6 +116,7 @@ const entry: TuyaDeviceEntry = {
       on: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },

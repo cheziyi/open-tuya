@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["jgoifsweogzlfr16"],
+  products: [
+    {
+      productKey: "jgoifsweogzlfr16",
+      manufacturer: "Cecotec",
+      model: "ReadyWarm 2000 Max Box Ceramic Connected",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -122,6 +128,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -139,21 +146,29 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      schedule: { dataPoint: "26", kind: "text" },
-      sleep: { dataPoint: "103", kind: "switch" },
-      openWindowDetection: { dataPoint: "104", kind: "switch" },
+      schedule: { dataPoint: "26", kind: "text", category: "config" },
+      sleep: { dataPoint: "103", kind: "switch", category: "config" },
+      openWindowDetection: {
+        dataPoint: "104",
+        kind: "switch",
+        category: "config",
+      },
       window: {
         dataPoint: "105",
         kind: "sensor",
         measures: "window",
+        category: "diagnostic",
         readOnly: true,
       },
       temperatureCalibrationInC: {
         dataPoint: "106",
         kind: "number",
+        category: "config",
         unit: "C",
         min: 0,
         max: 40,

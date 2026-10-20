@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["nn2ooaacswz6uyi0"],
+  products: [
+    {
+      productKey: "nn2ooaacswz6uyi0",
+      manufacturer: "Brokton",
+      model: "BRST12",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -217,58 +223,73 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      antiMould: { dataPoint: "9", kind: "switch" },
-      emergencyHeat: { dataPoint: "12", kind: "switch" },
-      sound: { dataPoint: "16", kind: "switch" },
-      uvSterilization: { dataPoint: "26", kind: "switch" },
-      evaporatorCleaning: { dataPoint: "27", kind: "switch" },
+      antiMould: { dataPoint: "9", kind: "switch", category: "config" },
+      emergencyHeat: { dataPoint: "12", kind: "switch", category: "config" },
+      sound: { dataPoint: "16", kind: "switch", category: "config" },
+      uvSterilization: { dataPoint: "26", kind: "switch", category: "config" },
+      evaporatorCleaning: {
+        dataPoint: "27",
+        kind: "switch",
+        category: "config",
+      },
       temperatureUnit: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "C" },
           { raw: true, value: "F" },
         ],
       },
-      eightStageHeating: { dataPoint: "102", kind: "switch" },
+      eightStageHeating: {
+        dataPoint: "102",
+        kind: "switch",
+        category: "config",
+      },
       auxHeat: {
         dataPoint: "103",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
       },
-      hotWind: { dataPoint: "104", kind: "switch" },
-      coolWind: { dataPoint: "105", kind: "switch" },
-      autoVentilation: { dataPoint: "106", kind: "switch" },
-      weekTimer1: { dataPoint: "107", kind: "text" },
-      weekTimer2: { dataPoint: "109", kind: "text" },
+      hotWind: { dataPoint: "104", kind: "switch", category: "config" },
+      coolWind: { dataPoint: "105", kind: "switch", category: "config" },
+      autoVentilation: { dataPoint: "106", kind: "switch", category: "config" },
+      weekTimer1: { dataPoint: "107", kind: "text", category: "config" },
+      weekTimer2: { dataPoint: "109", kind: "text", category: "config" },
       ventilationBlocked: {
         dataPoint: "108",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
       filterBlocked: {
         dataPoint: "110",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
       filterBlockedVoiceAlert: {
         dataPoint: "149",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       accessCard: {
         dataPoint: "112",
         kind: "sensor",
         measures: "lock",
+        category: "diagnostic",
         readOnly: true,
       },
       ambientTemperatureInC: {
         dataPoint: "116",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 100,
@@ -276,12 +297,15 @@ const entry: TuyaDeviceEntry = {
       outdoorFanSpeedInRpm: {
         dataPoint: "117",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "rpm",
       },
       outdoorFanSpeedSettingInRpm: {
         dataPoint: "118",
         kind: "number",
+        category: "config",
         unit: "rpm",
         min: 0,
         max: 200,
@@ -291,6 +315,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "119",
         kind: "sensor",
         measures: "frequency",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "Hz",
       },
@@ -298,6 +324,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "121",
         kind: "number",
         measures: "frequency",
+        category: "config",
         unit: "Hz",
         min: 0,
         max: 150,
@@ -305,12 +332,20 @@ const entry: TuyaDeviceEntry = {
       compressorFrequencyTarget: {
         dataPoint: "120",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
-      eevOpening: { dataPoint: "122", kind: "number", min: 0, max: 500 },
+      eevOpening: {
+        dataPoint: "122",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 500,
+      },
       softWind: {
         dataPoint: "123",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "0", value: false },
           { raw: "1", value: true },
@@ -321,6 +356,7 @@ const entry: TuyaDeviceEntry = {
       reportingMode: {
         dataPoint: "125",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "On mode change" },
           { raw: "1", value: "Hourly" },
@@ -330,6 +366,7 @@ const entry: TuyaDeviceEntry = {
       sleepMode: {
         dataPoint: "126",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "normal" },
@@ -341,17 +378,27 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "127",
         kind: "sensor",
         measures: "energy",
+        reading: "total",
         readOnly: true,
         unit: "kWh",
         scale: 100,
       },
       energyLastReset: { dataPoint: "128", kind: "sensor", readOnly: true },
       energyTimestamp: { dataPoint: "129", kind: "sensor", readOnly: true },
-      resetEnergyStartingSecond: { dataPoint: "130", kind: "number" },
-      resetEnergyEndingSecond: { dataPoint: "131", kind: "number" },
+      resetEnergyStartingSecond: {
+        dataPoint: "130",
+        kind: "number",
+        category: "config",
+      },
+      resetEnergyEndingSecond: {
+        dataPoint: "131",
+        kind: "number",
+        category: "config",
+      },
       generatorMode: {
         dataPoint: "132",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "disabled" },
           { raw: "1", value: "level_1" },
@@ -366,6 +413,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "134",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "", value: false },
@@ -379,16 +427,28 @@ const entry: TuyaDeviceEntry = {
       faultCode: {
         dataPoint: "134",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         type: "base64",
       },
-      faultInspectionMode: { dataPoint: "144", kind: "sensor", readOnly: true },
-      faultDemoMode: { dataPoint: "145", kind: "sensor", readOnly: true },
-      on: { dataPoint: "135", kind: "switch" },
-      specialTimer: { dataPoint: "136", kind: "text" },
+      faultInspectionMode: {
+        dataPoint: "144",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultDemoMode: {
+        dataPoint: "145",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      on: { dataPoint: "135", kind: "switch", category: "config" },
+      specialTimer: { dataPoint: "136", kind: "text", category: "config" },
       verticalSwing: {
         dataPoint: "137",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "0", value: false },
           { raw: "1", value: true },
@@ -397,15 +457,17 @@ const entry: TuyaDeviceEntry = {
       horizontalSwing: {
         dataPoint: "138",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "0", value: false },
           { raw: "1", value: true },
         ],
       },
-      voiceActivation: { dataPoint: "142", kind: "switch" },
+      voiceActivation: { dataPoint: "142", kind: "switch", category: "config" },
       voiceStatus: {
         dataPoint: "143",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "0", value: "standby" },
@@ -419,6 +481,7 @@ const entry: TuyaDeviceEntry = {
       voiceLocation: {
         dataPoint: "146",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "location_1" },
           { raw: "1", value: "location_2" },
@@ -427,10 +490,15 @@ const entry: TuyaDeviceEntry = {
           { raw: "4", value: "location_5" },
         ],
       },
-      voiceLocationMicDistance: { dataPoint: "148", kind: "number" },
+      voiceLocationMicDistance: {
+        dataPoint: "148",
+        kind: "number",
+        category: "config",
+      },
       smartWind: {
         dataPoint: "147",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "Avoid people" },
@@ -440,6 +508,7 @@ const entry: TuyaDeviceEntry = {
       autoGeneratorMode: {
         dataPoint: "151",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "disabled" },
           { raw: "1", value: "level_1" },
@@ -454,26 +523,33 @@ const entry: TuyaDeviceEntry = {
       powerSource: {
         dataPoint: "152",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "0", value: "grid" },
           { raw: "1", value: "generator" },
         ],
       },
-      turboVentilation: { dataPoint: "155", kind: "switch" },
+      turboVentilation: {
+        dataPoint: "155",
+        kind: "switch",
+        category: "config",
+      },
       light: {
         dataPoint: "156",
         kind: "sensor",
         measures: "light",
+        category: "diagnostic",
         readOnly: true,
       },
     },
-    display: { on: { dataPoint: "13", kind: "switch" } },
+    display: { on: { dataPoint: "13", kind: "switch", category: "config" } },
     ventilation: {
-      on: { dataPoint: "39", kind: "switch" },
+      on: { dataPoint: "39", kind: "switch", category: "config" },
       speed: {
         dataPoint: "40",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: 0 },
           { raw: "1", value: 33 },

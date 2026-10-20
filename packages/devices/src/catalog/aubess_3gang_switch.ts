@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Triple switch with timer",
-  productKeys: ["3njf1fgcsbuvkbhw"],
+  products: [
+    {
+      productKey: "3njf1fgcsbuvkbhw",
+      manufacturer: "Aubess",
+      model: "MINI-W1",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -29,6 +35,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "number",
         measures: "duration",
+        category: "config",
         min: 0,
         max: 86400,
         scale: 60,
@@ -38,6 +45,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "number",
         measures: "duration",
+        category: "config",
         min: 0,
         max: 86400,
         scale: 60,
@@ -47,6 +55,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "number",
         measures: "duration",
+        category: "config",
         min: 0,
         max: 86400,
         scale: 60,
@@ -55,25 +64,27 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           { raw: "memory", value: "memory" },
           { raw: "on", value: "on" },
           { raw: "off", value: "off" },
         ],
       },
-      randomSchedule: { dataPoint: "42", kind: "text" },
-      schedule: { dataPoint: "43", kind: "text" },
-      inching: { dataPoint: "44", kind: "text" },
+      randomSchedule: { dataPoint: "42", kind: "text", category: "config" },
+      schedule: { dataPoint: "43", kind: "text", category: "config" },
+      inching: { dataPoint: "44", kind: "text", category: "config" },
       switchType: {
         dataPoint: "47",
         kind: "select",
+        category: "config",
         values: [
           { raw: "flip", value: "Flip" },
           { raw: "sync", value: "Synchronized" },
           { raw: "button", value: "Button" },
         ],
       },
-      interlocking: { dataPoint: "48", kind: "text" },
+      interlocking: { dataPoint: "48", kind: "text", category: "config" },
     },
   },
   source: {

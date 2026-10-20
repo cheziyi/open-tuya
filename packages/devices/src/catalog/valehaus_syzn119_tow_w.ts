@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Towel warmer",
-  productKeys: ["1dxb14emvqzxzc5q"],
+  products: [
+    {
+      productKey: "1dxb14emvqzxzc5q",
+      manufacturer: "Valehaus",
+      model: "SYZN119",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -52,6 +58,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "12",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

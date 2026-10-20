@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["l42hyrkieezkgysd"],
+  products: [
+    { productKey: "l42hyrkieezkgysd", manufacturer: "Point", model: "PODH20" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -64,21 +66,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
       },
-      childLock: { dataPoint: "16", kind: "switch" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
       temperatureInC: {
         dataPoint: "103",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
-      sleep: { dataPoint: "104", kind: "switch" },
+      sleep: { dataPoint: "104", kind: "switch", category: "config" },
     },
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "point_podh20_dehumidifier.yaml",

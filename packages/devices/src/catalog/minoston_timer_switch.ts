@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Timer switch",
-  productKeys: ["ae0y7quogjcnzery"],
+  products: [
+    {
+      productKey: "ae0y7quogjcnzery",
+      manufacturer: "Minoston",
+      model: "nhT06-WIFI",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "7": { type: "integer" },
@@ -27,6 +33,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -34,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       preset1TimeInSeconds: {
         dataPoint: "101",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -41,6 +49,7 @@ const entry: TuyaDeviceEntry = {
       preset2TimeInSeconds: {
         dataPoint: "102",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -48,6 +57,7 @@ const entry: TuyaDeviceEntry = {
       preset3TimeInSeconds: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -55,6 +65,7 @@ const entry: TuyaDeviceEntry = {
       preset4TimeInSeconds: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -62,6 +73,7 @@ const entry: TuyaDeviceEntry = {
       preset5TimeInSeconds: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -69,6 +81,7 @@ const entry: TuyaDeviceEntry = {
       preset6TimeInSeconds: {
         dataPoint: "106",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -76,6 +89,7 @@ const entry: TuyaDeviceEntry = {
       activeTimer: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "None" },
           { raw: 1, value: "Preset 1" },
@@ -89,6 +103,7 @@ const entry: TuyaDeviceEntry = {
       powerIndicator: {
         dataPoint: "109",
         kind: "select",
+        category: "config",
         values: [
           { raw: "on", value: "Solid" },
           { raw: "flicker", value: "Blink" },
@@ -97,6 +112,7 @@ const entry: TuyaDeviceEntry = {
       timerIndicator: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [
           { raw: "on", value: "Solid" },
           { raw: "flicker", value: "Blink" },
@@ -105,7 +121,13 @@ const entry: TuyaDeviceEntry = {
       override: { dataPoint: "111", kind: "switch" },
     },
     indicator: {
-      brightness: { dataPoint: "107", kind: "number", min: 0, max: 100 },
+      brightness: {
+        dataPoint: "107",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
     },
   },
   source: {

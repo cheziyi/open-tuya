@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "HDMI sync light",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "20": { type: "boolean", optional: true },
     "21": { type: "string", optional: true },
@@ -52,6 +52,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "25",
         kind: "select",
+        category: "config",
         type: "string",
         values: [
           { raw: "80000000000000000000000000000000", value: "Screen - Movie" },
@@ -110,6 +111,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -117,6 +119,7 @@ const entry: TuyaDeviceEntry = {
       installationSide: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Left" },
           { raw: "1", value: "Right" },
@@ -125,6 +128,7 @@ const entry: TuyaDeviceEntry = {
       lampType: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Light strip" },
           { raw: "1", value: "Light post" },

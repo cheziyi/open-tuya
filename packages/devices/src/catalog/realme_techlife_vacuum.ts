@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Robot vacuum",
-  productKeys: ["aayuntqnrmc7jnq9"],
+  products: [
+    {
+      productKey: "aayuntqnrmc7jnq9",
+      manufacturer: "Realme",
+      model: "TechLife",
+      modelId: "P058-T3",
+    },
+  ],
   dataPoints: {
     "3": { type: "string", optional: true },
     "101": { type: "boolean" },
@@ -125,6 +132,7 @@ const entry: TuyaDeviceEntry = {
       mode: {
         dataPoint: "3",
         kind: "select",
+        category: "config",
         values: [
           { raw: "standby", value: "standby" },
           { raw: "random", value: "random" },
@@ -140,7 +148,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "chargego", value: "chargego" },
         ],
       },
-      modeMopAvailable: { dataPoint: "138", kind: "switch" },
+      modeMopAvailable: {
+        dataPoint: "138",
+        kind: "switch",
+        category: "config",
+      },
       mopping: {
         dataPoint: "110",
         kind: "select",
@@ -151,7 +163,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: "high" },
         ],
       },
-      chargeSwitch: { dataPoint: "103", kind: "switch" },
+      chargeSwitch: { dataPoint: "103", kind: "switch", category: "config" },
       batteryInPercent: {
         dataPoint: "106",
         kind: "sensor",
@@ -163,6 +175,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -170,15 +183,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "sensor",
         measures: "area",
+        category: "diagnostic",
         readOnly: true,
         unit: "m2",
       },
-      doNotDisturb: { dataPoint: "113", kind: "switch" },
-      volume: { dataPoint: "114", kind: "number", min: 0, max: 10 },
+      doNotDisturb: { dataPoint: "113", kind: "switch", category: "config" },
+      volume: {
+        dataPoint: "114",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 10,
+      },
       totalCleanTimeInSeconds: {
         dataPoint: "116",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -186,14 +207,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "117",
         kind: "sensor",
         measures: "area",
+        category: "diagnostic",
         readOnly: true,
         unit: "m2",
       },
-      totalCleanCount: { dataPoint: "118", kind: "sensor", readOnly: true },
+      totalCleanCount: {
+        dataPoint: "118",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       sideBrushTimeInSeconds: {
         dataPoint: "119",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -201,6 +229,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "120",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -208,19 +237,26 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "121",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
       language: {
         dataPoint: "133",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "chinese" },
           { raw: 1, value: "english" },
           { raw: 2, value: "english_child" },
         ],
       },
-      mopAttached: { dataPoint: "138", kind: "sensor", readOnly: true },
+      mopAttached: {
+        dataPoint: "138",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

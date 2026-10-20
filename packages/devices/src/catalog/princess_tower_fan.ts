@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Tower fan",
-  productKeys: ["bknpvtphln5e07oj"],
+  products: [
+    {
+      productKey: "bknpvtphln5e07oj",
+      manufacturer: "Princess",
+      model: "Smart Tower fan",
+      modelId: "3582xx",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -46,6 +53,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 8,

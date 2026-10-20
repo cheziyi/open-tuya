@@ -5,7 +5,20 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["hjlasxqdlb95c4gi", "ddbgeali1ibsaif6"],
+  products: [
+    {
+      productKey: "hjlasxqdlb95c4gi",
+      manufacturer: "Lumary",
+      model: "B2",
+      modelId: "L-CFL20B2",
+    },
+    {
+      productKey: "ddbgeali1ibsaif6",
+      manufacturer: "Lumary",
+      model: "C2",
+      modelId: "B2 L-CFL19C1",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -34,7 +47,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      lights: { dataPoint: "20", kind: "switch" },
+      lights: { dataPoint: "20", kind: "switch", category: "config" },
       on: { dataPoint: "107", kind: "switch" },
       effect: {
         dataPoint: "21",
@@ -55,24 +68,37 @@ const entry: TuyaDeviceEntry = {
         max: 1000,
         targetRange: { min: 2700, max: 6500 },
       },
-      control: { dataPoint: "28", kind: "text" },
-      powerMemory: { dataPoint: "33", kind: "text" },
-      doNotDisturb: { dataPoint: "34", kind: "switch" },
-      sound: { dataPoint: "103", kind: "switch" },
-      scene: { dataPoint: "109", kind: "text" },
-      ledSequence: { dataPoint: "110", kind: "number", min: 0, max: 5 },
-      ledPixels: { dataPoint: "111", kind: "number", min: 10, max: 300 },
+      control: { dataPoint: "28", kind: "text", category: "config" },
+      powerMemory: { dataPoint: "33", kind: "text", category: "config" },
+      doNotDisturb: { dataPoint: "34", kind: "switch", category: "config" },
+      sound: { dataPoint: "103", kind: "switch", category: "config" },
+      scene: { dataPoint: "109", kind: "text", category: "config" },
+      ledSequence: {
+        dataPoint: "110",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 5,
+      },
+      ledPixels: {
+        dataPoint: "111",
+        kind: "number",
+        category: "config",
+        min: 10,
+        max: 300,
+      },
       timerInSeconds: {
         dataPoint: "112",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
       },
-      gradient: { dataPoint: "113", kind: "text" },
-      segmentDimming: { dataPoint: "114", kind: "text" },
-      main: { dataPoint: "119", kind: "switch" },
-      music: { dataPoint: "121", kind: "text" },
+      gradient: { dataPoint: "113", kind: "text", category: "config" },
+      segmentDimming: { dataPoint: "114", kind: "text", category: "config" },
+      main: { dataPoint: "119", kind: "switch", category: "config" },
+      music: { dataPoint: "121", kind: "text", category: "config" },
     },
     rgb: {
       on: { dataPoint: "108", kind: "switch" },

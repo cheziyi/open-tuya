@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Smartplug",
-  productKeys: ["e8dqdqxjgmilloml", "keyuh3jxk9wu8ruj"],
+  products: [
+    { productKey: "e8dqdqxjgmilloml", manufacturer: "Nooie", model: "NSP21" },
+    {
+      productKey: "keyuh3jxk9wu8ruj",
+      manufacturer: "Tongou",
+      model: "TO-Q-SY2-JWT",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "9": { type: "integer" },
@@ -19,6 +26,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -26,16 +34,18 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "40",
         kind: "select",
+        category: "config",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
           { raw: "none", value: "off" },
         ],
       },
-      childLock: { dataPoint: "41", kind: "switch" },
+      childLock: { dataPoint: "41", kind: "switch", category: "config" },
       initialState: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           { raw: "on", value: "on" },
           { raw: "off", value: "off" },

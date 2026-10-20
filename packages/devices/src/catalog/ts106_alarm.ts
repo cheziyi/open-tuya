@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Alarm system",
-  productKeys: ["htpbvowq2gkxx3bx"],
+  products: [{ productKey: "htpbvowq2gkxx3bx", model: "TS106" }],
   dataPoints: {
     "101": { type: "string" },
     "102": { type: "string", optional: true },
@@ -59,11 +59,12 @@ const entry: TuyaDeviceEntry = {
       urgentPushInfo: { dataPoint: "119", kind: "text" },
       intelligentVoice: { dataPoint: "120", kind: "text" },
       alarmLinkage: { dataPoint: "121", kind: "switch" },
-      factoryReset: { dataPoint: "107", kind: "button" },
+      factoryReset: { dataPoint: "107", kind: "button", category: "config" },
       power: {
         dataPoint: "110",
         kind: "sensor",
         measures: "power",
+        category: "diagnostic",
         readOnly: true,
       },
     },
@@ -86,7 +87,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    indicator: { on: { dataPoint: "122", kind: "switch" } },
+    indicator: { on: { dataPoint: "122", kind: "switch", category: "config" } },
   },
   source: {
     file: "ts106_alarm.yaml",

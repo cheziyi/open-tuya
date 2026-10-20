@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dual water timer",
-  productKeys: ["zjqxgxxesv29cpkn"],
+  products: [{ productKey: "zjqxgxxesv29cpkn", manufacturer: "Shrivee" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -37,6 +37,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "17",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 43200,
@@ -47,6 +48,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 43200,
@@ -57,13 +59,19 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "42",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
       },
-      smartWeatherDelay: { dataPoint: "43", kind: "switch" },
+      smartWeatherDelay: {
+        dataPoint: "43",
+        kind: "switch",
+        category: "config",
+      },
       weather: {
         dataPoint: "44",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "sunny", value: "sunny" },
@@ -76,6 +84,7 @@ const entry: TuyaDeviceEntry = {
       weatherDelay: {
         dataPoint: "45",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1", value: "1d" },
@@ -91,6 +100,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "47",
         kind: "sensor",
         measures: "battery",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
         values: [
@@ -107,14 +117,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "53",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "53", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "53",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "53",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -125,25 +142,29 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
       },
       valve2Irrigating: {
         dataPoint: "102",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
       },
-      signalBoost: { dataPoint: "117", kind: "switch" },
+      signalBoost: { dataPoint: "117", kind: "switch", category: "config" },
       signalStrengthInDbm: {
         dataPoint: "118",
         kind: "sensor",
         measures: "signalStrength",
+        category: "diagnostic",
         readOnly: true,
         unit: "dBm",
       },
       valve1State: {
         dataPoint: "119",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "idle", value: "idle" },
@@ -152,10 +173,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "timing", value: "scheduled" },
         ],
       },
-      valve1StateSchedule: { dataPoint: "38", kind: "sensor", readOnly: true },
+      valve1StateSchedule: {
+        dataPoint: "38",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       valve2State: {
         dataPoint: "120",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "idle", value: "idle" },
@@ -164,10 +191,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "timing", value: "scheduled" },
         ],
       },
-      valve2StateSchedule: { dataPoint: "113", kind: "sensor", readOnly: true },
+      valve2StateSchedule: {
+        dataPoint: "113",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       upgradeStatus: {
         dataPoint: "123",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "upgrade_complete", value: "complete" },
@@ -178,6 +211,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "131",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -185,6 +219,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "132",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },

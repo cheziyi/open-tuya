@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dual pump watering system",
-  productKeys: ["7lanttzn7fuel3zb"],
+  products: [
+    {
+      productKey: "7lanttzn7fuel3zb",
+      manufacturer: "Joekol",
+      model: "WD-01ADE",
+      modelId: "e1n14ca8",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -22,6 +29,7 @@ const entry: TuyaDeviceEntry = {
       pumpAIrrigationDurationInSeconds: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 1,
         max: 86399,
@@ -29,13 +37,19 @@ const entry: TuyaDeviceEntry = {
       pumpBIrrigationDurationInSeconds: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 1,
         max: 86399,
       },
-      pumpASchedule: { dataPoint: "101", kind: "text" },
-      pumpBSchedule: { dataPoint: "102", kind: "text" },
-      runLog: { dataPoint: "105", kind: "sensor", readOnly: true },
+      pumpASchedule: { dataPoint: "101", kind: "text", category: "config" },
+      pumpBSchedule: { dataPoint: "102", kind: "text", category: "config" },
+      runLog: {
+        dataPoint: "105",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

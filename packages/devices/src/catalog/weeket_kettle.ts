@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Kettle",
-  productKeys: ["01rtpfyd3amxdsps", "n9c9gxaavafz3fii"],
+  products: [
+    {
+      productKey: "01rtpfyd3amxdsps",
+      manufacturer: "Weekett",
+      model: "KE4071TF",
+    },
+    {
+      productKey: "n9c9gxaavafz3fii",
+      manufacturer: "Weekett",
+      model: "KR4071TB",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -96,15 +107,17 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "12",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
         ],
       },
-      keepWarm: { dataPoint: "13", kind: "switch" },
+      keepWarm: { dataPoint: "13", kind: "switch", category: "config" },
       status: {
         dataPoint: "15",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -122,12 +135,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
-      bottleWarming: { dataPoint: "101", kind: "switch" },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      bottleWarming: { dataPoint: "101", kind: "switch", category: "config" },
     },
   },
   source: {

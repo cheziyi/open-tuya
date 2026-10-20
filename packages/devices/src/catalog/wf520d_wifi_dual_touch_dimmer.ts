@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dual dimmer",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -27,6 +27,7 @@ const entry: TuyaDeviceEntry = {
       minimumBrightness1InPercent: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 10,
         max: 1000,
@@ -35,6 +36,7 @@ const entry: TuyaDeviceEntry = {
       minimumBrightness2InPercent: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 10,
         max: 1000,

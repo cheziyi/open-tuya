@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Roller blind",
-  productKeys: ["slrxhmozdm3qq9cl"],
+  products: [{ productKey: "slrxhmozdm3qq9cl", manufacturer: "GW Motor" }],
   dataPoints: { "1": { type: "string" }, "101": { type: "integer" } },
   components: {
     cover: {

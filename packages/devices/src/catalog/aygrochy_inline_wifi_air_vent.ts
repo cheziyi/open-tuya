@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan controller",
-  productKeys: ["hqldzgqpsyr1pw8c"],
+  products: [{ productKey: "hqldzgqpsyr1pw8c", manufacturer: "Aygrochy" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -142,6 +142,7 @@ const entry: TuyaDeviceEntry = {
       currentSpeedInPercent: {
         dataPoint: "103",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
         scale: 0.1,
@@ -150,17 +151,24 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 36000,
         scale: 60,
         step: 60,
       },
-      alarmTriggered: { dataPoint: "105", kind: "sensor", readOnly: true },
+      alarmTriggered: {
+        dataPoint: "105",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       maximumHumidityInPercent: {
         dataPoint: "111",
         kind: "number",
         measures: "humidity",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -177,6 +185,7 @@ const entry: TuyaDeviceEntry = {
       maximumHumidityAutoHighHumidity: {
         dataPoint: "107",
         kind: "number",
+        category: "config",
         min: 0,
         max: 100,
       },
@@ -184,6 +193,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "number",
         measures: "humidity",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -200,13 +210,15 @@ const entry: TuyaDeviceEntry = {
       minimumHumidityAutoLowHumidity: {
         dataPoint: "109",
         kind: "number",
+        category: "config",
         min: 0,
         max: 100,
       },
-      childLock: { dataPoint: "114", kind: "switch" },
+      childLock: { dataPoint: "114", kind: "switch", category: "config" },
       autoHighTemperatureSwitch: {
         dataPoint: "116",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: true },
           { raw: 1, value: false },
@@ -215,6 +227,7 @@ const entry: TuyaDeviceEntry = {
       autoHighHumiditySwitch: {
         dataPoint: "117",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: true },
           { raw: 1, value: false },
@@ -223,6 +236,7 @@ const entry: TuyaDeviceEntry = {
       autoLowTemperatureSwitch: {
         dataPoint: "118",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: true },
           { raw: 1, value: false },
@@ -231,6 +245,7 @@ const entry: TuyaDeviceEntry = {
       autoLowHumiditySwitch: {
         dataPoint: "119",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: true },
           { raw: 1, value: false },
@@ -239,6 +254,7 @@ const entry: TuyaDeviceEntry = {
       alarmHighTemperatureSwitch: {
         dataPoint: "120",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: true },
           { raw: 1, value: false },
@@ -247,6 +263,7 @@ const entry: TuyaDeviceEntry = {
       alarmHighHumiditySwitch: {
         dataPoint: "121",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: true },
           { raw: 1, value: false },
@@ -255,6 +272,7 @@ const entry: TuyaDeviceEntry = {
       alarmLowTemperatureSwitch: {
         dataPoint: "122",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: true },
           { raw: 1, value: false },
@@ -263,19 +281,31 @@ const entry: TuyaDeviceEntry = {
       alarmLowHumiditySwitch: {
         dataPoint: "123",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: true },
           { raw: 1, value: false },
         ],
       },
-      autoTriggered: { dataPoint: "126", kind: "sensor", readOnly: true },
+      autoTriggered: {
+        dataPoint: "126",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     fan: {
       on: { dataPoint: "1", kind: "switch" },
       speed: { dataPoint: "102", kind: "number", min: 1, max: 10 },
     },
     backlight: {
-      brightness: { dataPoint: "101", kind: "number", min: 0, max: 4 },
+      brightness: {
+        dataPoint: "101",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 4,
+      },
     },
   },
   source: {

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Desk",
-  productKeys: ["dqjkmn7gja7qil06"],
+  products: [
+    {
+      productKey: "dqjkmn7gja7qil06",
+      manufacturer: "Eureka",
+      model: "ERK-S62",
+    },
+  ],
   dataPoints: {
     "1": { type: "string", optional: true },
     "2": { type: "string", optional: true },
@@ -69,15 +75,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "5", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "5",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       heightInMm: {
         dataPoint: "8",
         kind: "sensor",
         measures: "distance",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "mm",
       },

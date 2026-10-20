@@ -210,6 +210,22 @@ export const CONTROL_KINDS = [
 
 export type ControlKind = (typeof CONTROL_KINDS)[number];
 
+/** What a control does that is not the device's main function: `config`
+ * changes how the device behaves, such as a child lock or a backlight, and
+ * `diagnostic` reports on the device itself, such as its signal strength or
+ * a fault code. */
+export const CONTROL_CATEGORIES = ["config", "diagnostic"] as const;
+
+export type ControlCategory = (typeof CONTROL_CATEGORIES)[number];
+
+/** How a sensor's value accrues: `instant` is a reading of the moment,
+ * `angle` a reading of the moment of a direction in degrees, `total` a
+ * running total that can fall, such as net energy consumed, and
+ * `risingTotal` a running total that only rises, such as gas consumed. */
+export const READINGS = ["instant", "angle", "total", "risingTotal"] as const;
+
+export type Reading = (typeof READINGS)[number];
+
 /** What a control measures or detects, so a caller can handle a control by
  * it whatever the control's name. */
 export const MEASURES = [

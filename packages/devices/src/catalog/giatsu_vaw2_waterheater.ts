@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water heater",
-  productKeys: ["rmzdb9fyj9jo1bza"],
+  products: [
+    {
+      productKey: "rmzdb9fyj9jo1bza",
+      manufacturer: "Giatsu",
+      model: "GIA-ATS-O-300VAWT",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -42,16 +48,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "9", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "9",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     device: {
       mode: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "heat", value: "Heating" },
           { raw: "heatfan", value: "Heating and ventilation" },

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Backlit dimmer",
-  productKeys: ["g5tdfvf5g4osvagd"],
+  products: [
+    {
+      productKey: "g5tdfvf5g4osvagd",
+      manufacturer: "Liwokit",
+      model: "Backlit Dimmer Switch",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -18,6 +24,7 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "21",
         kind: "select",
+        category: "config",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },

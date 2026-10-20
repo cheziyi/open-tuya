@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["x16hab3bgmahaibm"],
+  products: [
+    { productKey: "x16hab3bgmahaibm", manufacturer: "MyCond", model: "Berg" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -51,14 +53,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
-      ionizer: { dataPoint: "10", kind: "switch" },
-      childLock: { dataPoint: "16", kind: "switch" },
+      ionizer: { dataPoint: "10", kind: "switch", category: "config" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
       fanSpeed: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "low", value: "Low" },
           { raw: "high", value: "High" },
@@ -67,6 +71,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "17",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

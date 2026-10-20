@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan with light",
-  productKeys: ["b3uwmntqtdozwin"],
+  products: [
+    { productKey: "b3uwmntqtdozwin", manufacturer: "Forlight", model: "Nere" },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "22": { type: "integer", optional: true },
@@ -26,15 +28,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "64",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 540,
       },
-      sound: { dataPoint: "66", kind: "switch" },
+      sound: { dataPoint: "66", kind: "switch", category: "config" },
       lightTimerInMinutes: {
         dataPoint: "26",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 540,

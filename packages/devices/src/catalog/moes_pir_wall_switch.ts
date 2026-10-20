@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "PIR wall switch",
-  productKeys: ["iii7gagtan21i2of"],
+  products: [
+    { productKey: "iii7gagtan21i2of", manufacturer: "MOES", model: "MFA05" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "103": { type: "string" },
@@ -15,7 +17,7 @@ const entry: TuyaDeviceEntry = {
   components: {
     light: {
       on: { dataPoint: "1", kind: "switch" },
-      inching: { dataPoint: "103", kind: "text" },
+      inching: { dataPoint: "103", kind: "text", category: "config" },
       motion: {
         dataPoint: "106",
         kind: "sensor",
@@ -23,7 +25,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
       },
     },
-    indicator: { on: { dataPoint: "104", kind: "switch" } },
+    indicator: { on: { dataPoint: "104", kind: "switch", category: "config" } },
   },
   source: {
     file: "moes_pir_wall_switch.yaml",

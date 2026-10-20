@@ -5,12 +5,32 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: [
-    "hrqj115cek0tuddi",
-    "i3uw9kkmagpdikvo",
-    "enfzbqosid8fyyrs",
-    "wuagakhecbqdkczw",
-    "zibqa9dutqyaxym2",
+  products: [
+    {
+      productKey: "hrqj115cek0tuddi",
+      manufacturer: "MeacoDry",
+      model: "Arete Two 10L",
+    },
+    {
+      productKey: "i3uw9kkmagpdikvo",
+      manufacturer: "MeacoDry",
+      model: "Arete Two 18L",
+    },
+    {
+      productKey: "enfzbqosid8fyyrs",
+      manufacturer: "MeacoDry",
+      model: "Arete Two 20L",
+    },
+    {
+      productKey: "wuagakhecbqdkczw",
+      manufacturer: "MeacoDry",
+      model: "Arete Two 25L",
+    },
+    {
+      productKey: "zibqa9dutqyaxym2",
+      manufacturer: "MeacoDry",
+      model: "Arete Two",
+    },
   ],
   dataPoints: {
     "1": { type: "boolean" },
@@ -52,10 +72,11 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "%",
       },
-      childLock: { dataPoint: "14", kind: "switch" },
+      childLock: { dataPoint: "14", kind: "switch", category: "config" },
       timer: {
         dataPoint: "17",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -88,6 +109,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
       },
@@ -95,6 +117,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -104,10 +127,16 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       tankFull: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -115,6 +144,7 @@ const entry: TuyaDeviceEntry = {
       defrost: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,
@@ -123,6 +153,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "moisture",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 128, value: true }],
         otherwise: false,
@@ -130,6 +161,7 @@ const entry: TuyaDeviceEntry = {
       onTimer: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan",
-  productKeys: ["ud7aaomrkuwo72ey"],
+  products: [
+    {
+      productKey: "ud7aaomrkuwo72ey",
+      manufacturer: "Comfort Zone",
+      model: "Powr Curve Stand Fan",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer" },

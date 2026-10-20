@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water level controller",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -26,6 +26,7 @@ const entry: TuyaDeviceEntry = {
       levelOffInPercent: {
         dataPoint: "2",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -39,6 +40,7 @@ const entry: TuyaDeviceEntry = {
       levelOnInPercent: {
         dataPoint: "101",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -46,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       alarmHighLevelInPercent: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -53,25 +56,38 @@ const entry: TuyaDeviceEntry = {
       alarmLowLevelInPercent: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
       },
-      alarm: { dataPoint: "105", kind: "switch" },
-      status: { dataPoint: "106", kind: "sensor", readOnly: true },
-      dryHeatProtect: { dataPoint: "108", kind: "switch" },
+      alarm: { dataPoint: "105", kind: "switch", category: "config" },
+      status: {
+        dataPoint: "106",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      dryHeatProtect: { dataPoint: "108", kind: "switch", category: "config" },
       channel1TimeDelayInSeconds: {
         dataPoint: "109",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 60,
       },
-      workMode: { dataPoint: "110", kind: "sensor", readOnly: true },
+      workMode: {
+        dataPoint: "110",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       runningTimeInMinutes: {
         dataPoint: "111",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,

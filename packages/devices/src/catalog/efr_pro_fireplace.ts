@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fireplace",
-  productKeys: ["m0chyz1cdsaltkmd", "72a2jkpe9sqxjbih"],
+  products: [
+    { productKey: "m0chyz1cdsaltkmd", model: "EF-R Pro" },
+    { productKey: "72a2jkpe9sqxjbih", manufacturer: "Xaralyn", model: "BI-R" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -72,6 +75,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -89,18 +93,25 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "23", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "23",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     flame: {
-      on: { dataPoint: "1", kind: "switch" },
+      on: { dataPoint: "1", kind: "switch", category: "config" },
       colorName: {
         dataPoint: "5",
         kind: "select",
+        category: "config",
         values: [
           { raw: "F01", value: "yellow" },
           { raw: "F02", value: "red" },
@@ -121,6 +132,7 @@ const entry: TuyaDeviceEntry = {
       effect: {
         dataPoint: "5",
         kind: "select",
+        category: "config",
         values: [
           { raw: "F14", value: "Cycle" },
           { raw: "F01", value: "off" },
@@ -130,10 +142,11 @@ const entry: TuyaDeviceEntry = {
       },
     },
     embers: {
-      on: { dataPoint: "1", kind: "switch" },
+      on: { dataPoint: "1", kind: "switch", category: "config" },
       colorName: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "C01", value: "yellow" },
           { raw: "C02", value: "red" },
@@ -154,6 +167,7 @@ const entry: TuyaDeviceEntry = {
       effect: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "C14", value: "Cycle" },
           { raw: "C01", value: "off" },

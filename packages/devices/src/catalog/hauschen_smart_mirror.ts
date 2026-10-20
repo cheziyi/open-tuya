@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Mirror",
-  productKeys: ["aI7d0iudqVMbCkHL"],
+  products: [
+    {
+      productKey: "aI7d0iudqVMbCkHL",
+      manufacturer: "Hauschen",
+      model: "48x36 Mirror",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer", optional: true },

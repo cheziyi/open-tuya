@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["3hjcrjktvkoim7zu"],
+  products: [
+    {
+      productKey: "3hjcrjktvkoim7zu",
+      manufacturer: "Tesla Smart",
+      model: "Pro M",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -43,12 +49,13 @@ const entry: TuyaDeviceEntry = {
       },
     },
     light: {
-      on: { dataPoint: "8", kind: "switch" },
-      ionizer: { dataPoint: "6", kind: "switch" },
-      uvSterilization: { dataPoint: "9", kind: "switch" },
+      on: { dataPoint: "8", kind: "switch", category: "config" },
+      ionizer: { dataPoint: "6", kind: "switch", category: "config" },
+      uvSterilization: { dataPoint: "9", kind: "switch", category: "config" },
       filterLifeInPercent: {
         dataPoint: "5",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -56,6 +63,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "°C",
       },
@@ -63,12 +72,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       timer: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -80,6 +92,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "ugm3",
       },

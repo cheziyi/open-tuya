@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -247,11 +247,12 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       sleepMode: { dataPoint: "102", kind: "switch" },
-      sleep: { dataPoint: "102", kind: "switch" },
+      sleep: { dataPoint: "102", kind: "switch", category: "config" },
       timerInHours: {
         dataPoint: "22",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 23,

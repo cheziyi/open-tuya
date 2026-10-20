@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heat pump water heater",
-  productKeys: ["cojwk3pbppwpgofa"],
+  products: [
+    {
+      productKey: "cojwk3pbppwpgofa",
+      manufacturer: "Tauclima",
+      model: "DGN-250",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -42,7 +48,12 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "C",
       },
-      defrost: { dataPoint: "7", kind: "sensor", readOnly: true },
+      defrost: {
+        dataPoint: "7",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       heatPumpMode: {
         dataPoint: "2",
         kind: "select",
@@ -55,6 +66,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
       },
@@ -62,6 +75,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 100,
@@ -70,17 +84,24 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "30",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
       },
       fault: {
         dataPoint: "15",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "15", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "15",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

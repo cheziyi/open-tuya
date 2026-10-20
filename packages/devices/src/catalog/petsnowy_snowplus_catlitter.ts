@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Cat litter box",
-  productKeys: ["bdfimkssp9ews36b"],
+  products: [
+    {
+      productKey: "bdfimkssp9ews36b",
+      manufacturer: "PetSnowy",
+      model: "Snow+",
+    },
+  ],
   dataPoints: {
     "4": { type: "boolean" },
     "5": { type: "integer" },
@@ -28,11 +34,12 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      autoClean: { dataPoint: "4", kind: "switch" },
+      autoClean: { dataPoint: "4", kind: "switch", category: "config" },
       cleanWaitTimeInMinutes: {
         dataPoint: "5",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 2,
         max: 60,
@@ -42,16 +49,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "weight",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "g",
       },
       manualClean: { dataPoint: "9", kind: "button" },
-      doNotDisturb: { dataPoint: "10", kind: "switch" },
-      doNotDisturbSleepTime: { dataPoint: "106", kind: "text" },
+      doNotDisturb: { dataPoint: "10", kind: "switch", category: "config" },
+      doNotDisturbSleepTime: {
+        dataPoint: "106",
+        kind: "text",
+        category: "config",
+      },
       deodorization: { dataPoint: "17", kind: "button" },
       notification: {
         dataPoint: "21",
         kind: "event",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: null }],
         otherwise: "notify",
@@ -59,6 +73,7 @@ const entry: TuyaDeviceEntry = {
       notificationMessage: {
         dataPoint: "21",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "Manual cleaning completed" },
@@ -87,6 +102,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -94,6 +110,7 @@ const entry: TuyaDeviceEntry = {
       faultDescription: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -107,29 +124,40 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: "Unknown",
       },
-      status: { dataPoint: "24", kind: "sensor", readOnly: true },
-      filterReset: { dataPoint: "101", kind: "button" },
+      status: {
+        dataPoint: "24",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      filterReset: { dataPoint: "101", kind: "button", category: "config" },
       filterLifeInDays: {
         dataPoint: "102",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "d",
       },
       childLock: {
         dataPoint: "104",
         kind: "switch",
+        category: "config",
         values: [
           { raw: false, value: true },
           { raw: true, value: false },
         ],
       },
-      autoDeodorize: { dataPoint: "107", kind: "switch" },
-      autoDeodorizeSchedule: { dataPoint: "108", kind: "text" },
+      autoDeodorize: { dataPoint: "107", kind: "switch", category: "config" },
+      autoDeodorizeSchedule: {
+        dataPoint: "108",
+        kind: "text",
+        category: "config",
+      },
       changeCatLitter: { dataPoint: "109", kind: "button" },
       calibrateBall: { dataPoint: "112", kind: "button" },
     },
-    backlight: { on: { dataPoint: "16", kind: "switch" } },
+    backlight: { on: { dataPoint: "16", kind: "switch", category: "config" } },
   },
   source: {
     file: "petsnowy_snowplus_catlitter.yaml",

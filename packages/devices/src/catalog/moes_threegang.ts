@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Triple switch with timer and backlight",
-  productKeys: ["m4viuhaiez8qjswh"],
+  products: [{ productKey: "m4viuhaiez8qjswh", manufacturer: "Moes" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -20,11 +20,12 @@ const entry: TuyaDeviceEntry = {
     gang1: { on: { dataPoint: "1", kind: "switch" } },
     gang2: { on: { dataPoint: "2", kind: "switch" } },
     gang3: { on: { dataPoint: "3", kind: "switch" } },
-    backlight: { on: { dataPoint: "16", kind: "switch" } },
+    backlight: { on: { dataPoint: "16", kind: "switch", category: "config" } },
     device: {
       timer1InSeconds: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -32,6 +33,7 @@ const entry: TuyaDeviceEntry = {
       timer2InSeconds: {
         dataPoint: "8",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -39,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       timer3InSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -46,6 +49,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "on" },
           { raw: "1", value: "off" },

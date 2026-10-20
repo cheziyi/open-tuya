@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Portable air conditioner",
-  productKeys: ["anR7aeh1YPTKAz5a"],
+  products: [
+    {
+      productKey: "anR7aeh1YPTKAz5a",
+      manufacturer: "De'Longhi",
+      model: "Pinguino",
+      modelId: "PACEL140LRFK 3ALBK",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "5": { type: "string" },
@@ -121,11 +128,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "15",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "15", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "15",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       enum: {
         dataPoint: "20",
         kind: "sensor",

@@ -5,14 +5,38 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "RGB light strip",
-  productKeys: [
-    "hq8xrxjmheit80cs",
-    "kmgfxv1zmklfpxxn",
-    "wuy0oikiieoirzs7",
-    "ceu9kibxiqqcpigb",
-    "3ppjov0jwtg4fouj",
-    "jwiudkdzdd7agu2o",
-    "bt9wz6d66rehbqne",
+  products: [
+    {
+      productKey: "hq8xrxjmheit80cs",
+      manufacturer: "Outsmart",
+      model: "RGBIC LED",
+    },
+    { productKey: "kmgfxv1zmklfpxxn", model: "JSK-P22" },
+    {
+      productKey: "wuy0oikiieoirzs7",
+      manufacturer: "Arlec",
+      model: "Smart 5m Neon Flex - CHR370HA",
+    },
+    {
+      productKey: "ceu9kibxiqqcpigb",
+      manufacturer: "Arlec",
+      model: "Smart Desk Light - CHR352HA",
+    },
+    {
+      productKey: "3ppjov0jwtg4fouj",
+      manufacturer: "Battletron",
+      model: "Gaming monitor strip (2024)",
+    },
+    {
+      productKey: "jwiudkdzdd7agu2o",
+      manufacturer: "Battletron",
+      model: "Smart desk light strip",
+    },
+    {
+      productKey: "bt9wz6d66rehbqne",
+      manufacturer: "LSC Smart Connect",
+      model: "Outdoor 3M Neon strip",
+    },
   ],
   dataPoints: {
     "20": { type: "boolean", optional: true },
@@ -66,6 +90,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -73,6 +98,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "51",
         kind: "select",
+        category: "config",
         values: [
           { raw: "ARUKUlLgAABkAMFhALQwALVSAMRj", value: "Iceland blue" },
           { raw: "ARYKZGRgAABkAJJfAMZg", value: "Glacier express" },
@@ -120,11 +146,19 @@ const entry: TuyaDeviceEntry = {
           { raw: "AToCXV3gAABNALReARxkAOhJAMZf", value: "Planet journey" },
         ],
       },
-      music: { dataPoint: "27", kind: "text" },
-      dreamlightMusic: { dataPoint: "52", kind: "text" },
-      paint: { dataPoint: "61", kind: "text" },
+      music: { dataPoint: "27", kind: "text", category: "config" },
+      dreamlightMusic: { dataPoint: "52", kind: "text", category: "config" },
+      paint: { dataPoint: "61", kind: "text", category: "config" },
     },
-    device: { pixels: { dataPoint: "53", kind: "number", min: 1, max: 1000 } },
+    device: {
+      pixels: {
+        dataPoint: "53",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 1000,
+      },
+    },
   },
   source: {
     file: "dreamlight_rgb_strip.yaml",

@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Doorbell camera",
-  productKeys: ["asw99ynhd4dgwi37"],
+  products: [
+    {
+      productKey: "asw99ynhd4dgwi37",
+      manufacturer: "SMCM",
+      model: "AC DoorBell Pro2",
+      modelId: "DDV-207-Pro",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "103": { type: "boolean" },
@@ -34,12 +41,13 @@ const entry: TuyaDeviceEntry = {
   components: {
     siren: {
       recording: { dataPoint: "150", kind: "switch" },
-      motionDetection: { dataPoint: "134", kind: "switch" },
-      flipImage: { dataPoint: "103", kind: "switch" },
-      watermark: { dataPoint: "104", kind: "switch" },
+      motionDetection: { dataPoint: "134", kind: "switch", category: "config" },
+      flipImage: { dataPoint: "103", kind: "switch", category: "config" },
+      watermark: { dataPoint: "104", kind: "switch", category: "config" },
       motionSensitivity: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
@@ -49,6 +57,7 @@ const entry: TuyaDeviceEntry = {
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -58,6 +67,7 @@ const entry: TuyaDeviceEntry = {
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -70,12 +80,14 @@ const entry: TuyaDeviceEntry = {
       sdStatusMemoryCardCapacity: {
         dataPoint: "109",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
-      formatSdCard: { dataPoint: "111", kind: "button" },
+      formatSdCard: { dataPoint: "111", kind: "button", category: "config" },
       formatSdCardSdFormatStatus: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: -2000, value: "Formatting" },
           { raw: -2001, value: "Format error" },
@@ -102,12 +114,13 @@ const entry: TuyaDeviceEntry = {
       recordingMode: {
         dataPoint: "151",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
         ],
       },
-      alarmEnabled: { dataPoint: "159", kind: "switch" },
+      alarmEnabled: { dataPoint: "159", kind: "switch", category: "config" },
       alarm: {
         dataPoint: "185",
         kind: "event",
@@ -115,18 +128,29 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: "alert",
       },
-      on: { dataPoint: "159", kind: "switch" },
-      volume: { dataPoint: "160", kind: "number", min: 0, max: 10, scale: 10 },
-      motionLimitAreaEnabled: { dataPoint: "168", kind: "switch" },
-      motionLimitArea: { dataPoint: "169", kind: "text" },
-      humanDetection: { dataPoint: "170", kind: "switch" },
+      on: { dataPoint: "159", kind: "switch", category: "config" },
+      volume: {
+        dataPoint: "160",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 10,
+        scale: 10,
+      },
+      motionLimitAreaEnabled: {
+        dataPoint: "168",
+        kind: "switch",
+        category: "config",
+      },
+      motionLimitArea: { dataPoint: "169", kind: "text", category: "config" },
+      humanDetection: { dataPoint: "170", kind: "switch", category: "config" },
       alarmMessage: {
         dataPoint: "185",
         kind: "sensor",
         readOnly: true,
         type: "utf16b64",
       },
-      silentRecording: { dataPoint: "197", kind: "switch" },
+      silentRecording: { dataPoint: "197", kind: "switch", category: "config" },
       notification: {
         dataPoint: "212",
         kind: "event",
@@ -144,10 +168,11 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "231",
         kind: "sensor",
         measures: "tamper",
+        category: "diagnostic",
         readOnly: true,
       },
     },
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "smcm_doorbellpro_camera.yaml",

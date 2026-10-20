@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan",
-  productKeys: ["yrgy1hmepnqysltk"],
+  products: [
+    {
+      productKey: "yrgy1hmepnqysltk",
+      manufacturer: "Poiema",
+      model: "SGT-F12W",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -43,11 +49,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "120L", value: "120° slow" },
         ],
       },
-      childLock: { dataPoint: "14", kind: "switch" },
+      childLock: { dataPoint: "14", kind: "switch", category: "config" },
       temperatureInC: {
         dataPoint: "21",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "°C",
       },
@@ -71,7 +78,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    indicator: { on: { dataPoint: "15", kind: "switch" } },
+    indicator: { on: { dataPoint: "15", kind: "switch", category: "config" } },
   },
   source: {
     file: "poiema_fan.yaml",

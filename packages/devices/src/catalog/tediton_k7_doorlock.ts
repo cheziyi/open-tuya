@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Door lock",
-  productKeys: ["umca8uiv2203ua3k"],
+  products: [
+    {
+      productKey: "umca8uiv2203ua3k",
+      manufacturer: "Tediton",
+      model: "K7 WBR3",
+    },
+  ],
   dataPoints: {
     "1": { type: "integer", optional: true },
     "2": { type: "integer", optional: true },
@@ -72,6 +78,7 @@ const entry: TuyaDeviceEntry = {
       alert: {
         dataPoint: "8",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "wrong_finger", value: "wrong_finger" },
@@ -104,6 +111,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "16",
         kind: "sensor",
         measures: "hazard",
+        category: "diagnostic",
         readOnly: true,
       },
       doorbell: {

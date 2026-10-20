@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ventilation",
-  productKeys: ["ycmsi0gq6qfa9zm3"],
+  products: [
+    {
+      productKey: "ycmsi0gq6qfa9zm3",
+      manufacturer: "Airwoods",
+      model: "AV-EW8/DF",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -38,10 +44,11 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       speed: { dataPoint: "3", kind: "number", min: 1, max: 3 },
-      ionizer: { dataPoint: "9", kind: "switch" },
+      ionizer: { dataPoint: "9", kind: "switch", category: "config" },
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -62,6 +69,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -69,27 +77,35 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "24", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "24",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       connectivity: {
         dataPoint: "101",
         kind: "sensor",
         measures: "connectivity",
+        category: "diagnostic",
         readOnly: true,
       },
       filterChange: {
         dataPoint: "106",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
       boost: { dataPoint: "107", kind: "switch" },
     },
-    indicator: { on: { dataPoint: "15", kind: "switch" } },
+    indicator: { on: { dataPoint: "15", kind: "switch", category: "config" } },
     freeCooling: {
       hvacMode: {
         dataPoint: "102",

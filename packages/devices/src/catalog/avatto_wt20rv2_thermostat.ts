@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["wwucdzi28uei6cri", "n6xrizqbjgmvhgtk"],
+  products: [
+    {
+      productKey: "wwucdzi28uei6cri",
+      manufacturer: "Avatto",
+      model: "WT20R-WH-3A-W",
+    },
+    {
+      productKey: "n6xrizqbjgmvhgtk",
+      manufacturer: "Avatto",
+      model: "WT20R-BH-3A-W",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean", optional: true },
     "2": { type: "string", optional: true },
@@ -119,6 +130,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -127,6 +139,7 @@ const entry: TuyaDeviceEntry = {
       scheduleDays: {
         dataPoint: "31",
         kind: "select",
+        category: "config",
         values: [
           { raw: "52", value: "Weekdays+Weekend" },
           { raw: "61", value: "Mon-Sat+Sun" },
@@ -136,33 +149,46 @@ const entry: TuyaDeviceEntry = {
       manualOverride: {
         dataPoint: "32",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "manual", value: true }],
         otherwise: false,
       },
-      factoryReset: { dataPoint: "39", kind: "button" },
+      factoryReset: { dataPoint: "39", kind: "button", category: "config" },
       fault: {
         dataPoint: "45",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "45",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       sensor: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "in", value: "Internal" },
           { raw: "out", value: "External" },
         ],
       },
-      openWindowDetection: { dataPoint: "8", kind: "switch" },
+      openWindowDetection: {
+        dataPoint: "8",
+        kind: "switch",
+        category: "config",
+      },
       holidayTemperature: {
         dataPoint: "102",
         kind: "number",
+        category: "config",
         unitFrom: "holidayTemperatureUnit",
         min: 1,
         max: 5,
@@ -186,6 +212,7 @@ const entry: TuyaDeviceEntry = {
       holidayTemperatureInF: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "F",
         min: 32,
         max: 41,
@@ -193,12 +220,19 @@ const entry: TuyaDeviceEntry = {
       holidayTemperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
     },
     backlight: {
-      brightness: { dataPoint: "44", kind: "number", min: 0, max: 100 },
+      brightness: {
+        dataPoint: "44",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
     },
   },
   source: {

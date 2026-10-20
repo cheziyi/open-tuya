@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pool pump",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "bitfield" },
@@ -45,37 +45,59 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "4", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "4",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       batteryInPercent: {
         dataPoint: "7",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      batteryLevel: { dataPoint: "8", kind: "sensor", readOnly: true },
+      batteryLevel: {
+        dataPoint: "8",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       useTimeInSeconds: {
         dataPoint: "15",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
       useTimeCurrentMinutes: {
         dataPoint: "111",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
-      useTimeTotalMinutes: { dataPoint: "112", kind: "sensor", readOnly: true },
-      schedule: { dataPoint: "16", kind: "text" },
-      timer: { dataPoint: "17", kind: "text" },
+      useTimeTotalMinutes: {
+        dataPoint: "112",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      schedule: { dataPoint: "16", kind: "text", category: "config" },
+      timer: { dataPoint: "17", kind: "text", category: "config" },
       mode: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "low", value: "low" },
           { raw: "mid", value: "medium" },
@@ -88,12 +110,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "W",
       },
       maximumSpeedInRpm: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "rpm",
         min: 600,
         max: 3600,
@@ -101,6 +126,7 @@ const entry: TuyaDeviceEntry = {
       setSpeed: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         unitFrom: "setSpeedUnit",
         min: 600,
         max: 3600,
@@ -127,6 +153,7 @@ const entry: TuyaDeviceEntry = {
       setSpeedUnit: {
         dataPoint: "116",
         kind: "select",
+        category: "config",
         values: [
           { raw: "rpm", value: "rpm" },
           { raw: "percent", value: "%" },
@@ -135,6 +162,8 @@ const entry: TuyaDeviceEntry = {
       runningSpeed: {
         dataPoint: "106",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unitFrom: "runningSpeedUnit",
         dependsOn: {
@@ -152,6 +181,7 @@ const entry: TuyaDeviceEntry = {
       runningSpeedUnit: {
         dataPoint: "116",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "rpm", value: "rpm" },
@@ -162,6 +192,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
       },
@@ -169,6 +201,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 10,
@@ -177,6 +211,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "A",
         scale: 10,
@@ -184,6 +220,7 @@ const entry: TuyaDeviceEntry = {
       speedType: {
         dataPoint: "116",
         kind: "select",
+        category: "config",
         values: [
           { raw: "rpm", value: "rpm" },
           { raw: "percent", value: "percent" },
@@ -192,6 +229,7 @@ const entry: TuyaDeviceEntry = {
       lowSpeedInRpm: {
         dataPoint: "117",
         kind: "number",
+        category: "config",
         unit: "rpm",
         min: 600,
         max: 3600,
@@ -200,6 +238,7 @@ const entry: TuyaDeviceEntry = {
       mediumSpeedInRpm: {
         dataPoint: "118",
         kind: "number",
+        category: "config",
         unit: "rpm",
         min: 600,
         max: 3600,
@@ -208,6 +247,7 @@ const entry: TuyaDeviceEntry = {
       highSpeedInRpm: {
         dataPoint: "119",
         kind: "number",
+        category: "config",
         unit: "rpm",
         min: 600,
         max: 3600,
@@ -216,6 +256,7 @@ const entry: TuyaDeviceEntry = {
       rapidCleanSpeedInRpm: {
         dataPoint: "120",
         kind: "number",
+        category: "config",
         unit: "rpm",
         min: 600,
         max: 3600,
@@ -224,14 +265,16 @@ const entry: TuyaDeviceEntry = {
       rapidCleanTimeInMinutes: {
         dataPoint: "121",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 1,
         max: 999,
       },
-      prime: { dataPoint: "122", kind: "switch" },
+      prime: { dataPoint: "122", kind: "switch", category: "config" },
       primingSpeedInRpm: {
         dataPoint: "123",
         kind: "number",
+        category: "config",
         unit: "rpm",
         min: 600,
         max: 3600,
@@ -241,6 +284,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "124",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 9999,
@@ -249,11 +293,12 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "125",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 9999,
       },
-      fetchData: { dataPoint: "128", kind: "text" },
+      fetchData: { dataPoint: "128", kind: "text", category: "config" },
     },
   },
   source: {

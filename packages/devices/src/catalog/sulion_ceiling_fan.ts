@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["5baeoecnemrwonk6"],
+  products: [
+    {
+      productKey: "5baeoecnemrwonk6",
+      manufacturer: "Sulion",
+      model: "Crixus L",
+    },
+  ],
   dataPoints: {
     "53": { type: "integer" },
     "54": { type: "string" },
@@ -29,10 +35,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "nature", value: "nature" },
         ],
       },
-      antiBurglary: { dataPoint: "109", kind: "switch" },
+      antiBurglary: { dataPoint: "109", kind: "switch", category: "config" },
       timer: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1h", value: "1h" },
           { raw: "2h", value: "2h" },
@@ -45,6 +52,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

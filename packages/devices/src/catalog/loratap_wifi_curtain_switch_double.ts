@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Double curtain switch",
-  productKeys: ["zqypumy8ot4clzyi"],
+  products: [
+    {
+      productKey: "zqypumy8ot4clzyi",
+      manufacturer: "Loratap",
+      model: "QCSC420W",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -51,6 +57,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 2,
         max: 120,
@@ -59,6 +66,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 2,
         max: 120,
@@ -66,6 +74,7 @@ const entry: TuyaDeviceEntry = {
       direction1: {
         dataPoint: "8",
         kind: "select",
+        category: "config",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "back", value: "back" },
@@ -74,6 +83,7 @@ const entry: TuyaDeviceEntry = {
       direction2: {
         dataPoint: "9",
         kind: "select",
+        category: "config",
         values: [
           { raw: "forward", value: "forward" },
           { raw: "back", value: "back" },
@@ -82,6 +92,7 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
@@ -91,6 +102,7 @@ const entry: TuyaDeviceEntry = {
       calibration1: {
         dataPoint: "3",
         kind: "select",
+        category: "config",
         values: [
           { raw: "start", value: "start" },
           { raw: "end", value: "end" },
@@ -99,6 +111,7 @@ const entry: TuyaDeviceEntry = {
       calibration2: {
         dataPoint: "6",
         kind: "select",
+        category: "config",
         values: [
           { raw: "start", value: "start" },
           { raw: "end", value: "end" },

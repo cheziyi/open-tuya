@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["ulyg4agor5ftpfku"],
+  products: [
+    {
+      productKey: "ulyg4agor5ftpfku",
+      manufacturer: "Kogan",
+      model: "Desiccant",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -47,6 +53,7 @@ const entry: TuyaDeviceEntry = {
       tankFull: {
         dataPoint: "11",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -55,6 +62,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         type: "bitfield",
         values: [
@@ -66,11 +74,22 @@ const entry: TuyaDeviceEntry = {
       faultCode: {
         dataPoint: "11",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         type: "bitfield",
       },
-      timerInHours: { dataPoint: "12", kind: "number", unit: "h" },
-      timerInMinutes: { dataPoint: "13", kind: "number", unit: "min" },
+      timerInHours: {
+        dataPoint: "12",
+        kind: "number",
+        category: "config",
+        unit: "h",
+      },
+      timerInMinutes: {
+        dataPoint: "13",
+        kind: "number",
+        category: "config",
+        unit: "min",
+      },
     },
     fan: {
       on: { dataPoint: "1", kind: "switch" },

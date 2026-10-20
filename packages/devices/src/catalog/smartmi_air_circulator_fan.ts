@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Circulating fan",
-  productKeys: ["ld6lwruyddlfx7a2"],
+  products: [
+    {
+      productKey: "ld6lwruyddlfx7a2",
+      manufacturer: "Smartmi",
+      model: "ZLBPKQXHS02ZM",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -37,6 +43,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -70,10 +77,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "120", value: "120°" },
         ],
       },
-      sound: { dataPoint: "13", kind: "switch" },
-      childLock: { dataPoint: "14", kind: "switch" },
+      sound: { dataPoint: "13", kind: "switch", category: "config" },
+      childLock: { dataPoint: "14", kind: "switch", category: "config" },
     },
-    indicator: { on: { dataPoint: "15", kind: "switch" } },
+    indicator: { on: { dataPoint: "15", kind: "switch", category: "config" } },
   },
   source: {
     file: "smartmi_air_circulator_fan.yaml",

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["nedhywwbir5vbypd"],
+  products: [
+    {
+      productKey: "nedhywwbir5vbypd",
+      manufacturer: "Smartmi",
+      model: "Air Purifier P1",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -39,6 +45,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "µg/m³",
       },
@@ -46,19 +53,28 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "pm10",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "ugm3",
       },
       filterLifeInPercent: {
         dataPoint: "104",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      filterLifeHoursUsed: { dataPoint: "105", kind: "sensor", readOnly: true },
+      filterLifeHoursUsed: {
+        dataPoint: "105",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timer: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0_hour", value: "cancel" },
           { raw: "1_hour", value: "1h" },
@@ -67,11 +83,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "8_hour", value: "8h" },
         ],
       },
-      childLock: { dataPoint: "7", kind: "switch" },
-      sound: { dataPoint: "101", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
+      sound: { dataPoint: "101", kind: "switch", category: "config" },
       displayBrightness: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [
           { raw: "BRIGHTNESS_HIGH", value: "high" },
           { raw: "BRIGHTNESS_LOW", value: "low" },

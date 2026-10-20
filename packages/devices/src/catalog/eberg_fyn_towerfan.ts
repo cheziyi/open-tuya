@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Tower fan",
-  productKeys: ["a6lhkx0olxs4xpla"],
+  products: [
+    { productKey: "a6lhkx0olxs4xpla", manufacturer: "EBERG", model: "FYN" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -42,15 +44,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 12,
       },
-      ionizer: { dataPoint: "9", kind: "switch" },
+      ionizer: { dataPoint: "9", kind: "switch", category: "config" },
       temperatureInC: {
         dataPoint: "19",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -59,6 +63,7 @@ const entry: TuyaDeviceEntry = {
       on: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: true },
           { raw: true, value: false },

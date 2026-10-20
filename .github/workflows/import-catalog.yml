@@ -55,12 +55,14 @@ jobs:
 
             https://github.com/make-all/tuya-local/tree/${{ steps.import.outputs.commit }}/custom_components/tuya_local/devices
           title: Import the catalog from tuya-local
+          # Notifies the maintainer, who merges the pull request.
+          reviewers: cheziyi
           body: |
             `scripts/importTuyaLocal.ts` converted tuya-local's device files at [`make-all/tuya-local@${{ steps.import.outputs.commit }}`](https://github.com/make-all/tuya-local/tree/${{ steps.import.outputs.commit }}/custom_components/tuya_local/devices) into `packages/devices/src/catalog/` and `UNSUPPORTED.md`.
 
             - Raise the changeset to the bump [AGENTS.md](https://github.com/${{ github.repository }}/blob/main/AGENTS.md#version-each-package-with-semver) gives if the diff removes or renames a catalog entry or a control: it bumps `@open-tuya/devices` by a patch.
             - Fix a failing check on `main`, in the script or `CONTROL_NAMES`, not on this branch: the next run resets the branch to `main` plus a fresh import.
-      # A pull request opened with GITHUB_TOKEN starts no pull_request run, and a workflow_dispatch does.
+      # A pull request opened with GITHUB_TOKEN starts its pull_request run only once a person approves it, and a workflow_dispatch runs at once.
       - if: steps.pull-request.outputs.pull-request-operation == 'created' || steps.pull-request.outputs.pull-request-operation == 'updated'
         env:
           GH_TOKEN: ${{ github.token }}

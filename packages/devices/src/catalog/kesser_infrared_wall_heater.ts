@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Infrared wall heater",
-  productKeys: ["ajlnotpa7oymbbte"],
+  products: [
+    { productKey: "ajlnotpa7oymbbte", manufacturer: "Kesser", model: "400W" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -50,17 +52,18 @@ const entry: TuyaDeviceEntry = {
           { raw: "standby", value: "heating" },
         ],
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       temperatureCalibrationInC: {
         dataPoint: "102",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -9,
         max: 9,
       },
-      windowCheck: { dataPoint: "101", kind: "switch" },
-      sound: { dataPoint: "103", kind: "switch" },
+      windowCheck: { dataPoint: "101", kind: "switch", category: "config" },
+      sound: { dataPoint: "103", kind: "switch", category: "config" },
     },
   },
   source: {

@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Illuminance sensor",
-  productKeys: [],
+  products: [],
   dataPoints: { "1": { type: "string" }, "2": { type: "integer" } },
   components: {
     device: {
@@ -13,12 +13,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "illuminance",
+        reading: "instant",
         readOnly: true,
         unit: "lx",
       },
       lightLevel: {
         dataPoint: "1",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "low", value: "Low" },

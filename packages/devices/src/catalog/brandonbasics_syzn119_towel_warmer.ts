@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Towel warmer",
-  productKeys: ["aynf0bur9ur8g42d"],
+  products: [
+    {
+      productKey: "aynf0bur9ur8g42d",
+      manufacturer: "Brandon Basics",
+      model: "SYZN119_SB1",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -52,6 +58,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "12",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1h", value: "1h" },
           { raw: "2h", value: "2h" },

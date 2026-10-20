@@ -5,12 +5,28 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Powerstrip",
-  productKeys: [
-    "key5nck4tavy43jp",
-    "ckg60n4x6qakegxo",
-    "fn2jtjtvkegj2oll",
-    "nflvklbkgbbxegxj",
-    "uebm8smvenxx8pil",
+  products: [
+    {
+      productKey: "key5nck4tavy43jp",
+      manufacturer: "Xystec",
+      model: "NX-4686-919 4xUSB",
+    },
+    {
+      productKey: "ckg60n4x6qakegxo",
+      manufacturer: "Xystec",
+      model: "NX-4986-919 4xUSB",
+    },
+    {
+      productKey: "fn2jtjtvkegj2oll",
+      manufacturer: "Powersav",
+      model: "AHR-083",
+    },
+    { productKey: "nflvklbkgbbxegxj", manufacturer: "LSC Smart Connect" },
+    {
+      productKey: "uebm8smvenxx8pil",
+      manufacturer: "Ucomen",
+      model: "3-outlet",
+    },
   ],
   dataPoints: {
     "1": { type: "boolean" },
@@ -37,6 +53,7 @@ const entry: TuyaDeviceEntry = {
       timer1InSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -44,6 +61,7 @@ const entry: TuyaDeviceEntry = {
       timer2InSeconds: {
         dataPoint: "10",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -51,6 +69,7 @@ const entry: TuyaDeviceEntry = {
       timer3InSeconds: {
         dataPoint: "11",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -58,6 +77,7 @@ const entry: TuyaDeviceEntry = {
       timer4InSeconds: {
         dataPoint: "12",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -65,6 +85,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         dependsOn: {
           dataPoint: "38",
           conditions: [
@@ -106,16 +127,17 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "40",
         kind: "select",
+        category: "config",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
           { raw: "none", value: "off" },
         ],
       },
-      childLock: { dataPoint: "41", kind: "switch" },
-      schedule: { dataPoint: "42", kind: "text" },
-      randomSchedule: { dataPoint: "43", kind: "text" },
-      inching: { dataPoint: "44", kind: "text" },
+      childLock: { dataPoint: "41", kind: "switch", category: "config" },
+      schedule: { dataPoint: "42", kind: "text", category: "config" },
+      randomSchedule: { dataPoint: "43", kind: "text", category: "config" },
+      inching: { dataPoint: "44", kind: "text", category: "config" },
     },
   },
   source: {

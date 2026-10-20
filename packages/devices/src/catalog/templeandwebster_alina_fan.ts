@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan",
-  productKeys: ["lb9da3os0ihifq7u"],
+  products: [
+    {
+      productKey: "lb9da3os0ihifq7u",
+      manufacturer: "Temple and Webster / Martec",
+      model: "Alina / Viper",
+      modelId: "AART1643",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string", optional: true },
@@ -35,6 +42,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

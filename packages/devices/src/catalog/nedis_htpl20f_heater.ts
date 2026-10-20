@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Convection heater",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -50,10 +50,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "away" },
         ],
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       timerInMinutes: {
         dataPoint: "13",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,

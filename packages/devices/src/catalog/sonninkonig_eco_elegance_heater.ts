@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "IR panel heater",
-  productKeys: ["xev18n44cvrmicqd"],
+  products: [
+    {
+      productKey: "xev18n44cvrmicqd",
+      manufacturer: "Sonnenkonig",
+      model: "ECO 700",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -42,10 +48,11 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "C",
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -78,19 +85,25 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      openWindowDetection: { dataPoint: "101", kind: "switch" },
+      openWindowDetection: {
+        dataPoint: "101",
+        kind: "switch",
+        category: "config",
+      },
       temperatureCalibrationInC: {
         dataPoint: "102",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -5,
         max: 5,
       },
-      sound: { dataPoint: "103", kind: "switch" },
+      sound: { dataPoint: "103", kind: "switch", category: "config" },
     },
   },
   source: {

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Valve timer",
-  productKeys: ["gbm9ata1zrzaez4a"],
+  products: [
+    {
+      productKey: "gbm9ata1zrzaez4a",
+      manufacturer: "Hoenyzi",
+      model: "DN15/20/25",
+    },
+  ],
   dataPoints: { "1": { type: "boolean" }, "9": { type: "integer" } },
   components: {
     valve: {
@@ -13,6 +19,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

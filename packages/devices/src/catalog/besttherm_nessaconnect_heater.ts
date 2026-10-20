@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Panel heater",
-  productKeys: ["cah82hbbptejszgh"],
+  products: [
+    {
+      productKey: "cah82hbbptejszgh",
+      manufacturer: "Bestherm",
+      model: "Nessa Connect",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -67,20 +73,28 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       fault: {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       energyInKwh: {
         dataPoint: "101",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
+        category: "diagnostic",
         readOnly: true,
         unit: "kWh",
         scale: 100,
@@ -89,16 +103,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      timeCalibration: { dataPoint: "103", kind: "button" },
-      schedule: { dataPoint: "104", kind: "text" },
-      openWindowDetection: { dataPoint: "105", kind: "switch" },
+      timeCalibration: { dataPoint: "103", kind: "button", category: "config" },
+      schedule: { dataPoint: "104", kind: "text", category: "config" },
+      openWindowDetection: {
+        dataPoint: "105",
+        kind: "switch",
+        category: "config",
+      },
       temperatureCalibrationInC: {
         dataPoint: "107",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -5,
         max: 5,

@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["r6gik8xajfg0lv1y"],
+  products: [
+    {
+      productKey: "r6gik8xajfg0lv1y",
+      manufacturer: "Hyundai",
+      model: "Sahara",
+      modelId: "D030",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -47,18 +54,25 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
-      childLock: { dataPoint: "16", kind: "switch" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
       tankFull: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      tankFullFaultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      tankFullFaultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     fan: {
       on: { dataPoint: "1", kind: "switch" },

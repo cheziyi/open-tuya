@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Towel warmer",
-  productKeys: ["fgzmbjxhgkuwgrav"],
+  products: [
+    {
+      productKey: "fgzmbjxhgkuwgrav",
+      manufacturer: "WarmeHaus",
+      model: "AFD-02-TJ",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -80,6 +86,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 5,
         max: 80,
@@ -90,20 +97,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
         scale: 10,
       },
-      childLock: { dataPoint: "40", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       temperatureCalibrationInC: {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -5,
         max: 5,
       },
-      schedule: { dataPoint: "110", kind: "text" },
+      schedule: { dataPoint: "110", kind: "text", category: "config" },
     },
   },
   source: {

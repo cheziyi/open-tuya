@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan with light",
-  productKeys: ["kbhfiv4zxa3qkcsf"],
+  products: [
+    {
+      productKey: "kbhfiv4zxa3qkcsf",
+      manufacturer: "Milano",
+      model: "Ceiling Fan",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -60,6 +66,7 @@ const entry: TuyaDeviceEntry = {
       timerRemainingInMinutes: {
         dataPoint: "23",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -67,12 +74,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "24", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "24",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     light: {
       on: { dataPoint: "15", kind: "switch" },

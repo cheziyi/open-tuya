@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["fqya2gnl3bcjgwzl"],
+  products: [
+    {
+      productKey: "fqya2gnl3bcjgwzl",
+      manufacturer: "Papifeed",
+      model: "PB-26-SW",
+    },
+  ],
   dataPoints: {
     "3": { type: "integer" },
     "4": { type: "string", optional: true },
@@ -22,6 +28,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,
@@ -30,6 +37,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
@@ -38,6 +46,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "feeding", value: true }],
         whenAbsent: { value: null },

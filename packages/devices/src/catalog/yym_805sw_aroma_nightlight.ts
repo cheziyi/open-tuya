@@ -5,7 +5,15 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Aroma diffuser",
-  productKeys: ["c0nh3LmEk0NDebrq", "kgczidn0awas0prr", "yau6o02wsipbegnm"],
+  products: [
+    { productKey: "c0nh3LmEk0NDebrq", model: "YYM-805SW" },
+    { productKey: "kgczidn0awas0prr", manufacturer: "Tellur" },
+    {
+      productKey: "yau6o02wsipbegnm",
+      manufacturer: "BelleLife",
+      model: "Delixing",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -100,6 +108,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "3",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -107,17 +116,29 @@ const entry: TuyaDeviceEntry = {
           { raw: "6", value: "6h" },
         ],
       },
-      timerRemaining: { dataPoint: "4", kind: "number", min: 0, max: 360 },
+      timerRemaining: {
+        dataPoint: "4",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 360,
+      },
       fault: {
         dataPoint: "9",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "9", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "9",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

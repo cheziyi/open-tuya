@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["z239up9fr3blouy3"],
+  products: [
+    {
+      productKey: "z239up9fr3blouy3",
+      manufacturer: "SoleusAir",
+      model: "AHU-2000L3",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -40,6 +46,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -53,6 +60,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -69,19 +77,25 @@ const entry: TuyaDeviceEntry = {
           { raw: "12h", value: "12h" },
         ],
       },
-      uvSterilization: { dataPoint: "21", kind: "switch" },
+      uvSterilization: { dataPoint: "21", kind: "switch", category: "config" },
       fault: {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
-      ionizer: { dataPoint: "25", kind: "switch" },
-      heat: { dataPoint: "26", kind: "switch" },
-      plasma: { dataPoint: "35", kind: "switch" },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      ionizer: { dataPoint: "25", kind: "switch", category: "config" },
+      heat: { dataPoint: "26", kind: "switch", category: "config" },
+      plasma: { dataPoint: "35", kind: "switch", category: "config" },
     },
     humidifier: {
       on: { dataPoint: "2", kind: "switch" },

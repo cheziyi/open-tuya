@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "TV mount",
-  productKeys: ["ejr6szbimwutiaqp"],
+  products: [
+    { productKey: "ejr6szbimwutiaqp", manufacturer: "Vivo", model: "FD55" },
+  ],
   dataPoints: {
     "101": { type: "string" },
     "103": { type: "string", optional: true },

@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan and light switch",
-  productKeys: ["j11gop7l2l3sblc2"],
+  products: [
+    { productKey: "j11gop7l2l3sblc2", manufacturer: "GHome", model: "SW19" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -33,6 +35,7 @@ const entry: TuyaDeviceEntry = {
       fanTimerInSeconds: {
         dataPoint: "2",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -40,6 +43,7 @@ const entry: TuyaDeviceEntry = {
       lightTimerInSeconds: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -47,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -56,6 +61,7 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "12",
         kind: "select",
+        category: "config",
         values: [
           { raw: "none", value: "off" },
           { raw: "relay", value: "state" },
@@ -66,12 +72,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "101", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "101",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     light: {
       on: { dataPoint: "5", kind: "switch" },

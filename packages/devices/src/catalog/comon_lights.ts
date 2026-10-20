@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "String light controller",
-  productKeys: ["swzi5fagtytgxe0f"],
+  products: [
+    {
+      productKey: "swzi5fagtytgxe0f",
+      manufacturer: "Lexi Lighting",
+      model: "LLXAPT01",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -39,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1e03e801f40000000", value: "Combination - All" },
           { raw: "0c03e801f43000000", value: "In Waves - Slow" },
@@ -65,6 +72,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

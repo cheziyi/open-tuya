@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Video doorbell",
-  productKeys: ["yev0rxmozbfx8wo"],
+  products: [
+    { productKey: "yev0rxmozbfx8wo", manufacturer: "Vidos", model: "M13-XT" },
+  ],
   dataPoints: {
     "109": { type: "string" },
     "110": { type: "integer", optional: true },
@@ -43,10 +45,16 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         type: "base64",
       },
-      sdStatusStorage: { dataPoint: "109", kind: "sensor", readOnly: true },
+      sdStatusStorage: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },

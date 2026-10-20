@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pool heat pump",
-  productKeys: ["koAASpds906awojG"],
+  products: [
+    {
+      productKey: "koAASpds906awojG",
+      manufacturer: "Garden PAC",
+      model: "InverTech GHD-150-0356",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "102": { type: "integer" },
@@ -87,6 +93,8 @@ const entry: TuyaDeviceEntry = {
       powerLevelInPercent: {
         dataPoint: "104",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -94,6 +102,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "115",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
@@ -102,6 +111,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "116",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           {
@@ -115,8 +125,18 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "115", kind: "sensor", readOnly: true },
-      faultCode2: { dataPoint: "116", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "115",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultCode2: {
+        dataPoint: "116",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

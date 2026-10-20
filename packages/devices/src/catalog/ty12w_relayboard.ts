@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Relay board",
-  productKeys: ["5bk3dyjvxcjk42mm"],
+  products: [{ productKey: "5bk3dyjvxcjk42mm", model: "TY-24W(B)" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },

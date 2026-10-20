@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["8gdwxpoqdxdzefpe"],
+  products: [
+    {
+      productKey: "8gdwxpoqdxdzefpe",
+      manufacturer: "Tesla Smart",
+      model: "TSL-PC-BL4",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "101": { type: "integer" },
@@ -17,6 +23,7 @@ const entry: TuyaDeviceEntry = {
       servingSizeInPortions: {
         dataPoint: "101",
         kind: "number",
+        category: "config",
         unit: "portions",
         min: 1,
         max: 10,
@@ -25,11 +32,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "102", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "102",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

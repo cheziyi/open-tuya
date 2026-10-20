@@ -5,7 +5,15 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet fountain",
-  productKeys: ["akln8rb04cav403q", "kk8qdeaunqdyp8z5", "cafirr70niv1hj2x"],
+  products: [
+    { productKey: "akln8rb04cav403q", manufacturer: "Kanchou" },
+    { productKey: "kk8qdeaunqdyp8z5", manufacturer: "Kanchou" },
+    {
+      productKey: "cafirr70niv1hj2x",
+      manufacturer: "Fontanna Smart",
+      model: "FONT7-SMART-B",
+    },
+  ],
   dataPoints: {
     "2": { type: "string" },
     "3": { type: "integer" },
@@ -25,6 +33,7 @@ const entry: TuyaDeviceEntry = {
       activationMode: {
         dataPoint: "2",
         kind: "select",
+        category: "config",
         values: [
           { raw: "normal", value: "normal" },
           { raw: "night", value: "night" },
@@ -34,6 +43,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "3",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "d",
       },
@@ -41,14 +52,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "d",
       },
-      filterReset: { dataPoint: "5", kind: "button" },
-      pumpCleanReset: { dataPoint: "6", kind: "button" },
+      filterReset: { dataPoint: "5", kind: "button", category: "config" },
+      pumpCleanReset: { dataPoint: "6", kind: "button", category: "config" },
       filterChangeIntervalInDays: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "d",
         min: 0,
         max: 30,
@@ -56,6 +70,7 @@ const entry: TuyaDeviceEntry = {
       pumpCleanIntervalInDays: {
         dataPoint: "8",
         kind: "number",
+        category: "config",
         unit: "d",
         min: 0,
         max: 15,
@@ -64,6 +79,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "volumeStorage",
+        reading: "instant",
         readOnly: true,
         unit: "mL",
       },
@@ -82,6 +98,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "volume",
+        reading: "instant",
         readOnly: true,
         unit: "mL",
       },
@@ -89,6 +106,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -97,10 +115,16 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "23", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "23",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "23",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },

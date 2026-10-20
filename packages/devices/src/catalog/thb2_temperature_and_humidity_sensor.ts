@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Temperature and humidity sensor",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "integer" },
     "2": { type: "integer" },
@@ -26,6 +26,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -34,12 +35,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
       temperatureUnit: {
         dataPoint: "9",
         kind: "select",
+        category: "config",
         values: [
           { raw: "f", value: "F" },
           { raw: "c", value: "C" },
@@ -56,6 +59,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -200,
         max: 600,
@@ -65,6 +69,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -200,
         max: 600,
@@ -73,6 +78,7 @@ const entry: TuyaDeviceEntry = {
       highHumidityLimitInPercent: {
         dataPoint: "12",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -80,6 +86,7 @@ const entry: TuyaDeviceEntry = {
       lowHumidityLimitInPercent: {
         dataPoint: "13",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -108,6 +115,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -20,
         max: 20,
@@ -116,6 +124,7 @@ const entry: TuyaDeviceEntry = {
       humidityCalibrationInPercent: {
         dataPoint: "24",
         kind: "number",
+        category: "config",
         unit: "%",
         min: -10,
         max: 10,

@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["aehfntztbgk0nf8e"],
+  products: [
+    { productKey: "aehfntztbgk0nf8e", manufacturer: "BNETA", model: "F1-D" },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "103": { type: "boolean", optional: true },
@@ -25,17 +27,19 @@ const entry: TuyaDeviceEntry = {
     "208": { type: "string", optional: true },
   },
   components: {
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
     device: {
       flipImage: {
         dataPoint: "103",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
-      watermark: { dataPoint: "104", kind: "switch" },
+      watermark: { dataPoint: "104", kind: "switch", category: "config" },
       motionSensitivity: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
@@ -45,12 +49,13 @@ const entry: TuyaDeviceEntry = {
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "off" },
           { raw: true, value: "on" },
         ],
       },
-      motionRecord: { dataPoint: "113", kind: "switch" },
+      motionRecord: { dataPoint: "113", kind: "switch", category: "config" },
       motion: {
         dataPoint: "115",
         kind: "event",
@@ -62,6 +67,7 @@ const entry: TuyaDeviceEntry = {
       motionDetection: {
         dataPoint: "134",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       manualFeedInPortions: {
@@ -81,6 +87,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "202",
         kind: "sensor",
         measures: "weight",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "g",
         scale: 10,

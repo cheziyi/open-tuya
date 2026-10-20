@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["j13qydx3msgu6vnq"],
+  products: [
+    {
+      productKey: "j13qydx3msgu6vnq",
+      manufacturer: "Zephir",
+      model: "ZMW4000V",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -81,10 +87,15 @@ const entry: TuyaDeviceEntry = {
           { raw: true, value: "on" },
         ],
       },
-      openWindowDetector: { dataPoint: "101", kind: "switch" },
+      openWindowDetector: {
+        dataPoint: "101",
+        kind: "switch",
+        category: "config",
+      },
       timer: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -117,6 +128,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -124,14 +136,20 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
-    display: { on: { dataPoint: "10", kind: "switch" } },
+    display: { on: { dataPoint: "10", kind: "switch", category: "config" } },
   },
   source: {
     file: "zephir_zmw4000vsmart_heater.yaml",

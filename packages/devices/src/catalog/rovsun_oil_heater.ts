@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Oil column heater",
-  productKeys: ["9vsptcjqb7ofdplr"],
+  products: [
+    {
+      productKey: "9vsptcjqb7ofdplr",
+      manufacturer: "Rovsun",
+      model: "NSC-150-7A2R",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -55,6 +61,7 @@ const entry: TuyaDeviceEntry = {
       on: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -66,6 +73,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 24,

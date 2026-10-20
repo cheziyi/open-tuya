@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Radiator",
-  productKeys: ["nqca56qbzkjyakwu"],
+  products: [{ productKey: "nqca56qbzkjyakwu", model: "IN-RING-R" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -60,23 +60,26 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -5,
         max: 5,
       },
-      schedule: { dataPoint: "53", kind: "text" },
+      schedule: { dataPoint: "53", kind: "text", category: "config" },
       awayInDays: {
         dataPoint: "101",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "d",
         min: 1,
         max: 60,
       },
-      childLock: { dataPoint: "102", kind: "switch" },
+      childLock: { dataPoint: "102", kind: "switch", category: "config" },
       openWindowDetection: {
         dataPoint: "112",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "60", value: "1h" },

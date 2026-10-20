@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pool heat pump",
-  productKeys: ["eeih95rmks0mjflz", "pkm5dso5i0lmx1dy"],
+  products: [
+    {
+      productKey: "eeih95rmks0mjflz",
+      manufacturer: "Aquark",
+      model: "Mr. Silence",
+    },
+    {
+      productKey: "pkm5dso5i0lmx1dy",
+      manufacturer: "Aquark",
+      model: "Mr. Silence",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "102": { type: "integer" },
@@ -98,6 +109,8 @@ const entry: TuyaDeviceEntry = {
       speedInPercent: {
         dataPoint: "104",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -105,6 +118,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "115",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
@@ -112,6 +126,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "F" },
           { raw: true, value: "C" },
@@ -121,6 +136,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "116",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           {
@@ -134,8 +150,18 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "115", kind: "sensor", readOnly: true },
-      faultCode2: { dataPoint: "116", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "115",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultCode2: {
+        dataPoint: "116",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

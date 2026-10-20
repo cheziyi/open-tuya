@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain module",
-  productKeys: ["uoa3mayicscacseb"],
+  products: [{ productKey: "uoa3mayicscacseb", model: "QS-WIFI-S10-C04" }],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -37,6 +37,7 @@ const entry: TuyaDeviceEntry = {
       motorReverseMode: {
         dataPoint: "8",
         kind: "select",
+        category: "config",
         values: [
           { raw: "forward", value: "Forward" },
           { raw: "back", value: "Back" },
@@ -46,6 +47,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 1,
         max: 60,
@@ -53,16 +55,19 @@ const entry: TuyaDeviceEntry = {
       calibrationStart: {
         dataPoint: "3",
         kind: "button",
+        category: "config",
         values: [{ raw: "start", value: true }],
       },
       calibrationEnd: {
         dataPoint: "3",
         kind: "button",
+        category: "config",
         values: [{ raw: "end", value: true }],
       },
       switchType: {
         dataPoint: "12",
         kind: "select",
+        category: "config",
         values: [
           { raw: "rock", value: "Rocker switch" },
           { raw: "push", value: "Push button" },

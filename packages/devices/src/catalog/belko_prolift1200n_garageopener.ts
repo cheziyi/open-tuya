@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Garage door",
-  productKeys: ["rxjnauytlvlczvcq"],
+  products: [
+    {
+      productKey: "rxjnauytlvlczvcq",
+      manufacturer: "Belko",
+      model: "ProLift 1200N",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "boolean" },

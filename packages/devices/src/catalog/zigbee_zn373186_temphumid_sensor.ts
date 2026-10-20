@@ -5,7 +5,11 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Climate sensor",
-  productKeys: ["xr3htd96", "dowj6gyi", "kkerjand"],
+  products: [
+    { productKey: "xr3htd96", manufacturer: "Aubess", model: "ZN373186_01" },
+    { productKey: "dowj6gyi", manufacturer: "Tuya", model: "WS-ZIGBEE-TEST2" },
+    { productKey: "kkerjand", manufacturer: "Tuya", model: "SZT06" },
+  ],
   dataPoints: {
     "1": { type: "integer" },
     "2": { type: "integer" },
@@ -17,6 +21,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -25,6 +30,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
         scale: 10,
@@ -33,6 +39,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },

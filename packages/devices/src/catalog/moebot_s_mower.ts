@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Lawnmower",
-  productKeys: ["mvt4l2evgq2l3nkn", "icw5sal7xfcevsve"],
+  products: [
+    { productKey: "mvt4l2evgq2l3nkn", manufacturer: "MoeBot", model: "S20" },
+    {
+      productKey: "icw5sal7xfcevsve",
+      manufacturer: "Parkside",
+      model: "PMRDA 20-Li A1",
+    },
+  ],
   dataPoints: {
     "6": { type: "integer", optional: true },
     "13": { type: "integer", optional: true },
@@ -84,6 +91,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
         readOnly: true,
         unit: "%",
         whenAbsent: { redirect: { dataPoint: "13" } },
@@ -93,16 +101,28 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "102", kind: "sensor", readOnly: true },
-      faultErrorLog: { dataPoint: "111", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "102",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultErrorLog: {
+        dataPoint: "111",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       problem: {
         dataPoint: "103",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "MOWER_LEAN", value: "Tilted" },
@@ -132,30 +152,42 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "OK" },
       },
-      rainMode: { dataPoint: "104", kind: "switch" },
+      rainMode: { dataPoint: "104", kind: "switch", category: "config" },
       runningTimeInHours: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "h",
         min: 1,
         max: 24,
       },
-      clearSchedule: { dataPoint: "107", kind: "button" },
-      querySchedule: { dataPoint: "108", kind: "button" },
-      queryZones: { dataPoint: "109", kind: "button" },
+      clearSchedule: { dataPoint: "107", kind: "button", category: "config" },
+      querySchedule: { dataPoint: "108", kind: "button", category: "config" },
+      queryZones: { dataPoint: "109", kind: "button", category: "config" },
       mowingMode: {
         dataPoint: "114",
         kind: "select",
+        category: "config",
         values: [
           { raw: "AutoMode", value: "Auto" },
           { raw: "GardenMode", value: "Garden" },
         ],
       },
-      cover: { dataPoint: "116", kind: "sensor", readOnly: true },
-      hedgehogProtection: { dataPoint: "118", kind: "switch" },
+      cover: {
+        dataPoint: "116",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      hedgehogProtection: {
+        dataPoint: "118",
+        kind: "switch",
+        category: "config",
+      },
       backwardBladeStop: {
         dataPoint: "121",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },

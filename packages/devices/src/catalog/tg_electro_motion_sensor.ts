@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Motion sensor",
-  productKeys: ["ksxoagx7y6gsypck"],
+  products: [
+    {
+      productKey: "ksxoagx7y6gsypck",
+      manufacturer: "TG Electro",
+      model: "TG-MS-PIR-S201",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "51": { type: "string" },
@@ -26,10 +32,11 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       on: { dataPoint: "20", kind: "switch" },
-      scanning: { dataPoint: "56", kind: "switch" },
+      scanning: { dataPoint: "56", kind: "switch", category: "config" },
       ambientLightSensitivity: {
         dataPoint: "53",
         kind: "select",
+        category: "config",
         values: [
           { raw: "5lux", value: "dark" },
           { raw: "10lux", value: "late_evening" },
@@ -41,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       sensitivity: {
         dataPoint: "54",
         kind: "select",
+        category: "config",
         values: [
           { raw: "low", value: "low" },
           { raw: "middle", value: "middle" },
@@ -51,6 +59,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "55",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 5,
         max: 360,
@@ -59,6 +68,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "52",
         kind: "sensor",
         measures: "motion",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "motion", value: true }],
         otherwise: false,

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air quality monitor",
-  productKeys: ["otnwbfrffhnatwxd"],
+  products: [
+    {
+      productKey: "otnwbfrffhnatwxd",
+      manufacturer: "HaoliYuan",
+      model: "EWC02",
+    },
+  ],
   dataPoints: {
     "2": { type: "integer" },
     "3": { type: "integer" },
@@ -23,6 +29,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -31,6 +38,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "3",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -38,6 +46,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "sensor",
         measures: "carbonDioxide",
+        reading: "instant",
         readOnly: true,
         unit: "ppm",
       },
@@ -45,12 +54,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       temperatureUnit: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -64,10 +76,11 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: "chraging", value: true }],
         otherwise: false,
       },
-      alarm: { dataPoint: "104", kind: "switch" },
+      alarm: { dataPoint: "104", kind: "switch", category: "config" },
       screenOffDelay: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Never", value: "cancel" },
           { raw: "10minute", value: "10m" },
@@ -81,6 +94,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "number",
         measures: "carbonDioxide",
+        category: "config",
         unit: "ppm",
         min: 1000,
         max: 9999,

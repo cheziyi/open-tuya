@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan controller",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "string" },
@@ -29,6 +29,7 @@ const entry: TuyaDeviceEntry = {
       fanTimer: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "cancel" },
           { raw: "2", value: "1h" },
@@ -40,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       lightTimer: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "cancel" },
           { raw: "2", value: "1h" },
@@ -48,7 +50,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "5", value: "8h" },
         ],
       },
-      master: { dataPoint: "101", kind: "switch" },
+      master: { dataPoint: "101", kind: "switch", category: "config" },
     },
     light: { on: { dataPoint: "9", kind: "switch" } },
   },

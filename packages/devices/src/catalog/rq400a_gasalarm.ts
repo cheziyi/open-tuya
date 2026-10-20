@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Gas leak detector",
-  productKeys: ["stqmzk01tbm3qwhg"],
+  products: [{ productKey: "stqmzk01tbm3qwhg", model: "RQ400A-Update CB2S" }],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "string" },
@@ -35,16 +35,18 @@ const entry: TuyaDeviceEntry = {
       gasLevelInPercentLel: {
         dataPoint: "5",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "% LEL",
         min: 1,
         max: 1000,
         scale: 10,
       },
-      on: { dataPoint: "12", kind: "switch" },
+      on: { dataPoint: "12", kind: "switch", category: "config" },
       tone: {
         dataPoint: "8",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "Alarm 1" },
           { raw: "2", value: "Alarm 2" },
@@ -56,21 +58,24 @@ const entry: TuyaDeviceEntry = {
       durationInSeconds: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 1,
         max: 180,
       },
-      selfCheck: { dataPoint: "9", kind: "button" },
-      selfCheckResult: { dataPoint: "1", kind: "text" },
+      selfCheck: { dataPoint: "9", kind: "button", category: "config" },
+      selfCheckResult: { dataPoint: "1", kind: "text", category: "config" },
       warmUp: {
         dataPoint: "10",
         kind: "sensor",
         measures: "cold",
+        category: "diagnostic",
         readOnly: true,
       },
       sound: {
         dataPoint: "14",
         kind: "switch",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },

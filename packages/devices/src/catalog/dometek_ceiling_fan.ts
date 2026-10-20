@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan with light",
-  productKeys: ["glwdjlng89qo95it"],
+  products: [
+    {
+      productKey: "glwdjlng89qo95it",
+      manufacturer: "Dometek",
+      model: "Diamond",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "26": { type: "integer" },
@@ -31,11 +37,17 @@ const entry: TuyaDeviceEntry = {
     },
     light: {
       on: { dataPoint: "20", kind: "switch" },
-      lightTimerInSeconds: { dataPoint: "26", kind: "number", unit: "s" },
+      lightTimerInSeconds: {
+        dataPoint: "26",
+        kind: "number",
+        category: "config",
+        unit: "s",
+      },
       fanTimerInMinutes: {
         dataPoint: "64",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 540,

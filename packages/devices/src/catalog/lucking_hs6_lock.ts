@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Door lock",
-  productKeys: ["7veecefmxfxsu0b8"],
+  products: [
+    {
+      productKey: "7veecefmxfxsu0b8",
+      manufacturer: "Lucking",
+      model: "HF06EM/HF06MF-W-WIFI",
+    },
+  ],
   dataPoints: {
     "10": { type: "string", optional: true },
     "11": { type: "string", optional: true },
@@ -59,6 +65,7 @@ const entry: TuyaDeviceEntry = {
       multiFactorAuthentication: {
         dataPoint: "25",
         kind: "select",
+        category: "config",
         values: [
           { raw: "single_unlock", value: "Single factor" },
           { raw: "finger_password", value: "Fingerprint+PIN" },
@@ -71,6 +78,7 @@ const entry: TuyaDeviceEntry = {
       language: {
         dataPoint: "27",
         kind: "select",
+        category: "config",
         values: [
           { raw: "chinese_simplified", value: "chinese" },
           { raw: "english", value: "english" },
@@ -85,10 +93,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "korean", value: "korean" },
         ],
       },
-      autoLock: { dataPoint: "30", kind: "switch" },
+      autoLock: { dataPoint: "30", kind: "switch", category: "config" },
       autoLockTimeInSeconds: {
         dataPoint: "31",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 1800,
@@ -97,6 +106,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "34",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 1800,
@@ -104,6 +114,7 @@ const entry: TuyaDeviceEntry = {
       doorbellTune: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "ding_0", value: "Ding 0" },
           { raw: "ding_1", value: "Ding 1" },
@@ -117,10 +128,15 @@ const entry: TuyaDeviceEntry = {
           { raw: "ding_9", value: "Ding 9" },
         ],
       },
-      doorbellTuneDoorbellSongKit: { dataPoint: "103", kind: "text" },
+      doorbellTuneDoorbellSongKit: {
+        dataPoint: "103",
+        kind: "text",
+        category: "config",
+      },
       doorbell: {
         dataPoint: "101",
         kind: "event",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: true, value: "ring" },

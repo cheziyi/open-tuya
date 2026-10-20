@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Baby sound machine",
-  productKeys: ["6lqbviusicwtnmkd"],
+  products: [
+    {
+      productKey: "6lqbviusicwtnmkd",
+      manufacturer: "Dreamegg",
+      model: "Nite 1",
+    },
+  ],
   dataPoints: {
     "3": { type: "boolean" },
     "4": { type: "string" },
@@ -83,15 +89,17 @@ const entry: TuyaDeviceEntry = {
       timeFormat: {
         dataPoint: "21",
         kind: "select",
+        category: "config",
         values: [
           { raw: "12h", value: "12h" },
           { raw: "24h", value: "24h" },
         ],
       },
-      childLock: { dataPoint: "101", kind: "switch" },
+      childLock: { dataPoint: "101", kind: "switch", category: "config" },
       timerInMinutes: {
         dataPoint: "20",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1439,
@@ -100,6 +108,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -156,7 +165,13 @@ const entry: TuyaDeviceEntry = {
       },
     },
     display: {
-      brightness: { dataPoint: "22", kind: "number", min: 0, max: 100 },
+      brightness: {
+        dataPoint: "22",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
     },
   },
   source: {

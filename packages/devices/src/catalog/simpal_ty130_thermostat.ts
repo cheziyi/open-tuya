@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat switch",
-  productKeys: ["vqtesox68dh4nflq"],
+  products: [
+    { productKey: "vqtesox68dh4nflq", manufacturer: "Simpal", model: "TY-130" },
+  ],
   dataPoints: {
     "2": { type: "boolean" },
     "4": { type: "integer" },
@@ -28,14 +30,16 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "4",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
       },
-      schedule: { dataPoint: "7", kind: "text" },
+      schedule: { dataPoint: "7", kind: "text", category: "config" },
       temperatureUnit: {
         dataPoint: "20",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -45,6 +49,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "29",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unitFrom: "temperatureHysteresisUnit",
         min: 10,
         max: 90,
@@ -54,6 +59,7 @@ const entry: TuyaDeviceEntry = {
       temperatureHysteresisUnit: {
         dataPoint: "20",
         kind: "select",
+        category: "config",
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
@@ -61,6 +67,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "30",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unitFrom: "temperatureCalibrationUnit",
         min: -9,
         max: 9,
@@ -68,6 +75,7 @@ const entry: TuyaDeviceEntry = {
       temperatureCalibrationUnit: {
         dataPoint: "20",
         kind: "select",
+        category: "config",
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
@@ -75,11 +83,12 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "55",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 10,
       },
-      coldDelay: { dataPoint: "56", kind: "switch" },
+      coldDelay: { dataPoint: "56", kind: "switch", category: "config" },
     },
     thermostat: {
       hvacMode: {

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["wfnmgiqqch80sg1w"],
+  products: [
+    {
+      productKey: "wfnmgiqqch80sg1w",
+      manufacturer: "YP",
+      model: "PAF-40PCS-WBR3",
+    },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "3": { type: "integer" },
@@ -17,10 +23,11 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       manualFeed: { dataPoint: "3", kind: "number", min: 1, max: 40 },
-      mealPlan: { dataPoint: "1", kind: "text" },
+      mealPlan: { dataPoint: "1", kind: "text", category: "config" },
       status: {
         dataPoint: "4",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -28,20 +35,32 @@ const entry: TuyaDeviceEntry = {
           { raw: "done", value: "feeding_complete" },
         ],
       },
-      feedReport: { dataPoint: "15", kind: "sensor", readOnly: true },
-      factoryReset: { dataPoint: "9", kind: "button" },
+      feedReport: {
+        dataPoint: "15",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      factoryReset: { dataPoint: "9", kind: "button", category: "config" },
       fault: {
         dataPoint: "14",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "14", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "14",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "14",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "pet_food_jammed" },

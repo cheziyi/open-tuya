@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Door lock",
-  productKeys: ["isk2p555"],
+  products: [{ productKey: "isk2p555", manufacturer: "YSG", model: "BS01" }],
   dataPoints: {
     "1": { type: "string", optional: true },
     "2": { type: "string", optional: true },
@@ -58,12 +58,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "8",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       alert: {
         dataPoint: "21",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "wrong_finger", value: "wrong_finger" },
@@ -76,6 +79,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "battery",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "low_battery", value: true }],
         otherwise: false,
@@ -83,6 +87,7 @@ const entry: TuyaDeviceEntry = {
       language: {
         dataPoint: "28",
         kind: "select",
+        category: "config",
         values: [
           { raw: "chinese_simplified", value: "chinese" },
           { raw: "english", value: "english" },
@@ -91,6 +96,7 @@ const entry: TuyaDeviceEntry = {
       beepVolumeInPercent: {
         dataPoint: "31",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,

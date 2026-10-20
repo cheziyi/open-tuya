@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Convection heater",
-  productKeys: ["yqnv4v88805rpkr1"],
+  products: [{ productKey: "yqnv4v88805rpkr1", manufacturer: "Calex" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -66,10 +66,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "P7", value: "activity" },
         ],
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -102,14 +103,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      nightMode: { dataPoint: "103", kind: "switch" },
+      nightMode: { dataPoint: "103", kind: "switch", category: "config" },
       temperatureCalibrationInC: {
         dataPoint: "106",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: 0,
         max: 40,

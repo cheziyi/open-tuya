@@ -5,11 +5,31 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: [
-    "smu5pc1ruzadfnuk",
-    "sijcdtk46wa9uews",
-    "ppkadch47agj28tc",
-    "hxibo4e0e20uzupv",
+  products: [
+    {
+      productKey: "smu5pc1ruzadfnuk",
+      manufacturer: "Meaco",
+      model: "Cirro+ 14000 BTU Inverter & Heater",
+      modelId: "CIRRO14000CHPRO",
+    },
+    {
+      productKey: "sijcdtk46wa9uews",
+      manufacturer: "Meaco",
+      model: "Cirro+ 14000 BTU Inverter",
+      modelId: "CIRRO14000PRO",
+    },
+    {
+      productKey: "ppkadch47agj28tc",
+      manufacturer: "Meaco",
+      model: "Cirro+ 16000 BTU Inverter",
+      modelId: "CIRRO16000PRO",
+    },
+    {
+      productKey: "hxibo4e0e20uzupv",
+      manufacturer: "Meaco",
+      model: "Cirro+ 16000 BTU CH Inverter",
+      modelId: "CIRRO16000CHPRO",
+    },
   ],
   dataPoints: {
     "1": { type: "boolean" },
@@ -148,6 +168,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -155,15 +176,21 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       tankFull: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
       },
-      childLock: { dataPoint: "14", kind: "switch" },
+      childLock: { dataPoint: "14", kind: "switch", category: "config" },
     },
   },
   source: {

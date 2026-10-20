@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heating element",
-  productKeys: ["7e1lbi2nugtkhued"],
+  products: [{ productKey: "7e1lbi2nugtkhued", manufacturer: "Ecoso" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -73,6 +73,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -10,
         max: 10,
@@ -81,23 +82,26 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "42",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      schedule: { dataPoint: "53", kind: "text" },
+      schedule: { dataPoint: "53", kind: "text", category: "config" },
       holidayLengthInDays: {
         dataPoint: "101",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "d",
         min: 0,
         max: 60,
       },
-      childLock: { dataPoint: "102", kind: "switch" },
+      childLock: { dataPoint: "102", kind: "switch", category: "config" },
       antiFrostThresholdInC: {
         dataPoint: "103",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 0,
         max: 5,
@@ -106,12 +110,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
       },
       timerMode: {
         dataPoint: "105",
         kind: "sensor",
+        category: "config",
         readOnly: true,
         values: [
           { raw: "0", value: "0" },
@@ -123,6 +130,7 @@ const entry: TuyaDeviceEntry = {
       openWindowDetection: {
         dataPoint: "112",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "60", value: "1h" },

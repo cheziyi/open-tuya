@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Energy meter",
-  productKeys: ["dyazpvq8orn3psn1"],
+  products: [{ productKey: "dyazpvq8orn3psn1", model: "V-WIFI-DL01-ES" }],
   dataPoints: {
     "101": { type: "string", optional: true },
     "102": { type: "string", optional: true },
@@ -27,6 +27,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 1000,
@@ -53,6 +54,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "W",
         scale: 10,
@@ -61,6 +64,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "A",
         scale: 1000,
@@ -69,6 +74,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 10,
@@ -77,6 +84,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "sensor",
         measures: "hazard",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "warn", value: true }],
         otherwise: false,
@@ -85,6 +93,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         kind: "number",
         measures: "power",
+        category: "config",
         unit: "W",
         min: 200,
         max: 50000,
@@ -94,6 +103,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "sensor",
         measures: "connectivity",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "cloud_net", value: true }],
         otherwise: false,
@@ -102,6 +112,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "sensor",
         measures: "connectivity",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "cloud_net", value: true },
@@ -112,6 +123,7 @@ const entry: TuyaDeviceEntry = {
       syncRequest: {
         dataPoint: "101",
         kind: "event",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "idle", value: "idle" },
@@ -121,16 +133,19 @@ const entry: TuyaDeviceEntry = {
       syncIdle: {
         dataPoint: "102",
         kind: "button",
+        category: "config",
         values: [{ raw: "idle", value: true }],
       },
       syncOk: {
         dataPoint: "102",
         kind: "button",
+        category: "config",
         values: [{ raw: "ok", value: true }],
       },
       status: {
         dataPoint: "103",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "close", value: "close" },

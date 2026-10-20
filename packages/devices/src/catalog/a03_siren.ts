@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Siren",
-  productKeys: ["ztoh9ka787lzjkpy"],
+  products: [{ productKey: "ztoh9ka787lzjkpy", model: "A03" }],
   dataPoints: {
     "5": { type: "string" },
     "7": { type: "integer" },

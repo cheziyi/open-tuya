@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["gsn2b1cgyeivpjka"],
+  products: [
+    { productKey: "gsn2b1cgyeivpjka", manufacturer: "Arida", model: "Eva" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "10": { type: "integer" },
@@ -65,12 +67,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
       mistLevel: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "level_1", value: "Low" },
           { raw: "level_2", value: "Medium" },
@@ -80,6 +84,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -115,6 +120,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -122,14 +128,19 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
-      childLock: { dataPoint: "29", kind: "switch" },
-      warmMist: { dataPoint: "101", kind: "switch" },
-      uvSterilization: { dataPoint: "104", kind: "switch" },
-      sleep: { dataPoint: "106", kind: "switch" },
-      cleaningMode: { dataPoint: "107", kind: "switch" },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      childLock: { dataPoint: "29", kind: "switch", category: "config" },
+      warmMist: { dataPoint: "101", kind: "switch", category: "config" },
+      uvSterilization: { dataPoint: "104", kind: "switch", category: "config" },
+      sleep: { dataPoint: "106", kind: "switch", category: "config" },
+      cleaningMode: { dataPoint: "107", kind: "switch", category: "config" },
     },
-    display: { on: { dataPoint: "105", kind: "switch" } },
+    display: { on: { dataPoint: "105", kind: "switch", category: "config" } },
   },
   source: {
     file: "arida_eva_humidifier.yaml",

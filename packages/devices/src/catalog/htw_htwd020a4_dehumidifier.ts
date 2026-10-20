@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["z6iig4fopkrzyej9"],
+  products: [
+    { productKey: "z6iig4fopkrzyej9", manufacturer: "HTW", model: "HTWD020A4" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -55,6 +57,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -62,10 +65,16 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "11",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -85,13 +94,19 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
-      childLock: { dataPoint: "16", kind: "switch" },
-      ionizer: { dataPoint: "10", kind: "switch" },
-      filterReset: { dataPoint: "20", kind: "button" },
-      defrost: { dataPoint: "108", kind: "sensor", readOnly: true },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
+      ionizer: { dataPoint: "10", kind: "switch", category: "config" },
+      filterReset: { dataPoint: "20", kind: "button", category: "config" },
+      defrost: {
+        dataPoint: "108",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timerInHours: {
         dataPoint: "106",
         kind: "number",

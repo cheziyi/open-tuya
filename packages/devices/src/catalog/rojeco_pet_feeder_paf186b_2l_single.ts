@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["xatwi1ep0ntk551r"],
+  products: [
+    {
+      productKey: "xatwi1ep0ntk551r",
+      manufacturer: "Rojeco",
+      model: "PAF-186B",
+    },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "3": { type: "integer", optional: true },
@@ -22,7 +28,7 @@ const entry: TuyaDeviceEntry = {
         min: 1,
         max: 40,
       },
-      mealPlan: { dataPoint: "1", kind: "text" },
+      mealPlan: { dataPoint: "1", kind: "text", category: "config" },
       status: {
         dataPoint: "4",
         kind: "sensor",
@@ -36,10 +42,11 @@ const entry: TuyaDeviceEntry = {
       feedReportInPortions: {
         dataPoint: "15",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "portions",
       },
-      factoryReset: { dataPoint: "9", kind: "button" },
+      factoryReset: { dataPoint: "9", kind: "button", category: "config" },
     },
   },
   source: {

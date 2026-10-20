@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Gas alarm",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "2": { type: "string" },
     "3": { type: "integer", optional: true },
@@ -29,14 +29,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "3",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 60,
       },
-      alarmTimeSwitch: { dataPoint: "12", kind: "switch" },
+      alarmTimeSwitch: { dataPoint: "12", kind: "switch", category: "config" },
       gasInPercentLel: {
         dataPoint: "5",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "% LEL",
         scale: 10,
@@ -52,6 +54,7 @@ const entry: TuyaDeviceEntry = {
       mute: {
         dataPoint: "14",
         kind: "button",
+        category: "config",
         values: [
           { raw: false, value: true },
           { raw: true, value: false },
@@ -61,6 +64,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "carbonMonoxide",
+        reading: "instant",
         readOnly: true,
         unit: "ppm",
       },

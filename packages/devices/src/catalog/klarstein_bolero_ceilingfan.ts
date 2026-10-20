@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan with light",
-  productKeys: ["89y2fdsm8alx6cjx"],
+  products: [
+    {
+      productKey: "89y2fdsm8alx6cjx",
+      manufacturer: "Klarstein",
+      model: "Bolero",
+      modelId: "CL23001",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "60": { type: "boolean" },

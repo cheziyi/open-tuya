@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Gate controller",
-  productKeys: ["q4tn6xb10zncammj"],
+  products: [
+    {
+      productKey: "q4tn6xb10zncammj",
+      manufacturer: "Home Gate",
+      model: "NI800z/NI600z",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean", optional: true },
     "102": { type: "boolean", optional: true },
@@ -48,10 +54,11 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         whenAbsent: { value: false },
       },
-      fastOpening: { dataPoint: "110", kind: "switch" },
+      fastOpening: { dataPoint: "110", kind: "switch", category: "config" },
       gate: {
         dataPoint: "105",
         kind: "sensor",
@@ -71,6 +78,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "112",
         kind: "sensor",
         measures: "signalStrength",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "dBm",
       },

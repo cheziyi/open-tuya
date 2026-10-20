@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan",
-  productKeys: ["0kcxic8phbllew01"],
+  products: [
+    {
+      productKey: "0kcxic8phbllew01",
+      manufacturer: "EcoNour",
+      model: "HTS-F305A",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -37,6 +43,7 @@ const entry: TuyaDeviceEntry = {
       oscillationAngle: {
         dataPoint: "7",
         kind: "select",
+        category: "config",
         values: [
           { raw: "30", value: "30°" },
           { raw: "60", value: "60°" },
@@ -44,11 +51,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "120", value: "120°" },
         ],
       },
-      sound: { dataPoint: "13", kind: "switch" },
+      sound: { dataPoint: "13", kind: "switch", category: "config" },
       temperature: {
         dataPoint: "21",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unitFrom: "temperatureUnit",
         dependsOn: {
@@ -80,6 +88,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -97,7 +106,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    display: { on: { dataPoint: "15", kind: "switch" } },
+    display: { on: { dataPoint: "15", kind: "switch", category: "config" } },
   },
   source: {
     file: "econour_htsf305a_towerfan.yaml",

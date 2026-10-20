@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Presence dual lightswitch",
-  productKeys: ["s7rsrtbg"],
+  products: [
+    {
+      productKey: "s7rsrtbg",
+      manufacturer: "Haozee",
+      model: "ZG-302ZM 2-gang",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -36,11 +42,18 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: "presence", value: true }],
         otherwise: false,
       },
-      sensitivity: { dataPoint: "2", kind: "number", min: 0, max: 19 },
+      sensitivity: {
+        dataPoint: "2",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 19,
+      },
       detectionDistanceInM: {
         dataPoint: "4",
         kind: "number",
         measures: "distance",
+        category: "config",
         unit: "m",
         min: 0,
         max: 1000,
@@ -50,6 +63,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 43200,
@@ -58,26 +72,36 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 43200,
       },
-      allOn: { dataPoint: "107", kind: "button" },
+      allOn: { dataPoint: "107", kind: "button", category: "config" },
       toggle1: {
         dataPoint: "108",
         kind: "button",
+        category: "config",
         values: [{ raw: "ch1", value: true }],
       },
       toggle2: {
         dataPoint: "108",
         kind: "button",
+        category: "config",
         values: [{ raw: "ch2", value: true }],
       },
-      allOff: { dataPoint: "109", kind: "button" },
-      lightSensitivity: { dataPoint: "110", kind: "number", min: 0, max: 10 },
+      allOff: { dataPoint: "109", kind: "button", category: "config" },
+      lightSensitivity: {
+        dataPoint: "110",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 10,
+      },
       initialState: {
         dataPoint: "112",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -87,6 +111,7 @@ const entry: TuyaDeviceEntry = {
       occupiedTurnOn: {
         dataPoint: "113",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "Disabled" },
           { raw: "all", value: "Both" },
@@ -97,6 +122,7 @@ const entry: TuyaDeviceEntry = {
       unoccupiedDelayInSeconds: {
         dataPoint: "114",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 5,
         max: 28800,
@@ -104,6 +130,7 @@ const entry: TuyaDeviceEntry = {
       unoccupiedTurnOff: {
         dataPoint: "115",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "Disabled" },
           { raw: "all", value: "Both" },
@@ -112,7 +139,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    backlight: { on: { dataPoint: "111", kind: "switch" } },
+    backlight: { on: { dataPoint: "111", kind: "switch", category: "config" } },
   },
   source: {
     file: "haozee_presence_wallswitch.yaml",

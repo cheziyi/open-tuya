@@ -5,7 +5,19 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["kwicelwvcvgru9vr", "zhepqxx83p6xou61"],
+  products: [
+    {
+      productKey: "kwicelwvcvgru9vr",
+      manufacturer: "Klarstein",
+      model: "Wonderwall Bornholm IR",
+      modelId: "GL23040",
+    },
+    {
+      productKey: "zhepqxx83p6xou61",
+      manufacturer: "Klarstein",
+      model: "Wonderwall Bornholm",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -58,10 +70,11 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -94,6 +107,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

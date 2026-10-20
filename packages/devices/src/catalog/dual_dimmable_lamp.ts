@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dual dimmable lamp",
-  productKeys: ["t1o91dvgdb9xclnm"],
+  products: [
+    { productKey: "t1o91dvgdb9xclnm", model: "Dream of You Dual Lamp" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },

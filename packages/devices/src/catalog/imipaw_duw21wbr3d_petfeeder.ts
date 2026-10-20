@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Cat feeder",
-  productKeys: ["myhc7cokpdrb0uhx"],
+  products: [
+    {
+      productKey: "myhc7cokpdrb0uhx",
+      manufacturer: "Imipaw",
+      model: "DUW21 WBR3D",
+    },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "3": { type: "integer", optional: true },
@@ -19,7 +25,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      mealPlan: { dataPoint: "1", kind: "text" },
+      mealPlan: { dataPoint: "1", kind: "text", category: "config" },
       manualFeedInPortions: {
         dataPoint: "3",
         kind: "number",
@@ -30,6 +36,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "4",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -48,17 +55,24 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "batteryCharging",
+        category: "diagnostic",
         readOnly: true,
       },
       fault: {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       feedReport: {
         dataPoint: "14",
         kind: "event",
@@ -68,7 +82,7 @@ const entry: TuyaDeviceEntry = {
         otherwise: "Fed",
       },
       feedReportPortions: { dataPoint: "14", kind: "sensor", readOnly: true },
-      factoryReset: { dataPoint: "24", kind: "button" },
+      factoryReset: { dataPoint: "24", kind: "button", category: "config" },
       on: { dataPoint: "25", kind: "switch" },
     },
   },

@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["kik7qavg2baebtk9", "5xrkvysk7z6xrjum"],
+  products: [
+    {
+      productKey: "kik7qavg2baebtk9",
+      manufacturer: "Soleusair",
+      model: "KJ1000F A10",
+    },
+    {
+      productKey: "5xrkvysk7z6xrjum",
+      manufacturer: "Soleusair",
+      model: "KJ760F A02",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "string" },
@@ -39,16 +50,18 @@ const entry: TuyaDeviceEntry = {
       filterLifeInPercent: {
         dataPoint: "5",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      ionizer: { dataPoint: "6", kind: "switch" },
-      childLock: { dataPoint: "7", kind: "switch" },
-      uvSterilization: { dataPoint: "9", kind: "switch" },
+      ionizer: { dataPoint: "6", kind: "switch", category: "config" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
+      uvSterilization: { dataPoint: "9", kind: "switch", category: "config" },
       temperatureInC: {
         dataPoint: "12",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -56,6 +69,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -63,6 +77,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "sensor",
         measures: "volatileOrganicCompounds",
+        reading: "instant",
         readOnly: true,
         unit: "ppb",
       },

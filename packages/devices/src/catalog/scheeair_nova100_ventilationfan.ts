@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ventilation fan",
-  productKeys: ["v5yzxit33hd1btwx"],
+  products: [
+    {
+      productKey: "v5yzxit33hd1btwx",
+      manufacturer: "Scheeair",
+      model: "Nova 100",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer" },
@@ -21,7 +27,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     fan: {
-      on: { dataPoint: "1", kind: "switch" },
+      on: { dataPoint: "1", kind: "switch", category: "config" },
       speed: { dataPoint: "3", kind: "number", min: 0, max: 2 },
       preset: {
         dataPoint: "103",
@@ -36,12 +42,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
       fanSpeed: {
         dataPoint: "102",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "stop", value: "stopped" },
@@ -53,15 +61,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "motion",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "pir", value: true }],
         otherwise: false,
       },
-      motionDetection: { dataPoint: "107", kind: "switch" },
+      motionDetection: { dataPoint: "107", kind: "switch", category: "config" },
       stopDelayInMinutes: {
         dataPoint: "109",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 1,
         max: 60,

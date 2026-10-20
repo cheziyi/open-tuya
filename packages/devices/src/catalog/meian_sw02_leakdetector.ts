@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water leak detector",
-  productKeys: ["kyb656no"],
+  products: [{ productKey: "kyb656no", manufacturer: "Meian", model: "SW02" }],
   dataPoints: { "1": { type: "string" }, "4": { type: "integer" } },
   components: {
     device: {

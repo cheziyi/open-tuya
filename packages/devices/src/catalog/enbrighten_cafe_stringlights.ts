@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "String lights",
-  productKeys: ["irp66izb2pbedb4o"],
+  products: [
+    {
+      productKey: "irp66izb2pbedb4o",
+      manufacturer: "Enbrighten",
+      model: "Café",
+      modelId: "WB-57415",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "26": { type: "integer", optional: true },
@@ -22,6 +29,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -29,6 +37,7 @@ const entry: TuyaDeviceEntry = {
       numberOfLights: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [
           { raw: "12", value: "12" },
           { raw: "18", value: "18" },
@@ -41,6 +50,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "100000000000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -54,6 +64,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "010000000000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -67,6 +78,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "001000000000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -80,6 +92,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000100000000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -93,6 +106,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000010000000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -106,6 +120,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000001000000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -119,6 +134,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000000100000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -132,6 +148,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000000010000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -145,6 +162,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000000001000000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -158,6 +176,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000000000100000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -171,6 +190,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000000000010000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -184,6 +204,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000000000001000000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -197,6 +218,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000000000000100000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -210,6 +232,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000000000000010000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -223,6 +246,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000000000000001000000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -236,6 +260,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000000000000000100000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -249,6 +274,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000000000000000010000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -262,6 +288,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000000000000000001000000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -275,6 +302,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000000000000000000100000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -288,6 +316,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000000000000000000010000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -301,6 +330,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000000000000000000001000",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -314,6 +344,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000000000000000000000100",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -327,6 +358,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000000000000000000000010",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },
@@ -340,6 +372,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         mask: "000000000000000000000001",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 0, value: false },
           { raw: 1, value: true },

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ventilation system",
-  productKeys: ["qcgxajmb0sdg608j"],
+  products: [
+    {
+      productKey: "qcgxajmb0sdg608j",
+      manufacturer: "Royal Clima",
+      model: "RCB 150",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -51,20 +57,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "3",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
-      ionizer: { dataPoint: "5", kind: "switch" },
+      ionizer: { dataPoint: "5", kind: "switch", category: "config" },
       filterLifeInPercent: {
         dataPoint: "11",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      filterReset: { dataPoint: "13", kind: "button" },
+      filterReset: { dataPoint: "13", kind: "button", category: "config" },
       onTimer: {
         dataPoint: "16",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -85,12 +94,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
       offTimer: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

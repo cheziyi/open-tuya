@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "PIR switch",
-  productKeys: ["kwkq8icRxCrxXEAC"],
+  products: [
+    {
+      productKey: "kwkq8icRxCrxXEAC",
+      manufacturer: "Brilliant Smart",
+      model: "PIR outdoor sensor",
+    },
+  ],
   dataPoints: {
     "102": { type: "integer" },
     "103": { type: "integer" },
@@ -21,6 +27,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "number",
         measures: "illuminance",
+        category: "config",
         unit: "lx",
         min: 0,
         max: 2000,
@@ -29,6 +36,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 10,
         max: 600,
@@ -36,6 +44,7 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "on" },
@@ -45,6 +54,7 @@ const entry: TuyaDeviceEntry = {
       sensitivity: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
@@ -55,6 +65,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "sensor",
         measures: "motion",
+        category: "diagnostic",
         readOnly: true,
       },
     },

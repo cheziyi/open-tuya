@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "USB+3 outlet powerstrip",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -25,6 +25,7 @@ const entry: TuyaDeviceEntry = {
       timer1InSeconds: {
         dataPoint: "101",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -32,6 +33,7 @@ const entry: TuyaDeviceEntry = {
       timer2InSeconds: {
         dataPoint: "102",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -39,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       timer3InSeconds: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -46,6 +49,7 @@ const entry: TuyaDeviceEntry = {
       timerUsbInSeconds: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

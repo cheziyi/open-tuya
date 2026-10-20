@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Door lock",
-  productKeys: ["uamrw6h3"],
+  products: [
+    {
+      productKey: "uamrw6h3",
+      manufacturer: "Positivo",
+      model: "Smart Fechadura",
+    },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "2": { type: "base64", optional: true },
@@ -61,12 +67,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "8",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       doorbellVolume: {
         dataPoint: "27",
         kind: "select",
+        category: "config",
         values: [
           { raw: "mute", value: "mute" },
           { raw: "low", value: "low" },
@@ -77,6 +86,7 @@ const entry: TuyaDeviceEntry = {
       lockMotorDirection: {
         dataPoint: "48",
         kind: "select",
+        category: "config",
         values: [
           { raw: "clockwise", value: "clockwise" },
           { raw: "anticlockwise", value: "anticlockwise" },
@@ -85,6 +95,7 @@ const entry: TuyaDeviceEntry = {
       motorTorque: {
         dataPoint: "56",
         kind: "select",
+        category: "config",
         values: [
           { raw: "torque_low", value: "low" },
           { raw: "torque_middle", value: "middle" },
@@ -94,12 +105,13 @@ const entry: TuyaDeviceEntry = {
       autoLockDelayInSeconds: {
         dataPoint: "36",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 1,
         max: 30,
         step: 1,
       },
-      autoLock: { dataPoint: "33", kind: "switch" },
+      autoLock: { dataPoint: "33", kind: "switch", category: "config" },
       alert: {
         dataPoint: "21",
         kind: "event",
@@ -121,10 +133,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "defense", value: "defense" },
         ],
       },
-      newCredential: { dataPoint: "1", kind: "text" },
-      deleteCredential: { dataPoint: "2", kind: "text" },
-      modifyCredential: { dataPoint: "3", kind: "text" },
-      syncCredentials: { dataPoint: "54", kind: "text" },
+      newCredential: { dataPoint: "1", kind: "text", category: "config" },
+      deleteCredential: { dataPoint: "2", kind: "text", category: "config" },
+      modifyCredential: { dataPoint: "3", kind: "text", category: "config" },
+      syncCredentials: { dataPoint: "54", kind: "text", category: "config" },
     },
   },
   source: {

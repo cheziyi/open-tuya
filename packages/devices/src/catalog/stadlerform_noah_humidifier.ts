@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["hupfwl9kw70i6hoc", "9b04osuhopcmasq0"],
+  products: [
+    {
+      productKey: "hupfwl9kw70i6hoc",
+      manufacturer: "Stadler Form",
+      model: "Noah",
+    },
+    {
+      productKey: "9b04osuhopcmasq0",
+      manufacturer: "Stadler Form",
+      model: "Noah Pro",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "13": { type: "integer" },
@@ -46,16 +57,18 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "normal" },
         ],
       },
-      childLock: { dataPoint: "29", kind: "switch" },
+      childLock: { dataPoint: "29", kind: "switch", category: "config" },
       filterLifeInPercent: {
         dataPoint: "33",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       waterLevelInPercent: {
         dataPoint: "17",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -63,6 +76,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: false, value: false },
@@ -72,6 +86,7 @@ const entry: TuyaDeviceEntry = {
       tankEmpty: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -95,6 +110,7 @@ const entry: TuyaDeviceEntry = {
       brightness: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Normal", value: 255 },
           { raw: "Dimmer", value: 128 },

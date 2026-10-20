@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["5jidkruwamydvcfk"],
+  products: [
+    {
+      productKey: "5jidkruwamydvcfk",
+      manufacturer: "Mellerware",
+      model: "Comfy Medium",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -113,10 +119,11 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       customProgram: { dataPoint: "26", kind: "text" },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -149,6 +156,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -156,32 +164,41 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "21", kind: "sensor", readOnly: true },
-      nightModeOn: { dataPoint: "103", kind: "button" },
+      faultCode: {
+        dataPoint: "21",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      nightModeOn: { dataPoint: "103", kind: "button", category: "config" },
       nightModeOff: {
         dataPoint: "103",
         kind: "button",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
         ],
       },
-      windowCheck: { dataPoint: "104", kind: "switch" },
+      windowCheck: { dataPoint: "104", kind: "switch", category: "config" },
       window: {
         dataPoint: "105",
         kind: "sensor",
         measures: "window",
+        category: "diagnostic",
         readOnly: true,
       },
       temperatureCalibrationInC: {
         dataPoint: "106",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 0,
         max: 40,

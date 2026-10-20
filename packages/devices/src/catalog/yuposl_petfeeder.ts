@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["eb3olqllh0l0hvwz"],
+  products: [
+    {
+      productKey: "eb3olqllh0l0hvwz",
+      manufacturer: "Yuposl",
+      model: "Dual band",
+    },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "3": { type: "integer" },
@@ -22,7 +28,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      mealPlan: { dataPoint: "1", kind: "text" },
+      mealPlan: { dataPoint: "1", kind: "text", category: "config" },
       manualFeedInPortions: {
         dataPoint: "3",
         kind: "number",
@@ -33,6 +39,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "4",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -43,6 +50,7 @@ const entry: TuyaDeviceEntry = {
       food: {
         dataPoint: "6",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "enough", value: "available" },
@@ -54,6 +62,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -61,14 +71,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "13",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -93,6 +110,7 @@ const entry: TuyaDeviceEntry = {
       voicePlaybackCount: {
         dataPoint: "16",
         kind: "number",
+        category: "config",
         unit: "times",
         min: 0,
         max: 5,
@@ -100,6 +118,7 @@ const entry: TuyaDeviceEntry = {
       buttonFeedAmountInPortions: {
         dataPoint: "101",
         kind: "number",
+        category: "config",
         unit: "portions",
         min: 0,
         max: 20,
@@ -124,7 +143,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    indicator: { on: { dataPoint: "17", kind: "switch" } },
+    indicator: { on: { dataPoint: "17", kind: "switch", category: "config" } },
   },
   source: {
     file: "yuposl_petfeeder.yaml",

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["keyquxnsj75xc8se"],
+  products: [
+    {
+      productKey: "keyquxnsj75xc8se",
+      manufacturer: "Airton",
+      model: "Reversible 2500W (409730)",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -143,15 +149,16 @@ const entry: TuyaDeviceEntry = {
       countdown: { dataPoint: "21", kind: "text" },
       countdownLeft: { dataPoint: "22", kind: "number" },
     },
-    display: { on: { dataPoint: "13", kind: "switch" } },
+    display: { on: { dataPoint: "13", kind: "switch", category: "config" } },
     device: {
-      ionizer: { dataPoint: "110", kind: "switch" },
-      antiMould: { dataPoint: "9", kind: "switch" },
-      auxiliaryHeat: { dataPoint: "12", kind: "switch" },
+      ionizer: { dataPoint: "110", kind: "switch", category: "config" },
+      antiMould: { dataPoint: "9", kind: "switch", category: "config" },
+      auxiliaryHeat: { dataPoint: "12", kind: "switch", category: "config" },
       fault: {
         dataPoint: "20",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           {
@@ -165,11 +172,22 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "20", kind: "sensor", readOnly: true },
-      faultCode2: { dataPoint: "113", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "20",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultCode2: {
+        dataPoint: "113",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       totalUsageTimeInHours: {
         dataPoint: "102",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
       },

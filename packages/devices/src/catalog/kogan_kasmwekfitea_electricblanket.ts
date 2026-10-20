@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Electric fitted blanket",
-  productKeys: ["veafgxwmhwd5iakw"],
+  products: [
+    {
+      productKey: "veafgxwmhwd5iakw",
+      manufacturer: "Kogan",
+      model: "KASMWEKFITEA",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -21,6 +27,7 @@ const entry: TuyaDeviceEntry = {
       bodyHeatLevel: {
         dataPoint: "2",
         kind: "select",
+        category: "config",
         values: [
           { raw: "level_1", value: "Level 0" },
           { raw: "level_2", value: "Level 1" },
@@ -34,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       feetHeatLevel: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "level_1", value: "Level 0" },
           { raw: "level_2", value: "Level 1" },
@@ -47,6 +55,7 @@ const entry: TuyaDeviceEntry = {
       bodyTimer: {
         dataPoint: "16",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1h", value: "1h" },
           { raw: "2h", value: "2h" },
@@ -65,6 +74,7 @@ const entry: TuyaDeviceEntry = {
       feetTimer: {
         dataPoint: "17",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1h", value: "1h" },
           { raw: "2h", value: "2h" },

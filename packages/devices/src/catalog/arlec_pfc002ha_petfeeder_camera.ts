@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Camera pet feeder",
-  productKeys: ["cmubbmrw5ibt5gkl"],
+  products: [
+    {
+      productKey: "cmubbmrw5ibt5gkl",
+      manufacturer: "Arlec",
+      model: "PFC002HA Series 2",
+    },
+  ],
   dataPoints: {
     "103": { type: "boolean" },
     "106": { type: "string" },
@@ -20,7 +26,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      flipImage: { dataPoint: "103", kind: "switch" },
+      flipImage: { dataPoint: "103", kind: "switch", category: "config" },
       motion: {
         dataPoint: "115",
         kind: "event",
@@ -29,11 +35,12 @@ const entry: TuyaDeviceEntry = {
         otherwise: "detected",
       },
       motionSnapshot: { dataPoint: "115", kind: "sensor", readOnly: true },
-      motionDetection: { dataPoint: "134", kind: "switch" },
+      motionDetection: { dataPoint: "134", kind: "switch", category: "config" },
       recording: { dataPoint: "150", kind: "switch" },
       motionSensitivity: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
@@ -43,6 +50,7 @@ const entry: TuyaDeviceEntry = {
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -52,6 +60,7 @@ const entry: TuyaDeviceEntry = {
       recordingMode: {
         dataPoint: "151",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
@@ -76,11 +85,13 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "202",
         kind: "sensor",
         measures: "weight",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "g",
         scale: 10,
       },
-      schedule: { dataPoint: "207", kind: "text" },
+      schedule: { dataPoint: "207", kind: "text", category: "config" },
     },
   },
   source: {

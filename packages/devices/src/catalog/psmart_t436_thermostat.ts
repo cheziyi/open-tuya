@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["gogb05wrtredz3bs"],
+  products: [
+    { productKey: "gogb05wrtredz3bs", manufacturer: "Psmart", model: "T436" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -98,6 +100,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 200,
         max: 700,
@@ -108,6 +111,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "26",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 50,
         max: 200,
@@ -118,29 +122,38 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -4,
         max: 4,
       },
-      factoryReset: { dataPoint: "39", kind: "button" },
+      factoryReset: { dataPoint: "39", kind: "button", category: "config" },
       childLock: {
         dataPoint: "40",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       fault: {
         dataPoint: "45",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "45",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       temperatureHysteresisInC: {
         dataPoint: "103",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: 1,
         max: 3,
@@ -148,6 +161,7 @@ const entry: TuyaDeviceEntry = {
       temperatureSensor: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "in", value: "Internal" },
           { raw: "out", value: "External" },
@@ -159,6 +173,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 200,
         max: 700,

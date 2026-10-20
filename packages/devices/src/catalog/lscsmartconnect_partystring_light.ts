@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "String light",
-  productKeys: ["l3bpgg8ibsagon4x", "ycahigfmcomnpayt"],
+  products: [
+    {
+      productKey: "l3bpgg8ibsagon4x",
+      manufacturer: "LSC Smart Connect",
+      model: "Party string RGBIC+CCT",
+    },
+    {
+      productKey: "ycahigfmcomnpayt",
+      manufacturer: "IlluminX",
+      model: "SCW-KA-CBHC05-18",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -62,20 +73,22 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 1000,
       },
-      musicData: { dataPoint: "27", kind: "text" },
-      scene: { dataPoint: "56", kind: "text" },
+      musicData: { dataPoint: "27", kind: "text", category: "config" },
+      scene: { dataPoint: "56", kind: "text", category: "config" },
       stringLength: {
         dataPoint: "58",
         kind: "number",
+        category: "config",
         unit: "leds",
         min: 1,
         max: 5000,
       },
-      individualControl: { dataPoint: "59", kind: "text" },
-      filter: { dataPoint: "101", kind: "switch" },
+      individualControl: { dataPoint: "59", kind: "text", category: "config" },
+      filter: { dataPoint: "101", kind: "switch", category: "config" },
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,

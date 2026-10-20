@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["mgg4xziqqrzuozwv", "g5nx6i7qxfale9t7"],
+  products: [
+    { productKey: "mgg4xziqqrzuozwv", manufacturer: "Woods", model: "MRD25GW" },
+    { productKey: "g5nx6i7qxfale9t7", manufacturer: "Woods", model: "MRD20GW" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "string" },
@@ -42,7 +45,7 @@ const entry: TuyaDeviceEntry = {
       },
       sensor: { dataPoint: "6", kind: "number" },
       swing: { dataPoint: "8", kind: "switch" },
-      childLock: { dataPoint: "16", kind: "switch" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
       tankFull: {
         dataPoint: "19",
         kind: "sensor",
@@ -54,6 +57,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -61,7 +65,12 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

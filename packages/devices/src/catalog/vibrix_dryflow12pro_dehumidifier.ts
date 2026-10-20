@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["bkcqjbvmjmnsmxyw", "edlv0juyoj8j0tdc"],
+  products: [
+    {
+      productKey: "bkcqjbvmjmnsmxyw",
+      manufacturer: "Vibrix",
+      model: "Dryflow 12 Pro",
+    },
+    {
+      productKey: "edlv0juyoj8j0tdc",
+      manufacturer: "NovaDry",
+      model: "12 Smart",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "string" },
@@ -66,11 +77,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "high", value: 100 },
         ],
       },
-      ionizer: { dataPoint: "10", kind: "switch" },
-      childLock: { dataPoint: "16", kind: "switch" },
+      ionizer: { dataPoint: "10", kind: "switch", category: "config" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
       timer: {
         dataPoint: "17",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0h", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -103,12 +115,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

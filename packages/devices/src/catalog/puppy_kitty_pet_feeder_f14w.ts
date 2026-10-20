@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["cyip5aunfcx3ftws"],
+  products: [
+    {
+      productKey: "cyip5aunfcx3ftws",
+      manufacturer: "Puppy Kitty",
+      model: "F14-W",
+    },
+  ],
   dataPoints: {
     "3": { type: "integer", optional: true },
     "4": { type: "string" },
@@ -22,6 +28,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "4",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -29,28 +36,42 @@ const entry: TuyaDeviceEntry = {
           { raw: "done", value: "done" },
         ],
       },
-      statusFeedRecord: { dataPoint: "112", kind: "sensor", readOnly: true },
+      statusFeedRecord: {
+        dataPoint: "112",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       mealPlans: { dataPoint: "101", kind: "sensor", readOnly: true },
       batteryVoltageInMillivolts: {
         dataPoint: "106",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "mV",
       },
-      mealPlan: { dataPoint: "108", kind: "text" },
+      mealPlan: { dataPoint: "108", kind: "text", category: "config" },
       fault: {
         dataPoint: "113",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "113", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "113",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "113",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -63,11 +84,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "114",
         kind: "sensor",
         measures: "battery",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 8, value: true }],
         otherwise: false,
       },
-      batteryFaultCode: { dataPoint: "114", kind: "sensor", readOnly: true },
+      batteryFaultCode: {
+        dataPoint: "114",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

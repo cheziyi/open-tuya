@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["ueldkqa5dggrzrio"],
+  products: [
+    {
+      productKey: "ueldkqa5dggrzrio",
+      manufacturer: "Afloia",
+      model: "Kilo Plus",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "integer" },
@@ -24,13 +30,15 @@ const entry: TuyaDeviceEntry = {
       filterLifeInPercent: {
         dataPoint: "5",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      filterReset: { dataPoint: "11", kind: "button" },
+      filterReset: { dataPoint: "11", kind: "button", category: "config" },
       timer: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancle", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -42,6 +50,7 @@ const entry: TuyaDeviceEntry = {
       light: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancle", value: "Off" },
           { raw: "1", value: "Gradient" },
@@ -52,6 +61,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["4wilpf0amoade7i3"],
+  products: [
+    {
+      productKey: "4wilpf0amoade7i3",
+      manufacturer: "OGACFO",
+      model: "LFHM055",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "5": { type: "boolean" },
@@ -45,11 +51,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "level_3", value: "boost" },
         ],
       },
-      uvSterilization: { dataPoint: "5", kind: "switch" },
-      sleep: { dataPoint: "16", kind: "switch" },
+      uvSterilization: { dataPoint: "5", kind: "switch", category: "config" },
+      sleep: { dataPoint: "16", kind: "switch", category: "config" },
       tankEmpty: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -57,6 +64,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "TimeOff", value: "cancel" },
           { raw: "1H", value: "1h" },
@@ -77,6 +85,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
       },

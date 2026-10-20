@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Camera",
-  productKeys: ["vjjoayeljqpxz2oe"],
+  products: [
+    {
+      productKey: "vjjoayeljqpxz2oe",
+      manufacturer: "Nexsmart",
+      model: "AIR 3",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "103": { type: "boolean" },
@@ -35,11 +41,17 @@ const entry: TuyaDeviceEntry = {
       camera: {
         dataPoint: "115",
         kind: "event",
+        category: "diagnostic",
         readOnly: true,
         whenAbsent: { value: null },
         otherwise: "captured",
       },
-      cameraSnapshotData: { dataPoint: "115", kind: "sensor", readOnly: true },
+      cameraSnapshotData: {
+        dataPoint: "115",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       batteryInPercent: {
         dataPoint: "145",
         kind: "sensor",
@@ -64,32 +76,42 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "149",
         kind: "sensor",
         measures: "connectivity",
+        category: "diagnostic",
         readOnly: true,
       },
       lowBatteryThresholdInPercent: {
         dataPoint: "147",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 10,
         max: 50,
       },
-      flipImage: { dataPoint: "103", kind: "switch" },
-      watermark: { dataPoint: "104", kind: "switch" },
+      flipImage: { dataPoint: "103", kind: "switch", category: "config" },
+      watermark: { dataPoint: "104", kind: "switch", category: "config" },
       nightVision: {
         dataPoint: "124",
         kind: "select",
+        category: "config",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "color_mode", value: "off" },
           { raw: "ir_mode", value: "on" },
         ],
       },
-      motionDetection: { dataPoint: "240", kind: "switch" },
-      motionSensitivity: { dataPoint: "241", kind: "number", min: 1, max: 10 },
-      humanoidFilter: { dataPoint: "170", kind: "switch" },
+      motionDetection: { dataPoint: "240", kind: "switch", category: "config" },
+      motionSensitivity: {
+        dataPoint: "241",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 10,
+      },
+      humanoidFilter: { dataPoint: "170", kind: "switch", category: "config" },
       alarmMode: {
         dataPoint: "243",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Disabled" },
           { raw: "1", value: "All Day" },
@@ -99,17 +121,19 @@ const entry: TuyaDeviceEntry = {
       deviceLinkage: {
         dataPoint: "245",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Pre-Record Disabled" },
           { raw: "1", value: "Short Pre-Record" },
           { raw: "3", value: "Full Linkage/Record" },
         ],
       },
-      audibleAlarm: { dataPoint: "242", kind: "switch" },
-      on: { dataPoint: "159", kind: "switch" },
+      audibleAlarm: { dataPoint: "242", kind: "switch", category: "config" },
+      on: { dataPoint: "159", kind: "switch", category: "config" },
       volume: {
         dataPoint: "195",
         kind: "number",
+        category: "config",
         min: 0,
         max: 100,
         scale: 100,
@@ -117,6 +141,7 @@ const entry: TuyaDeviceEntry = {
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -127,11 +152,17 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "normal" },
       },
-      sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
-      sdFormat: { dataPoint: "111", kind: "button" },
+      sdStatusCapacity: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      sdFormat: { dataPoint: "111", kind: "button", category: "config" },
       sdFormatState: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: -20000, value: "Unknown" },
           { raw: 2000, value: "Formatting" },
@@ -142,8 +173,10 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: "Formatted" },
       },
     },
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
-    floodlight: { on: { dataPoint: "138", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
+    floodlight: {
+      on: { dataPoint: "138", kind: "switch", category: "config" },
+    },
   },
   source: {
     file: "nexsmart_air3_camera.yaml",

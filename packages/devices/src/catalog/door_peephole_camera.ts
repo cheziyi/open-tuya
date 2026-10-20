@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Camera",
-  productKeys: ["fzsbulp3wg64l8vx", "dm7sckewmyflqgj1"],
+  products: [
+    { productKey: "fzsbulp3wg64l8vx", model: "TY-W160D" },
+    {
+      productKey: "dm7sckewmyflqgj1",
+      manufacturer: "HQCAM",
+      model: "2MP peephole camera",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean", optional: true },
     "103": { type: "boolean", optional: true },
@@ -27,16 +34,18 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       recording: { dataPoint: "150", kind: "switch" },
-      motionDetection: { dataPoint: "134", kind: "switch" },
+      motionDetection: { dataPoint: "134", kind: "switch", category: "config" },
       flipImage: {
         dataPoint: "103",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
-      watermark: { dataPoint: "104", kind: "switch" },
+      watermark: { dataPoint: "104", kind: "switch", category: "config" },
       motionSensitivity: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
@@ -46,6 +55,7 @@ const entry: TuyaDeviceEntry = {
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -55,6 +65,7 @@ const entry: TuyaDeviceEntry = {
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -68,12 +79,14 @@ const entry: TuyaDeviceEntry = {
       sdStatusMemoryCardCapacity: {
         dataPoint: "109",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
-      formatSdCard: { dataPoint: "111", kind: "button" },
+      formatSdCard: { dataPoint: "111", kind: "button", category: "config" },
       formatSdCardSdFormatStatus: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: 2000, value: "Formatting" },
           { raw: 2001, value: "Format error" },
@@ -84,6 +97,7 @@ const entry: TuyaDeviceEntry = {
       recordingMode: {
         dataPoint: "151",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
@@ -92,6 +106,7 @@ const entry: TuyaDeviceEntry = {
       motion: {
         dataPoint: "115",
         kind: "event",
+        category: "diagnostic",
         readOnly: true,
         whenAbsent: { value: "clear" },
         otherwise: "detected",
@@ -99,6 +114,7 @@ const entry: TuyaDeviceEntry = {
       motionImageDetails: {
         dataPoint: "115",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         type: "base64",
       },
@@ -113,14 +129,20 @@ const entry: TuyaDeviceEntry = {
       notification: {
         dataPoint: "212",
         kind: "event",
+        category: "diagnostic",
         readOnly: true,
         whenAbsent: { value: null },
         otherwise: "message",
       },
-      notificationMessage: { dataPoint: "212", kind: "sensor", readOnly: true },
-      restart: { dataPoint: "162", kind: "button" },
+      notificationMessage: {
+        dataPoint: "212",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      restart: { dataPoint: "162", kind: "button", category: "config" },
     },
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "door_peephole_camera.yaml",

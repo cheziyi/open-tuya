@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Remote control",
-  productKeys: ["plgiarn7jndeu6js"],
+  products: [
+    { productKey: "plgiarn7jndeu6js", manufacturer: "TOPENS", model: "TC196" },
+  ],
   dataPoints: {
     "7": { type: "string" },
     "101": { type: "boolean" },
@@ -19,7 +21,12 @@ const entry: TuyaDeviceEntry = {
       b: { dataPoint: "102", kind: "button" },
       c: { dataPoint: "103", kind: "button" },
       d: { dataPoint: "104", kind: "button" },
-      limitStatus: { dataPoint: "7", kind: "sensor", readOnly: true },
+      limitStatus: {
+        dataPoint: "7",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

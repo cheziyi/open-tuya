@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Gas alarm",
-  productKeys: ["we7hw8nxeqvbd6g8"],
+  products: [
+    {
+      productKey: "we7hw8nxeqvbd6g8",
+      manufacturer: "Haier Nayun",
+      model: "NY-GS-04",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -39,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       gasLevelInPercentLel: {
         dataPoint: "2",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "% LEL",
         scale: 10,
@@ -46,6 +53,7 @@ const entry: TuyaDeviceEntry = {
       alarmTone: {
         dataPoint: "6",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "Alarm 1" },
           { raw: "2", value: "Alarm 2" },
@@ -57,14 +65,16 @@ const entry: TuyaDeviceEntry = {
       alarmDurationInSeconds: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 1,
         max: 180,
       },
-      selfCheck: { dataPoint: "8", kind: "button" },
+      selfCheck: { dataPoint: "8", kind: "button", category: "config" },
       selfCheckResult: {
         dataPoint: "9",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "checking", value: "In progress" },
@@ -76,33 +86,39 @@ const entry: TuyaDeviceEntry = {
       selfCheckResultTestData: {
         dataPoint: "101",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       selfCheckResultTest2: {
         dataPoint: "102",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       selfCheckResultTest3: {
         dataPoint: "103",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       selfCheckResultTest4: {
         dataPoint: "104",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       warmUp: {
         dataPoint: "10",
         kind: "sensor",
         measures: "cold",
+        category: "diagnostic",
         readOnly: true,
       },
-      alarmEnable: { dataPoint: "13", kind: "switch" },
+      alarmEnable: { dataPoint: "13", kind: "switch", category: "config" },
       sound: {
         dataPoint: "16",
         kind: "switch",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },

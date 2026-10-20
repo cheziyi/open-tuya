@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["IAYz2WK1th0cMLmL"],
+  products: [
+    {
+      productKey: "IAYz2WK1th0cMLmL",
+      manufacturer: "Beca / MJZM",
+      model: "BHT-002 / 16A-3000BH",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -71,11 +77,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "1", value: "heating" },
         ],
       },
-      childLock: { dataPoint: "6", kind: "switch" },
+      childLock: { dataPoint: "6", kind: "switch", category: "config" },
       externalTemperatureInC: {
         dataPoint: "102",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 2,

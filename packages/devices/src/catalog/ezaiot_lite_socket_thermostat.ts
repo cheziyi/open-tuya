@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Socket thermostat",
-  productKeys: ["lzfux5zela3cbpnd"],
+  products: [
+    { productKey: "lzfux5zela3cbpnd", manufacturer: "ezAIoT", model: "Lite" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "9": { type: "integer", optional: true },
@@ -144,6 +146,7 @@ const entry: TuyaDeviceEntry = {
       timerInMinutes: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 3600,
@@ -154,6 +157,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         mask: "FFFFFFFF00000000",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 35940,
@@ -164,6 +168,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         mask: "00000000FFFFFFFF",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 35940,
@@ -173,6 +178,7 @@ const entry: TuyaDeviceEntry = {
       programMode: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "heat", value: "heat" },
           { raw: "cool", value: "cool" },
@@ -182,6 +188,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "114",
         kind: "sensor",
         measures: "power",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -194,37 +201,54 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "26",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "26", kind: "sensor", readOnly: true },
-      childLock: { dataPoint: "40", kind: "switch" },
-      antiFrost: { dataPoint: "113", kind: "switch" },
-      coolingDelay: { dataPoint: "133", kind: "switch" },
+      faultCode: {
+        dataPoint: "26",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
+      antiFrost: { dataPoint: "113", kind: "switch", category: "config" },
+      coolingDelay: { dataPoint: "133", kind: "switch", category: "config" },
       coolingDelayTimeInMinutes: {
         dataPoint: "134",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 10,
       },
-      highTemperatureAlarm: { dataPoint: "128", kind: "switch" },
+      highTemperatureAlarm: {
+        dataPoint: "128",
+        kind: "switch",
+        category: "config",
+      },
       highTemperatureAlarmInC: {
         dataPoint: "129",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -500,
         max: 3000,
         scale: 10,
         step: 10,
       },
-      lowTemperatureAlarm: { dataPoint: "131", kind: "switch" },
+      lowTemperatureAlarm: {
+        dataPoint: "131",
+        kind: "switch",
+        category: "config",
+      },
       lowTemperatureAlarmInC: {
         dataPoint: "132",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -500,
         max: 3000,
@@ -235,6 +259,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: 1,
         max: 300,
@@ -244,6 +269,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "136",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -150,
         max: 150,
@@ -252,6 +278,7 @@ const entry: TuyaDeviceEntry = {
       displayTimeout: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: "15s", value: "15s" },
           { raw: "30s", value: "30s" },
@@ -260,12 +287,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "never", value: "continuous" },
         ],
       },
-      displayOn: { dataPoint: "118", kind: "button" },
+      displayOn: { dataPoint: "118", kind: "button", category: "config" },
     },
     display: {
       brightness: {
         dataPoint: "115",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Low", value: 85 },
           { raw: "Middle", value: 170 },

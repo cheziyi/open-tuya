@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Integrated Stove",
-  productKeys: ["4u0apcmexg8vx91l"],
+  products: [
+    {
+      productKey: "4u0apcmexg8vx91l",
+      manufacturer: "Casdon",
+      model: "JJZT-B2S8-T2E",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -37,6 +43,7 @@ const entry: TuyaDeviceEntry = {
       reservationTimeInMinutes: {
         dataPoint: "23",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,
@@ -44,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       cookingTimeInMinutes: {
         dataPoint: "24",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 1,
         max: 1440,
@@ -52,6 +60,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 0,
         max: 500,
@@ -60,6 +69,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "112",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 0,
         max: 500,
@@ -67,6 +77,7 @@ const entry: TuyaDeviceEntry = {
       childLock: {
         dataPoint: "3",
         kind: "switch",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -76,6 +87,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "25",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -93,6 +106,7 @@ const entry: TuyaDeviceEntry = {
       rangehoodMode: {
         dataPoint: "120",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "steaming" },
           { raw: "2", value: "regular" },
@@ -102,6 +116,7 @@ const entry: TuyaDeviceEntry = {
       rangehoodDelayedShutdown: {
         dataPoint: "123",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "disabled" },
           { raw: "1", value: "1m" },
@@ -116,10 +131,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "10", value: "10m" },
         ],
       },
-      delayedFanOperation: { dataPoint: "124", kind: "sensor", readOnly: true },
+      delayedFanOperation: {
+        dataPoint: "124",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       cleanliness: {
         dataPoint: "119",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "poor", value: "poor" },
@@ -131,6 +152,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "31",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: null },
@@ -200,8 +222,10 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    ovenLight: { on: { dataPoint: "102", kind: "switch" } },
-    rangehoodLight: { on: { dataPoint: "4", kind: "switch" } },
+    ovenLight: { on: { dataPoint: "102", kind: "switch", category: "config" } },
+    rangehoodLight: {
+      on: { dataPoint: "4", kind: "switch", category: "config" },
+    },
   },
   source: {
     file: "casdon_t2e_oven.yaml",

@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Smart button",
-  productKeys: ["kpzc6pm8", "ja5osu5g"],
+  products: [
+    { productKey: "kpzc6pm8", manufacturer: "Arlec", model: "SG022HA" },
+    { productKey: "ja5osu5g", model: "ZG101Z" },
+  ],
   dataPoints: {
     "1": { type: "string", optional: true },
     "10": { type: "integer" },

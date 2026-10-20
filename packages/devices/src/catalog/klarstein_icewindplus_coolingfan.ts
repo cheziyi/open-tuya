@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air cooler",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -45,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -57,6 +58,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -67,6 +69,7 @@ const entry: TuyaDeviceEntry = {
       on: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: true },
           { raw: true, value: false },

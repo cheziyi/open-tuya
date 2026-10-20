@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Quad switch",
-  productKeys: ["mwiiltjyanw48oxm", "ailtrfobq95yw5ls"],
+  products: [
+    { productKey: "mwiiltjyanw48oxm", manufacturer: "Moes", model: "MS-104D" },
+    { productKey: "ailtrfobq95yw5ls", manufacturer: "Avatto", model: "WSMD-4" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -33,15 +36,17 @@ const entry: TuyaDeviceEntry = {
       timer1InSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
       },
-      timer1RandomTimer: { dataPoint: "42", kind: "text" },
-      timer1CycleTimer: { dataPoint: "43", kind: "text" },
+      timer1RandomTimer: { dataPoint: "42", kind: "text", category: "config" },
+      timer1CycleTimer: { dataPoint: "43", kind: "text", category: "config" },
       timer2InSeconds: {
         dataPoint: "10",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -49,6 +54,7 @@ const entry: TuyaDeviceEntry = {
       timer3InSeconds: {
         dataPoint: "11",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -56,6 +62,7 @@ const entry: TuyaDeviceEntry = {
       timer4InSeconds: {
         dataPoint: "12",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -63,6 +70,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           {
             raw: "off",
@@ -183,6 +191,7 @@ const entry: TuyaDeviceEntry = {
       initialStateStandard: {
         dataPoint: "38",
         kind: "text",
+        category: "config",
         otherwise: false,
         dependsOn: {
           dataPoint: "38",
@@ -192,6 +201,7 @@ const entry: TuyaDeviceEntry = {
       initialStateNumeric: {
         dataPoint: "38",
         kind: "text",
+        category: "config",
         otherwise: false,
         dependsOn: {
           dataPoint: "38",
@@ -201,6 +211,7 @@ const entry: TuyaDeviceEntry = {
       initialStatePower: {
         dataPoint: "38",
         kind: "text",
+        category: "config",
         otherwise: false,
         dependsOn: {
           dataPoint: "38",
@@ -212,6 +223,7 @@ const entry: TuyaDeviceEntry = {
       switchType: {
         dataPoint: "47",
         kind: "select",
+        category: "config",
         values: [
           { raw: "flip", value: "Flip" },
           { raw: "sync", value: "Synchronised" },

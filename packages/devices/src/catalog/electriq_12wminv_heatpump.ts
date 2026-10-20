@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heat pump",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -125,7 +125,7 @@ const entry: TuyaDeviceEntry = {
       },
       sleep: { dataPoint: "101", kind: "switch" },
     },
-    display: { on: { dataPoint: "104", kind: "switch" } },
+    display: { on: { dataPoint: "104", kind: "switch", category: "config" } },
   },
   source: {
     file: "electriq_12wminv_heatpump.yaml",

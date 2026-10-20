@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Circuit breaker",
-  productKeys: ["ine4hhapkgxonij1", "aqktrdhlsw8q90dr"],
+  products: [
+    { productKey: "ine4hhapkgxonij1", manufacturer: "EARU", model: "SW RCB" },
+    {
+      productKey: "aqktrdhlsw8q90dr",
+      manufacturer: "Zemismart",
+      model: "SPM01-D2TW-ZM",
+    },
+  ],
   dataPoints: {
     "1": { type: "integer" },
     "6": { type: "base64", optional: true },
@@ -20,6 +27,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
+        category: "diagnostic",
         readOnly: true,
         unit: "kWh",
         scale: 100,
@@ -29,6 +38,8 @@ const entry: TuyaDeviceEntry = {
         mask: "FFFF000000000000",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 10,
@@ -38,6 +49,7 @@ const entry: TuyaDeviceEntry = {
         mask: "0000FFFFFF000000",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
         readOnly: true,
         unit: "A",
         scale: 1000,
@@ -47,6 +59,7 @@ const entry: TuyaDeviceEntry = {
         mask: "0000000000FFFFFF",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
         readOnly: true,
         unit: "kW",
         scale: 1000,

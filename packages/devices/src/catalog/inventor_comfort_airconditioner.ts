@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["9xvzf8c0bg33eenj", "keycnvksyhjcrg8t"],
+  products: [
+    { productKey: "9xvzf8c0bg33eenj", manufacturer: "Inventor" },
+    {
+      productKey: "keycnvksyhjcrg8t",
+      manufacturer: "Inventor",
+      model: "Comfort MFV",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -161,18 +168,26 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "ugm3",
       },
-      pm25AirQuality: { dataPoint: "105", kind: "sensor", readOnly: true },
-      quiet: { dataPoint: "108", kind: "switch" },
-      sleep: { dataPoint: "109", kind: "switch" },
-      health: { dataPoint: "106", kind: "switch" },
-      turbo: { dataPoint: "107", kind: "switch" },
+      pm25AirQuality: {
+        dataPoint: "105",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      quiet: { dataPoint: "108", kind: "switch", category: "config" },
+      sleep: { dataPoint: "109", kind: "switch", category: "config" },
+      health: { dataPoint: "106", kind: "switch", category: "config" },
+      turbo: { dataPoint: "107", kind: "switch", category: "config" },
       antiFrost: { dataPoint: "110", kind: "switch" },
       motionDetection: {
         dataPoint: "113",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "Cancel" },
           { raw: "avoid", value: "Avoid" },
@@ -183,6 +198,7 @@ const entry: TuyaDeviceEntry = {
       verticalSwing: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: "ud_02", value: "Top" },
           { raw: "ud_04", value: "Upper" },
@@ -198,6 +214,7 @@ const entry: TuyaDeviceEntry = {
       horizontalSwing: {
         dataPoint: "118",
         kind: "select",
+        category: "config",
         values: [
           { raw: "lr_03", value: "Leftmost" },
           { raw: "lr_04", value: "Left" },
@@ -212,14 +229,20 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "116",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "116", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "116",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       antiMould: { dataPoint: "119", kind: "switch" },
     },
-    display: { on: { dataPoint: "13", kind: "switch" } },
+    display: { on: { dataPoint: "13", kind: "switch", category: "config" } },
   },
   source: {
     file: "inventor_comfort_airconditioner.yaml",

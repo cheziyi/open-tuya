@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "RGB-CCT light",
-  productKeys: ["hpaeslvkx4znwzae"],
+  products: [
+    {
+      productKey: "hpaeslvkx4znwzae",
+      manufacturer: "LSC Smart Connect",
+      model: "A60 RGB-CCT",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -80,6 +86,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "6",
         kind: "select",
+        category: "config",
         type: "string",
         values: [
           { raw: "ffff2801005766", value: "Scene 1" },

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["lgn0xaegjbodrjax"],
+  products: [
+    {
+      productKey: "lgn0xaegjbodrjax",
+      manufacturer: "EUROM",
+      model: "Hot-Shot 2000 WiFi",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -77,7 +83,7 @@ const entry: TuyaDeviceEntry = {
           { raw: true, value: "on" },
         ],
       },
-      modeIndicator: { dataPoint: "10", kind: "switch" },
+      modeIndicator: { dataPoint: "10", kind: "switch", category: "config" },
       timeRemainingInMinutes: {
         dataPoint: "12",
         kind: "sensor",

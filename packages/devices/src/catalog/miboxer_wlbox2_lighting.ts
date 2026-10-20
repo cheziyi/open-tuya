@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Lighting controller",
-  productKeys: ["2vc0xj19d766eq0k"],
+  products: [
+    {
+      productKey: "2vc0xj19d766eq0k",
+      manufacturer: "MiBoxer",
+      model: "WL-Box2",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },

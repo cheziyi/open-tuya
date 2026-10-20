@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["ce7qqw1tuudhos3q"],
+  products: [
+    {
+      productKey: "ce7qqw1tuudhos3q",
+      manufacturer: "Carrier-Midea",
+      model: "Ester Edge FXi",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -155,6 +161,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           {
@@ -168,15 +175,26 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "20", kind: "sensor", readOnly: true },
-      faultCode2: { dataPoint: "120", kind: "sensor", readOnly: true },
-      clearEnergy: { dataPoint: "102", kind: "button" },
-      childLock: { dataPoint: "105", kind: "switch" },
+      faultCode: {
+        dataPoint: "20",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultCode2: {
+        dataPoint: "120",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      clearEnergy: { dataPoint: "102", kind: "button", category: "config" },
+      childLock: { dataPoint: "105", kind: "switch", category: "config" },
       sleep: { dataPoint: "106", kind: "switch" },
-      health: { dataPoint: "107", kind: "switch" },
+      health: { dataPoint: "107", kind: "switch", category: "config" },
       sound: {
         dataPoint: "108",
         kind: "switch",
+        category: "config",
         values: [
           { raw: false, value: true },
           { raw: true, value: false },
@@ -185,6 +203,7 @@ const entry: TuyaDeviceEntry = {
       onTimerInMinutes: {
         dataPoint: "110",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1439,
@@ -193,16 +212,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "112",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 100,
       },
-      mildewProtection: { dataPoint: "116", kind: "switch" },
-      emergencyHeat: { dataPoint: "117", kind: "switch" },
-      autoClean: { dataPoint: "118", kind: "switch" },
+      mildewProtection: {
+        dataPoint: "116",
+        kind: "switch",
+        category: "config",
+      },
+      emergencyHeat: { dataPoint: "117", kind: "switch", category: "config" },
+      autoClean: { dataPoint: "118", kind: "switch", category: "config" },
       offTimerInMinutes: {
         dataPoint: "119",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1439,
@@ -210,6 +235,7 @@ const entry: TuyaDeviceEntry = {
       flexiCool: {
         dataPoint: "121",
         kind: "select",
+        category: "config",
         values: [
           { raw: "FC1", value: "1" },
           { raw: "FC2", value: "2" },
@@ -219,13 +245,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "FC0", value: "0" },
         ],
       },
-      followMe: { dataPoint: "122", kind: "switch" },
-      selfClean: { dataPoint: "123", kind: "switch" },
-      step: { dataPoint: "124", kind: "switch" },
-      xled: { dataPoint: "125", kind: "switch" },
-      plasma: { dataPoint: "126", kind: "switch" },
+      followMe: { dataPoint: "122", kind: "switch", category: "config" },
+      selfClean: { dataPoint: "123", kind: "switch", category: "config" },
+      step: { dataPoint: "124", kind: "switch", category: "config" },
+      xled: { dataPoint: "125", kind: "switch", category: "config" },
+      plasma: { dataPoint: "126", kind: "switch", category: "config" },
     },
-    display: { on: { dataPoint: "113", kind: "switch" } },
+    display: { on: { dataPoint: "113", kind: "switch", category: "config" } },
   },
   source: {
     file: "carrier_esteredgefxi_airconditioner.yaml",

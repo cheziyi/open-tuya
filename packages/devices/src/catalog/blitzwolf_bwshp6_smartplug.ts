@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Smartplug",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "9": { type: "integer" },
@@ -35,39 +35,68 @@ const entry: TuyaDeviceEntry = {
       energyInWh: {
         dataPoint: "17",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "Wh",
       },
-      energyCalibration: { dataPoint: "25", kind: "sensor", readOnly: true },
+      energyCalibration: {
+        dataPoint: "25",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       currentInMilliamps: {
         dataPoint: "18",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "mA",
       },
-      currentCalibration: { dataPoint: "23", kind: "sensor", readOnly: true },
+      currentCalibration: {
+        dataPoint: "23",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       powerInW: {
         dataPoint: "19",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "W",
         scale: 10,
       },
-      powerCalibration: { dataPoint: "24", kind: "sensor", readOnly: true },
+      powerCalibration: {
+        dataPoint: "24",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       voltageInV: {
         dataPoint: "20",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 10,
       },
-      voltageCalibration: { dataPoint: "22", kind: "sensor", readOnly: true },
+      voltageCalibration: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timerInSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -75,6 +104,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           { raw: "on", value: "on" },
           { raw: "off", value: "off" },
@@ -84,13 +114,14 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "39",
         kind: "select",
+        category: "config",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
           { raw: "none", value: "off" },
         ],
       },
-      childLock: { dataPoint: "40", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
     },
   },
   source: {

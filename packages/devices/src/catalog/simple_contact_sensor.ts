@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Window sensor",
-  productKeys: ["0mjj67aaztcfmc3i"],
+  products: [{ productKey: "0mjj67aaztcfmc3i", model: "AW201_XR3" }],
   dataPoints: { "1": { type: "boolean" } },
   components: {
     device: {

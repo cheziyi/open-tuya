@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan with light",
-  productKeys: ["9uydeea5iojq3msy"],
+  products: [
+    {
+      productKey: "9uydeea5iojq3msy",
+      manufacturer: "Cecotec",
+      model: "Aqua Connected",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },

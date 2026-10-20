@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -52,18 +52,20 @@ const entry: TuyaDeviceEntry = {
       fanPosition: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "45", value: "Half open" },
           { raw: "90", value: "Fully open" },
           { raw: "45_90", value: "Oscillate" },
         ],
       },
-      uvSterilization: { dataPoint: "13", kind: "switch" },
-      ionizer: { dataPoint: "10", kind: "switch" },
-      sleep: { dataPoint: "104", kind: "switch" },
+      uvSterilization: { dataPoint: "13", kind: "switch", category: "config" },
+      ionizer: { dataPoint: "10", kind: "switch", category: "config" },
+      sleep: { dataPoint: "104", kind: "switch", category: "config" },
       tankFull: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -72,6 +74,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         type: "bitfield",
         values: [
@@ -83,10 +86,11 @@ const entry: TuyaDeviceEntry = {
       faultCode: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         type: "bitfield",
       },
-      childLock: { dataPoint: "16", kind: "switch" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
     },
     fan: {
       on: { dataPoint: "1", kind: "switch" },
@@ -108,7 +112,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "electriq_cd12pro_dehumidifier.yaml",

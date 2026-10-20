@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["xe3mxn6danpswfh3"],
+  products: [
+    {
+      productKey: "xe3mxn6danpswfh3",
+      manufacturer: "Stadler Form",
+      model: "Eva",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "13": { type: "integer" },
@@ -48,13 +54,19 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
-      warmMist: { dataPoint: "26", kind: "switch" },
-      childLock: { dataPoint: "29", kind: "switch" },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      warmMist: { dataPoint: "26", kind: "switch", category: "config" },
+      childLock: { dataPoint: "29", kind: "switch", category: "config" },
     },
     fan: {
       on: { dataPoint: "1", kind: "switch" },
@@ -74,6 +86,7 @@ const entry: TuyaDeviceEntry = {
       brightness: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0x00", value: 255 },
           { raw: "0x01", value: 128 },

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["w1na5rczyvflglvn"],
+  products: [
+    {
+      productKey: "w1na5rczyvflglvn",
+      manufacturer: "Flymoon",
+      model: "Top Fill 5L Cool Mist",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "string" },
@@ -44,10 +50,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "large", value: "boost" },
         ],
       },
-      sleep: { dataPoint: "16", kind: "switch" },
+      sleep: { dataPoint: "16", kind: "switch", category: "config" },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -68,6 +75,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

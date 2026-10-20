@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["axhyyv6w36e5oagp", "t94pit6zjbask9qo"],
+  products: [
+    {
+      productKey: "axhyyv6w36e5oagp",
+      manufacturer: "Avatto",
+      model: "WS20R smart knob",
+    },
+    {
+      productKey: "t94pit6zjbask9qo",
+      manufacturer: "Avatto",
+      model: "WT20R WiFi Knob Thermostat",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean", optional: true },
     "2": { type: "string", optional: true },
@@ -113,6 +124,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -121,6 +133,7 @@ const entry: TuyaDeviceEntry = {
       scheduleDays: {
         dataPoint: "31",
         kind: "select",
+        category: "config",
         values: [
           { raw: "52", value: "Weekdays+Weekend" },
           { raw: "61", value: "Mon-Sat+Sun" },
@@ -130,24 +143,32 @@ const entry: TuyaDeviceEntry = {
       manualOverride: {
         dataPoint: "32",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "manual", value: true }],
         otherwise: false,
       },
-      factoryReset: { dataPoint: "39", kind: "button" },
+      factoryReset: { dataPoint: "39", kind: "button", category: "config" },
       fault: {
         dataPoint: "45",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "45",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       sensor: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "in", value: "Internal" },
           { raw: "out", value: "External" },
@@ -155,7 +176,13 @@ const entry: TuyaDeviceEntry = {
       },
     },
     backlight: {
-      brightness: { dataPoint: "44", kind: "number", min: 0, max: 100 },
+      brightness: {
+        dataPoint: "44",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
     },
   },
   source: {

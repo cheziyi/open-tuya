@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Probe thermometer",
-  productKeys: ["eprxtogzeseoze3o"],
+  products: [{ productKey: "eprxtogzeseoze3o", manufacturer: "Sodial" }],
   dataPoints: {
     "1": { type: "integer" },
     "9": { type: "string", optional: true },
@@ -16,6 +16,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unitFrom: "temperatureUnit",
         scale: 10,

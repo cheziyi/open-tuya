@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Door opener",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "101": { type: "boolean" },
@@ -30,6 +30,7 @@ const entry: TuyaDeviceEntry = {
       switchType: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "NA", value: "Normally open" },
           { raw: "NF", value: "Normally closed" },
@@ -38,6 +39,7 @@ const entry: TuyaDeviceEntry = {
       pulseType: {
         dataPoint: "109",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Pulsado", value: "Pulsed" },
           { raw: "Retencao", value: "Continuous" },
@@ -47,6 +49,7 @@ const entry: TuyaDeviceEntry = {
       autoClose: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "habilitado", value: "Enabled" },
           { raw: "desabilitado", value: "Disabled" },
@@ -55,12 +58,23 @@ const entry: TuyaDeviceEntry = {
       unlockDurationInSeconds: {
         dataPoint: "107",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 1,
         max: 65,
       },
-      doorOpened: { dataPoint: "111", kind: "sensor", readOnly: true },
-      doorClosed: { dataPoint: "112", kind: "sensor", readOnly: true },
+      doorOpened: {
+        dataPoint: "111",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      doorClosed: {
+        dataPoint: "112",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

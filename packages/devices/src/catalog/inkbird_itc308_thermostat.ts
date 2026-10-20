@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat switch",
-  productKeys: ["B0eP8qYAdpUo4yR9", "rt9nqdxeiqo7dnz9"],
+  products: [
+    {
+      productKey: "B0eP8qYAdpUo4yR9",
+      manufacturer: "Inkbird",
+      model: "ITC-308",
+    },
+    {
+      productKey: "rt9nqdxeiqo7dnz9",
+      manufacturer: "Inkbird",
+      model: "ITC-308-WIFI",
+    },
+  ],
   dataPoints: {
     "12": { type: "bitfield" },
     "101": { type: "string" },
@@ -68,6 +79,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unitFrom: "temperatureCalibrationUnit",
         min: -99,
         max: 99,
@@ -77,10 +89,15 @@ const entry: TuyaDeviceEntry = {
         },
         scale: 10,
       },
-      temperatureCalibrationUnit: { dataPoint: "101", kind: "text" },
+      temperatureCalibrationUnit: {
+        dataPoint: "101",
+        kind: "text",
+        category: "config",
+      },
       compressorDelayInMinutes: {
         dataPoint: "108",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 10,
@@ -89,6 +106,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "number",
         measures: "temperature",
+        category: "config",
         min: -500,
         max: 999,
         dependsOn: {
@@ -101,6 +119,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "number",
         measures: "temperature",
+        category: "config",
         min: -500,
         max: 999,
         dependsOn: {
@@ -113,33 +132,43 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         kind: "sensor",
         measures: "heat",
+        category: "diagnostic",
         readOnly: true,
       },
       lowTemperature: {
         dataPoint: "112",
         kind: "sensor",
         measures: "cold",
+        category: "diagnostic",
         readOnly: true,
       },
       fault: {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       sensorFault: {
         dataPoint: "113",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
       heatingHysteresis: {
         dataPoint: "117",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         min: 3,
         max: 150,
         dependsOn: {
@@ -152,6 +181,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "118",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         min: 3,
         max: 150,
         dependsOn: {

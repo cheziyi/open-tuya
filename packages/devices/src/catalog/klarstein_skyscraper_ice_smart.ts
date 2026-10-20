@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air cooler",
-  productKeys: ["vklyfhpnd7a47iym", "bhaszy5l8iicyjg0"],
+  products: [
+    {
+      productKey: "vklyfhpnd7a47iym",
+      manufacturer: "Klarstein",
+      model: "Skyscraper Ice Smart",
+    },
+    {
+      productKey: "bhaszy5l8iicyjg0",
+      manufacturer: "Klarstein",
+      model: "Skyscraper Ice Smart",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -40,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "0_5h", value: "30m" },
@@ -63,6 +75,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

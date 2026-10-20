@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["rcxazbtbhr0xs6wj"],
+  products: [
+    { productKey: "rcxazbtbhr0xs6wj", manufacturer: "Eurom", model: "AC 5201" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -85,6 +87,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "13",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -102,6 +105,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -109,15 +113,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "15",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "15", kind: "sensor", readOnly: true },
-      sleep: { dataPoint: "101", kind: "switch" },
+      faultCode: {
+        dataPoint: "15",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      sleep: { dataPoint: "101", kind: "switch", category: "config" },
       installation: {
         dataPoint: "7",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Carvan", value: "Caravan" },
           { raw: "Home", value: "Home" },

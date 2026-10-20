@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pool heat pump",
-  productKeys: ["tujtt0l6dup0is9d"],
+  products: [
+    {
+      productKey: "tujtt0l6dup0is9d",
+      manufacturer: "Vidapool",
+      model: "16000 BTU Pool Heat Pump",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -84,6 +90,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "38",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "F",
       },
@@ -91,6 +98,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "F",
       },
@@ -98,20 +106,28 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "41",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      fourWayValve: { dataPoint: "28", kind: "sensor", readOnly: true },
+      fourWayValve: {
+        dataPoint: "28",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       waterFlowSwitch: {
         dataPoint: "110",
         kind: "sensor",
         measures: "opening",
+        category: "diagnostic",
         readOnly: true,
       },
       highPressureSwitch: {
         dataPoint: "107",
         kind: "sensor",
         measures: "opening",
+        category: "diagnostic",
         readOnly: true,
       },
     },

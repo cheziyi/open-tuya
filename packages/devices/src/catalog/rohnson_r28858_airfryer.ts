@@ -5,7 +5,20 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air fryer",
-  productKeys: ["dsyz4tnrkwgo2fma", "vcutq3cp9e8clwwv"],
+  products: [
+    {
+      productKey: "dsyz4tnrkwgo2fma",
+      manufacturer: "Rohnson",
+      model: "SmartChef XL2",
+      modelId: "R-2858",
+    },
+    {
+      productKey: "vcutq3cp9e8clwwv",
+      manufacturer: "Rohnson",
+      model: "SmartChef XL",
+      modelId: "R-2834",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -81,6 +94,7 @@ const entry: TuyaDeviceEntry = {
       recipe: {
         dataPoint: "3",
         kind: "select",
+        category: "config",
         values: [
           { raw: "drumsticks", value: "chicken_drumsticks" },
           { raw: "steak", value: "steak" },
@@ -120,18 +134,21 @@ const entry: TuyaDeviceEntry = {
       recipeR2834: {
         dataPoint: "110",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: true },
         otherwise: false,
       },
       recipeR2858: {
         dataPoint: "110",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
         otherwise: true,
       },
       cloudRecipe: {
         dataPoint: "4",
         kind: "number",
+        category: "config",
         min: 0,
         max: 999999999,
         dependsOn: {
@@ -139,7 +156,11 @@ const entry: TuyaDeviceEntry = {
           conditions: [{ when: [null], min: 0, max: 999999 }],
         },
       },
-      cloudRecipeModel: { dataPoint: "110", kind: "switch" },
+      cloudRecipeModel: {
+        dataPoint: "110",
+        kind: "switch",
+        category: "config",
+      },
       cookingTimeInMinutes: {
         dataPoint: "9",
         kind: "number",
@@ -163,21 +184,30 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       coolingTimeInSeconds: {
         dataPoint: "107",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
       operatingState: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "wait_mode", value: "Wait" },
           { raw: "set_mode", value: "Settings" },
@@ -199,9 +229,9 @@ const entry: TuyaDeviceEntry = {
           { raw: "stop_cooking", value: "done", readOnly: true },
         ],
       },
-      tenderGriller: { dataPoint: "110", kind: "switch" },
+      tenderGriller: { dataPoint: "110", kind: "switch", category: "config" },
     },
-    light: { on: { dataPoint: "101", kind: "switch" } },
+    light: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "rohnson_r28858_airfryer.yaml",

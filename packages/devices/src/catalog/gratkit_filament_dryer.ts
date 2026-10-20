@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Filament dryer",
-  productKeys: ["mxct11k2jqpak13a"],
+  products: [
+    {
+      productKey: "mxct11k2jqpak13a",
+      manufacturer: "GratKit",
+      model: "Firefly Smart Dryer Box",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "20": { type: "integer" },
@@ -36,6 +42,7 @@ const entry: TuyaDeviceEntry = {
       dryingTemperatureInC: {
         dataPoint: "20",
         kind: "number",
+        category: "config",
         unit: "C",
         min: 40,
         max: 70,
@@ -44,6 +51,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -57,6 +65,7 @@ const entry: TuyaDeviceEntry = {
       dryingTimeInMinutes: {
         dataPoint: "101",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,
@@ -65,6 +74,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -103,12 +113,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
       },
       filamentType: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "PLA", value: "PLA" },
           { raw: "PLA_J", value: "PLA+" },
@@ -125,6 +138,7 @@ const entry: TuyaDeviceEntry = {
       error: {
         dataPoint: "106",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "0", value: "Normal" },
@@ -142,11 +156,17 @@ const entry: TuyaDeviceEntry = {
       fanSpeedInRpm: {
         dataPoint: "107",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "rpm",
       },
-      usb: { dataPoint: "108", kind: "sensor", readOnly: true },
-      speaker: { dataPoint: "109", kind: "switch" },
+      usb: {
+        dataPoint: "108",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      speaker: { dataPoint: "109", kind: "switch", category: "config" },
     },
     display: { on: { dataPoint: "110", kind: "switch" } },
     device: { on: { dataPoint: "1", kind: "switch" } },

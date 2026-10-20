@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Range hood",
-  productKeys: ["tql6vskv9hlesoav"],
+  products: [
+    {
+      productKey: "tql6vskv9hlesoav",
+      manufacturer: "Hauslane",
+      model: "IN-R110",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "boolean" },
@@ -32,6 +38,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 5,
@@ -40,6 +47,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
       },
@@ -47,6 +55,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
       },

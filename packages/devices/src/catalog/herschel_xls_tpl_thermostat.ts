@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["7o1bzm3omsqau6w6"],
+  products: [
+    {
+      productKey: "7o1bzm3omsqau6w6",
+      manufacturer: "Herschel",
+      model: "XLS-T-PL",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -67,6 +73,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "10",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -99,12 +106,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
       holidayInDays: {
         dataPoint: "101",
         kind: "number",
+        category: "config",
         unit: "d",
         min: 0,
         max: 99,
@@ -112,6 +121,7 @@ const entry: TuyaDeviceEntry = {
       openWindowDetection: {
         dataPoint: "103",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "continue", value: true },
           { raw: "close", value: false },
@@ -121,6 +131,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

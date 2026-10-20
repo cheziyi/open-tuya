@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Robot vacuum",
-  productKeys: ["lec6zthbnidtvk2g"],
+  products: [
+    { productKey: "lec6zthbnidtvk2g", manufacturer: "Lenovo", model: "E1" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "14": { type: "integer" },
@@ -94,6 +96,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "sensor",
         measures: "area",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "m2",
       },
@@ -101,6 +105,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -108,33 +113,42 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
       brushLifeInPercent: {
         dataPoint: "109",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       rollerBrushLifeInPercent: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       hepaFilterLifeInPercent: {
         dataPoint: "111",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      resetBrush: { dataPoint: "113", kind: "button" },
-      resetRollerBrush: { dataPoint: "114", kind: "button" },
-      resetHepaFilter: { dataPoint: "115", kind: "button" },
+      resetBrush: { dataPoint: "113", kind: "button", category: "config" },
+      resetRollerBrush: {
+        dataPoint: "114",
+        kind: "button",
+        category: "config",
+      },
+      resetHepaFilter: { dataPoint: "115", kind: "button", category: "config" },
       scheduledClean: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: "clean_auto", value: "auto" },
           { raw: "clean_random", value: "random" },
@@ -146,6 +160,7 @@ const entry: TuyaDeviceEntry = {
       mopping: {
         dataPoint: "120",
         kind: "select",
+        category: "config",
         values: [
           { raw: "water_small", value: "low" },
           { raw: "water_big", value: "high" },
@@ -156,14 +171,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "17",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "17", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "17",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "17",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Relay switch",
-  productKeys: ["owzofmjyg7foteb6"],
+  products: [
+    {
+      productKey: "owzofmjyg7foteb6",
+      manufacturer: "Loratap",
+      model: "RR500W",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "9": { type: "integer" },
@@ -25,6 +31,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -32,6 +39,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "39",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "on" },
@@ -41,13 +49,14 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "40",
         kind: "select",
+        category: "config",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
           { raw: "none", value: "off" },
         ],
       },
-      childLock: { dataPoint: "41", kind: "switch" },
+      childLock: { dataPoint: "41", kind: "switch", category: "config" },
     },
   },
   source: {

@@ -5,12 +5,16 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Energy monitor switch",
-  productKeys: [
-    "labfkgzm2ikdcpdp",
-    "m4jtkjc43ltrilru",
-    "keyjnuy4s3kre7m7",
-    "jqo111f6ahvas3tr",
-    "apwf3sfwz51xuvht",
+  products: [
+    {
+      productKey: "labfkgzm2ikdcpdp",
+      manufacturer: "Aubess",
+      model: "Smart Switch/EM",
+    },
+    { productKey: "m4jtkjc43ltrilru", model: "T34 Smart Plug+" },
+    { productKey: "keyjnuy4s3kre7m7", model: "T34 Smart Plug+" },
+    { productKey: "jqo111f6ahvas3tr", model: "Mini on/off controller" },
+    { productKey: "apwf3sfwz51xuvht", manufacturer: "Moes", model: "WM-104-M" },
   ],
   dataPoints: {
     "1": { type: "boolean" },
@@ -34,6 +38,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -41,6 +46,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           {
             raw: "0",
@@ -125,6 +131,7 @@ const entry: TuyaDeviceEntry = {
       initialStateNumericValues: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: true },
           { raw: "1", value: true },
@@ -135,6 +142,7 @@ const entry: TuyaDeviceEntry = {
       initialStateWordValues: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: false },
           { raw: "1", value: false },
@@ -145,6 +153,8 @@ const entry: TuyaDeviceEntry = {
       energyInWh: {
         dataPoint: "20",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "Wh",
       },
@@ -152,6 +162,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "mA",
       },
@@ -159,6 +171,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "W",
         scale: 10,
@@ -167,6 +181,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 10,
@@ -175,23 +191,30 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "29",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "29", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "29",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       switchType: {
         dataPoint: "47",
         kind: "select",
+        category: "config",
         values: [
           { raw: "sync", value: "Synchronized switch" },
           { raw: "flip", value: "Toggle switch" },
           { raw: "button", value: "Momentary button" },
         ],
       },
-      randomSchedule: { dataPoint: "42", kind: "text" },
-      schedule: { dataPoint: "43", kind: "text" },
-      inching: { dataPoint: "44", kind: "text" },
+      randomSchedule: { dataPoint: "42", kind: "text", category: "config" },
+      schedule: { dataPoint: "43", kind: "text", category: "config" },
+      inching: { dataPoint: "44", kind: "text", category: "config" },
     },
   },
   source: {

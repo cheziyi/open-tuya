@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["j33n2ubodbflhsc4"],
+  products: [
+    {
+      productKey: "j33n2ubodbflhsc4",
+      manufacturer: "Trident",
+      model: "AirDome-70",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -44,10 +50,11 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       airQuality: {
         dataPoint: "21",
         kind: "sensor",
@@ -59,10 +66,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "severe", value: "severe" },
         ],
       },
-      filterReset: { dataPoint: "101", kind: "button" },
+      filterReset: { dataPoint: "101", kind: "button", category: "config" },
       airflowAngle: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "30", value: "30" },
           { raw: "60", value: "60" },
@@ -70,7 +78,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    backlight: { on: { dataPoint: "8", kind: "switch" } },
+    backlight: { on: { dataPoint: "8", kind: "switch", category: "config" } },
   },
   source: {
     file: "trident_airdome70_airpurifier.yaml",

@@ -9,7 +9,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const ENTRY: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["70kki9an9nr0oqbj"],
+  products: [{ productKey: "70kki9an9nr0oqbj" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -201,7 +201,7 @@ describe("writeControls", () => {
 // and https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L1129-L1161.
 const PACKED: TuyaDeviceEntry = {
   name: "Meter",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "hex" },
     "2": { type: "base64" },
@@ -354,7 +354,7 @@ describe("writeControls with a mask", () => {
 // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/devices/README.md#L488-L576.
 const DEPENDENT: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -561,7 +561,7 @@ describe("listDependencies", () => {
 // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/devices/README.md#L436-L463.
 const REDIRECTING: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -712,7 +712,7 @@ describe("writeControls with redirects", () => {
     // data point, so while it is hot, the power switch takes off.
     const entry: TuyaDeviceEntry = {
       name: "Heat pump",
-      productKeys: [],
+      products: [],
       dataPoints: { "1": { type: "boolean" }, "4": { type: "string" } },
       components: {
         waterHeater: {
@@ -808,7 +808,7 @@ describe("resolveControl", () => {
 // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/devices/README.md#L464-L487.
 const AVAILABLE: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "string" },
@@ -927,7 +927,7 @@ describe("utf16b64", () => {
   const HI = "AEgAaQ==";
   const MESSAGES: TuyaDeviceEntry = {
     name: "Doorbell",
-    productKeys: [],
+    products: [],
     dataPoints: { "1": { type: "utf16b64" }, "2": { type: "string" } },
     components: {
       device: {
@@ -968,7 +968,7 @@ describe("utf16b64", () => {
 describe("readControls with a constraint read through its conversion", () => {
   const entry: TuyaDeviceEntry = {
     name: "Meter",
-    productKeys: [],
+    products: [],
     dataPoints: {
       "1": { type: "base64" },
       "2": { type: "boolean", optional: true },
@@ -1032,7 +1032,7 @@ describe("readControls with a constraint read through its conversion", () => {
 describe("readControls with a condition's value for an absent data point", () => {
   const entry: TuyaDeviceEntry = {
     name: "Vacuum",
-    productKeys: [],
+    products: [],
     dataPoints: {
       "2": { type: "boolean" },
       "5": { type: "string", optional: true },
@@ -1076,7 +1076,7 @@ describe("readControls with a condition's value for an absent data point", () =>
 describe("readControls and writeControls as tuya-local converts", () => {
   const entry: TuyaDeviceEntry = {
     name: "Heat pump",
-    productKeys: [],
+    products: [],
     dataPoints: {
       "1": { type: "boolean" },
       "2": { type: "integer", optional: true },
@@ -1196,7 +1196,7 @@ describe("readControls and writeControls as tuya-local converts", () => {
 describe("readControls with no value", () => {
   const entry: TuyaDeviceEntry = {
     name: "Doorbell",
-    productKeys: [],
+    products: [],
     dataPoints: {
       "1": { type: "string" },
       "2": { type: "boolean" },
@@ -1277,7 +1277,7 @@ describe("readControls with no value", () => {
 describe("writeControls with the data point's type", () => {
   const entry: TuyaDeviceEntry = {
     name: "Dehumidifier",
-    productKeys: [],
+    products: [],
     dataPoints: {
       "1": { type: "string" },
       "2": { type: "integer" },
@@ -1388,7 +1388,7 @@ describe("writeControls with the data point's type", () => {
 describe("writeControls with a mask, as tuya-local truncates", () => {
   const entry: TuyaDeviceEntry = {
     name: "Meter",
-    productKeys: [],
+    products: [],
     dataPoints: { "1": { type: "integer" } },
     components: {
       device: { nibble: { dataPoint: "1", mask: "00F0", kind: "number" } },

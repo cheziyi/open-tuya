@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Panel heater",
-  productKeys: ["8fczfuyd5dknvltq"],
+  products: [
+    {
+      productKey: "8fczfuyd5dknvltq",
+      manufacturer: "Solaire",
+      model: "Vitra S2",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -68,22 +74,29 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -15,
         max: 15,
       },
-      childLock: { dataPoint: "6", kind: "switch" },
+      childLock: { dataPoint: "6", kind: "switch", category: "config" },
       fault: {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
-    display: { on: { dataPoint: "9", kind: "switch" } },
+    display: { on: { dataPoint: "9", kind: "switch", category: "config" } },
   },
   source: {
     file: "solaire_vitra_smart_heater_s2.yaml",

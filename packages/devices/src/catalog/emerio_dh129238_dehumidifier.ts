@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["fiqjksldhlsc0oag"],
+  products: [
+    {
+      productKey: "fiqjksldhlsc0oag",
+      manufacturer: "Emerio",
+      model: "DH-129238.1",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -46,11 +52,12 @@ const entry: TuyaDeviceEntry = {
       tankFull: {
         dataPoint: "101",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      childLock: { dataPoint: "105", kind: "switch" },
+      childLock: { dataPoint: "105", kind: "switch", category: "config" },
     },
     fan: {
       on: { dataPoint: "1", kind: "switch" },

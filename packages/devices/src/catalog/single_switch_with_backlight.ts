@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Single switch with backlight",
-  productKeys: ["gbdzignerqxddcuj", "sr1zcserapldtkll"],
+  products: [
+    { productKey: "gbdzignerqxddcuj" },
+    { productKey: "sr1zcserapldtkll", manufacturer: "Tesla" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "7": { type: "integer" },
@@ -19,6 +22,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -26,6 +30,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "last", value: "memory" },
           { raw: "power_on", value: "on" },
@@ -35,6 +40,7 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "15",
         kind: "select",
+        category: "config",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
@@ -42,7 +48,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    backlight: { on: { dataPoint: "16", kind: "switch" } },
+    backlight: { on: { dataPoint: "16", kind: "switch", category: "config" } },
   },
   source: {
     file: "single_switch_with_backlight.yaml",

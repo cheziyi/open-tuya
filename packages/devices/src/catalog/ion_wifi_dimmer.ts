@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dimmer",
-  productKeys: ["ceikasvm5p5ymcax"],
+  products: [
+    {
+      productKey: "ceikasvm5p5ymcax",
+      manufacturer: "Ion",
+      model: "LED WiFi 200W NF",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -17,11 +23,24 @@ const entry: TuyaDeviceEntry = {
     light: {
       on: { dataPoint: "1", kind: "switch" },
       brightness: { dataPoint: "2", kind: "number", min: 10, max: 1000 },
-      minimumBrightness: { dataPoint: "3", kind: "number", min: 10, max: 1000 },
-      maximumBrightness: { dataPoint: "5", kind: "number", min: 10, max: 1000 },
+      minimumBrightness: {
+        dataPoint: "3",
+        kind: "number",
+        category: "config",
+        min: 10,
+        max: 1000,
+      },
+      maximumBrightness: {
+        dataPoint: "5",
+        kind: "number",
+        category: "config",
+        min: 10,
+        max: 1000,
+      },
       timerInSeconds: {
         dataPoint: "6",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Portable fan",
-  productKeys: ["4srsoiozpa7wd9ha"],
+  products: [
+    {
+      productKey: "4srsoiozpa7wd9ha",
+      manufacturer: "djive",
+      model: "ARC Portable",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string", optional: true },
@@ -42,17 +48,24 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "24", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "24",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       uvSterilization: { dataPoint: "102", kind: "switch" },
       sound: { dataPoint: "13", kind: "switch" },
       pm25InUgPerM3: {
         dataPoint: "101",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "μg/m³",
       },
@@ -72,10 +85,11 @@ const entry: TuyaDeviceEntry = {
       filterLifeInPercent: {
         dataPoint: "103",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      filterReset: { dataPoint: "104", kind: "button" },
+      filterReset: { dataPoint: "104", kind: "button", category: "config" },
     },
   },
   source: {

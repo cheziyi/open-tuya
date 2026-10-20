@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pool heat pump",
-  productKeys: ["qrlLaHWwIsZsV31f", "CGJ08iaKlWqKmVuX"],
+  products: [
+    {
+      productKey: "qrlLaHWwIsZsV31f",
+      manufacturer: "Phalén",
+      model: "Calidi XP",
+    },
+    {
+      productKey: "CGJ08iaKlWqKmVuX",
+      manufacturer: "Fairland",
+      model: "IPHCR20",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "102": { type: "integer" },
@@ -96,6 +107,8 @@ const entry: TuyaDeviceEntry = {
       powerLevelInPercent: {
         dataPoint: "104",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -103,6 +116,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "115",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
@@ -111,6 +125,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "116",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           {
@@ -124,8 +139,18 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "115", kind: "sensor", readOnly: true },
-      faultCode2: { dataPoint: "116", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "115",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultCode2: {
+        dataPoint: "116",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

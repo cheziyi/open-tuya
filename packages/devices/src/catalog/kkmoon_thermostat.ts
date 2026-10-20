@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["ixmi1hbw0omzpbjy"],
+  products: [
+    {
+      productKey: "ixmi1hbw0omzpbjy",
+      manufacturer: "KKMoon",
+      model: "Knob thermostat",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -73,6 +79,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -9,
         max: 9,
@@ -81,6 +88,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -88,6 +97,7 @@ const entry: TuyaDeviceEntry = {
       temperatureSensor: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "IN", value: "Internal" },
           { raw: "OU", value: "Floor" },
@@ -98,6 +108,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: 0,
         max: 5,
@@ -105,6 +116,7 @@ const entry: TuyaDeviceEntry = {
       overheatProtectionLimitInC: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         unit: "C",
         min: 100,
         max: 700,
@@ -114,6 +126,7 @@ const entry: TuyaDeviceEntry = {
       antiFrostProtectionLimitInC: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "C",
         min: 0,
         max: 100,
@@ -125,6 +138,7 @@ const entry: TuyaDeviceEntry = {
       open: {
         dataPoint: "36",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "open", value: true },
@@ -133,7 +147,13 @@ const entry: TuyaDeviceEntry = {
       },
     },
     backlight: {
-      brightness: { dataPoint: "44", kind: "number", min: 0, max: 100 },
+      brightness: {
+        dataPoint: "44",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
     },
   },
   source: {

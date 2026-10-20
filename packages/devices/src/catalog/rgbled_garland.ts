@@ -5,11 +5,15 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fairy lights",
-  productKeys: [
-    "dpfvez4c2ui18yef",
-    "kkeofybrzdqrg53p",
-    "myyutxuyqg6jz0mp",
-    "key5s38j99wu7r5f",
+  products: [
+    { productKey: "dpfvez4c2ui18yef" },
+    { productKey: "kkeofybrzdqrg53p", manufacturer: "Lampoteka" },
+    {
+      productKey: "myyutxuyqg6jz0mp",
+      manufacturer: "Moes",
+      model: "Smart Eaves",
+    },
+    { productKey: "key5s38j99wu7r5f", model: "ZL-1W3H-AW" },
   ],
   dataPoints: {
     "20": { type: "boolean" },
@@ -60,16 +64,28 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
       },
-      scene: { dataPoint: "51", kind: "text" },
-      ledCount: { dataPoint: "53", kind: "number", min: 1, max: 1000 },
-      ledCountFromDevice: { dataPoint: "47", kind: "number" },
+      scene: { dataPoint: "51", kind: "text", category: "config" },
+      ledCount: {
+        dataPoint: "53",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 1000,
+      },
+      ledCountFromDevice: {
+        dataPoint: "47",
+        kind: "number",
+        category: "config",
+      },
       colorOrder: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "RGB", value: "RGB" },
           { raw: "RBG", value: "RBG" },
@@ -79,8 +95,8 @@ const entry: TuyaDeviceEntry = {
           { raw: "BGR", value: "BGR" },
         ],
       },
-      music: { dataPoint: "52", kind: "text" },
-      paintingControl: { dataPoint: "61", kind: "text" },
+      music: { dataPoint: "52", kind: "text", category: "config" },
+      paintingControl: { dataPoint: "61", kind: "text", category: "config" },
     },
   },
   source: {

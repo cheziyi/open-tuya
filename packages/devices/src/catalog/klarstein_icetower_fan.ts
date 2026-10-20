@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Tower fan",
-  productKeys: ["fskm5vfjggvuufmx"],
+  products: [
+    {
+      productKey: "fskm5vfjggvuufmx",
+      manufacturer: "Klarstein",
+      model: "Icetower Smart",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -37,17 +43,19 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       oscillating: { dataPoint: "10", kind: "switch" },
-      cool: { dataPoint: "6", kind: "switch" },
+      cool: { dataPoint: "6", kind: "switch", category: "config" },
       temperatureInC: {
         dataPoint: "8",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
       timer: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

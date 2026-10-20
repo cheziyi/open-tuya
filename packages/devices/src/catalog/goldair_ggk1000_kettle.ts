@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Kettle",
-  productKeys: ["2vuvtw0cj8wmjrpc"],
+  products: [
+    {
+      productKey: "2vuvtw0cj8wmjrpc",
+      manufacturer: "Goldair",
+      model: "GGK1000",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -50,15 +56,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 720,
       },
       keepWarm: { dataPoint: "14", kind: "switch" },
-      workMode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      workMode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       status: {
         dataPoint: "8",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -71,6 +84,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "17",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
         min: 0,
@@ -80,6 +94,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "15",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 720,

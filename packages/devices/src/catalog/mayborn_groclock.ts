@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Alarm clock",
-  productKeys: ["pnauiuyatd821djd"],
+  products: [
+    {
+      productKey: "pnauiuyatd821djd",
+      manufacturer: "Mayborn",
+      model: "GroClock Connect",
+    },
+  ],
   dataPoints: {
     "101": { type: "string" },
     "103": { type: "boolean" },
@@ -54,6 +60,7 @@ const entry: TuyaDeviceEntry = {
       alarmMode: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "awake", value: "Wake up" },
           { raw: "nap", value: "Nap" },
@@ -63,22 +70,24 @@ const entry: TuyaDeviceEntry = {
       musicPlayback: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Repeat" },
           { raw: "1", value: "Normal" },
           { raw: "2", value: "Random" },
         ],
       },
-      autoTimeSync: { dataPoint: "112", kind: "switch" },
+      autoTimeSync: { dataPoint: "112", kind: "switch", category: "config" },
       timeFormat: {
         dataPoint: "113",
         kind: "select",
+        category: "config",
         values: [
           { raw: "12", value: "12_hour" },
           { raw: "24", value: "24_hour" },
         ],
       },
-      childLock: { dataPoint: "115", kind: "switch" },
+      childLock: { dataPoint: "115", kind: "switch", category: "config" },
       sleep: { dataPoint: "116", kind: "switch" },
     },
   },

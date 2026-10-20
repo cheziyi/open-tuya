@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["wa8pwmxwnhpujmdq"],
+  products: [
+    {
+      productKey: "wa8pwmxwnhpujmdq",
+      manufacturer: "HoneyGuardian",
+      model: "S56",
+    },
+  ],
   dataPoints: {
     "1": { type: "base64" },
     "3": { type: "integer" },
@@ -19,27 +25,46 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       manualFeed: { dataPoint: "3", kind: "number", min: 1, max: 6 },
-      mealPlan: { dataPoint: "1", kind: "text" },
+      mealPlan: { dataPoint: "1", kind: "text", category: "config" },
       slowFeeding: {
         dataPoint: "6",
         kind: "switch",
+        category: "config",
         values: [{ raw: false }, { raw: true }],
       },
       fault: {
         dataPoint: "14",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "14", kind: "sensor", readOnly: true },
-      voiceActivations: { dataPoint: "18", kind: "number", min: 1, max: 10 },
-      mealLog: { dataPoint: "101", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "14",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      voiceActivations: {
+        dataPoint: "18",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 10,
+      },
+      mealLog: {
+        dataPoint: "101",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       clock: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "12 hour" },
           { raw: true, value: "24 hour" },

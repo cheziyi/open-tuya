@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Light",
-  productKeys: ["ix6bgswz"],
+  products: [
+    {
+      productKey: "ix6bgswz",
+      manufacturer: "imitOS",
+      model: "Square downlight",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -64,13 +70,18 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 100,
       },
-      timerInSeconds: { dataPoint: "7", kind: "number", unit: "s" },
-      music: { dataPoint: "13", kind: "text" },
-      timerSync: { dataPoint: "18", kind: "text" },
-      doNotDisturb: { dataPoint: "34", kind: "switch" },
-      segmentDimming: { dataPoint: "53", kind: "text" },
-      scene: { dataPoint: "73", kind: "text" },
-      timerConfig: { dataPoint: "75", kind: "text" },
+      timerInSeconds: {
+        dataPoint: "7",
+        kind: "number",
+        category: "config",
+        unit: "s",
+      },
+      music: { dataPoint: "13", kind: "text", category: "config" },
+      timerSync: { dataPoint: "18", kind: "text", category: "config" },
+      doNotDisturb: { dataPoint: "34", kind: "switch", category: "config" },
+      segmentDimming: { dataPoint: "53", kind: "text", category: "config" },
+      scene: { dataPoint: "73", kind: "text", category: "config" },
+      timerConfig: { dataPoint: "75", kind: "text", category: "config" },
     },
   },
   source: {

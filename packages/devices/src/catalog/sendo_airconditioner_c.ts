@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -77,17 +77,18 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       emergencyHeat: { dataPoint: "12", kind: "switch" },
-      childLock: { dataPoint: "14", kind: "switch" },
+      childLock: { dataPoint: "14", kind: "switch", category: "config" },
       powerConsumptionInKwh: {
         dataPoint: "28",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "kWh",
       },
-      sleep: { dataPoint: "102", kind: "switch" },
-      ionizer: { dataPoint: "106", kind: "switch" },
+      sleep: { dataPoint: "102", kind: "switch", category: "config" },
+      ionizer: { dataPoint: "106", kind: "switch", category: "config" },
     },
-    backlight: { on: { dataPoint: "13", kind: "switch" } },
+    backlight: { on: { dataPoint: "13", kind: "switch", category: "config" } },
   },
   source: {
     file: "sendo_airconditioner_c.yaml",

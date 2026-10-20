@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fireplace",
-  productKeys: ["6lmohn7hdu9uh78r"],
+  products: [
+    { productKey: "6lmohn7hdu9uh78r", manufacturer: "Dynasty", model: "BTX" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer" },
@@ -74,6 +76,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -91,12 +94,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
       flameRed: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Off" },
           { raw: "1", value: "Low" },
@@ -107,6 +112,7 @@ const entry: TuyaDeviceEntry = {
       flameBlue: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Off" },
           { raw: "1", value: "Low" },
@@ -117,6 +123,7 @@ const entry: TuyaDeviceEntry = {
       flameYellow: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Off" },
           { raw: "1", value: "Low" },
@@ -125,7 +132,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    flame: { on: { dataPoint: "101", kind: "switch" } },
+    flame: { on: { dataPoint: "101", kind: "switch", category: "config" } },
     embers: {
       on: {
         dataPoint: "106",

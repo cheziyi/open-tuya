@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Siren alarm",
-  productKeys: ["t1blo2bj"],
+  products: [
+    { productKey: "t1blo2bj", manufacturer: "Neo", model: "Siren Alarm 2" },
+  ],
   dataPoints: {
     "5": { type: "string", optional: true },
     "7": { type: "integer" },
@@ -60,6 +62,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "15",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },

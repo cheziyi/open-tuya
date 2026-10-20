@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Video doorbell",
-  productKeys: ["ejveurwimrhw5tjf"],
+  products: [
+    {
+      productKey: "ejveurwimrhw5tjf",
+      manufacturer: "Rehentint",
+      model: "RH-PD10 3MP peephole camera",
+    },
+  ],
   dataPoints: {
     "103": { type: "boolean", optional: true },
     "104": { type: "boolean", optional: true },
@@ -51,20 +57,23 @@ const entry: TuyaDeviceEntry = {
         otherwise: "ring",
       },
       doorImageSnapshot: { dataPoint: "154", kind: "sensor", readOnly: true },
-      motionDetection: { dataPoint: "113", kind: "switch" },
+      motionDetection: { dataPoint: "113", kind: "switch", category: "config" },
       flipImage: {
         dataPoint: "103",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       watermark: {
         dataPoint: "104",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       nightVision: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "auto" },
           { raw: "1", value: "off" },
@@ -74,6 +83,7 @@ const entry: TuyaDeviceEntry = {
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -84,11 +94,17 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "normal" },
       },
-      sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
-      sdFormat: { dataPoint: "111", kind: "button" },
+      sdStatusCapacity: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      sdFormat: { dataPoint: "111", kind: "button", category: "config" },
       sdFormatState: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: -2000, value: "Formatting" },
           { raw: -2001, value: "Format failed" },
@@ -111,14 +127,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "145",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      batteryCapability: { dataPoint: "126", kind: "sensor", readOnly: true },
+      batteryCapability: {
+        dataPoint: "126",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       plug: {
         dataPoint: "146",
         kind: "sensor",
         measures: "plugged",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "1", value: true }],
         otherwise: false,
@@ -126,6 +150,7 @@ const entry: TuyaDeviceEntry = {
       lowBatteryAlarmLevelInPercent: {
         dataPoint: "147",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 10,
         max: 50,
@@ -134,11 +159,13 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "149",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
       },
       pirSensitivity: {
         dataPoint: "152",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "low" },
@@ -149,11 +176,12 @@ const entry: TuyaDeviceEntry = {
       volumeInPercent: {
         dataPoint: "160",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 1,
         max: 100,
       },
-      humanFilter: { dataPoint: "170", kind: "switch" },
+      humanFilter: { dataPoint: "170", kind: "switch", category: "config" },
       alarm: {
         dataPoint: "185",
         kind: "event",
@@ -167,7 +195,11 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         type: "utf16b64",
       },
-      aiFaceRecognition: { dataPoint: "186", kind: "switch" },
+      aiFaceRecognition: {
+        dataPoint: "186",
+        kind: "switch",
+        category: "config",
+      },
       notification: {
         dataPoint: "212",
         kind: "event",
@@ -185,6 +217,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "231",
         kind: "sensor",
         measures: "tamper",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "0", value: false },

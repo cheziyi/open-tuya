@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Temperature sensor",
-  productKeys: ["fqs8czlq3m0seqyp"],
+  products: [{ productKey: "fqs8czlq3m0seqyp", model: "SNT957W-TDE" }],
   dataPoints: {
     "1": { type: "integer" },
     "9": { type: "string", optional: true },
@@ -20,6 +20,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -27,6 +28,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "9",
         kind: "select",
+        category: "config",
         values: [
           { raw: "f", value: "F" },
           { raw: "c", value: "C" },
@@ -36,6 +38,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -400,
         max: 1200,
@@ -45,6 +48,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -400,
         max: 1200,
@@ -53,6 +57,7 @@ const entry: TuyaDeviceEntry = {
       temperatureAlarm: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "loweralarm", value: "Low temperature" },
           { raw: "upperalarm", value: "High temperature" },
@@ -63,6 +68,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -100,
         max: 100,

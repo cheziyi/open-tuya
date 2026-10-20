@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Soil moisture sensor",
-  productKeys: ["j5mynqs3"],
+  products: [{ productKey: "j5mynqs3", model: "TCS024B" }],
   dataPoints: {
     "1": { type: "integer" },
     "2": { type: "integer" },
@@ -18,6 +18,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "moisture",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -25,6 +26,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unitFrom: "temperatureUnit",
       },

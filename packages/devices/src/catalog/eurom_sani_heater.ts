@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["vx9tbbzhfmcc0f3k"],
+  products: [
+    {
+      productKey: "vx9tbbzhfmcc0f3k",
+      manufacturer: "Eurom",
+      model: "Sani 800",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -81,15 +87,17 @@ const entry: TuyaDeviceEntry = {
       timerInMinutes: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,
       },
-      timer: { dataPoint: "8", kind: "switch" },
-      schedule: { dataPoint: "9", kind: "text" },
+      timer: { dataPoint: "8", kind: "switch", category: "config" },
+      schedule: { dataPoint: "9", kind: "text", category: "config" },
       scheduleMode: {
         dataPoint: "10",
         kind: "select",
+        category: "config",
         values: [
           { raw: "holiday", value: "Holiday" },
           { raw: "program", value: "Program" },

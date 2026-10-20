@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Simple eight switch",
-  productKeys: ["np8h8vfhuyceewnq"],
+  products: [{ productKey: "np8h8vfhuyceewnq", manufacturer: "Melery" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -31,6 +31,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "memory", value: "memory" },
@@ -40,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "15",
         kind: "select",
+        category: "config",
         values: [
           { raw: "none", value: "off" },
           { raw: "relay", value: "state" },

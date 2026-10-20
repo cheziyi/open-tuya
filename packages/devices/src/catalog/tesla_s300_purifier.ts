@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["7v1gn9wmbqvtcqkc"],
+  products: [
+    {
+      productKey: "7v1gn9wmbqvtcqkc",
+      manufacturer: "Tesla Smart",
+      model: "S300",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -43,26 +49,31 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "ugm3",
       },
       filterLifeInPercent: {
         dataPoint: "5",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      ionizer: { dataPoint: "6", kind: "switch" },
+      ionizer: { dataPoint: "6", kind: "switch", category: "config" },
       childLock: {
         dataPoint: "7",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
-      uvSterilization: { dataPoint: "9", kind: "switch" },
-      filterReset: { dataPoint: "11", kind: "button" },
+      uvSterilization: { dataPoint: "9", kind: "switch", category: "config" },
+      filterReset: { dataPoint: "11", kind: "button", category: "config" },
       timer: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -82,6 +93,7 @@ const entry: TuyaDeviceEntry = {
       airQuality: {
         dataPoint: "21",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "great", value: "excellent" },
@@ -94,14 +106,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       sound: {
         dataPoint: "104",
         kind: "switch",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },

@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Radiator controller",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -59,14 +59,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -8,
         max: 8,
       },
-      childLock: { dataPoint: "40", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       boostTimeInHours: {
         dataPoint: "101",
         kind: "number",
+        category: "config",
         unit: "h",
         min: 1,
         max: 9,
@@ -74,13 +76,14 @@ const entry: TuyaDeviceEntry = {
       windowOpenTimeout: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "immediate" },
           { raw: "60", value: "1h" },
           { raw: "90", value: "1h30m" },
         ],
       },
-      schedule: { dataPoint: "110", kind: "text" },
+      schedule: { dataPoint: "110", kind: "text", category: "config" },
     },
   },
   source: {

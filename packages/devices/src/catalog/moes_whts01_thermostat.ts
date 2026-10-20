@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["ohdk8akzkfjkqkbs"],
+  products: [
+    {
+      productKey: "ohdk8akzkfjkqkbs",
+      manufacturer: "Moes",
+      model: "WHT-S01-GAC-WH-MS",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -155,6 +161,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -164,6 +171,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unitFrom: "temperatureCalibrationUnit",
         min: -18,
         max: 18,
@@ -183,14 +191,16 @@ const entry: TuyaDeviceEntry = {
       temperatureCalibrationUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
-      factoryReset: { dataPoint: "39", kind: "button" },
-      childLock: { dataPoint: "40", kind: "switch" },
+      factoryReset: { dataPoint: "39", kind: "button", category: "config" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       temperatureSensor: {
         dataPoint: "43",
         kind: "select",
+        category: "config",
         values: [
           { raw: "in", value: "Internal" },
           { raw: "out", value: "External" },
@@ -201,15 +211,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "45",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "45",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       floorTemperature: {
         dataPoint: "101",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unitFrom: "floorTemperatureUnit",
         dependsOn: {
@@ -232,10 +249,11 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
-      antiFrost: { dataPoint: "103", kind: "switch" },
+      antiFrost: { dataPoint: "103", kind: "switch", category: "config" },
       programType: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "weekend", value: "Weekdays+Weekend" },
@@ -247,6 +265,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unitFrom: "temperatureHysteresisUnit",
         min: 1,
         max: 30,
@@ -271,6 +290,7 @@ const entry: TuyaDeviceEntry = {
       temperatureHysteresisUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
@@ -278,6 +298,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unitFrom: "ecoTemperatureUnit",
         min: 5,
         max: 95,
@@ -302,22 +323,25 @@ const entry: TuyaDeviceEntry = {
       ecoTemperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
       ecoTemperatureInF: {
         dataPoint: "109",
         kind: "number",
+        category: "config",
         unit: "F",
         min: 41,
         max: 95,
       },
-      schedule: { dataPoint: "108", kind: "text" },
+      schedule: { dataPoint: "108", kind: "text", category: "config" },
     },
     display: {
       brightness: {
         dataPoint: "52",
         kind: "select",
+        category: "config",
         values: [
           { raw: "closed", value: 0 },
           { raw: "20_bright", value: 51 },

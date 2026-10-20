@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["ea6vpac5hfe5rqw4"],
+  products: [
+    {
+      productKey: "ea6vpac5hfe5rqw4",
+      manufacturer: "Immax",
+      model: "NEO LITE VENTO Smart",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -51,6 +57,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "cancel" },
           { raw: "1hour", value: "1h" },

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air fryer",
-  productKeys: ["rmywxak3angdgh0d"],
+  products: [
+    {
+      productKey: "rmywxak3angdgh0d",
+      manufacturer: "SilverCrest",
+      model: "HF-6602T",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -31,9 +37,9 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      on: { dataPoint: "1", kind: "switch" },
-      onMultistep: { dataPoint: "11", kind: "text" },
-      onCookingHistory: { dataPoint: "17", kind: "number" },
+      on: { dataPoint: "1", kind: "switch", category: "config" },
+      onMultistep: { dataPoint: "11", kind: "text", category: "config" },
+      onCookingHistory: { dataPoint: "17", kind: "number", category: "config" },
       start: { dataPoint: "2", kind: "button" },
       pause: { dataPoint: "13", kind: "button" },
       recipe: {
@@ -53,7 +59,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "custom", value: "custom" },
         ],
       },
-      cloudRecipe: { dataPoint: "4", kind: "number", min: 0, max: 999999 },
+      cloudRecipe: {
+        dataPoint: "4",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 999999,
+      },
       status: {
         dataPoint: "5",
         kind: "sensor",
@@ -83,6 +95,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -90,6 +103,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "8",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 180,
@@ -113,14 +127,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       temperatureUnit: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -143,12 +164,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
       shakeInMinutes: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 60,
@@ -157,6 +181,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },

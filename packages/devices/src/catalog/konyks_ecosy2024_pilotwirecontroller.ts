@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pilot wire controller",
-  productKeys: ["evyy1wbhi4t7uftn"],
+  products: [
+    {
+      productKey: "evyy1wbhi4t7uftn",
+      manufacturer: "Konyks",
+      model: "eCosy 2024",
+    },
+  ],
   dataPoints: { "1": { type: "boolean" }, "2": { type: "string" } },
   components: {
     heater: {

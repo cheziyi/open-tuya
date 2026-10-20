@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dual smartplug",
-  productKeys: ["p2tjkvgdhvuadnlj"],
+  products: [
+    { productKey: "p2tjkvgdhvuadnlj", manufacturer: "Gosund", model: "SP211" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -33,6 +35,7 @@ const entry: TuyaDeviceEntry = {
       timer1InSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -40,6 +43,7 @@ const entry: TuyaDeviceEntry = {
       timer2InSeconds: {
         dataPoint: "10",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -48,42 +52,66 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "mA",
       },
-      currentCalibration: { dataPoint: "23", kind: "sensor", readOnly: true },
+      currentCalibration: {
+        dataPoint: "23",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       powerInW: {
         dataPoint: "19",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "W",
         scale: 10,
       },
-      powerCalibration: { dataPoint: "24", kind: "sensor", readOnly: true },
+      powerCalibration: {
+        dataPoint: "24",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       powerAddElectricity: {
         dataPoint: "17",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         scale: 1000,
       },
       powerElectricityCalibration: {
         dataPoint: "25",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       voltageInV: {
         dataPoint: "20",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 10,
       },
-      voltageCalibration: { dataPoint: "22", kind: "sensor", readOnly: true },
+      voltageCalibration: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       initialState: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "off" },
           { raw: "1", value: "on" },
@@ -93,16 +121,17 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "39",
         kind: "select",
+        category: "config",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
           { raw: "none", value: "off" },
         ],
       },
-      childLock: { dataPoint: "40", kind: "switch" },
-      schedule: { dataPoint: "41", kind: "text" },
-      randomSchedule: { dataPoint: "42", kind: "text" },
-      inching: { dataPoint: "43", kind: "text" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
+      schedule: { dataPoint: "41", kind: "text", category: "config" },
+      randomSchedule: { dataPoint: "42", kind: "text", category: "config" },
+      inching: { dataPoint: "43", kind: "text", category: "config" },
     },
   },
   source: {

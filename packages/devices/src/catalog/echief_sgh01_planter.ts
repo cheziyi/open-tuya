@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Hydroponic grower",
-  productKeys: ["key8cpvp7wxgptce"],
+  products: [
+    {
+      productKey: "key8cpvp7wxgptce",
+      manufacturer: "Dongguan E Chief",
+      model: "SGH01",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "boolean" },
@@ -16,12 +22,13 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "104", kind: "switch" },
+      on: { dataPoint: "104", kind: "switch", category: "config" },
       pump: { dataPoint: "102", kind: "switch" },
       nutrientTimerInDays: {
         dataPoint: "106",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "d",
         min: 0,
         max: 30,
@@ -36,6 +43,7 @@ const entry: TuyaDeviceEntry = {
       ledMode: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "GROW", value: "Seeding" },
           { raw: "VEG", value: "Vegetable" },

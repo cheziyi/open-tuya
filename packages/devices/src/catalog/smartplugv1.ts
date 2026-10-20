@@ -5,7 +5,15 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Energy monitoring smartplug",
-  productKeys: ["37mnhia3pojleqfh", "kOKEJBFoF9VNB5FR", "bWBb4e6BTZGie0Lv"],
+  products: [
+    { productKey: "37mnhia3pojleqfh", model: "SP111-A" },
+    { productKey: "kOKEJBFoF9VNB5FR", model: "HYS-U1S-13A" },
+    {
+      productKey: "bWBb4e6BTZGie0Lv",
+      manufacturer: "TopGreener",
+      model: "TGWF115PRM",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -21,6 +29,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 10,
@@ -29,6 +39,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "mA",
       },
@@ -36,6 +48,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "W",
         scale: 10,
@@ -44,12 +58,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         whenAbsent: { value: false },
       },
       timerInSeconds: {
         dataPoint: "2",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

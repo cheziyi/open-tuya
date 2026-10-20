@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["8UGflCDtNYJw1dZs"],
+  products: [
+    { productKey: "8UGflCDtNYJw1dZs", manufacturer: "Warme", model: "GSH" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },

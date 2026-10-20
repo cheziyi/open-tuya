@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dishwasher",
-  productKeys: ["fcsbxgao03zmzqiu"],
+  products: [
+    {
+      productKey: "fcsbxgao03zmzqiu",
+      manufacturer: "BlitzHome",
+      model: "BH-CDW1",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -26,6 +32,7 @@ const entry: TuyaDeviceEntry = {
       washingMode: {
         dataPoint: "6",
         kind: "select",
+        category: "config",
         values: [
           { raw: "biaozhun", value: "standard" },
           { raw: "chaokuai", value: "rapid" },

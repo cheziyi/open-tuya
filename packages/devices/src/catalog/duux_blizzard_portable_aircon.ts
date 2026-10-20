@@ -5,7 +5,23 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["zhmv8syot6ye4kjo", "1wfuo7w1yoejmgbn", "eqlhuanbya6xtgxo"],
+  products: [
+    {
+      productKey: "zhmv8syot6ye4kjo",
+      manufacturer: "Duux",
+      model: "Blizzard Smart",
+    },
+    {
+      productKey: "1wfuo7w1yoejmgbn",
+      manufacturer: "Klarstein",
+      model: "Kraftwerk Smart",
+    },
+    {
+      productKey: "eqlhuanbya6xtgxo",
+      manufacturer: "Klarstein",
+      model: "Kraftwerk Eco Smart 11",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -115,15 +131,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 24,
       },
-      sleep: { dataPoint: "6", kind: "switch" },
-      ionizer: { dataPoint: "7", kind: "switch" },
+      sleep: { dataPoint: "6", kind: "switch", category: "config" },
+      ionizer: { dataPoint: "7", kind: "switch", category: "config" },
       tankFull: {
         dataPoint: "9",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -132,6 +150,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -139,11 +158,17 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "9", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "9",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timeRemainingInMinutes: {
         dataPoint: "15",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

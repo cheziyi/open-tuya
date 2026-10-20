@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Kettle",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean", optional: true },
     "2": { type: "integer" },
@@ -36,6 +36,7 @@ const entry: TuyaDeviceEntry = {
       quickTemperature: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "45", value: "45" },
           { raw: "60", value: "60" },
@@ -44,10 +45,15 @@ const entry: TuyaDeviceEntry = {
           { raw: "100", value: "100" },
         ],
       },
-      quickTemperatureFahrenheit: { dataPoint: "5", kind: "text" },
+      quickTemperatureFahrenheit: {
+        dataPoint: "5",
+        kind: "text",
+        category: "config",
+      },
       quickBoilTemperature: {
         dataPoint: "6",
         kind: "select",
+        category: "config",
         values: [
           { raw: "45", value: "45" },
           { raw: "60", value: "60" },
@@ -56,10 +62,15 @@ const entry: TuyaDeviceEntry = {
           { raw: "100", value: "100" },
         ],
       },
-      quickBoilTemperatureFahrenheit: { dataPoint: "7", kind: "text" },
+      quickBoilTemperatureFahrenheit: {
+        dataPoint: "7",
+        kind: "text",
+        category: "config",
+      },
       boilTemperature: {
         dataPoint: "10",
         kind: "number",
+        category: "config",
         unitFrom: "boilTemperatureUnit",
         min: 0,
         max: 100,
@@ -83,6 +94,7 @@ const entry: TuyaDeviceEntry = {
       boilTemperatureInF: {
         dataPoint: "11",
         kind: "number",
+        category: "config",
         unit: "F",
         min: 32,
         max: 212,
@@ -90,12 +102,14 @@ const entry: TuyaDeviceEntry = {
       boilTemperatureUnit: {
         dataPoint: "12",
         kind: "select",
+        category: "config",
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
       temperatureUnit: {
         dataPoint: "12",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -106,6 +120,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 360,
@@ -139,6 +154,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "17",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -171,6 +187,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -178,22 +195,30 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timerInMinutes: {
         dataPoint: "20",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1439,
       },
-      dechlorination: { dataPoint: "101", kind: "switch" },
+      dechlorination: { dataPoint: "101", kind: "switch", category: "config" },
       sound: {
         dataPoint: "102",
         kind: "switch",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },

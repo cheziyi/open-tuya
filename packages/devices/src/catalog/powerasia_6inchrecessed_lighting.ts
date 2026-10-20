@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Light",
-  productKeys: ["8ugheslg"],
+  products: [
+    {
+      productKey: "8ugheslg",
+      manufacturer: "PowerAsia",
+      model: "RGB 6 Inch recessed",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string", optional: true },
@@ -56,26 +62,30 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "112",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
       },
-      timerTimestamp: { dataPoint: "140", kind: "text" },
-      timerLocalTimer: { dataPoint: "141", kind: "text" },
-      timerMgr: { dataPoint: "142", kind: "text" },
-      mainSwitch: { dataPoint: "119", kind: "switch" },
+      timerTimestamp: { dataPoint: "140", kind: "text", category: "config" },
+      timerLocalTimer: { dataPoint: "141", kind: "text", category: "config" },
+      timerMgr: { dataPoint: "142", kind: "text", category: "config" },
+      mainSwitch: { dataPoint: "119", kind: "switch", category: "config" },
       control: {
         dataPoint: "125",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Independent" },
           { raw: "1", value: "Grouped" },
         ],
       },
     },
-    white: { on: { dataPoint: "107", kind: "switch" } },
-    color: { on: { dataPoint: "108", kind: "switch" } },
-    nightlight: { on: { dataPoint: "143", kind: "switch" } },
+    white: { on: { dataPoint: "107", kind: "switch", category: "config" } },
+    color: { on: { dataPoint: "108", kind: "switch", category: "config" } },
+    nightlight: {
+      on: { dataPoint: "143", kind: "switch", category: "config" },
+    },
   },
   source: {
     file: "powerasia_6inchrecessed_lighting.yaml",

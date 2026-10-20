@@ -5,7 +5,20 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["mzhwsoeaumuxleaf", "keyxkdt8t38pvrkk", "lhp2i044bxzxmg09"],
+  products: [
+    {
+      productKey: "mzhwsoeaumuxleaf",
+      manufacturer: "Confortotal",
+      model: "Mini Split",
+      modelId: "CICON242",
+    },
+    {
+      productKey: "keyxkdt8t38pvrkk",
+      manufacturer: "Daewoo",
+      model: "DA-12XMSAC23",
+    },
+    { productKey: "lhp2i044bxzxmg09", manufacturer: "Aiwa", model: "AWHACC" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -167,12 +180,13 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: true, value: false }],
         otherwise: true,
       },
-      ionizer: { dataPoint: "11", kind: "switch" },
-      emergencyHeat: { dataPoint: "12", kind: "switch" },
+      ionizer: { dataPoint: "11", kind: "switch", category: "config" },
+      emergencyHeat: { dataPoint: "12", kind: "switch", category: "config" },
       fault: {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           {
@@ -189,18 +203,24 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultIndoorFaultCode: {
         dataPoint: "108",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
-      onTimer: { dataPoint: "101", kind: "switch" },
-      offTimer: { dataPoint: "102", kind: "switch" },
-      onTimerHms: { dataPoint: "103", kind: "text" },
-      offTimerHms: { dataPoint: "104", kind: "text" },
+      onTimer: { dataPoint: "101", kind: "switch", category: "config" },
+      offTimer: { dataPoint: "102", kind: "switch", category: "config" },
+      onTimerHms: { dataPoint: "103", kind: "text", category: "config" },
+      offTimerHms: { dataPoint: "104", kind: "text", category: "config" },
     },
-    display: { on: { dataPoint: "36", kind: "switch" } },
+    display: { on: { dataPoint: "36", kind: "switch", category: "config" } },
   },
   source: {
     file: "confortotal_minisplit.yaml",

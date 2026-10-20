@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Battery charger",
-  productKeys: ["h6pglenun37dzsgo"],
+  products: [
+    {
+      productKey: "h6pglenun37dzsgo",
+      manufacturer: "Parkside",
+      model: "PLGS2012A1",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean", optional: true },
     "2": { type: "string" },
@@ -31,6 +37,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "3",
         kind: "number",
         measures: "current",
+        category: "config",
         unit: "A",
         min: 0,
         max: 30000,
@@ -41,6 +48,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "number",
         measures: "voltage",
+        category: "config",
         unit: "V",
         min: 0,
         max: 25000,
@@ -50,9 +58,14 @@ const entry: TuyaDeviceEntry = {
       storage: {
         dataPoint: "8",
         kind: "switch",
+        category: "config",
         values: [{ raw: true }, { raw: false }],
       },
-      temperatureLimiter: { dataPoint: "9", kind: "switch" },
+      temperatureLimiter: {
+        dataPoint: "9",
+        kind: "switch",
+        category: "config",
+      },
       batteryInPercent: {
         dataPoint: "5",
         kind: "sensor",
@@ -64,13 +77,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
       },
-      maxTemperatureCount: { dataPoint: "10", kind: "sensor", readOnly: true },
+      maxTemperatureCount: {
+        dataPoint: "10",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       chargeType: {
         dataPoint: "7",
         kind: "select",
+        category: "config",
         values: [
           { raw: "ECO", value: "Eco" },
           { raw: "quick", value: "Performance" },
@@ -82,6 +103,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "A",
         scale: 1000,
@@ -93,17 +116,33 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "min",
       },
-      almostCharged: { dataPoint: "103", kind: "sensor", readOnly: true },
-      fullyCharged: { dataPoint: "104", kind: "sensor", readOnly: true },
+      almostCharged: {
+        dataPoint: "103",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      fullyCharged: {
+        dataPoint: "104",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       fault: {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

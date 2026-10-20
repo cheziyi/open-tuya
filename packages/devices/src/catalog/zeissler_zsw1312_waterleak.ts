@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water leak detector",
-  productKeys: ["8uvfzbkbecxep069"],
+  products: [
+    {
+      productKey: "8uvfzbkbecxep069",
+      manufacturer: "Zeissler",
+      model: "ZSw.1312",
+    },
+  ],
   dataPoints: { "1": { type: "string" }, "101": { type: "boolean" } },
   components: {
     device: {

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["1dxlcglzadb1wwax"],
+  products: [
+    {
+      productKey: "1dxlcglzadb1wwax",
+      manufacturer: "Idea",
+      model: "CS1 ISP-D114 TYWE 1S",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -104,12 +110,13 @@ const entry: TuyaDeviceEntry = {
         otherwise: "off",
         ownRuleReadOnly: true,
       },
-      auxHeat: { dataPoint: "12", kind: "switch" },
-      sleep: { dataPoint: "25", kind: "switch" },
+      auxHeat: { dataPoint: "12", kind: "switch", category: "config" },
+      sleep: { dataPoint: "25", kind: "switch", category: "config" },
       fault: {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           {
@@ -136,8 +143,18 @@ const entry: TuyaDeviceEntry = {
         },
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
-      faultCode2: { dataPoint: "101", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultCode2: {
+        dataPoint: "101",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

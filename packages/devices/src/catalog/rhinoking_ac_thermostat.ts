@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "AC controller",
-  productKeys: ["y6lcryonnh5klkmo"],
+  products: [
+    {
+      productKey: "y6lcryonnh5klkmo",
+      manufacturer: "Rhino King",
+      model: "Smart Thermostat",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },

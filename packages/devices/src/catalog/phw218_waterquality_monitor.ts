@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water quality",
-  productKeys: ["layxxij0sdbrfmrf"],
+  products: [{ productKey: "layxxij0sdbrfmrf", model: "pH-W218" }],
   dataPoints: {
     "8": { type: "integer" },
     "102": { type: "integer", optional: true },
@@ -38,6 +38,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "8",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -45,6 +46,7 @@ const entry: TuyaDeviceEntry = {
       ph: {
         dataPoint: "106",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         values: [{ raw: 1500, value: null }],
         scale: 100,
@@ -52,36 +54,42 @@ const entry: TuyaDeviceEntry = {
       oxidationReductionPotentialInMillivolts: {
         dataPoint: "131",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "mV",
       },
       electricalConductivityInUsPerCm: {
         dataPoint: "116",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "μS/cm",
       },
       totalDissolvedSolidsInPpm: {
         dataPoint: "111",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "ppm",
       },
       salinityInPpm: {
         dataPoint: "121",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "ppm",
       },
       specificGravity: {
         dataPoint: "126",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         scale: 1000,
       },
       conductivityFactor: {
         dataPoint: "136",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         scale: 100,
       },
@@ -89,12 +97,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "141",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
       highTemperatureWarningInC: {
         dataPoint: "102",
         kind: "number",
+        category: "config",
         unit: "C",
         min: 0,
         max: 50,
@@ -102,6 +112,7 @@ const entry: TuyaDeviceEntry = {
       lowTemperatureWarningInC: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "C",
         min: 0,
         max: 50,
@@ -109,6 +120,7 @@ const entry: TuyaDeviceEntry = {
       highPhWarning: {
         dataPoint: "107",
         kind: "number",
+        category: "config",
         min: 0,
         max: 1500,
         scale: 100,
@@ -116,6 +128,7 @@ const entry: TuyaDeviceEntry = {
       lowPhWarning: {
         dataPoint: "108",
         kind: "number",
+        category: "config",
         min: 0,
         max: 1500,
         scale: 100,
@@ -123,6 +136,7 @@ const entry: TuyaDeviceEntry = {
       highTdsWarningInPpm: {
         dataPoint: "112",
         kind: "number",
+        category: "config",
         unit: "ppm",
         min: 0,
         max: 199999,
@@ -130,6 +144,7 @@ const entry: TuyaDeviceEntry = {
       lowTdsWarningInPpm: {
         dataPoint: "113",
         kind: "number",
+        category: "config",
         unit: "ppm",
         min: 0,
         max: 199999,
@@ -137,6 +152,7 @@ const entry: TuyaDeviceEntry = {
       highEcWarningInUsPerCm: {
         dataPoint: "117",
         kind: "number",
+        category: "config",
         unit: "μS/cm",
         min: 0,
         max: 199999,
@@ -144,6 +160,7 @@ const entry: TuyaDeviceEntry = {
       lowEcWarningInUsPerCm: {
         dataPoint: "118",
         kind: "number",
+        category: "config",
         unit: "μS/cm",
         min: 0,
         max: 199999,
@@ -151,6 +168,7 @@ const entry: TuyaDeviceEntry = {
       highSalinityWarningInPpm: {
         dataPoint: "122",
         kind: "number",
+        category: "config",
         unit: "ppm",
         min: 0,
         max: 199999,
@@ -158,6 +176,7 @@ const entry: TuyaDeviceEntry = {
       lowSalinityWarningInPpm: {
         dataPoint: "123",
         kind: "number",
+        category: "config",
         unit: "ppm",
         min: 0,
         max: 199999,
@@ -165,6 +184,7 @@ const entry: TuyaDeviceEntry = {
       highOrpWarningInMillivolts: {
         dataPoint: "132",
         kind: "number",
+        category: "config",
         unit: "mV",
         min: -2000,
         max: 2000,
@@ -172,6 +192,7 @@ const entry: TuyaDeviceEntry = {
       lowOrpWarningInMillivolts: {
         dataPoint: "133",
         kind: "number",
+        category: "config",
         unit: "mV",
         min: -2000,
         max: 2000,
@@ -179,6 +200,7 @@ const entry: TuyaDeviceEntry = {
       highCfWarning: {
         dataPoint: "137",
         kind: "number",
+        category: "config",
         min: 0,
         max: 199999,
         scale: 100,
@@ -186,6 +208,7 @@ const entry: TuyaDeviceEntry = {
       highHumidityWarningInPercent: {
         dataPoint: "142",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -193,6 +216,7 @@ const entry: TuyaDeviceEntry = {
       lowHumidityWarningInPercent: {
         dataPoint: "143",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,

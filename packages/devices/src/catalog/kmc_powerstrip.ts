@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Powerstrip",
-  productKeys: ["ZaXzIupxIMaZlwHx"],
+  products: [
+    {
+      productKey: "ZaXzIupxIMaZlwHx",
+      manufacturer: "KMC",
+      model: "Smart tap",
+      modelId: "30608",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -27,15 +34,22 @@ const entry: TuyaDeviceEntry = {
       addElectricityInKwh: {
         dataPoint: "101",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "kWh",
         scale: 1000,
       },
-      addElectricityRef: { dataPoint: "109", kind: "sensor", readOnly: true },
+      addElectricityRef: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       currentInA: {
         dataPoint: "102",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
         readOnly: true,
         unit: "A",
         scale: 1000,
@@ -45,6 +59,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
         readOnly: true,
         unit: "W",
       },
@@ -53,12 +68,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
         readOnly: true,
         unit: "V",
         scale: 10,
       },
       voltageRef: { dataPoint: "109", kind: "sensor", readOnly: true },
-      factoryTestResult: { dataPoint: "105", kind: "sensor", readOnly: true },
+      factoryTestResult: {
+        dataPoint: "105",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

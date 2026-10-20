@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dimmable switch",
-  productKeys: ["bealnjtopbhmi5nn"],
+  products: [
+    {
+      productKey: "bealnjtopbhmi5nn",
+      manufacturer: "ELEGRP",
+      model: "DTR10 Single Pole 2.4 GHz WiFi Dimmable Switch",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -28,6 +34,7 @@ const entry: TuyaDeviceEntry = {
       bulbType: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Cfl", value: "CFL" },
           { raw: "Led", value: "LED" },
@@ -38,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       longPressOn: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: 258, value: "Nap 25%" },
           { raw: 505, value: "Cuddle 50%" },
@@ -48,6 +56,7 @@ const entry: TuyaDeviceEntry = {
       fadeOnSpeed: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Immediate", value: "Immediate" },
           { raw: "Fast", value: "Fast (1s)" },
@@ -58,6 +67,7 @@ const entry: TuyaDeviceEntry = {
       fadeOffSpeed: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Immediate", value: "Immediate" },
           { raw: "Fast", value: "Fast (1s)" },
@@ -68,6 +78,7 @@ const entry: TuyaDeviceEntry = {
       minimumBrightnessInPercent: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 500,
@@ -76,6 +87,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "111",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -83,6 +95,7 @@ const entry: TuyaDeviceEntry = {
       timerMode: {
         dataPoint: "110",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "Off" },
           { raw: true, value: "On" },
@@ -92,12 +105,19 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
     },
     indicator: {
-      brightness: { dataPoint: "101", kind: "number", min: 0, max: 100 },
+      brightness: {
+        dataPoint: "101",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
     },
   },
   source: {

@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["rsujjtinksnzcezy", "sqkxklkleeasfk8w"],
+  products: [
+    { productKey: "rsujjtinksnzcezy", manufacturer: "Owon", model: "PCT513" },
+    {
+      productKey: "sqkxklkleeasfk8w",
+      manufacturer: "MoesGo",
+      model: "PCT513-WB-TY",
+    },
+  ],
   dataPoints: {
     "2": { type: "string" },
     "16": { type: "integer" },
@@ -202,6 +209,7 @@ const entry: TuyaDeviceEntry = {
       fanRuntimeInMinutes: {
         dataPoint: "123",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 55,
@@ -211,11 +219,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "45",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "45",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

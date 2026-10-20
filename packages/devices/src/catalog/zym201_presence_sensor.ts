@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "mmWave presence sensor",
-  productKeys: ["n3bow00a2vpwgtvx"],
+  products: [{ productKey: "n3bow00a2vpwgtvx", model: "ZY-M201-WIFI24G" }],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer", optional: true },
@@ -41,10 +41,17 @@ const entry: TuyaDeviceEntry = {
           { raw: "move", value: "Moving" },
         ],
       },
-      sensitivity: { dataPoint: "2", kind: "number", min: 1, max: 10 },
+      sensitivity: {
+        dataPoint: "2",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 10,
+      },
       maximumDetectionDistanceInM: {
         dataPoint: "4",
         kind: "number",
+        category: "config",
         unit: "m",
         min: 150,
         max: 550,
@@ -54,6 +61,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "distance",
+        reading: "instant",
         readOnly: true,
         unit: "m",
         scale: 100,
@@ -62,6 +70,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 5,
         max: 1500,
@@ -72,10 +81,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "illuminance",
+        reading: "instant",
         readOnly: true,
         unit: "lx",
       },
-      staticSensitivity: { dataPoint: "111", kind: "number", min: 1, max: 10 },
+      staticSensitivity: {
+        dataPoint: "111",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 10,
+      },
     },
   },
   source: {

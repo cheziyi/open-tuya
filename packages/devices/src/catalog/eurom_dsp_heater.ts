@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["wv9d5ocs76u6maqj"],
+  products: [
+    {
+      productKey: "wv9d5ocs76u6maqj",
+      manufacturer: "Eurom",
+      model: "Mon Soleil DSP 400",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -62,15 +68,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
-      schedule: { dataPoint: "103", kind: "text" },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      schedule: { dataPoint: "103", kind: "text", category: "config" },
       scheduleMode: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "holiday", value: "Holiday" },
           { raw: "program", value: "Program" },

@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water leak sensor",
-  productKeys: ["upgcbody"],
+  products: [{ productKey: "upgcbody", model: "WL-898WZ" }],
   dataPoints: {
     "1": { type: "boolean", optional: true },
     "4": { type: "integer" },
@@ -16,12 +16,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "moisture",
+        category: "diagnostic",
         readOnly: true,
       },
       batteryInPercent: {
         dataPoint: "4",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },

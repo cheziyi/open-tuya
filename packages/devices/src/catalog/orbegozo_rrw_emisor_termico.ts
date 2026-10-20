@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["xnljzcjrdqus2tka"],
+  products: [
+    {
+      productKey: "xnljzcjrdqus2tka",
+      manufacturer: "Orbegozo",
+      model: "RRW Emisor Termico",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -64,11 +70,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "PROGRAMME", value: "home" },
         ],
       },
-      childLock: { dataPoint: "7", kind: "switch" },
-      openWindowDetection: { dataPoint: "101", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
+      openWindowDetection: {
+        dataPoint: "101",
+        kind: "switch",
+        category: "config",
+      },
       temperatureCalibration: {
         dataPoint: "102",
         kind: "number",
+        category: "config",
         min: -7,
         max: 7,
       },
@@ -76,12 +87,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

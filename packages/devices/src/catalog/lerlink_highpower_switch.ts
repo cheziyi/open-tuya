@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Smart switch",
-  productKeys: ["rdvedq5bdkio96t1", "key5ckdnys3pqgec"],
+  products: [
+    { productKey: "rdvedq5bdkio96t1", manufacturer: "LerLink", model: "WBH01" },
+    { productKey: "key5ckdnys3pqgec", model: "Water valve" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "7": { type: "integer" },
@@ -22,6 +25,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -29,6 +33,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "power_off", value: "off" },
           { raw: "power_on", value: "on" },
@@ -38,17 +43,18 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "15",
         kind: "select",
+        category: "config",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
           { raw: "none", value: "off" },
         ],
       },
-      schedule: { dataPoint: "17", kind: "text" },
-      randomSchedule: { dataPoint: "18", kind: "text" },
-      inching: { dataPoint: "19", kind: "text" },
+      schedule: { dataPoint: "17", kind: "text", category: "config" },
+      randomSchedule: { dataPoint: "18", kind: "text", category: "config" },
+      inching: { dataPoint: "19", kind: "text", category: "config" },
     },
-    backlight: { on: { dataPoint: "16", kind: "switch" } },
+    backlight: { on: { dataPoint: "16", kind: "switch", category: "config" } },
   },
   source: {
     file: "lerlink_highpower_switch.yaml",

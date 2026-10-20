@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Desk lamp",
-  productKeys: ["b0j0lto1o0ijwb39"],
+  products: [
+    { productKey: "b0j0lto1o0ijwb39", manufacturer: "Setti+", model: "SL601" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },

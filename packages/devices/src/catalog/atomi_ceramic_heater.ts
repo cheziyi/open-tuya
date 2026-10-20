@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["ojvja3vyqchxrfhk", "tos0dbspyikjzcxe"],
+  products: [
+    { productKey: "ojvja3vyqchxrfhk", manufacturer: "Atomi", model: "AT1632" },
+    { productKey: "tos0dbspyikjzcxe", manufacturer: "Atomi", model: "AT1635" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -63,6 +66,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0h", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -83,6 +87,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -90,16 +95,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
       tipOverProtection: {
         dataPoint: "103",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
     },
-    display: { on: { dataPoint: "10", kind: "switch" } },
+    display: { on: { dataPoint: "10", kind: "switch", category: "config" } },
   },
   source: {
     file: "atomi_ceramic_heater.yaml",

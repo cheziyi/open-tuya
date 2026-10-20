@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["keyfa7qemdvvux5c"],
+  products: [
+    {
+      productKey: "keyfa7qemdvvux5c",
+      manufacturer: "Dura Comfort",
+      model: "DH50PWM",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "5": { type: "integer" },
@@ -48,6 +54,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "15",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -58,6 +65,7 @@ const entry: TuyaDeviceEntry = {
       tankFull: {
         dataPoint: "15",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         type: "boolean",
         values: [{ raw: 32, value: true }],

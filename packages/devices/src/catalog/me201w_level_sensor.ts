@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Level sensor",
-  productKeys: ["4u9z7qg3je42rsw8"],
+  products: [{ productKey: "4u9z7qg3je42rsw8", model: "ME201W" }],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -32,6 +32,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "distance",
+        reading: "instant",
         readOnly: true,
         unit: "m",
         scale: 100,
@@ -40,6 +41,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 10,
@@ -47,6 +50,7 @@ const entry: TuyaDeviceEntry = {
       highLevelInPercent: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -54,6 +58,7 @@ const entry: TuyaDeviceEntry = {
       lowLevelInPercent: {
         dataPoint: "8",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -62,6 +67,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "number",
         measures: "distance",
+        category: "config",
         unit: "m",
         min: 10,
         max: 500,
@@ -71,6 +77,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "number",
         measures: "distance",
+        category: "config",
         unit: "m",
         min: 10,
         max: 500,
@@ -79,6 +86,8 @@ const entry: TuyaDeviceEntry = {
       levelInPercent: {
         dataPoint: "22",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },

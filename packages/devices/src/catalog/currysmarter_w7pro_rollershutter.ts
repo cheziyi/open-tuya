@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Roller shutter",
-  productKeys: ["mxeyhho2cvjgqake"],
+  products: [
+    {
+      productKey: "mxeyhho2cvjgqake",
+      manufacturer: "Curry Smarter",
+      model: "W7Pro",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -62,13 +68,26 @@ const entry: TuyaDeviceEntry = {
         measures: "moisture",
         readOnly: true,
       },
-      childLockSwitch: { dataPoint: "105", kind: "switch" },
-      lightSensorAutomation: { dataPoint: "132", kind: "switch" },
-      rainSensorAutomation: { dataPoint: "133", kind: "switch" },
-      rainNotification: { dataPoint: "104", kind: "switch" },
+      childLockSwitch: { dataPoint: "105", kind: "switch", category: "config" },
+      lightSensorAutomation: {
+        dataPoint: "132",
+        kind: "switch",
+        category: "config",
+      },
+      rainSensorAutomation: {
+        dataPoint: "133",
+        kind: "switch",
+        category: "config",
+      },
+      rainNotification: {
+        dataPoint: "104",
+        kind: "switch",
+        category: "config",
+      },
       calibration: {
         dataPoint: "3",
         kind: "select",
+        category: "config",
         values: [
           { raw: "start", value: "Start" },
           { raw: "end", value: "Done" },
@@ -78,20 +97,30 @@ const entry: TuyaDeviceEntry = {
       lightSensorPairing: {
         dataPoint: "127",
         kind: "select",
+        category: "config",
         values: [
           { raw: "start", value: "Start" },
           { raw: "end", value: "Done" },
           { raw: "pause", value: "Cancel" },
         ],
       },
-      resetCalibration: { dataPoint: "102", kind: "button" },
-      syncCalibrationData: { dataPoint: "129", kind: "button" },
+      resetCalibration: {
+        dataPoint: "102",
+        kind: "button",
+        category: "config",
+      },
+      syncCalibrationData: {
+        dataPoint: "129",
+        kind: "button",
+        category: "config",
+      },
     },
-    indicator: { on: { dataPoint: "128", kind: "switch" } },
+    indicator: { on: { dataPoint: "128", kind: "switch", category: "config" } },
     backlight: {
       brightness: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "max_light", value: 255 },
           { raw: "micro_light", value: 128 },

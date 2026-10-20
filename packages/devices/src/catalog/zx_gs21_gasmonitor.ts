@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Gas leak detector",
-  productKeys: ["ozcdjaqrxauonq1f"],
+  products: [{ productKey: "ozcdjaqrxauonq1f", model: "ZX-GS21" }],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -23,6 +23,7 @@ const entry: TuyaDeviceEntry = {
       gasLeakInPercentLel: {
         dataPoint: "2",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "% LEL",
       },
@@ -38,20 +39,27 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 60,
       },
-      selfCheck: { dataPoint: "8", kind: "button" },
-      selfCheckResult: { dataPoint: "9", kind: "text" },
+      selfCheck: { dataPoint: "8", kind: "button", category: "config" },
+      selfCheckResult: { dataPoint: "9", kind: "text", category: "config" },
       preheat: {
         dataPoint: "10",
         kind: "sensor",
         measures: "heat",
+        category: "diagnostic",
         readOnly: true,
       },
-      lifecycle: { dataPoint: "12", kind: "sensor", readOnly: true },
-      silent: { dataPoint: "16", kind: "switch" },
+      lifecycle: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      silent: { dataPoint: "16", kind: "switch", category: "config" },
       carbonMonoxideAlarm: {
         dataPoint: "18",
         kind: "sensor",
@@ -64,6 +72,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "carbonMonoxide",
+        reading: "instant",
         readOnly: true,
         unit: "ppm",
       },

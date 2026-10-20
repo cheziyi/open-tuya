@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "RGB ceiling light",
-  productKeys: ["cu3qdyxbpo7g3dyi", "b9wmeyacp0thyuzp"],
+  products: [
+    {
+      productKey: "cu3qdyxbpo7g3dyi",
+      manufacturer: "Gledopto",
+      model: "GL-C-301W",
+    },
+    {
+      productKey: "b9wmeyacp0thyuzp",
+      manufacturer: "Gledopto",
+      model: "GL-C-301W",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -76,6 +87,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -83,6 +95,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "36",
         kind: "select",
+        category: "config",
         type: "string",
         values: [
           { raw: "AAABAQIODQAAyAAAAAA=", value: "night" },

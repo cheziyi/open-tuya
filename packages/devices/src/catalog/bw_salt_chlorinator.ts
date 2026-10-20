@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Salt chlorinator",
-  productKeys: ["ypdzzmgqbq3dqhqu"],
+  products: [{ productKey: "ypdzzmgqbq3dqhqu", manufacturer: "BW" }],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "boolean" },
@@ -27,6 +27,7 @@ const entry: TuyaDeviceEntry = {
       chlorinationOutput: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "25", value: "25% (3 h)" },
           { raw: "50", value: "50% (6 h)" },
@@ -40,6 +41,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -47,6 +49,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "work", value: false }],
         otherwise: true,
@@ -54,6 +57,7 @@ const entry: TuyaDeviceEntry = {
       faultDescription: {
         dataPoint: "106",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "work", value: "Working" },
@@ -77,6 +81,7 @@ const entry: TuyaDeviceEntry = {
       salinityStatus: {
         dataPoint: "107",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "salinity_low", value: "low" },
@@ -88,6 +93,7 @@ const entry: TuyaDeviceEntry = {
       selfCleanInterval: {
         dataPoint: "109",
         kind: "select",
+        category: "config",
         values: [
           { raw: 4, value: "4 h" },
           { raw: 8, value: "8 h" },
@@ -98,6 +104,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
         readOnly: true,
         unit: "h",
       },
@@ -106,6 +113,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
         readOnly: true,
         unit: "h",
       },
@@ -113,6 +121,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "114",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
         readOnly: true,
         unit: "h",
       },

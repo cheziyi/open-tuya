@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Call button",
-  productKeys: ["vanmjedglfmi3ae8"],
+  products: [
+    {
+      productKey: "vanmjedglfmi3ae8",
+      manufacturer: "CallToU",
+      model: "Caregiver Pager",
+    },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "2": { type: "integer" },
@@ -21,7 +27,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      buttonData: { dataPoint: "1", kind: "text" },
+      buttonData: { dataPoint: "1", kind: "text", category: "config" },
       alarm: {
         dataPoint: "5",
         kind: "event",
@@ -33,6 +39,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "sound",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
@@ -43,12 +50,17 @@ const entry: TuyaDeviceEntry = {
       alarmDeviceName: { dataPoint: "104", kind: "sensor", readOnly: true },
       alarmId: { dataPoint: "106", kind: "sensor", readOnly: true },
       alarmLogMessage: { dataPoint: "107", kind: "sensor", readOnly: true },
-      doNotDisturbSettings: { dataPoint: "7", kind: "text" },
-      mute: { dataPoint: "101", kind: "button" },
+      doNotDisturbSettings: {
+        dataPoint: "7",
+        kind: "text",
+        category: "config",
+      },
+      mute: { dataPoint: "101", kind: "button", category: "config" },
       signalStrengthInDbm: {
         dataPoint: "103",
         kind: "sensor",
         measures: "signalStrength",
+        category: "diagnostic",
         readOnly: true,
         unit: "dBm",
       },

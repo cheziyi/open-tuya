@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ventilation fan",
-  productKeys: ["9xaunhonta8om3zr"],
+  products: [
+    {
+      productKey: "9xaunhonta8om3zr",
+      manufacturer: "Funai",
+      model: "Fuji ERW-150",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -41,19 +47,27 @@ const entry: TuyaDeviceEntry = {
       damperControl: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Manual", value: "Manual" },
           { raw: "Auto_1", value: "Auto 1" },
           { raw: "Auto_2", value: "Auto 2" },
         ],
       },
-      damperPosition: { dataPoint: "104", kind: "number", min: 1, max: 5 },
-      ionizer: { dataPoint: "5", kind: "switch" },
-      filterReset: { dataPoint: "13", kind: "button" },
+      damperPosition: {
+        dataPoint: "104",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 5,
+      },
+      ionizer: { dataPoint: "5", kind: "switch", category: "config" },
+      filterReset: { dataPoint: "13", kind: "button", category: "config" },
       pm25InUgPerM3: {
         dataPoint: "3",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "µg/m³",
       },
@@ -61,6 +75,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "carbonDioxide",
+        reading: "instant",
         readOnly: true,
         unit: "ppm",
       },
@@ -68,6 +83,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "volatileOrganicCompounds",
+        reading: "instant",
         readOnly: true,
         unit: "ppb",
       },
@@ -75,12 +91,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
       airQuality: {
         dataPoint: "23",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "great", value: "excellent" },
@@ -93,22 +111,30 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
       fault: {
         dataPoint: "18",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "18",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     display: {
       on: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },

@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan",
-  productKeys: ["6p7jm8rrqimnlusw"],
+  products: [
+    {
+      productKey: "6p7jm8rrqimnlusw",
+      manufacturer: "HYD",
+      model: "WeAir Plus",
+      modelId: "D-68",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -91,6 +98,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -114,16 +122,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       sound: { dataPoint: "102", kind: "switch" },
       warmLevel: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: '1"' },
           { raw: "2", value: "2" },

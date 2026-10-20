@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Aroma diffuser",
-  productKeys: ["orw9vhekocfzx78l"],
+  products: [
+    { productKey: "orw9vhekocfzx78l", manufacturer: "Calex", model: "v2.0" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -75,6 +77,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1", value: "1h" },

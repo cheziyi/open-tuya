@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["ggz9d3bputnvntlx"],
+  products: [
+    {
+      productKey: "ggz9d3bputnvntlx",
+      manufacturer: "Create",
+      model: "Warm Clear",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -67,10 +73,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "working", value: "heating" },
         ],
       },
-      customProgram: { dataPoint: "26", kind: "text" },
+      customProgram: { dataPoint: "26", kind: "text", category: "config" },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -103,20 +110,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      sleep: { dataPoint: "103", kind: "switch" },
-      windowCheck: { dataPoint: "104", kind: "switch" },
+      sleep: { dataPoint: "103", kind: "switch", category: "config" },
+      windowCheck: { dataPoint: "104", kind: "switch", category: "config" },
       window: {
         dataPoint: "105",
         kind: "sensor",
         measures: "window",
+        category: "diagnostic",
         readOnly: true,
       },
       temperatureCalibrationInC: {
         dataPoint: "106",
         kind: "number",
+        category: "config",
         unit: "C",
         min: -5,
         max: 35,

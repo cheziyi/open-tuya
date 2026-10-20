@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["iduvrkbxe1w174v7", "1vgcqw5ncf8cpmk8"],
+  products: [
+    { productKey: "iduvrkbxe1w174v7", manufacturer: "Homvana", model: "H111S" },
+    { productKey: "1vgcqw5ncf8cpmk8", manufacturer: "Homvana", model: "H111S" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "string" },
@@ -54,10 +57,11 @@ const entry: TuyaDeviceEntry = {
         max: 90,
         step: 5,
       },
-      sleep: { dataPoint: "16", kind: "switch" },
+      sleep: { dataPoint: "16", kind: "switch", category: "config" },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "2h", value: "2h" },
@@ -71,6 +75,7 @@ const entry: TuyaDeviceEntry = {
       heating: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "Off" },
           { raw: "1", value: "low" },
@@ -78,12 +83,14 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "high" },
         ],
       },
-      heatingEnabled: { dataPoint: "107", kind: "switch" },
-      humiditySetting: { dataPoint: "106", kind: "switch" },
+      heatingEnabled: { dataPoint: "107", kind: "switch", category: "config" },
+      humiditySetting: { dataPoint: "106", kind: "switch", category: "config" },
       temperatureInF: {
         dataPoint: "12",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "F",
       },
@@ -91,6 +98,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
       },
@@ -98,6 +107,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -105,10 +115,16 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -134,6 +150,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "103",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "dry", value: "dry" },
@@ -162,7 +179,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    display: { on: { dataPoint: "5", kind: "switch" } },
+    display: { on: { dataPoint: "5", kind: "switch", category: "config" } },
   },
   source: {
     file: "homvana_h111s_humidifier.yaml",

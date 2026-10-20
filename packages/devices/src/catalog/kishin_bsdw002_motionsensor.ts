@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Motion sensor",
-  productKeys: ["7i8vqgkql9wjn9gj"],
+  products: [
+    {
+      productKey: "7i8vqgkql9wjn9gj",
+      manufacturer: "Kishin",
+      model: "BS-DW002",
+    },
+  ],
   dataPoints: { "1": { type: "string" }, "3": { type: "string" } },
   components: {
     device: {
@@ -13,6 +19,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "motion",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "pir", value: true }],
         otherwise: false,

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Tower fan",
-  productKeys: ["giu0i3marnp9tmai"],
+  products: [
+    {
+      productKey: "giu0i3marnp9tmai",
+      manufacturer: "Chameleon",
+      model: "TCG-TOWERFAN-TST10-RK",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -31,17 +37,19 @@ const entry: TuyaDeviceEntry = {
       },
       speed: { dataPoint: "3", kind: "number", min: 1, max: 3 },
       oscillating: { dataPoint: "5", kind: "switch" },
-      ionizer: { dataPoint: "9", kind: "switch" },
+      ionizer: { dataPoint: "9", kind: "switch", category: "config" },
       temperatureInC: {
         dataPoint: "21",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -62,6 +70,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -69,11 +78,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "24", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "24",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

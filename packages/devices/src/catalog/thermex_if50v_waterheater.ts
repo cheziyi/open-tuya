@@ -5,7 +5,23 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water heater",
-  productKeys: ["sz9gfbdn5my6GCfR", "hdnneqsz20exqnmo", "xd6mle5zuc4vw2it"],
+  products: [
+    {
+      productKey: "sz9gfbdn5my6GCfR",
+      manufacturer: "Thermex",
+      model: "IF 50 V pro",
+    },
+    {
+      productKey: "hdnneqsz20exqnmo",
+      manufacturer: "Thermex",
+      model: "ID 80 V pro",
+    },
+    {
+      productKey: "xd6mle5zuc4vw2it",
+      manufacturer: "Thermex",
+      model: "ID 80 H",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "integer" },
@@ -54,11 +70,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "106", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "106",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

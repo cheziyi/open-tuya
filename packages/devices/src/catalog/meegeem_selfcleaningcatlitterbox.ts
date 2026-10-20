@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Litter box",
-  productKeys: ["e2uhpgprwtq40un2"],
+  products: [{ productKey: "e2uhpgprwtq40un2", manufacturer: "Meegeem" }],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "boolean" },
@@ -38,7 +38,7 @@ const entry: TuyaDeviceEntry = {
           { raw: 7, value: "Resetting paused" },
         ],
       },
-      empty: { dataPoint: "1", kind: "button" },
+      empty: { dataPoint: "1", kind: "button", category: "config" },
       clean: { dataPoint: "3", kind: "button" },
       reset: { dataPoint: "4", kind: "button" },
       deodorize: { dataPoint: "9", kind: "button" },
@@ -46,6 +46,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "weight",
+        reading: "instant",
         readOnly: true,
         unit: "kg",
         values: [
@@ -77,6 +78,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -87,10 +89,16 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -109,12 +117,13 @@ const entry: TuyaDeviceEntry = {
       autoCleanDelayInMinutes: {
         dataPoint: "101",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 20,
       },
-      autoClean: { dataPoint: "102", kind: "switch" },
-      autoDeodorize: { dataPoint: "103", kind: "switch" },
+      autoClean: { dataPoint: "102", kind: "switch", category: "config" },
+      autoDeodorize: { dataPoint: "103", kind: "switch", category: "config" },
       litter: {
         dataPoint: "104",
         kind: "sensor",

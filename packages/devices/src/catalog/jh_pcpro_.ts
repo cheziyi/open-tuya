@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "PC power switch",
-  productKeys: ["rtbhfbuii82scjrp"],
+  products: [{ productKey: "rtbhfbuii82scjrp", model: "JH-PC Pro" }],
   dataPoints: {
     "1": { type: "boolean" },
     "7": { type: "boolean" },
@@ -28,20 +28,22 @@ const entry: TuyaDeviceEntry = {
         kind: "button",
         values: [{ raw: "forceReset", value: true }],
       },
-      rfPairing: { dataPoint: "7", kind: "switch" },
-      buzzer: { dataPoint: "8", kind: "switch" },
+      rfPairing: { dataPoint: "7", kind: "switch", category: "config" },
+      buzzer: { dataPoint: "8", kind: "switch", category: "config" },
       initialState: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           { raw: "on", value: "on" },
           { raw: "off", value: "off" },
         ],
       },
-      childLock: { dataPoint: "40", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       rfRemoteControl: {
         dataPoint: "102",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "on", value: true },
           { raw: "off", value: false },

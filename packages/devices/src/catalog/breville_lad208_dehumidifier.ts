@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["6cad6hhp5kbwbtyq"],
+  products: [
+    {
+      productKey: "6cad6hhp5kbwbtyq",
+      manufacturer: "Breville",
+      model: "Smart Dry Connect",
+      modelId: "LAD208",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -51,6 +58,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "12",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -83,11 +91,12 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
-      sleep: { dataPoint: "102", kind: "switch" },
-      childLock: { dataPoint: "7", kind: "switch" },
+      sleep: { dataPoint: "102", kind: "switch", category: "config" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       tankFull: {
         dataPoint: "11",
         kind: "sensor",
@@ -95,11 +104,17 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: 8, value: true }],
         otherwise: false,
       },
-      defrost: { dataPoint: "105", kind: "sensor", readOnly: true },
+      defrost: {
+        dataPoint: "105",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       fault: {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -108,13 +123,19 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     fan: {
-      on: { dataPoint: "1", kind: "switch" },
+      on: { dataPoint: "1", kind: "switch", category: "config" },
       speed: {
         dataPoint: "6",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: 50 },
           { raw: "3", value: 100 },

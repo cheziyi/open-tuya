@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["N8bUqOZ8HBQjU0K0"],
+  products: [
+    { productKey: "N8bUqOZ8HBQjU0K0", manufacturer: "Beca", model: "BAC005" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -71,7 +73,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "3", value: "low" },
         ],
       },
-      childLock: { dataPoint: "6", kind: "switch" },
+      childLock: { dataPoint: "6", kind: "switch", category: "config" },
       schedule: {
         dataPoint: "4",
         kind: "select",

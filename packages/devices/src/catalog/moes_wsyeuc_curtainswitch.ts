@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain switch",
-  productKeys: ["1qhlrytqcpnqmzj7"],
+  products: [
+    { productKey: "1qhlrytqcpnqmzj7", manufacturer: "Moes", model: "WS-Y-EUC" },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "9": { type: "integer" },
@@ -25,12 +27,13 @@ const entry: TuyaDeviceEntry = {
       travelTimeInSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 10,
         max: 120,
       },
     },
-    backlight: { on: { dataPoint: "101", kind: "switch" } },
+    backlight: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "moes_wsyeuc_curtainswitch.yaml",

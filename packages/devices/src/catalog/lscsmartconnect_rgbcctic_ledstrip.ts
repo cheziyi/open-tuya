@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Light strip",
-  productKeys: ["a5mzajl6cinrnfwi"],
+  products: [
+    {
+      productKey: "a5mzajl6cinrnfwi",
+      manufacturer: "LSC Smart Connect",
+      model: "RGB/IC + CCT/IC Smart LED Strip 3m",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -65,15 +71,16 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
       },
-      music: { dataPoint: "27", kind: "text" },
-      dreamlightMusic: { dataPoint: "52", kind: "text" },
-      powerMemory: { dataPoint: "101", kind: "text" },
-      scene: { dataPoint: "102", kind: "text" },
-      paint: { dataPoint: "103", kind: "text" },
+      music: { dataPoint: "27", kind: "text", category: "config" },
+      dreamlightMusic: { dataPoint: "52", kind: "text", category: "config" },
+      powerMemory: { dataPoint: "101", kind: "text", category: "config" },
+      scene: { dataPoint: "102", kind: "text", category: "config" },
+      paint: { dataPoint: "103", kind: "text", category: "config" },
     },
   },
   source: {

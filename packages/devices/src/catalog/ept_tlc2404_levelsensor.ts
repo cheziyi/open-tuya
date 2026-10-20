@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Level sensor",
-  productKeys: ["b0f1wo7qew9culdq"],
+  products: [
+    {
+      productKey: "b0f1wo7qew9culdq",
+      manufacturer: "EPT",
+      model: "TLC2404LS-WL",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -31,6 +37,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "distance",
+        reading: "instant",
         readOnly: true,
         unit: "m",
         scale: 100,
@@ -38,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       highLevelInPercent: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -45,6 +53,7 @@ const entry: TuyaDeviceEntry = {
       lowLevelInPercent: {
         dataPoint: "8",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -53,6 +62,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "number",
         measures: "distance",
+        category: "config",
         unit: "m",
         min: 40,
         max: 999,
@@ -62,6 +72,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "number",
         measures: "distance",
+        category: "config",
         unit: "m",
         min: 40,
         max: 990,
@@ -70,6 +81,8 @@ const entry: TuyaDeviceEntry = {
       levelInPercent: {
         dataPoint: "22",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },

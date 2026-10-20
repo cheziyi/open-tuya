@@ -5,7 +5,19 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "EV charger",
-  productKeys: ["hytatexziwaifxj1", "emvuyyax4lekiooj"],
+  products: [
+    {
+      productKey: "hytatexziwaifxj1",
+      manufacturer: "Feyree",
+      model: "32A 85-264V",
+    },
+    {
+      productKey: "emvuyyax4lekiooj",
+      manufacturer: "Feyree",
+      model: "ChargePoint",
+      modelId: "A_32A_1L",
+    },
+  ],
   dataPoints: {
     "3": { type: "string", optional: true },
     "10": { type: "bitfield" },
@@ -108,8 +120,8 @@ const entry: TuyaDeviceEntry = {
           { raw: 32768, value: "Socket temperature is to high." },
         ],
       },
-      clearEnergy: { dataPoint: "16", kind: "button" },
-      clearEvent: { dataPoint: "20", kind: "button" },
+      clearEnergy: { dataPoint: "16", kind: "button", category: "config" },
+      clearEvent: { dataPoint: "20", kind: "button", category: "config" },
       setChargeCurrentInA: {
         dataPoint: "102",
         kind: "number",
@@ -120,6 +132,7 @@ const entry: TuyaDeviceEntry = {
       leakEnable: {
         dataPoint: "103",
         kind: "switch",
+        category: "config",
         values: [
           { raw: false, value: false },
           { raw: true, value: true },
@@ -128,15 +141,17 @@ const entry: TuyaDeviceEntry = {
       chargeDelayInHours: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         unit: "h",
         min: 0,
         max: 15,
       },
-      powerSwitch: { dataPoint: "105", kind: "switch" },
+      powerSwitch: { dataPoint: "105", kind: "switch", category: "config" },
       energyInKwh: {
         dataPoint: "106",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 10,
@@ -145,6 +160,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
       },
@@ -152,6 +169,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
         readOnly: true,
         unit: "A",
         scale: 10,
@@ -160,6 +178,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
         readOnly: true,
         unit: "kW",
         scale: 10,
@@ -168,6 +187,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -175,6 +196,7 @@ const entry: TuyaDeviceEntry = {
       leakageCalibration: {
         dataPoint: "111",
         kind: "number",
+        category: "config",
         min: 20,
         max: 250,
         values: [{ raw: 20, value: 20 }],
@@ -184,6 +206,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
         scale: 10,
@@ -191,6 +215,7 @@ const entry: TuyaDeviceEntry = {
       chargingDurationInHours: {
         dataPoint: "114",
         kind: "number",
+        category: "config",
         unit: "h",
         min: 0,
         max: 15,

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain switch",
-  productKeys: ["75zgxageqaovbtgg"],
+  products: [
+    {
+      productKey: "75zgxageqaovbtgg",
+      manufacturer: "Loratap",
+      model: "SC411WSC-EU",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "string" },
@@ -25,6 +31,7 @@ const entry: TuyaDeviceEntry = {
       reverseMotorDirection: {
         dataPoint: "2",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "forward", value: false },
           { raw: "back", value: true },
@@ -34,6 +41,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "3",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 10,
         max: 120,

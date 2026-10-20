@@ -5,7 +5,19 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Bladeless fan",
-  productKeys: ["kablfan1csa", "kasblstfansa", "jaefoofl9as5kevm"],
+  products: [
+    { productKey: "kablfan1csa", manufacturer: "Kogan", model: "KABLFAN1CSA" },
+    {
+      productKey: "kasblstfansa",
+      manufacturer: "Kogan",
+      model: "KASBKSTFANSA",
+    },
+    {
+      productKey: "jaefoofl9as5kevm",
+      manufacturer: "Cleverio",
+      model: "AF-F100",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -49,21 +61,29 @@ const entry: TuyaDeviceEntry = {
       sound: {
         dataPoint: "102",
         kind: "switch",
+        category: "config",
         whenAbsent: { redirect: { dataPoint: "101" } },
       },
-      soundAlternate: { dataPoint: "101", kind: "switch" },
+      soundAlternate: { dataPoint: "101", kind: "switch", category: "config" },
       fault: {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timer: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -80,6 +100,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

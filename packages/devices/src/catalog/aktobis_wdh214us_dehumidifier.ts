@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["exdgi8inue5mnjvc"],
+  products: [
+    {
+      productKey: "exdgi8inue5mnjvc",
+      manufacturer: "Aktobis",
+      model: "WDH-214US",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -40,6 +46,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -47,6 +54,7 @@ const entry: TuyaDeviceEntry = {
       faultDescription: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -54,10 +62,30 @@ const entry: TuyaDeviceEntry = {
           { raw: 2, value: "Copper tube sensor" },
         ],
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
-      tankFull: { dataPoint: "101", kind: "sensor", readOnly: true },
-      defrost: { dataPoint: "102", kind: "sensor", readOnly: true },
-      filter: { dataPoint: "103", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      tankFull: {
+        dataPoint: "101",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      defrost: {
+        dataPoint: "102",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      filter: {
+        dataPoint: "103",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     fan: {
       on: { dataPoint: "1", kind: "switch" },

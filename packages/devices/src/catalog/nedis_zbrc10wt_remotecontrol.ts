@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Remote control",
-  productKeys: ["fsiepnrh"],
+  products: [
+    { productKey: "fsiepnrh", manufacturer: "Nedis", model: "ZBRC10WT" },
+  ],
   dataPoints: {
     "3": { type: "integer" },
     "26": { type: "string", optional: true },
@@ -51,6 +53,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "3",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },

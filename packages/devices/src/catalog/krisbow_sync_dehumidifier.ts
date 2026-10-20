@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["ymfznwejbhviuhjk"],
+  products: [
+    {
+      productKey: "ymfznwejbhviuhjk",
+      manufacturer: "Krisbow",
+      model: "Sync Dehumidifier 36W",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "string" },
@@ -42,6 +48,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "°C",
       },
@@ -49,6 +56,7 @@ const entry: TuyaDeviceEntry = {
       waterTankReminder: {
         dataPoint: "25",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "on", value: true },
           { raw: "off", value: false },
@@ -57,6 +65,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "17",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -66,10 +75,11 @@ const entry: TuyaDeviceEntry = {
       },
     },
     indicator: {
-      on: { dataPoint: "29", kind: "switch" },
+      on: { dataPoint: "29", kind: "switch", category: "config" },
       colorName: {
         dataPoint: "31",
         kind: "select",
+        category: "config",
         values: [
           { raw: "light_red", value: "red" },
           { raw: "light_green", value: "lime" },
@@ -86,6 +96,7 @@ const entry: TuyaDeviceEntry = {
       effect: {
         dataPoint: "31",
         kind: "select",
+        category: "config",
         values: [
           { raw: "colorful", value: "Colorful" },
           { raw: "light_white", value: "off" },

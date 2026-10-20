@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["7naqdm8whbezn28v"],
+  products: [
+    { productKey: "7naqdm8whbezn28v", manufacturer: "Wilfa", model: "Haze" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "5": { type: "boolean" },
@@ -61,11 +63,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "humidity", value: "normal" },
         ],
       },
-      sound: { dataPoint: "8", kind: "switch" },
+      sound: { dataPoint: "8", kind: "switch", category: "config" },
       temperature: {
         dataPoint: "10",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unitFrom: "temperatureUnit",
       },
@@ -80,6 +83,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -96,11 +100,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "12", value: "12h" },
         ],
       },
-      heat: { dataPoint: "26", kind: "switch" },
-      ionizer: { dataPoint: "35", kind: "switch" },
+      heat: { dataPoint: "26", kind: "switch", category: "config" },
+      ionizer: { dataPoint: "35", kind: "switch", category: "config" },
       tankEmpty: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -109,6 +114,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -116,7 +122,12 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     fan: {
       on: { dataPoint: "1", kind: "switch" },
@@ -137,6 +148,7 @@ const entry: TuyaDeviceEntry = {
       on: {
         dataPoint: "5",
         kind: "select",
+        category: "config",
         values: [{ raw: true }, { raw: false }],
       },
     },
@@ -144,6 +156,7 @@ const entry: TuyaDeviceEntry = {
       on: {
         dataPoint: "16",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },

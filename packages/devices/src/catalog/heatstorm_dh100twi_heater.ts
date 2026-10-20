@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["noiczk9zcelajycz"],
+  products: [
+    {
+      productKey: "noiczk9zcelajycz",
+      manufacturer: "Heatstorm",
+      model: "DH100TWI-2003",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer", optional: true },
@@ -128,6 +134,7 @@ const entry: TuyaDeviceEntry = {
       childLock: {
         dataPoint: "7",
         kind: "switch",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -137,14 +144,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "21", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "21",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "21",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -157,14 +171,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      keytone: { dataPoint: "103", kind: "switch" },
+      keytone: { dataPoint: "103", kind: "switch", category: "config" },
       temperatureCalibration: {
         dataPoint: "104",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unitFrom: "temperatureCalibrationUnit",
         min: -5,
         max: 5,
@@ -188,22 +204,30 @@ const entry: TuyaDeviceEntry = {
       temperatureCalibrationUnit: {
         dataPoint: "13",
         kind: "select",
+        category: "config",
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
       thermometer: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Internal", value: "Internal" },
           { raw: "External", value: "External" },
         ],
       },
-      thermometerExternalThermometerStatus: { dataPoint: "107", kind: "text" },
+      thermometerExternalThermometerStatus: {
+        dataPoint: "107",
+        kind: "text",
+        category: "config",
+      },
       externalTemperature: {
         dataPoint: "108",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unitFrom: "externalTemperatureUnit",
         dependsOn: {
@@ -215,12 +239,14 @@ const entry: TuyaDeviceEntry = {
       externalTemperatureUnit: {
         dataPoint: "109",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         whenAbsent: { value: "C" },
       },
       externalTemperatureExternalInF: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "F",
       },

@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Simple garage door",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean", optional: true },
     "101": { type: "boolean" },

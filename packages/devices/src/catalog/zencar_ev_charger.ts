@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "EV charger",
-  productKeys: ["c1twbctmrehgni7a"],
+  products: [
+    {
+      productKey: "c1twbctmrehgni7a",
+      manufacturer: "Zencar",
+      model: "Wpro 32A 3P",
+    },
+  ],
   dataPoints: {
     "1": { type: "integer", optional: true },
     "3": { type: "string" },
@@ -39,6 +45,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 100,
@@ -47,6 +54,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "4",
         kind: "number",
         measures: "current",
+        category: "config",
         unit: "A",
         min: 6,
         max: 32,
@@ -55,6 +63,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "kW",
         scale: 1000,
@@ -74,6 +84,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
       },
@@ -81,6 +93,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "25",
         kind: "sensor",
         measures: "energyStorage",
+        reading: "instant",
         readOnly: true,
         unit: "kWh",
         scale: 100,

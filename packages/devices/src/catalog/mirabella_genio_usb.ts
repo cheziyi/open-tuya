@@ -5,12 +5,24 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Smartplug with timer",
-  productKeys: [
-    "PGEkBctAbtzKOZng",
-    "O0YnvNLlDWbJd4KC",
-    "4cDeE8rvV1BXo39f",
-    "A0F6MxOOAt2r3OoJ",
-    "8v1dfajcm0qazpws",
+  products: [
+    {
+      productKey: "PGEkBctAbtzKOZng",
+      manufacturer: "Maxcio",
+      model: "W-DE004",
+    },
+    { productKey: "O0YnvNLlDWbJd4KC", manufacturer: "Hyleton", model: "315" },
+    {
+      productKey: "4cDeE8rvV1BXo39f",
+      manufacturer: "Merkury",
+      model: "MI-WW102",
+    },
+    {
+      productKey: "A0F6MxOOAt2r3OoJ",
+      manufacturer: "ednet",
+      model: "Smart Plug",
+    },
+    { productKey: "8v1dfajcm0qazpws", model: "SH 100" },
   ],
   dataPoints: { "1": { type: "boolean" }, "2": { type: "integer" } },
   components: {
@@ -19,6 +31,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "2",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

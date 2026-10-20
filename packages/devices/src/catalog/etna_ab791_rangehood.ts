@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Range hood",
-  productKeys: ["ckrqmfj3mjoecvev"],
+  products: [
+    { productKey: "ckrqmfj3mjoecvev", manufacturer: "ETNA", model: "AB791" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -33,11 +35,12 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       status: { dataPoint: "12", kind: "text" },
-      childLock: { dataPoint: "3", kind: "switch" },
+      childLock: { dataPoint: "3", kind: "switch", category: "config" },
       timerInMinutes: {
         dataPoint: "5",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 99,
@@ -47,6 +50,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -54,15 +58,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "14", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "14",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       totalRuntimeInHours: {
         dataPoint: "15",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
       },

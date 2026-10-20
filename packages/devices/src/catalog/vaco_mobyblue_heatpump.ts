@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heat pump",
-  productKeys: ["asbtgrmtbjt5nubd"],
+  products: [
+    {
+      productKey: "asbtgrmtbjt5nubd",
+      manufacturer: "Vaco / Arrifana",
+      model: "Moby Blue 14 / Arrifana 16",
+      modelId: "AC-WBR3",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -155,6 +162,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -162,17 +170,23 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       tankFull: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
       },
       sleep: { dataPoint: "105", kind: "switch" },
-      childLock: { dataPoint: "14", kind: "switch" },
-      selfClean: { dataPoint: "102", kind: "switch" },
+      childLock: { dataPoint: "14", kind: "switch", category: "config" },
+      selfClean: { dataPoint: "102", kind: "switch", category: "config" },
     },
   },
   source: {

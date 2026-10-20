@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["orgvakh0qub0hjx8"],
+  products: [
+    { productKey: "orgvakh0qub0hjx8", manufacturer: "Vivion", model: "30012x" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -103,21 +105,28 @@ const entry: TuyaDeviceEntry = {
           { raw: true, value: "on" },
         ],
       },
-      ionizer: { dataPoint: "11", kind: "switch" },
-      emergencyHeat: { dataPoint: "12", kind: "switch" },
+      ionizer: { dataPoint: "11", kind: "switch", category: "config" },
+      emergencyHeat: { dataPoint: "12", kind: "switch", category: "config" },
       fault: {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       verticalSwing: {
         dataPoint: "31",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "Off" },
           { raw: "same", value: "Swing" },
@@ -128,10 +137,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "vane_5", value: "Position 5" },
         ],
       },
-      timerOn: { dataPoint: "101", kind: "switch" },
-      timerOff: { dataPoint: "102", kind: "switch" },
+      timerOn: { dataPoint: "101", kind: "switch", category: "config" },
+      timerOff: { dataPoint: "102", kind: "switch", category: "config" },
     },
-    display: { on: { dataPoint: "36", kind: "switch" } },
+    display: { on: { dataPoint: "36", kind: "switch", category: "config" } },
   },
   source: {
     file: "vivion_airconditioner.yaml",

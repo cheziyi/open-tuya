@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["gcthce4ejb8nzgow", "55e916oobezauqfb"],
+  products: [
+    {
+      productKey: "gcthce4ejb8nzgow",
+      manufacturer: "AlecoAir",
+      model: "D12 ECO 2.0",
+    },
+    {
+      productKey: "55e916oobezauqfb",
+      manufacturer: "Orbegozo",
+      model: "DHW 2080",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -105,11 +116,12 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
-      sleep: { dataPoint: "14", kind: "switch" },
-      childLock: { dataPoint: "16", kind: "switch" },
+      sleep: { dataPoint: "14", kind: "switch", category: "config" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
       tankFull: {
         dataPoint: "19",
         kind: "sensor",

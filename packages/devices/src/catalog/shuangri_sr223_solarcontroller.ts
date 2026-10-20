@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Solar water heater",
-  productKeys: ["mlezgpkhb08dvjjx"],
+  products: [
+    {
+      productKey: "mlezgpkhb08dvjjx",
+      manufacturer: "Shuangri",
+      model: "SR223",
+    },
+  ],
   dataPoints: {
     "22": { type: "integer" },
     "26": { type: "integer" },
@@ -18,6 +24,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "26",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -26,6 +33,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -40,6 +48,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "sensor",
         measures: "signalStrength",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "dBm",
       },

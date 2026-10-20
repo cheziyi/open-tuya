@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan with light",
-  productKeys: ["p8z27dfdwc4riyp9", "9ecs16c53uqskxw6"],
+  products: [
+    {
+      productKey: "p8z27dfdwc4riyp9",
+      manufacturer: "Create",
+      model: "XW-FAN-215-D",
+    },
+    { productKey: "9ecs16c53uqskxw6", manufacturer: "Create" },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string", optional: true },
@@ -26,11 +33,12 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "64",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 540,
       },
-      sound: { dataPoint: "66", kind: "switch" },
+      sound: { dataPoint: "66", kind: "switch", category: "config" },
     },
     light: {
       on: { dataPoint: "20", kind: "switch" },

@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water timer",
-  productKeys: ["ew946yrp3pgbaziu", "keyth3n5me5jqu95"],
+  products: [
+    {
+      productKey: "ew946yrp3pgbaziu",
+      manufacturer: "RainPoint",
+      model: "TTV103FRF",
+    },
+    {
+      productKey: "keyth3n5me5jqu95",
+      manufacturer: "RainPoint",
+      model: "TTV103FRF",
+    },
+  ],
   dataPoints: {
     "103": { type: "integer" },
     "105": { type: "string" },
@@ -29,6 +40,7 @@ const entry: TuyaDeviceEntry = {
       automaticIrrigation: {
         dataPoint: "125",
         kind: "switch",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
@@ -37,6 +49,7 @@ const entry: TuyaDeviceEntry = {
       rainDelay: {
         dataPoint: "113",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "24", value: "24h" },
@@ -60,6 +73,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "water",
+        reading: "risingTotal",
         readOnly: true,
         unit: "L",
       },
@@ -67,6 +81,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 60,
@@ -74,6 +89,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "106",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "0", value: "idle" },
@@ -86,11 +102,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "120",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "120", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "120",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

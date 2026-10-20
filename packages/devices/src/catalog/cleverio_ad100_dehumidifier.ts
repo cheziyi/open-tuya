@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["jkscqnjueuczotho"],
+  products: [
+    {
+      productKey: "jkscqnjueuczotho",
+      manufacturer: "Cleverio",
+      model: "AD100",
+    },
+  ],
   dataPoints: {
     "2": { type: "string" },
     "12": { type: "bitfield" },
@@ -30,16 +36,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
-      airPurifier: { dataPoint: "101", kind: "switch" },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      airPurifier: { dataPoint: "101", kind: "switch", category: "config" },
       replaceFilter: {
         dataPoint: "103",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
     },

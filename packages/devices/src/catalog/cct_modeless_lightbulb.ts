@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "CCT light",
-  productKeys: ["ewrj9uit2axunpyn"],
+  products: [
+    {
+      productKey: "ewrj9uit2axunpyn",
+      manufacturer: "Connect",
+      model: "CSH-GU53WW5W",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer" },

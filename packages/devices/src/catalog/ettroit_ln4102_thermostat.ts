@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["rfhbvecszj0m3ixe"],
+  products: [
+    {
+      productKey: "rfhbvecszj0m3ixe",
+      manufacturer: "Ettroit",
+      model: "LN4102",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "string" },
@@ -91,6 +97,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 159,
         max: 450,
@@ -100,6 +107,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "26",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 50,
         max: 150,
@@ -108,6 +116,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -9,
         max: 9,
@@ -115,6 +124,7 @@ const entry: TuyaDeviceEntry = {
       output: {
         dataPoint: "36",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "open", value: true },
@@ -127,6 +137,7 @@ const entry: TuyaDeviceEntry = {
       sensor: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "IN", value: "internal" },
           { raw: "OU", value: "external" },
@@ -136,13 +147,20 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: 0,
         max: 5,
       },
     },
     backlight: {
-      brightness: { dataPoint: "44", kind: "number", min: 0, max: 8 },
+      brightness: {
+        dataPoint: "44",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 8,
+      },
     },
   },
   source: {

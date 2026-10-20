@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dry contact switch",
-  productKeys: ["tyh5ryj3jfi3hkgv"],
+  products: [
+    {
+      productKey: "tyh5ryj3jfi3hkgv",
+      manufacturer: "Avatto",
+      model: "WSM16-DC-1",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "7": { type: "integer" },
@@ -21,6 +27,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
@@ -28,18 +35,20 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "14",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
           { raw: "memory", value: "memory" },
         ],
       },
-      schedule: { dataPoint: "17", kind: "text" },
-      randomizedSchedule: { dataPoint: "18", kind: "text" },
-      inching: { dataPoint: "19", kind: "text" },
+      schedule: { dataPoint: "17", kind: "text", category: "config" },
+      randomizedSchedule: { dataPoint: "18", kind: "text", category: "config" },
+      inching: { dataPoint: "19", kind: "text", category: "config" },
       switchType: {
         dataPoint: "47",
         kind: "select",
+        category: "config",
         values: [
           { raw: "flip", value: "Flip" },
           { raw: "sync", value: "Synchronized" },

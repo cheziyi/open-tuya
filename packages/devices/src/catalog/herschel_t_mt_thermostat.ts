@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["ma3oamwzywooctul"],
+  products: [
+    {
+      productKey: "ma3oamwzywooctul",
+      manufacturer: "Herschel",
+      model: "T-MT Mains powered Wifi thermostat",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -86,20 +92,26 @@ const entry: TuyaDeviceEntry = {
           { raw: "auto", value: "program" },
         ],
       },
-      childLock: { dataPoint: "6", kind: "switch" },
+      childLock: { dataPoint: "6", kind: "switch", category: "config" },
       holidayLengthInDays: {
         dataPoint: "101",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "d",
         min: 0,
         max: 99,
       },
-      openWindowDetection: { dataPoint: "103", kind: "switch" },
+      openWindowDetection: {
+        dataPoint: "103",
+        kind: "switch",
+        category: "config",
+      },
       temperatureCalibration: {
         dataPoint: "106",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unitFrom: "temperatureCalibrationUnit",
         min: -90,
         max: 90,
@@ -108,10 +120,11 @@ const entry: TuyaDeviceEntry = {
       temperatureCalibrationUnit: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [{ raw: "f", value: "F" }],
         otherwise: "C",
       },
-      adaptiveStart: { dataPoint: "107", kind: "switch" },
+      adaptiveStart: { dataPoint: "107", kind: "switch", category: "config" },
     },
   },
   source: {

@@ -5,11 +5,19 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Temperature and humidity sensor",
-  productKeys: [
-    "xlk3mtpjo1zkmdvh",
-    "ykdqgxukxt7rjyft",
-    "scyh3efocxxfgryg",
-    "idypkbokardxt823",
+  products: [
+    { productKey: "xlk3mtpjo1zkmdvh", manufacturer: "Zitech", model: "TH08" },
+    { productKey: "ykdqgxukxt7rjyft", manufacturer: "Zitech", model: "TH09B" },
+    {
+      productKey: "scyh3efocxxfgryg",
+      manufacturer: "Zitech",
+      model: "TH08BCBU",
+    },
+    {
+      productKey: "idypkbokardxt823",
+      manufacturer: "Zitech",
+      model: "TH08CBU",
+    },
   ],
   dataPoints: {
     "1": { type: "integer" },
@@ -25,6 +33,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "1",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -33,6 +42,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -51,6 +61,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "9",
         kind: "select",
+        category: "config",
         values: [
           { raw: "f", value: "F" },
           { raw: "c", value: "C" },
@@ -60,6 +71,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -20,
         max: 20,
@@ -68,6 +80,7 @@ const entry: TuyaDeviceEntry = {
       humidityCalibrationInPercent: {
         dataPoint: "24",
         kind: "number",
+        category: "config",
         unit: "%",
         min: -10,
         max: 10,

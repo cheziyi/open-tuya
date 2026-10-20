@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["orypuo7ksduqze3x"],
+  products: [
+    { productKey: "orypuo7ksduqze3x", manufacturer: "airx", model: "H8Pro" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -54,6 +56,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "opening",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "0", value: false },
@@ -63,13 +66,22 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: true,
       },
-      electrolyticSterilization: { dataPoint: "21", kind: "switch" },
-      evaporatorCleaning: { dataPoint: "2", kind: "switch" },
-      uvSterilization: { dataPoint: "102", kind: "switch" },
-      keytone: { dataPoint: "8", kind: "switch" },
+      electrolyticSterilization: {
+        dataPoint: "21",
+        kind: "switch",
+        category: "config",
+      },
+      evaporatorCleaning: {
+        dataPoint: "2",
+        kind: "switch",
+        category: "config",
+      },
+      uvSterilization: { dataPoint: "102", kind: "switch", category: "config" },
+      keytone: { dataPoint: "8", kind: "switch", category: "config" },
       waterLevel: {
         dataPoint: "101",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "No_water", value: "empty" },
@@ -80,9 +92,9 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       ionizer: { dataPoint: "25", kind: "switch" },
-      childLock: { dataPoint: "29", kind: "switch" },
+      childLock: { dataPoint: "29", kind: "switch", category: "config" },
     },
-    display: { on: { dataPoint: "5", kind: "switch" } },
+    display: { on: { dataPoint: "5", kind: "switch", category: "config" } },
   },
   source: {
     file: "airx_h8_humidifier.yaml",

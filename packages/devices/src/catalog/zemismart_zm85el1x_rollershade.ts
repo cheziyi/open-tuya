@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Roller blinds",
-  productKeys: ["nwxr8qcu4seltoro"],
+  products: [
+    {
+      productKey: "nwxr8qcu4seltoro",
+      manufacturer: "Zemismart",
+      model: "ZM85EL-1x",
+    },
+  ],
   dataPoints: {
     "1": { type: "string", optional: true },
     "2": { type: "integer" },
@@ -59,31 +65,41 @@ const entry: TuyaDeviceEntry = {
       curtainMode: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "morning", value: "morning" },
           { raw: "night", value: "night" },
         ],
       },
-      reverse: { dataPoint: "5", kind: "switch" },
+      reverse: { dataPoint: "5", kind: "switch", category: "config" },
       fault: {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       batteryInPercent: {
         dataPoint: "13",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       borderSetting: {
         dataPoint: "16",
         kind: "select",
+        category: "config",
         values: [
           { raw: "up", value: "Set top" },
           { raw: "down", value: "Set bottom" },
@@ -95,6 +111,7 @@ const entry: TuyaDeviceEntry = {
       savedPositionInPercent: {
         dataPoint: "19",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,

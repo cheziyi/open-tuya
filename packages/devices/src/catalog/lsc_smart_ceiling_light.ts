@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "CCT + RGB ceiling light",
-  productKeys: ["bwyutsrcsnwf3p5o"],
+  products: [
+    { productKey: "bwyutsrcsnwf3p5o", manufacturer: "LSC Smart Connect" },
+  ],
   dataPoints: {
     "22": { type: "integer" },
     "23": { type: "integer" },
@@ -31,6 +33,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "34",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: "off" },
           { raw: false, value: "on" },
@@ -39,6 +42,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "56",
         kind: "select",
+        category: "config",
         type: "string",
         values: [
           { raw: "ARUKUlLgAABkAMFhALQwALVSAMRj", value: "Iceland blue" },
@@ -90,6 +94,7 @@ const entry: TuyaDeviceEntry = {
       combinationColor: {
         dataPoint: "61",
         kind: "select",
+        category: "config",
         values: [
           {
             raw: "AAMAFAABUwFIA70BUgKLA+gBUgNrA+gBUwPQA9g=",

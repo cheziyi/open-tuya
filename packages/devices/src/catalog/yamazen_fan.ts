@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan",
-  productKeys: ["yjxegyhiawfedgah"],
+  products: [
+    {
+      productKey: "yjxegyhiawfedgah",
+      manufacturer: "Yamazen",
+      model: "AHX-ALD30",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -65,6 +71,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 8,

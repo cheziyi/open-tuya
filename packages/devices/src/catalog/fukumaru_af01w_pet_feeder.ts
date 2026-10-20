@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["jttvwskiffndnb1q"],
+  products: [
+    {
+      productKey: "jttvwskiffndnb1q",
+      manufacturer: "Fukumaru",
+      model: "AF01-W",
+    },
+  ],
   dataPoints: {
     "2": { type: "boolean" },
     "3": { type: "integer" },
@@ -22,6 +28,7 @@ const entry: TuyaDeviceEntry = {
       manualFeedInPortions: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "portions",
         min: 1,
         max: 6,
@@ -29,6 +36,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "4",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -39,6 +47,7 @@ const entry: TuyaDeviceEntry = {
       feedReportInPortions: {
         dataPoint: "5",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "portions",
       },
@@ -46,18 +55,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       voicePlaybackTimes: {
         dataPoint: "16",
         kind: "number",
+        category: "config",
         unit: "times",
         min: 0,
         max: 10,
       },
-      factoryReset: { dataPoint: "20", kind: "button" },
-      slowFeed: { dataPoint: "218", kind: "switch" },
+      factoryReset: { dataPoint: "20", kind: "button", category: "config" },
+      slowFeed: { dataPoint: "218", kind: "switch", category: "config" },
     },
   },
   source: {

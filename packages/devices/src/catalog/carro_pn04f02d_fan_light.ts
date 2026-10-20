@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["6ahfblexspuaem65"],
+  products: [
+    {
+      productKey: "6ahfblexspuaem65",
+      manufacturer: "Carro",
+      model: "PN-04F02D",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string", optional: true },

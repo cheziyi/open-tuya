@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Christmas lights",
-  productKeys: ["gvqngqezfcni4i4j"],
+  products: [
+    {
+      productKey: "gvqngqezfcni4i4j",
+      manufacturer: "MBG Line",
+      model: "CTree-001",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -64,6 +70,7 @@ const entry: TuyaDeviceEntry = {
       preset: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         dependsOn: {
           dataPoint: "21",
           conditions: [
@@ -133,9 +140,15 @@ const entry: TuyaDeviceEntry = {
           ],
         },
       },
-      presetColorMode: { dataPoint: "21", kind: "text" },
-      ledCount: { dataPoint: "103", kind: "number", min: 1, max: 200 },
-      customPresetData: { dataPoint: "25", kind: "text" },
+      presetColorMode: { dataPoint: "21", kind: "text", category: "config" },
+      ledCount: {
+        dataPoint: "103",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 200,
+      },
+      customPresetData: { dataPoint: "25", kind: "text", category: "config" },
     },
   },
   source: {

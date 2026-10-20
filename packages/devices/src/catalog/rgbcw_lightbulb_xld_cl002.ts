@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "RGBCW lightbulb",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -73,14 +73,16 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
       },
-      doNotDisturb: { dataPoint: "34", kind: "switch" },
+      doNotDisturb: { dataPoint: "34", kind: "switch", category: "config" },
       scene: {
         dataPoint: "51",
         kind: "select",
+        category: "config",
         type: "string",
         values: [
           { raw: "AAUA7APoA+gD6AAA", value: "WW 100%" },
@@ -97,11 +99,15 @@ const entry: TuyaDeviceEntry = {
           { raw: "AAcAAAPoA+gD6AAA", value: "WW+RED 1%" },
         ],
       },
-      sceneData: { dataPoint: "25", kind: "text" },
-      rhythmMode: { dataPoint: "30", kind: "text" },
-      rhythmModeMusicData: { dataPoint: "27", kind: "text" },
-      sleepMode: { dataPoint: "31", kind: "text" },
-      wakeupMode: { dataPoint: "32", kind: "text" },
+      sceneData: { dataPoint: "25", kind: "text", category: "config" },
+      rhythmMode: { dataPoint: "30", kind: "text", category: "config" },
+      rhythmModeMusicData: {
+        dataPoint: "27",
+        kind: "text",
+        category: "config",
+      },
+      sleepMode: { dataPoint: "31", kind: "text", category: "config" },
+      wakeupMode: { dataPoint: "32", kind: "text", category: "config" },
     },
   },
   source: {

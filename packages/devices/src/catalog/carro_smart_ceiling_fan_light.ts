@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan light",
-  productKeys: ["pwn8rplbjtokxaec"],
+  products: [
+    { productKey: "pwn8rplbjtokxaec", manufacturer: "Carro / Qizheng" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },

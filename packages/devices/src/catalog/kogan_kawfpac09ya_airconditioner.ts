@@ -5,7 +5,20 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["mhod7aykax0wbivn", "hh0cq7yuqwkzg213"],
+  products: [
+    {
+      productKey: "mhod7aykax0wbivn",
+      manufacturer: "Kogan",
+      model: "Y09",
+      modelId: "KAWFPAC09YA",
+    },
+    {
+      productKey: "hh0cq7yuqwkzg213",
+      manufacturer: "Kogan",
+      model: "Y09",
+      modelId: "KAWFPAC09YA",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },

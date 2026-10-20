@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["rdadbolinmhmxuss"],
+  products: [{ productKey: "rdadbolinmhmxuss", manufacturer: "Hombli" }],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -43,23 +43,25 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
       },
-      lightControl: { dataPoint: "28", kind: "text" },
-      powerMemory: { dataPoint: "33", kind: "text" },
-      doNotDisturb: { dataPoint: "34", kind: "switch" },
-      lightTransition: { dataPoint: "35", kind: "text" },
+      lightControl: { dataPoint: "28", kind: "text", category: "config" },
+      powerMemory: { dataPoint: "33", kind: "text", category: "config" },
+      doNotDisturb: { dataPoint: "34", kind: "switch", category: "config" },
+      lightTransition: { dataPoint: "35", kind: "text", category: "config" },
       timerFanInMinutes: {
         dataPoint: "64",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 540,
       },
-      keytone: { dataPoint: "66", kind: "switch" },
+      keytone: { dataPoint: "66", kind: "switch", category: "config" },
       reconnection: {
         dataPoint: "101",
         kind: "event",

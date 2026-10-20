@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Lockbox",
-  productKeys: ["qicggi0m"],
+  products: [
+    { productKey: "qicggi0m", manufacturer: "XCase", model: "NX-4964 BLE" },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "2": { type: "base64", optional: true },
@@ -68,6 +70,7 @@ const entry: TuyaDeviceEntry = {
       alarm: {
         dataPoint: "21",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "wrong_finger", value: "wrong_finger" },
@@ -87,18 +90,40 @@ const entry: TuyaDeviceEntry = {
         ],
         whenAbsent: { value: "ok" },
       },
-      newCredential: { dataPoint: "1", kind: "text" },
-      deleteCredential: { dataPoint: "2", kind: "text" },
-      modifyCredential: { dataPoint: "3", kind: "text" },
-      newTemporaryPassword: { dataPoint: "51", kind: "text" },
-      deleteTemporaryPassword: { dataPoint: "52", kind: "text" },
-      modifyTemporaryPassword: { dataPoint: "53", kind: "text" },
-      syncCredentials: { dataPoint: "54", kind: "text" },
-      offlinePasswordTimestamp: { dataPoint: "64", kind: "text" },
-      usedOfflinePassword: { dataPoint: "65", kind: "sensor", readOnly: true },
+      newCredential: { dataPoint: "1", kind: "text", category: "config" },
+      deleteCredential: { dataPoint: "2", kind: "text", category: "config" },
+      modifyCredential: { dataPoint: "3", kind: "text", category: "config" },
+      newTemporaryPassword: {
+        dataPoint: "51",
+        kind: "text",
+        category: "config",
+      },
+      deleteTemporaryPassword: {
+        dataPoint: "52",
+        kind: "text",
+        category: "config",
+      },
+      modifyTemporaryPassword: {
+        dataPoint: "53",
+        kind: "text",
+        category: "config",
+      },
+      syncCredentials: { dataPoint: "54", kind: "text", category: "config" },
+      offlinePasswordTimestamp: {
+        dataPoint: "64",
+        kind: "text",
+        category: "config",
+      },
+      usedOfflinePassword: {
+        dataPoint: "65",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       clearedOfflinePasswords: {
         dataPoint: "66",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
     },

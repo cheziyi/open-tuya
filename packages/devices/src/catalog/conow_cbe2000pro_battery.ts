@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Battery storage",
-  productKeys: ["c4ilzd7aybycece9"],
+  products: [
+    {
+      productKey: "c4ilzd7aybycece9",
+      manufacturer: "Conow",
+      model: "CBE2000 Pro",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -73,6 +79,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "energyStorage",
+        category: "diagnostic",
         readOnly: true,
         unit: "kWh",
         scale: 1000,
@@ -80,31 +87,46 @@ const entry: TuyaDeviceEntry = {
       batteryCapacityHardwareVersion: {
         dataPoint: "14",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       batteryCapacitySoftwareVersion: {
         dataPoint: "15",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       batteryCapacitySerialNumber: {
         dataPoint: "1",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       fault: {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultErrorCode: { dataPoint: "10", kind: "sensor", readOnly: true },
-      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      faultErrorCode: {
+        dataPoint: "10",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "11",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "No Fault" },
@@ -135,6 +157,7 @@ const entry: TuyaDeviceEntry = {
       connectionState: {
         dataPoint: "12",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "paired_connected", value: "Paired and connected" },
@@ -146,11 +169,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "signalStrength",
+        category: "diagnostic",
         readOnly: true,
         unit: "dBm",
       },
-      cellHeating: { dataPoint: "16", kind: "sensor", readOnly: true },
-      expansionPackCount: { dataPoint: "17", kind: "sensor", readOnly: true },
+      cellHeating: {
+        dataPoint: "16",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      expansionPackCount: {
+        dataPoint: "17",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       humanPresence: {
         dataPoint: "18",
         kind: "sensor",
@@ -196,6 +230,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -213,6 +248,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "25",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
         readOnly: true,
         unit: "W",
       },
@@ -250,6 +286,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "30",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -299,6 +336,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "40",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 1000,
@@ -307,6 +345,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "41",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 1000,
@@ -315,6 +354,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "42",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 1000,
@@ -323,6 +363,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "43",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 1000,
@@ -331,6 +372,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "44",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 1000,
@@ -339,6 +381,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "45",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 1000,
@@ -347,6 +390,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "46",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 1000,
@@ -355,6 +399,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "47",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 1000,
@@ -362,6 +407,7 @@ const entry: TuyaDeviceEntry = {
       backupReserveInPercent: {
         dataPoint: "50",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -369,6 +415,7 @@ const entry: TuyaDeviceEntry = {
       mode: {
         dataPoint: "51",
         kind: "select",
+        category: "config",
         values: [
           { raw: "self_powered", value: "Self Powered" },
           { raw: "time_of_use", value: "schedule" },
@@ -380,14 +427,20 @@ const entry: TuyaDeviceEntry = {
       outputPowerLimitInW: {
         dataPoint: "53",
         kind: "number",
+        category: "config",
         unit: "W",
         min: 0,
         max: 100000,
       },
-      feedinPowerLimitEnable: { dataPoint: "54", kind: "switch" },
+      feedinPowerLimitEnable: {
+        dataPoint: "54",
+        kind: "switch",
+        category: "config",
+      },
       feedinPowerLimitInW: {
         dataPoint: "55",
         kind: "number",
+        category: "config",
         unit: "W",
         min: 0,
         max: 100000,
@@ -395,6 +448,7 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "57",
         kind: "select",
+        category: "config",
         values: [
           { raw: "eco", value: "auto" },
           { raw: "on", value: "on" },
@@ -411,12 +465,25 @@ const entry: TuyaDeviceEntry = {
           { raw: "ty_rs485", value: "RS485" },
         ],
       },
-      recalibrateBattery: { dataPoint: "59", kind: "button" },
-      offgridPortEnable: { dataPoint: "60", kind: "switch" },
-      peakShavingEnable: { dataPoint: "63", kind: "switch" },
+      recalibrateBattery: {
+        dataPoint: "59",
+        kind: "button",
+        category: "config",
+      },
+      offgridPortEnable: {
+        dataPoint: "60",
+        kind: "switch",
+        category: "config",
+      },
+      peakShavingEnable: {
+        dataPoint: "63",
+        kind: "switch",
+        category: "config",
+      },
       peakShavingThresholdInW: {
         dataPoint: "64",
         kind: "number",
+        category: "config",
         unit: "W",
         min: 0,
         max: 30000,
@@ -424,6 +491,7 @@ const entry: TuyaDeviceEntry = {
       vibeLightMode: {
         dataPoint: "65",
         kind: "select",
+        category: "config",
         values: [
           { raw: "scene", value: "Scene" },
           { raw: "off", value: "Off" },
@@ -432,6 +500,7 @@ const entry: TuyaDeviceEntry = {
       offgridMode: {
         dataPoint: "68",
         kind: "select",
+        category: "config",
         values: [
           { raw: "backup", value: "Backup" },
           { raw: "plugin", value: "Plugin" },
@@ -440,14 +509,16 @@ const entry: TuyaDeviceEntry = {
       inverterInputPowerLimitInW: {
         dataPoint: "69",
         kind: "number",
+        category: "config",
         unit: "W",
         min: 0,
         max: 2500,
       },
-      reservePriority: { dataPoint: "70", kind: "switch" },
+      reservePriority: { dataPoint: "70", kind: "switch", category: "config" },
       ledItems: {
         dataPoint: "73",
         kind: "select",
+        category: "config",
         values: [
           { raw: "led_all", value: "Cycle All" },
           { raw: "led_pv", value: "PV" },
@@ -457,6 +528,7 @@ const entry: TuyaDeviceEntry = {
       baselineStrategy: {
         dataPoint: "78",
         kind: "select",
+        category: "config",
         values: [
           { raw: "self_powered", value: "Self Powered" },
           { raw: "pv_only", value: "PV Only" },
@@ -465,18 +537,21 @@ const entry: TuyaDeviceEntry = {
       regulationGridExportPowerLimitInW: {
         dataPoint: "84",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "W",
       },
       regulationGridExportPowerLimitCountryCode: {
         dataPoint: "56",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
-      lpSleep: { dataPoint: "85", kind: "switch" },
+      lpSleep: { dataPoint: "85", kind: "switch", category: "config" },
       baseLoadInW: {
         dataPoint: "91",
         kind: "number",
+        category: "config",
         unit: "W",
         min: 0,
         max: 99999,

@@ -5,7 +5,23 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "RGBCW lightbulb",
-  productKeys: ["leirmht5udei1xzw", "keypymhxrj35tnqj", "tuvcbzejusazsyaq"],
+  products: [
+    {
+      productKey: "leirmht5udei1xzw",
+      manufacturer: "YSRSAI",
+      model: "YSR-CGD-RGB",
+    },
+    {
+      productKey: "keypymhxrj35tnqj",
+      manufacturer: "Positivo",
+      model: "PLW91",
+    },
+    {
+      productKey: "tuvcbzejusazsyaq",
+      manufacturer: "Hifree",
+      model: "LT-T21 table lamp",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -79,14 +95,16 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
       },
-      doNotDisturb: { dataPoint: "34", kind: "switch" },
+      doNotDisturb: { dataPoint: "34", kind: "switch", category: "config" },
       scene: {
         dataPoint: "25",
         kind: "select",
+        category: "config",
         type: "string",
         values: [
           { raw: "000e0d0000000000000000c80000", value: "night" },

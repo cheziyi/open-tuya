@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["pzq25786mlkxmtbb"],
+  products: [
+    {
+      productKey: "pzq25786mlkxmtbb",
+      manufacturer: "AlecoAir",
+      model: "D16 Purify",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -77,10 +83,11 @@ const entry: TuyaDeviceEntry = {
           { raw: 2, value: "E2 Compressor Fault" },
         ],
       },
-      childLock: { dataPoint: "14", kind: "switch" },
+      childLock: { dataPoint: "14", kind: "switch", category: "config" },
       timer: {
         dataPoint: "17",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },

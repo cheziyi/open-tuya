@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Kettle",
-  productKeys: ["il4ofqon04yai1xe"],
+  products: [
+    {
+      productKey: "il4ofqon04yai1xe",
+      manufacturer: "Silvercrest",
+      model: "WK0828RT",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -56,6 +62,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 120,
@@ -65,6 +72,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

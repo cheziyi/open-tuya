@@ -5,7 +5,23 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Motion sensor light",
-  productKeys: ["oapo5mmfbcr2y7ox", "8mrw54ape8opgl69", "pxyhz90upglpoedu"],
+  products: [
+    {
+      productKey: "oapo5mmfbcr2y7ox",
+      manufacturer: "Deta",
+      model: "360 Motion Sensor",
+    },
+    {
+      productKey: "8mrw54ape8opgl69",
+      manufacturer: "Deta",
+      model: "Light Motion Sensor",
+    },
+    {
+      productKey: "pxyhz90upglpoedu",
+      manufacturer: "Arlec",
+      model: "MAL315HA",
+    },
+  ],
   dataPoints: {
     "101": { type: "string" },
     "102": { type: "boolean" },
@@ -53,6 +69,7 @@ const entry: TuyaDeviceEntry = {
       sensitivity: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         min: 0,
         max: 4,
         invert: true,
@@ -61,6 +78,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 10,
         max: 900,
@@ -70,12 +88,13 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "number",
         measures: "illuminance",
+        category: "config",
         unit: "lx",
         min: 0,
         max: 3900,
         invert: true,
       },
-      autoReset: { dataPoint: "106", kind: "switch" },
+      autoReset: { dataPoint: "106", kind: "switch", category: "config" },
     },
   },
   source: {

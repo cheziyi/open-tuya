@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Garage door",
-  productKeys: ["y07fcukpjhg0yj5g"],
+  products: [{ productKey: "y07fcukpjhg0yj5g", manufacturer: "Garen" }],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "boolean" },
@@ -18,10 +18,11 @@ const entry: TuyaDeviceEntry = {
       open: { dataPoint: "101", kind: "button" },
       stop: { dataPoint: "102", kind: "button" },
       close: { dataPoint: "103", kind: "button" },
-      locked: { dataPoint: "106", kind: "switch" },
+      locked: { dataPoint: "106", kind: "switch", category: "config" },
       autoCloseTimer: {
         dataPoint: "109",
         kind: "select",
+        category: "config",
         values: [
           { raw: "OFF", value: "cancel" },
           { raw: "5s", value: "5s" },

@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["jiiagi6aamtgbffk"],
+  products: [
+    { productKey: "jiiagi6aamtgbffk", manufacturer: "Proscenic", model: "A8" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -40,34 +42,39 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
-      on: { dataPoint: "8", kind: "switch" },
+      on: { dataPoint: "8", kind: "switch", category: "config" },
       filterLifeInPercent: {
         dataPoint: "5",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      filterReset: { dataPoint: "11", kind: "button" },
+      filterReset: { dataPoint: "11", kind: "button", category: "config" },
       filterRemainingInDays: {
         dataPoint: "16",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "d",
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       totalRuntimeInMinutes: {
         dataPoint: "17",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
       totalPmInUgPerM3: {
         dataPoint: "20",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "ugm3",
       },

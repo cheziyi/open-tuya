@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan controller",
-  productKeys: ["gktnt3qekgoxg0hv"],
+  products: [
+    {
+      productKey: "gktnt3qekgoxg0hv",
+      manufacturer: "Deta",
+      model: "6914HA Series 3",
+    },
+  ],
   dataPoints: {
     "3": { type: "string" },
     "12": { type: "string" },
@@ -30,6 +36,7 @@ const entry: TuyaDeviceEntry = {
       fanTimer: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "cancel" },
           { raw: "2", value: "1h" },
@@ -41,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       lightTimer: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "cancel" },
           { raw: "2", value: "1h" },
@@ -49,10 +57,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "5", value: "8h" },
         ],
       },
-      master: { dataPoint: "103", kind: "switch" },
+      master: { dataPoint: "103", kind: "switch", category: "config" },
       lightMode: {
         dataPoint: "12",
         kind: "select",
+        category: "config",
         values: [
           { raw: "none", value: "off" },
           { raw: "relay", value: "state" },

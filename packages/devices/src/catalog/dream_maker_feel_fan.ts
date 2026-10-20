@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pedestal fan",
-  productKeys: ["lf3n6whotmyd1d1q"],
+  products: [
+    {
+      productKey: "lf3n6whotmyd1d1q",
+      manufacturer: "Dream Maker",
+      model: "Feel Fan",
+      modelId: "DM01",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -38,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       oscillationAngle: {
         dataPoint: "7",
         kind: "select",
+        category: "config",
         values: [
           { raw: "30", value: "30°" },
           { raw: "60", value: "60°" },
@@ -46,12 +54,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "140", value: "140°" },
         ],
       },
-      keytone: { dataPoint: "13", kind: "switch" },
-      childLock: { dataPoint: "14", kind: "switch" },
+      keytone: { dataPoint: "13", kind: "switch", category: "config" },
+      childLock: { dataPoint: "14", kind: "switch", category: "config" },
       temperatureInC: {
         dataPoint: "21",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -59,16 +68,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "24", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "24",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timerInMinutes: {
         dataPoint: "102",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 480,
@@ -77,6 +93,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -91,7 +108,7 @@ const entry: TuyaDeviceEntry = {
         values: [{ raw: "RIGHT", value: true }],
       },
     },
-    indicator: { on: { dataPoint: "15", kind: "switch" } },
+    indicator: { on: { dataPoint: "15", kind: "switch", category: "config" } },
   },
   source: {
     file: "dream_maker_feel_fan.yaml",

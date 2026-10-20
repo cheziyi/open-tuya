@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["bowuem6d9ihzwymj"],
+  products: [
+    { productKey: "bowuem6d9ihzwymj", manufacturer: "Engo", model: "E901WIFI" },
+  ],
   dataPoints: {
     "2": { type: "string" },
     "16": { type: "integer" },
@@ -82,13 +84,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -35,
         max: 35,
         scale: 10,
         step: 5,
       },
-      childLock: { dataPoint: "40", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       batteryInPercent: {
         dataPoint: "35",
         kind: "sensor",
@@ -100,20 +103,28 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "45",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "45",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       heatingRatioInPercent: {
         dataPoint: "114",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       relayControl: {
         dataPoint: "113",
         kind: "select",
+        category: "config",
         values: [
           { raw: "on", value: "On" },
           { raw: "off", value: "Off" },

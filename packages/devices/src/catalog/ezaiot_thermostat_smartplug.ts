@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat smartplug",
-  productKeys: ["msclnsfe0q3yd39q"],
+  products: [{ productKey: "msclnsfe0q3yd39q", manufacturer: "EZAIoT" }],
   dataPoints: {
     "2": { type: "boolean" },
     "4": { type: "string" },
@@ -103,6 +103,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "114",
         kind: "sensor",
         measures: "power",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -111,10 +112,11 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: true,
       },
-      childLock: { dataPoint: "110", kind: "switch" },
+      childLock: { dataPoint: "110", kind: "switch", category: "config" },
       displayTimeout: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: "15s", value: "15s" },
           { raw: "30s", value: "30s" },
@@ -122,37 +124,49 @@ const entry: TuyaDeviceEntry = {
           { raw: "120s", value: "120s" },
         ],
       },
-      highTemperatureAlarm: { dataPoint: "8", kind: "switch" },
+      highTemperatureAlarm: {
+        dataPoint: "8",
+        kind: "switch",
+        category: "config",
+      },
       alarmMaximumTemperatureInC: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "C",
         min: -300,
         max: 1200,
         scale: 10,
       },
-      lowTemperatureAlarm: { dataPoint: "11", kind: "switch" },
+      lowTemperatureAlarm: {
+        dataPoint: "11",
+        kind: "switch",
+        category: "config",
+      },
       alarmMinimumTemperatureInC: {
         dataPoint: "12",
         kind: "number",
+        category: "config",
         unit: "C",
         min: -300,
         max: 1200,
         scale: 10,
       },
-      coolingDelay: { dataPoint: "13", kind: "switch" },
+      coolingDelay: { dataPoint: "13", kind: "switch", category: "config" },
       coolingDelayTimeInMinutes: {
         dataPoint: "14",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1200,
       },
-      antiFrost: { dataPoint: "113", kind: "switch" },
+      antiFrost: { dataPoint: "113", kind: "switch", category: "config" },
       temperatureHysteresisInC: {
         dataPoint: "111",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: 0,
         max: 100,
@@ -162,6 +176,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -150,
         max: 150,
@@ -170,13 +185,18 @@ const entry: TuyaDeviceEntry = {
       brightness: {
         dataPoint: "115",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Low", value: "Low" },
           { raw: "Middle", value: "Medium" },
           { raw: "High", value: "High" },
         ],
       },
-      restoreLastState: { dataPoint: "116", kind: "switch" },
+      restoreLastState: {
+        dataPoint: "116",
+        kind: "switch",
+        category: "config",
+      },
     },
   },
   source: {

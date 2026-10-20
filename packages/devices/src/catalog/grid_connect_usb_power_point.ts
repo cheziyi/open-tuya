@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "USB charger with power socket",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -22,6 +22,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -29,6 +30,7 @@ const entry: TuyaDeviceEntry = {
       timerUsbInSeconds: {
         dataPoint: "10",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -36,14 +38,15 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           { raw: "power_off", value: "off" },
           { raw: "power_on", value: "on" },
           { raw: "last", value: "memory" },
         ],
       },
-      childLock: { dataPoint: "41", kind: "switch" },
-      autoOff: { dataPoint: "44", kind: "switch" },
+      childLock: { dataPoint: "41", kind: "switch", category: "config" },
+      autoOff: { dataPoint: "44", kind: "switch", category: "config" },
     },
   },
   source: {

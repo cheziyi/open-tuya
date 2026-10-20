@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pedestal 7 speed fan",
-  productKeys: ["qdxgvuj2ncbx5aha"],
+  products: [
+    {
+      productKey: "qdxgvuj2ncbx5aha",
+      manufacturer: "NEW WIDETECH",
+      model: "WPF-16SW5",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer" },

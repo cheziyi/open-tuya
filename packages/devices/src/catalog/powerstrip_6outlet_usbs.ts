@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "6 outlet + 4 USB power strip",
-  productKeys: ["2fcngzxvsivfzhzj"],
+  products: [
+    { productKey: "2fcngzxvsivfzhzj", manufacturer: "ACME", model: "SH3305" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },

@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Light dimmer",
-  productKeys: ["v9aw2m4jafh08ahe", "yv6mex3wufrtn0eo"],
+  products: [
+    { productKey: "v9aw2m4jafh08ahe", model: "S1-B" },
+    { productKey: "yv6mex3wufrtn0eo", model: "Smart-Dim" },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -30,17 +33,18 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       brightness: { dataPoint: "22", kind: "number", min: 10, max: 1000 },
-      scene: { dataPoint: "25", kind: "text" },
+      scene: { dataPoint: "25", kind: "text", category: "config" },
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,
       },
-      music: { dataPoint: "27", kind: "text" },
-      control: { dataPoint: "28", kind: "text" },
-      debug: { dataPoint: "29", kind: "text" },
+      music: { dataPoint: "27", kind: "text", category: "config" },
+      control: { dataPoint: "28", kind: "text", category: "config" },
+      debug: { dataPoint: "29", kind: "text", category: "config" },
     },
   },
   source: {

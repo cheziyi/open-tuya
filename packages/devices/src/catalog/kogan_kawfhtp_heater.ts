@@ -5,7 +5,19 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Panel heater",
-  productKeys: ["ynjanlglr4qa6dxf", "n72zzd550zyw8qte"],
+  products: [
+    {
+      productKey: "ynjanlglr4qa6dxf",
+      manufacturer: "Kogan / Goldair",
+      model: "Glass panel heater",
+      modelId: "NPH-2000G-WIFI / GPCV340",
+    },
+    {
+      productKey: "n72zzd550zyw8qte",
+      manufacturer: "Cecotec",
+      model: "Ready Warm 6750 Crystal Connection",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -47,10 +59,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "High", value: "boost" },
         ],
       },
-      childLock: { dataPoint: "2", kind: "switch" },
+      childLock: { dataPoint: "2", kind: "switch", category: "config" },
       timerInMinutes: {
         dataPoint: "5",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,

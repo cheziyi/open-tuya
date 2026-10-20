@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Smart planter",
-  productKeys: ["8n3q0y4cwov8ifxt"],
+  products: [
+    { productKey: "8n3q0y4cwov8ifxt", manufacturer: "PlantsIO", model: "Ivy" },
+  ],
   dataPoints: {
     "101": { type: "integer" },
     "102": { type: "boolean" },
@@ -49,6 +51,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "sensor",
         measures: "volumeStorage",
+        reading: "instant",
         readOnly: true,
         unit: "mL",
       },
@@ -57,6 +60,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "illuminance",
+        reading: "instant",
         readOnly: true,
         unit: "lx",
       },
@@ -64,6 +68,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -72,6 +77,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -79,6 +85,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "122",
         kind: "sensor",
         measures: "moisture",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -173,12 +180,19 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "sensor",
         measures: "batteryCharging",
+        category: "diagnostic",
         readOnly: true,
       },
-      plantInPot: { dataPoint: "102", kind: "sensor", readOnly: true },
+      plantInPot: {
+        dataPoint: "102",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       temperatureUnit: {
         dataPoint: "130",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "C" },
           { raw: true, value: "F" },
@@ -187,6 +201,7 @@ const entry: TuyaDeviceEntry = {
       color: {
         dataPoint: "113",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "White" },
           { raw: 1, value: "Yellow" },
@@ -198,6 +213,7 @@ const entry: TuyaDeviceEntry = {
       plantType: {
         dataPoint: "119",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "Not selected" },
           { raw: 1, value: "Devil's Ivy" },
@@ -247,32 +263,50 @@ const entry: TuyaDeviceEntry = {
           { raw: 45, value: "Cilantro" },
         ],
       },
-      touchPerception: { dataPoint: "110", kind: "switch" },
-      touchPerceptionTouching: { dataPoint: "111", kind: "text" },
-      autoBrightness: { dataPoint: "135", kind: "switch" },
+      touchPerception: { dataPoint: "110", kind: "switch", category: "config" },
+      touchPerceptionTouching: {
+        dataPoint: "111",
+        kind: "text",
+        category: "config",
+      },
+      autoBrightness: { dataPoint: "135", kind: "switch", category: "config" },
       soundPerception: {
         dataPoint: "125",
         kind: "switch",
+        category: "config",
         values: [{ raw: false }],
       },
-      soundSensitivity: { dataPoint: "115", kind: "number", min: 0, max: 100 },
-      plantDetection: { dataPoint: "123", kind: "switch" },
-      plantDetectionSensitivity: {
-        dataPoint: "116",
+      soundSensitivity: {
+        dataPoint: "115",
         kind: "number",
+        category: "config",
         min: 0,
         max: 100,
       },
-      nightSleep: { dataPoint: "131", kind: "switch" },
+      plantDetection: { dataPoint: "123", kind: "switch", category: "config" },
+      plantDetectionSensitivity: {
+        dataPoint: "116",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
+      nightSleep: { dataPoint: "131", kind: "switch", category: "config" },
       smartSleep: {
         dataPoint: "132",
         kind: "switch",
+        category: "config",
         values: [{ raw: false }],
       },
-      manualCalibration: { dataPoint: "124", kind: "button" },
+      manualCalibration: {
+        dataPoint: "124",
+        kind: "button",
+        category: "config",
+      },
       timeFormat: {
         dataPoint: "136",
         kind: "select",
+        category: "config",
         values: [
           { raw: false, value: "12_hour" },
           { raw: true, value: "24_hour" },
@@ -281,6 +315,7 @@ const entry: TuyaDeviceEntry = {
       language: {
         dataPoint: "144",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "chinese" },
           { raw: 1, value: "english" },
@@ -288,10 +323,11 @@ const entry: TuyaDeviceEntry = {
           { raw: 3, value: "french" },
         ],
       },
-      locationWeather: { dataPoint: "141", kind: "switch" },
+      locationWeather: { dataPoint: "141", kind: "switch", category: "config" },
       latitude: {
         dataPoint: "143",
         kind: "number",
+        category: "config",
         min: -900000,
         max: 900000,
         scale: 10000,
@@ -299,13 +335,20 @@ const entry: TuyaDeviceEntry = {
       longitude: {
         dataPoint: "142",
         kind: "number",
+        category: "config",
         min: -1800000,
         max: 1800000,
         scale: 10000,
       },
     },
     display: {
-      brightness: { dataPoint: "101", kind: "number", min: 0, max: 100 },
+      brightness: {
+        dataPoint: "101",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
     },
   },
   source: {

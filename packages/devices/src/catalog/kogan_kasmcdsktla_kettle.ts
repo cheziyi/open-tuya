@@ -5,7 +5,19 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Kettle",
-  productKeys: ["7occ66lr74vfznwt", "7occ66lr74vfznwt"],
+  products: [
+    {
+      productKey: "7occ66lr74vfznwt",
+      manufacturer: "Kogan",
+      model: "Double wall 1.7L glass kettle",
+      modelId: "KASMCDSKTLA",
+    },
+    {
+      productKey: "7occ66lr74vfznwt",
+      manufacturer: "Kogan",
+      model: "GK2009CT",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -67,12 +79,18 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "10", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "10",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

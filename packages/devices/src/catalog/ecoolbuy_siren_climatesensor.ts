@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Siren",
-  productKeys: ["eISESdwVoVIV3axj"],
+  products: [
+    {
+      productKey: "eISESdwVoVIV3axj",
+      manufacturer: "ECoolBuy",
+      model: "Siren with Temperature and Humidity sensor",
+    },
+  ],
   dataPoints: {
     "101": { type: "string" },
     "102": { type: "string" },
@@ -82,6 +88,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -89,6 +96,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -96,6 +105,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -20,
         max: 80,
@@ -104,6 +114,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "108",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: -20,
         max: 80,
@@ -112,6 +123,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "number",
         measures: "humidity",
+        category: "config",
         unit: "%",
         min: 1,
         max: 100,
@@ -120,6 +132,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "number",
         measures: "humidity",
+        category: "config",
         unit: "%",
         min: 1,
         max: 100,
@@ -127,13 +140,18 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "112",
         kind: "select",
+        category: "config",
         values: [
           { raw: true, value: "C" },
           { raw: false, value: "F" },
         ],
       },
-      temperatureAlarm: { dataPoint: "113", kind: "switch" },
-      humidityAlarm: { dataPoint: "114", kind: "switch" },
+      temperatureAlarm: {
+        dataPoint: "113",
+        kind: "switch",
+        category: "config",
+      },
+      humidityAlarm: { dataPoint: "114", kind: "switch", category: "config" },
       alarm: {
         dataPoint: "115",
         kind: "event",

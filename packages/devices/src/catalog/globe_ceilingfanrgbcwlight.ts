@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["twyyic5gptzkhbav"],
+  products: [
+    { productKey: "twyyic5gptzkhbav", manufacturer: "Globe", model: "27109-U" },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -34,10 +36,11 @@ const entry: TuyaDeviceEntry = {
       },
       speed: { dataPoint: "105", kind: "number", min: 1, max: 6 },
       direction: { dataPoint: "104", kind: "text" },
-      doNotDisturb: { dataPoint: "34", kind: "switch" },
+      doNotDisturb: { dataPoint: "34", kind: "switch", category: "config" },
       lightTimerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -45,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       fanTimerInSeconds: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

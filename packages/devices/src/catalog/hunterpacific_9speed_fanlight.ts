@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan with light",
-  productKeys: ["agjbamgmrbcbazp7"],
+  products: [
+    {
+      productKey: "agjbamgmrbcbazp7",
+      manufacturer: "Hunter Pacific",
+      model: "9 speed",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "22": { type: "integer" },

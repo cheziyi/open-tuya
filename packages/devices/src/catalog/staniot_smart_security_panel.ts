@@ -5,7 +5,19 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Security panel",
-  productKeys: ["7gscfzq34lyzura8", "du5wifdsr8btglrl", "rgzon3q7jntx1brf"],
+  products: [
+    { productKey: "7gscfzq34lyzura8", manufacturer: "Staniot", model: "H700" },
+    {
+      productKey: "du5wifdsr8btglrl",
+      manufacturer: "Staniot",
+      model: "H700_TP V2.0 CB3S",
+    },
+    {
+      productKey: "rgzon3q7jntx1brf",
+      manufacturer: "Staniot",
+      model: "XA-H502",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -42,6 +54,7 @@ const entry: TuyaDeviceEntry = {
       exitDelayInSeconds: {
         dataPoint: "2",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 181,
@@ -49,26 +62,29 @@ const entry: TuyaDeviceEntry = {
       alarmSirenDurationInMinutes: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 31,
       },
-      localAlarm: { dataPoint: "4", kind: "switch" },
+      localAlarm: { dataPoint: "4", kind: "switch", category: "config" },
       systemVolumeInSeconds: {
         dataPoint: "5",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 9,
       },
-      sirenAlarm: { dataPoint: "6", kind: "switch" },
-      sirenSound: { dataPoint: "10", kind: "switch" },
-      delayedSound: { dataPoint: "11", kind: "switch" },
-      voiceGuide: { dataPoint: "13", kind: "switch" },
+      sirenAlarm: { dataPoint: "6", kind: "switch", category: "config" },
+      sirenSound: { dataPoint: "10", kind: "switch", category: "config" },
+      delayedSound: { dataPoint: "11", kind: "switch", category: "config" },
+      voiceGuide: { dataPoint: "13", kind: "switch", category: "config" },
       plug: {
         dataPoint: "15",
         kind: "sensor",
         measures: "plugged",
+        category: "diagnostic",
         readOnly: true,
       },
       batteryInPercent: {
@@ -80,11 +96,20 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 100,
       },
-      doorbellNotification: { dataPoint: "17", kind: "switch" },
-      callAlarmNotification: { dataPoint: "20", kind: "switch" },
+      doorbellNotification: {
+        dataPoint: "17",
+        kind: "switch",
+        category: "config",
+      },
+      callAlarmNotification: {
+        dataPoint: "20",
+        kind: "switch",
+        category: "config",
+      },
       telephoneState: {
         dataPoint: "23",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "normal", value: "normal" },
@@ -99,11 +124,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "signal_level_5", value: "signal level 5" },
         ],
       },
-      alarmNotification: { dataPoint: "27", kind: "switch" },
-      keytone: { dataPoint: "29", kind: "switch" },
+      alarmNotification: {
+        dataPoint: "27",
+        kind: "switch",
+        category: "config",
+      },
+      keytone: { dataPoint: "29", kind: "switch", category: "config" },
       doorbellVolumeInSeconds: {
         dataPoint: "30",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 9,
@@ -111,6 +141,7 @@ const entry: TuyaDeviceEntry = {
       language: {
         dataPoint: "40",
         kind: "select",
+        category: "config",
         values: [
           { raw: "english", value: "english" },
           { raw: "german", value: "german" },

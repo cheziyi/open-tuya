@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Smart alarm siren",
-  productKeys: ["rtbaqdh2io1pmn19"],
+  products: [{ productKey: "rtbaqdh2io1pmn19" }],
   dataPoints: {
     "105": { type: "integer" },
     "106": { type: "boolean" },
@@ -44,16 +44,28 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 5,
         max: 180,
       },
-      light: { dataPoint: "106", kind: "switch" },
-      learningMode: { dataPoint: "111", kind: "sensor", readOnly: true },
-      remoteControl: { dataPoint: "112", kind: "sensor", readOnly: true },
+      light: { dataPoint: "106", kind: "switch", category: "config" },
+      learningMode: {
+        dataPoint: "111",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      remoteControl: {
+        dataPoint: "112",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       alarmDisplayPush: {
         dataPoint: "114",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "ACA=", value: true }],
         otherwise: false,
@@ -61,6 +73,7 @@ const entry: TuyaDeviceEntry = {
       tamperAlarm: {
         dataPoint: "117",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "1", value: true },
@@ -73,6 +86,7 @@ const entry: TuyaDeviceEntry = {
       powerDownAlarm: {
         dataPoint: "118",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "1", value: true },
@@ -82,20 +96,27 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: true,
       },
-      deleteUserData: { dataPoint: "119", kind: "sensor", readOnly: true },
+      deleteUserData: {
+        dataPoint: "119",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       alarmVolume: {
         dataPoint: "120",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "low" },
           { raw: "2", value: "middle" },
           { raw: "3", value: "high" },
         ],
       },
-      sound: { dataPoint: "121", kind: "switch" },
+      sound: { dataPoint: "121", kind: "switch", category: "config" },
       alarmMessagePush: {
         dataPoint: "122",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "ACA=", value: true }],
         otherwise: false,
@@ -103,6 +124,7 @@ const entry: TuyaDeviceEntry = {
       armingMessagePush: {
         dataPoint: "123",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "ACA=", value: true }],
         otherwise: false,
@@ -110,6 +132,7 @@ const entry: TuyaDeviceEntry = {
       armingAtHomeMessagePush: {
         dataPoint: "124",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "ACA=", value: true }],
         otherwise: false,
@@ -117,6 +140,7 @@ const entry: TuyaDeviceEntry = {
       disarmMessagePush: {
         dataPoint: "125",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "ACA=", value: true }],
         otherwise: false,
@@ -124,14 +148,16 @@ const entry: TuyaDeviceEntry = {
       accesoriesLowPowerPush: {
         dataPoint: "126",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "ACA=", value: true }],
         otherwise: false,
       },
-      alarm: { dataPoint: "127", kind: "switch" },
+      alarm: { dataPoint: "127", kind: "switch", category: "config" },
       doorbell: {
         dataPoint: "128",
         kind: "event",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "ACA=", value: "ring" }],
         otherwise: null,

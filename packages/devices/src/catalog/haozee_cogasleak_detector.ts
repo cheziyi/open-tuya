@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Gas and CO detector",
-  productKeys: ["piuvzdlag3zsiqjk", "zbuq0bto5szi53cw"],
+  products: [
+    { productKey: "piuvzdlag3zsiqjk", manufacturer: "Haozee" },
+    { productKey: "zbuq0bto5szi53cw", manufacturer: "Haozee" },
+  ],
   dataPoints: {
     "18": { type: "boolean", optional: true },
     "19": { type: "string", optional: true },
@@ -25,10 +28,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     device: {
-      selfCheck: { dataPoint: "18", kind: "button" },
+      selfCheck: { dataPoint: "18", kind: "button", category: "config" },
       selfCheckResult: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "checking", value: "Checking" },
@@ -41,18 +45,25 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "cold",
+        category: "diagnostic",
         readOnly: true,
       },
       fault: {
         dataPoint: "21",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "21", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "21",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       muteAlarm: { dataPoint: "24", kind: "button" },
       gas: {
         dataPoint: "25",
@@ -65,6 +76,7 @@ const entry: TuyaDeviceEntry = {
       gasInPpm: {
         dataPoint: "26",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "ppm",
         scale: 10,
@@ -72,6 +84,7 @@ const entry: TuyaDeviceEntry = {
       alarmState: {
         dataPoint: "29",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "alarm_sound", value: "Sound" },
@@ -92,6 +105,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "35",
         kind: "sensor",
         measures: "carbonMonoxide",
+        reading: "instant",
         readOnly: true,
         unit: "ppm",
         scale: 10,
@@ -100,6 +114,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 1,
         max: 30,
@@ -107,6 +122,7 @@ const entry: TuyaDeviceEntry = {
       earlyWarnings: {
         dataPoint: "102",
         kind: "number",
+        category: "config",
         unit: "times",
         min: 1,
         max: 5,

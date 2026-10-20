@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["wfkzyy0evslzsmoi"],
+  products: [
+    {
+      productKey: "wfkzyy0evslzsmoi",
+      manufacturer: "Cleverio",
+      model: "PF100",
+    },
+  ],
   dataPoints: {
     "1": { type: "base64" },
     "3": { type: "integer" },
@@ -26,6 +32,7 @@ const entry: TuyaDeviceEntry = {
       ecoMode: {
         dataPoint: "103",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "real_time_mode", value: false },
@@ -35,34 +42,49 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: true,
       },
-      mealPlan: { dataPoint: "1", kind: "text" },
-      factoryReset: { dataPoint: "9", kind: "button" },
+      mealPlan: { dataPoint: "1", kind: "text", category: "config" },
+      factoryReset: { dataPoint: "9", kind: "button", category: "config" },
       batteryInPercent: {
         dataPoint: "11",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      batteryCapacity: { dataPoint: "116", kind: "sensor", readOnly: true },
+      batteryCapacity: {
+        dataPoint: "116",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       batteryCharging: {
         dataPoint: "12",
         kind: "sensor",
         measures: "batteryCharging",
+        category: "diagnostic",
         readOnly: true,
       },
       fault: {
         dataPoint: "14",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "14", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "14",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "14",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -75,6 +97,7 @@ const entry: TuyaDeviceEntry = {
       lastFeedInPortions: {
         dataPoint: "15",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "portions",
       },
@@ -82,6 +105,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "plugged",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "no_adapter", value: false }],
         otherwise: true,
@@ -90,6 +114,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "power",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "ac_power_on", value: true }],
         otherwise: false,
@@ -97,13 +122,14 @@ const entry: TuyaDeviceEntry = {
       volumeInPercent: {
         dataPoint: "112",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 3,
         scale: 0.03,
       },
     },
-    indicator: { on: { dataPoint: "19", kind: "switch" } },
+    indicator: { on: { dataPoint: "19", kind: "switch", category: "config" } },
   },
   source: {
     file: "cleverio_pf100_petfeeder.yaml",

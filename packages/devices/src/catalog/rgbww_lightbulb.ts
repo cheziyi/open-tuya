@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "RGB warm white light",
-  productKeys: ["hpaeslvkx4znwzae", "8cr0olwf9sphi0u4"],
+  products: [
+    { productKey: "hpaeslvkx4znwzae", model: "A60 RGB 1800-2700K" },
+    { productKey: "8cr0olwf9sphi0u4", manufacturer: "Feit" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string", optional: true },

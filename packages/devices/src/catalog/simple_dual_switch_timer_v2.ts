@@ -5,13 +5,29 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dual switch with timers",
-  productKeys: [
-    "7c35xxu0foeqpdka",
-    "grnoiynjhh18aa15",
-    "ih9byh68mvrqwwdq",
-    "ph1joc22",
-    "keya4gvchmtapm8n",
-    "micm3wv9dxfzrvrr",
+  products: [
+    {
+      productKey: "7c35xxu0foeqpdka",
+      manufacturer: "BlitzWolf",
+      model: "BW-SS5",
+    },
+    {
+      productKey: "grnoiynjhh18aa15",
+      manufacturer: "Deta",
+      model: "6922HA Series 3",
+    },
+    { productKey: "ih9byh68mvrqwwdq", model: "W-W602" },
+    {
+      productKey: "ph1joc22",
+      manufacturer: "Moes House",
+      model: "Dual Zigbee Socket",
+    },
+    {
+      productKey: "keya4gvchmtapm8n",
+      manufacturer: "LSC Smart Connect",
+      model: "Garden Spike",
+    },
+    { productKey: "micm3wv9dxfzrvrr", manufacturer: "Oneplug" },
   ],
   dataPoints: {
     "1": { type: "boolean" },
@@ -32,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       timer1InSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -39,6 +56,7 @@ const entry: TuyaDeviceEntry = {
       timer2InSeconds: {
         dataPoint: "10",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -46,6 +64,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -65,6 +84,7 @@ const entry: TuyaDeviceEntry = {
       initialStateAlt: {
         dataPoint: "27",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },
@@ -74,6 +94,7 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "40",
         kind: "select",
+        category: "config",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
@@ -84,10 +105,11 @@ const entry: TuyaDeviceEntry = {
       childLock: {
         dataPoint: "41",
         kind: "switch",
+        category: "config",
         whenAbsent: { redirect: { dataPoint: "29" } },
       },
-      childLockAlt: { dataPoint: "29", kind: "switch" },
-      inching: { dataPoint: "44", kind: "text" },
+      childLockAlt: { dataPoint: "29", kind: "switch", category: "config" },
+      inching: { dataPoint: "44", kind: "text", category: "config" },
     },
   },
   source: {

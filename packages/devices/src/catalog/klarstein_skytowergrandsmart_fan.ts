@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air cooler",
-  productKeys: ["rlphjc5nzs3v5xdt"],
+  products: [
+    {
+      productKey: "rlphjc5nzs3v5xdt",
+      manufacturer: "Klarstein",
+      model: "Skytower Grand Smart",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -41,6 +47,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "close", value: "cancel" },
           { raw: "1H", value: "1h" },
@@ -59,12 +66,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
       },
       purifier: {
         dataPoint: "102",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
       },
     },

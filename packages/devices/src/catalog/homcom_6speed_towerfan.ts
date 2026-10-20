@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Tower fan",
-  productKeys: ["7bztlaxoebmgqgxg"],
+  products: [
+    {
+      productKey: "7bztlaxoebmgqgxg",
+      manufacturer: "HomCom",
+      model: "824-147V90",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -51,6 +57,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "6",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -71,11 +78,12 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
     },
-    display: { on: { dataPoint: "101", kind: "switch" } },
+    display: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "homcom_6speed_towerfan.yaml",

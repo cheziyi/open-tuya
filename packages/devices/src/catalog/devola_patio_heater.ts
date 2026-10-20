@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Devola patio heater",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -99,10 +99,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "f", value: "F" },
         ],
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       powerLevelInPercent: {
         dataPoint: "5",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
         values: [
@@ -112,10 +113,16 @@ const entry: TuyaDeviceEntry = {
           { raw: "4", value: 100 },
         ],
       },
-      mode: { dataPoint: "4", kind: "sensor", readOnly: true },
+      mode: {
+        dataPoint: "4",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       timerInMinutes: {
         dataPoint: "12",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,

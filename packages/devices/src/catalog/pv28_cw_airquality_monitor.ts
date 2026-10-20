@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "8 in 1 air quality",
-  productKeys: ["yrr3eiyiacm31ski"],
+  products: [{ productKey: "yrr3eiyiacm31ski", model: "PV28-CW" }],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -32,6 +32,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "carbonDioxide",
+        reading: "instant",
         readOnly: true,
         unit: "ppm",
       },
@@ -51,11 +52,13 @@ const entry: TuyaDeviceEntry = {
       alarmSwitch: {
         dataPoint: "13",
         kind: "switch",
+        category: "config",
         values: [{ raw: true }, { raw: false }],
       },
       powerState: {
         dataPoint: "14",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "normal", value: "battery" },
@@ -66,6 +69,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "15",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -73,6 +78,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
@@ -80,6 +86,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -87,6 +94,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
@@ -94,6 +102,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "volatileOrganicCompounds",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
         step: 1,
@@ -102,6 +111,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "volatileOrganicCompounds",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
         step: 1,
@@ -109,6 +119,7 @@ const entry: TuyaDeviceEntry = {
       co2AlarmThresholdInPpm: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "ppm",
         min: 800,
         max: 2000,
@@ -117,6 +128,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "31",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -126,6 +138,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "pm10",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
@@ -133,12 +146,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "pm1",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
       pm25AlarmThresholdInUgPerM3: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "ugm3",
         min: 15,
         max: 75,
@@ -160,11 +175,13 @@ const entry: TuyaDeviceEntry = {
       screenTimeout: {
         dataPoint: "108",
         kind: "switch",
+        category: "config",
         values: [{ raw: true }, { raw: false }],
       },
       timeoutPeriodInSeconds: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 10,
         max: 300,

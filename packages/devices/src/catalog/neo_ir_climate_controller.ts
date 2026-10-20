@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "IR climate control",
-  productKeys: ["fnc1jft20tlgnxdj"],
+  products: [
+    { productKey: "fnc1jft20tlgnxdj", manufacturer: "Shenzhen Neo Smart" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -111,17 +113,24 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "6", kind: "sensor", readOnly: true },
-      filterReset: { dataPoint: "7", kind: "button" },
+      faultCode: {
+        dataPoint: "6",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      filterReset: { dataPoint: "7", kind: "button", category: "config" },
       filterLifeInHours: {
         dataPoint: "8",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
       },
@@ -129,6 +138,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unitFrom: "maximumTemperatureUnit",
         min: 20,
         max: 40,
@@ -147,6 +157,7 @@ const entry: TuyaDeviceEntry = {
       maximumTemperatureUnit: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -156,6 +167,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unitFrom: "minimumTemperatureUnit",
         min: 5,
         max: 20,
@@ -174,12 +186,13 @@ const entry: TuyaDeviceEntry = {
       minimumTemperatureUnit: {
         dataPoint: "11",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
         ],
       },
-      childLock: { dataPoint: "101", kind: "switch" },
+      childLock: { dataPoint: "101", kind: "switch", category: "config" },
     },
   },
   source: {

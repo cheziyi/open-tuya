@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Hydroponic system",
-  productKeys: ["prrqdilbrficdp1c"],
+  products: [
+    {
+      productKey: "prrqdilbrficdp1c",
+      manufacturer: "idoo",
+      model: "Smart Bloom 8",
+      modelId: "ID-IG307S",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -31,6 +38,7 @@ const entry: TuyaDeviceEntry = {
       lightOnInHours: {
         dataPoint: "102",
         kind: "number",
+        category: "config",
         unit: "h",
         min: 0,
         max: 23,
@@ -38,6 +46,7 @@ const entry: TuyaDeviceEntry = {
       lightOnInMinutes: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 59,
@@ -45,6 +54,7 @@ const entry: TuyaDeviceEntry = {
       lightOffInHours: {
         dataPoint: "112",
         kind: "number",
+        category: "config",
         unit: "h",
         min: 0,
         max: 23,
@@ -52,6 +62,7 @@ const entry: TuyaDeviceEntry = {
       lightOffInMinutes: {
         dataPoint: "113",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 59,
@@ -59,6 +70,7 @@ const entry: TuyaDeviceEntry = {
       wateringOnInMinutes: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 10,
         max: 1440,
@@ -67,15 +79,22 @@ const entry: TuyaDeviceEntry = {
       wateringOffInMinutes: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 10,
         max: 1440,
         step: 10,
       },
-      sleep: { dataPoint: "107", kind: "switch", whenAbsent: { value: false } },
+      sleep: {
+        dataPoint: "107",
+        kind: "switch",
+        category: "config",
+        whenAbsent: { value: false },
+      },
       plantType: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Fruits", value: "Fruit" },
           { raw: "vegetables", value: "Vegetable" },
@@ -85,18 +104,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "sensor",
         measures: "light",
+        category: "diagnostic",
         readOnly: true,
       },
       watering: {
         dataPoint: "110",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
       },
       fan: {
         dataPoint: "111",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
       },
     },

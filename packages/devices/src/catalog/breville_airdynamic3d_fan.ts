@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air circulator",
-  productKeys: ["wpkdomrtayuzuqvc"],
+  products: [
+    {
+      productKey: "wpkdomrtayuzuqvc",
+      manufacturer: "Breville",
+      model: "AirDynamic 3D",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -34,17 +40,23 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       oscillating: { dataPoint: "5", kind: "switch" },
-      verticalOscillation: { dataPoint: "4", kind: "switch" },
+      verticalOscillation: {
+        dataPoint: "4",
+        kind: "switch",
+        category: "config",
+      },
       temperatureInC: {
         dataPoint: "21",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
       timer: {
         dataPoint: "22",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -65,6 +77,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -72,11 +85,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "24",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "24", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "24",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

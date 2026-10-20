@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "mmWave presence sensor",
-  productKeys: ["wcd9lxpvhfvqx1qw"],
+  products: [
+    {
+      productKey: "wcd9lxpvhfvqx1qw",
+      manufacturer: "Wenzhi",
+      model: "WZ-M100-W",
+    },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -32,10 +38,17 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: true,
       },
-      sensitivity: { dataPoint: "2", kind: "number", min: 0, max: 9 },
+      sensitivity: {
+        dataPoint: "2",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 9,
+      },
       minimumDistanceInM: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "m",
         min: 0,
         max: 1000,
@@ -45,6 +58,7 @@ const entry: TuyaDeviceEntry = {
       maximumDistanceInM: {
         dataPoint: "4",
         kind: "number",
+        category: "config",
         unit: "m",
         min: 0,
         max: 1000,
@@ -55,6 +69,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "sensor",
         measures: "distance",
+        reading: "instant",
         readOnly: true,
         unit: "m",
         scale: 100,
@@ -63,6 +78,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "illuminance",
+        reading: "instant",
         readOnly: true,
         unit: "lx",
         scale: 10,
@@ -71,6 +87,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         scale: 10,
       },
@@ -78,6 +95,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         scale: 10,
       },
@@ -85,6 +103,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         scale: 10,
       },

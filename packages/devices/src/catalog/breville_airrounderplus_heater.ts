@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Purifier heater",
-  productKeys: ["h8fjsjf8tbhdm6aw"],
+  products: [
+    {
+      productKey: "h8fjsjf8tbhdm6aw",
+      manufacturer: "Breville",
+      model: "AirRounder Plus",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -137,10 +143,11 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -156,6 +163,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -163,28 +171,38 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "23",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "23", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "23",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       filterLifeInMinutes: {
         dataPoint: "102",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      filterReset: { dataPoint: "103", kind: "button" },
+      filterReset: { dataPoint: "103", kind: "button", category: "config" },
       aqi: {
         dataPoint: "104",
         kind: "sensor",
         measures: "aqi",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
       },
       airQuality: {
         dataPoint: "105",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "0", value: "excellent" },
@@ -194,7 +212,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    light: { on: { dataPoint: "10", kind: "switch" } },
+    light: { on: { dataPoint: "10", kind: "switch", category: "config" } },
   },
   source: {
     file: "breville_airrounderplus_heater.yaml",

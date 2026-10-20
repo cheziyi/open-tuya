@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan with light",
-  productKeys: ["zfwgeelmqcypcdgh"],
+  products: [
+    {
+      productKey: "zfwgeelmqcypcdgh",
+      manufacturer: "Orison",
+      model: "Chanfok Neo",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -36,10 +42,11 @@ const entry: TuyaDeviceEntry = {
       },
       speed: { dataPoint: "105", kind: "number", min: 1, max: 6 },
       direction: { dataPoint: "104", kind: "text" },
-      lights: { dataPoint: "20", kind: "switch" },
+      lights: { dataPoint: "20", kind: "switch", category: "config" },
       lightTimerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -48,14 +55,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 540,
       },
-      keytone: { dataPoint: "101", kind: "switch" },
+      keytone: { dataPoint: "101", kind: "switch", category: "config" },
       scene: {
         dataPoint: "36",
         kind: "select",
+        category: "config",
         type: "string",
         values: [
           { raw: "AAABAQIODQAAyAAAAAA=", value: "night" },
@@ -233,7 +242,7 @@ const entry: TuyaDeviceEntry = {
         max: 65535,
       },
     },
-    nightlight: { on: { dataPoint: "53", kind: "switch" } },
+    nightlight: { on: { dataPoint: "53", kind: "switch", category: "config" } },
   },
   source: {
     file: "orison_chanfok_neo_fan_light.yaml",

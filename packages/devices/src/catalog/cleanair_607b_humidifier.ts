@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["mbmxoj7lkhfpwk2g"],
+  products: [
+    {
+      productKey: "mbmxoj7lkhfpwk2g",
+      manufacturer: "Clean Air Optima",
+      model: "CA-607B",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "string" },
@@ -64,12 +70,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
       },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -86,21 +95,28 @@ const entry: TuyaDeviceEntry = {
           { raw: "12h", value: "12h" },
         ],
       },
-      uvSterilization: { dataPoint: "21", kind: "switch" },
+      uvSterilization: { dataPoint: "21", kind: "switch", category: "config" },
       tankEmpty: {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
       },
-      tankEmptyFaultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
-      ionizer: { dataPoint: "25", kind: "switch" },
-      heat: { dataPoint: "26", kind: "switch" },
+      tankEmptyFaultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      ionizer: { dataPoint: "25", kind: "switch", category: "config" },
+      heat: { dataPoint: "26", kind: "switch", category: "config" },
       filterLifeInPercent: {
         dataPoint: "33",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -108,6 +124,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
       },
     },

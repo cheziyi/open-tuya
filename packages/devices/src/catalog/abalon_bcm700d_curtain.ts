@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain rail motor",
-  productKeys: ["XS76BY5Q1uKO6gjC", "p1fiefpamvaqek4u"],
+  products: [
+    {
+      productKey: "XS76BY5Q1uKO6gjC",
+      manufacturer: "Abalon",
+      model: "BCM700D",
+    },
+    { productKey: "p1fiefpamvaqek4u", manufacturer: "Quoya", model: "QL500" },
+  ],
   dataPoints: {
     "101": { type: "integer" },
     "102": { type: "string" },
@@ -24,7 +31,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "STOP", value: "stop" },
         ],
       },
-      reverse: { dataPoint: "103", kind: "switch" },
+      reverse: { dataPoint: "103", kind: "switch", category: "config" },
     },
   },
   source: {

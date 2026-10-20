@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "EV charger",
-  productKeys: ["7bvgooyjhiua1yyq"],
+  products: [
+    { productKey: "7bvgooyjhiua1yyq", manufacturer: "Kolanky / Goodcell" },
+  ],
   dataPoints: {
     "3": { type: "string", optional: true },
     "10": { type: "bitfield" },
@@ -43,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       chargingOperation: {
         dataPoint: "124",
         kind: "select",
+        category: "config",
         values: [
           { raw: "OpenCharging", value: "Start charging" },
           { raw: "CloseCharging", value: "Stop charging" },
@@ -53,6 +56,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "114",
         kind: "number",
         measures: "current",
+        category: "config",
         unit: "A",
         min: 6,
         max: 16,
@@ -78,6 +82,7 @@ const entry: TuyaDeviceEntry = {
       chargeCurrentValueAltInA: {
         dataPoint: "115",
         kind: "number",
+        category: "config",
         unit: "A",
         min: 8,
         max: 32,
@@ -85,6 +90,7 @@ const entry: TuyaDeviceEntry = {
       chargeCurrentMaxCurrent: {
         dataPoint: "113",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Max16A", value: "Max16A" },
           { raw: "Max32A", value: "Max32A" },
@@ -94,6 +100,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "118",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 0,
         max: 15,
@@ -102,6 +109,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "112",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 10,
@@ -110,6 +118,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
       },
@@ -117,6 +127,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "A",
         scale: 10,
@@ -125,6 +137,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "kW",
         scale: 10,
@@ -133,6 +147,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -140,6 +156,7 @@ const entry: TuyaDeviceEntry = {
       chargingDurationInHours: {
         dataPoint: "119",
         kind: "number",
+        category: "config",
         unit: "h",
         min: 0,
         max: 15,
@@ -156,11 +173,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "10", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "10",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

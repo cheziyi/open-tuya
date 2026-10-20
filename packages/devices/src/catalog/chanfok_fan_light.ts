@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["tvtzgei8bgaezsvi", "ai0giftld7pr1wbv"],
+  products: [
+    {
+      productKey: "tvtzgei8bgaezsvi",
+      manufacturer: "Chanfok",
+      model: "JST-DC-WYfen",
+    },
+    {
+      productKey: "ai0giftld7pr1wbv",
+      manufacturer: "Siguro",
+      model: "SGR-FL-C100W",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string", optional: true },
@@ -33,11 +44,12 @@ const entry: TuyaDeviceEntry = {
       },
       speed: { dataPoint: "62", kind: "number", min: 1, max: 6 },
       direction: { dataPoint: "63", kind: "text" },
-      sound: { dataPoint: "66", kind: "switch" },
+      sound: { dataPoint: "66", kind: "switch", category: "config" },
       timerInMinutes: {
         dataPoint: "64",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 480,

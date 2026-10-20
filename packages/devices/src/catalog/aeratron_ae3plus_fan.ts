@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["iarwcyttkv1kvent", "vtaucfkambrcpqgi"],
+  products: [
+    { productKey: "iarwcyttkv1kvent", manufacturer: "Aeratron", model: "AE3+" },
+    {
+      productKey: "vtaucfkambrcpqgi",
+      manufacturer: "XCWIIE",
+      model: "82inch ceiling fan with light",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "integer", optional: true },
@@ -50,6 +57,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "TimeOff", value: "cancel" },
           { raw: "1H", value: "1h" },

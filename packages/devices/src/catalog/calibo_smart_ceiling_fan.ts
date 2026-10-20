@@ -5,7 +5,25 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan with light",
-  productKeys: ["78m2fjtcj26yab5a", "bczathc5udcd58ec", "12giv5ur6oye6kbo"],
+  products: [
+    {
+      productKey: "78m2fjtcj26yab5a",
+      manufacturer: "Calibo",
+      model: "Cloudfan DC",
+    },
+    {
+      productKey: "bczathc5udcd58ec",
+      manufacturer: "Faro Barcelona",
+      model: "Punt Tub",
+      modelId: "33829WT-1TW",
+    },
+    {
+      productKey: "12giv5ur6oye6kbo",
+      manufacturer: "Mowe",
+      model: "Atlas 36 Smart Ceiling Fan",
+      modelId: "MW368F",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pool heat pump",
-  productKeys: ["5xe6dkfmdafvrasa"],
+  products: [
+    {
+      productKey: "5xe6dkfmdafvrasa",
+      manufacturer: "Waterco",
+      model: "Electroheat ECO-VS 11-40kW",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "string" },
@@ -106,6 +112,7 @@ const entry: TuyaDeviceEntry = {
       powerLevelInPercent: {
         dataPoint: "109",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -113,12 +120,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "112",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unitFrom: "externalCoilTemperatureUnit",
       },
       externalCoilTemperatureUnit: {
         dataPoint: "106",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "f", value: "F" },
@@ -129,12 +139,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unitFrom: "exhaustTemperatureUnit",
       },
       exhaustTemperatureUnit: {
         dataPoint: "106",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "f", value: "F" },
@@ -145,6 +158,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "114",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unitFrom: "outletTemperatureUnit",
         scale: 10,
@@ -152,6 +167,7 @@ const entry: TuyaDeviceEntry = {
       outletTemperatureUnit: {
         dataPoint: "106",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "f", value: "F" },
@@ -162,6 +178,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "115",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unitFrom: "ambientTemperatureUnit",
       },
@@ -178,12 +195,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "118",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unitFrom: "returnAirTemperatureUnit",
       },
       returnAirTemperatureUnit: {
         dataPoint: "106",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "f", value: "F" },
@@ -194,12 +214,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "119",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unitFrom: "innerCoilTemperatureUnit",
       },
       innerCoilTemperatureUnit: {
         dataPoint: "106",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "f", value: "F" },
@@ -210,12 +233,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "120",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unitFrom: "coolingPlateTemperatureUnit",
       },
       coolingPlateTemperatureUnit: {
         dataPoint: "106",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "f", value: "F" },
@@ -225,6 +251,8 @@ const entry: TuyaDeviceEntry = {
       eevOpening: {
         dataPoint: "121",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "P",
       },
@@ -232,15 +260,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "107", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "107",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       powerInKw: {
         dataPoint: "125",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "kW",
         scale: 1000,

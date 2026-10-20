@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["lcjqatjseirq4msl"],
+  products: [
+    {
+      productKey: "lcjqatjseirq4msl",
+      manufacturer: "Breville",
+      model: "the All Climate 2-in-1 Dehumidifier & Purifier",
+      modelId: "BAD358",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -57,6 +64,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -80,6 +88,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: 0, value: "cancel" },
           { raw: 1, value: "1h" },
@@ -96,16 +105,17 @@ const entry: TuyaDeviceEntry = {
           { raw: 12, value: "12h" },
         ],
       },
-      childLock: { dataPoint: "16", kind: "switch" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
       sleep: {
         dataPoint: "11",
         kind: "switch",
+        category: "config",
         values: [
           { raw: true, value: false },
           { raw: false, value: true },
         ],
       },
-      keytone: { dataPoint: "104", kind: "switch" },
+      keytone: { dataPoint: "104", kind: "switch", category: "config" },
       tankFull: { dataPoint: "108", kind: "sensor", readOnly: true },
     },
     fan: {
@@ -120,8 +130,10 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    humidityLight: { on: { dataPoint: "105", kind: "switch" } },
-    tankLight: { on: { dataPoint: "106", kind: "switch" } },
+    humidityLight: {
+      on: { dataPoint: "105", kind: "switch", category: "config" },
+    },
+    tankLight: { on: { dataPoint: "106", kind: "switch", category: "config" } },
   },
   source: {
     file: "breville_bad358_dehumidifier.yaml",

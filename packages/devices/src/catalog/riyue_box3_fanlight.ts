@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan light",
-  productKeys: ["shrracpw0ve9jooc"],
+  products: [
+    { productKey: "shrracpw0ve9jooc", manufacturer: "Riyue", model: "Box 3" },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "22": { type: "integer", optional: true },
@@ -53,9 +55,9 @@ const entry: TuyaDeviceEntry = {
         max: 1000,
         targetRange: { min: 2700, max: 6500 },
       },
-      scene: { dataPoint: "25", kind: "text" },
-      music: { dataPoint: "27", kind: "text" },
-      lightControl: { dataPoint: "28", kind: "text" },
+      scene: { dataPoint: "25", kind: "text", category: "config" },
+      music: { dataPoint: "27", kind: "text", category: "config" },
+      lightControl: { dataPoint: "28", kind: "text", category: "config" },
       oscillation1: {
         dataPoint: "101",
         kind: "select",
@@ -93,12 +95,13 @@ const entry: TuyaDeviceEntry = {
         ],
       },
       doNotDisturb: { dataPoint: "34", kind: "switch" },
-      switchGradient: { dataPoint: "35", kind: "text" },
-      fanBeep: { dataPoint: "66", kind: "switch" },
-      keytone: { dataPoint: "106", kind: "switch" },
+      switchGradient: { dataPoint: "35", kind: "text", category: "config" },
+      fanBeep: { dataPoint: "66", kind: "switch", category: "config" },
+      keytone: { dataPoint: "106", kind: "switch", category: "config" },
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -107,6 +110,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "64",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -114,15 +118,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "67",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "67", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "67",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "67",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },

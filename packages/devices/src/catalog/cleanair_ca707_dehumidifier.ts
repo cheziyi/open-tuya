@@ -5,7 +5,23 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["gynthidZEhTUCoMN", "8ouns2qnxozm1qqp", "g1xw9ns5vqu943uj"],
+  products: [
+    {
+      productKey: "gynthidZEhTUCoMN",
+      manufacturer: "Clean Air Optima",
+      model: "CA-707 Smart",
+    },
+    {
+      productKey: "8ouns2qnxozm1qqp",
+      manufacturer: "Clean Air Optima",
+      model: "CA-707 Smart 2023 V2",
+    },
+    {
+      productKey: "g1xw9ns5vqu943uj",
+      manufacturer: "Breville",
+      model: "LAD708",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -58,10 +74,11 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "°C",
       },
-      timerEnabled: { dataPoint: "101", kind: "switch" },
+      timerEnabled: { dataPoint: "101", kind: "switch", category: "config" },
       timer: {
         dataPoint: "12",
         kind: "select",
@@ -96,6 +113,7 @@ const entry: TuyaDeviceEntry = {
       tankFull: {
         dataPoint: "11",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 8, value: true }],
         otherwise: false,
@@ -104,6 +122,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -112,9 +131,19 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
-      defrost: { dataPoint: "105", kind: "sensor", readOnly: true },
-      childLock: { dataPoint: "7", kind: "switch" },
+      faultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      defrost: {
+        dataPoint: "105",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       filter: {
         dataPoint: "106",
         kind: "sensor",

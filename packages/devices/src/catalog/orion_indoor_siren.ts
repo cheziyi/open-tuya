@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Indoor siren",
-  productKeys: ["yytgthb3nxt1zp0e"],
+  products: [
+    { productKey: "yytgthb3nxt1zp0e", manufacturer: "Orion", model: "SWS07HA" },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "4": { type: "boolean" },

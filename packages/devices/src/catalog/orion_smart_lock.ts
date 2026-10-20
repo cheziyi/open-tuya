@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Smart lock",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "integer", optional: true },
     "2": { type: "integer", optional: true },
@@ -52,6 +52,7 @@ const entry: TuyaDeviceEntry = {
       alert: {
         dataPoint: "8",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "wrong_finger" },

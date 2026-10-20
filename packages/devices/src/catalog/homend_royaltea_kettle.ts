@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Kettle",
-  productKeys: ["ixclh0ml02riwbdz"],
+  products: [
+    {
+      productKey: "ixclh0ml02riwbdz",
+      manufacturer: "Homend",
+      model: "Royaltea",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -92,6 +98,7 @@ const entry: TuyaDeviceEntry = {
       preset: {
         dataPoint: "16",
         kind: "select",
+        category: "config",
         values: [
           { raw: "temp_setting", value: "heat" },
           { raw: "temp_boiling", value: "boil" },
@@ -101,6 +108,7 @@ const entry: TuyaDeviceEntry = {
       voice: {
         dataPoint: "101",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "off", value: false },
           { raw: "on", value: true },
@@ -109,6 +117,7 @@ const entry: TuyaDeviceEntry = {
       operatingMode: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "isit", value: "heat" },
           { raw: "sogut", value: "boil" },
@@ -118,6 +127,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },

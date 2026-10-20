@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -64,7 +64,13 @@ const entry: TuyaDeviceEntry = {
       },
     },
     display: {
-      brightness: { dataPoint: "102", kind: "number", min: 1, max: 3 },
+      brightness: {
+        dataPoint: "102",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 3,
+      },
     },
   },
   source: {

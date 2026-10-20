@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dual zone light",
-  productKeys: ["kjuo8stpv9adjkzo"],
+  products: [
+    {
+      productKey: "kjuo8stpv9adjkzo",
+      manufacturer: "Edison Smart",
+      model: "TREO Mini Spotlight",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -44,10 +50,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "white", value: false },
         ],
       },
-      scene: { dataPoint: "25", kind: "text" },
+      scene: { dataPoint: "25", kind: "text", category: "config" },
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

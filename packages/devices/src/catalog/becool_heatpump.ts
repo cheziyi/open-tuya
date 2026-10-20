@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["uguhaocoaqbi7c8s"],
+  products: [
+    {
+      productKey: "uguhaocoaqbi7c8s",
+      manufacturer: "Be Cool",
+      model: "BC14KL2404FW",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "integer" },

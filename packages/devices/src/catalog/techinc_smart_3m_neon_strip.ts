@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Light strip",
-  productKeys: ["szzsfdqcrqkczzfi", "keyj3w8cmutjmwk5"],
+  products: [
+    {
+      productKey: "szzsfdqcrqkczzfi",
+      manufacturer: "Tech Inc",
+      model: "3m Neon",
+    },
+    {
+      productKey: "keyj3w8cmutjmwk5",
+      manufacturer: "Tech Inc",
+      model: "3m Neon",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -58,6 +69,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -65,6 +77,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "51",
         kind: "select",
+        category: "config",
         type: "string",
         values: [
           { raw: "ARUKUlLgAABkAMFhALQwALVSAMRj", value: "Iceland Blue" },
@@ -116,6 +129,7 @@ const entry: TuyaDeviceEntry = {
       music: {
         dataPoint: "52",
         kind: "select",
+        category: "config",
         values: [
           {
             raw: "AQEAA2QyAAAAZAAAZAB4ZADwZAA8ZAC0ZAEsZAAAAA==",

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Infrared panel heater",
-  productKeys: ["xlln3q6hczrp31df"],
+  products: [
+    {
+      productKey: "xlln3q6hczrp31df",
+      manufacturer: "TermoPlaza",
+      model: "TermoPlaza900",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer", optional: true },
@@ -56,10 +62,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "Off", value: "none" },
         ],
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       surfaceStatus: {
         dataPoint: "11",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "heating", value: "heating" },
@@ -76,6 +83,7 @@ const entry: TuyaDeviceEntry = {
       turboModeTimer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "cancel" },
           { raw: "1", value: "2h" },
@@ -92,10 +100,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "12", value: "24h" },
         ],
       },
-      programMode: { dataPoint: "110", kind: "switch" },
+      programMode: { dataPoint: "110", kind: "switch", category: "config" },
       brightnessLevel: {
         dataPoint: "112",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Low" },
           { raw: "1", value: "Average" },
@@ -108,6 +117,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 45,
         max: 95,
@@ -116,12 +126,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "114",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
         min: -10,
         max: 110,
       },
-      factoryReset: { dataPoint: "115", kind: "button" },
+      factoryReset: { dataPoint: "115", kind: "button", category: "config" },
     },
   },
   source: {

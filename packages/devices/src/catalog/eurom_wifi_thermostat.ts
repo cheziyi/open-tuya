@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["jqzvke4b1nzjcr5n"],
+  products: [
+    {
+      productKey: "jqzvke4b1nzjcr5n",
+      manufacturer: "EUROM",
+      model: "Wifi Thermostat",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },

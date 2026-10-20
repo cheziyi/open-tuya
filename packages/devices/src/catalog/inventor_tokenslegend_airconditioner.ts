@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["gvraxduhxaxalell"],
+  products: [
+    {
+      productKey: "gvraxduhxaxalell",
+      manufacturer: "Inventor",
+      model: "Leon",
+      modelId: "LEUVI-09WIFI",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer", optional: true },
@@ -154,6 +161,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -163,17 +171,25 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
-      selfClean: { dataPoint: "27", kind: "switch" },
-      followMe: { dataPoint: "37", kind: "switch" },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      selfClean: { dataPoint: "27", kind: "switch", category: "config" },
+      followMe: { dataPoint: "37", kind: "switch", category: "config" },
       outdoorTemperatureInC: {
         dataPoint: "102",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -181,10 +197,11 @@ const entry: TuyaDeviceEntry = {
       outdoorTemperatureFahrenheit: {
         dataPoint: "103",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
-      fresh: { dataPoint: "104", kind: "switch" },
-      breezeAway: { dataPoint: "106", kind: "switch" },
+      fresh: { dataPoint: "104", kind: "switch", category: "config" },
+      breezeAway: { dataPoint: "106", kind: "switch", category: "config" },
     },
     fan: {
       on: { dataPoint: "1", kind: "switch" },

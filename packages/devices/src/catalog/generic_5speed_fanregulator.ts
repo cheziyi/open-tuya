@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan regulator",
-  productKeys: [],
+  products: [],
   dataPoints: { "1": { type: "boolean" }, "3": { type: "integer" } },
   components: {
     fan: {

@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "22": { type: "integer" },
     "23": { type: "integer" },

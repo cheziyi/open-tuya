@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Smartplug",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "9": { type: "integer" },
@@ -27,15 +27,18 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "9",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
       },
-      timerCycleTimer: { dataPoint: "41", kind: "text" },
-      timerRandomTimer: { dataPoint: "42", kind: "text" },
+      timerCycleTimer: { dataPoint: "41", kind: "text", category: "config" },
+      timerRandomTimer: { dataPoint: "42", kind: "text", category: "config" },
       energyInWh: {
         dataPoint: "17",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "Wh",
       },
@@ -43,6 +46,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "mA",
       },
@@ -50,6 +55,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "W",
         scale: 10,
@@ -58,6 +65,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 10,
@@ -65,6 +74,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "38",
         kind: "select",
+        category: "config",
         values: [
           { raw: "power_off", value: "off" },
           { raw: "power_on", value: "on" },
@@ -74,13 +84,14 @@ const entry: TuyaDeviceEntry = {
       lightMode: {
         dataPoint: "39",
         kind: "select",
+        category: "config",
         values: [
           { raw: "relay", value: "state" },
           { raw: "pos", value: "locator" },
           { raw: "none", value: "off" },
         ],
       },
-      childLock: { dataPoint: "40", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
     },
   },
   source: {

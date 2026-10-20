@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Circuit breaker",
-  productKeys: ["kooaoam3tyfqanva"],
+  products: [{ productKey: "kooaoam3tyfqanva", model: "GTS8-40 2P" }],
   dataPoints: {
     "1": { type: "boolean" },
     "101": { type: "integer" },
@@ -17,6 +17,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "101",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -24,6 +25,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         values: [
           { raw: "off", value: "off" },
           { raw: "on", value: "on" },

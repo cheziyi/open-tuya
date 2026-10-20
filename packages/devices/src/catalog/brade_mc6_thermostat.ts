@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "HVAC thermostat",
-  productKeys: ["jnchsgfzhp5wytun"],
+  products: [
+    { productKey: "jnchsgfzhp5wytun", manufacturer: "Brade", model: "MC6" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -168,6 +170,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unitFrom: "maximumTemperatureUnit",
         min: 50,
         max: 500,
@@ -194,6 +197,7 @@ const entry: TuyaDeviceEntry = {
       maximumTemperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -203,6 +207,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "26",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unitFrom: "minimumTemperatureUnit",
         min: 50,
         max: 550,
@@ -229,6 +234,7 @@ const entry: TuyaDeviceEntry = {
       minimumTemperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -237,14 +243,16 @@ const entry: TuyaDeviceEntry = {
       holidayInDays: {
         dataPoint: "33",
         kind: "number",
+        category: "config",
         unit: "d",
         min: 0,
         max: 99,
       },
-      childLock: { dataPoint: "40", kind: "switch" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       programType: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "offf", value: "Off" },
           { raw: "52", value: "Weekday+Weekend" },
@@ -255,6 +263,7 @@ const entry: TuyaDeviceEntry = {
       temperatureHysteresis: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "5", value: "0.5" },
           { raw: "1", value: "1" },

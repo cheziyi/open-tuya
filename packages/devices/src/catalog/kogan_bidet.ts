@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Bidet",
-  productKeys: ["7cuimqtezvgbaeun"],
+  products: [{ productKey: "7cuimqtezvgbaeun", manufacturer: "Kogan" }],
   dataPoints: {
     "45": { type: "boolean" },
     "46": { type: "boolean", optional: true },
@@ -27,10 +27,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      on: { dataPoint: "64", kind: "switch" },
+      on: { dataPoint: "64", kind: "switch", category: "config" },
       bidetMode: {
         dataPoint: "50",
         kind: "select",
+        category: "config",
         values: [
           { raw: "dry", value: "dry" },
           { raw: "normal", value: "normal" },
@@ -40,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       waterTemperature: {
         dataPoint: "52",
         kind: "number",
+        category: "config",
         min: 1,
         max: 4,
         values: [
@@ -49,11 +51,20 @@ const entry: TuyaDeviceEntry = {
           { raw: "level_4", value: 4 },
         ],
       },
-      secondWaterTemperature: { dataPoint: "53", kind: "number" },
-      waterTemperaturePressure: { dataPoint: "54", kind: "text" },
+      secondWaterTemperature: {
+        dataPoint: "53",
+        kind: "number",
+        category: "config",
+      },
+      waterTemperaturePressure: {
+        dataPoint: "54",
+        kind: "text",
+        category: "config",
+      },
       position: {
         dataPoint: "55",
         kind: "select",
+        category: "config",
         values: [
           { raw: "pos_1", value: "Front" },
           { raw: "pos_2", value: "Slightly forward" },
@@ -65,6 +76,7 @@ const entry: TuyaDeviceEntry = {
       seatWarmth: {
         dataPoint: "60",
         kind: "number",
+        category: "config",
         min: 1,
         max: 4,
         values: [
@@ -74,23 +86,34 @@ const entry: TuyaDeviceEntry = {
           { raw: "level_4", value: 4 },
         ],
       },
-      seatWarmthTemperature: { dataPoint: "61", kind: "number" },
-      deodorize: { dataPoint: "62", kind: "switch" },
-      ecoMode: { dataPoint: "65", kind: "switch" },
+      seatWarmthTemperature: {
+        dataPoint: "61",
+        kind: "number",
+        category: "config",
+      },
+      deodorize: { dataPoint: "62", kind: "switch", category: "config" },
+      ecoMode: { dataPoint: "65", kind: "switch", category: "config" },
       fault: {
         dataPoint: "68",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "68", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "68",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       seated: {
         dataPoint: "46",
         kind: "sensor",
         measures: "occupancy",
+        category: "diagnostic",
         readOnly: true,
         whenAbsent: { value: false },
       },

@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["wksnqcoh6yzpoam9"],
+  products: [
+    { productKey: "wksnqcoh6yzpoam9", manufacturer: "Duux", model: "Beam 2" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string", optional: true },
@@ -62,12 +64,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
       timer: {
         dataPoint: "3",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1", value: "1h" },
@@ -78,11 +82,12 @@ const entry: TuyaDeviceEntry = {
           { raw: "6", value: "6h" },
         ],
       },
-      sleep: { dataPoint: "21", kind: "switch" },
+      sleep: { dataPoint: "21", kind: "switch", category: "config" },
       fault: {
         dataPoint: "9",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -91,7 +96,12 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "9", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "9",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       tankEmpty: {
         dataPoint: "9",
         kind: "sensor",
@@ -100,7 +110,7 @@ const entry: TuyaDeviceEntry = {
         otherwise: false,
       },
     },
-    nightlight: { on: { dataPoint: "5", kind: "switch" } },
+    nightlight: { on: { dataPoint: "5", kind: "switch", category: "config" } },
     device: { on: { dataPoint: "10", kind: "switch" } },
   },
   source: {

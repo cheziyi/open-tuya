@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Energy monitoring plug with display",
-  productKeys: ["sqrf2g1amfutn4co"],
+  products: [
+    { productKey: "sqrf2g1amfutn4co", manufacturer: "Atorch", model: "S1WP" },
+  ],
   dataPoints: {
     "1": { type: "boolean", optional: true },
     "9": { type: "integer" },
@@ -58,6 +60,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "9",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 360000,
@@ -68,6 +71,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "current",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "A",
         scale: 1000,
@@ -76,6 +81,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "W",
         scale: 100,
@@ -84,6 +91,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "voltage",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "V",
         scale: 100,
@@ -91,6 +100,7 @@ const entry: TuyaDeviceEntry = {
       electricityPrice: {
         dataPoint: "101",
         kind: "number",
+        category: "config",
         min: 0,
         max: 99999,
         scale: 100,
@@ -104,6 +114,7 @@ const entry: TuyaDeviceEntry = {
       overvoltageValueInV: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         unit: "V",
         min: 1,
         max: 2750,
@@ -112,6 +123,7 @@ const entry: TuyaDeviceEntry = {
       overcurrentValueInA: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "A",
         min: 1,
         max: 2000,
@@ -120,6 +132,7 @@ const entry: TuyaDeviceEntry = {
       overpowerValueInW: {
         dataPoint: "106",
         kind: "number",
+        category: "config",
         unit: "W",
         min: 1,
         max: 4500,
@@ -127,36 +140,52 @@ const entry: TuyaDeviceEntry = {
       language: {
         dataPoint: "107",
         kind: "select",
+        category: "config",
         values: [
           { raw: "chinese", value: "chinese" },
           { raw: "english", value: "english" },
         ],
       },
-      screenBrightness: { dataPoint: "108", kind: "number", min: 1, max: 9 },
-      standbyBrightness: { dataPoint: "109", kind: "number", min: 1, max: 9 },
+      screenBrightness: {
+        dataPoint: "108",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 9,
+      },
+      standbyBrightness: {
+        dataPoint: "109",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 9,
+      },
       standbyTimeInSeconds: {
         dataPoint: "110",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 3,
         max: 99,
       },
-      sound: { dataPoint: "111", kind: "switch" },
+      sound: { dataPoint: "111", kind: "switch", category: "config" },
       switchMode: {
         dataPoint: "112",
         kind: "select",
+        category: "config",
         values: [
           { raw: "controlled", value: "Controlled" },
           { raw: "normally_open", value: "Normally Open" },
         ],
       },
-      resetData: { dataPoint: "113", kind: "button" },
-      resetWiFi: { dataPoint: "114", kind: "button" },
-      factoryReset: { dataPoint: "115", kind: "button" },
-      screenRotate: { dataPoint: "116", kind: "button" },
+      resetData: { dataPoint: "113", kind: "button", category: "config" },
+      resetWiFi: { dataPoint: "114", kind: "button", category: "config" },
+      factoryReset: { dataPoint: "115", kind: "button", category: "config" },
+      screenRotate: { dataPoint: "116", kind: "button", category: "config" },
       standbyScreen: {
         dataPoint: "117",
         kind: "select",
+        category: "config",
         values: [
           { raw: "original", value: "Original" },
           { raw: "measurement", value: "Measurement" },
@@ -165,6 +194,7 @@ const entry: TuyaDeviceEntry = {
       display: {
         dataPoint: "118",
         kind: "select",
+        category: "config",
         values: [
           { raw: "wifi1", value: "Safety protection" },
           {
@@ -182,6 +212,7 @@ const entry: TuyaDeviceEntry = {
       aPowerGreaterThanInW: {
         dataPoint: "119",
         kind: "number",
+        category: "config",
         unit: "W",
         min: 1,
         max: 999,
@@ -189,6 +220,7 @@ const entry: TuyaDeviceEntry = {
       aDurationInMinutes: {
         dataPoint: "120",
         kind: "number",
+        category: "config",
         unit: "minutes",
         min: 1,
         max: 99,
@@ -196,6 +228,7 @@ const entry: TuyaDeviceEntry = {
       bPowerLowerThanInW: {
         dataPoint: "121",
         kind: "number",
+        category: "config",
         unit: "W",
         min: 1,
         max: 999,
@@ -203,6 +236,7 @@ const entry: TuyaDeviceEntry = {
       bDurationInHours: {
         dataPoint: "122",
         kind: "number",
+        category: "config",
         unit: "h",
         min: 1,
         max: 99,
@@ -211,6 +245,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "123",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 1000,
@@ -219,6 +254,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "124",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -226,6 +262,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "125",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 360000,
@@ -235,6 +272,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "126",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 60,
         max: 359940,
@@ -244,6 +282,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "127",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 60,
         max: 359940,
@@ -253,6 +292,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "128",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 60,
         max: 359940,
@@ -262,6 +302,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "129",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 60,
         max: 359940,
@@ -271,6 +312,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "130",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 60,
         max: 359940,
@@ -279,6 +321,7 @@ const entry: TuyaDeviceEntry = {
       switchState: {
         dataPoint: "131",
         kind: "select",
+        category: "config",
         values: [
           { raw: "open", value: "On" },
           { raw: "close", value: "Off" },
@@ -288,6 +331,7 @@ const entry: TuyaDeviceEntry = {
       warning: {
         dataPoint: "132",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "off", value: "Off" },
@@ -306,6 +350,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "133",
         kind: "sensor",
         measures: "frequency",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "Hz",
         scale: 100,
@@ -314,6 +360,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "134",
         kind: "sensor",
         measures: "powerFactor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         scale: 100,
       },
@@ -321,12 +369,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "135",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
       },
       energyTariff: {
         dataPoint: "136",
         kind: "select",
+        category: "config",
         values: [
           { raw: "single_rate", value: "Single rate" },
           { raw: "stair", value: "Stair" },
@@ -337,6 +388,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "137",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 99,
@@ -344,6 +396,7 @@ const entry: TuyaDeviceEntry = {
       initialState: {
         dataPoint: "138",
         kind: "select",
+        category: "config",
         values: [
           { raw: "open", value: "on" },
           { raw: "colse", value: "off" },
@@ -353,6 +406,7 @@ const entry: TuyaDeviceEntry = {
       updateIntervalInSeconds: {
         dataPoint: "139",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 1,
         max: 90,

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Range cooker",
-  productKeys: ["nsyzaeaife8j7sx0"],
+  products: [
+    {
+      productKey: "nsyzaeaife8j7sx0",
+      manufacturer: "AGA",
+      model: "Electrickit Advanced",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "boolean" },
@@ -73,19 +79,29 @@ const entry: TuyaDeviceEntry = {
       },
     },
     device: {
-      roastingOvenRest: { dataPoint: "105", kind: "switch" },
-      simmeringOvenRest: { dataPoint: "106", kind: "switch" },
-      timer: { dataPoint: "108", kind: "switch" },
+      roastingOvenRest: {
+        dataPoint: "105",
+        kind: "switch",
+        category: "config",
+      },
+      simmeringOvenRest: {
+        dataPoint: "106",
+        kind: "switch",
+        category: "config",
+      },
+      timer: { dataPoint: "108", kind: "switch", category: "config" },
       timerRunning: {
         dataPoint: "107",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
       },
       timeRemainingInSeconds: {
         dataPoint: "159",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },

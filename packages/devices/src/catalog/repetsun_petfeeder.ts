@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["za7jpjw2nimxkjxt"],
+  products: [
+    {
+      productKey: "za7jpjw2nimxkjxt",
+      manufacturer: "Repetsun",
+      model: "5L double bowl",
+    },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "3": { type: "integer", optional: true },
@@ -19,10 +25,11 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     light: {
-      mealPlan: { dataPoint: "1", kind: "text" },
+      mealPlan: { dataPoint: "1", kind: "text", category: "config" },
       manualFeedInPortions: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "portions",
         min: 1,
         max: 12,
@@ -51,20 +58,27 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       lastFeedInPortions: {
         dataPoint: "14",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "portions",
       },
-      on: { dataPoint: "17", kind: "switch" },
-      slowFeed: { dataPoint: "23", kind: "switch" },
-      factoryReset: { dataPoint: "24", kind: "button" },
+      on: { dataPoint: "17", kind: "switch", category: "config" },
+      slowFeed: { dataPoint: "23", kind: "switch", category: "config" },
+      factoryReset: { dataPoint: "24", kind: "button", category: "config" },
     },
   },
   source: {

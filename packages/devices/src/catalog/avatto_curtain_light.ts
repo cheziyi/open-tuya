@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain and light",
-  productKeys: ["v59tpvs4ubvjalhq"],
+  products: [
+    { productKey: "v59tpvs4ubvjalhq", manufacturer: "Avatto", model: "CB3S" },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -37,6 +39,7 @@ const entry: TuyaDeviceEntry = {
       calibration: {
         dataPoint: "3",
         kind: "select",
+        category: "config",
         values: [
           { raw: "start", value: "Start" },
           { raw: "end", value: "End" },
@@ -45,6 +48,7 @@ const entry: TuyaDeviceEntry = {
       reverse: {
         dataPoint: "8",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "forward", value: false },
           { raw: "back", value: true },
@@ -54,13 +58,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "10",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 10,
         max: 120,
       },
     },
     light: { on: { dataPoint: "102", kind: "switch" } },
-    backlight: { on: { dataPoint: "7", kind: "switch" } },
+    backlight: { on: { dataPoint: "7", kind: "switch", category: "config" } },
   },
   source: {
     file: "avatto_curtain_light.yaml",

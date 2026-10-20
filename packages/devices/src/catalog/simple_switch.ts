@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Simple switch",
-  productKeys: [],
+  products: [],
   dataPoints: { "1": { type: "boolean" } },
   components: { device: { on: { dataPoint: "1", kind: "switch" } } },
   source: {

@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Kettle",
-  productKeys: ["rxkvkkh8g9ubsmav"],
+  products: [
+    { productKey: "rxkvkkh8g9ubsmav", manufacturer: "Aeno", model: "EK1S" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -46,10 +48,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "mzj_warm", value: "keep_warm" },
         ],
       },
-      on: { dataPoint: "2", kind: "switch" },
+      on: { dataPoint: "2", kind: "switch", category: "config" },
       status: {
         dataPoint: "5",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -59,7 +62,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
   },
   source: {
     file: "aeno_ek1s_kettle.yaml",

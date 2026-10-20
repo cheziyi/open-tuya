@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Heater",
-  productKeys: ["keysjrn8pnr7mrd4"],
+  products: [
+    {
+      productKey: "keysjrn8pnr7mrd4",
+      manufacturer: "Eurom",
+      model: "Sani-Wall-Heat 2000",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -78,10 +84,11 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "off" },
         ],
       },
-      schedule: { dataPoint: "101", kind: "text" },
+      schedule: { dataPoint: "101", kind: "text", category: "config" },
       holidayMode: {
         dataPoint: "102",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "holiday", value: true },
           { raw: "program", value: false },

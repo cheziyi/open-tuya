@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Roller blinds",
-  productKeys: ["c4hBLohzUgxULw5a"],
+  products: [{ productKey: "c4hBLohzUgxULw5a", manufacturer: "Wistar" }],
   dataPoints: {
     "101": { type: "string" },
     "102": { type: "integer" },
@@ -77,6 +77,7 @@ const entry: TuyaDeviceEntry = {
       borderSetting: {
         dataPoint: "104",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "Upper Limit Set" },
           { raw: "2", value: "Upper Limit Remove" },
@@ -88,6 +89,7 @@ const entry: TuyaDeviceEntry = {
       style: {
         dataPoint: "113",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Venetian blind" },
           { raw: "1", value: "Silhouette blind" },
@@ -103,7 +105,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "11", value: "Roman pole" },
         ],
       },
-      reversed: { dataPoint: "103", kind: "switch" },
+      reversed: { dataPoint: "103", kind: "switch", category: "config" },
     },
   },
   source: {

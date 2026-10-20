@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Bed warmer",
-  productKeys: ["vrwpecr7ijucirtl"],
+  products: [
+    { productKey: "vrwpecr7ijucirtl", manufacturer: "Sunbeam", model: "S1" },
+  ],
   dataPoints: {
     "13": { type: "bitfield" },
     "14": { type: "boolean" },
@@ -25,14 +27,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "13",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "13", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "13",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       level: {
         dataPoint: "20",
         kind: "select",
+        category: "config",
         values: [
           { raw: "level_1", value: "1" },
           { raw: "level_2", value: "2" },
@@ -46,10 +55,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "level_10", value: "10" },
         ],
       },
-      preheat: { dataPoint: "24", kind: "switch" },
+      preheat: { dataPoint: "24", kind: "switch", category: "config" },
       timer: {
         dataPoint: "26",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Stay_On", value: "cancel" },
           { raw: "30m", value: "30m" },
@@ -73,11 +83,13 @@ const entry: TuyaDeviceEntry = {
           { raw: "10h", value: "10h" },
         ],
       },
-      timerSchedule: { dataPoint: "101", kind: "text" },
+      timerSchedule: { dataPoint: "101", kind: "text", category: "config" },
       timeRemainingInSeconds: {
         dataPoint: "28",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -85,6 +97,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ventilation fan",
-  productKeys: ["sr1eqkpkk4fxa3gw"],
+  products: [
+    {
+      productKey: "sr1eqkpkk4fxa3gw",
+      manufacturer: "Kavunion",
+      model: "C1 100",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -41,6 +47,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "8",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
         scale: 10,
@@ -64,6 +71,8 @@ const entry: TuyaDeviceEntry = {
       fanSpeedInRpm: {
         dataPoint: "101",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "rpm",
       },
@@ -77,6 +86,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -85,6 +95,7 @@ const entry: TuyaDeviceEntry = {
       autoTrigger: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "ht", value: "High temperature" },
           { raw: "lt", value: "Low temperature" },
@@ -92,21 +103,23 @@ const entry: TuyaDeviceEntry = {
           { raw: "lh", value: "Low humidity" },
         ],
       },
-      highTemperature: { dataPoint: "107", kind: "switch" },
-      lowTemperature: { dataPoint: "108", kind: "switch" },
-      highHumidity: { dataPoint: "109", kind: "switch" },
-      lowHumidity: { dataPoint: "110", kind: "switch" },
-      timer: { dataPoint: "111", kind: "switch" },
+      highTemperature: { dataPoint: "107", kind: "switch", category: "config" },
+      lowTemperature: { dataPoint: "108", kind: "switch", category: "config" },
+      highHumidity: { dataPoint: "109", kind: "switch", category: "config" },
+      lowHumidity: { dataPoint: "110", kind: "switch", category: "config" },
+      timer: { dataPoint: "111", kind: "switch", category: "config" },
       fgSignal: {
         dataPoint: "113",
         kind: "sensor",
         measures: "connectivity",
+        category: "diagnostic",
         readOnly: true,
       },
       temperatureSensor: {
         dataPoint: "118",
         kind: "sensor",
         measures: "plugged",
+        category: "diagnostic",
         readOnly: true,
       },
     },
@@ -255,6 +268,7 @@ const entry: TuyaDeviceEntry = {
       brightness: {
         dataPoint: "112",
         kind: "select",
+        category: "config",
         values: [
           { raw: "B0", value: 0 },
           { raw: "B1", value: 128 },

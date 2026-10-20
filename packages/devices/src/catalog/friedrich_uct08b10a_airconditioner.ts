@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["jvnwkkvvshk3go8f"],
+  products: [
+    {
+      productKey: "jvnwkkvvshk3go8f",
+      manufacturer: "Friedrich",
+      model: "UCT08B10A",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer", optional: true },
@@ -156,6 +162,7 @@ const entry: TuyaDeviceEntry = {
       sleep: {
         dataPoint: "105",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "child", value: true },
           { raw: "off", value: false },
@@ -167,6 +174,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "20",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           {
@@ -183,12 +191,23 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: true,
       },
-      faultCode: { dataPoint: "20", kind: "sensor", readOnly: true },
-      faultFault2: { dataPoint: "122", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "20",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      faultFault2: {
+        dataPoint: "122",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       ecoTemperatureInC: {
         dataPoint: "130",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 26,
         max: 31,

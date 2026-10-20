@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Aroma diffuser",
-  productKeys: ["ev2pfxj5xp4vacfm", "sct7ni7n6uvy8wcm"],
+  products: [
+    {
+      productKey: "ev2pfxj5xp4vacfm",
+      manufacturer: "Haoyunma",
+      model: "BD100",
+    },
+    {
+      productKey: "sct7ni7n6uvy8wcm",
+      manufacturer: "Arozen",
+      model: "Eon Pro",
+    },
+  ],
   dataPoints: {
     "2": { type: "boolean" },
     "3": { type: "string" },
@@ -34,6 +45,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "untime", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -46,14 +58,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      factoryReset: { dataPoint: "101", kind: "button" },
+      factoryReset: { dataPoint: "101", kind: "button", category: "config" },
       voltage: {
         dataPoint: "102",
         kind: "sensor",
         measures: "battery",
+        category: "diagnostic",
         readOnly: true,
       },
     },

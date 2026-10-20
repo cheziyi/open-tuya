@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Cat litter box",
-  productKeys: ["nbkqubgxxmanacsv"],
+  products: [
+    {
+      productKey: "nbkqubgxxmanacsv",
+      manufacturer: "Elspet",
+      model: "Orbitie",
+    },
+  ],
   dataPoints: {
     "101": { type: "integer" },
     "102": { type: "boolean" },
@@ -30,6 +36,7 @@ const entry: TuyaDeviceEntry = {
       status: {
         dataPoint: "109",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "satnd_by", value: "standby" },
@@ -40,22 +47,24 @@ const entry: TuyaDeviceEntry = {
           { raw: "cat_inside", value: "occupied" },
         ],
       },
-      manualClean: { dataPoint: "107", kind: "button" },
+      manualClean: { dataPoint: "107", kind: "button", category: "config" },
       cleanDelayInSeconds: {
         dataPoint: "101",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 1800,
       },
-      sound: { dataPoint: "117", kind: "switch" },
-      kittenMode: { dataPoint: "111", kind: "switch" },
-      automaticHoming: { dataPoint: "119", kind: "switch" },
-      sleep: { dataPoint: "102", kind: "switch" },
+      sound: { dataPoint: "117", kind: "switch", category: "config" },
+      kittenMode: { dataPoint: "111", kind: "switch", category: "config" },
+      automaticHoming: { dataPoint: "119", kind: "switch", category: "config" },
+      sleep: { dataPoint: "102", kind: "switch", category: "config" },
       sleepStartInMinutes: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,
@@ -63,6 +72,7 @@ const entry: TuyaDeviceEntry = {
       sleepEndInMinutes: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,
@@ -71,14 +81,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "114",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "118", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "118",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "118",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -86,10 +103,16 @@ const entry: TuyaDeviceEntry = {
           { raw: 2, value: "dislocation" },
         ],
       },
-      cleanCount: { dataPoint: "105", kind: "sensor", readOnly: true },
+      cleanCount: {
+        dataPoint: "105",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       litter: {
         dataPoint: "112",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "full", value: "Full" },
@@ -97,11 +120,11 @@ const entry: TuyaDeviceEntry = {
           { raw: "empty", value: "Empty" },
         ],
       },
-      resetLitter: { dataPoint: "113", kind: "button" },
-      factoryReset: { dataPoint: "115", kind: "button" },
-      weightReset: { dataPoint: "108", kind: "button" },
+      resetLitter: { dataPoint: "113", kind: "button", category: "config" },
+      factoryReset: { dataPoint: "115", kind: "button", category: "config" },
+      weightReset: { dataPoint: "108", kind: "button", category: "config" },
     },
-    indicator: { on: { dataPoint: "116", kind: "switch" } },
+    indicator: { on: { dataPoint: "116", kind: "switch", category: "config" } },
   },
   source: {
     file: "elspet_orbitie_litterbox.yaml",

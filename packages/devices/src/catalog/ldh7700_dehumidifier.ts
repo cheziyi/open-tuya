@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: ["msopwdnvklxbrnw9"],
+  products: [{ productKey: "msopwdnvklxbrnw9", model: "LDH-7700" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -62,6 +62,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },

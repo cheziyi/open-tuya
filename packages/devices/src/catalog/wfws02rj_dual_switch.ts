@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dual switch",
-  productKeys: ["LOeuvI6KCxzuZe0k"],
+  products: [{ productKey: "LOeuvI6KCxzuZe0k", model: "WF-WS02 RJ" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -16,6 +16,7 @@ const entry: TuyaDeviceEntry = {
       master: {
         dataPoint: "5",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 1, value: true },
           { raw: 0, value: false },

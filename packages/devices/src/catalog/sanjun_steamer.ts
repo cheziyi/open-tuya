@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Steam Room",
-  productKeys: ["pjh7lsqhyn86almn"],
+  products: [
+    {
+      productKey: "pjh7lsqhyn86almn",
+      manufacturer: "Sanjun",
+      model: "Steam Room",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "integer" },
@@ -77,11 +83,12 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      clockSync: { dataPoint: "114", kind: "button" },
+      clockSync: { dataPoint: "114", kind: "button", category: "config" },
       timerInMinutes: {
         dataPoint: "103",
         mask: "FFFF",
@@ -91,9 +98,19 @@ const entry: TuyaDeviceEntry = {
         max: 60,
         values: [{ raw: 256, value: 60 }],
       },
-      schedule: { dataPoint: "110", kind: "text" },
-      steamTimeCount: { dataPoint: "115", kind: "sensor", readOnly: true },
-      temperatureRange: { dataPoint: "116", kind: "sensor", readOnly: true },
+      schedule: { dataPoint: "110", kind: "text", category: "config" },
+      steamTimeCount: {
+        dataPoint: "115",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      temperatureRange: {
+        dataPoint: "116",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     colourLamp: {
       on: { dataPoint: "106", kind: "switch" },

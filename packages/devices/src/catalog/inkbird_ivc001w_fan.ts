@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan controller",
-  productKeys: ["1oat7zv3bd9ylx2q"],
+  products: [
+    {
+      productKey: "1oat7zv3bd9ylx2q",
+      manufacturer: "Inkbird",
+      model: "IVC-001W",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -73,6 +79,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "23",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -82,6 +89,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "113",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -100,
         max: 100,
@@ -90,6 +98,7 @@ const entry: TuyaDeviceEntry = {
       humidityCalibrationInPercent: {
         dataPoint: "114",
         kind: "number",
+        category: "config",
         unit: "%",
         min: -100,
         max: 100,
@@ -99,6 +108,7 @@ const entry: TuyaDeviceEntry = {
         mask: "000000000000000000FFFF0000",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         type: "base64",
         min: 0,
@@ -110,6 +120,7 @@ const entry: TuyaDeviceEntry = {
         mask: "0000000000000000000000FFFF",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         type: "base64",
         min: 0,
@@ -120,13 +131,20 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "132",
         mask: "00000000000000FFFF00000000",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "rpm",
         type: "base64",
       },
     },
     backlight: {
-      brightness: { dataPoint: "44", kind: "number", min: 0, max: 100 },
+      brightness: {
+        dataPoint: "44",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
     },
   },
   source: {

@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet toilet",
-  productKeys: ["1badzyvwh1e1hrog", "kw4ztiq3kxmcf8dx"],
+  products: [
+    { productKey: "1badzyvwh1e1hrog", manufacturer: "Leo's Loo", model: "Too" },
+    {
+      productKey: "kw4ztiq3kxmcf8dx",
+      manufacturer: "Leo's Loo",
+      model: "Too (MEET firmware)",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string", optional: true },
@@ -22,22 +29,24 @@ const entry: TuyaDeviceEntry = {
   components: {
     light: {
       timesUsedToday: { dataPoint: "7", kind: "sensor", readOnly: true },
-      power: { dataPoint: "1", kind: "switch" },
+      power: { dataPoint: "1", kind: "switch", category: "config" },
       cleaningMode: {
         dataPoint: "2",
         kind: "select",
+        category: "config",
         values: [
           { raw: "auto_clean", value: "Auto clean" },
           { raw: "manual_clean", value: "Manual clean" },
         ],
       },
-      uvSterilization: { dataPoint: "13", kind: "switch" },
-      sleep: { dataPoint: "10", kind: "switch" },
-      on: { dataPoint: "16", kind: "switch" },
+      uvSterilization: { dataPoint: "13", kind: "switch", category: "config" },
+      sleep: { dataPoint: "10", kind: "switch", category: "config" },
+      on: { dataPoint: "16", kind: "switch", category: "config" },
       cleaningDelayInSeconds: {
         dataPoint: "5",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 6,
         max: 1200,
@@ -47,6 +56,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "weight",
+        reading: "instant",
         readOnly: true,
         unit: "kg",
         scale: 10,
@@ -56,14 +66,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultNotificationCode: {
         dataPoint: "21",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
       },
       binFull: {
@@ -77,6 +94,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 6, value: true }],
         otherwise: false,
@@ -85,6 +103,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "21",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 64, value: true }],
         otherwise: false,

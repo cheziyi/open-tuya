@@ -5,12 +5,30 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: [
-    "p3fnrnlcjm2yxeks",
-    "nkxacpp51xgudnjq",
-    "u0wirz487erb0eka",
-    "auxphsarxpxxopa2",
-    "v8eojmxqqkjihmj8",
+  products: [
+    {
+      productKey: "p3fnrnlcjm2yxeks",
+      manufacturer: "Siguro",
+      model: "DH-F300W",
+    },
+    {
+      productKey: "nkxacpp51xgudnjq",
+      manufacturer: "ProBreeze",
+      model: "OmniDry 12L",
+      modelId: "PB-D-18W-WF",
+    },
+    {
+      productKey: "u0wirz487erb0eka",
+      manufacturer: "ProBreeze",
+      model: "OmniDry 20L",
+      modelId: "PB-D-24-WF",
+    },
+    { productKey: "auxphsarxpxxopa2", manufacturer: "VonHaus", model: "20L" },
+    {
+      productKey: "v8eojmxqqkjihmj8",
+      manufacturer: "Andersson",
+      model: "DHF-20",
+    },
   ],
   dataPoints: {
     "1": { type: "boolean" },
@@ -63,13 +81,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
-      childLock: { dataPoint: "16", kind: "switch" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
       timer: {
         dataPoint: "17",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -101,6 +121,7 @@ const entry: TuyaDeviceEntry = {
       tankFull: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -109,6 +130,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: false },
@@ -117,10 +139,16 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -128,17 +156,19 @@ const entry: TuyaDeviceEntry = {
           { raw: 2, value: "Clean filter" },
         ],
       },
-      ionizer: { dataPoint: "10", kind: "switch" },
-      filterReset: { dataPoint: "20", kind: "button" },
+      ionizer: { dataPoint: "10", kind: "switch", category: "config" },
+      filterReset: { dataPoint: "20", kind: "button", category: "config" },
       filterLifeInPercent: {
         dataPoint: "23",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       temperatureUnit: {
         dataPoint: "24",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },

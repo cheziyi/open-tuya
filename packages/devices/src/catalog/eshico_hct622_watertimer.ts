@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water timer",
-  productKeys: ["q8tpmjtw"],
+  products: [
+    {
+      productKey: "q8tpmjtw",
+      manufacturer: "Eshico",
+      model: "HCT-622-HCG-002",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "17": { type: "integer" },
@@ -28,24 +34,27 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "17",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 3599,
       },
-      timerNext: { dataPoint: "107", kind: "text" },
-      schedule: { dataPoint: "38", kind: "text" },
-      cycleTimer: { dataPoint: "39", kind: "text" },
+      timerNext: { dataPoint: "107", kind: "text", category: "config" },
+      schedule: { dataPoint: "38", kind: "text", category: "config" },
+      cycleTimer: { dataPoint: "39", kind: "text", category: "config" },
       weatherDelayRemainingInHours: {
         dataPoint: "42",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "h",
       },
-      useWeather: { dataPoint: "43", kind: "switch" },
+      useWeather: { dataPoint: "43", kind: "switch", category: "config" },
       weather: {
         dataPoint: "44",
         kind: "select",
+        category: "config",
         values: [
           { raw: "sunny", value: "sunny" },
           { raw: "rainy", value: "rainy" },
@@ -54,6 +63,7 @@ const entry: TuyaDeviceEntry = {
       weatherDelay: {
         dataPoint: "45",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1", value: "1d" },
@@ -69,6 +79,8 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "47",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
         values: [
@@ -84,15 +96,23 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "53",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "53", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "53",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       lastRuntimeInSeconds: {
         dataPoint: "101",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
@@ -100,12 +120,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "s",
       },
       status: {
         dataPoint: "105",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "manual", value: "manual" },

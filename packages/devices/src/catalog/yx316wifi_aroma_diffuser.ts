@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Aroma diffuser with lamp",
-  productKeys: ["arkdxfhlkpdyof9x"],
+  products: [{ productKey: "arkdxfhlkpdyof9x", model: "YX316WIFI" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "boolean" },
@@ -86,17 +86,23 @@ const entry: TuyaDeviceEntry = {
         min: 0,
         max: 255,
       },
-      sound: { dataPoint: "6", kind: "switch" },
+      sound: { dataPoint: "6", kind: "switch", category: "config" },
       fault: {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

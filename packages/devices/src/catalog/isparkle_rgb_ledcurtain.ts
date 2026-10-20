@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Lights",
-  productKeys: ["ufi02yfc589ssyjp", "x1nvbfjip9hp2buy"],
+  products: [
+    {
+      productKey: "ufi02yfc589ssyjp",
+      manufacturer: "iSparkle",
+      model: "Curtain Micro Lights",
+    },
+    {
+      productKey: "x1nvbfjip9hp2buy",
+      manufacturer: "Mirabella",
+      model: "Genio Colour Select",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "101": { type: "string" },
@@ -52,10 +63,11 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "report_off" },
         ],
       },
-      timerOn: { dataPoint: "103", kind: "button" },
+      timerOn: { dataPoint: "103", kind: "button", category: "config" },
       timerOff: {
         dataPoint: "103",
         kind: "button",
+        category: "config",
         values: [
           { raw: false, value: true },
           { raw: true, value: false },

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Pet feeder",
-  productKeys: ["vhpxqilaahtj3zrr"],
+  products: [
+    {
+      productKey: "vhpxqilaahtj3zrr",
+      manufacturer: "Arlec",
+      model: "Grid Connect 5L",
+    },
+  ],
   dataPoints: {
     "1": { type: "base64", optional: true },
     "3": { type: "integer", optional: true },
@@ -20,10 +26,11 @@ const entry: TuyaDeviceEntry = {
   components: {
     device: {
       manualFeed: { dataPoint: "3", kind: "number", min: 1, max: 12 },
-      mealPlan: { dataPoint: "1", kind: "text" },
+      mealPlan: { dataPoint: "1", kind: "text", category: "config" },
       status: {
         dataPoint: "4",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
@@ -35,14 +42,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "14",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "14", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "14",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "14",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -53,17 +67,29 @@ const entry: TuyaDeviceEntry = {
           { raw: 16, value: "battery_low" },
         ],
       },
-      feedReport: { dataPoint: "15", kind: "sensor", readOnly: true },
+      feedReport: {
+        dataPoint: "15",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       batteryInPercent: {
         dataPoint: "11",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      voicePlaybacks: { dataPoint: "18", kind: "number", min: 0, max: 5 },
-      factoryReset: { dataPoint: "9", kind: "button" },
+      voicePlaybacks: {
+        dataPoint: "18",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 5,
+      },
+      factoryReset: { dataPoint: "9", kind: "button", category: "config" },
     },
-    indicator: { on: { dataPoint: "19", kind: "switch" } },
+    indicator: { on: { dataPoint: "19", kind: "switch", category: "config" } },
   },
   source: {
     file: "arlec_5l_petfeeder.yaml",

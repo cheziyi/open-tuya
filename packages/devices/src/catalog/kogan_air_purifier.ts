@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["5cum0gfsx8rhpvvl"],
+  products: [
+    {
+      productKey: "5cum0gfsx8rhpvvl",
+      manufacturer: "Kogan",
+      model: "2S",
+      modelId: "KAIRPRFR2SA",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "string" },
@@ -39,16 +46,18 @@ const entry: TuyaDeviceEntry = {
       brightness: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancle", value: 0 },
           { raw: "1", value: 128 },
           { raw: "2", value: 255 },
         ],
       },
-      filterReset: { dataPoint: "11", kind: "button" },
+      filterReset: { dataPoint: "11", kind: "button", category: "config" },
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "cancel" },
           { raw: "2", value: "4h" },

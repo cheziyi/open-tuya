@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -28,12 +28,13 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "8",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
         ],
       },
-      sleep: { dataPoint: "12", kind: "switch" },
+      sleep: { dataPoint: "12", kind: "switch", category: "config" },
       quietMode: { dataPoint: "101", kind: "switch" },
       tankFull: { dataPoint: "16", kind: "sensor", readOnly: true },
     },

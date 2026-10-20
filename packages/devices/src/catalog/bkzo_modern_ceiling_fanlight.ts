@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["c9viutias6icmmnq", "i0yyq4cfajodbi2f"],
+  products: [
+    {
+      productKey: "c9viutias6icmmnq",
+      manufacturer: "BKZO",
+      model: "Modern LED",
+    },
+    {
+      productKey: "i0yyq4cfajodbi2f",
+      manufacturer: "BKZO",
+      model: "Modern LED",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -70,6 +81,7 @@ const entry: TuyaDeviceEntry = {
       lightTimerInSeconds: {
         dataPoint: "26",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -77,6 +89,7 @@ const entry: TuyaDeviceEntry = {
       fanTimerInMinutes: {
         dataPoint: "64",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 540,
@@ -85,6 +98,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "102",
         kind: "select",
+        category: "config",
         type: "string",
         values: [
           { raw: "ARUKUlLgAABkAMFhALQwALVSAMRj", value: "Iceland Blue" },

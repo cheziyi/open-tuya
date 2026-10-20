@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Wall outlet",
-  productKeys: ["xca2lqfaztnmk5jh"],
+  products: [
+    {
+      productKey: "xca2lqfaztnmk5jh",
+      manufacturer: "CE Smart Home",
+      model: "LQ-2-W3",
+    },
+  ],
   dataPoints: { "101": { type: "boolean" }, "102": { type: "integer" } },
   components: {
     device: {
@@ -13,6 +19,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "102",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,

@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Litter box",
-  productKeys: ["pkv5fgzrh4joaces"],
+  products: [
+    { productKey: "pkv5fgzrh4joaces", manufacturer: "Zedar", model: "K1200" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "boolean" },
@@ -27,11 +29,12 @@ const entry: TuyaDeviceEntry = {
   components: {
     light: {
       disinfect: { dataPoint: "1", kind: "switch" },
-      autoClean: { dataPoint: "4", kind: "switch" },
+      autoClean: { dataPoint: "4", kind: "switch", category: "config" },
       delayCleanTimeInSeconds: {
         dataPoint: "5",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 600,
@@ -40,6 +43,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "weight",
+        reading: "instant",
         readOnly: true,
         unit: "g",
       },
@@ -62,6 +66,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
@@ -70,6 +75,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 2, value: true }],
         otherwise: false,
@@ -78,6 +84,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 4, value: true }],
         otherwise: false,
@@ -86,6 +93,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 8, value: true }],
         otherwise: false,
@@ -94,14 +102,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 16, value: true }],
         otherwise: false,
       },
-      factoryReset: { dataPoint: "23", kind: "button" },
+      factoryReset: { dataPoint: "23", kind: "button", category: "config" },
       status: {
         dataPoint: "24",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "cat_in", value: "occupied" },
@@ -117,8 +127,8 @@ const entry: TuyaDeviceEntry = {
       },
       pourSand: { dataPoint: "101", kind: "switch" },
       smoothSand: { dataPoint: "102", kind: "switch" },
-      childLock: { dataPoint: "103", kind: "switch" },
-      deodorantReset: { dataPoint: "108", kind: "button" },
+      childLock: { dataPoint: "103", kind: "switch", category: "config" },
+      deodorantReset: { dataPoint: "108", kind: "button", category: "config" },
       remainingDeodorantInDays: {
         dataPoint: "109",
         kind: "sensor",

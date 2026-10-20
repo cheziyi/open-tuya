@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dehumidifier",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "string" },
@@ -74,22 +74,25 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "7",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
       },
-      ionizer: { dataPoint: "10", kind: "switch" },
-      uvSterilization: { dataPoint: "13", kind: "switch" },
+      ionizer: { dataPoint: "10", kind: "switch", category: "config" },
+      uvSterilization: { dataPoint: "13", kind: "switch", category: "config" },
       pm25InUgPerM3: {
         dataPoint: "15",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
-      childLock: { dataPoint: "16", kind: "switch" },
+      childLock: { dataPoint: "16", kind: "switch", category: "config" },
       timer: {
         dataPoint: "17",
         kind: "select",
+        category: "config",
         values: [
           { raw: "None", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -107,12 +110,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
       defrost: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 32, value: true }],
         otherwise: false,
@@ -120,6 +125,7 @@ const entry: TuyaDeviceEntry = {
       tankFull: {
         dataPoint: "19",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 64, value: true }],
         otherwise: false,
@@ -128,6 +134,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: true },
@@ -138,11 +145,17 @@ const entry: TuyaDeviceEntry = {
         ],
         otherwise: false,
       },
-      faultCode: { dataPoint: "19", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "19",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       hepaFilterReplacement: {
         dataPoint: "19",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 128, value: true }],
         otherwise: false,
@@ -151,6 +164,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "106",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -159,6 +173,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "107",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -166,6 +181,7 @@ const entry: TuyaDeviceEntry = {
       purifierMode: {
         dataPoint: "105",
         kind: "select",
+        category: "config",
         values: [
           { raw: "auto", value: "Auto" },
           { raw: "manual", value: "Manual" },
@@ -175,13 +191,19 @@ const entry: TuyaDeviceEntry = {
       lighting: {
         dataPoint: "111",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "Display only" },
           { raw: "2", value: "Off" },
           { raw: "3", value: "On" },
         ],
       },
-      airQuality: { dataPoint: "108", kind: "sensor", readOnly: true },
+      airQuality: {
+        dataPoint: "108",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     fan: {
       on: { dataPoint: "1", kind: "switch" },

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["37lcucdaax1u9r6l"],
+  products: [
+    {
+      productKey: "37lcucdaax1u9r6l",
+      manufacturer: "Hinkley",
+      model: "Chisel 52 inch",
+    },
+  ],
   dataPoints: {
     "60": { type: "boolean" },
     "61": { type: "string" },
@@ -38,14 +44,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "67",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "67", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "67",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       sound: {
         dataPoint: "101",
         kind: "switch",
+        category: "config",
         values: [
           { raw: false, value: true },
           { raw: true, value: false },
@@ -54,14 +67,16 @@ const entry: TuyaDeviceEntry = {
       remoteControlsLimit: {
         dataPoint: "104",
         kind: "number",
+        category: "config",
         unit: "controllers",
         min: 1,
         max: 255,
       },
-      remoteControlId: { dataPoint: "105", kind: "text" },
+      remoteControlId: { dataPoint: "105", kind: "text", category: "config" },
       remoteLearningState: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "learn_st_done", value: "done" },
           { raw: "learn_st_learning", value: "learn" },
@@ -69,7 +84,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "learn_st_failed", value: "failure" },
         ],
       },
-      deleteRemote: { dataPoint: "107", kind: "text" },
+      deleteRemote: { dataPoint: "107", kind: "text", category: "config" },
     },
   },
   source: {

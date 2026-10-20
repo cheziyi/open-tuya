@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "mmWave presence sensor",
-  productKeys: ["k2h8vkj98fhvnpiv", "yroelksjtb4ehda8"],
+  products: [
+    { productKey: "k2h8vkj98fhvnpiv", model: "ZY-M100-WIFI" },
+    { productKey: "yroelksjtb4ehda8", model: "WZ-M100-W" },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -32,10 +35,17 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: true,
       },
-      sensitivity: { dataPoint: "2", kind: "number", min: 0, max: 9 },
+      sensitivity: {
+        dataPoint: "2",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 9,
+      },
       minimumDistanceInM: {
         dataPoint: "3",
         kind: "number",
+        category: "config",
         unit: "m",
         min: 0,
         max: 1000,
@@ -45,6 +55,7 @@ const entry: TuyaDeviceEntry = {
       maximumDistanceInM: {
         dataPoint: "4",
         kind: "number",
+        category: "config",
         unit: "m",
         min: 0,
         max: 1000,
@@ -55,6 +66,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "check_success", value: false },
@@ -63,11 +75,17 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultDescription: { dataPoint: "6", kind: "sensor", readOnly: true },
+      faultDescription: {
+        dataPoint: "6",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       targetDistanceInM: {
         dataPoint: "9",
         kind: "sensor",
         measures: "distance",
+        reading: "instant",
         readOnly: true,
         unit: "m",
         scale: 100,
@@ -76,6 +94,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "101",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 100,
@@ -85,6 +104,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 0,
         max: 15000,
@@ -95,6 +115,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "illuminance",
+        reading: "instant",
         readOnly: true,
         unit: "lx",
       },

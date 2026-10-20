@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Robot vacuum",
-  productKeys: ["fptshnsx98tak0zo"],
+  products: [
+    { productKey: "fptshnsx98tak0zo", manufacturer: "Airrobo", model: "P20" },
+  ],
   dataPoints: {
     "2": { type: "boolean", optional: true },
     "3": { type: "string" },
@@ -85,34 +87,42 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "battery",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
       edgeBrushLifeInPercent: {
         dataPoint: "7",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       rollBrushLifeInPercent: {
         dataPoint: "8",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
       filterLifeInPercent: {
         dataPoint: "9",
         kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      resetEdgeBrush: { dataPoint: "10", kind: "button" },
-      resetRollBrush: { dataPoint: "11", kind: "button" },
-      resetFilter: { dataPoint: "12", kind: "button" },
+      resetEdgeBrush: { dataPoint: "10", kind: "button", category: "config" },
+      resetRollBrush: { dataPoint: "11", kind: "button", category: "config" },
+      resetFilter: { dataPoint: "12", kind: "button", category: "config" },
       cleanAreaInM2: {
         dataPoint: "16",
         kind: "sensor",
         measures: "area",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "m2",
       },
@@ -120,12 +130,15 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "17",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
       volumeInPercent: {
         dataPoint: "28",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -134,14 +147,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "18",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "18", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "18",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "18",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -166,6 +186,7 @@ const entry: TuyaDeviceEntry = {
       language: {
         dataPoint: "29",
         kind: "select",
+        category: "config",
         values: [
           { raw: "english", value: "english" },
           { raw: "german", value: "german" },
@@ -178,6 +199,7 @@ const entry: TuyaDeviceEntry = {
       quickClean: {
         dataPoint: "101",
         kind: "switch",
+        category: "config",
         values: [
           { raw: "careful_clean", value: false },
           { raw: "speed_clean", value: true },

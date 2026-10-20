@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air conditioner",
-  productKeys: ["nn2ooaacswz6uyi0"],
+  products: [
+    {
+      productKey: "nn2ooaacswz6uyi0",
+      manufacturer: "Qlima",
+      model: "SC 7035S Air Conditioner",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -146,6 +152,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "116",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 100,
@@ -154,6 +161,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "127",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "kWh",
         scale: 100,
@@ -180,6 +188,7 @@ const entry: TuyaDeviceEntry = {
       sound: {
         dataPoint: "16",
         kind: "switch",
+        category: "config",
         values: [
           { raw: false, value: true },
           { raw: true, value: false },
@@ -227,7 +236,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    display: { on: { dataPoint: "13", kind: "switch" } },
+    display: { on: { dataPoint: "13", kind: "switch", category: "config" } },
   },
   source: {
     file: "qlima_sc7035s_air_conditioner.yaml",

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["qnkkma3qcqzmchx4"],
+  products: [
+    {
+      productKey: "qnkkma3qcqzmchx4",
+      manufacturer: "eTowel",
+      model: "Mini04 Plus",
+    },
+  ],
   dataPoints: {
     "4": { type: "string" },
     "7": { type: "boolean" },
@@ -110,11 +116,12 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "idle" },
         ],
       },
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       timerInHours: {
         dataPoint: "104",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "h",
         min: 1,
         max: 9,
@@ -123,10 +130,11 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "105",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
-      schedule: { dataPoint: "23", kind: "text" },
+      schedule: { dataPoint: "23", kind: "text", category: "config" },
       window: {
         dataPoint: "107",
         kind: "sensor",

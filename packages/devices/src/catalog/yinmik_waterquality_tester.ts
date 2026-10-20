@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water quality monitor",
-  productKeys: ["u5xgcpcngk3pfxb4"],
+  products: [
+    {
+      productKey: "u5xgcpcngk3pfxb4",
+      manufacturer: "Yinmik",
+      model: "WF-3188",
+    },
+  ],
   dataPoints: {
     "1": { type: "integer", optional: true },
     "2": { type: "integer" },
@@ -36,6 +42,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "temperature",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 10,
@@ -43,6 +50,7 @@ const entry: TuyaDeviceEntry = {
       totalDissolvedSolidsInPpm: {
         dataPoint: "1",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "ppm",
       },
@@ -56,6 +64,7 @@ const entry: TuyaDeviceEntry = {
       ph: {
         dataPoint: "10",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         values: [{ raw: 1500, value: null }],
         scale: 100,
@@ -63,6 +72,7 @@ const entry: TuyaDeviceEntry = {
       electricalConductivityInMsPerCm: {
         dataPoint: "11",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "mS/cm",
         scale: 1000,
@@ -70,31 +80,39 @@ const entry: TuyaDeviceEntry = {
       oxidationReductionPotentialInMillivolts: {
         dataPoint: "12",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "mV",
       },
       phBufferStandard: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "AsiaStandard", value: "Asia" },
           { raw: "EUStandard", value: "EU" },
         ],
       },
-      holdReading: { dataPoint: "102", kind: "switch" },
-      ecTemperatureCompensation: { dataPoint: "104", kind: "switch" },
+      holdReading: { dataPoint: "102", kind: "switch", category: "config" },
+      ecTemperatureCompensation: {
+        dataPoint: "104",
+        kind: "switch",
+        category: "config",
+      },
       ecTemperatureFactorInPercentPerC: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "%/℃",
         min: 0,
         max: 30,
         scale: 10,
       },
-      warningBuzzer: { dataPoint: "106", kind: "switch" },
+      warningBuzzer: { dataPoint: "106", kind: "switch", category: "config" },
       maximumPh: {
         dataPoint: "107",
         kind: "number",
+        category: "config",
         min: 0,
         max: 1400,
         scale: 100,
@@ -102,6 +120,7 @@ const entry: TuyaDeviceEntry = {
       minimumPh: {
         dataPoint: "108",
         kind: "number",
+        category: "config",
         min: 0,
         max: 1400,
         scale: 100,
@@ -109,6 +128,7 @@ const entry: TuyaDeviceEntry = {
       maximumEcInMsPerCm: {
         dataPoint: "109",
         kind: "number",
+        category: "config",
         unit: "mS/cm",
         min: 0,
         max: 200000,
@@ -117,6 +137,7 @@ const entry: TuyaDeviceEntry = {
       minimumEcInMsPerCm: {
         dataPoint: "110",
         kind: "number",
+        category: "config",
         unit: "mS/cm",
         min: 0,
         max: 200000,
@@ -125,6 +146,7 @@ const entry: TuyaDeviceEntry = {
       maximumOrpInMillivolts: {
         dataPoint: "111",
         kind: "number",
+        category: "config",
         unit: "mV",
         min: -1200,
         max: 1200,
@@ -132,15 +154,24 @@ const entry: TuyaDeviceEntry = {
       minimumOrpInMillivolts: {
         dataPoint: "112",
         kind: "number",
+        category: "config",
         unit: "mV",
         min: -1200,
         max: 1200,
       },
-      cf: { dataPoint: "113", kind: "sensor", readOnly: true, scale: 10 },
+      cf: {
+        dataPoint: "113",
+        kind: "sensor",
+        reading: "instant",
+        category: "diagnostic",
+        readOnly: true,
+        scale: 10,
+      },
       humidityInPercent: {
         dataPoint: "114",
         kind: "sensor",
         measures: "humidity",
+        reading: "instant",
         readOnly: true,
         unit: "%",
       },
@@ -148,6 +179,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "115",
         kind: "number",
         measures: "humidity",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -156,12 +188,13 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "116",
         kind: "number",
         measures: "humidity",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
       },
     },
-    backlight: { on: { dataPoint: "103", kind: "switch" } },
+    backlight: { on: { dataPoint: "103", kind: "switch", category: "config" } },
   },
   source: {
     file: "yinmik_waterquality_tester.yaml",

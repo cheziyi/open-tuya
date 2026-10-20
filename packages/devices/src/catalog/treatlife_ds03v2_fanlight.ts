@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["ea88zei7auxu48s6"],
+  products: [
+    {
+      productKey: "ea88zei7auxu48s6",
+      manufacturer: "Treatlife",
+      model: "DS03",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "3": { type: "string" },
@@ -35,6 +41,7 @@ const entry: TuyaDeviceEntry = {
       fanTimerInMinutes: {
         dataPoint: "102",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,
@@ -42,6 +49,7 @@ const entry: TuyaDeviceEntry = {
       lightTimerInMinutes: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,
@@ -49,13 +57,14 @@ const entry: TuyaDeviceEntry = {
       minimumBrightnessInPercent: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 10,
         max: 1000,
         scale: 10,
       },
-      powerOnConfig: { dataPoint: "107", kind: "text" },
-      randomSchedule: { dataPoint: "109", kind: "text" },
+      powerOnConfig: { dataPoint: "107", kind: "text", category: "config" },
+      randomSchedule: { dataPoint: "109", kind: "text", category: "config" },
     },
     light: {
       on: { dataPoint: "101", kind: "switch" },
@@ -72,7 +81,13 @@ const entry: TuyaDeviceEntry = {
       },
     },
     indicator: {
-      brightness: { dataPoint: "108", kind: "number", min: 0, max: 2 },
+      brightness: {
+        dataPoint: "108",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 2,
+      },
     },
   },
   source: {

@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Carbon monoxide detector",
-  productKeys: ["s3xbz2blagibrod5"],
+  products: [
+    { productKey: "s3xbz2blagibrod5", manufacturer: "Xtreme", model: "TC20" },
+  ],
   dataPoints: {
     "1": { type: "string" },
     "8": { type: "boolean" },
@@ -27,10 +29,11 @@ const entry: TuyaDeviceEntry = {
         whenAbsent: { value: null },
         otherwise: true,
       },
-      selfCheck: { dataPoint: "8", kind: "button" },
+      selfCheck: { dataPoint: "8", kind: "button", category: "config" },
       selfCheckState: {
         dataPoint: "9",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "checking", value: "checking" },
@@ -43,11 +46,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
   },
   source: {

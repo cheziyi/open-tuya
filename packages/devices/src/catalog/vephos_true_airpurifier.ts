@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["mhzbjznygqaqjx8w"],
+  products: [
+    { productKey: "mhzbjznygqaqjx8w", manufacturer: "Vephos", model: "True" },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -46,6 +48,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
@@ -54,6 +57,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "2h", value: "2h" },
@@ -67,14 +71,21 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "ok" },
@@ -84,10 +95,11 @@ const entry: TuyaDeviceEntry = {
           { raw: 8, value: "Replace filter 4" },
         ],
       },
-      filter123Reset: { dataPoint: "101", kind: "button" },
+      filter123Reset: { dataPoint: "101", kind: "button", category: "config" },
       airflowAngle: {
         dataPoint: "103",
         kind: "select",
+        category: "config",
         values: [
           { raw: "30", value: "30°" },
           { raw: "60", value: "60°" },
@@ -95,7 +107,7 @@ const entry: TuyaDeviceEntry = {
         ],
       },
     },
-    indicator: { on: { dataPoint: "8", kind: "switch" } },
+    indicator: { on: { dataPoint: "8", kind: "switch", category: "config" } },
   },
   source: {
     file: "vephos_true_airpurifier.yaml",

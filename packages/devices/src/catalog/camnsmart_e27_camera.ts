@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Camera",
-  productKeys: ["ivdxyvyy8aqzm1ix"],
+  products: [
+    {
+      productKey: "ivdxyvyy8aqzm1ix",
+      manufacturer: "Camnsmart",
+      model: "E27TY",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean", optional: true },
     "109": { type: "string" },
@@ -34,59 +40,68 @@ const entry: TuyaDeviceEntry = {
       recordingMemoryCardCapacity: { dataPoint: "109", kind: "text" },
       recordingLogEvent: { dataPoint: "178", kind: "text" },
       recordingLogMessage: { dataPoint: "185", kind: "text" },
-      motionDetection: { dataPoint: "134", kind: "switch" },
+      motionDetection: { dataPoint: "134", kind: "switch", category: "config" },
       ptzUp: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "0", value: true }],
         otherwise: false,
       },
       ptzRightUp: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "1", value: true }],
         otherwise: false,
       },
       ptzRight: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "2", value: true }],
         otherwise: false,
       },
       ptzRightDown: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "3", value: true }],
         otherwise: false,
       },
       ptzDown: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "4", value: true }],
         otherwise: false,
       },
       ptzLeftDown: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "5", value: true }],
         otherwise: false,
       },
       ptzLeft: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "6", value: true }],
         otherwise: false,
       },
       ptzLeftUp: {
         dataPoint: "119",
         kind: "button",
+        category: "config",
         values: [{ raw: "7", value: true }],
         otherwise: false,
       },
-      autoSiren: { dataPoint: "120", kind: "switch" },
+      autoSiren: { dataPoint: "120", kind: "switch", category: "config" },
       nightVision: {
         dataPoint: "124",
         kind: "select",
+        category: "config",
         values: [
           { raw: "auto", value: "auto" },
           { raw: "ir_mode", value: "on" },
@@ -96,6 +111,7 @@ const entry: TuyaDeviceEntry = {
       recordingMode: {
         dataPoint: "151",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "event" },
           { raw: "2", value: "continuous" },
@@ -104,33 +120,50 @@ const entry: TuyaDeviceEntry = {
       motionTracking: {
         dataPoint: "161",
         kind: "switch",
+        category: "config",
         values: [{ raw: false }],
       },
-      restart: { dataPoint: "162", kind: "button" },
+      restart: { dataPoint: "162", kind: "button", category: "config" },
       zoom: {
         dataPoint: "163",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "Zoom out" },
           { raw: "1", value: "Zoom in" },
         ],
       },
-      stopZooming: { dataPoint: "164", kind: "button" },
-      limitMotionDetectionAreaEnabled: { dataPoint: "168", kind: "switch" },
-      limitMotionDetectionArea: { dataPoint: "169", kind: "text" },
-      humanDetection: { dataPoint: "170", kind: "switch" },
+      stopZooming: { dataPoint: "164", kind: "button", category: "config" },
+      limitMotionDetectionAreaEnabled: {
+        dataPoint: "168",
+        kind: "switch",
+        category: "config",
+      },
+      limitMotionDetectionArea: {
+        dataPoint: "169",
+        kind: "text",
+        category: "config",
+      },
+      humanDetection: { dataPoint: "170", kind: "switch", category: "config" },
       lightDurationInSeconds: {
         dataPoint: "173",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 3600,
       },
     },
-    indicator: { on: { dataPoint: "101", kind: "switch" } },
+    indicator: { on: { dataPoint: "101", kind: "switch", category: "config" } },
     floodlight: {
-      on: { dataPoint: "138", kind: "switch" },
-      brightness: { dataPoint: "158", kind: "number", min: 1, max: 100 },
+      on: { dataPoint: "138", kind: "switch", category: "config" },
+      brightness: {
+        dataPoint: "158",
+        kind: "number",
+        category: "config",
+        min: 1,
+        max: 100,
+      },
     },
   },
   source: {

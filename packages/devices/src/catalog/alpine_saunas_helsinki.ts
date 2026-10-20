@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Sauna",
-  productKeys: ["9tdocx8kf6f4ew6x"],
+  products: [
+    {
+      productKey: "9tdocx8kf6f4ew6x",
+      manufacturer: "Alpine Saunas",
+      model: "Helsinki",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "boolean" },
@@ -45,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       timerInMinutes: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 60,

@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["oaleouzsq0sk4quk"],
+  products: [
+    {
+      productKey: "oaleouzsq0sk4quk",
+      manufacturer: "Renpho",
+      model: "RP-AP001S",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "4": { type: "string" },
@@ -35,11 +41,12 @@ const entry: TuyaDeviceEntry = {
       timer: { dataPoint: "19", kind: "text" },
     },
     device: {
-      childLock: { dataPoint: "7", kind: "switch" },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
       sleep: { dataPoint: "101", kind: "switch" },
       airQuality: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "bad", value: "poor" },
@@ -47,15 +54,36 @@ const entry: TuyaDeviceEntry = {
           { raw: "good", value: "good" },
         ],
       },
-      prefilterLife: { dataPoint: "102", kind: "sensor", readOnly: true },
-      charcoalFilterLife: { dataPoint: "103", kind: "sensor", readOnly: true },
-      activeFilterLife: { dataPoint: "104", kind: "sensor", readOnly: true },
-      hepaFilterLife: { dataPoint: "105", kind: "sensor", readOnly: true },
+      prefilterLife: {
+        dataPoint: "102",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      charcoalFilterLife: {
+        dataPoint: "103",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      activeFilterLife: {
+        dataPoint: "104",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      hepaFilterLife: {
+        dataPoint: "105",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     aqIndicator: {
       on: {
         dataPoint: "8",
         kind: "select",
+        category: "config",
         values: [{ raw: true }, { raw: false }],
       },
     },

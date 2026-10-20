@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Dimmer",
-  productKeys: ["azt4dppefleigvb0"],
+  products: [
+    {
+      productKey: "azt4dppefleigvb0",
+      manufacturer: "Sensio",
+      model: "240V Kinetic Receiver",
+      modelId: "SE780990",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -20,14 +27,21 @@ const entry: TuyaDeviceEntry = {
     light: {
       on: { dataPoint: "1", kind: "switch" },
       brightness: { dataPoint: "2", kind: "number", min: 10, max: 1000 },
-      minimumBrightness: { dataPoint: "3", kind: "number", min: 10, max: 1000 },
-      pair: { dataPoint: "101", kind: "button" },
-      pairResult: { dataPoint: "103", kind: "switch" },
-      clear: { dataPoint: "102", kind: "button" },
-      clearResult: { dataPoint: "104", kind: "switch" },
+      minimumBrightness: {
+        dataPoint: "3",
+        kind: "number",
+        category: "config",
+        min: 10,
+        max: 1000,
+      },
+      pair: { dataPoint: "101", kind: "button", category: "config" },
+      pairResult: { dataPoint: "103", kind: "switch", category: "config" },
+      clear: { dataPoint: "102", kind: "button", category: "config" },
+      clearResult: { dataPoint: "104", kind: "switch", category: "config" },
       timerInSeconds: {
         dataPoint: "105",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86399,

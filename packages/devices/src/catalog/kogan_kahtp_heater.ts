@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Panel heater",
-  productKeys: [],
+  products: [],
   dataPoints: {
     "2": { type: "integer" },
     "3": { type: "integer" },
@@ -47,10 +47,11 @@ const entry: TuyaDeviceEntry = {
           { raw: true, value: "heat" },
         ],
       },
-      childLock: { dataPoint: "6", kind: "switch" },
+      childLock: { dataPoint: "6", kind: "switch", category: "config" },
       timerInMinutes: {
         dataPoint: "8",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 1440,

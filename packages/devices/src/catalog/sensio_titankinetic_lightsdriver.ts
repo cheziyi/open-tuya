@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Five channel dimmer",
-  productKeys: ["whg6uhsccujw03km"],
+  products: [
+    {
+      productKey: "whg6uhsccujw03km",
+      manufacturer: "Sensio",
+      model: "Titan Smart Kinetic Driver",
+    },
+  ],
   dataPoints: {
     "20": { type: "boolean" },
     "21": { type: "string" },
@@ -61,6 +67,7 @@ const entry: TuyaDeviceEntry = {
       scene: {
         dataPoint: "115",
         kind: "select",
+        category: "config",
         values: [
           { raw: "1", value: "Scene 1" },
           { raw: "2", value: "Scene 2" },
@@ -68,10 +75,10 @@ const entry: TuyaDeviceEntry = {
           { raw: "4", value: "Scene 4" },
         ],
       },
-      scene1: { dataPoint: "111", kind: "text" },
-      scene2: { dataPoint: "112", kind: "text" },
-      scene3: { dataPoint: "113", kind: "text" },
-      scene4: { dataPoint: "114", kind: "text" },
+      scene1: { dataPoint: "111", kind: "text", category: "config" },
+      scene2: { dataPoint: "112", kind: "text", category: "config" },
+      scene3: { dataPoint: "113", kind: "text", category: "config" },
+      scene4: { dataPoint: "114", kind: "text", category: "config" },
     },
   },
   source: {

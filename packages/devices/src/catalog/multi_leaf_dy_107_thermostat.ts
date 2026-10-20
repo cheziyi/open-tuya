@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["gdusjavy8i4dpjlt"],
+  products: [
+    {
+      productKey: "gdusjavy8i4dpjlt",
+      manufacturer: "Multi-leaf",
+      model: "DY-107",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -83,15 +89,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -9,
         max: 9,
       },
-      antiFrost: { dataPoint: "10", kind: "switch" },
-      childLock: { dataPoint: "40", kind: "switch" },
+      antiFrost: { dataPoint: "10", kind: "switch", category: "config" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
       sensorSelection: {
         dataPoint: "43",
         kind: "select",
+        category: "config",
         values: [
           { raw: "in", value: "Internal" },
           { raw: "out", value: "External" },
@@ -102,15 +110,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "45",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "45", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "45",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       maximumTemperatureInC: {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 30,
         max: 90,
@@ -119,14 +134,16 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "26",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 5,
         max: 20,
       },
-      reset: { dataPoint: "39", kind: "button" },
+      reset: { dataPoint: "39", kind: "button", category: "config" },
       workingWeek: {
         dataPoint: "31",
         kind: "select",
+        category: "config",
         values: [
           { raw: "00", value: "Off" },
           { raw: "5_2", value: "5 days" },
@@ -136,7 +153,13 @@ const entry: TuyaDeviceEntry = {
       },
     },
     backlight: {
-      brightness: { dataPoint: "44", kind: "number", min: 0, max: 100 },
+      brightness: {
+        dataPoint: "44",
+        kind: "number",
+        category: "config",
+        min: 0,
+        max: 100,
+      },
     },
   },
   source: {

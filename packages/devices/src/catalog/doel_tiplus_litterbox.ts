@@ -5,7 +5,10 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Litter box",
-  productKeys: ["ijas23irjjaenllv", "ayqdo8kqpj9t3byk"],
+  products: [
+    { productKey: "ijas23irjjaenllv", manufacturer: "DOEL", model: "Ti+" },
+    { productKey: "ayqdo8kqpj9t3byk", manufacturer: "DOEL", model: "Ti+" },
+  ],
   dataPoints: {
     "6": { type: "integer" },
     "7": { type: "integer" },
@@ -43,6 +46,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "6",
         kind: "sensor",
         measures: "weight",
+        reading: "instant",
         readOnly: true,
         unitFrom: "catWeightUnit",
         dependsOn: {
@@ -70,6 +74,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "8",
         kind: "sensor",
         measures: "duration",
+        reading: "instant",
         readOnly: true,
         unit: "s",
       },
@@ -77,11 +82,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       clean: { dataPoint: "101", kind: "button" },
       empty: { dataPoint: "102", kind: "button" },
       binFull: { dataPoint: "119", kind: "sensor", readOnly: true },
@@ -91,13 +102,18 @@ const entry: TuyaDeviceEntry = {
         measures: "occupancy",
         readOnly: true,
       },
-      autoClean: { dataPoint: "105", kind: "switch" },
-      infraredDetection: { dataPoint: "111", kind: "switch" },
-      childLock: { dataPoint: "114", kind: "switch" },
+      autoClean: { dataPoint: "105", kind: "switch", category: "config" },
+      infraredDetection: {
+        dataPoint: "111",
+        kind: "switch",
+        category: "config",
+      },
+      childLock: { dataPoint: "114", kind: "switch", category: "config" },
       cleanWaitTimeInMinutes: {
         dataPoint: "117",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "min",
         min: 0,
         max: 60,
@@ -105,6 +121,7 @@ const entry: TuyaDeviceEntry = {
       cleanIntervalInMinutes: {
         dataPoint: "118",
         kind: "number",
+        category: "config",
         unit: "min",
         min: 0,
         max: 120,
@@ -113,20 +130,23 @@ const entry: TuyaDeviceEntry = {
       sandSurfaceCalibration: {
         dataPoint: "130",
         kind: "number",
+        category: "config",
         min: 0,
         max: 6,
       },
       detectionSensitivityInKg: {
         dataPoint: "124",
         kind: "number",
+        category: "config",
         unit: "kg",
         scale: 10,
       },
-      deepClean: { dataPoint: "125", kind: "switch" },
+      deepClean: { dataPoint: "125", kind: "switch", category: "config" },
       levelLitter: { dataPoint: "126", kind: "button" },
       unitSelect: {
         dataPoint: "108",
         kind: "select",
+        category: "config",
         values: [
           { raw: "kg", value: "kg" },
           { raw: "lb", value: "lb" },
@@ -143,14 +163,19 @@ const entry: TuyaDeviceEntry = {
       litterType: {
         dataPoint: "131",
         kind: "select",
+        category: "config",
         values: [
           { raw: "mineral_cat_litter", value: "Mineral" },
           { raw: "mixed_cat_litter", value: "Mixed" },
         ],
       },
-      developerMode: { dataPoint: "135", kind: "switch" },
-      sleep: { dataPoint: "120", kind: "switch" },
-      thinFecesDetection: { dataPoint: "127", kind: "switch" },
+      developerMode: { dataPoint: "135", kind: "switch", category: "config" },
+      sleep: { dataPoint: "120", kind: "switch", category: "config" },
+      thinFecesDetection: {
+        dataPoint: "127",
+        kind: "switch",
+        category: "config",
+      },
       bagChange: { dataPoint: "138", kind: "button" },
       bagChangeCount: {
         dataPoint: "139",

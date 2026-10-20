@@ -5,7 +5,18 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Humidifier",
-  productKeys: ["gi2d3je5upa9ngx4", "qgv0pltei9nuuatv"],
+  products: [
+    {
+      productKey: "gi2d3je5upa9ngx4",
+      manufacturer: "Stadler Form",
+      model: "Karl",
+    },
+    {
+      productKey: "qgv0pltei9nuuatv",
+      manufacturer: "Stadler Form",
+      model: "Karl big",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "14": { type: "integer" },
@@ -48,14 +59,16 @@ const entry: TuyaDeviceEntry = {
       tankEmpty: {
         dataPoint: "22",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      childLock: { dataPoint: "29", kind: "switch" },
+      childLock: { dataPoint: "29", kind: "switch", category: "config" },
       filterLifeInPercent: {
         dataPoint: "33",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
@@ -63,6 +76,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "104",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
@@ -72,6 +86,7 @@ const entry: TuyaDeviceEntry = {
       brightness: {
         dataPoint: "34",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Fully", value: 255 },
           { raw: "Half", value: 128 },

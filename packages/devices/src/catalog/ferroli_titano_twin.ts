@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Water heater",
-  productKeys: ["lci0ebsz7ftaruaf"],
+  products: [
+    {
+      productKey: "lci0ebsz7ftaruaf",
+      manufacturer: "Ferroli",
+      model: "Titano Twin",
+      modelId: "DT EWH",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -55,20 +62,28 @@ const entry: TuyaDeviceEntry = {
       antiLegionella: {
         dataPoint: "4",
         kind: "switch",
+        category: "config",
         values: [{ raw: true }, { raw: false }],
       },
       fault: {
         dataPoint: "101",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "101", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "101",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       faultDescription: {
         dataPoint: "101",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 0, value: "OK" },
@@ -82,17 +97,24 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "sensor",
         measures: "running",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: "Heating", value: true }],
         otherwise: false,
       },
-      defrost: { dataPoint: "103", kind: "sensor", readOnly: true },
+      defrost: {
+        dataPoint: "103",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     device: {
       targetTemperatureInC: {
         dataPoint: "104",
         kind: "sensor",
         measures: "temperature",
+        category: "diagnostic",
         readOnly: true,
         unit: "C",
       },

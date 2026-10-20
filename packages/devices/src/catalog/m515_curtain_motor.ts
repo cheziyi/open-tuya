@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Curtain motor",
-  productKeys: ["t6ief6k56sapz1ey"],
+  products: [{ productKey: "t6ief6k56sapz1ey", model: "M515EGWT v2" }],
   dataPoints: {
     "1": { type: "string" },
     "2": { type: "integer" },
@@ -52,21 +52,29 @@ const entry: TuyaDeviceEntry = {
       reversed: {
         dataPoint: "5",
         kind: "switch",
+        category: "config",
         whenAbsent: { value: false },
       },
       fault: {
         dataPoint: "12",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         whenAbsent: { value: false },
         otherwise: true,
       },
-      faultCode: { dataPoint: "12", kind: "sensor", readOnly: true },
+      faultCode: {
+        dataPoint: "12",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       borderSetting: {
         dataPoint: "16",
         kind: "select",
+        category: "config",
         values: [
           { raw: "up", value: "Top" },
           { raw: "down", value: "Bottom" },
@@ -78,6 +86,7 @@ const entry: TuyaDeviceEntry = {
       bestPositionInPercent: {
         dataPoint: "19",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,

@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan heater",
-  productKeys: ["gzmby6hypv4daebf"],
+  products: [
+    {
+      productKey: "gzmby6hypv4daebf",
+      manufacturer: "Nedis",
+      model: "Ceramic PTC",
+      modelId: "HTFA22WTW",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -79,6 +86,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "cancel", value: "cancel" },
           { raw: "1h", value: "1h" },
@@ -97,7 +105,7 @@ const entry: TuyaDeviceEntry = {
         unit: "min",
       },
     },
-    indicator: { on: { dataPoint: "10", kind: "switch" } },
+    indicator: { on: { dataPoint: "10", kind: "switch", category: "config" } },
   },
   source: {
     file: "nedis_ptc_fan_heater.yaml",

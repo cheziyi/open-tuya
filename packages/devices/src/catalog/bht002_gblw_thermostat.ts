@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["v5214objiaepcaer"],
+  products: [{ productKey: "v5214objiaepcaer", model: "BHT-002 GBLW" }],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "string" },
@@ -78,13 +78,14 @@ const entry: TuyaDeviceEntry = {
         unit: "C",
         scale: 10,
       },
-      factoryReset: { dataPoint: "39", kind: "button" },
-      windowDetect: { dataPoint: "8", kind: "switch" },
-      childLock: { dataPoint: "40", kind: "switch" },
-      antiFrost: { dataPoint: "10", kind: "switch" },
+      factoryReset: { dataPoint: "39", kind: "button", category: "config" },
+      windowDetect: { dataPoint: "8", kind: "switch", category: "config" },
+      childLock: { dataPoint: "40", kind: "switch", category: "config" },
+      antiFrost: { dataPoint: "10", kind: "switch", category: "config" },
       temperatureSensor: {
         dataPoint: "43",
         kind: "select",
+        category: "config",
         values: [
           { raw: "in", value: "Internal" },
           { raw: "out", value: "External" },
@@ -94,6 +95,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 350,
         max: 950,
@@ -104,6 +106,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "25",
         kind: "sensor",
         measures: "window",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "close", value: false },
@@ -117,6 +120,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "27",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -9,
         max: 9,

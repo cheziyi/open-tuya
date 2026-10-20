@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Air purifier",
-  productKeys: ["4kqsufvuurljmryl"],
+  products: [
+    {
+      productKey: "4kqsufvuurljmryl",
+      manufacturer: "Meaco",
+      model: "Clean CA-HEPA 76x5",
+      modelId: "Meaco76x5WiFi",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -39,19 +46,22 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "2",
         kind: "sensor",
         measures: "pm25",
+        reading: "instant",
         readOnly: true,
         unit: "ugm3",
       },
       filterLifeInPercent: {
         dataPoint: "5",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         unit: "%",
       },
-      filterReset: { dataPoint: "11", kind: "button" },
+      filterReset: { dataPoint: "11", kind: "button", category: "config" },
       timer: {
         dataPoint: "18",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Cancel", value: "cancel" },
           { raw: "2h", value: "2h" },
@@ -63,6 +73,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "19",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -82,18 +93,25 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "22",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 0, value: false }],
         otherwise: true,
       },
-      faultCode: { dataPoint: "22", kind: "sensor", readOnly: true },
-      childLock: { dataPoint: "7", kind: "switch" },
-      ionizer: { dataPoint: "6", kind: "switch" },
+      faultCode: {
+        dataPoint: "22",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
+      childLock: { dataPoint: "7", kind: "switch", category: "config" },
+      ionizer: { dataPoint: "6", kind: "switch", category: "config" },
     },
     indicator: {
       brightness: {
         dataPoint: "101",
         kind: "select",
+        category: "config",
         values: [
           { raw: "Close", value: 0 },
           { raw: "Soft", value: 128 },

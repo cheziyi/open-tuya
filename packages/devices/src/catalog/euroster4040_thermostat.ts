@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["f8oamfazwp5wo8go"],
+  products: [
+    {
+      productKey: "f8oamfazwp5wo8go",
+      manufacturer: "Euroster",
+      model: "4040 Smart",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "17": { type: "string" },
@@ -62,6 +68,7 @@ const entry: TuyaDeviceEntry = {
       temperatureUnit: {
         dataPoint: "17",
         kind: "select",
+        category: "config",
         values: [
           { raw: "c", value: "C" },
           { raw: "f", value: "F" },
@@ -71,6 +78,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         mask: "000000000000000000FF0000000000000000",
         kind: "number",
+        category: "diagnostic",
         scale: 10,
       },
       fault: {
@@ -78,12 +86,13 @@ const entry: TuyaDeviceEntry = {
         mask: "0F0000000000000000000000000000000000",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 7, value: true }],
         otherwise: false,
       },
-      updateSensors: { dataPoint: "101", kind: "button" },
-      fetchSchedule: { dataPoint: "102", kind: "button" },
+      updateSensors: { dataPoint: "101", kind: "button", category: "config" },
+      fetchSchedule: { dataPoint: "102", kind: "button", category: "config" },
     },
   },
   source: {

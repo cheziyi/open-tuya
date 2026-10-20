@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Ceiling fan",
-  productKeys: ["kzmjklvux6c5cu1u"],
+  products: [
+    {
+      productKey: "kzmjklvux6c5cu1u",
+      manufacturer: "Anderic",
+      model: "UC7235T4",
+    },
+  ],
   dataPoints: {
     "101": { type: "boolean" },
     "102": { type: "integer" },

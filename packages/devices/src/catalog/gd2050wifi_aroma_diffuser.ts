@@ -5,7 +5,7 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Aroma diffuser",
-  productKeys: ["sf6rbebwtwdsk0za"],
+  products: [{ productKey: "sf6rbebwtwdsk0za", model: "GD2050WIFI" }],
   dataPoints: {
     "2": { type: "boolean" },
     "3": { type: "string" },
@@ -33,6 +33,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "4",
         kind: "select",
+        category: "config",
         values: [
           { raw: "2h", value: "continuous" },
           { raw: "4", value: "10s on - 10s off" },
@@ -44,6 +45,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "5",
         kind: "sensor",
         measures: "duration",
+        category: "diagnostic",
         readOnly: true,
         unit: "min",
       },
@@ -51,11 +53,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "11",
         kind: "sensor",
         measures: "fault",
+        category: "diagnostic",
         readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
       },
-      tankEmptyFaultCode: { dataPoint: "11", kind: "sensor", readOnly: true },
+      tankEmptyFaultCode: {
+        dataPoint: "11",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
     },
     nightlight: {
       on: { dataPoint: "7", kind: "switch" },

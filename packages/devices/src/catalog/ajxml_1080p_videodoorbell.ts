@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Video doorbell",
-  productKeys: ["aszi9bvt1ywea5z0"],
+  products: [
+    {
+      productKey: "aszi9bvt1ywea5z0",
+      manufacturer: "AJXML",
+      model: "1080p Smart Doorbell camera",
+      modelId: "DEKCE_IDS07_KXT_M70",
+    },
+  ],
   dataPoints: {
     "106": { type: "string" },
     "109": { type: "string" },
@@ -32,6 +39,7 @@ const entry: TuyaDeviceEntry = {
       motionSensitivity: {
         dataPoint: "106",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "low" },
           { raw: "1", value: "medium" },
@@ -41,6 +49,7 @@ const entry: TuyaDeviceEntry = {
       sdStatus: {
         dataPoint: "110",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "normal" },
@@ -50,7 +59,12 @@ const entry: TuyaDeviceEntry = {
           { raw: 5, value: "missing" },
         ],
       },
-      sdStatusCapacity: { dataPoint: "109", kind: "sensor", readOnly: true },
+      sdStatusCapacity: {
+        dataPoint: "109",
+        kind: "sensor",
+        category: "diagnostic",
+        readOnly: true,
+      },
       motion: {
         dataPoint: "115",
         kind: "event",
@@ -64,7 +78,7 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         type: "base64",
       },
-      motionDetection: { dataPoint: "134", kind: "switch" },
+      motionDetection: { dataPoint: "134", kind: "switch", category: "config" },
       doorbell: {
         dataPoint: "154",
         kind: "event",
@@ -78,8 +92,12 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         type: "base64",
       },
-      restrictMotionArea: { dataPoint: "168", kind: "switch" },
-      motionArea: { dataPoint: "169", kind: "text" },
+      restrictMotionArea: {
+        dataPoint: "168",
+        kind: "switch",
+        category: "config",
+      },
+      motionArea: { dataPoint: "169", kind: "text", category: "config" },
       alarm: {
         dataPoint: "185",
         kind: "event",
@@ -106,13 +124,22 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         type: "utf16b64",
       },
-      channelSwitching: { dataPoint: "233", kind: "text" },
-      detectionPolygon: { dataPoint: "237", kind: "switch" },
-      multiZoneDetection: { dataPoint: "238", kind: "switch" },
-      multiZoneArea: { dataPoint: "239", kind: "text" },
+      channelSwitching: { dataPoint: "233", kind: "text", category: "config" },
+      detectionPolygon: {
+        dataPoint: "237",
+        kind: "switch",
+        category: "config",
+      },
+      multiZoneDetection: {
+        dataPoint: "238",
+        kind: "switch",
+        category: "config",
+      },
+      multiZoneArea: { dataPoint: "239", kind: "text", category: "config" },
       pirAlarmInterval: {
         dataPoint: "241",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0", value: "0" },
           { raw: "1", value: "1" },

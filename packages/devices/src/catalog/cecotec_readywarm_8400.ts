@@ -5,7 +5,13 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Fan heater",
-  productKeys: ["var0f7dheclxpjuz"],
+  products: [
+    {
+      productKey: "var0f7dheclxpjuz",
+      manufacturer: "Cecotec",
+      model: "ReadyWarm 8400 Bladeless",
+    },
+  ],
   dataPoints: {
     "1": { type: "boolean" },
     "2": { type: "integer" },
@@ -81,6 +87,7 @@ const entry: TuyaDeviceEntry = {
       timer: {
         dataPoint: "19",
         kind: "select",
+        category: "config",
         values: [
           { raw: "0h", value: "cancel" },
           { raw: "1h", value: "1h" },

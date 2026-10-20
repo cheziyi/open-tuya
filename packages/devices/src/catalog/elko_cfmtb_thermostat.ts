@@ -5,7 +5,9 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Thermostat",
-  productKeys: ["fy012zc3l51doakx"],
+  products: [
+    { productKey: "fy012zc3l51doakx", manufacturer: "ELKO", model: "EKO07262" },
+  ],
   dataPoints: {
     "101": { type: "string" },
     "102": { type: "string" },
@@ -162,15 +164,17 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "103",
         kind: "number",
         measures: "power",
+        category: "config",
         unit: "W",
         min: 0,
         max: 3600,
         step: 100,
       },
-      childLock: { dataPoint: "131", kind: "switch" },
+      childLock: { dataPoint: "131", kind: "switch", category: "config" },
       activeScreenBrightnessInPercent: {
         dataPoint: "132",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 10,
         max: 100,
@@ -178,6 +182,7 @@ const entry: TuyaDeviceEntry = {
       standbyScreenBrightnessInPercent: {
         dataPoint: "133",
         kind: "number",
+        category: "config",
         unit: "%",
         min: 0,
         max: 100,
@@ -185,6 +190,7 @@ const entry: TuyaDeviceEntry = {
       externalSensorType: {
         dataPoint: "129",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: "Not_Fitted", value: "Not Fitted" },
@@ -199,6 +205,7 @@ const entry: TuyaDeviceEntry = {
       deviceType: {
         dataPoint: "118",
         kind: "sensor",
+        category: "diagnostic",
         readOnly: true,
         values: [
           { raw: 1, value: "Heat Pump/Oil Boiler" },
@@ -218,6 +225,7 @@ const entry: TuyaDeviceEntry = {
       floorTemperatureInC: {
         dataPoint: "105",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 100,
@@ -225,6 +233,7 @@ const entry: TuyaDeviceEntry = {
       ambientTemperatureInC: {
         dataPoint: "104",
         kind: "sensor",
+        reading: "instant",
         readOnly: true,
         unit: "C",
         scale: 100,
@@ -233,6 +242,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "150",
         kind: "sensor",
         measures: "power",
+        reading: "instant",
         readOnly: true,
         unit: "W",
       },
@@ -240,12 +250,14 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "151",
         kind: "sensor",
         measures: "energy",
+        reading: "risingTotal",
         readOnly: true,
         unit: "Wh",
       },
       overrideEndSecond: {
         dataPoint: "108",
         kind: "number",
+        category: "config",
         min: 0,
         max: 2147483647,
         targetRange: { min: 946684800, max: 3094168447 },
@@ -254,6 +266,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "109",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 0,
         max: 4000,
@@ -264,6 +277,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "110",
         kind: "number",
         measures: "temperature",
+        category: "config",
         unit: "C",
         min: 0,
         max: 4000,
@@ -274,6 +288,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "111",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: 0,
         max: 1000,
@@ -284,6 +299,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "112",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: 0,
         max: 1000,
@@ -293,6 +309,7 @@ const entry: TuyaDeviceEntry = {
       awayMinimumTemperatureInC: {
         dataPoint: "113",
         kind: "number",
+        category: "config",
         unit: "C",
         min: 0,
         max: 4000,
@@ -302,14 +319,15 @@ const entry: TuyaDeviceEntry = {
       awayMaximumTemperatureInC: {
         dataPoint: "114",
         kind: "number",
+        category: "config",
         unit: "C",
         min: 0,
         max: 4000,
         scale: 100,
         step: 10,
       },
-      away: { dataPoint: "115", kind: "switch" },
-      schedule: { dataPoint: "117", kind: "switch" },
+      away: { dataPoint: "115", kind: "switch", category: "config" },
+      schedule: { dataPoint: "117", kind: "switch", category: "config" },
       occupancy: {
         dataPoint: "122",
         kind: "sensor",
@@ -330,6 +348,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "128",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -900,
         max: 900,
@@ -340,6 +359,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "130",
         kind: "number",
         measures: "temperatureDelta",
+        category: "config",
         unit: "C",
         min: -900,
         max: 900,
@@ -350,6 +370,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "134",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 5,
         max: 3600,
@@ -357,6 +378,7 @@ const entry: TuyaDeviceEntry = {
       screenTimeout: {
         dataPoint: "134",
         kind: "switch",
+        category: "config",
         values: [
           { raw: 65535, value: false },
           { raw: 3600, value: true },
@@ -364,7 +386,7 @@ const entry: TuyaDeviceEntry = {
         otherwise: true,
         ownRuleReadOnly: true,
       },
-      regulatorMode: { dataPoint: "146", kind: "switch" },
+      regulatorMode: { dataPoint: "146", kind: "switch", category: "config" },
     },
   },
   source: {

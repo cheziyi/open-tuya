@@ -5,7 +5,14 @@ import type { TuyaDeviceEntry } from "../entry.js";
 
 const entry: TuyaDeviceEntry = {
   name: "Garage door",
-  productKeys: ["kksjmhr9nhjudvzo", "keyftvxappyrem5a"],
+  products: [
+    {
+      productKey: "kksjmhr9nhjudvzo",
+      manufacturer: "LoraTap",
+      model: "GDC100W",
+    },
+    { productKey: "keyftvxappyrem5a", manufacturer: "LoraTap" },
+  ],
   dataPoints: {
     "1": { type: "boolean", optional: true },
     "7": { type: "integer" },
@@ -27,6 +34,7 @@ const entry: TuyaDeviceEntry = {
       timerInSeconds: {
         dataPoint: "7",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
@@ -35,6 +43,7 @@ const entry: TuyaDeviceEntry = {
         dataPoint: "102",
         kind: "number",
         measures: "duration",
+        category: "config",
         unit: "s",
         min: 10,
         max: 120,
@@ -42,6 +51,7 @@ const entry: TuyaDeviceEntry = {
       alarmTimerInSeconds: {
         dataPoint: "103",
         kind: "number",
+        category: "config",
         unit: "s",
         min: 0,
         max: 86400,
