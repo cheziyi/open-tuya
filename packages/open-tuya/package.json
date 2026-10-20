@@ -1,6 +1,6 @@
 {
   "name": "open-tuya",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Unofficial Node.js and TypeScript client for controlling Tuya devices three ways: over the local network (LAN), through the Tuya developer platform, and through the cloud the Smart Life app signs in to.",
   "keywords": [
     "tuya",
