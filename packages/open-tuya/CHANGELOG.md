@@ -1,5 +1,16 @@
 # open-tuya
 
+## 0.1.0
+
+### Minor Changes
+
+- [#45](https://github.com/cheziyi/open-tuya/pull/45) [`cd2adf7`](https://github.com/cheziyi/open-tuya/commit/cd2adf78cddd193aedd888107d7e68e9d09ecf73) Thanks [@cheziyi](https://github.com/cheziyi)! - Replace a catalog entry's `productKeys` with `products`, each with its `productKey`, `manufacturer`, `model` and `modelId`, and give each control the `category` and each sensor the `reading` tuya-local gives it. tuya-local renamed four device files, so their entries' `source.file` changed: `CT20W_pir_motion_detector.yaml` is `ct20w_motiondetector.yaml`, `tuya_smart_zigbee_door_sensor.yaml` is `mirabella_genio_doorsensor.yaml`, `setti_czajnik_kettle.yaml` is `setti_kt950w_kettle.yaml` and `ZC34T-03-3A_swing_arm_opener.yaml` is `zc34t033a_swingarmopener.yaml`.
+
+### Patch Changes
+
+- Updated dependencies [[`cd2adf7`](https://github.com/cheziyi/open-tuya/commit/cd2adf78cddd193aedd888107d7e68e9d09ecf73)]:
+  - @open-tuya/devices@0.1.0
+
 ## 0.0.4
 
 ### Patch Changes
