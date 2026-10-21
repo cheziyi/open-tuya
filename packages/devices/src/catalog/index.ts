@@ -360,7 +360,7 @@ import device_devola_patio_heater from "./devola_patio_heater.js";
 import device_dewall_evcharger from "./dewall_evcharger.js";
 import device_dewenwils_hwlt05a_lightingtransformer from "./dewenwils_hwlt05a_lightingtransformer.js";
 import device_dewin_kws306wf_energymeter from "./dewin_kws306wf_energymeter.js";
-import device_dh_csk03w_dehumidifier from "./dh_csk03w_dehumidifier.js";
+import device_dhcsk03w_dehumidifier from "./dhcsk03w_dehumidifier.js";
 import device_dienmern_dm165a_noisemeter from "./dienmern_dm165a_noisemeter.js";
 import device_digma_disenseg1_gassensor from "./digma_disenseg1_gassensor.js";
 import device_digoo_dgsp01_dual_nightlight_switch from "./digoo_dgsp01_dual_nightlight_switch.js";
@@ -1774,7 +1774,6 @@ import device_zym201_presence_sensor from "./zym201_presence_sensor.js";
 /** Every device the catalog describes. */
 export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_9in1_airquality_monitor,
-  device_dh_csk03w_dehumidifier,
   device_a03_siren,
   device_abalon_bcm700d_curtain,
   device_abir_x8_vacuum,
@@ -2134,6 +2133,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_dewall_evcharger,
   device_dewenwils_hwlt05a_lightingtransformer,
   device_dewin_kws306wf_energymeter,
+  device_dhcsk03w_dehumidifier,
   device_dienmern_dm165a_noisemeter,
   device_digma_disenseg1_gassensor,
   device_digoo_dgsp01_dual_nightlight_switch,
