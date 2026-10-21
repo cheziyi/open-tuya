@@ -1,5 +1,11 @@
 # @open-tuya/devices
 
+## 0.1.1
+
+### Patch Changes
+
+- [#47](https://github.com/cheziyi/open-tuya/pull/47) [`43fd749`](https://github.com/cheziyi/open-tuya/commit/43fd74937c277cc9916a6a9882634d05a7a2e6c5) Thanks [@github-actions](https://github.com/apps/github-actions)! - Update the catalog to tuya-local's device files at make-all/tuya-local@d51e586.
+
 ## 0.1.0
 
 ### Minor Changes
