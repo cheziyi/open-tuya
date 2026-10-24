@@ -983,6 +983,7 @@ import device_lscsmartconnect_rgbcctic_ledstrip from "./lscsmartconnect_rgbcctic
 import device_lscsmartconnect_videodoorbell from "./lscsmartconnect_videodoorbell.js";
 import device_lublueblu_sl60d_vacuum from "./lublueblu_sl60d_vacuum.js";
 import device_lubluelu_a901_vacuum from "./lubluelu_a901_vacuum.js";
+import device_lucci_ariadc_fan from "./lucci_ariadc_fan.js";
 import device_lucci_cctlight_fan from "./lucci_cctlight_fan.js";
 import device_lucci_fan from "./lucci_fan.js";
 import device_lucking_hs6_lock from "./lucking_hs6_lock.js";
@@ -1092,6 +1093,7 @@ import device_morris_mdb_12160hiw_dehumidifier from "./morris_mdb_12160hiw_dehum
 import device_morris_wfin35168_airconditioner from "./morris_wfin35168_airconditioner.js";
 import device_motion_sensor_light from "./motion_sensor_light.js";
 import device_mountfield_azuro_poolheatpump from "./mountfield_azuro_poolheatpump.js";
+import device_mowe_mw278i_inductionhob from "./mowe_mw278i_inductionhob.js";
 import device_mppt_4048_solarcharger from "./mppt_4048_solarcharger.js";
 import device_mrc_magnum_floorheater from "./mrc_magnum_floorheater.js";
 import device_mrpure_saltchlorinator from "./mrpure_saltchlorinator.js";
@@ -2756,6 +2758,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_lscsmartconnect_videodoorbell,
   device_lublueblu_sl60d_vacuum,
   device_lubluelu_a901_vacuum,
+  device_lucci_ariadc_fan,
   device_lucci_cctlight_fan,
   device_lucci_fan,
   device_lucking_hs6_lock,
@@ -2865,6 +2868,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_morris_wfin35168_airconditioner,
   device_motion_sensor_light,
   device_mountfield_azuro_poolheatpump,
+  device_mowe_mw278i_inductionhob,
   device_mppt_4048_solarcharger,
   device_mrc_magnum_floorheater,
   device_mrpure_saltchlorinator,
