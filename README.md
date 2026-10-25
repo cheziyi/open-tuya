@@ -400,6 +400,14 @@ pick.
 The Import catalog workflow runs the catalog import each day, and opens a pull
 request when tuya-local's devices changed.
 
+Both workflows open their pull requests as a GitHub App, which needs the
+repository variable `PULL_REQUEST_APP_CLIENT_ID` and the secret
+`PULL_REQUEST_APP_PRIVATE_KEY`. Give the App read and write access to
+contents, pull requests and workflows, and install it on this repository
+alone. It needs workflows access because each workflow resets its branch to
+`main`, and GitHub refuses a push that changes a workflow file from a token
+without it. [DESIGN.md](DESIGN.md#catalog) says why an App.
+
 ## Credits
 
 The code cites the commit or pull request each protocol fact comes from. A

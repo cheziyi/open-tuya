@@ -94,15 +94,23 @@ Each entry is a TypeScript file, `const entry: TuyaDeviceEntry = { … }`, so
 
 `import-catalog.yml` runs the script daily against tuya-local's latest commit
 and opens or updates the `import-catalog` pull request with
-`GITHUB_TOKEN`, and requests the maintainer's review. A pull request opened
-with `GITHUB_TOKEN` starts its `pull_request` run only once a person approves
-it, and `main` requires CI's checks, so the workflow then starts `ci.yml` on
-the branch with `workflow_dispatch`, which runs at once:
+a GitHub App's token, and requests the maintainer's review. A pull request
+pushed with an App's token starts its `pull_request` run at once, as any
+pull request does, so CI runs once and has finished when the maintainer opens
+it. The token is taken after the import, so the script, which reads files
+cloned from tuya-local, never sees it, and the App is installed on this
+repository alone:
 
-- Rejected: a GitHub App's or a personal access token. Either starts CI as
-  any pull request does, but adds a secret to store and rotate.
-- Rejected: a person closing and reopening the pull request. Every daily update
-  would need it again.
+- Rejected: `GITHUB_TOKEN`. GitHub holds the `pull_request` run until a person
+  approves it, so a failed import shows only once the maintainer approves.
+- Rejected: `GITHUB_TOKEN`, then starting `ci.yml` with `workflow_dispatch`.
+  It runs at once, but GitHub still creates the held `pull_request` run, and
+  approving that runs CI twice on one commit.
+- Rejected: skipping the jobs of a `pull_request` run the bot started. A
+  skipped job reports success under the name of a required check, so an
+  approved skip can stand over a failed run.
+- Rejected: a personal access token. It expires, reaches every repository the
+  account does, and opens the pull request as the maintainer.
 
 | Choice | Why |
 | --- | --- |
@@ -236,9 +244,8 @@ The release workflow builds and packs in a job without `id-token: write`, and
 publishes in a separate job that runs no build script.
 
 The `version` job opens the Version Packages pull request with
-`GITHUB_TOKEN`, so it starts `ci.yml` on the pull request's branch with
-`workflow_dispatch`, as `import-catalog.yml` does: [Catalog](#catalog) says
-why.
+the same App's token as the `import-catalog` pull request, so its CI starts
+at once: [Catalog](#catalog) says why.
 
 ## Package manifests
 
