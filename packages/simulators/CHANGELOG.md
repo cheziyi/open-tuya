@@ -1,5 +1,11 @@
 # @open-tuya/simulators
 
+## 0.0.5
+
+### Patch Changes
+
+- [#52](https://github.com/cheziyi/open-tuya/pull/52) [`b7ff47f`](https://github.com/cheziyi/open-tuya/commit/b7ff47fd85c84ec24a890d678b9d84b687d247f8) Thanks [@cheziyi](https://github.com/cheziyi)! - A simulated 3.3 or 3.4 device sends an empty payload, as a write ack's or a heartbeat reply's, as no bytes, as a device does, rather than as one padded block.
+
 ## 0.0.4
 
 ### Patch Changes

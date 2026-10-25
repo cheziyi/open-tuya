@@ -1,5 +1,15 @@
 # @open-tuya/devices
 
+## 0.2.0
+
+### Minor Changes
+
+- [#52](https://github.com/cheziyi/open-tuya/pull/52) [`b7ff47f`](https://github.com/cheziyi/open-tuya/commit/b7ff47fd85c84ec24a890d678b9d84b687d247f8) Thanks [@cheziyi](https://github.com/cheziyi)! - A time's or a datetime's `hour`, `minute`, `second`, `year`, `month`, `day` and `hms` data points are controls of the entity, named `…InHours`, `…InMinutes`, `…InSeconds`, `…Year`, `…Month`, `…Day` and, for `hms`, by the entity alone, where they were attributes named `…Hour`, `…Second` and `…Hms`, so a switch of the entity's name beside the `hms` text is `…Enabled`; and a data point its entity reports and never writes is read-only: a cover's `open`, a lawn mower's `activity`, a vacuum's `error` and its `status` beside a `command`, and a number's `minimum` and `maximum`.
+
+### Patch Changes
+
+- [#49](https://github.com/cheziyi/open-tuya/pull/49) [`902e444`](https://github.com/cheziyi/open-tuya/commit/902e444a8c99042fc90c89238cd5355413e85d1d) Thanks [@github-actions](https://github.com/apps/github-actions)! - Update the catalog to tuya-local's device files at make-all/tuya-local@8b12d78.
+
 ## 0.1.1
 
 ### Patch Changes
