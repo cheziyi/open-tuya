@@ -1,5 +1,13 @@
 # @open-tuya/devices
 
+## 0.2.1
+
+### Patch Changes
+
+- [#55](https://github.com/cheziyi/open-tuya/pull/55) [`cbfc008`](https://github.com/cheziyi/open-tuya/commit/cbfc0088ef3af680586fcb143ec8690d46bab8fc) Thanks [@cheziyi](https://github.com/cheziyi)! - `CONTROL_NAMES` names `pause`, the control that pauses a device such as a vacuum or a pet feeder, which 20 or more catalog entries now share.
+
+- [#54](https://github.com/cheziyi/open-tuya/pull/54) [`abe58df`](https://github.com/cheziyi/open-tuya/commit/abe58df795916190ec727a452c485d817d482603) Thanks [@cheziyi-bot](https://github.com/apps/cheziyi-bot)! - Update the catalog to tuya-local's device files at make-all/tuya-local@c6ea798.
+
 ## 0.2.0
 
 ### Minor Changes
