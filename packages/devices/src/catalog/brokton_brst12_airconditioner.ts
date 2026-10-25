@@ -385,15 +385,17 @@ const entry: TuyaDeviceEntry = {
       },
       energyLastReset: { dataPoint: "128", kind: "sensor", readOnly: true },
       energyTimestamp: { dataPoint: "129", kind: "sensor", readOnly: true },
-      resetEnergyStartingSecond: {
+      resetEnergyStartingInSeconds: {
         dataPoint: "130",
         kind: "number",
         category: "config",
+        unit: "s",
       },
-      resetEnergyEndingSecond: {
+      resetEnergyEndingInSeconds: {
         dataPoint: "131",
         kind: "number",
         category: "config",
+        unit: "s",
       },
       generatorMode: {
         dataPoint: "132",

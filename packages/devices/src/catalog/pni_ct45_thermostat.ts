@@ -413,23 +413,26 @@ const entry: TuyaDeviceEntry = {
         kind: "number",
         category: "config",
       },
-      datetimeHour: {
+      datetimeInHours: {
         dataPoint: "118",
         mask: "000000FF000000",
         kind: "number",
         category: "config",
+        unit: "h",
       },
-      datetimeMinute: {
+      datetimeInMinutes: {
         dataPoint: "118",
         mask: "00000000FF0000",
         kind: "number",
         category: "config",
+        unit: "min",
       },
-      datetimeSecond: {
+      datetimeInSeconds: {
         dataPoint: "118",
         mask: "0000000000FF00",
         kind: "number",
         category: "config",
+        unit: "s",
       },
       datetimeAmpm24: {
         dataPoint: "118",

@@ -102,13 +102,15 @@ const entry: TuyaDeviceEntry = {
       },
       aiFlowRateMaximum: {
         dataPoint: "101",
-        kind: "number",
+        kind: "sensor",
         category: "config",
+        readOnly: true,
       },
       aiFlowRateMinimum: {
         dataPoint: "107",
-        kind: "number",
+        kind: "sensor",
         category: "config",
+        readOnly: true,
       },
       aiFlowRateStep: { dataPoint: "113", kind: "number", category: "config" },
       aiFlowRateUnit: {

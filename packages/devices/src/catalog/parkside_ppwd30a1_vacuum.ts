@@ -28,7 +28,7 @@ const entry: TuyaDeviceEntry = {
   },
   components: {
     vacuum: {
-      status: { dataPoint: "4", kind: "text" },
+      status: { dataPoint: "4", kind: "sensor", readOnly: true },
       command: {
         dataPoint: "3",
         kind: "select",
@@ -37,7 +37,7 @@ const entry: TuyaDeviceEntry = {
           { raw: "manual", value: "Manual" },
         ],
       },
-      error: { dataPoint: "26", kind: "number" },
+      error: { dataPoint: "26", kind: "sensor", readOnly: true },
       suction: {
         dataPoint: "8",
         kind: "select",

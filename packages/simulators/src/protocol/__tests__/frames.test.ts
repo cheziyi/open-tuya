@@ -21,6 +21,8 @@ import {
   V32_STATUS_PLAINTEXT,
   V33_BROADCAST,
   V33_BROADCAST_PLAINTEXT,
+  V33_NULL_READ_STATUS,
+  V33_NULL_READ_STATUS_PLAINTEXT,
   V33_QUERY_ERROR,
   V33_QUERY_ERROR_KEY,
   V33_QUERY_ERROR_PLAINTEXT,
@@ -155,6 +157,32 @@ describe("sealDeviceFrame", () => {
   );
 });
 
+describe("sealDeviceFrame, an empty payload", () => {
+  it.each([
+    ["3.3", 0x0c],
+    ["3.4", 0x28],
+  ] as const)(
+    "sends a %s ack or heartbeat reply with no payload bytes and length field %#x",
+    (version, length) => {
+      for (const command of [0x07, 0x09]) {
+        const frame = sealDeviceFrame(
+          version,
+          {
+            sequenceNumber: 1,
+            command,
+            returnCode: 0,
+            plaintext: Buffer.alloc(0),
+          },
+          LOCAL_KEY,
+          NO_IV,
+        );
+        expect(frame.readUInt32BE(12)).toBe(length);
+        expect(frame.length).toBe(16 + length);
+      }
+    },
+  );
+});
+
 describe("sealDeviceFrame, against a captured error", () => {
   it.each([
     [
@@ -193,6 +221,23 @@ describe("sealDeviceFrame, against a captured error", () => {
 });
 
 describe("sealDeviceFrame, against a captured plaintext", () => {
+  it("writes a 3.3 device's STATUS for a read by writing null byte for byte", () => {
+    expect(
+      sealDeviceFrame(
+        "3.3",
+        {
+          sequenceNumber: 0,
+          command: 0x08,
+          returnCode: 0,
+          plaintext: Buffer.from(V33_NULL_READ_STATUS_PLAINTEXT),
+          versionHeader: { serialNumber: 0x21, sourceId: 1 },
+        },
+        V33_REFUSING_KEY,
+        NO_IV,
+      ),
+    ).toEqual(V33_NULL_READ_STATUS);
+  });
+
   it("puts a 3.5 STATUS's return code and version header as a device does", () => {
     const frame = sealDeviceFrame(
       "3.5",

@@ -40,7 +40,8 @@ const entry: TuyaDeviceEntry = {
       on: { dataPoint: "1", kind: "switch" },
       status: {
         dataPoint: "101",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [
           { raw: "SLEEP", value: "standby" },
           { raw: "CHARG_COMP", value: "charged" },

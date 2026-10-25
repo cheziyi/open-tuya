@@ -70,7 +70,8 @@ const entry: TuyaDeviceEntry = {
       cleanMode: { dataPoint: "104", kind: "text" },
       status: {
         dataPoint: "105",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [
           { raw: "idle", value: "standby" },
           { raw: "pointing\\areaing", value: "pointing_areaing" },

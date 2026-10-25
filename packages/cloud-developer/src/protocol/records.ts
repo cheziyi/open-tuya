@@ -28,6 +28,9 @@ export interface DeviceRecord {
   product_id: string;
   category: string;
   online: boolean;
+  // Source: A device behind a gateway carries `node_id` in this list, which
+  // hass-localtuya reads off it, in
+  // https://github.com/xZetsubou/hass-localtuya/commit/cd476b42aecf742437acdcf588a19b01731b4c6f.
   node_id?: string;
   /** The app account the device belongs to. */
   uid?: string;

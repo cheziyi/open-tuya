@@ -254,10 +254,11 @@ const entry: TuyaDeviceEntry = {
         readOnly: true,
         unit: "Wh",
       },
-      overrideEndSecond: {
+      overrideEndInSeconds: {
         dataPoint: "108",
         kind: "number",
         category: "config",
+        unit: "s",
         min: 0,
         max: 2147483647,
         targetRange: { min: 946684800, max: 3094168447 },

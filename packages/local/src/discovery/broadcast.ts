@@ -36,9 +36,13 @@ export interface DiscoveredTuyaDevice {
 // Source: A 3.1 device broadcasts a 0x55AA frame with command UDP and return
 // code 0, its JSON in plain text, captured in
 // https://github.com/codetheweb/tuyapi/issues/17#issuecomment-361135781.
-// Source: A 3.5 device broadcasts, and answers a REQ_DEVINFO with, a 0x6699
-// frame with command UDP_NEW and return code 0 in front of its JSON, in
-// https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
+// Source: A 3.5 device broadcasts a 0x6699 frame with command UDP_NEW and
+// return code 0 in front of its JSON, captured in
+// https://github.com/xZetsubou/hass-localtuya/commit/aeb5f9ce4c07c57e7868f296978fed4a2a5e9f18
+// and https://github.com/jasonacox/tinytuya/issues/247#issuecomment-1372462132,
+// and answers a REQ_DEVINFO with the same frame, which Tuya's firmware builds
+// in https://github.com/tuya/TuyaOpen/blob/cd3b764643ba2b3f797dec8b4629b083cc081da1/src/tuya_cloud_service/lan/tuya_lan.c#L547
+// and sends in https://github.com/tuya/TuyaOpen/blob/cd3b764643ba2b3f797dec8b4629b083cc081da1/src/tuya_cloud_service/lan/tuya_lan.c#L1137-L1141.
 // Source: The JSON carries ip, gwId, productKey and version, captured in
 // https://github.com/xZetsubou/hass-localtuya/commit/aeb5f9ce4c07c57e7868f296978fed4a2a5e9f18
 // and https://github.com/codetheweb/tuyapi/issues/17#issuecomment-361135781,

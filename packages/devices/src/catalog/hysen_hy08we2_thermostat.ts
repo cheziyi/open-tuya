@@ -172,13 +172,15 @@ const entry: TuyaDeviceEntry = {
       },
       holidayTemperatureMaximum: {
         dataPoint: "114",
-        kind: "number",
+        kind: "sensor",
         category: "config",
+        readOnly: true,
       },
       holidayTemperatureMinimum: {
         dataPoint: "115",
-        kind: "number",
+        kind: "sensor",
         category: "config",
+        readOnly: true,
       },
       temperatureCalibration: {
         dataPoint: "109",

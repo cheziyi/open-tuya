@@ -31,9 +31,12 @@ export interface DeveloperCloudTransport {
 // model's code, as an object, in
 // https://github.com/tuya/tuya-connector/commit/25424c594135e8c5f4c684a0b7cce8fc7b4fcca6.
 // DESIGN.md#cloud-developer-data-points says why not as JSON text.
-// Source: An issued value is in the thing model's own terms, an integer
-// before its scale, in
-// https://github.com/tuya/tuya-openclaw-skills/commit/79292c594cfba383555b4f465e835132136f0ea6.
+// Source: An issued value is the device's own, an integer before its scale, as
+// the shadow reads it: homebridge-tuya-plus issues the value it writes over
+// the LAN under the code the shadow maps the data point to, and the device
+// acts on it, in
+// https://github.com/adrianjagielak/homebridge-tuya-plus/blob/1579a219964751ed40629074b7c7e0067eeac6f2/lib/TuyaCloudApi.js#L277-L283
+// and https://github.com/adrianjagielak/homebridge-tuya-plus/blob/1579a219964751ed40629074b7c7e0067eeac6f2/lib/TuyaDevice.js#L250-L256.
 /** A device reached through the Tuya developer platform. Create one with
  * `DeveloperCloudAccount.createClient`. It reads and writes the device's data
  * points through its thing model, by ID with the device's own values, and

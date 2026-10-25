@@ -23,7 +23,7 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "close" },
         ],
       },
-      open: { dataPoint: "3", kind: "switch" },
+      open: { dataPoint: "3", kind: "sensor", readOnly: true },
     },
   },
   source: {

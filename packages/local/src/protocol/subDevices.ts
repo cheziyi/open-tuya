@@ -30,6 +30,8 @@ export function buildSubDeviceStatusQuery(): DataPointRequest {
 // https://github.com/xZetsubou/hass-localtuya/issues/227#issuecomment-2112020068,
 // https://github.com/xZetsubou/hass-localtuya/issues/244 and
 // https://github.com/jasonacox/tinytuya/issues/435.
+// Source: A 3.4 gateway sends an empty frame before its report, captured in
+// https://github.com/jasonacox/tinytuya/issues/677.
 /** Reads a gateway's report of the devices behind it out of a decrypted
  * payload. It returns `undefined` for any other payload, such as the empty
  * frame a 3.4 gateway sends before its report. */

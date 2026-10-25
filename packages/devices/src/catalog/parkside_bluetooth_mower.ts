@@ -44,7 +44,8 @@ const entry: TuyaDeviceEntry = {
     lawnMower: {
       activity: {
         dataPoint: "101",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [
           { raw: "STANDBY", value: "docked" },
           { raw: "MOWING", value: "mowing" },
