@@ -1,5 +1,11 @@
 # @open-tuya/cloud-app
 
+## 0.0.5
+
+### Patch Changes
+
+- [#52](https://github.com/cheziyi/open-tuya/pull/52) [`b7ff47f`](https://github.com/cheziyi/open-tuya/commit/b7ff47fd85c84ec24a890d678b9d84b687d247f8) Thanks [@cheziyi](https://github.com/cheziyi)! - Read a custom-type answer of `"True"` in any letter case as Tuya's SDK does: such a device's data points were mapped as if it were not of a custom type.
+
 ## 0.0.4
 
 ### Patch Changes
