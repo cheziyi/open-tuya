@@ -440,8 +440,8 @@ export class LocalTuyaClient implements TuyaClient {
   }
 
   // One request at a time: a reply is matched by its command, and by the node
-  // ID it names, as a 3.4 or 3.5 device numbers its frames from a counter of
-  // its own.
+  // ID it names, never by sequence number, which a 3.5 device draws from a
+  // counter of its own: see connection.ts.
   private request(
     request: DataPointRequest,
     options: RequestOptions = {},

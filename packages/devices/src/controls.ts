@@ -383,8 +383,9 @@ function scaleOf(
 // rules, gives its nested mapping's dps_val, its step, redirect,
 // target_range and invert. A number is then scaled by the current raw
 // value's rule, mapped back from target_range, inverted and rounded to step,
-// half to even, either of the two taking a mapping whose value the result
-// then is; checked against the current rule's range; set in the mask's bits,
+// half to even, either of the two taking the mapping whose value the result
+// then is, else the one with the nearest number; checked against the current
+// rule's range; set in the mask's bits,
 // truncated; and given the data point's type. Where no rule takes the value,
 // the current raw value's rule's redirect takes it, in
 // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L876-L976
@@ -473,8 +474,8 @@ function writeControl(
       writeControl(entry, redirect, value, current, dataPoints);
       return;
     }
-    // A number that lands on a mapping's value writes that mapping's raw
-    // value instead.
+    // A number that lands on a mapping's value, or else nearest one, writes
+    // that mapping's raw value instead.
     const remap = () => {
       const again =
         own && isNumber(result)

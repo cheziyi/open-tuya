@@ -18,7 +18,11 @@ import type { VersionHeaderFields } from "./protocol/versionHeader.js";
 const DEFAULT_PORT = 6668;
 const CONNECT_TIMEOUT_IN_MS = 5000;
 const SESSION_KEY_TIMEOUT_IN_MS = 10_000;
-// Source: A device closes a connection that carries nothing for 30 s, in
+// Source: A device closes a connection that carries nothing for 30 s: Tuya's
+// firmware sets HEART_BEAT_TIMEOUT to 30 and closes the session past it, in
+// https://github.com/tuya/TuyaOpen/blob/cd3b764643ba2b3f797dec8b4629b083cc081da1/src/tuya_cloud_service/lan/tuya_lan.c#L42
+// and https://github.com/tuya/TuyaOpen/blob/cd3b764643ba2b3f797dec8b4629b083cc081da1/src/tuya_cloud_service/lan/tuya_lan.c#L246-L248,
+// and tinytuya sends a heartbeat for the same reason, in
 // https://github.com/jasonacox/tinytuya/commit/bf1eac1494b7a25a817f5a322228914ba5fb69c3.
 const HEARTBEAT_INTERVAL_IN_MS = 10_000;
 const MAX_UNANSWERED_HEARTBEATS = 2;
@@ -84,11 +88,13 @@ export async function openConnection(
 // https://github.com/jasonacox/tinytuya/commit/d0ee0be3d0034bb9d8848dde6054d68d1102bf8b,
 // https://github.com/iRayanKhan/homebridge-tuya/commit/ea1d903fb467dd8c296326db130630308113167a
 // and https://github.com/adrianjagielak/homebridge-tuya-plus/commit/e316a912e5d24d6ad302768d26d5182ed2acef86.
-// Source: A device numbers its replies from a counter of its own, not the
-// request's, in
-// https://github.com/jasonacox/tinytuya/commit/a2486e834cefeec85da7fb012136d9235acc50b3
-// and https://github.com/rospogrigio/localtuya/commit/957cf25dd0af995c496a5644c7a773b46a426b04,
-// so a reply is not matched to its request by sequence number.
+// Source: A 3.5 device numbers its frames from a counter of its own, seeded at
+// random, and ignores the request's number, in
+// https://github.com/tuya/TuyaOpen/blob/cd3b764643ba2b3f797dec8b4629b083cc081da1/src/tuya_cloud_service/lan/tuya_lan.c#L164,
+// https://github.com/tuya/TuyaOpen/blob/cd3b764643ba2b3f797dec8b4629b083cc081da1/src/tuya_cloud_service/lan/tuya_lan.c#L477
+// and https://github.com/jasonacox/tinytuya/commit/a2486e834cefeec85da7fb012136d9235acc50b3,
+// where a device below 3.5 answers with the request's number, so the client
+// matches no reply to its request by sequence number.
 /** An open TCP connection to one device. Open one with `openConnection`.
  * `await using` closes it at the end of its scope. */
 export class TuyaConnection implements AsyncDisposable {
@@ -287,8 +293,14 @@ function connect(host: string, port: number): Promise<Socket> {
 // at once, as the device sends no reply to it, in
 // https://github.com/jasonacox/tinytuya/commit/d0ee0be3d0034bb9d8848dde6054d68d1102bf8b
 // and https://github.com/codetheweb/tuyapi/commit/c2b5e48e805699969827affbfc11e893aeef701e.
-// Source: A device closes the connection on a frame not sealed under its local
-// key in
+// Source: Tuya's 3.5 firmware sets a session faulty, which closes it, on a
+// SESS_KEY_NEG_FINISH whose HMAC is wrong, and closes it once three frames
+// outside the negotiation arrive before a session key, in
+// https://github.com/tuya/TuyaOpen/blob/cd3b764643ba2b3f797dec8b4629b083cc081da1/src/tuya_cloud_service/lan/tuya_lan.c#L761-L773,
+// https://github.com/tuya/TuyaOpen/blob/cd3b764643ba2b3f797dec8b4629b083cc081da1/src/tuya_cloud_service/lan/tuya_lan.c#L43
+// and https://github.com/tuya/TuyaOpen/blob/cd3b764643ba2b3f797dec8b4629b083cc081da1/src/tuya_cloud_service/lan/tuya_lan.c#L936-L958;
+// a 3.4 or 3.5 device drops the connection on a plain DP_QUERY sent before any
+// key, in
 // https://github.com/jasonacox/tinytuya/commit/a474c756c1d310ce452d71a7e1f3f52adff80e64.
 function negotiateSessionKey(
   socket: Socket,

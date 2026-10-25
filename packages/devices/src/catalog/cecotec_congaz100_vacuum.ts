@@ -100,7 +100,8 @@ const entry: TuyaDeviceEntry = {
       },
       status: {
         dataPoint: "5",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [
           { raw: "standby", value: "standby" },
           { raw: "relocate", value: "Going to location" },

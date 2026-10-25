@@ -44,7 +44,8 @@ const entry: TuyaDeviceEntry = {
       },
       status: {
         dataPoint: "28",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [
           { raw: "charging", value: "charging" },
           { raw: "pause", value: "paused" },

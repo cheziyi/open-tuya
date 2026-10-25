@@ -106,8 +106,9 @@ const entry: TuyaDeviceEntry = {
       },
       chargeCurrentMaximum: {
         dataPoint: "152",
-        kind: "number",
+        kind: "sensor",
         category: "config",
+        readOnly: true,
       },
       chargeCurrentSteps: {
         dataPoint: "107",

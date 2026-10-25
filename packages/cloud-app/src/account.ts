@@ -150,8 +150,8 @@ export class AppCloudAccount implements TuyaCloudAccount {
   // Source: A device's data points map to the cloud's codes through
   // GET /v1.0/m/life/devices/{id}/status, in
   // https://github.com/tuya/tuya-device-sharing-sdk/commit/ae5e3c4c67eaefffd1be79e39d9f411e43515d13,
-  // and a device of a custom type answers true to
-  // GET /v1.0/m/life/ha/{id}/code/custom-type, in
+  // and a device of a custom type answers true, as a boolean or as text in
+  // any letter case, to GET /v1.0/m/life/ha/{id}/code/custom-type, in
   // https://github.com/tuya/tuya-device-sharing-sdk/commit/32440d2040f47287d5f58253feec12eca7a2a7b3.
   /** Fetches how the device's data points map to the cloud's codes, and
    * resolves with a client for it. It rejects with a `TuyaError` with code
@@ -181,7 +181,9 @@ export class AppCloudAccount implements TuyaCloudAccount {
       deviceId,
       mapDataPointCodes(
         relations,
-        customType === true || customType === "true",
+        customType === true ||
+          (typeof customType === "string" &&
+            customType.toLowerCase() === "true"),
       ),
     );
   }
@@ -310,9 +312,10 @@ export class AppCloudAccount implements TuyaCloudAccount {
   }
 
   // Source: The MQTT credentials come from POST /v1.0/m/life/ha/access/config
-  // with a link ID drawn afresh for each, in
-  // https://github.com/tuya/tuya-device-sharing-sdk/commit/3e0d9ae6eb5e23e97ce7697a1bd3b248fe2c75b1
-  // and https://github.com/tuya/tuya-device-sharing-sdk/commit/1496fc3c24643d0045e722698cd34978ce2636d1.
+  // with a link ID, in
+  // https://github.com/tuya/tuya-device-sharing-sdk/commit/3e0d9ae6eb5e23e97ce7697a1bd3b248fe2c75b1,
+  // drawn afresh for each request since
+  // https://github.com/tuya/tuya-device-sharing-sdk/commit/1496fc3c24643d0045e722698cd34978ce2636d1.
   // No source shows the cloud taking a link ID of another form.
   private async fetchPushConfig(): Promise<PushConfig> {
     const result = readPushConfig(

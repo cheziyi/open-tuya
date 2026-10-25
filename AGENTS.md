@@ -234,19 +234,22 @@ once `open-tuya` has published that package's exports, bumps `open-tuya` the
 same way: Changesets gives a dependent a patch at most, and
 [DESIGN.md](DESIGN.md#releases) says why no option of its config does it.
 
-## Pull requests, commits, and comments
+## Prose
+
+Apply these to every sentence: a comment, a test name, a doc, a commit
+message, a pull request.
 
 - **Say who does what, in order.** "The socket times out, so the client throws
   a `TuyaError` and retries over the cloud", never "a timeout falls back".
 - **Call a thing what the code calls it.** A buzzword or metaphor makes the
   reader translate it before they can act on it. Name the function, the
   command, or the check.
-- **A person merges.** Never merge a pull request unless told to merge that
-  one, even when it is green and approved. Stop at ready to merge, and say which
-  pull request to merge and what it unblocks.
-- **Resolve a review thread once its fix is pushed**, with the GraphQL
-  `resolveReviewThread` mutation. Leave a thread open only while it is
-  unaddressed or waits on a person's decision.
+- **Delete rather than rephrase** a comment restating the command beside it, an
+  example repeating an earlier one, a consequence anyone already knows, an
+  aphorism standing where an instruction belongs, and a generic caution in
+  place of the specific trap.
+- **One fact has one home.** Explain it where it is decided, and link to that
+  from everywhere else.
 
 ## Documents
 
@@ -259,19 +262,22 @@ same way: Changesets gives a dependent a patch at most, and
   position changes.
 - **A heading names what is under it.** "Caching", not "What it is careful
   about". A table column is `Holds`, `Meaning`, or `Why`, never `Is`.
-- **Delete rather than rephrase** a comment restating the command beside it, an
-  example repeating an earlier one, a consequence anyone already knows, an
-  aphorism standing where an instruction belongs, and a generic caution in
-  place of the specific trap.
 - **Round a count that changes without an edit to the text**, such as the
   catalog's devices, in a document, a manifest or the repository's GitHub
   description: "over 1,700", not "1,769". Each catalog import changes the
   exact number, and nothing updates the text. A count a decision in
   `DESIGN.md` rested on stays exact: it records what was true when it was
   decided.
-- **One fact has one home.** Explain it where it is decided, and link to that
-  from everywhere else.
 - **Record a decision where it will be read again.** A decision whose
   alternative was weighed and rejected goes in `DESIGN.md`: what was chosen,
   what was rejected, and the fact that decided it. The README links to it in
   one line and carries none of the argument.
+
+## Pull requests
+
+- **A person merges.** Never merge a pull request unless told to merge that
+  one, even when it is green and approved. Stop at ready to merge, and say which
+  pull request to merge and what it unblocks.
+- **Resolve a review thread once its fix is pushed**, with the GraphQL
+  `resolveReviewThread` mutation. Leave a thread open only while it is
+  unaddressed or waits on a person's decision.

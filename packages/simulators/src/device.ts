@@ -38,9 +38,11 @@ const HEART_BEAT = 0x09;
 const DP_QUERY = 0x0a;
 const CONTROL_NEW = 0x0d;
 const DP_QUERY_NEW = 0x10;
-// Source: 0x40 is LAN_EXT_STREAM, which carries a gateway's sub-device
-// status, in
-// https://github.com/jasonacox/tinytuya/commit/92bcfc53740f1aa9a9e2ce265d5636120f2228e5.
+// Source: 0x40 is LAN_EXT_STREAM, in
+// https://github.com/jasonacox/tinytuya/commit/92bcfc53740f1aa9a9e2ce265d5636120f2228e5
+// and https://github.com/tuya/TuyaOpen/blob/cd3b764643ba2b3f797dec8b4629b083cc081da1/src/tuya_cloud_service/lan/tuya_lan.h#L51,
+// and carries a gateway's sub-device status, in
+// https://github.com/jasonacox/tinytuya/commit/d59fdf9546969d0cb57faede60b82424c09d4a7b.
 const LAN_EXT_STREAM = 0x40;
 const NONCE_LENGTH = 16;
 const IV_LENGTH = 12;
@@ -112,9 +114,15 @@ export async function startSimulatedDevice(
 // Source: A device numbers the version headers it writes from a serial that
 // starts anywhere, in
 // https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.
-// Source: A 3.4 or 3.5 device closes the connection on a frame not sealed
-// under its key, in
-// https://github.com/jasonacox/tinytuya/commit/a474c756c1d310ce452d71a7e1f3f52adff80e64.
+// Source: A 3.4 or 3.5 device drops the connection on a plain DP_QUERY sent
+// before any session key, in
+// https://github.com/jasonacox/tinytuya/commit/a474c756c1d310ce452d71a7e1f3f52adff80e64;
+// Tuya's 3.5 firmware closes a session once three frames outside the
+// negotiation arrive before a key, and stops reading at a frame whose tag
+// fails, in https://github.com/tuya/TuyaOpen/blob/cd3b764643ba2b3f797dec8b4629b083cc081da1/src/tuya_cloud_service/lan/tuya_lan.c#L43,
+// https://github.com/tuya/TuyaOpen/blob/cd3b764643ba2b3f797dec8b4629b083cc081da1/src/tuya_cloud_service/lan/tuya_lan.c#L936-L958
+// and https://github.com/tuya/TuyaOpen/blob/cd3b764643ba2b3f797dec8b4629b083cc081da1/src/tuya_cloud_service/lan/tuya_lan.c#L977-L981.
+// The simulator closes at once on a frame it cannot open.
 // Source: A 3.5 device closes the connection on a frame whose sequence number
 // is not above the last one the client sent, in
 // https://github.com/tuya/TuyaOpen/commit/cd3b764643ba2b3f797dec8b4629b083cc081da1.

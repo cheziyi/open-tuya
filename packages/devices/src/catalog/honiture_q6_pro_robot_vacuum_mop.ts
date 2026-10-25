@@ -55,7 +55,8 @@ const entry: TuyaDeviceEntry = {
       locate: { dataPoint: "13", kind: "switch" },
       status: {
         dataPoint: "105",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [
           { raw: "idle", value: "standby" },
           { raw: "sweep", value: "sweep" },

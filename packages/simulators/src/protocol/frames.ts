@@ -136,6 +136,18 @@ export function sealDeviceFrame(
       frame.command === STATUS
         ? Buffer.concat([header, ecb(key, frame.plaintext)])
         : Buffer.from(frame.plaintext);
+  } else if (frame.plaintext.length === 0 && header.length === 0) {
+    // Source: A device sends an empty payload, as a write ack's or a heartbeat
+    // reply's, as no bytes: a 3.1 plug's and a 3.2 switch's acks, captured in
+    // https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247544765
+    // and https://github.com/rospogrigio/localtuya/issues/1232#issuecomment-1387550394,
+    // a 3.4 gateway's ack and its empty LAN_EXT_STREAM frame, parsed with no
+    // payload bytes in https://github.com/jasonacox/tinytuya/issues/677,
+    // and Tuya's 3.5 firmware's write ack and heartbeat reply, in
+    // https://github.com/tuya/TuyaOpen/blob/cd3b764643ba2b3f797dec8b4629b083cc081da1/src/tuya_cloud_service/lan/tuya_lan.c#L725
+    // and https://github.com/tuya/TuyaOpen/blob/cd3b764643ba2b3f797dec8b4629b083cc081da1/src/tuya_cloud_service/lan/tuya_lan.c#L967-L974.
+    // DESIGN.md#simulators records the choice for 3.3 and 3.4.
+    body = Buffer.alloc(0);
   } else if (version === "3.3") {
     body = Buffer.concat([header, ecb(key, frame.plaintext)]);
   } else {

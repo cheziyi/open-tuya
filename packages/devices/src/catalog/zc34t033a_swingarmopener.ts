@@ -29,7 +29,8 @@ const entry: TuyaDeviceEntry = {
       },
       open: {
         dataPoint: "1",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [
           { raw: "open", value: true },
           { raw: "closed", value: false },
