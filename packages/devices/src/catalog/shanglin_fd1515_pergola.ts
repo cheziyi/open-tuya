@@ -52,7 +52,8 @@ const entry: TuyaDeviceEntry = {
       },
       open: {
         dataPoint: "107",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [{ raw: 1, value: true }],
         otherwise: false,
       },
@@ -87,7 +88,8 @@ const entry: TuyaDeviceEntry = {
       },
       open: {
         dataPoint: "107",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [{ raw: 256, value: true }],
         otherwise: false,
       },
@@ -122,7 +124,8 @@ const entry: TuyaDeviceEntry = {
       },
       open: {
         dataPoint: "107",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [{ raw: 65536, value: true }],
         otherwise: false,
       },
@@ -157,7 +160,8 @@ const entry: TuyaDeviceEntry = {
       },
       open: {
         dataPoint: "107",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [{ raw: 16777216, value: true }],
         otherwise: false,
       },
@@ -178,7 +182,8 @@ const entry: TuyaDeviceEntry = {
       },
       open: {
         dataPoint: "106",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [{ raw: "open", value: true }],
         otherwise: false,
       },

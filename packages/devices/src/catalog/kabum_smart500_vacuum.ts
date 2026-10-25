@@ -55,7 +55,8 @@ const entry: TuyaDeviceEntry = {
       },
       status: {
         dataPoint: "28",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [
           { raw: "cleanning", value: "cleaning" },
           { raw: "returning", value: "returning" },

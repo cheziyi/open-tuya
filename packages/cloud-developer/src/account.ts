@@ -107,9 +107,13 @@ interface Token {
 }
 
 // Source: A project takes its token with GET /v1.0/token?grant_type=1, signed
-// without one, and takes another once the cloud answers 1010, in
+// without one, in
 // https://github.com/jasonacox/tinytuya/commit/4e553eedaa279403278f0b402d2efbc9ece5a7a0
-// and https://github.com/tuya/tuya-connector-nodejs/commit/e619df60109ac4f06e9b44de7fa15bf4d1b24690.
+// and https://github.com/tuya/tuya-connector-nodejs/commit/e619df60109ac4f06e9b44de7fa15bf4d1b24690,
+// and takes another once the cloud answers 1010: the connector checks that code
+// there, the SDK names it in
+// https://github.com/tuya/tuya-iot-python-sdk/blob/20a7c92898fdd44e559667bbf8f2bf6fdb1e9185/tuya_iot/openapi.py#L16,
+// and tinytuya matches the message "token invalid" instead.
 /** A Tuya developer platform project. It takes a token a minute before the
  * last expires, and once more when the cloud refuses it. Its clients share
  * one MQTT connection for the devices' pushes, open while any client has a
@@ -144,8 +148,7 @@ export class DeveloperCloudAccount implements TuyaCloudAccount {
   // https://github.com/jasonacox/tinytuya/commit/5afef6ebceaf25ebd0fe8718be68371878a35353.
   // Source: A project refused that list takes the account's ID from one of
   // its devices, and lists GET /v1.0/users/{uid}/devices, in
-  // https://github.com/jasonacox/tinytuya/commit/c9455aebf0294d74eadbd4d758d0fd3ba4d55428
-  // and https://github.com/TuyaAPI/cli/commit/d6cdfdc24657bff77ea3ae1681aa9e55ed1d3d35.
+  // https://github.com/jasonacox/tinytuya/commit/c9455aebf0294d74eadbd4d758d0fd3ba4d55428.
   /** Lists the devices of every app account linked to the project, or with
    * `viaDeviceId`, of that device's account alone. The list of every account
    * leaves out some devices' local keys, so it then lists the account of each
@@ -193,11 +196,12 @@ export class DeveloperCloudAccount implements TuyaCloudAccount {
     });
   }
 
-  // Source: A device's thing model names each data point's ID as `abilityId`
-  // beside its code, as JSON text in `model`, in
-  // https://github.com/tuya/tuya-connector/commit/25424c594135e8c5f4c684a0b7cce8fc7b4fcca6
-  // and https://github.com/xZetsubou/hass-localtuya/commit/2f733ce0dd99076b4936a7ce08642bca87ad4a93,
-  // and as captured in https://github.com/jasonacox/tinytuya/issues/537.
+  // Source: A device's thing model comes as JSON text in `model`, and names
+  // each data point's ID as `abilityId` beside its code, in
+  // https://github.com/xZetsubou/hass-localtuya/commit/2f733ce0dd99076b4936a7ce08642bca87ad4a93
+  // and as captured in https://github.com/jasonacox/tinytuya/issues/537;
+  // Tuya's connector types the answer as a map of strings, in
+  // https://github.com/tuya/tuya-connector/commit/25424c594135e8c5f4c684a0b7cce8fc7b4fcca6.
   /** Fetches the device's thing model, and resolves with a client for it. It
    * rejects with `REQUEST_REJECTED` when the model is not JSON. */
   async createClient(deviceId: string): Promise<DeveloperCloudTuyaClient> {

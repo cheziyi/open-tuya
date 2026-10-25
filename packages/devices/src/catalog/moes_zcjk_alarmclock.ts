@@ -46,7 +46,7 @@ const entry: TuyaDeviceEntry = {
     light: {
       on: { dataPoint: "101", kind: "switch" },
       brightness: { dataPoint: "102", kind: "number", min: 10, max: 1000 },
-      timeHms: { dataPoint: "103", kind: "text" },
+      time: { dataPoint: "103", kind: "text" },
       displayBrightness: {
         dataPoint: "104",
         kind: "select",

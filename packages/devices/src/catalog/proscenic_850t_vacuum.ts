@@ -98,7 +98,8 @@ const entry: TuyaDeviceEntry = {
       cleaning: { dataPoint: "33", kind: "switch" },
       status: {
         dataPoint: "38",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [
           { raw: "0", value: "standby" },
           { raw: "1", value: "smart_cleaning" },

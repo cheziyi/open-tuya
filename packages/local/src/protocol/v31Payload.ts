@@ -33,9 +33,11 @@ export function encryptV31Payload(
 }
 
 // Source: A 3.1 device sends a query reply and an error as plain text, and a
-// STATUS sealed as a client seals CONTROL, in
-// https://github.com/clach04/python-tuya/commit/8d70404fb38cf2144c60329678b8f6bb84a8720d,
-// captured in https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247504813.
+// STATUS sealed as a client seals CONTROL, captured in
+// https://github.com/jasonacox/tinytuya/pull/177#issuecomment-1247504813;
+// python-tuya opens a sealed payload after a query without telling the
+// commands apart, in
+// https://github.com/clach04/python-tuya/commit/8d70404fb38cf2144c60329678b8f6bb84a8720d.
 /** Opens a payload from a 3.1 device. A payload that starts with "3.1" is
  * sealed: it throws a `TuyaError` with code `DECRYPTION_FAILED` when its
  * signature is wrong or it does not decrypt, as a wrong local key causes.

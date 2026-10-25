@@ -351,7 +351,7 @@ ${mapping}
     },
   );
 
-  it("drops a bitfield's rule whose raw value is not a number, as it matches none", () => {
+  it("drops a bitfield's rule whose raw value is no integer as int() reads one, as it matches none", () => {
     const { components } = entry(`name: Pump
 entities:
   - entity: sensor
@@ -365,6 +365,12 @@ entities:
             value: ok
           - dps_val: E001
             value: Abnormal input voltage
+          - dps_val: "1.5"
+            value: Low pressure
+          - dps_val: "0x10"
+            value: High pressure
+          - dps_val: "1e2"
+            value: Leak
 `);
 
     expect(components.device?.fault?.values).toEqual([{ raw: 0, value: "ok" }]);
@@ -1401,6 +1407,176 @@ entities:
       kind: "sensor",
       readOnly: true,
     });
+  });
+
+  it("gives a time's and a datetime's parts to controls of the entity", () => {
+    const { components } = entry(`name: Clock
+entities:
+  - entity: time
+    name: Alarm
+    dps:
+      - id: 1
+        type: integer
+        name: hour
+      - id: 2
+        type: integer
+        name: minute
+  - entity: time
+    name: Display
+    dps:
+      - id: 3
+        type: string
+        name: hms
+  - entity: datetime
+    dps:
+      - id: 4
+        type: integer
+        name: year
+      - id: 5
+        type: integer
+        name: month
+      - id: 6
+        type: integer
+        name: day
+      - id: 7
+        type: integer
+        name: hour
+      - id: 8
+        type: integer
+        name: minute
+      - id: 9
+        type: integer
+        name: second
+      - id: 10
+        type: boolean
+        name: ampm
+  - entity: datetime
+    name: Reset
+    dps:
+      - id: 11
+        type: unixtime
+        name: second
+`);
+    expect(components.device).toEqual({
+      alarmInHours: { dataPoint: "1", kind: "number", unit: "h" },
+      alarmInMinutes: { dataPoint: "2", kind: "number", unit: "min" },
+      display: { dataPoint: "3", kind: "text" },
+      datetimeYear: { dataPoint: "4", kind: "number" },
+      datetimeMonth: { dataPoint: "5", kind: "number" },
+      datetimeDay: { dataPoint: "6", kind: "number" },
+      datetimeInHours: { dataPoint: "7", kind: "number", unit: "h" },
+      datetimeInMinutes: { dataPoint: "8", kind: "number", unit: "min" },
+      datetimeInSeconds: { dataPoint: "9", kind: "number", unit: "s" },
+      datetimeAmpm: { dataPoint: "10", kind: "switch" },
+      resetInSeconds: { dataPoint: "11", kind: "number", unit: "s" },
+    });
+  });
+
+  it("makes a data point its entity reports and never writes read-only", () => {
+    const vacuum = entry(`name: Vacuum
+entities:
+  - entity: vacuum
+    dps:
+      - id: 1
+        type: string
+        name: status
+        mapping:
+          - dps_val: standby
+            value: standby
+          - dps_val: smart
+            value: cleaning
+      - id: 2
+        type: string
+        name: command
+        mapping:
+          - dps_val: smart
+            value: start
+          - dps_val: chargego
+            value: return_to_base
+      - id: 3
+        type: bitfield
+        name: error
+`).components.vacuum;
+    expect(vacuum?.status?.readOnly).toBe(true);
+    expect(vacuum?.command?.readOnly).toBeUndefined();
+    expect(vacuum?.error?.readOnly).toBe(true);
+
+    const commanded = entry(`name: Vacuum
+entities:
+  - entity: vacuum
+    dps:
+      - id: 1
+        type: string
+        name: status
+        mapping:
+          - dps_val: standby
+            value: standby
+          - dps_val: smart
+            value: start
+`).components.vacuum;
+    expect(commanded?.status?.readOnly).toBeUndefined();
+
+    const cover = entry(`name: Gate
+entities:
+  - entity: cover
+    dps:
+      - id: 1
+        type: boolean
+        name: open
+      - id: 2
+        type: string
+        name: control
+        mapping:
+          - dps_val: open
+            value: open
+          - dps_val: close
+            value: close
+`).components.cover;
+    expect(cover?.open?.readOnly).toBe(true);
+    expect(cover?.command?.readOnly).toBeUndefined();
+
+    const mower = entry(`name: Mower
+entities:
+  - entity: lawn_mower
+    dps:
+      - id: 1
+        type: string
+        name: activity
+        mapping:
+          - dps_val: mowing
+            value: mowing
+      - id: 2
+        type: string
+        name: command
+        mapping:
+          - dps_val: start
+            value: start_mowing
+`).components.lawnMower;
+    expect(mower?.activity?.readOnly).toBe(true);
+    expect(mower?.command?.readOnly).toBeUndefined();
+
+    const number = entry(`name: Speaker
+entities:
+  - entity: number
+    name: Volume
+    dps:
+      - id: 1
+        type: integer
+        name: value
+      - id: 2
+        type: integer
+        name: minimum
+      - id: 3
+        type: integer
+        name: maximum
+      - id: 4
+        type: integer
+        name: decimal
+`).components.device;
+    expect(number?.volume?.readOnly).toBeUndefined();
+    expect(number?.volumeMinimum?.readOnly).toBe(true);
+    expect(number?.volumeMaximum?.readOnly).toBe(true);
+    expect(number?.volumeDecimal?.readOnly).toBeUndefined();
   });
 });
 

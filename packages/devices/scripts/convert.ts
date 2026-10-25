@@ -12,7 +12,7 @@ import type {
   TuyaDeviceEntry,
   TuyaProduct,
 } from "../src/entry.js";
-import { pyStr } from "../src/python.ts";
+import { parseInteger, pyStr } from "../src/python.ts";
 import {
   CONTROL_CATEGORIES,
   type ControlCategory,
@@ -163,11 +163,19 @@ const COMPOSITE_ENTITIES: ReadonlySet<string> = new Set([
   "water_heater",
 ]);
 
-// The data point an entity of one data point is about.
+// Source: The data point an entity of one data point is about, which each
+// entity takes by name, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/binary_sensor.py#L43,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/button.py#L40,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/event.py#L40,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/number.py#L47,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/select.py#L40,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/sensor.py#L44,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/switch.py#L39
+// and https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/text.py#L46.
 const PRIMARY_DATA_POINTS: Record<string, string> = {
   binary_sensor: "sensor",
   button: "button",
-  datetime: "value",
   event: "event",
   number: "value",
   select: "option",
@@ -188,6 +196,19 @@ const CAPABILITY_KEYS: ReadonlySet<string> = new Set([
 // A control's name for a composite entity's data point, by entity and
 // tuya-local's name for the data point. Any other data point keeps its own
 // name.
+// Source: The data points each entity acts on, which it takes by name, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/camera.py#L41-L44,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/climate.py#L78-L98,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/cover.py#L48-L53,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/fan.py#L45-L49,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/humidifier.py#L49-L53,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/light.py#L62-L68,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/lock.py#L74-L96,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/media_player.py#L40-L54,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/siren.py#L45-L48,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/vacuum.py#L47-L54,
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/valve.py#L43-L45
+// and https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/water_heater.py#L56-L65.
 const COMPOSITE_CONTROLS: Record<string, ControlName> = {
   "light.switch": "on",
   "light.brightness": "brightness",
@@ -203,13 +224,6 @@ const COMPOSITE_CONTROLS: Record<string, ControlName> = {
   "climate.target_temp_low": "heatingTargetTemperature",
   "climate.target_temp_high": "coolingTargetTemperature",
   "climate.min_temperature": "minimumTargetTemperature",
-  "climate.min_temp": "minimumTargetTemperature",
-  "climate.max_temp": "maximumTargetTemperature",
-  "climate.temp_set": "targetTemperature",
-  "climate.temp_current": "currentTemperature",
-  "climate.temp_cur": "currentTemperature",
-  "climate.current_temp": "currentTemperature",
-  "climate.cur_temp": "currentTemperature",
   "climate.max_temperature": "maximumTargetTemperature",
   "climate.temperature_unit": "temperatureUnit",
   "climate.preset_mode": "preset",
@@ -218,6 +232,17 @@ const COMPOSITE_CONTROLS: Record<string, ControlName> = {
   "climate.swing_horizontal_mode": "horizontalSwingMode",
   "climate.humidity": "targetHumidity",
   "climate.current_humidity": "currentHumidity",
+  // A climate's attribute named for a standard data point and a unit letter,
+  // as temp_set_f, which splitUnit takes the unit from, is that data point's
+  // control in the unit, targetTemperatureInF: see DESIGN.md#catalog.
+  // tuya-local acts on none of these seven names.
+  "climate.temp_set": "targetTemperature",
+  "climate.temp_current": "currentTemperature",
+  "climate.temp_cur": "currentTemperature",
+  "climate.current_temp": "currentTemperature",
+  "climate.cur_temp": "currentTemperature",
+  "climate.min_temp": "minimumTargetTemperature",
+  "climate.max_temp": "maximumTargetTemperature",
   "water_heater.operation_mode": "mode",
   "water_heater.temperature": "targetTemperature",
   "water_heater.current_temperature": "currentTemperature",
@@ -258,9 +283,12 @@ const COMPOSITE_CONTROLS: Record<string, ControlName> = {
 };
 
 // Source: A `default` rule gives the value written when a command names
-// none, to the siren's tone, the light's effect and colour mode, and the water
-// heater's operation mode alone, in
-// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/siren.py#L81-L99,
+// none, to the siren's tone, read in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/siren.py#L62
+// and written in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/siren.py#L88-L92,
+// the light's effect and colour mode, and the water heater's operation mode
+// alone, in
 // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/light.py#L473-L482,
 // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/light.py#L568-L587
 // and https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/water_heater.py#L229-L243.
@@ -317,8 +345,12 @@ function unitSymbol<T>(value: T): T | string {
   return typeof value === "string" ? (UNIT_SYMBOLS[value] ?? value) : value;
 }
 
-// Home Assistant takes a climate or humidifier entity's humidity as a
-// percentage, whatever its data point says.
+// Source: A climate's humidity and current_humidity are percentages, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/devices/README.md#L617-L622,
+// and Home Assistant takes a climate's or a humidifier's humidity in percent,
+// whatever the data point says, in
+// https://github.com/home-assistant/core/blob/506d5c077399457a9557bbe4a887f5b3229d2520/homeassistant/components/climate/services.yaml#L63-L76
+// and https://github.com/home-assistant/core/blob/506d5c077399457a9557bbe4a887f5b3229d2520/homeassistant/components/humidifier/services.yaml#L17-L28.
 const HUMIDITY_CONTROLS: ReadonlySet<string> = new Set<ControlName>([
   "currentHumidity",
   "targetHumidity",
@@ -326,6 +358,21 @@ const HUMIDITY_CONTROLS: ReadonlySet<string> = new Set<ControlName>([
 
 // The control a data point is read-only on, besides a sensor's: what a device
 // measures or reports.
+// Source: Each entity reads these data points and never writes them: every
+// get_value of a climate's current_temperature, current_humidity and
+// hvac_action is in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/climate.py#L127-L518,
+// of a water heater's current_temperature in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/water_heater.py#L80-L289,
+// of a humidifier's current_humidity and action in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/humidifier.py#L63-L166,
+// of a cover's current_position and action in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/cover.py#L71-L266,
+// of a valve's current_position in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/valve.py#L58-L136,
+// and of a lock's lock_state in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/lock.py#L101-L260,
+// and no async_set_value there takes one.
 const READ_ONLY_CONTROLS: ReadonlySet<string> = new Set<ControlName>([
   "action",
   "currentHumidity",
@@ -336,9 +383,32 @@ const READ_ONLY_CONTROLS: ReadonlySet<string> = new Set<ControlName>([
   "movement",
 ]);
 
-// Source: A lock reads these data points, and never writes them, in
-// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/lock.py#L74-L96.
+// Source: A lock takes these data points by name, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/lock.py#L74-L96,
+// and reads them, in is_locked, changed_by and is_jammed, where its lock,
+// unlock and open write lock, code_unlock, set_unlock_code, approve_unlock,
+// approve_intercom and open alone, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/lock.py#L101-L260.
+// A cover reads open, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/cover.py#L108-L111,
+// and writes control, position and tilt_position alone, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/cover.py#L202-L266.
+// A lawn mower reads activity, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/lawn_mower.py#L60-L63,
+// and writes command alone, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/lawn_mower.py#L65-L81.
+// A number reads minimum and maximum, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/number.py#L71-L87,
+// and writes decimal and value alone, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/number.py#L121-L135.
+// A vacuum reads error, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/vacuum.py#L103,
+// and writes power, activate, command or status, locate, direction_control
+// and fan_speed alone, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/vacuum.py#L120-L231.
 const READ_ONLY_DATA_POINTS: ReadonlySet<string> = new Set([
+  "cover.open",
+  "lawn_mower.activity",
   "lock.jammed",
   "lock.request_intercom",
   "lock.request_unlock",
@@ -355,6 +425,9 @@ const READ_ONLY_DATA_POINTS: ReadonlySet<string> = new Set([
   "lock.unlock_password",
   "lock.unlock_temp_pwd",
   "lock.unlock_voice",
+  "number.maximum",
+  "number.minimum",
+  "vacuum.error",
 ]);
 
 const READ_ONLY_ENTITIES: ReadonlySet<string> = new Set([
@@ -365,6 +438,13 @@ const READ_ONLY_ENTITIES: ReadonlySet<string> = new Set([
 
 // A light's colour field, by tuya-local's name for it. Any other field is
 // named for its data point and its own name.
+// Source: An rgbhsv format names its fields r, g, b, h, s and v, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/devices/README.md#L705;
+// the light reads h as a hue over 360, s as a saturation over 100, and v, r,
+// g and b over 255, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/light.py#L228-L233,
+// and v as the colour mode's brightness, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/light.py#L256-L258.
 const COLOR_FIELDS: Record<string, ControlName> = {
   h: "hue",
   s: "saturation",
@@ -386,10 +466,17 @@ const BOOLEAN_DATA_POINTS: ReadonlySet<string> = new Set([
 ]);
 
 // The kind of control an entity of one data point is, by entity.
+// Source: What each entity does with its data point, a binary sensor and a
+// sensor reading it, a button writing true, a lock writing true to lock, a
+// number, a select, a switch and a text setting it, and a time or a datetime
+// setting each part of a time, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/devices/README.md#L582-L815,
+// and an event firing on each value it receives, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/event.py#L58-L62.
 const SIMPLE_KINDS: Record<string, ControlKind> = {
   binary_sensor: "sensor",
   button: "button",
-  datetime: "text",
+  datetime: "number",
   event: "event",
   lock: "switch",
   number: "number",
@@ -438,12 +525,21 @@ const COMPOSITE_MEASURES: Partial<Record<ControlName, Measure>> = {
   targetTemperature: "temperature",
 };
 
-// The unit a time entity's data point carries, by its name.
+// Source: A time entity reads its hour, minute, second and hms data points,
+// in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/time.py#L45-L48,
+// and a datetime entity its year, month, day, hour, minute and second, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/datetime.py#L44-L49.
+// The hour, minute and second carry these units, and a lone second is a Unix
+// time in seconds, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/devices/README.md#L661-L669.
 const TIME_UNITS: Record<string, string> = {
   hour: "h",
   minute: "min",
   second: "s",
 };
+const TIME_ENTITIES: ReadonlySet<string> = new Set(["datetime", "time"]);
+const DATE_PARTS: ReadonlySet<string> = new Set(["day", "month", "year"]);
 
 const TIME_SUFFIXES: ReadonlySet<string> = new Set<UnitSuffix>([
   "Days",
@@ -510,8 +606,15 @@ const UNIT_SUFFIXES: Record<string, UnitSuffix> = {
   portions: "Portions",
 };
 
-// Source: tuya-local reads its device files with PyYAML, as YAML 1.1, in
-// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L101-L109.
+// Source: tuya-local reads its device files with Home Assistant's load_yaml,
+// in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L15
+// and https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L108,
+// which parses with PyYAML's CSafeLoader or SafeLoader, as YAML 1.1, in
+// https://github.com/home-assistant/core/blob/82e1ed43f85b3254c51e7a8200ece159019743ab/homeassistant/util/yaml/loader.py#L13-L23,
+// https://github.com/home-assistant/core/blob/82e1ed43f85b3254c51e7a8200ece159019743ab/homeassistant/util/yaml/loader.py#L125,
+// https://github.com/home-assistant/core/blob/82e1ed43f85b3254c51e7a8200ece159019743ab/homeassistant/util/yaml/loader.py#L175
+// and https://github.com/home-assistant/core/blob/82e1ed43f85b3254c51e7a8200ece159019743ab/homeassistant/util/yaml/loader.py#L218-L260.
 // These are PyYAML's resolvers where the yaml library's YAML 1.1 schema
 // differs: no y or n as a boolean, a float only with a dot, and no decimal
 // integer with a leading zero.
@@ -676,7 +779,7 @@ function unsupportedRule(
   const onRaw = "dps_val" in rule && rule.value_redirect === undefined;
   // Source: A write rounds to a rule's step only a raw value that is a
   // number, in
-  // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L1094-L1099,
+  // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L1097-L1099,
   // and otherwise the step is read as the size of Home Assistant's slider
   // alone, in
   // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L706-L723.
@@ -1447,10 +1550,19 @@ function addSimpleControls(
     if (!isControl(dp) || isShadowed(entity, dp)) {
       continue;
     }
-    if (entity.entity === "time" && TIME_UNITS[dp.name]) {
+    if (TIME_ENTITIES.has(entity.entity) && TIME_UNITS[dp.name]) {
       addControl(draft, base, { ...dp, unit: TIME_UNITS[dp.name] }, entity, {
         ...(kind && { kind }),
       });
+    } else if (entity.entity === "datetime" && DATE_PARTS.has(dp.name)) {
+      addControl(draft, join(base, dp.name), dp, entity, {
+        ...(kind && { kind }),
+      });
+    } else if (entity.entity === "time" && dp.name === "hms") {
+      // Source: hms holds the whole time as text, "hh:mm", "hh:mm:ss", "hhmm"
+      // or "hhmmss", in
+      // https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/time.py#L70-L91.
+      addControl(draft, base, dp, entity, { kind: "text" });
     } else if (
       dp.name === primary ||
       (entity.entity === "lock" && dp.name === "lock")
@@ -1666,6 +1778,17 @@ function isShadowed(entity: EntityConfig, dp: DataPointConfig): boolean {
   return entity.dps.findLast((other) => other.name === dp.name) !== dp;
 }
 
+// Source: A vacuum writes its status data point only where it has no command
+// data point, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/vacuum.py#L140-L206.
+function reportsStatus(entity: EntityConfig, dp: DataPointConfig): boolean {
+  return (
+    entity.entity === "vacuum" &&
+    dp.name === "status" &&
+    entity.dps.some((other) => other.name === "command")
+  );
+}
+
 function addControl(
   draft: Draft,
   base: string,
@@ -1698,7 +1821,8 @@ function addControl(
     dp.readonly ||
     READ_ONLY_ENTITIES.has(entity.entity) ||
     READ_ONLY_CONTROLS.has(base) ||
-    READ_ONLY_DATA_POINTS.has(`${entity.entity}.${dp.name}`);
+    READ_ONLY_DATA_POINTS.has(`${entity.entity}.${dp.name}`) ||
+    reportsStatus(entity, dp);
   const { target, booleanMask } = convertDataPoint(entity, dp, []);
   const {
     dataPoint,
@@ -1903,7 +2027,7 @@ function neverMatches(dp: DataPointConfig, rule: MappingRule): boolean {
   return (
     dp.type === "bitfield" &&
     typeof rule.dps_val === "string" &&
-    Number.isNaN(Number(rule.dps_val))
+    parseInteger(rule.dps_val) === undefined
   );
 }
 
@@ -2015,10 +2139,12 @@ function availabilityTarget(
   return redirectTarget(entity, dp, {}, name, trail);
 }
 
-// Source: A value_redirect or value_mirror names a data point of the same
-// entity, whose value is read, as that data point converts it, in its place,
-// in
-// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L810-L818.
+// Source: A value_redirect or value_mirror on a rule or its condition names a
+// data point of the same entity, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L804-L805
+// and https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L817-L818,
+// whose value is read, as that data point converts it, in its place, in
+// https://github.com/make-all/tuya-local/blob/860df4ffc25ac619501bd8a8884b3bc83eaa9f35/custom_components/tuya_local/helpers/device_config.py#L826-L834.
 // The rule's own range, which tuya-local shows for the control, goes
 // to the other data point when it has none: see DESIGN.md#catalog.
 function redirectTarget(

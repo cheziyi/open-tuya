@@ -20,8 +20,10 @@ const DEVICE_ID = "bf6c8539693b0cdea25thg";
 const HOME_ID = "297928323";
 
 // Source: The shape of a device, a relation and a status, as captured in
-// https://github.com/home-assistant/core/issues/162625, with its key and IDs
-// made up.
+// https://github.com/home-assistant/core/issues/162625, whose device ID and
+// product ID these are; the UUID, active time and home ID are from the capture
+// in https://github.com/home-assistant-libs/tuya-device-handlers/issues/472#issuecomment-5546380301,
+// and the name, IP, product name and local key are made up.
 const DEVICE_RECORD = {
   active_time: 1778448055,
   category: "cz",
@@ -282,6 +284,16 @@ describe("AppCloudAccount", () => {
       const { cloud, account } = setUp();
       cloud.on("GET", `/v1.0/m/life/ha/${DEVICE_ID}/code/custom-type`, () => ({
         result: "true",
+      }));
+      const client = await account.createClient(DEVICE_ID);
+
+      await expect(client.readDataPoints()).resolves.toEqual({});
+    });
+
+    it("reads a custom type answered as text in any letter case", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", `/v1.0/m/life/ha/${DEVICE_ID}/code/custom-type`, () => ({
+        result: "True",
       }));
       const client = await account.createClient(DEVICE_ID);
 

@@ -21,7 +21,7 @@ const entry: TuyaDeviceEntry = {
           { raw: false, value: "close" },
         ],
       },
-      open: { dataPoint: "101", kind: "switch" },
+      open: { dataPoint: "101", kind: "sensor", readOnly: true },
       timerInSeconds: {
         dataPoint: "7",
         kind: "number",

@@ -180,7 +180,8 @@ const entry: TuyaDeviceEntry = {
       },
       setChargeCurrentMaximum: {
         dataPoint: "113",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [
           { raw: "Max16A", value: 16 },
           { raw: "Max32A", value: 32 },
@@ -190,7 +191,8 @@ const entry: TuyaDeviceEntry = {
       },
       setChargeCurrentMinimum: {
         dataPoint: "113",
-        kind: "select",
+        kind: "sensor",
+        readOnly: true,
         values: [
           { raw: "Max80A", value: 24 },
           { raw: "Max16A", value: 6 },

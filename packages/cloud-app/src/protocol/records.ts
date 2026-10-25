@@ -42,11 +42,16 @@ export interface HomeRecord {
 export interface DeviceRecord {
   id: string;
   name: string;
+  // Source: A hub's record can lack `local_key`, in
+  // https://github.com/make-all/tuya-local/commit/10c6eee6ab862ee5746e57919c48149a2207eb93.
   /** Missing on some gateways. */
   local_key?: string;
   product_id: string;
   category: string;
   online: boolean;
+  // Source: A device behind a gateway carries `node_id`, which tuya-local reads
+  // off the record, in
+  // https://github.com/make-all/tuya-local/commit/8896547f6af5ea6f3252256e0dc94cc4e54aa983.
   node_id?: string;
   status?: { code?: unknown; value?: unknown }[];
 }
