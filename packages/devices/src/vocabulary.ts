@@ -101,6 +101,7 @@ export const CONTROL_NAMES = [
   "oscillating",
   "outlet",
   "outletTemperature",
+  "pause",
   "plug",
   "pm25",
   "power",
