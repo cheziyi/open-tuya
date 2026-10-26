@@ -409,6 +409,7 @@ import device_duux_whisper_flex_ultimate_fan from "./duux_whisper_flex_ultimate_
 import device_dxophiex_fishfeeder from "./dxophiex_fishfeeder.js";
 import device_dynasty_btx_fireplace from "./dynasty_btx_fireplace.js";
 import device_dyras_tf16wifi_towerfan from "./dyras_tf16wifi_towerfan.js";
+import device_ea_carfridge from "./ea_carfridge.js";
 import device_eachen_gddc5_garageopener from "./eachen_gddc5_garageopener.js";
 import device_eanons_humidifier from "./eanons_humidifier.js";
 import device_earu_3phase_breaker from "./earu_3phase_breaker.js";
@@ -2186,6 +2187,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_dxophiex_fishfeeder,
   device_dynasty_btx_fireplace,
   device_dyras_tf16wifi_towerfan,
+  device_ea_carfridge,
   device_eachen_gddc5_garageopener,
   device_eanons_humidifier,
   device_earu_3phase_breaker,
