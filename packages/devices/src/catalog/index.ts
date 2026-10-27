@@ -727,6 +727,7 @@ import device_hornbill_y4_smart_lock from "./hornbill_y4_smart_lock.js";
 import device_hosome_purifier from "./hosome_purifier.js";
 import device_hotshot2000_heater from "./hotshot2000_heater.js";
 import device_howeall_register_booster_fan from "./howeall_register_booster_fan.js";
+import device_hql_ds123_radarswitch from "./hql_ds123_radarswitch.js";
 import device_hrt_as90_climatealarm from "./hrt_as90_climatealarm.js";
 import device_htw_htwd020a4_dehumidifier from "./htw_htwd020a4_dehumidifier.js";
 import device_htw_ix75b_airconditioner from "./htw_ix75b_airconditioner.js";
@@ -2505,6 +2506,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_hosome_purifier,
   device_hotshot2000_heater,
   device_howeall_register_booster_fan,
+  device_hql_ds123_radarswitch,
   device_hrt_as90_climatealarm,
   device_htw_htwd020a4_dehumidifier,
   device_htw_ix75b_airconditioner,
