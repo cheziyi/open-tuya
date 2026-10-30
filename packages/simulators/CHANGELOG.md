@@ -1,5 +1,12 @@
 # @open-tuya/simulators
 
+## 0.0.6
+
+### Patch Changes
+
+- Updated dependencies [[`c4223c8`](https://github.com/cheziyi/open-tuya/commit/c4223c8801d1bab59e31fbef8495b8ae8b16744c)]:
+  - @open-tuya/core@0.2.0
+
 ## 0.0.5
 
 ### Patch Changes
