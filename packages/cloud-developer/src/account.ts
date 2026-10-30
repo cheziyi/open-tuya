@@ -14,8 +14,8 @@ import {
   DeveloperCloudTuyaClient,
   type RequestParts,
 } from "./client.js";
-import { readDeviceModel } from "./deviceModel.js";
 import { openMqttConnection } from "./mqtt.js";
+import { readDeviceModel } from "./protocol/deviceModel.js";
 import type {
   DeviceDetail,
   DevicePage,
@@ -234,7 +234,10 @@ export class DeveloperCloudAccount implements TuyaCloudAccount {
     const { services } = parseModel(thing?.model);
     for (const service of listOf<{ properties?: unknown }>(services)) {
       for (const property of listOf<ThingProperty>(service?.properties)) {
-        if (typeof property?.code === "string") {
+        if (
+          typeof property?.code === "string" &&
+          typeof property.abilityId === "number"
+        ) {
           properties.push(property);
         }
       }

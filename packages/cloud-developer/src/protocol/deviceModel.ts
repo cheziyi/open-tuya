@@ -1,14 +1,15 @@
-import type {
-  ModelType,
-  TuyaDeviceModel,
-  TuyaModelDataPoint,
+import {
+  type ModelType,
+  readModelValues,
+  type TuyaDeviceModel,
+  type TuyaModelDataPoint,
 } from "@open-tuya/core";
-import type { ThingProperty } from "./protocol/records.js";
+import type { ThingProperty } from "./records.js";
 
 // Source: A property's typeSpec names its type, `bool`, `value`, `enum`,
 // `string`, `raw` or `bitmap` among others, and gives a value's min, max,
 // step, unit and scale and an enum's range, in
-// https://github.com/tuya/tuya-openclaw-skills/blob/9f3c3bdb4d2063a285dd9a20d0cb4b5dae04e908/tuya-smart-control/references/device-control.md#L97-L129.
+// https://github.com/tuya/tuya-openclaw-skills/commit/016cb18098bb5302e24a9a33c1bcb665445eda7c.
 const MODEL_TYPES_BY_SPEC: Readonly<Record<string, ModelType>> = {
   bool: "boolean",
   value: "integer",
@@ -36,17 +37,10 @@ export function readDeviceModel(
     if (type === undefined) {
       continue;
     }
-    const { range, min, max, step, scale, unit } = spec;
     model[String(property.abilityId)] = {
       code: property.code,
       type,
-      ...(Array.isArray(range) &&
-        range.every((value) => typeof value === "string") && { range }),
-      ...(Number.isFinite(min) && { min: min as number }),
-      ...(Number.isFinite(max) && { max: max as number }),
-      ...(Number.isFinite(step) && { step: step as number }),
-      ...(Number.isFinite(scale) && { scale: scale as number }),
-      ...(typeof unit === "string" && unit !== "" && { unit }),
+      ...readModelValues(spec),
     };
   }
   return model;

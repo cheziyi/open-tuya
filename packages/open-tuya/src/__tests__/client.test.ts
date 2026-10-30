@@ -254,6 +254,69 @@ describe("RoutedTuyaClient", () => {
 });
 
 describe("createTuyaClient", () => {
+  describe("a device the catalog does not list", () => {
+    // Data point 1 is a string and 4 an integer, as on a leak sensor's entry.
+    const MOTION_SENSOR = {
+      "1": { code: "pir", type: "enum", range: ["pir", "none"] },
+      "4": { code: "battery_percentage", type: "integer", scale: 0 },
+    } as const;
+
+    function motionAccount(): FakeTuyaCloudAccount {
+      const account = new FakeTuyaCloudAccount({ "1": "pir", "4": 80 });
+      account.model = MOTION_SENSOR;
+      return account;
+    }
+
+    it("names the controls from a cloud's model when given the category", async () => {
+      await using client = await createTuyaClient({
+        deviceId: DEVICE_ID,
+        category: "pir",
+        routes: [{ cloud: motionAccount() }],
+      });
+
+      await expect(client.readControls()).resolves.toEqual({
+        device: { motion: true, batteryInPercent: 80 },
+      });
+      expect(client.entries.length).toBeGreaterThan(1);
+    });
+
+    it("finds the entry from the data points alone without the category", async () => {
+      await using client = await createTuyaClient({
+        deviceId: DEVICE_ID,
+        routes: [{ cloud: motionAccount() }],
+      });
+
+      expect(client.entry?.products).not.toEqual([]);
+    });
+
+    it("finds the entry from the data points alone when the cloud gives no model", async () => {
+      const account = motionAccount();
+      account.modelFailure = failure("RATE_LIMITED");
+      await using client = await createTuyaClient({
+        deviceId: DEVICE_ID,
+        category: "pir",
+        routes: [{ cloud: account }],
+      });
+
+      expect(client.entry?.products).not.toEqual([]);
+    });
+
+    it("prefers the catalog's entry for a product it lists", async () => {
+      const account = new FakeTuyaCloudAccount(DATA_POINTS);
+      account.model = MOTION_SENSOR;
+      await using client = await createTuyaClient({
+        deviceId: DEVICE_ID,
+        productKey: PRODUCT_KEY,
+        category: "pir",
+        routes: [{ cloud: account }],
+      });
+
+      expect(
+        client.entry?.products.map(({ productKey }) => productKey),
+      ).toContain(PRODUCT_KEY);
+    });
+  });
+
   it("rejects with a TypeError when given no route", async () => {
     await expect(
       createTuyaClient({ deviceId: DEVICE_ID, routes: [] }),

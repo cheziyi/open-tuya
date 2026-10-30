@@ -218,13 +218,18 @@ instruction set, which each cloud's model of the device gives its data points.
 | A detector's enum is true while it holds one of Home Assistant's on values its range lists, and false otherwise; one whose range lists none is left out | Home Assistant reads it so. A range without the on value means the code does not mean what the table says |
 | A unit the code does not take, such as a temperature in K or a battery in mV, leaves the data point out | Reading it in the unit the name carries would be wrong |
 | Two data points that name one control give it the first | A thermometer can report `temp_current` and `va_temperature`; the catalog names a control once per component |
+| The fields both clouds name alike, `range`, `min`, `max`, `step`, `scale` and `unit`, are read by `readModelValues` in core | Each is the name of a `TuyaModelDataPoint` field, so core holds no name of one wire alone, and a fix reaches both clouds. Each cloud's `src/protocol/` keeps the fields of its own |
+| A reading whose scale the model does not give is left out | Home Assistant fails on one, and guessing 0 would read 252 as 252 °C instead of 25.2 °C. A numeric string is read as its number, as Home Assistant's `int()` reads it |
+| A detector's enum reads nothing while the device leaves the data point out | Without a report the state is unknown, and `otherwise: false` alone would say no leak |
+| `createTuyaClient` takes `category` and asks the first cloud route that gives an entry, only for a product the catalog does not list; a failure falls back on the data point match | The caller already has the category from its list, as it has the product key: listing here would spend requests against the rate limit, as [Routes](#routes) says. Rejected: fetching the category through `listDevices`. The entry built from a model goes first even when a catalog entry fits every data point: it reads less of such a device, but the fit can be another kind of device, and `entries` still lists the catalog's |
 | No product key: `products` is empty | The model describes the device, not its product, and a product key from one device would match others that report other data points |
 
 Matching by data points alone, without a product key, picks the entry naming
 the largest share of the device's data points, so two entries naming the same
 ones tie. A motion sensor reporting `pir` on 1 and its battery on 4 tied with
-a leak sensor's entry, which came first, and read no motion. A caller that has
-the model builds the entry from it before falling back on that match.
+a leak sensor's entry, which came first, and read no motion. `createTuyaClient`
+given a `category` builds the entry from the model before falling back on that
+match, and so should any other caller that has the model.
 
 ## Releases
 

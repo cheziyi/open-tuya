@@ -25,16 +25,18 @@ type DescribeControl = (
 ) => NamedControl | undefined;
 
 // Source: Home Assistant reads a temperature in any of these units as Celsius
-// or Fahrenheit, and `temp_current` in Celsius when it names none, in
-// https://github.com/home-assistant/core/blob/806c553178c16f996cce6228b7f0db52fc61df8b/homeassistant/components/tuya/const.py#L46-L47
-// and https://github.com/home-assistant/core/blob/806c553178c16f996cce6228b7f0db52fc61df8b/homeassistant/components/tuya/const.py#L958.
+// or Fahrenheit, in https://github.com/home-assistant/core/commit/4aadb848e18e8e69f01d31a163f76de2e87025d7,
+// https://github.com/home-assistant/core/commit/85dac3d47ec9e04690d429c9dbb216917aedb77b
+// and https://github.com/home-assistant/core/commit/71c665ed498754782fb632401505c5a5bccc6c26,
+// and `temp_current` in Celsius when it names none, in
+// https://github.com/home-assistant/core/commit/a4357fdb957bcad2827597a440fab9f0dc31567e.
 const CELSIUS_UNITS = new Set(["°c", "c", "celsius", "℃"]);
 const FAHRENHEIT_UNITS = new Set(["°f", "f", "fahrenheit", "℉"]);
 
 // Source: An integer is its value divided by 10 to the power of its scale, in
-// https://github.com/tuya/tuya-openclaw-skills/blob/9f3c3bdb4d2063a285dd9a20d0cb4b5dae04e908/tuya-smart-control/references/device-control.md#L105.
-function scaleOf(dataPoint: TuyaModelDataPoint): { scale?: number } {
-  return dataPoint.scale ? { scale: 10 ** dataPoint.scale } : {};
+// https://github.com/tuya/tuya-openclaw-skills/commit/016cb18098bb5302e24a9a33c1bcb665445eda7c.
+function scaleOf(scale: number): { scale?: number } {
+  return scale === 0 ? {} : { scale: 10 ** scale };
 }
 
 function temperature(dataPoint: TuyaModelDataPoint): NamedControl | undefined {
@@ -45,7 +47,11 @@ function temperature(dataPoint: TuyaModelDataPoint): NamedControl | undefined {
       : FAHRENHEIT_UNITS.has(unit)
         ? "F"
         : undefined;
-  if (dataPoint.type !== "integer" || symbol === undefined) {
+  if (
+    dataPoint.type !== "integer" ||
+    dataPoint.scale === undefined ||
+    symbol === undefined
+  ) {
     return undefined;
   }
   return {
@@ -56,7 +62,7 @@ function temperature(dataPoint: TuyaModelDataPoint): NamedControl | undefined {
       reading: "instant",
       readOnly: true,
       unit: symbol,
-      ...scaleOf(dataPoint),
+      ...scaleOf(dataPoint.scale),
     },
   };
 }
@@ -64,6 +70,7 @@ function temperature(dataPoint: TuyaModelDataPoint): NamedControl | undefined {
 function percent(measures: Measure): DescribeControl {
   return (dataPoint) =>
     dataPoint.type === "integer" &&
+    dataPoint.scale !== undefined &&
     (dataPoint.unit === undefined || dataPoint.unit === "%")
       ? {
           name: `${measures}InPercent`,
@@ -73,7 +80,7 @@ function percent(measures: Measure): DescribeControl {
             reading: "instant",
             readOnly: true,
             unit: "%",
-            ...scaleOf(dataPoint),
+            ...scaleOf(dataPoint.scale),
           },
         }
       : undefined;
@@ -81,7 +88,7 @@ function percent(measures: Measure): DescribeControl {
 
 // Source: Home Assistant reads a binary sensor as on while its value is its
 // `on_value`, true unless it names one, in
-// https://github.com/home-assistant/core/blob/806c553178c16f996cce6228b7f0db52fc61df8b/homeassistant/components/tuya/binary_sensor.py#L37.
+// https://github.com/home-assistant/core/commit/892bf62dd579984e43439760bc3eb646cadb784b.
 /** A detector reads a boolean, or, given `onValues`, an enum that is true
  * while it holds one of them. An enum whose range holds none of them is not
  * this detector. */
@@ -107,6 +114,7 @@ function detector(
         ...control,
         values: held.map((raw) => ({ raw, value: true })),
         otherwise: false,
+        whenAbsent: { value: null },
       },
     };
   };
@@ -120,10 +128,14 @@ function onOff(name: string, category?: "config"): DescribeControl {
 }
 
 // Source: Home Assistant shows these codes as the same reading in every
-// category it lists them in: `temp_current` in 21 categories, as in
-// https://github.com/home-assistant/core/blob/806c553178c16f996cce6228b7f0db52fc61df8b/homeassistant/components/tuya/sensor.py#L1606-L1644,
-// and the battery's in every category through
-// https://github.com/home-assistant/core/blob/806c553178c16f996cce6228b7f0db52fc61df8b/homeassistant/components/tuya/sensor.py#L222-L258.
+// category it lists them in: `temp_current` and `humidity_value` from
+// https://github.com/home-assistant/core/commit/a7c7e58a5b1aa3b68111fe0e871d7392eed0cc76,
+// `va_temperature` and `va_humidity` from
+// https://github.com/home-assistant/core/commit/c204196a7ad1860897e2ecfb189f7bd1d6a9e219,
+// `va_battery` from
+// https://github.com/home-assistant/core/commit/35872a212b2340d3906557e5f644d99f7360ff15,
+// and `battery_percentage` from
+// https://github.com/home-assistant/core/commit/cef34356e2a66c1a51324c8b095183316b612ad4.
 const READINGS: Readonly<Record<string, DescribeControl>> = {
   temp_current: temperature,
   va_temperature: temperature,
@@ -133,12 +145,11 @@ const READINGS: Readonly<Record<string, DescribeControl>> = {
   va_battery: percent("battery"),
 };
 
-// Source: A wall switch's gangs are switch_1 to switch_22, a power strip's
-// and a plug's switch_1 to switch_6, beside switch_usb1 to switch_usb6, a
-// switch and a child lock, in
-// https://github.com/home-assistant/core/blob/806c553178c16f996cce6228b7f0db52fc61df8b/homeassistant/components/tuya/switch.py#L370-L420,
-// https://github.com/home-assistant/core/blob/806c553178c16f996cce6228b7f0db52fc61df8b/homeassistant/components/tuya/switch.py#L510-L587
-// and https://github.com/home-assistant/core/blob/806c553178c16f996cce6228b7f0db52fc61df8b/homeassistant/components/tuya/switch.py#L924.
+// Source: A power strip's and a plug's switch_1 to switch_6, beside
+// switch_usb1 to switch_usb6, a switch and a child lock, in
+// https://github.com/home-assistant/core/commit/14c380fb578066e13c1d5ae145ae9dc24c51e443,
+// and a wall switch's gangs switch_1 to switch_22, in
+// https://github.com/home-assistant/core/commit/b40094127a490cd15a391816ecac9ba9f0e79718.
 function switches(count: number): Record<string, DescribeControl> {
   const controls: Record<string, DescribeControl> = {
     switch: onOff("switch"),
@@ -155,10 +166,17 @@ function switches(count: number): Record<string, DescribeControl> {
 
 const PLUG_CONTROLS = switches(6);
 
-// Source: What each code stands for in its category, in
-// https://github.com/home-assistant/core/blob/806c553178c16f996cce6228b7f0db52fc61df8b/homeassistant/components/tuya/binary_sensor.py#L250-L256
-// for hps, L281-L291 for mcs, whose `switch` some contact sensors report the
-// door by, L317-L324 for pir and L354-L361 for sj.
+// Source: What each code stands for in its category: hps in
+// https://github.com/home-assistant/core/commit/e65345900ff22959492c9c32e46ec17308389a68,
+// with on values added in https://github.com/home-assistant/core/commit/5eadfcc52439b352d84bb16856c4f6118e6c6a80
+// and https://github.com/home-assistant/core/commit/4dbf3359c11a3a2d2c8eb5cb449ecf3ab066d9a5;
+// mcs in https://github.com/home-assistant/core/commit/b2cef78d90ea06f3327181ec27cf178b794f7641,
+// and its `switch`, which some contact sensors report the door by, in
+// https://github.com/home-assistant/core/commit/e6df0be072b78961e6929a69154386ef79c962d4;
+// pir in https://github.com/home-assistant/core/commit/892bf62dd579984e43439760bc3eb646cadb784b;
+// and sj in https://github.com/home-assistant/core/commit/6d898a631ccafe700dd86145ff25e99dd5bbb66b,
+// with the on value "1" added in
+// https://github.com/home-assistant/core/commit/46675560d29883fa13a897234ba5f893d48a2c2a.
 const CATEGORY_CONTROLS: Readonly<
   Record<string, Readonly<Record<string, DescribeControl>>>
 > = {
@@ -192,7 +210,9 @@ const DATA_POINT_TYPES = {
  * catalog does not list. A temperature, a humidity and a battery are read
  * in any category; a switch or a detector only in a category whose code for
  * it is known. Two data points that name one control, as `temp_current`
- * and `va_temperature` do, give it the first. Resolves with undefined when
+ * and `va_temperature` do, give it the first. A reading whose scale the model
+ * does not give is left out, as its value would be off by a power of ten.
+ * Resolves with undefined when
  * no data point is known. */
 export function createDeviceEntry(
   model: TuyaDeviceModel,

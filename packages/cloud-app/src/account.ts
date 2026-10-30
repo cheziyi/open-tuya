@@ -16,8 +16,8 @@ import {
 } from "./client.js";
 import { type DataPointCodes, mapDataPointCodes } from "./dataPointCodes.js";
 import { delay } from "./delay.js";
-import { readDeviceModel } from "./deviceModel.js";
 import { openMqttConnection } from "./mqtt.js";
+import { readDeviceModel } from "./protocol/deviceModel.js";
 import {
   readDeviceRecords,
   readHomeRecords,
@@ -174,7 +174,7 @@ export class AppCloudAccount implements TuyaCloudAccount {
    * `TuyaError` with code `CONNECTION_LOST` once the account is closed. */
   async readDeviceModel(deviceId: string): Promise<TuyaDeviceModel> {
     const { relations, codes } = await this.fetchDataPointCodes(deviceId);
-    return readDeviceModel(relations, codes);
+    return readDeviceModel(relations, codes.statusCodesById);
   }
 
   // Source: A device's data points map to the cloud's codes through

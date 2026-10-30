@@ -52,6 +52,7 @@ describe("createDeviceEntry", () => {
             readOnly: true,
             values: [{ raw: "pir", value: true }],
             otherwise: false,
+            whenAbsent: { value: null },
           },
           batteryInPercent: {
             dataPoint: "4",
@@ -82,6 +83,9 @@ describe("createDeviceEntry", () => {
       device: { motion: true, batteryInPercent: 100, temperatureInC: 25.2 },
     });
     expect(readControls(entry, { "1": "none" }).device?.motion).toBe(false);
+    expect(readControls(entry, { "4": 100 })).toEqual({
+      device: { batteryInPercent: 100 },
+    });
   });
 
   it("names a power strip's outlets, its USB ports and its child lock", () => {
@@ -181,13 +185,13 @@ describe("createDeviceEntry", () => {
   it("reads a temperature in Fahrenheit, and in Celsius when the model names no unit", () => {
     const entry = createDeviceEntry(
       {
-        "1": { code: "temp_current", type: "integer", unit: "℉" },
-        "2": { code: "humidity_value", type: "integer" },
+        "1": { code: "temp_current", type: "integer", scale: 0, unit: "℉" },
+        "2": { code: "humidity_value", type: "integer", scale: 0 },
       },
       { category: "wsdcg", name: "Thermometer" },
     );
     const celsius = createDeviceEntry(
-      { "1": { code: "va_temperature", type: "integer" } },
+      { "1": { code: "va_temperature", type: "integer", scale: 0 } },
       { category: "wsdcg", name: "Thermometer" },
     );
 
@@ -201,8 +205,8 @@ describe("createDeviceEntry", () => {
   it("gives a control to the first data point that names it", () => {
     const entry = createDeviceEntry(
       {
-        "1": { code: "temp_current", type: "integer" },
-        "2": { code: "va_temperature", type: "integer" },
+        "1": { code: "temp_current", type: "integer", scale: 1 },
+        "2": { code: "va_temperature", type: "integer", scale: 1 },
       },
       { category: "wsdcg", name: "Thermometer" },
     );
@@ -211,15 +215,32 @@ describe("createDeviceEntry", () => {
     expect(entry?.dataPoints).toEqual({ "1": { type: "integer" } });
   });
 
+  it("leaves out a reading whose scale the model does not give", () => {
+    expect(
+      createDeviceEntry(
+        {
+          "1": { code: "temp_current", type: "integer", unit: "℃" },
+          "2": { code: "battery_percentage", type: "integer", unit: "%" },
+        },
+        { category: "wsdcg", name: "Thermometer" },
+      ),
+    ).toBeUndefined();
+  });
+
   it("leaves out a data point of another type, unit or range than its code takes", () => {
     expect(
       createDeviceEntry(
         {
           "1": { code: "pir", type: "enum", range: ["motion", "none"] },
           "2": { code: "pir", type: "boolean" },
-          "3": { code: "temp_current", type: "integer", unit: "K" },
+          "3": { code: "temp_current", type: "integer", scale: 0, unit: "K" },
           "4": { code: "temp_current", type: "string" },
-          "5": { code: "battery_percentage", type: "integer", unit: "mV" },
+          "5": {
+            code: "battery_percentage",
+            type: "integer",
+            scale: 0,
+            unit: "mV",
+          },
           "6": { code: "humidity_value", type: "enum" },
           "7": { code: "watersensor_state", type: "boolean" },
           "8": { code: "doorcontact_state", type: "enum" },

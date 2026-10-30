@@ -360,6 +360,10 @@ describe("DeveloperCloudAccount", () => {
                     code: "countdown",
                     typeSpec: { type: "value", min: "0", scale: null },
                   },
+                  {
+                    code: "no_ability_id",
+                    typeSpec: { type: "bool" },
+                  },
                 ],
               },
             ],
@@ -370,7 +374,7 @@ describe("DeveloperCloudAccount", () => {
       await expect(account.readDeviceModel(DEVICE_ID)).resolves.toEqual({
         "3": { code: "mode", type: "enum" },
         "4": { code: "work_mode", type: "enum", range: ["eco", "boost"] },
-        "5": { code: "countdown", type: "integer" },
+        "5": { code: "countdown", type: "integer", min: 0 },
       });
     });
 

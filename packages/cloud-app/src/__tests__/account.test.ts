@@ -251,15 +251,46 @@ describe("AppCloudAccount", () => {
           ...TEMPERATURE_RELATION,
           dpId: 8,
           statusFormat: '{"va_temperature":"$"}',
-          valueDesc: '{"unit":"","min":"0","scale":null}',
+          valueDesc: '{"unit":"","min":"0","max":"","scale":null,"step":"x"}',
         },
       ]);
 
       await expect(account.readDeviceModel(DEVICE_ID)).resolves.toEqual({
         "1": { code: "switch_1", type: "boolean" },
         "3": { code: "pir", type: "enum" },
-        "8": { code: "va_temperature", type: "integer" },
+        "8": { code: "va_temperature", type: "integer", min: 0 },
       });
+    });
+
+    it("reads an integer's values given as numeric strings", async () => {
+      const { cloud, account } = setUp();
+      serveRelations(cloud, [
+        {
+          ...TEMPERATURE_RELATION,
+          valueDesc: '{"min":"-400","max":"2000","scale":"1","step":"1"}',
+        },
+      ]);
+
+      await expect(account.readDeviceModel(DEVICE_ID)).resolves.toEqual({
+        "7": {
+          code: "temp_current",
+          type: "integer",
+          min: -400,
+          max: 2000,
+          step: 1,
+          scale: 1,
+        },
+      });
+    });
+
+    it("describes no data point of a device with one relation that does not support local", async () => {
+      const { cloud, account } = setUp();
+      serveRelations(cloud, [
+        TEMPERATURE_RELATION,
+        { ...MOTION_RELATION, supportLocal: false },
+      ]);
+
+      await expect(account.readDeviceModel(DEVICE_ID)).resolves.toEqual({});
     });
   });
 

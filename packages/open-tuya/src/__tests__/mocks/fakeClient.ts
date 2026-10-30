@@ -71,6 +71,10 @@ export class FakeTuyaCloudAccount implements TuyaCloudAccount {
   readonly clients: FakeTuyaClient[] = [];
   createCalls = 0;
   closed = false;
+  /** What `readDeviceModel` resolves with. */
+  model: TuyaDeviceModel = {};
+  /** While set, `readDeviceModel` rejects with it. */
+  modelFailure: unknown;
 
   constructor(readonly dataPoints: Record<string, DataPointValue> = {}) {}
 
@@ -89,7 +93,10 @@ export class FakeTuyaCloudAccount implements TuyaCloudAccount {
   }
 
   async readDeviceModel(): Promise<TuyaDeviceModel> {
-    return {};
+    if (this.modelFailure) {
+      throw this.modelFailure;
+    }
+    return this.model;
   }
 
   async close(): Promise<void> {
