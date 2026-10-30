@@ -179,6 +179,136 @@ describe("AppCloudAccount", () => {
     });
   });
 
+  describe("readDeviceModel", () => {
+    // Made up in the shape of SWITCH_RELATION, with the fields of an
+    // integer's and an enum's valueDesc that the model reads.
+    const TEMPERATURE_RELATION = {
+      ...SWITCH_RELATION,
+      dpCode: "temp_current",
+      dpId: 7,
+      statusCode: "temp_current",
+      statusFormat: '{"temp_current":"$"}',
+      valueDesc: '{"unit":"℃","min":-400,"max":2000,"scale":1,"step":1}',
+      valueType: "Integer",
+    };
+    const MOTION_RELATION = {
+      ...SWITCH_RELATION,
+      dpCode: "pir_state",
+      dpId: 3,
+      statusCode: "pir",
+      statusFormat: '{"pir":"$"}',
+      valueDesc: '{"range":["pir","none"]}',
+      valueType: "Enum",
+    };
+
+    function serveRelations(cloud: FakeCloud, relations: unknown[]): void {
+      cloud.on("GET", `/v1.0/m/life/devices/${DEVICE_ID}/status`, () => ({
+        result: { category: "pir", dpStatusRelationDTOS: relations },
+      }));
+    }
+
+    it("describes each data point the cloud passes through unchanged, by the code it reports it under", async () => {
+      const { cloud, account } = setUp();
+      serveRelations(cloud, [
+        MOTION_RELATION,
+        TEMPERATURE_RELATION,
+        SWITCH_RELATION,
+        MODE_RELATION,
+      ]);
+
+      await expect(account.readDeviceModel(DEVICE_ID)).resolves.toEqual({
+        "1": { code: "switch_1", type: "boolean" },
+        "3": { code: "pir", type: "enum", range: ["pir", "none"] },
+        "7": {
+          code: "temp_current",
+          type: "integer",
+          min: -400,
+          max: 2000,
+          step: 1,
+          scale: 1,
+          unit: "℃",
+        },
+      });
+      expect(cloud.badSignatures).toEqual([]);
+    });
+
+    it("describes no data point of a device of a custom type", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", `/v1.0/m/life/ha/${DEVICE_ID}/code/custom-type`, () => ({
+        result: "TRUE",
+      }));
+
+      await expect(account.readDeviceModel(DEVICE_ID)).resolves.toEqual({});
+    });
+
+    it("leaves out a data point of an unknown type, and values that are not JSON or not of their type", async () => {
+      const { cloud, account } = setUp();
+      serveRelations(cloud, [
+        { ...TEMPERATURE_RELATION, valueType: "Json" },
+        { ...MOTION_RELATION, valueDesc: '{"range":["pir",1]}' },
+        { ...SWITCH_RELATION, valueDesc: "{" },
+        {
+          ...TEMPERATURE_RELATION,
+          dpId: 8,
+          statusFormat: '{"va_temperature":"$"}',
+          valueDesc: '{"unit":"","min":"0","max":"","scale":null,"step":"x"}',
+        },
+      ]);
+
+      await expect(account.readDeviceModel(DEVICE_ID)).resolves.toEqual({
+        "1": { code: "switch_1", type: "boolean" },
+        "3": { code: "pir", type: "enum" },
+        "8": { code: "va_temperature", type: "integer", min: 0 },
+      });
+    });
+
+    it("leaves out an integer's value that is no whole number, as text or as a number", async () => {
+      const { cloud, account } = setUp();
+      serveRelations(cloud, [
+        {
+          ...TEMPERATURE_RELATION,
+          valueDesc:
+            '{"min":"1.5","max":"99999999999999999999","scale":"0x10","step":2.5}',
+        },
+      ]);
+
+      await expect(account.readDeviceModel(DEVICE_ID)).resolves.toEqual({
+        "7": { code: "temp_current", type: "integer" },
+      });
+    });
+
+    it("reads an integer's values given as numeric strings", async () => {
+      const { cloud, account } = setUp();
+      serveRelations(cloud, [
+        {
+          ...TEMPERATURE_RELATION,
+          valueDesc: '{"min":"-400","max":"2000","scale":"1","step":"1"}',
+        },
+      ]);
+
+      await expect(account.readDeviceModel(DEVICE_ID)).resolves.toEqual({
+        "7": {
+          code: "temp_current",
+          type: "integer",
+          min: -400,
+          max: 2000,
+          step: 1,
+          scale: 1,
+        },
+      });
+    });
+
+    it("describes no data point of a device with one relation that does not support local", async () => {
+      const { cloud, account } = setUp();
+      serveRelations(cloud, [
+        TEMPERATURE_RELATION,
+        { ...MOTION_RELATION, supportLocal: false },
+      ]);
+
+      await expect(account.readDeviceModel(DEVICE_ID)).resolves.toEqual({});
+    });
+  });
+
   describe("AppCloudTuyaClient", () => {
     it("reads the data points the cloud passes through unchanged, by ID", async () => {
       const { cloud, account } = setUp();

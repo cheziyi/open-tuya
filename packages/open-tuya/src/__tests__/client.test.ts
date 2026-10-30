@@ -28,6 +28,7 @@ const DATA_POINTS = {
 // switches. Data point 3 is boolean in the garage opener and the triple
 // switch, and in neither of the others.
 const SHARED_PRODUCT_KEY = "key5ckdnys3pqgec";
+const METERED_PLUG = { "1": true, "17": 0, "18": 0, "19": 0, "20": 2300 };
 const LOCAL_KEY = "0123456789abcdef";
 // The TCP port reserved for tcpmux, which nothing listens on.
 const CLOSED_PORT = 1;
@@ -254,6 +255,95 @@ describe("RoutedTuyaClient", () => {
 });
 
 describe("createTuyaClient", () => {
+  describe("a device the catalog does not list", () => {
+    // Data point 1 is a string and 4 an integer, as on a leak sensor's entry.
+    const MOTION_SENSOR = {
+      "1": { code: "pir", type: "enum", range: ["pir", "none"] },
+      "4": { code: "battery_percentage", type: "integer", scale: 0 },
+    } as const;
+
+    function motionAccount(): FakeTuyaCloudAccount {
+      const account = new FakeTuyaCloudAccount({ "1": "pir", "4": 80 });
+      account.model = MOTION_SENSOR;
+      return account;
+    }
+
+    it("names the controls from a cloud's model when given the category", async () => {
+      await using client = await createTuyaClient({
+        deviceId: DEVICE_ID,
+        category: "pir",
+        routes: [{ cloud: motionAccount() }],
+      });
+
+      await expect(client.readControls()).resolves.toEqual({
+        device: { motion: true, batteryInPercent: 80 },
+      });
+      expect(client.entries.length).toBeGreaterThan(1);
+    });
+
+    it("finds the entry from the data points alone without the category", async () => {
+      await using client = await createTuyaClient({
+        deviceId: DEVICE_ID,
+        routes: [{ cloud: motionAccount() }],
+      });
+
+      expect(client.entry?.products).not.toEqual([]);
+    });
+
+    it("finds the entry from the data points alone in a category the model does not describe whole", async () => {
+      await using client = await createTuyaClient({
+        deviceId: DEVICE_ID,
+        category: "rs",
+        routes: [{ cloud: motionAccount() }],
+      });
+
+      expect(client.entry?.products).not.toEqual([]);
+    });
+
+    it("keeps a catalog entry reading a plug's meter ahead of the plug's model", async () => {
+      const account = new FakeTuyaCloudAccount(METERED_PLUG);
+      account.model = {
+        "1": { code: "switch_1", type: "boolean" },
+        "19": { code: "cur_power", type: "integer", scale: 1, unit: "W" },
+      };
+      await using client = await createTuyaClient({
+        deviceId: DEVICE_ID,
+        category: "cz",
+        routes: [{ cloud: account }],
+      });
+
+      expect(client.entry?.products).not.toEqual([]);
+      expect(client.entry?.components.device).toHaveProperty("powerInW");
+    });
+
+    it("finds the entry from the data points alone when the cloud gives no model", async () => {
+      const account = motionAccount();
+      account.modelFailure = failure("RATE_LIMITED");
+      await using client = await createTuyaClient({
+        deviceId: DEVICE_ID,
+        category: "pir",
+        routes: [{ cloud: account }],
+      });
+
+      expect(client.entry?.products).not.toEqual([]);
+    });
+
+    it("prefers the catalog's entry for a product it lists", async () => {
+      const account = new FakeTuyaCloudAccount(DATA_POINTS);
+      account.model = MOTION_SENSOR;
+      await using client = await createTuyaClient({
+        deviceId: DEVICE_ID,
+        productKey: PRODUCT_KEY,
+        category: "pir",
+        routes: [{ cloud: account }],
+      });
+
+      expect(
+        client.entry?.products.map(({ productKey }) => productKey),
+      ).toContain(PRODUCT_KEY);
+    });
+  });
+
   it("rejects with a TypeError when given no route", async () => {
     await expect(
       createTuyaClient({ deviceId: DEVICE_ID, routes: [] }),
@@ -321,7 +411,7 @@ describe("createTuyaClient", () => {
     });
 
     expect(
-      client.entries.slice(0, 4).map((entry) => entry.source.file),
+      client.entries.slice(0, 4).map((entry) => entry.source?.file),
     ).toEqual(
       expect.arrayContaining([
         "ard100_valve.yaml",
@@ -341,7 +431,7 @@ describe("createTuyaClient", () => {
       routes: [{ cloud: new FakeTuyaCloudAccount({ "1": true, "3": 120 }) }],
     });
 
-    const files = client.entries.map((entry) => entry.source.file);
+    const files = client.entries.map((entry) => entry.source?.file);
     expect(files.slice(0, 2).sort()).toEqual([
       "ard100_valve.yaml",
       "lerlink_highpower_switch.yaml",
@@ -385,7 +475,7 @@ describe("createTuyaClient", () => {
     // Its colour is data point 24: hue, saturation and brightness, 2 bytes
     // each.
     const light = CATALOG.find(
-      (entry) => entry.source.file === "arlec_10_pathlights.yaml",
+      (entry) => entry.source?.file === "arlec_10_pathlights.yaml",
     );
 
     async function create(): Promise<{
@@ -439,7 +529,7 @@ describe("createTuyaClient", () => {
   describe("controls that depend on another data point", () => {
     // Its mode, data point 1 while on, reads auto or heat by data point 4.
     const thermostat = CATALOG.find(
-      (entry) => entry.source.file === "moes_bht002_thermostat_c.yaml",
+      (entry) => entry.source?.file === "moes_bht002_thermostat_c.yaml",
     );
 
     async function create(dataPoints: Record<string, boolean | string>) {

@@ -57,6 +57,9 @@ export interface ThingModel {
 export interface ThingProperty {
   abilityId: number;
   code: string;
+  /** Such as `{ type: "value", min: 0, max: 100, step: 1, unit: "%",
+   * scale: 0 }`. */
+  typeSpec?: unknown;
 }
 
 export interface ShadowProperties {

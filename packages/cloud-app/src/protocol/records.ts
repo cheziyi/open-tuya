@@ -63,6 +63,10 @@ export interface StatusRelation {
   statusFormat: string;
   supportLocal: boolean;
   valueConvert: string;
+  /** Such as `Integer`, in any letter case. */
+  valueType?: unknown;
+  /** JSON, such as `{"unit":"%","min":0,"max":100,"scale":0,"step":1}`. */
+  valueDesc?: unknown;
 }
 
 export interface PushConfigRecord {

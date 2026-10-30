@@ -71,6 +71,7 @@ const lan = discovery.devices.get(device.deviceId);
 await using client = await createTuyaClient({
   deviceId: device.deviceId,
   productKey: device.productKey,
+  category: device.category,
   routes: [
     ...(lan && device.localKey
       ? [{ lan: { host: lan.host, version: lan.version, localKey: device.localKey, discovery } }]
@@ -86,6 +87,7 @@ client.onControls((values) => update(values)); // the controls each push carries
 | When | The client |
 | --- | --- |
 | `createTuyaClient` reads the device to find its catalog entry | Tries every route in order, waiting for the LAN to connect or fail |
+| The catalog does not list `productKey`, a cloud route is given, and `category` is one of `MODEL_CATEGORIES` | Asks the cloud for the device's model, and names the controls from it ahead of the entries that fit its data points |
 | A route is not connected, such as the LAN while it reconnects | Skips it, unless it is the last |
 | A read fails | Tries the next route |
 | A write fails with `CONNECTION_FAILED`, `SESSION_KEY_NEGOTIATION_FAILED`, `RATE_LIMITED`, `SESSION_EXPIRED`, `PERMISSION_DENIED` or `UNMAPPED_DATA_POINT` | Tries the next route |
@@ -213,6 +215,33 @@ a diagnostic, and a sensor's `reading` says whether it reads the moment or a
 running total. `entry.products` gives each product's `manufacturer`, `model` and
 `modelId`, to name the device by.
 `UNSUPPORTED.md` lists the devices not converted yet.
+
+### A device the catalog does not list
+
+Pass a cloud route and a `category` in `MODEL_CATEGORIES`, the sensors, to
+`createTuyaClient`, which does the steps below itself. Outside it, build the entry from the codes of Tuya's standard
+instruction set, which either cloud's model of the device gives each data
+point:
+
+```ts
+import { createDeviceEntry } from "@open-tuya/devices";
+
+const model = await account.readDeviceModel(device.deviceId);
+const entry = createDeviceEntry(model, { category: device.category, name: device.name });
+// { device: { motion: …, temperatureInC: …, batteryInPercent: … } }, or undefined
+```
+
+Match by product key first: a catalog entry names more of a device, such as a
+plug's meter. Matching by data points alone can pick another kind of device
+that reports the same ones, as a leak sensor and a motion sensor both report a
+text on 1 and an integer on 4. The entry reads a temperature, a humidity and a
+battery in any category, and a plug's, a strip's or a wall switch's outlets, a
+motion, presence, door or leak sensor's detection only in its own category:
+[DESIGN.md](DESIGN.md#device-models) lists the codes. Prefer it to the match by
+data points only in a category of `MODEL_CATEGORIES`: elsewhere it holds the
+readings and switches alone, as a heater's temperature without its power or a
+plug's switch without its meter. Store the model with the device to build the
+entry again without the cloud.
 
 ## Signing in to the Smart Life cloud
 
@@ -439,8 +468,8 @@ engineering.
 | [tuya/tuya-device-sharing-sdk](https://github.com/tuya/tuya-device-sharing-sdk) | MIT, Copyright (c) 2023 Tuya | Smart Life app QR login and its pushed device updates, by Tuya |
 | [make-all/tuya-local](https://github.com/make-all/tuya-local) | MIT, Copyright 2018 Nik Rolls, 2026 Jason Rumney, 2022-2026 other contributors as listed in its ACKNOWLEDGEMENTS.md | Device catalog, Home Assistant; its local protocol is tinytuya's and its QR login tuya-device-sharing-sdk's |
 | [azerty9971/xtend_tuya](https://github.com/azerty9971/xtend_tuya) | GPL-3.0 | Smart Life cloud responses, captured in its issues, Home Assistant |
-| [home-assistant-libs/tuya-device-handlers](https://github.com/home-assistant-libs/tuya-device-handlers) | MIT | Smart Life cloud responses and pushed reports, captured in its issues |
-| [home-assistant/core `components/tuya`](https://github.com/home-assistant/core/tree/dev/homeassistant/components/tuya) | Apache-2.0 | The Smart Life login's client ID and schema, and cloud responses captured in its issues, Home Assistant |
+| [home-assistant-libs/tuya-device-handlers](https://github.com/home-assistant-libs/tuya-device-handlers) | MIT | Smart Life cloud responses and pushed reports, captured in its issues, and how an integer's values read |
+| [home-assistant/core `components/tuya`](https://github.com/home-assistant/core/tree/dev/homeassistant/components/tuya) | Apache-2.0 | The Smart Life login's client ID and schema, cloud responses captured in its issues, what each standard code stands for by category, and temperature units, Home Assistant |
 | [home-assistant/core `components/sensor`](https://github.com/home-assistant/core/tree/dev/homeassistant/components/sensor) | Apache-2.0 | What a sensor's state class means, Home Assistant |
 | [tuya/TuyaOpen `src/tuya_cloud_service`](https://github.com/tuya/TuyaOpen/tree/master/src/tuya_cloud_service) | Apache-2.0 | A device's own side of the LAN protocol: what it answers to each command, by Tuya |
 

@@ -313,6 +313,96 @@ describe("DeveloperCloudAccount", () => {
     });
   });
 
+  describe("readDeviceModel", () => {
+    it("describes each property of the thing model by its code, with its type and values", async () => {
+      const { account } = setUp();
+
+      await expect(account.readDeviceModel(DEVICE_ID)).resolves.toEqual({
+        "1": { code: "switch_1", type: "boolean" },
+        "20": {
+          code: "cur_voltage",
+          type: "integer",
+          min: 0,
+          max: 5000,
+          step: 1,
+          scale: 1,
+          unit: "V",
+        },
+      });
+    });
+
+    it("leaves out a property of another type, and values not of their type", async () => {
+      const { cloud, account } = setUp();
+      const [property] = MODEL.services[0].properties;
+      cloud.on("GET", `/v2.0/cloud/thing/${DEVICE_ID}/model`, () => ({
+        result: {
+          model: JSON.stringify({
+            services: [
+              {
+                properties: [
+                  { ...property, abilityId: 1, typeSpec: { type: "float" } },
+                  { ...property, abilityId: 2, typeSpec: null },
+                  {
+                    ...property,
+                    abilityId: 3,
+                    code: "mode",
+                    typeSpec: { type: "enum", range: ["eco", 2], unit: "" },
+                  },
+                  {
+                    ...property,
+                    abilityId: 4,
+                    code: "work_mode",
+                    typeSpec: { type: "enum", range: ["eco", "boost"] },
+                  },
+                  {
+                    ...property,
+                    abilityId: 5,
+                    code: "countdown",
+                    typeSpec: { type: "value", min: "0", scale: null },
+                  },
+                  {
+                    ...property,
+                    abilityId: 6,
+                    code: "temp_current",
+                    typeSpec: {
+                      type: "value",
+                      min: "1.5",
+                      max: "1e3",
+                      scale: "0x10",
+                      step: 2.5,
+                    },
+                  },
+                  {
+                    code: "no_ability_id",
+                    typeSpec: { type: "bool" },
+                  },
+                ],
+              },
+            ],
+          }),
+        },
+      }));
+
+      await expect(account.readDeviceModel(DEVICE_ID)).resolves.toEqual({
+        "3": { code: "mode", type: "enum" },
+        "4": { code: "work_mode", type: "enum", range: ["eco", "boost"] },
+        "5": { code: "countdown", type: "integer", min: 0 },
+        "6": { code: "temp_current", type: "integer" },
+      });
+    });
+
+    it("rejects with REQUEST_REJECTED when the thing model is not JSON", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", `/v2.0/cloud/thing/${DEVICE_ID}/model`, () => ({
+        result: { model: "{" },
+      }));
+
+      await expect(account.readDeviceModel(DEVICE_ID)).rejects.toMatchObject({
+        code: "REQUEST_REJECTED",
+      });
+    });
+  });
+
   describe("DeveloperCloudTuyaClient", () => {
     it("reads the thing shadow by data point ID, with the device's values", async () => {
       const { account } = setUp();

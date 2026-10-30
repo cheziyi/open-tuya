@@ -6,6 +6,7 @@ import {
   type OpenMqttConnection,
   type TuyaCloudAccount,
   type TuyaCloudDevice,
+  type TuyaDeviceModel,
   TuyaError,
 } from "@open-tuya/core";
 import {
@@ -13,15 +14,17 @@ import {
   AppCloudTuyaClient,
   type RequestParts,
 } from "./client.js";
-import { mapDataPointCodes } from "./dataPointCodes.js";
+import { type DataPointCodes, mapDataPointCodes } from "./dataPointCodes.js";
 import { delay } from "./delay.js";
 import { openMqttConnection } from "./mqtt.js";
+import { readDeviceModel } from "./protocol/deviceModel.js";
 import {
   readDeviceRecords,
   readHomeRecords,
   readPushConfig,
   readRefreshResult,
   readStatusRelations,
+  type StatusRelation,
 } from "./protocol/records.js";
 import { signRequest } from "./protocol/request.js";
 import { type CloudResponse, parseResponse } from "./protocol/response.js";
@@ -147,16 +150,42 @@ export class AppCloudAccount implements TuyaCloudAccount {
     return devices;
   }
 
+  /** Fetches how the device's data points map to the cloud's codes, and
+   * resolves with a client for it. It rejects with a `TuyaError` with code
+   * `CONNECTION_LOST` once the account is closed. */
+  async createClient(deviceId: string): Promise<AppCloudTuyaClient> {
+    const { codes } = await this.fetchDataPointCodes(deviceId);
+    // A subscription once the account is closed would have MqttSession fetch
+    // credentials, be refused with CONNECTION_LOST, and retry for ever.
+    const transport: AppCloudTransport = {
+      request: (method, path, parts) => this.request(method, path, parts),
+      subscribe: (listener) =>
+        this.closing.signal.aborted
+          ? () => Promise.resolve()
+          : this.push.subscribe(deviceId, listener),
+    };
+    return new AppCloudTuyaClient(transport, deviceId, codes);
+  }
+
+  /** Fetches how the device's data points map to the cloud's codes, and
+   * resolves with each data point a client reads and writes, by the code the
+   * cloud reports it under. A device of a custom type, or with a data point
+   * that does not support local, resolves with none. It rejects with a
+   * `TuyaError` with code `CONNECTION_LOST` once the account is closed. */
+  async readDeviceModel(deviceId: string): Promise<TuyaDeviceModel> {
+    const { relations, codes } = await this.fetchDataPointCodes(deviceId);
+    return readDeviceModel(relations, codes.statusCodesById);
+  }
+
   // Source: A device's data points map to the cloud's codes through
   // GET /v1.0/m/life/devices/{id}/status, in
   // https://github.com/tuya/tuya-device-sharing-sdk/commit/ae5e3c4c67eaefffd1be79e39d9f411e43515d13,
   // and a device of a custom type answers true, as a boolean or as text in
   // any letter case, to GET /v1.0/m/life/ha/{id}/code/custom-type, in
   // https://github.com/tuya/tuya-device-sharing-sdk/commit/32440d2040f47287d5f58253feec12eca7a2a7b3.
-  /** Fetches how the device's data points map to the cloud's codes, and
-   * resolves with a client for it. It rejects with a `TuyaError` with code
-   * `CONNECTION_LOST` once the account is closed. */
-  async createClient(deviceId: string): Promise<AppCloudTuyaClient> {
+  private async fetchDataPointCodes(
+    deviceId: string,
+  ): Promise<{ relations: StatusRelation[]; codes: DataPointCodes }> {
     const id = encodeURIComponent(deviceId);
     const relations = readStatusRelations(
       await this.request("GET", `/v1.0/m/life/devices/${id}/status`),
@@ -167,25 +196,12 @@ export class AppCloudAccount implements TuyaCloudAccount {
       `/v1.0/m/life/ha/${id}/code/custom-type`,
     );
     this.closing.signal.throwIfAborted();
-    // A subscription once the account is closed would have MqttSession fetch
-    // credentials, be refused with CONNECTION_LOST, and retry for ever.
-    const transport: AppCloudTransport = {
-      request: (method, path, parts) => this.request(method, path, parts),
-      subscribe: (listener) =>
-        this.closing.signal.aborted
-          ? () => Promise.resolve()
-          : this.push.subscribe(deviceId, listener),
-    };
-    return new AppCloudTuyaClient(
-      transport,
-      deviceId,
-      mapDataPointCodes(
-        relations,
-        customType === true ||
-          (typeof customType === "string" &&
-            customType.toLowerCase() === "true"),
-      ),
+    const codes = mapDataPointCodes(
+      relations,
+      customType === true ||
+        (typeof customType === "string" && customType.toLowerCase() === "true"),
     );
+    return { relations, codes };
   }
 
   /** Stops every request in flight and the MQTT connection, and resolves
