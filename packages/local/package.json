@@ -1,6 +1,6 @@
 {
   "name": "@open-tuya/local",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Unofficial client for the Tuya local protocol: discover Tuya devices on the LAN, and read and write their data points with no cloud.",
   "keywords": [
     "tuya",

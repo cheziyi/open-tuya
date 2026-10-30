@@ -1,5 +1,19 @@
 # @open-tuya/devices
 
+## 0.3.0
+
+### Minor Changes
+
+- [#62](https://github.com/cheziyi/open-tuya/pull/62) [`c4223c8`](https://github.com/cheziyi/open-tuya/commit/c4223c8801d1bab59e31fbef8495b8ae8b16744c) Thanks [@cheziyi](https://github.com/cheziyi)! - `readDeviceModel(deviceId)` on either cloud's account gives the standard code, type and values of each of a device's data points, and `createDeviceEntry(model, { category, name })` builds an entry from it for a device the catalog does not list; `createTuyaClient` does so itself when given a cloud route and the new `category` option, for a category in `MODEL_CATEGORIES`. `TuyaCloudAccount` gains `readDeviceModel`, so a class implementing it must add it, and `TuyaDeviceEntry.source` is optional, absent on an entry built from a model.
+
+### Patch Changes
+
+- [#59](https://github.com/cheziyi/open-tuya/pull/59) [`077bee0`](https://github.com/cheziyi/open-tuya/commit/077bee09e2051ee7a6fc7fd63a94e6d123aa0169) Thanks [@cheziyi-bot](https://github.com/apps/cheziyi-bot)! - Update the catalog to tuya-local's device files at make-all/tuya-local@01df3fc.
+
+- [#63](https://github.com/cheziyi/open-tuya/pull/63) [`d8ec7aa`](https://github.com/cheziyi/open-tuya/commit/d8ec7aa302fff08ba0d1a1efcfa920fbb7ad6fbd) Thanks [@cheziyi](https://github.com/cheziyi)! - The catalog describes the ZG-204W motion sensor (product `m1ggi8iay3aa8g9u`): its motion, battery, temperature, humidity, illuminance and keep time. It is the first device file of the package's own, in `packages/devices/devices/`, which the import script converts with tuya-local's.
+- Updated dependencies [[`c4223c8`](https://github.com/cheziyi/open-tuya/commit/c4223c8801d1bab59e31fbef8495b8ae8b16744c)]:
+  - @open-tuya/core@0.2.0
+
 ## 0.2.2
 
 ### Patch Changes

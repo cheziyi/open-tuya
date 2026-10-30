@@ -1,6 +1,6 @@
 {
   "name": "@open-tuya/simulators",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Tuya devices simulated as LAN servers, for testing code that controls them.",
   "keywords": [
     "tuya",
