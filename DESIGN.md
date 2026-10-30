@@ -199,9 +199,39 @@ repository alone:
 | Each entry records the tuya-local commit that last changed its file | A run then changes only the entries whose files changed |
 | `yaml` is a dev dependency of `@open-tuya/devices` | The script parses tuya-local's files with it. One file continues a quoted value at its key's indentation, which YAML forbids, PyYAML takes and the `yaml` library refuses; it is listed in `UNSUPPORTED.md` rather than parsed by a laxer parser |
 
-A device whose product has no entry could later be named by Tuya's standard
-data point codes for its category, such as `temp_set`; the cloud reports each
-device's codes.
+## Device models
+
+A device whose product has no entry is named by the codes of Tuya's standard
+instruction set, which each cloud's model of the device gives its data points.
+`readDeviceModel` reads the model; `createDeviceEntry` turns it into an entry.
+
+| Choice | Why |
+| --- | --- |
+| `readDeviceModel` is a method of `TuyaCloudAccount`, and `TuyaDeviceModel` a type in core | Both clouds describe a device's data points, so a caller reads either the same way. The wire's field names stay in each cloud's package |
+| The cloud app's model holds the data points its client maps, by the code it reports them under: none on a device of a custom type or with a relation that does not support local | Only those relations describe the device's own values, which the LAN reads: [Cloud app data points](#cloud-app-data-points) says why the others are not trusted |
+| The developer platform's model holds every property of the thing model | The thing model is in the device's own terms, as [Cloud developer data points](#cloud-developer-data-points) says |
+| A model's integer keeps its raw range, step and scale, and its unit as the cloud writes it, such as `℃` | The catalog's controls and the LAN read the raw value; the entry divides by the scale |
+| A type that is no data point's on the LAN, such as the thing model's `float` or `struct`, is left out | No source shows what the device sends for it |
+| An entry built from a model has no `source` | It comes from no tuya-local file, and a made-up file name would read as one. Rejected: a second entry type, which every function that takes an entry would have to take as well |
+| Temperatures, humidities and batteries are read by their code in any category: `temp_current` and `va_temperature`, `humidity_value` and `va_humidity`, `battery_percentage` and `va_battery` | Home Assistant reads each as the same reading in every category it lists it in: `temp_current` in 21. Its tables are kept per category, and leave out readings a device of another category reports, as a motion sensor's `temp_current` |
+| Switches and detectors are read only in a category whose table names them: `switch_1` to `switch_22` on a wall switch (`kg`), `switch_1` to `switch_6` on a plug or a strip (`cz`, `pc`), `pir` on a motion sensor, `presence_state` on a presence sensor (`hps`), `doorcontact_state` and `switch` on a contact sensor (`mcs`), `watersensor_state` on a leak sensor (`sj`) | A code means another thing in another category: `switch` is a contact sensor's door, `switch_1` a light's power (`dj`), and `doorcontact_state` an enum on an alarm host (`dgnbj`) |
+| A detector's enum is true while it holds one of Home Assistant's on values its range lists, and false otherwise; one whose range lists none is left out | Home Assistant reads it so. A range without the on value means the code does not mean what the table says |
+| A unit the code does not take, such as a temperature in K or a battery in mV, leaves the data point out | Reading it in the unit the name carries would be wrong |
+| Two data points that name one control give it the first | A thermometer can report `temp_current` and `va_temperature`; the catalog names a control once per component |
+| Each cloud reads `range`, `min`, `max`, `step`, `scale` and `unit` in its own `src/protocol/deviceModel.ts`, though both name them alike | `AGENTS.md` keeps wire field names out of core. Rejected: one reader in core, which put a wire's names there and exported a function no caller needs |
+| A reading whose scale the model does not give, or whose scale makes 10 to its power infinite or 0, is left out | Home Assistant fails on a missing one, and guessing 0 would read 252 as 252 °C instead of 25.2 °C. A scale of 400 would read every value as 0 |
+| An integer's `min`, `max`, `step` and `scale` are safe whole numbers, or text of one; any other value is left out | Home Assistant reads them with Python's `int()`, which takes `"1"` and refuses text such as `"1.5"`, `"1e3"` or `"0x10"`. `int(2.5)` gives 2, but this library leaves a number that is not whole out rather than guess at it. Rejected: `Number()`, which reads all three texts, so a scale of `"1.5"` would divide by 31.6 |
+| A detector's enum reads nothing while the device leaves the data point out | Without a report the state is unknown, and `otherwise: false` alone would say no leak |
+| `createTuyaClient` takes `category` and asks the first cloud route that gives an entry, only for a product the catalog does not list and a category in `MODEL_CATEGORIES`; a failure falls back on the data point match | The caller already has the category from its list, as it has the product key: listing here would spend requests against the rate limit, as [Routes](#routes) says. Rejected: fetching the category through `listDevices`. In those categories the entry built from a model goes first even when a catalog entry fits every data point: it reads less of such a device, but the fit can be another kind of device, and `entries` still lists the catalog's |
+| `MODEL_CATEGORIES` lists the sensors `createDeviceEntry` reads: `hps`, `mcs`, `pir`, `sj` and `wsdcg` | A sensor's entry reads what the device is for, and a match by data points can be another kind of sensor, which is the bug this fixes. It leaves out a sensor's settings, such as `hps`'s `sensitivity`, and `wsdcg`'s `switch`. In another category it loses what the device is for: an unlisted metered plug (`cz`) gave `switch1` alone ahead of a catalog entry reading power, voltage, current and energy, and an unlisted heater became a thermometer. Rejected: listing `cz`, `pc` and `kg` because `createDeviceEntry` knows their switches. Rejected: putting the model's entry first only when it names more data points than the best fit, which the shares the two are scored by do not compare |
+| No product key: `products` is empty | The model describes the device, not its product, and a product key from one device would match others that report other data points |
+
+Matching by data points alone, without a product key, picks the entry naming
+the largest share of the device's data points, so two entries naming the same
+ones tie. A motion sensor reporting `pir` on 1 and its battery on 4 tied with
+a leak sensor's entry, which came first, and read no motion. `createTuyaClient`
+given a `category` builds the entry from the model before falling back on that
+match, and so should any other caller that has the model.
 
 ## Releases
 

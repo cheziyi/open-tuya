@@ -10,7 +10,7 @@ describe("CATALOG", () => {
       Object.entries(entry.components).flatMap(([component, controls]) =>
         Object.entries(controls)
           .filter(([, control]) => !entry.dataPoints[control.dataPoint])
-          .map(([name]) => `${entry.source.file} ${component}.${name}`),
+          .map(([name]) => `${entry.source?.file} ${component}.${name}`),
       ),
     );
 
@@ -25,7 +25,7 @@ describe("CATALOG", () => {
             ([, control]) =>
               control.unitFrom !== undefined && !controls[control.unitFrom],
           )
-          .map(([name]) => `${entry.source.file} ${component}.${name}`),
+          .map(([name]) => `${entry.source?.file} ${component}.${name}`),
       ),
     );
 
@@ -87,7 +87,7 @@ describe("CATALOG", () => {
             );
             return [];
           } catch {
-            return [`${entry.source.file} ${component}.${name}`];
+            return [`${entry.source?.file} ${component}.${name}`];
           }
         }),
       ),
@@ -109,7 +109,7 @@ describe("CATALOG", () => {
   it("finds tuya-local's plug by its product key", () => {
     expect(
       findDeviceEntries({ productKey: "37mnhia3pojleqfh" }).map(
-        (entry) => entry.source.file,
+        (entry) => entry.source?.file,
       ),
     ).toContain("smartplugv1.yaml");
   });

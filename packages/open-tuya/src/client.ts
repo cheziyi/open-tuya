@@ -9,8 +9,10 @@ import {
 import {
   type ControlValue,
   type ControlValues,
+  createDeviceEntry,
   findDeviceEntries,
   listDependencies,
+  MODEL_CATEGORIES,
   readControls,
   type TuyaDeviceEntry,
   writeControls,
@@ -54,6 +56,12 @@ export interface CreateTuyaClientOptions {
   /** The product key discovery reports or a cloud lists, for finding the
    * device's catalog entry. */
   productKey?: string;
+  /** The category a cloud lists the device in. When the catalog lists no
+   * entry for `productKey` and the category is one of `MODEL_CATEGORIES`, a
+   * cloud route's model of the device names its controls, ahead of the
+   * entries that fit its data points: another kind of device can report the
+   * same data points. Otherwise those entries alone name them. */
+  category?: string;
   /** The catalog entry to name the device's controls by, such as the one
    * picked the last time. Defaults to the best entry found from `productKey`
    * and the data points the device reports. */
@@ -61,7 +69,9 @@ export interface CreateTuyaClientOptions {
 }
 
 /** Builds a client for each route, reads the device's data points through
- * them to find its catalog entry unless `entry` is given, and resolves with
+ * them to find its catalog entry unless `entry` is given, asks a cloud route
+ * for the device's model when `category` is one of `MODEL_CATEGORIES` and the
+ * catalog does not list `productKey`, and resolves with
  * a `RoutedTuyaClient`. That read tries every route in order, connected or
  * not, so a LAN route listed first answers it once it connects, and the next
  * route answers only after the LAN fails within its own timeouts. When no
@@ -75,7 +85,7 @@ export interface CreateTuyaClientOptions {
 export async function createTuyaClient(
   options: CreateTuyaClientOptions,
 ): Promise<RoutedTuyaClient> {
-  const { deviceId, productKey } = options;
+  const { deviceId, productKey, category } = options;
   if (options.routes.length === 0) {
     throw new TypeError("A client needs at least one route");
   }
@@ -103,13 +113,41 @@ export async function createTuyaClient(
     () => true,
     { skipsUnconnected: false },
   ).catch(() => undefined);
+  const entries = findDeviceEntries({
+    ...(productKey !== undefined && { productKey }),
+    ...(dataPoints !== undefined && { dataPoints }),
+  });
+  const listed = entries.some((entry) =>
+    entry.products.some((product) => product.productKey === productKey),
+  );
+  const modelEntry =
+    category === undefined || listed || !MODEL_CATEGORIES.includes(category)
+      ? undefined
+      : await buildEntryFromModel(options.routes, deviceId, category);
   return new RoutedTuyaClient(
     routes,
-    findDeviceEntries({
-      ...(productKey !== undefined && { productKey }),
-      ...(dataPoints !== undefined && { dataPoints }),
-    }),
+    modelEntry ? [modelEntry, ...entries] : entries,
   );
+}
+
+async function buildEntryFromModel(
+  routes: readonly TuyaRoute[],
+  deviceId: string,
+  category: string,
+): Promise<TuyaDeviceEntry | undefined> {
+  for (const route of routes) {
+    if ("cloud" in route) {
+      const model = await route.cloud
+        .readDeviceModel(deviceId)
+        .catch(() => undefined);
+      const entry =
+        model && createDeviceEntry(model, { category, name: deviceId });
+      if (entry) {
+        return entry;
+      }
+    }
+  }
+  return undefined;
 }
 
 // Source: A device reports each change over the LAN and to the cloud: the
@@ -133,8 +171,9 @@ export async function createTuyaClient(
  * It hands its listeners the data points of the first route that is
  * connected alone, as a device reports each change over every route. */
 export class RoutedTuyaClient implements TuyaClient {
-  /** The catalog's candidates for the device, best first, or the entry
-   * `createTuyaClient` was given. */
+  /** The candidates for the device, best first: the entry built from a cloud's
+   * model, if any, then the catalog's; or the entry `createTuyaClient` was
+   * given. */
   readonly entries: readonly TuyaDeviceEntry[];
   /** The entry the controls are named by: the first of `entries`. */
   readonly entry: TuyaDeviceEntry | undefined;

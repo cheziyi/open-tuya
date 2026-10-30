@@ -1,4 +1,5 @@
 import type { TuyaClient } from "./client.js";
+import type { TuyaDeviceModel } from "./deviceModel.js";
 
 /** A device as a cloud lists it. `deviceId` and `localKey` are what a LAN
  * client takes; no cloud gives the device's LAN address or protocol version,
@@ -21,6 +22,11 @@ export interface TuyaCloudAccount extends AsyncDisposable {
   listDevices(): Promise<TuyaCloudDevice[]>;
   /** Resolves with a client for the device, reached through the cloud. */
   createClient(deviceId: string): Promise<TuyaClient>;
+  /** Resolves with what the device's data points stand for, as the cloud's
+   * model of the device says. A data point the cloud describes only in its
+   * own terms, not the device's, is left out, and so is every data point of
+   * a device the cloud's model cannot be trusted for: each account says when. */
+  readDeviceModel(deviceId: string): Promise<TuyaDeviceModel>;
   /** Stops every request in flight and the account's push connection, and
    * resolves once it is released. */
   close(): Promise<void>;

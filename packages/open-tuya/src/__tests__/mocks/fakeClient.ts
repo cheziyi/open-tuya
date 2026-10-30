@@ -4,6 +4,7 @@ import type {
   TuyaClient,
   TuyaCloudAccount,
   TuyaCloudDevice,
+  TuyaDeviceModel,
 } from "@open-tuya/core";
 
 /** A route's client, holding data points in memory. */
@@ -70,6 +71,10 @@ export class FakeTuyaCloudAccount implements TuyaCloudAccount {
   readonly clients: FakeTuyaClient[] = [];
   createCalls = 0;
   closed = false;
+  /** What `readDeviceModel` resolves with. */
+  model: TuyaDeviceModel = {};
+  /** While set, `readDeviceModel` rejects with it. */
+  modelFailure: unknown;
 
   constructor(readonly dataPoints: Record<string, DataPointValue> = {}) {}
 
@@ -85,6 +90,13 @@ export class FakeTuyaCloudAccount implements TuyaCloudAccount {
     const client = new FakeTuyaClient(this.dataPoints);
     this.clients.push(client);
     return client;
+  }
+
+  async readDeviceModel(): Promise<TuyaDeviceModel> {
+    if (this.modelFailure) {
+      throw this.modelFailure;
+    }
+    return this.model;
   }
 
   async close(): Promise<void> {
