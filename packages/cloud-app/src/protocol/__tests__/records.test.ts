@@ -111,11 +111,12 @@ describe("readPush", () => {
     ["online", true],
     ["offline", false],
   ])("reads that a device went %s", (bizCode, online) => {
+    // Shaped as an `online` push captured from a Smart Life account.
     expect(
       readPush(
         push({
           protocol: 20,
-          data: { bizCode, bizData: { devId: "bf", name: "Plug" } },
+          data: { bizCode, bizData: { devId: "bf", time: 1793400007715 } },
         }),
       ),
     ).toEqual({ devId: "bf", online });
