@@ -87,7 +87,7 @@ client.onControls((values) => update(values)); // the controls each push carries
 | When | The client |
 | --- | --- |
 | `createTuyaClient` reads the device to find its catalog entry | Tries every route in order, waiting for the LAN to connect or fail |
-| The catalog does not list `productKey`, and `category` and a cloud route are given | Asks the cloud for the device's model, and names the controls from it ahead of the entries that fit its data points |
+| The catalog does not list `productKey`, a cloud route is given, and `category` is one of `MODEL_CATEGORIES` | Asks the cloud for the device's model, and names the controls from it ahead of the entries that fit its data points |
 | A route is not connected, such as the LAN while it reconnects | Skips it, unless it is the last |
 | A read fails | Tries the next route |
 | A write fails with `CONNECTION_FAILED`, `SESSION_KEY_NEGOTIATION_FAILED`, `RATE_LIMITED`, `SESSION_EXPIRED`, `PERMISSION_DENIED` or `UNMAPPED_DATA_POINT` | Tries the next route |
@@ -237,8 +237,10 @@ that reports the same ones, as a leak sensor and a motion sensor both report a
 text on 1 and an integer on 4. The entry reads a temperature, a humidity and a
 battery in any category, and a plug's, a strip's or a wall switch's outlets, a
 motion, presence, door or leak sensor's detection only in its own category:
-[DESIGN.md](DESIGN.md#device-models) lists the codes. Store the model with the
-device to build the entry again without the cloud.
+[DESIGN.md](DESIGN.md#device-models) lists the codes. Prefer it to the match by
+data points only in a category of `MODEL_CATEGORIES`: elsewhere it holds the
+readings alone, as a heater's temperature without its power. Store the model
+with the device to build the entry again without the cloud.
 
 ## Signing in to the Smart Life cloud
 

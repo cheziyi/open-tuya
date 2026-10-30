@@ -12,6 +12,7 @@ import {
   createDeviceEntry,
   findDeviceEntries,
   listDependencies,
+  MODEL_CATEGORIES,
   readControls,
   type TuyaDeviceEntry,
   writeControls,
@@ -56,10 +57,10 @@ export interface CreateTuyaClientOptions {
    * device's catalog entry. */
   productKey?: string;
   /** The category a cloud lists the device in. When the catalog lists no
-   * entry for `productKey`, a cloud route's model of the device names its
-   * controls, ahead of the entries that fit its data points: another kind of
-   * device can report the same data points. Without it, those entries alone
-   * name them. */
+   * entry for `productKey` and the category is one of `MODEL_CATEGORIES`, a
+   * cloud route's model of the device names its controls, ahead of the
+   * entries that fit its data points: another kind of device can report the
+   * same data points. Otherwise those entries alone name them. */
   category?: string;
   /** The catalog entry to name the device's controls by, such as the one
    * picked the last time. Defaults to the best entry found from `productKey`
@@ -69,8 +70,8 @@ export interface CreateTuyaClientOptions {
 
 /** Builds a client for each route, reads the device's data points through
  * them to find its catalog entry unless `entry` is given, asks a cloud route
- * for the device's model when `category` is given and the catalog does not
- * list `productKey`, and resolves with
+ * for the device's model when `category` is one of `MODEL_CATEGORIES` and the
+ * catalog does not list `productKey`, and resolves with
  * a `RoutedTuyaClient`. That read tries every route in order, connected or
  * not, so a LAN route listed first answers it once it connects, and the next
  * route answers only after the LAN fails within its own timeouts. When no
@@ -120,7 +121,7 @@ export async function createTuyaClient(
     entry.products.some((product) => product.productKey === productKey),
   );
   const modelEntry =
-    category === undefined || listed
+    category === undefined || listed || !MODEL_CATEGORIES.includes(category)
       ? undefined
       : await buildEntryFromModel(options.routes, deviceId, category);
   return new RoutedTuyaClient(

@@ -1,7 +1,7 @@
 import type { TuyaDeviceModel } from "@open-tuya/core";
 import { describe, expect, it } from "vitest";
 import { readControls } from "../controls.js";
-import { createDeviceEntry } from "../model.js";
+import { createDeviceEntry, MODEL_CATEGORIES } from "../model.js";
 
 // A motion sensor that also reads the temperature, whose product the catalog
 // does not list, as the Smart Life cloud describes it.
@@ -256,5 +256,18 @@ describe("createDeviceEntry", () => {
         { category: "toString", name: "Unknown" },
       ),
     ).toBeUndefined();
+  });
+
+  it("describes whole the plugs, switches and sensors whose codes it knows", () => {
+    expect(MODEL_CATEGORIES).toEqual([
+      "cz",
+      "hps",
+      "kg",
+      "mcs",
+      "pc",
+      "pir",
+      "sj",
+      "wsdcg",
+    ]);
   });
 });

@@ -361,6 +361,18 @@ describe("DeveloperCloudAccount", () => {
                     typeSpec: { type: "value", min: "0", scale: null },
                   },
                   {
+                    ...property,
+                    abilityId: 6,
+                    code: "temp_current",
+                    typeSpec: {
+                      type: "value",
+                      min: "1.5",
+                      max: "1e3",
+                      scale: "0x10",
+                      step: 2.5,
+                    },
+                  },
+                  {
                     code: "no_ability_id",
                     typeSpec: { type: "bool" },
                   },
@@ -375,6 +387,7 @@ describe("DeveloperCloudAccount", () => {
         "3": { code: "mode", type: "enum" },
         "4": { code: "work_mode", type: "enum", range: ["eco", "boost"] },
         "5": { code: "countdown", type: "integer", min: 0 },
+        "6": { code: "temp_current", type: "integer" },
       });
     });
 

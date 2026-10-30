@@ -176,7 +176,7 @@ const PLUG_CONTROLS = switches(6);
 // pir in https://github.com/home-assistant/core/commit/892bf62dd579984e43439760bc3eb646cadb784b;
 // and sj in https://github.com/home-assistant/core/commit/6d898a631ccafe700dd86145ff25e99dd5bbb66b,
 // with the on value "1" added in
-// https://github.com/home-assistant/core/commit/46675560d29883fa13a897234ba5f893d48a2c2a.
+// https://github.com/home-assistant/core/commit/509add8e5ca7fb47e0c02a645c92861a989cf8c5.
 const CATEGORY_CONTROLS: Readonly<
   Record<string, Readonly<Record<string, DescribeControl>>>
 > = {
@@ -198,6 +198,17 @@ const CATEGORY_CONTROLS: Readonly<
   pir: { pir: detector("motion", "motion", ["pir"]) },
   sj: { watersensor_state: detector("moisture", "moisture", ["1", "alarm"]) },
 };
+
+// Source: A temperature and humidity sensor (wsdcg) is its readings, in
+// https://github.com/home-assistant/core/commit/35872a212b2340d3906557e5f644d99f7360ff15.
+/** The categories whose devices `createDeviceEntry` describes whole. In
+ * another category it gives only the temperature, humidity and battery it
+ * reads, which leave out what the device does, as a heater's power and set
+ * point. */
+export const MODEL_CATEGORIES: readonly string[] = [
+  ...Object.keys(CATEGORY_CONTROLS),
+  "wsdcg",
+].sort();
 
 const DATA_POINT_TYPES = {
   boolean: "boolean",

@@ -289,6 +289,16 @@ describe("createTuyaClient", () => {
       expect(client.entry?.products).not.toEqual([]);
     });
 
+    it("finds the entry from the data points alone in a category the model does not describe whole", async () => {
+      await using client = await createTuyaClient({
+        deviceId: DEVICE_ID,
+        category: "rs",
+        routes: [{ cloud: motionAccount() }],
+      });
+
+      expect(client.entry?.products).not.toEqual([]);
+    });
+
     it("finds the entry from the data points alone when the cloud gives no model", async () => {
       const account = motionAccount();
       account.modelFailure = failure("RATE_LIMITED");

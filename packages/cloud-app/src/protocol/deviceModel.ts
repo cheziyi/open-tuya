@@ -1,7 +1,6 @@
 import {
   MODEL_TYPES,
   type ModelType,
-  readModelValues,
   type TuyaDeviceModel,
   type TuyaModelDataPoint,
 } from "@open-tuya/core";
@@ -53,5 +52,36 @@ function readValues(
   if (typeof spec !== "object" || spec === null) {
     return {};
   }
-  return readModelValues(spec as Record<string, unknown>);
+  return readSpecValues(spec as Record<string, unknown>);
+}
+
+// Source: Home Assistant reads an integer's min, max, scale and step with
+// Python's int(), which takes a whole number, or text of one: int() refuses
+// text such as "1.5", "1e3" or "0x10", where Number() would read it, in
+// https://github.com/home-assistant-libs/tuya-device-handlers/commit/7d9b35afd9c3e3d135ed8b112517edfba70467d5.
+function readSpecValues(
+  spec: Readonly<Record<string, unknown>>,
+): Omit<TuyaModelDataPoint, "code" | "type"> {
+  const { range, unit } = spec;
+  const values: Omit<TuyaModelDataPoint, "code" | "type"> = {
+    ...(Array.isArray(range) &&
+      range.every((value) => typeof value === "string") && { range }),
+    ...(typeof unit === "string" && unit !== "" && { unit }),
+  };
+  for (const name of ["min", "max", "step", "scale"] as const) {
+    const value = readWholeNumber(spec[name]);
+    if (value !== undefined) {
+      values[name] = value;
+    }
+  }
+  return values;
+}
+
+function readWholeNumber(value: unknown): number | undefined {
+  if (typeof value === "number") {
+    return Number.isSafeInteger(value) ? value : undefined;
+  }
+  return typeof value === "string" && /^\s*[-+]?\d+\s*$/.test(value)
+    ? Number(value)
+    : undefined;
 }

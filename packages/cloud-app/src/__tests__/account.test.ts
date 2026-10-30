@@ -262,6 +262,20 @@ describe("AppCloudAccount", () => {
       });
     });
 
+    it("leaves out an integer's value that is no whole number, as text or as a number", async () => {
+      const { cloud, account } = setUp();
+      serveRelations(cloud, [
+        {
+          ...TEMPERATURE_RELATION,
+          valueDesc: '{"min":"1.5","max":"1e3","scale":"0x10","step":2.5}',
+        },
+      ]);
+
+      await expect(account.readDeviceModel(DEVICE_ID)).resolves.toEqual({
+        "7": { code: "temp_current", type: "integer" },
+      });
+    });
+
     it("reads an integer's values given as numeric strings", async () => {
       const { cloud, account } = setUp();
       serveRelations(cloud, [
