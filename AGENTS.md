@@ -127,15 +127,23 @@ field name, the order of messages, a limit a device enforces.
 
 | Folder | Holds |
 | --- | --- |
-| `src/catalog/` | One file per device, generated from tuya-local: the products it matches, each data point and what it controls, and the tuya-local commit it came from |
+| `src/catalog/` | One file per device, generated from tuya-local's device files and `devices/`: the products it matches, each data point and what it controls, and the commit its file came from |
+| `devices/` | Device files of this package's own, in tuya-local's format: the devices tuya-local does not list yet |
 | `src/` | The type of a catalog entry, and looking an entry up |
-| `scripts/` | The script that converts tuya-local's device files into `src/catalog/` |
+| `scripts/` | The script that converts tuya-local's device files and `devices/` into `src/catalog/` |
 
 - **Never edit a file in `src/catalog/` by hand.** Change the import script
-  and run it again, `pnpm --filter @open-tuya/devices import-catalog
-  ../../reference/make-all/tuya-local`: the next run overwrites a hand edit.
-- **Add a device to tuya-local, not here**, then run the import script: one
-  catalog serves both communities.
+  or a device file and run the script again, `pnpm --filter
+  @open-tuya/devices import-catalog ../../reference/make-all/tuya-local`: the
+  next run overwrites a hand edit.
+- **Add a device to tuya-local first, by its contributing guide**, then run
+  the import script: one catalog serves both communities. A device tuya-local
+  does not list yet goes in `devices/`, written as tuya-local's guide asks and
+  named as tuya-local would name its file, so that it goes upstream unchanged.
+  Commit the file, run the script, and commit what it generates: the entry
+  records the commit that last changed its file. Remove the file once
+  tuya-local lists the device: the script refuses two device files of one
+  name.
 - **Describe a data point in the vocabulary of the control it drives**:
   `targetTemperatureInC`, not `dp 2`, and not a Home Assistant entity or
   device class.
