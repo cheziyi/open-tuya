@@ -1,0 +1,64 @@
+name: Motion and climate sensor
+products:
+  - id: m1ggi8iay3aa8g9u
+    model: ZG-204W
+entities:
+  - entity: binary_sensor
+    class: motion
+    dps:
+      - id: 1
+        type: string
+        name: sensor
+        mapping:
+          - dps_val: pir
+            value: true
+          - dps_val: "none"
+            value: false
+  - entity: sensor
+    class: battery
+    dps:
+      - id: 4
+        type: integer
+        name: sensor
+        unit: "%"
+  - entity: sensor
+    class: temperature
+    dps:
+      - id: 7
+        type: integer
+        name: sensor
+        unit: C
+        mapping:
+          - scale: 10
+        class: measurement
+  - entity: sensor
+    class: humidity
+    dps:
+      - id: 8
+        type: integer
+        name: sensor
+        unit: "%"
+        class: measurement
+  - entity: select
+    name: Keep time
+    icon: "mdi:camera-timer"
+    category: config
+    dps:
+      - id: 10
+        name: option
+        type: string
+        mapping:
+          - dps_val: "30s"
+            value: "30"
+          - dps_val: "60s"
+            value: "60"
+          - dps_val: "120s"
+            value: "120"
+  - entity: sensor
+    class: illuminance
+    dps:
+      - id: 11
+        type: integer
+        name: sensor
+        unit: lx
+        class: measurement

@@ -219,8 +219,9 @@ export interface TuyaDeviceEntry {
   /** The device's parts, such as a light and its backlight, each with its
    * controls. */
   components: Readonly<Record<string, TuyaComponent>>;
-  /** The tuya-local device file the entry was converted from, and the
-   * commit that last changed it. Every entry in `CATALOG` has one; an entry
+  /** The device file the entry was converted from, tuya-local's or this
+   * package's own in `devices/`, and the commit that last changed it in its
+   * repository. Every entry in `CATALOG` has one; an entry
    * `createDeviceEntry` builds from a device's model has none. */
   source?: { file: string; commit: string };
 }

@@ -185,9 +185,10 @@ catalog lacks has no `entry`: read and write its data points by ID.
 ## Naming data points
 
 `@open-tuya/devices` holds over 1,700 devices converted from
-[tuya-local](https://github.com/make-all/tuya-local). Without
-`createTuyaClient`, find a device's entry, then read and write its data
-points by name:
+[tuya-local](https://github.com/make-all/tuya-local), and the device files it
+carries itself in `packages/devices/devices/`, in tuya-local's format, until
+tuya-local lists them. Without `createTuyaClient`, find a device's entry, then
+read and write its data points by name:
 
 ```ts
 import { findDeviceEntries, readControls, writeControls } from "@open-tuya/devices";
@@ -380,7 +381,7 @@ as a device does.
 | LAN | Protocol 3.1 to 3.5, and the devices behind a 3.3, 3.4 or 3.5 gateway | Needs each device's local key, which only a cloud gives. On 3.1 a read succeeds under a wrong key |
 | Tuya developer platform | Data centers `cn`, `us`, `us-e`, `eu`, `eu-w`, `in` and `sg` | Needs a cloud project, whose IoT Core trial expires and has to be extended |
 | Smart Life cloud | A Smart Life account, signed in by QR code | Reads and writes only the data points the cloud passes through unchanged. One session serves one program |
-| Catalog | Over 1,700 of tuya-local's devices | A device tuya-local lacks has no entry, and `UNSUPPORTED.md` lists the tuya-local devices the import cannot convert |
+| Catalog | Over 1,700 of tuya-local's devices, and the device files in `packages/devices/devices/` | A device neither lists has no entry, and `UNSUPPORTED.md` lists the tuya-local devices the import cannot convert |
 
 [UNSUPPORTED.md](UNSUPPORTED.md) lists what no source pins down, and what the
 code does until one does.

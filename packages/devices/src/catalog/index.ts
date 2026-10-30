@@ -1753,6 +1753,7 @@ import device_zemismart_zm85el1x_rollershade from "./zemismart_zm85el1x_rollersh
 import device_zemismart_zmai90_energymeter from "./zemismart_zmai90_energymeter.js";
 import device_zencar_ev_charger from "./zencar_ev_charger.js";
 import device_zephir_zmw4000vsmart_heater from "./zephir_zmw4000vsmart_heater.js";
+import device_zg204w_motion_sensor from "./zg204w_motion_sensor.js";
 import device_zg205w_mmwave_presence_sensor from "./zg205w_mmwave_presence_sensor.js";
 import device_zigbee_climate_alarm from "./zigbee_climate_alarm.js";
 import device_zigbee_dv7vcs_human_presence_sensor from "./zigbee_dv7vcs_human_presence_sensor.js";
@@ -3555,4 +3556,5 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_zym100w_presence_sensor,
   device_zym100w_v2_presence_sensor,
   device_zym201_presence_sensor,
+  device_zg204w_motion_sensor,
 ];
