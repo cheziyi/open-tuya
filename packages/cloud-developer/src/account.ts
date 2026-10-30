@@ -6,6 +6,7 @@ import {
   type OpenMqttConnection,
   type TuyaCloudAccount,
   type TuyaCloudDevice,
+  type TuyaDeviceModel,
   TuyaError,
 } from "@open-tuya/core";
 import {
@@ -13,6 +14,7 @@ import {
   DeveloperCloudTuyaClient,
   type RequestParts,
 } from "./client.js";
+import { readDeviceModel } from "./deviceModel.js";
 import { openMqttConnection } from "./mqtt.js";
 import type {
   DeviceDetail,
@@ -196,33 +198,48 @@ export class DeveloperCloudAccount implements TuyaCloudAccount {
     });
   }
 
-  // Source: A device's thing model comes as JSON text in `model`, and names
-  // each data point's ID as `abilityId` beside its code, in
-  // https://github.com/xZetsubou/hass-localtuya/commit/2f733ce0dd99076b4936a7ce08642bca87ad4a93
-  // and as captured in https://github.com/jasonacox/tinytuya/issues/537;
-  // Tuya's connector types the answer as a map of strings, in
-  // https://github.com/tuya/tuya-connector/commit/25424c594135e8c5f4c684a0b7cce8fc7b4fcca6.
   /** Fetches the device's thing model, and resolves with a client for it. It
    * rejects with `REQUEST_REJECTED` when the model is not JSON. */
   async createClient(deviceId: string): Promise<DeveloperCloudTuyaClient> {
-    const thing = (await this.request(
-      "GET",
-      `/v2.0/cloud/thing/${encodeURIComponent(deviceId)}/model`,
-    )) as ThingModel | null;
     const codes = new Map<string, string>();
-    const { services } = parseModel(thing?.model);
-    for (const service of listOf<{ properties?: unknown }>(services)) {
-      for (const property of listOf<ThingProperty>(service?.properties)) {
-        if (typeof property?.code === "string") {
-          codes.set(String(property.abilityId), property.code);
-        }
-      }
+    for (const property of await this.fetchProperties(deviceId)) {
+      codes.set(String(property.abilityId), property.code);
     }
     const transport: DeveloperCloudTransport = {
       request: (method, path, parts) => this.request(method, path, parts),
       subscribe: (listener) => this.push.subscribe(deviceId, listener),
     };
     return new DeveloperCloudTuyaClient(transport, deviceId, codes);
+  }
+
+  /** Fetches the device's thing model, and resolves with each property a
+   * client reads and writes, by its code. It rejects with `REQUEST_REJECTED`
+   * when the model is not JSON. */
+  async readDeviceModel(deviceId: string): Promise<TuyaDeviceModel> {
+    return readDeviceModel(await this.fetchProperties(deviceId));
+  }
+
+  // Source: A device's thing model comes as JSON text in `model`, and names
+  // each data point's ID as `abilityId` beside its code, in
+  // https://github.com/xZetsubou/hass-localtuya/commit/2f733ce0dd99076b4936a7ce08642bca87ad4a93
+  // and as captured in https://github.com/jasonacox/tinytuya/issues/537;
+  // Tuya's connector types the answer as a map of strings, in
+  // https://github.com/tuya/tuya-connector/commit/25424c594135e8c5f4c684a0b7cce8fc7b4fcca6.
+  private async fetchProperties(deviceId: string): Promise<ThingProperty[]> {
+    const thing = (await this.request(
+      "GET",
+      `/v2.0/cloud/thing/${encodeURIComponent(deviceId)}/model`,
+    )) as ThingModel | null;
+    const properties: ThingProperty[] = [];
+    const { services } = parseModel(thing?.model);
+    for (const service of listOf<{ properties?: unknown }>(services)) {
+      for (const property of listOf<ThingProperty>(service?.properties)) {
+        if (typeof property?.code === "string") {
+          properties.push(property);
+        }
+      }
+    }
+    return properties;
   }
 
   /** Stops every request in flight and the MQTT connection, and resolves

@@ -321,7 +321,7 @@ describe("createTuyaClient", () => {
     });
 
     expect(
-      client.entries.slice(0, 4).map((entry) => entry.source.file),
+      client.entries.slice(0, 4).map((entry) => entry.source?.file),
     ).toEqual(
       expect.arrayContaining([
         "ard100_valve.yaml",
@@ -341,7 +341,7 @@ describe("createTuyaClient", () => {
       routes: [{ cloud: new FakeTuyaCloudAccount({ "1": true, "3": 120 }) }],
     });
 
-    const files = client.entries.map((entry) => entry.source.file);
+    const files = client.entries.map((entry) => entry.source?.file);
     expect(files.slice(0, 2).sort()).toEqual([
       "ard100_valve.yaml",
       "lerlink_highpower_switch.yaml",
@@ -385,7 +385,7 @@ describe("createTuyaClient", () => {
     // Its colour is data point 24: hue, saturation and brightness, 2 bytes
     // each.
     const light = CATALOG.find(
-      (entry) => entry.source.file === "arlec_10_pathlights.yaml",
+      (entry) => entry.source?.file === "arlec_10_pathlights.yaml",
     );
 
     async function create(): Promise<{
@@ -439,7 +439,7 @@ describe("createTuyaClient", () => {
   describe("controls that depend on another data point", () => {
     // Its mode, data point 1 while on, reads auto or heat by data point 4.
     const thermostat = CATALOG.find(
-      (entry) => entry.source.file === "moes_bht002_thermostat_c.yaml",
+      (entry) => entry.source?.file === "moes_bht002_thermostat_c.yaml",
     );
 
     async function create(dataPoints: Record<string, boolean | string>) {

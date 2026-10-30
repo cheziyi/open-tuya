@@ -199,9 +199,32 @@ repository alone:
 | Each entry records the tuya-local commit that last changed its file | A run then changes only the entries whose files changed |
 | `yaml` is a dev dependency of `@open-tuya/devices` | The script parses tuya-local's files with it. One file continues a quoted value at its key's indentation, which YAML forbids, PyYAML takes and the `yaml` library refuses; it is listed in `UNSUPPORTED.md` rather than parsed by a laxer parser |
 
-A device whose product has no entry could later be named by Tuya's standard
-data point codes for its category, such as `temp_set`; the cloud reports each
-device's codes.
+## Device models
+
+A device whose product has no entry is named by the codes of Tuya's standard
+instruction set, which each cloud's model of the device gives its data points.
+`readDeviceModel` reads the model; `createDeviceEntry` turns it into an entry.
+
+| Choice | Why |
+| --- | --- |
+| `readDeviceModel` is a method of `TuyaCloudAccount`, and `TuyaDeviceModel` a type in core | Both clouds describe a device's data points, so a caller reads either the same way. The wire's field names stay in each cloud's package |
+| The cloud app's model holds the data points its client maps, by the code it reports them under: none on a device of a custom type or with a relation that does not support local | Only those relations describe the device's own values, which the LAN reads: [Cloud app data points](#cloud-app-data-points) says why the others are not trusted |
+| The developer platform's model holds every property of the thing model | The thing model is in the device's own terms, as [Cloud developer data points](#cloud-developer-data-points) says |
+| A model's integer keeps its raw range, step and scale, and its unit as the cloud writes it, such as `℃` | The catalog's controls and the LAN read the raw value; the entry divides by the scale |
+| A type that is no data point's on the LAN, such as the thing model's `float` or `struct`, is left out | No source shows what the device sends for it |
+| An entry built from a model has no `source` | It comes from no tuya-local file, and a made-up file name would read as one. Rejected: a second entry type, which every function that takes an entry would have to take as well |
+| Temperatures, humidities and batteries are read by their code in any category: `temp_current` and `va_temperature`, `humidity_value` and `va_humidity`, `battery_percentage` and `va_battery` | Home Assistant reads each as the same reading in every category it lists it in: `temp_current` in 21. Its tables are kept per category, and leave out readings a device of another category reports, as a motion sensor's `temp_current` |
+| Switches and detectors are read only in a category whose table names them: `switch_1` to `switch_22` on a wall switch (`kg`), `switch_1` to `switch_6` on a plug or a strip (`cz`, `pc`), `pir` on a motion sensor, `presence_state` on a presence sensor (`hps`), `doorcontact_state` and `switch` on a contact sensor (`mcs`), `watersensor_state` on a leak sensor (`sj`) | A code means another thing in another category: `switch` is a contact sensor's door, `switch_1` a light's power (`dj`), and `doorcontact_state` an enum on an alarm host (`dgnbj`) |
+| A detector's enum is true while it holds one of Home Assistant's on values its range lists, and false otherwise; one whose range lists none is left out | Home Assistant reads it so. A range without the on value means the code does not mean what the table says |
+| A unit the code does not take, such as a temperature in K or a battery in mV, leaves the data point out | Reading it in the unit the name carries would be wrong |
+| Two data points that name one control give it the first | A thermometer can report `temp_current` and `va_temperature`; the catalog names a control once per component |
+| No product key: `products` is empty | The model describes the device, not its product, and a product key from one device would match others that report other data points |
+
+Matching by data points alone, without a product key, picks the entry naming
+the largest share of the device's data points, so two entries naming the same
+ones tie. A motion sensor reporting `pir` on 1 and its battery on 4 tied with
+a leak sensor's entry, which came first, and read no motion. A caller that has
+the model builds the entry from it before falling back on that match.
 
 ## Releases
 

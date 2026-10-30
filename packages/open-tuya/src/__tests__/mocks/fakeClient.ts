@@ -4,6 +4,7 @@ import type {
   TuyaClient,
   TuyaCloudAccount,
   TuyaCloudDevice,
+  TuyaDeviceModel,
 } from "@open-tuya/core";
 
 /** A route's client, holding data points in memory. */
@@ -85,6 +86,10 @@ export class FakeTuyaCloudAccount implements TuyaCloudAccount {
     const client = new FakeTuyaClient(this.dataPoints);
     this.clients.push(client);
     return client;
+  }
+
+  async readDeviceModel(): Promise<TuyaDeviceModel> {
+    return {};
   }
 
   async close(): Promise<void> {

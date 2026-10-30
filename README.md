@@ -214,6 +214,28 @@ running total. `entry.products` gives each product's `manufacturer`, `model` and
 `modelId`, to name the device by.
 `UNSUPPORTED.md` lists the devices not converted yet.
 
+### A device the catalog does not list
+
+Build its entry from the codes of Tuya's standard instruction set, which
+either cloud's model of the device gives each data point:
+
+```ts
+import { createDeviceEntry } from "@open-tuya/devices";
+
+const model = await account.readDeviceModel(device.deviceId);
+const entry = createDeviceEntry(model, { category: device.category, name: device.name });
+// { device: { motion: …, temperatureInC: …, batteryInPercent: … } }, or undefined
+```
+
+Match by product key first: a catalog entry names more of a device, such as a
+plug's meter. Matching by data points alone can pick another kind of device
+that reports the same ones, as a leak sensor and a motion sensor both report a
+text on 1 and an integer on 4. The entry reads a temperature, a humidity and a
+battery in any category, and a plug's, a strip's or a wall switch's outlets, a
+motion, presence, door or leak sensor's detection only in its own category:
+[DESIGN.md](DESIGN.md#device-models) lists the codes. Store the model with the
+device to build the entry again without the cloud.
+
 ## Signing in to the Smart Life cloud
 
 Pass Home Assistant's [client ID and schema](https://github.com/home-assistant/core/blob/82e1ed43f85b3254c51e7a8200ece159019743ab/homeassistant/components/tuya/const.py#L39-L40): they are the only
