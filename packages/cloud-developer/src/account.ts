@@ -131,6 +131,12 @@ export class DeveloperCloudAccount implements TuyaCloudAccount {
   private readonly mqtt: MqttSession<PushConfig>;
   private readonly push: DevicePush;
   private readonly online = new Map<string, boolean>();
+  // A device list answers with the state before it was asked, so a push that
+  // arrived while it was in flight is newer, and the list leaves that device
+  // as the push set it: `pushes` counts the pushes, and `lastPush` holds the
+  // count at each device's last.
+  private pushes = 0;
+  private readonly lastPush = new Map<string, number>();
 
   constructor(
     private readonly fetch: Fetch,
@@ -142,7 +148,10 @@ export class DeveloperCloudAccount implements TuyaCloudAccount {
       fetchCredentials: () => this.fetchPushConfig(),
       onMessage: (message, config) => this.push.receive(message, config),
     });
-    this.push = new DevicePush(this.mqtt);
+    this.push = new DevicePush(this.mqtt, (deviceId, online) => {
+      this.online.set(deviceId, online);
+      this.lastPush.set(deviceId, ++this.pushes);
+    });
   }
 
   // Source: Every linked app account's devices are listed by
@@ -161,6 +170,7 @@ export class DeveloperCloudAccount implements TuyaCloudAccount {
   async listDevices(
     options: ListDevicesOptions = {},
   ): Promise<TuyaCloudDevice[]> {
+    const pushesBefore = this.pushes;
     let records: DeviceRecord[];
     let localKeys = new Map<string, string>();
     if (options.viaDeviceId) {
@@ -186,7 +196,12 @@ export class DeveloperCloudAccount implements TuyaCloudAccount {
       localKeys = await this.fetchMissingLocalKeys(records);
     }
     return records.map((record) => {
-      this.online.set(record.id, record.online);
+      if (
+        typeof record.online === "boolean" &&
+        (this.lastPush.get(record.id) ?? 0) <= pushesBefore
+      ) {
+        this.online.set(record.id, record.online);
+      }
       const localKey = record.local_key || localKeys.get(record.id);
       return {
         deviceId: record.id,

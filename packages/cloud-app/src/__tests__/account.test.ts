@@ -495,6 +495,24 @@ describe("AppCloudAccount", () => {
         code: "CONNECTION_LOST",
       });
     });
+
+    it("rejects a read with CONNECTION_LOST once closed, whatever the device list last said", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", "/v1.0/m/life/users/homes", () => ({
+        result: [{ name: "Home", ownerId: HOME_ID }],
+      }));
+      cloud.on("GET", "/v1.0/m/life/ha/home/devices", () => ({
+        result: [{ ...DEVICE_RECORD, online: false }],
+      }));
+      await account.listDevices();
+      const client = await account.createClient(DEVICE_ID);
+
+      await client.close();
+
+      await expect(client.readDataPoints()).rejects.toMatchObject({
+        code: "CONNECTION_LOST",
+      });
+    });
   });
 
   describe("pushes", () => {
@@ -626,6 +644,42 @@ describe("AppCloudAccount", () => {
         }),
       );
       await until(() => reports.length === 2);
+      await expect(client.readDataPoints()).resolves.toEqual({ "1": true });
+    });
+
+    it("keeps a push that arrived while the device list was in flight, over the list", async () => {
+      const { cloud, account } = setUp();
+      const broker = await serveBroker(cloud);
+      const client = await account.createClient(DEVICE_ID);
+      const reports: DataPoints[] = [];
+      client.onDataPoints((dataPoints) => reports.push(dataPoints));
+      await until(() => broker.subscriptions.length > 0);
+      cloud.on("GET", "/v1.0/m/life/users/homes", () => ({
+        result: [{ name: "Home", ownerId: HOME_ID }],
+      }));
+      // The device comes online while the list is in flight: the list
+      // answers with the state before it was asked.
+      cloud.on("GET", "/v1.0/m/life/ha/home/devices", async () => {
+        await broker.publish(
+          PUSH_TOPIC,
+          JSON.stringify({
+            protocol: 20,
+            data: { bizCode: "online", bizData: { devId: DEVICE_ID } },
+          }),
+        );
+        await broker.publish(
+          PUSH_TOPIC,
+          JSON.stringify({
+            protocol: 4,
+            data: { devId: DEVICE_ID, status: [{ dpId: 1, value: true }] },
+          }),
+        );
+        await until(() => reports.length === 1);
+        return { result: [{ ...DEVICE_RECORD, online: false }] };
+      });
+
+      await account.listDevices();
+
       await expect(client.readDataPoints()).resolves.toEqual({ "1": true });
     });
 

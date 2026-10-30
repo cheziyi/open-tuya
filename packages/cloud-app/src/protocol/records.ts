@@ -134,6 +134,9 @@ export function readDeviceRecords(result: unknown): DeviceRecord[] {
   const devices = listOf(result, "devices");
   for (const device of devices) {
     withStrings(device, ["id"]);
+    if (typeof device.online !== "boolean") {
+      throw malformed("online");
+    }
     if (device.status !== undefined) {
       device.status = listOf(device.status, "status");
     }

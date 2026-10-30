@@ -35,9 +35,9 @@ describe("the result readers", () => {
     expect(readHomeRecords(null)).toEqual([]);
     expect(readDeviceRecords("")).toEqual([]);
     expect(readDeviceRecords(null)).toEqual([]);
-    expect(readDeviceRecords([{ id: "bf", status: "" }])).toEqual([
-      { id: "bf", status: [] },
-    ]);
+    expect(readDeviceRecords([{ id: "bf", online: true, status: "" }])).toEqual(
+      [{ id: "bf", online: true, status: [] }],
+    );
     expect(readStatusRelations({ dpStatusRelationDTOS: null })).toEqual([]);
   });
 
@@ -47,10 +47,17 @@ describe("the result readers", () => {
     ["a home without an owner", () => readHomeRecords([{ name: "Home" }])],
     ["devices as an object", () => readDeviceRecords({ id: "bf" })],
     ["a device that is null", () => readDeviceRecords([null])],
-    ["a device without an ID", () => readDeviceRecords([{ name: "Plug" }])],
+    [
+      "a device without an ID",
+      () => readDeviceRecords([{ name: "Plug", online: true }]),
+    ],
+    [
+      "a device whose online is not a boolean",
+      () => readDeviceRecords([{ id: "bf", online: 1 }]),
+    ],
     [
       "a status that is not a list",
-      () => readDeviceRecords([{ id: "bf", status: 5 }]),
+      () => readDeviceRecords([{ id: "bf", online: true, status: 5 }]),
     ],
     ["relations that are null", () => readStatusRelations(null)],
     [

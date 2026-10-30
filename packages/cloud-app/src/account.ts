@@ -105,6 +105,12 @@ export class AppCloudAccount implements TuyaCloudAccount {
   private readonly mqtt: MqttSession<PushConfig>;
   private readonly push: DevicePush;
   private readonly online = new Map<string, boolean>();
+  // A device list answers with the state before it was asked, so a push that
+  // arrived while it was in flight is newer, and the list leaves that device
+  // as the push set it: `pushes` counts the pushes, and `lastPush` holds the
+  // count at each device's last.
+  private pushes = 0;
+  private readonly lastPush = new Map<string, number>();
 
   constructor(
     private readonly fetch: Fetch,
@@ -118,6 +124,7 @@ export class AppCloudAccount implements TuyaCloudAccount {
     });
     this.push = new DevicePush(this.mqtt, (deviceId, online) => {
       this.online.set(deviceId, online);
+      this.lastPush.set(deviceId, ++this.pushes);
     });
   }
 
@@ -126,6 +133,7 @@ export class AppCloudAccount implements TuyaCloudAccount {
   // https://github.com/tuya/tuya-device-sharing-sdk/commit/3e0d9ae6eb5e23e97ce7697a1bd3b248fe2c75b1.
   /** Lists the devices in every home of the account. */
   async listDevices(): Promise<AppCloudDevice[]> {
+    const pushesBefore = this.pushes;
     const homes = readHomeRecords(
       await this.request("GET", "/v1.0/m/life/users/homes"),
     );
@@ -138,7 +146,9 @@ export class AppCloudAccount implements TuyaCloudAccount {
         }),
       );
       for (const record of records) {
-        this.online.set(record.id, record.online);
+        if ((this.lastPush.get(record.id) ?? 0) <= pushesBefore) {
+          this.online.set(record.id, record.online);
+        }
         devices.push({
           deviceId: record.id,
           name: record.name,
