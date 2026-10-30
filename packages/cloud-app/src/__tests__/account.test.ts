@@ -267,7 +267,8 @@ describe("AppCloudAccount", () => {
       serveRelations(cloud, [
         {
           ...TEMPERATURE_RELATION,
-          valueDesc: '{"min":"1.5","max":"1e3","scale":"0x10","step":2.5}',
+          valueDesc:
+            '{"min":"1.5","max":"99999999999999999999","scale":"0x10","step":2.5}',
         },
       ]);
 

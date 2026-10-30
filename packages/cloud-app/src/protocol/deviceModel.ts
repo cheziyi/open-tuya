@@ -56,8 +56,8 @@ function readValues(
 }
 
 // Source: Home Assistant reads an integer's min, max, scale and step with
-// Python's int(), which takes a whole number, or text of one: int() refuses
-// text such as "1.5", "1e3" or "0x10", where Number() would read it, in
+// Python's int(), which takes text of a whole number and refuses text such as
+// "1.5", "1e3" or "0x10", in
 // https://github.com/home-assistant-libs/tuya-device-handlers/commit/7d9b35afd9c3e3d135ed8b112517edfba70467d5.
 function readSpecValues(
   spec: Readonly<Record<string, unknown>>,
@@ -78,10 +78,9 @@ function readSpecValues(
 }
 
 function readWholeNumber(value: unknown): number | undefined {
-  if (typeof value === "number") {
-    return Number.isSafeInteger(value) ? value : undefined;
-  }
-  return typeof value === "string" && /^\s*[-+]?\d+\s*$/.test(value)
-    ? Number(value)
-    : undefined;
+  const number =
+    typeof value === "string" && /^\s*[-+]?\d+\s*$/.test(value)
+      ? Number(value)
+      : value;
+  return Number.isSafeInteger(number) ? (number as number) : undefined;
 }

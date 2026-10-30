@@ -218,8 +218,8 @@ running total. `entry.products` gives each product's `manufacturer`, `model` and
 
 ### A device the catalog does not list
 
-Pass `category` and a cloud route to `createTuyaClient`, which does the steps
-below itself. Outside it, build the entry from the codes of Tuya's standard
+Pass a cloud route and a `category` in `MODEL_CATEGORIES`, the sensors, to
+`createTuyaClient`, which does the steps below itself. Outside it, build the entry from the codes of Tuya's standard
 instruction set, which either cloud's model of the device gives each data
 point:
 
@@ -239,8 +239,9 @@ battery in any category, and a plug's, a strip's or a wall switch's outlets, a
 motion, presence, door or leak sensor's detection only in its own category:
 [DESIGN.md](DESIGN.md#device-models) lists the codes. Prefer it to the match by
 data points only in a category of `MODEL_CATEGORIES`: elsewhere it holds the
-readings alone, as a heater's temperature without its power. Store the model
-with the device to build the entry again without the cloud.
+readings and switches alone, as a heater's temperature without its power or a
+plug's switch without its meter. Store the model with the device to build the
+entry again without the cloud.
 
 ## Signing in to the Smart Life cloud
 

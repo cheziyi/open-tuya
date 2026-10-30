@@ -35,8 +35,20 @@ const FAHRENHEIT_UNITS = new Set(["°f", "f", "fahrenheit", "℉"]);
 
 // Source: An integer is its value divided by 10 to the power of its scale, in
 // https://github.com/tuya/tuya-openclaw-skills/commit/016cb18098bb5302e24a9a33c1bcb665445eda7c.
-function scaleOf(scale: number): { scale?: number } {
-  return scale === 0 ? {} : { scale: 10 ** scale };
+/** The control's `scale`, or undefined when dividing by 10 to the model's
+ * power gives no usable reading: the model names no scale, or one so large
+ * that the power is infinite or 0. */
+function scaleOf(
+  dataPoint: TuyaModelDataPoint,
+): { scale?: number } | undefined {
+  if (dataPoint.scale === undefined) {
+    return undefined;
+  }
+  const scale = 10 ** dataPoint.scale;
+  if (!Number.isFinite(scale) || scale === 0) {
+    return undefined;
+  }
+  return scale === 1 ? {} : { scale };
 }
 
 function temperature(dataPoint: TuyaModelDataPoint): NamedControl | undefined {
@@ -47,9 +59,10 @@ function temperature(dataPoint: TuyaModelDataPoint): NamedControl | undefined {
       : FAHRENHEIT_UNITS.has(unit)
         ? "F"
         : undefined;
+  const scale = scaleOf(dataPoint);
   if (
     dataPoint.type !== "integer" ||
-    dataPoint.scale === undefined ||
+    scale === undefined ||
     symbol === undefined
   ) {
     return undefined;
@@ -62,16 +75,17 @@ function temperature(dataPoint: TuyaModelDataPoint): NamedControl | undefined {
       reading: "instant",
       readOnly: true,
       unit: symbol,
-      ...scaleOf(dataPoint.scale),
+      ...scale,
     },
   };
 }
 
 function percent(measures: Measure): DescribeControl {
-  return (dataPoint) =>
-    dataPoint.type === "integer" &&
-    dataPoint.scale !== undefined &&
-    (dataPoint.unit === undefined || dataPoint.unit === "%")
+  return (dataPoint) => {
+    const scale = scaleOf(dataPoint);
+    return dataPoint.type === "integer" &&
+      scale !== undefined &&
+      (dataPoint.unit === undefined || dataPoint.unit === "%")
       ? {
           name: `${measures}InPercent`,
           control: {
@@ -80,10 +94,11 @@ function percent(measures: Measure): DescribeControl {
             reading: "instant",
             readOnly: true,
             unit: "%",
-            ...scaleOf(dataPoint.scale),
+            ...scale,
           },
         }
       : undefined;
+  };
 }
 
 // Source: Home Assistant reads a binary sensor as on while its value is its
@@ -199,16 +214,20 @@ const CATEGORY_CONTROLS: Readonly<
   sj: { watersensor_state: detector("moisture", "moisture", ["1", "alarm"]) },
 };
 
-// Source: A temperature and humidity sensor (wsdcg) is its readings, in
+// Source: wsdcg is the temperature and humidity sensor, in
 // https://github.com/home-assistant/core/commit/35872a212b2340d3906557e5f644d99f7360ff15.
-/** The categories whose devices `createDeviceEntry` describes whole. In
- * another category it gives only the temperature, humidity and battery it
- * reads, which leave out what the device does, as a heater's power and set
- * point. */
+/** The categories of sensors, where an entry from `createDeviceEntry` reads
+ * what the device is for, so it can go ahead of a match by data points alone.
+ * It still leaves out a sensor's settings, such as a presence sensor's
+ * sensitivity. In another category it leaves out what the device does, as a
+ * plug's meter or a heater's set point. */
 export const MODEL_CATEGORIES: readonly string[] = [
-  ...Object.keys(CATEGORY_CONTROLS),
+  "hps",
+  "mcs",
+  "pir",
+  "sj",
   "wsdcg",
-].sort();
+];
 
 const DATA_POINT_TYPES = {
   boolean: "boolean",

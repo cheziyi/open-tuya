@@ -28,6 +28,7 @@ const DATA_POINTS = {
 // switches. Data point 3 is boolean in the garage opener and the triple
 // switch, and in neither of the others.
 const SHARED_PRODUCT_KEY = "key5ckdnys3pqgec";
+const METERED_PLUG = { "1": true, "17": 0, "18": 0, "19": 0, "20": 2300 };
 const LOCAL_KEY = "0123456789abcdef";
 // The TCP port reserved for tcpmux, which nothing listens on.
 const CLOSED_PORT = 1;
@@ -297,6 +298,22 @@ describe("createTuyaClient", () => {
       });
 
       expect(client.entry?.products).not.toEqual([]);
+    });
+
+    it("keeps a catalog entry reading a plug's meter ahead of the plug's model", async () => {
+      const account = new FakeTuyaCloudAccount(METERED_PLUG);
+      account.model = {
+        "1": { code: "switch_1", type: "boolean" },
+        "19": { code: "cur_power", type: "integer", scale: 1, unit: "W" },
+      };
+      await using client = await createTuyaClient({
+        deviceId: DEVICE_ID,
+        category: "cz",
+        routes: [{ cloud: account }],
+      });
+
+      expect(client.entry?.products).not.toEqual([]);
+      expect(client.entry?.components.device).toHaveProperty("powerInW");
     });
 
     it("finds the entry from the data points alone when the cloud gives no model", async () => {

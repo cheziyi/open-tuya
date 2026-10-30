@@ -258,16 +258,19 @@ describe("createDeviceEntry", () => {
     ).toBeUndefined();
   });
 
-  it("describes whole the plugs, switches and sensors whose codes it knows", () => {
-    expect(MODEL_CATEGORIES).toEqual([
-      "cz",
-      "hps",
-      "kg",
-      "mcs",
-      "pc",
-      "pir",
-      "sj",
-      "wsdcg",
-    ]);
+  it("leaves out a reading whose scale's power is infinite or 0", () => {
+    expect(
+      createDeviceEntry(
+        {
+          "1": { code: "temp_current", type: "integer", scale: 400 },
+          "2": { code: "battery_percentage", type: "integer", scale: -400 },
+        },
+        { category: "wsdcg", name: "Thermometer" },
+      ),
+    ).toBeUndefined();
+  });
+
+  it("lists the categories of sensors", () => {
+    expect(MODEL_CATEGORIES).toEqual(["hps", "mcs", "pir", "sj", "wsdcg"]);
   });
 });
