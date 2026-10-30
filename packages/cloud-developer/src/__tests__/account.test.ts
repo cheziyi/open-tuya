@@ -414,6 +414,31 @@ describe("DeveloperCloudAccount", () => {
       });
     });
 
+    it("rejects a read with DEVICE_OFFLINE, sending nothing, while the last device list had the device offline", async () => {
+      const { cloud, account } = setUp();
+      let online = false;
+      cloud.on("GET", "/v1.0/iot-01/associated-users/devices", () => ({
+        result: { devices: [{ ...DEVICE_RECORD, online }], has_more: false },
+      }));
+      const client = await account.createClient(DEVICE_ID);
+      await expect(client.readDataPoints()).resolves.toMatchObject({
+        "1": true,
+      });
+
+      await account.listDevices();
+      const sent = cloud.requests.length;
+      await expect(client.readDataPoints()).rejects.toMatchObject({
+        code: "DEVICE_OFFLINE",
+      });
+      expect(cloud.requests.length).toBe(sent);
+
+      online = true;
+      await account.listDevices();
+      await expect(client.readDataPoints()).resolves.toMatchObject({
+        "1": true,
+      });
+    });
+
     it("leaves out a shadow property with no data point ID", async () => {
       const { cloud, account } = setUp();
       cloud.on(

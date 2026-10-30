@@ -43,6 +43,10 @@ export type TuyaErrorCode =
   /** A write names a data point the cloud cannot map to one of its codes, so
    * nothing was sent. */
   | "UNMAPPED_DATA_POINT"
+  /** The cloud last said the device was offline, in the account's device
+   * list or in a push, so a read would answer with what the device last
+   * reported: check that the device is powered and on its network. */
+  | "DEVICE_OFFLINE"
   /** Every route a request tried failed, and it tried more than one. `cause`
    * is an `AggregateError` of each route's error, in the order tried. */
   | "ROUTES_FAILED"

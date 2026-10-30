@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
   readDeviceRecords,
-  readDeviceReport,
   readHomeRecords,
   readLoginResult,
+  readPush,
   readPushConfig,
   readRefreshResult,
   readStatusRelations,
@@ -87,10 +87,10 @@ describe("the result readers", () => {
   });
 });
 
-describe("readDeviceReport", () => {
+describe("readPush", () => {
   it("reads a device's data points by ID", () => {
     expect(
-      readDeviceReport(
+      readPush(
         push({
           protocol: 4,
           data: {
@@ -108,9 +108,34 @@ describe("readDeviceReport", () => {
   });
 
   it.each([
+    ["online", true],
+    ["offline", false],
+  ])("reads that a device went %s", (bizCode, online) => {
+    expect(
+      readPush(
+        push({
+          protocol: 20,
+          data: { bizCode, bizData: { devId: "bf", name: "Plug" } },
+        }),
+      ),
+    ).toEqual({ devId: "bf", online });
+  });
+
+  it.each([
     ["not JSON", new TextEncoder().encode("not json")],
     ["null", push(null)],
-    ["another protocol", push({ protocol: 20, data: { bizCode: "online" } })],
+    ["another protocol", push({ protocol: 5, data: { devId: "bf" } })],
+    [
+      "a device renamed",
+      push({
+        protocol: 20,
+        data: { bizCode: "nameUpdate", bizData: { devId: "bf", name: "Hall" } },
+      }),
+    ],
+    [
+      "a device online with no device ID",
+      push({ protocol: 20, data: { bizCode: "online", bizData: {} } }),
+    ],
     ["no data", push({ protocol: 4 })],
     ["no device ID", push({ protocol: 4, data: { status: [] } })],
     [
@@ -118,6 +143,6 @@ describe("readDeviceReport", () => {
       push({ protocol: 4, data: { devId: "bf", status: 5 } }),
     ],
   ])("reads nothing from %s", (_, payload) => {
-    expect(readDeviceReport(payload)).toBeUndefined();
+    expect(readPush(payload)).toBeUndefined();
   });
 });

@@ -17,6 +17,9 @@ export interface RequestParts {
 /** What a client reaches the cloud through: its account. */
 export interface AppCloudTransport {
   request(method: string, path: string, parts?: RequestParts): Promise<unknown>;
+  /** Whether the device was online when the cloud last said, in the
+   * account's device list or in a push; undefined before it said. */
+  isOnline(): boolean | undefined;
   /** Hands `listener` the data points the device pushes. Returns a function
    * that removes it, and resolves once what it held is released. Once the
    * account is closed, it subscribes to nothing. */
@@ -53,8 +56,24 @@ export class AppCloudTuyaClient implements TuyaClient {
     return !this.closed;
   }
 
-  /** It leaves out the data points the cloud does not map. */
+  /** It leaves out the data points the cloud does not map, and rejects with
+   * a `TuyaError` with code `DEVICE_OFFLINE`, sending nothing, while the
+   * cloud last said the device was offline. */
   async readDataPoints(): Promise<DataPoints> {
+    // Source: The device list's `online`, kept by the online and offline
+    // pushes, says whether a device is online, and its status is what it last
+    // reported, offline or not, in
+    // https://github.com/tuya/tuya-device-sharing-sdk/commit/3e0d9ae6eb5e23e97ce7697a1bd3b248fe2c75b1;
+    // Home Assistant shows the device unavailable while it is false, in
+    // https://github.com/home-assistant/core/blob/b9c8718147c7c7e567631af514cb3e0b8a79c470/homeassistant/components/tuya/entity.py#L76-L80.
+    // The record read below carries an `online` of its own, which read true
+    // for a plug unplugged for an hour while the device list read false.
+    if (this.transport.isOnline() === false) {
+      throw new TuyaError(
+        "DEVICE_OFFLINE",
+        `The cloud lists device ${this.deviceId} as offline`,
+      );
+    }
     const devices = readDeviceRecords(
       await this.request("GET", "/v1.0/m/life/ha/devices/detail", {
         query: { devIds: this.deviceId },

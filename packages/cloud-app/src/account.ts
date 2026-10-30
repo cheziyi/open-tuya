@@ -104,6 +104,7 @@ export class AppCloudAccount implements TuyaCloudAccount {
   private readonly closing = new AbortController();
   private readonly mqtt: MqttSession<PushConfig>;
   private readonly push: DevicePush;
+  private readonly online = new Map<string, boolean>();
 
   constructor(
     private readonly fetch: Fetch,
@@ -115,7 +116,9 @@ export class AppCloudAccount implements TuyaCloudAccount {
       fetchCredentials: () => this.fetchPushConfig(),
       onMessage: (message) => this.push.receive(message),
     });
-    this.push = new DevicePush(this.mqtt);
+    this.push = new DevicePush(this.mqtt, (deviceId, online) => {
+      this.online.set(deviceId, online);
+    });
   }
 
   // Source: Homes are listed by GET /v1.0/m/life/users/homes, and each
@@ -135,6 +138,7 @@ export class AppCloudAccount implements TuyaCloudAccount {
         }),
       );
       for (const record of records) {
+        this.online.set(record.id, record.online);
         devices.push({
           deviceId: record.id,
           name: record.name,
@@ -159,6 +163,7 @@ export class AppCloudAccount implements TuyaCloudAccount {
     // credentials, be refused with CONNECTION_LOST, and retry for ever.
     const transport: AppCloudTransport = {
       request: (method, path, parts) => this.request(method, path, parts),
+      isOnline: () => this.online.get(deviceId),
       subscribe: (listener) =>
         this.closing.signal.aborted
           ? () => Promise.resolve()

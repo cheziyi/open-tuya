@@ -326,6 +326,7 @@ error it stands for in `cause`. Your editor shows each code's full meaning on
 | `RATE_LIMITED` | Wait before the next request |
 | `PERMISSION_DENIED` | The developer platform refused for want of a plan or a permission: see the [table above](#signing-in-to-the-tuya-developer-platform) |
 | `UNMAPPED_DATA_POINT` | The cloud cannot map the data point the write names, so nothing was sent |
+| `DEVICE_OFFLINE` | The cloud last said the device was offline, in the account's device list or, on the Smart Life cloud, in a push, so a read would answer with what it last reported: check that it is powered and on its network |
 | `ROUTES_FAILED` | Every route failed: `cause.errors` holds each route's error, in the order tried |
 | `NO_CATALOG_ENTRY` | The catalog lacks the device: read and write its data points by ID |
 | `VALUE_UNAVAILABLE` | The control cannot take the value while a data point the device sets itself, such as a mode, holds what it does now: wait for the device to change it |

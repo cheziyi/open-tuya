@@ -130,6 +130,7 @@ export class DeveloperCloudAccount implements TuyaCloudAccount {
   private readonly closing = new AbortController();
   private readonly mqtt: MqttSession<PushConfig>;
   private readonly push: DevicePush;
+  private readonly online = new Map<string, boolean>();
 
   constructor(
     private readonly fetch: Fetch,
@@ -185,6 +186,7 @@ export class DeveloperCloudAccount implements TuyaCloudAccount {
       localKeys = await this.fetchMissingLocalKeys(records);
     }
     return records.map((record) => {
+      this.online.set(record.id, record.online);
       const localKey = record.local_key || localKeys.get(record.id);
       return {
         deviceId: record.id,
@@ -207,6 +209,7 @@ export class DeveloperCloudAccount implements TuyaCloudAccount {
     }
     const transport: DeveloperCloudTransport = {
       request: (method, path, parts) => this.request(method, path, parts),
+      isOnline: () => this.online.get(deviceId),
       subscribe: (listener) => this.push.subscribe(deviceId, listener),
     };
     return new DeveloperCloudTuyaClient(transport, deviceId, codes);

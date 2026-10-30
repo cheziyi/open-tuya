@@ -15,6 +15,10 @@ import {
 // Source: A data point report is protocol 4, in
 // https://github.com/tuya/tuya-device-sharing-sdk/commit/3e0d9ae6eb5e23e97ce7697a1bd3b248fe2c75b1.
 const PROTOCOL_DEVICE_REPORT = 4;
+// Source: A protocol 20 push says what happened to a device by `bizCode`, and
+// to which by `bizData.devId`: "online" and "offline" are two of its codes, in
+// https://github.com/tuya/tuya-device-sharing-sdk/commit/3e0d9ae6eb5e23e97ce7697a1bd3b248fe2c75b1.
+const PROTOCOL_OTHER = 20;
 
 export interface QrCodeResult {
   qrcode: string;
@@ -83,6 +87,12 @@ export interface PushConfigRecord {
 export interface DeviceReport {
   devId: string;
   dataPoints: DataPoints;
+}
+
+/** That a device went online or offline, as one push says. */
+export interface DeviceOnline {
+  devId: string;
+  online: boolean;
 }
 
 type Fields = Record<string, unknown>;
@@ -156,23 +166,35 @@ export function readPushConfig(result: unknown): PushConfigRecord {
   return fields as unknown as PushConfigRecord;
 }
 
-/** Reads a push. Returns nothing for one that is not a device's data point
- * report: the payload is the broker's, not a response to a request. */
-export function readDeviceReport(
+/** Reads a push: a device's data point report, or that a device went online
+ * or offline. Returns nothing for any other, such as a device renamed: the
+ * payload is the broker's, not a response to a request. */
+export function readPush(
   payload: Uint8Array,
-): DeviceReport | undefined {
+): DeviceReport | DeviceOnline | undefined {
   let message: unknown;
   try {
     message = JSON.parse(new TextDecoder().decode(payload));
   } catch {
     return undefined;
   }
-  if (!isFields(message) || message.protocol !== PROTOCOL_DEVICE_REPORT) {
+  if (!isFields(message) || !isFields(message.data)) {
     return undefined;
   }
   const data = message.data;
+  if (message.protocol === PROTOCOL_OTHER) {
+    const online = data.bizCode === "online";
+    if (
+      (online || data.bizCode === "offline") &&
+      isFields(data.bizData) &&
+      typeof data.bizData.devId === "string"
+    ) {
+      return { devId: data.bizData.devId, online };
+    }
+    return undefined;
+  }
   if (
-    !isFields(data) ||
+    message.protocol !== PROTOCOL_DEVICE_REPORT ||
     typeof data.devId !== "string" ||
     !Array.isArray(data.status)
   ) {

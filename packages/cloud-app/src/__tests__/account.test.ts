@@ -318,6 +318,30 @@ describe("AppCloudAccount", () => {
       expect(cloud.requests.at(-1)?.query).toEqual({ devIds: DEVICE_ID });
     });
 
+    it("rejects a read with DEVICE_OFFLINE, sending nothing, while the last device list had the device offline", async () => {
+      const { cloud, account } = setUp();
+      let online = false;
+      cloud.on("GET", "/v1.0/m/life/users/homes", () => ({
+        result: [{ name: "Home", ownerId: HOME_ID }],
+      }));
+      cloud.on("GET", "/v1.0/m/life/ha/home/devices", () => ({
+        result: [{ ...DEVICE_RECORD, online }],
+      }));
+      const client = await account.createClient(DEVICE_ID);
+      await expect(client.readDataPoints()).resolves.toEqual({ "1": true });
+
+      await account.listDevices();
+      const sent = cloud.requests.length;
+      await expect(client.readDataPoints()).rejects.toMatchObject({
+        code: "DEVICE_OFFLINE",
+      });
+      expect(cloud.requests.length).toBe(sent);
+
+      online = true;
+      await account.listDevices();
+      await expect(client.readDataPoints()).resolves.toEqual({ "1": true });
+    });
+
     it("writes a data point as a command by its code", async () => {
       const { cloud, account } = setUp();
       const client = await account.createClient(DEVICE_ID);
@@ -534,7 +558,10 @@ describe("AppCloudAccount", () => {
         PUSH_TOPIC,
         JSON.stringify({
           protocol: 20,
-          data: { bizCode: "online", bizData: { devId: DEVICE_ID } },
+          data: {
+            bizCode: "nameUpdate",
+            bizData: { devId: DEVICE_ID, name: "Hall" },
+          },
         }),
       );
       await broker.publish(
@@ -554,6 +581,52 @@ describe("AppCloudAccount", () => {
       await until(() => reports.length > 0);
 
       expect(reports).toEqual([{ "1": false }]);
+    });
+
+    it("rejects a read with DEVICE_OFFLINE after a push that the device went offline, until one that it went online", async () => {
+      const { cloud, account } = setUp();
+      const broker = await serveBroker(cloud);
+      const client = await account.createClient(DEVICE_ID);
+      const reports: DataPoints[] = [];
+      client.onDataPoints((dataPoints) => reports.push(dataPoints));
+      await until(() => broker.subscriptions.length > 0);
+
+      // A report published after each push shows when the push was received.
+      await broker.publish(
+        PUSH_TOPIC,
+        JSON.stringify({
+          protocol: 20,
+          data: { bizCode: "offline", bizData: { devId: DEVICE_ID } },
+        }),
+      );
+      await broker.publish(
+        PUSH_TOPIC,
+        JSON.stringify({
+          protocol: 4,
+          data: { devId: DEVICE_ID, status: [{ dpId: 1, value: false }] },
+        }),
+      );
+      await until(() => reports.length === 1);
+      await expect(client.readDataPoints()).rejects.toMatchObject({
+        code: "DEVICE_OFFLINE",
+      });
+
+      await broker.publish(
+        PUSH_TOPIC,
+        JSON.stringify({
+          protocol: 20,
+          data: { bizCode: "online", bizData: { devId: DEVICE_ID } },
+        }),
+      );
+      await broker.publish(
+        PUSH_TOPIC,
+        JSON.stringify({
+          protocol: 4,
+          data: { devId: DEVICE_ID, status: [{ dpId: 1, value: true }] },
+        }),
+      );
+      await until(() => reports.length === 2);
+      await expect(client.readDataPoints()).resolves.toEqual({ "1": true });
     });
 
     it("does not subscribe a device the cloud does not push by ID", async () => {
