@@ -1,5 +1,13 @@
 # @open-tuya/cloud-app
 
+## 0.0.7
+
+### Patch Changes
+
+- [#64](https://github.com/cheziyi/open-tuya/pull/64) [`68ab1d2`](https://github.com/cheziyi/open-tuya/commit/68ab1d251d705460aaa77b220a7b4923cda2e292) Thanks [@cheziyi](https://github.com/cheziyi)! - A read through a cloud of a device the cloud last said was offline, in the account's device list or in a push, rejects with `DEVICE_OFFLINE`, where it answered with what the device last reported.
+- Updated dependencies [[`68ab1d2`](https://github.com/cheziyi/open-tuya/commit/68ab1d251d705460aaa77b220a7b4923cda2e292)]:
+  - @open-tuya/core@0.2.1
+
 ## 0.0.6
 
 ### Patch Changes
