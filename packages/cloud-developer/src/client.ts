@@ -65,9 +65,9 @@ export class DeveloperCloudTuyaClient implements TuyaClient {
    * nothing, while the cloud last said the device was offline: the shadow
    * it reads otherwise is what the device last reported. */
   async readDataPoints(): Promise<DataPoints> {
-    // Source: The device list's `online`, kept by the online and offline
-    // pushes, says whether a device is online, in
-    // https://github.com/tuya/tuya-iot-python-sdk/commit/927f095469a5acf09ff1c55f90f22fa8ad8ae5b1.
+    // Source: The device list's `online` says whether a device is online, and
+    // the online and offline pushes keep it, in
+    // https://github.com/tuya/tuya-iot-python-sdk/commit/c09d363fe75f874cd06744c9265710fac6405cef.
     // A closed client rejects with CONNECTION_LOST below, whatever the device
     // was last said to be.
     if (!this.closed && this.transport.isOnline() === false) {
