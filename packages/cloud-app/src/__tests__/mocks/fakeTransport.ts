@@ -7,9 +7,15 @@ export class FakeTransport implements AppCloudTransport {
   readonly listeners = new Set<(dataPoints: DataPoints) => void>();
   /** How many times a client subscribed. */
   subscribes = 0;
+  /** What `isOnline` answers. */
+  online: boolean | undefined;
 
   request(): Promise<unknown> {
     return Promise.reject(new Error("FakeTransport answers no request"));
+  }
+
+  isOnline(): boolean | undefined {
+    return this.online;
   }
 
   subscribe(listener: (dataPoints: DataPoints) => void): () => Promise<void> {

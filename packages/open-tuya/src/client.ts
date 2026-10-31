@@ -75,7 +75,8 @@ export interface CreateTuyaClientOptions {
  * a `RoutedTuyaClient`. That read tries every route in order, connected or
  * not, so a LAN route listed first answers it once it connects, and the next
  * route answers only after the LAN fails within its own timeouts. When no
- * route answers, the entry is found from `productKey` alone. Read the data
+ * route answers, as when every route is a cloud's and the cloud last said
+ * the device was offline, the entry is found from `productKey` alone. Read the data
  * points once it resolves: a report that arrived before had no listener.
  *
  * It rejects with a `TypeError` when given no route, and with the error a

@@ -15,6 +15,11 @@ import type { PushData, PushEnvelope } from "./protocol/records.js";
 // https://github.com/adrianjagielak/homebridge-tuya-plus/commit/0c5cc665272c9510ad7bc382aafda3ee4ea26017.
 // DESIGN.md#cloud-developer-push says why a message without one is read.
 const PROTOCOL_DEVICE_REPORT = 4;
+// Source: A protocol 20 push says what happened to a device by `bizCode`, and
+// to which by `devId`, both in its sealed `data`: "online" and "offline" are
+// two of its codes, in
+// https://github.com/tuya/tuya-iot-python-sdk/commit/927f095469a5acf09ff1c55f90f22fa8ad8ae5b1.
+const PROTOCOL_OTHER = 20;
 const DATA_POINT_ID = /^\d+$/;
 
 export interface PushConfig extends MqttCredentials {
@@ -32,12 +37,16 @@ type Listener = (dataPoints: DataPoints) => void;
 // point ID, as captured in https://github.com/tuya/tuya-home-assistant/issues/591
 // and https://github.com/tuya/tuya-homebridge/issues/352.
 /** Hands each device's pushed data points to its listeners, subscribing the
- * project's topic while any device has one. */
+ * project's topic while any device has one, and each push that a device went
+ * online or offline to `onOnline`. */
 export class DevicePush {
   private readonly listeners = new Map<string, Set<Listener>>();
   private unsubscribe: (() => Promise<void>) | undefined;
 
-  constructor(private readonly session: MqttSession<PushConfig>) {}
+  constructor(
+    private readonly session: MqttSession<PushConfig>,
+    private readonly onOnline: (deviceId: string, online: boolean) => void,
+  ) {}
 
   /** Returns a function that removes `listener`, and resolves once the
    * connection is released if it was the last. */
@@ -58,14 +67,14 @@ export class DevicePush {
   }
 
   receive({ payload }: MqttMessage, config: PushConfig): void {
+    let envelope: PushEnvelope;
     let data: PushData | null;
     try {
-      const envelope: PushEnvelope = JSON.parse(
-        new TextDecoder().decode(payload),
-      );
+      envelope = JSON.parse(new TextDecoder().decode(payload));
       if (
         (envelope.protocol != null &&
-          envelope.protocol !== PROTOCOL_DEVICE_REPORT) ||
+          envelope.protocol !== PROTOCOL_DEVICE_REPORT &&
+          envelope.protocol !== PROTOCOL_OTHER) ||
         !envelope.data
       ) {
         return;
@@ -74,6 +83,13 @@ export class DevicePush {
         decryptPushData(envelope.data, config.password, envelope.t ?? 0),
       );
     } catch {
+      return;
+    }
+    if (envelope.protocol === PROTOCOL_OTHER) {
+      const online = data?.bizCode === "online";
+      if ((online || data?.bizCode === "offline") && data?.devId) {
+        this.onOnline(data.devId, online);
+      }
       return;
     }
     const listeners = this.listeners.get(data?.devId ?? "");

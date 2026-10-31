@@ -4,7 +4,7 @@ import type {
   MqttMessage,
   MqttSession,
 } from "@open-tuya/core";
-import { readDeviceReport } from "./protocol/records.js";
+import { readPush } from "./protocol/records.js";
 
 export interface PushConfig extends MqttCredentials {
   /** A device's topic, with `{devId}` in place of its ID. */
@@ -20,12 +20,16 @@ type Listener = (dataPoints: DataPoints) => void;
 // as captured in
 // https://github.com/home-assistant-libs/tuya-device-handlers/issues/472#issuecomment-5546380301.
 /** Hands each device's pushed data points to its listeners, subscribing a
- * device's topic while it has one. */
+ * device's topic while it has one, and each push that a device went online
+ * or offline to `onOnline`. */
 export class DevicePush {
   private readonly listeners = new Map<string, Set<Listener>>();
   private readonly removals = new Map<string, () => Promise<void>>();
 
-  constructor(private readonly session: MqttSession<PushConfig>) {}
+  constructor(
+    private readonly session: MqttSession<PushConfig>,
+    private readonly onOnline: (deviceId: string, online: boolean) => void,
+  ) {}
 
   /** Returns a function that removes `listener`, and resolves once the
    * connection is released if it was the last. */
@@ -52,13 +56,20 @@ export class DevicePush {
 
   /** Never throws: it runs inside MQTT.js's handler of the packet. */
   receive({ payload }: MqttMessage): void {
-    const report = readDeviceReport(payload);
-    const listeners = report && this.listeners.get(report.devId);
-    if (!listeners || Object.keys(report.dataPoints).length === 0) {
+    const push = readPush(payload);
+    if (!push) {
+      return;
+    }
+    if ("online" in push) {
+      this.onOnline(push.devId, push.online);
+      return;
+    }
+    const listeners = this.listeners.get(push.devId);
+    if (!listeners || Object.keys(push.dataPoints).length === 0) {
       return;
     }
     for (const listener of listeners) {
-      reportTo(listener, report.dataPoints);
+      reportTo(listener, push.dataPoints);
     }
   }
 

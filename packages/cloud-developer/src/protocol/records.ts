@@ -87,4 +87,7 @@ export interface PushData {
   /** Each entry holds the device's own value under its data point ID, and
    * the cloud's converted value under `value`. */
   status?: Record<string, unknown>[];
+  /** What happened to the device, on a protocol 20 push: `online`,
+   * `offline`, `nameUpdate`, `delete` or another. */
+  bizCode?: string;
 }

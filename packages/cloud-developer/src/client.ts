@@ -15,6 +15,9 @@ export interface RequestParts {
 /** What a client reaches the cloud through: its account. */
 export interface DeveloperCloudTransport {
   request(method: string, path: string, parts?: RequestParts): Promise<unknown>;
+  /** Whether the device was online when the cloud last said, in the
+   * account's device list or in a push; undefined before it said. */
+  isOnline(): boolean | undefined;
   /** Hands `listener` the data points the device pushes. Returns a function
    * that removes it, and resolves once what it held is released. */
   subscribe(listener: (dataPoints: DataPoints) => void): () => Promise<void>;
@@ -58,7 +61,21 @@ export class DeveloperCloudTuyaClient implements TuyaClient {
     return !this.closed;
   }
 
+  /** It rejects with a `TuyaError` with code `DEVICE_OFFLINE`, sending
+   * nothing, while the cloud last said the device was offline: the shadow
+   * it reads otherwise is what the device last reported. */
   async readDataPoints(): Promise<DataPoints> {
+    // Source: The device list's `online` says whether a device is online, and
+    // the online and offline pushes keep it, in
+    // https://github.com/tuya/tuya-iot-python-sdk/commit/c09d363fe75f874cd06744c9265710fac6405cef.
+    // A closed client rejects with CONNECTION_LOST below, whatever the device
+    // was last said to be.
+    if (!this.closed && this.transport.isOnline() === false) {
+      throw new TuyaError(
+        "DEVICE_OFFLINE",
+        `The cloud lists device ${this.deviceId} as offline`,
+      );
+    }
     const shadow = (await this.request(
       "GET",
       `/v2.0/cloud/thing/${encodeURIComponent(this.deviceId)}/shadow/properties`,

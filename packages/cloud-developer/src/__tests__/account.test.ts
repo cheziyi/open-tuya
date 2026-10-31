@@ -414,6 +414,31 @@ describe("DeveloperCloudAccount", () => {
       });
     });
 
+    it("rejects a read with DEVICE_OFFLINE, sending nothing, while the last device list had the device offline", async () => {
+      const { cloud, account } = setUp();
+      let online = false;
+      cloud.on("GET", "/v1.0/iot-01/associated-users/devices", () => ({
+        result: { devices: [{ ...DEVICE_RECORD, online }], has_more: false },
+      }));
+      const client = await account.createClient(DEVICE_ID);
+      await expect(client.readDataPoints()).resolves.toMatchObject({
+        "1": true,
+      });
+
+      await account.listDevices();
+      const sent = cloud.requests.length;
+      await expect(client.readDataPoints()).rejects.toMatchObject({
+        code: "DEVICE_OFFLINE",
+      });
+      expect(cloud.requests.length).toBe(sent);
+
+      online = true;
+      await account.listDevices();
+      await expect(client.readDataPoints()).resolves.toMatchObject({
+        "1": true,
+      });
+    });
+
     it("leaves out a shadow property with no data point ID", async () => {
       const { cloud, account } = setUp();
       cloud.on(
@@ -479,6 +504,24 @@ describe("DeveloperCloudAccount", () => {
       await client.close();
 
       expect(client.connected).toBe(false);
+      await expect(client.readDataPoints()).rejects.toMatchObject({
+        code: "CONNECTION_LOST",
+      });
+    });
+
+    it("rejects a read with CONNECTION_LOST once closed, whatever the device list last said", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", "/v1.0/iot-01/associated-users/devices", () => ({
+        result: {
+          devices: [{ ...DEVICE_RECORD, online: false }],
+          has_more: false,
+        },
+      }));
+      await account.listDevices();
+      const client = await account.createClient(DEVICE_ID);
+
+      await client.close();
+
       await expect(client.readDataPoints()).rejects.toMatchObject({
         code: "CONNECTION_LOST",
       });
@@ -703,6 +746,103 @@ describe("DeveloperCloudAccount", () => {
       await until(() => reports.length > 0);
 
       expect(reports).toEqual([{ "1": false }]);
+    });
+
+    it("rejects a read with DEVICE_OFFLINE after a push that the device went offline, until one that it went online", async () => {
+      const { cloud, account } = setUp();
+      const broker = await serveBroker(cloud);
+      const client = await account.createClient(DEVICE_ID);
+      const reports: DataPoints[] = [];
+      client.onDataPoints((dataPoints) => reports.push(dataPoints));
+      await until(() => broker.subscriptions.length > 0);
+
+      // A report published after each push shows when the push was received.
+      await broker.publish(
+        TOPIC,
+        encryptPushMessage(
+          { devId: DEVICE_ID, bizCode: "offline" },
+          PASSWORD,
+          1636197093,
+          20,
+        ),
+      );
+      await broker.publish(
+        TOPIC,
+        encryptPushMessage(
+          { devId: DEVICE_ID, status: [{ "1": false }] },
+          PASSWORD,
+          1636197093,
+        ),
+      );
+      await until(() => reports.length === 1);
+      await expect(client.readDataPoints()).rejects.toMatchObject({
+        code: "DEVICE_OFFLINE",
+      });
+
+      await broker.publish(
+        TOPIC,
+        encryptPushMessage(
+          { devId: DEVICE_ID, bizCode: "online" },
+          PASSWORD,
+          1636197093,
+          20,
+        ),
+      );
+      await broker.publish(
+        TOPIC,
+        encryptPushMessage(
+          { devId: DEVICE_ID, status: [{ "1": true }] },
+          PASSWORD,
+          1636197093,
+        ),
+      );
+      await until(() => reports.length === 2);
+      await expect(client.readDataPoints()).resolves.toMatchObject({
+        "1": true,
+      });
+    });
+
+    it("keeps a push that arrived while the device list was in flight, over the list", async () => {
+      const { cloud, account } = setUp();
+      const broker = await serveBroker(cloud);
+      const client = await account.createClient(DEVICE_ID);
+      const reports: DataPoints[] = [];
+      client.onDataPoints((dataPoints) => reports.push(dataPoints));
+      await until(() => broker.subscriptions.length > 0);
+      // The device comes online while the list is in flight: the list
+      // answers with the state before it was asked.
+      cloud.on("GET", "/v1.0/iot-01/associated-users/devices", async () => {
+        await broker.publish(
+          TOPIC,
+          encryptPushMessage(
+            { devId: DEVICE_ID, bizCode: "online" },
+            PASSWORD,
+            1636197093,
+            20,
+          ),
+        );
+        await broker.publish(
+          TOPIC,
+          encryptPushMessage(
+            { devId: DEVICE_ID, status: [{ "1": true }] },
+            PASSWORD,
+            1636197093,
+          ),
+        );
+        await until(() => reports.length === 1);
+        return {
+          result: {
+            devices: [{ ...DEVICE_RECORD, online: false }],
+            has_more: false,
+          },
+        };
+      });
+
+      await account.listDevices();
+
+      await expect(client.readDataPoints()).resolves.toMatchObject({
+        "1": true,
+      });
     });
 
     it("asks for credentials again 5 s later when the cloud's lack a topic", async () => {
