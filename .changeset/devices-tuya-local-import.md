@@ -2,4 +2,4 @@
 "@open-tuya/devices": patch
 ---
 
-Update the catalog to tuya-local's device files at make-all/tuya-local@01df3fc.
+Update the catalog to tuya-local's device files at make-all/tuya-local@dcb0d40.
