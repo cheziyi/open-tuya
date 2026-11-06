@@ -1144,6 +1144,7 @@ import device_noeifevo_q21w_evcharger from "./noeifevo_q21w_evcharger.js";
 import device_nooie_nsp21_smartplug from "./nooie_nsp21_smartplug.js";
 import device_nooie_pu13_smartplug from "./nooie_pu13_smartplug.js";
 import device_novadigital_ceiling_fanlight from "./novadigital_ceiling_fanlight.js";
+import device_novadigital_midpanel8_controller from "./novadigital_midpanel8_controller.js";
 import device_novadigital_quad_switch from "./novadigital_quad_switch.js";
 import device_novadigital_sl06_lock from "./novadigital_sl06_lock.js";
 import device_npdvl01_ceilingfanlight from "./npdvl01_ceilingfanlight.js";
@@ -2924,6 +2925,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_nooie_nsp21_smartplug,
   device_nooie_pu13_smartplug,
   device_novadigital_ceiling_fanlight,
+  device_novadigital_midpanel8_controller,
   device_novadigital_quad_switch,
   device_novadigital_sl06_lock,
   device_npdvl01_ceilingfanlight,
