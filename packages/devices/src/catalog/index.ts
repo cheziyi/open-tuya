@@ -397,6 +397,7 @@ import device_dual_dimmable_lamp from "./dual_dimmable_lamp.js";
 import device_dual_dimmer_module from "./dual_dimmer_module.js";
 import device_dual_power_monitor_smartplug from "./dual_power_monitor_smartplug.js";
 import device_dual_power_monitor_smartplugv2 from "./dual_power_monitor_smartplugv2.js";
+import device_dunavox_spirit25_winecooler from "./dunavox_spirit25_winecooler.js";
 import device_dunwore_f60_floorheating from "./dunwore_f60_floorheating.js";
 import device_duoqu_selfcleaning_litterbox from "./duoqu_selfcleaning_litterbox.js";
 import device_duracomfort_dh50pwm_dehumidifier from "./duracomfort_dh50pwm_dehumidifier.js";
@@ -2178,6 +2179,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_dual_dimmer_module,
   device_dual_power_monitor_smartplug,
   device_dual_power_monitor_smartplugv2,
+  device_dunavox_spirit25_winecooler,
   device_dunwore_f60_floorheating,
   device_duoqu_selfcleaning_litterbox,
   device_duracomfort_dh50pwm_dehumidifier,
