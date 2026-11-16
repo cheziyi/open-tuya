@@ -169,6 +169,7 @@ import device_belko_prolift1200n_garageopener from "./belko_prolift1200n_garageo
 import device_beltax_aircondition from "./beltax_aircondition.js";
 import device_benexmart_blind_motor from "./benexmart_blind_motor.js";
 import device_beok_tcb38_thermostat from "./beok_tcb38_thermostat.js";
+import device_beok_tcc31_thermostat from "./beok_tcc31_thermostat.js";
 import device_beok_tgm50_thermostat from "./beok_tgm50_thermostat.js";
 import device_beok_tgm50wp_thermostat from "./beok_tgm50wp_thermostat.js";
 import device_beok_tgr81_thermostat_c from "./beok_tgr81_thermostat_c.js";
@@ -268,6 +269,7 @@ import device_casdon_kg1_waterdispenser from "./casdon_kg1_waterdispenser.js";
 import device_casdon_t2e_oven from "./casdon_t2e_oven.js";
 import device_casdon_td_pro_2 from "./casdon_td_pro_2.js";
 import device_casdon_td_pro_3 from "./casdon_td_pro_3.js";
+import device_castle_nrseries_heater from "./castle_nrseries_heater.js";
 import device_catit_pet_feeder from "./catit_pet_feeder.js";
 import device_catit_pixi_6meal_feeder from "./catit_pixi_6meal_feeder.js";
 import device_catit_pixi_smart_feeder from "./catit_pixi_smart_feeder.js";
@@ -312,6 +314,7 @@ import device_cleverio_cd200_doorbell from "./cleverio_cd200_doorbell.js";
 import device_cleverio_pf100_petfeeder from "./cleverio_pf100_petfeeder.js";
 import device_climative_dh20s_dehumidifier from "./climative_dh20s_dehumidifier.js";
 import device_clofte_duo_400_humidifier from "./clofte_duo_400_humidifier.js";
+import device_cloudybay_dualzone_ceilinglight from "./cloudybay_dualzone_ceilinglight.js";
 import device_cnc_ycb9nzf40ap_breaker from "./cnc_ycb9nzf40ap_breaker.js";
 import device_cnc_ycb9zf_breaker from "./cnc_ycb9zf_breaker.js";
 import device_co2_box from "./co2_box.js";
@@ -375,6 +378,7 @@ import device_ditua_dt1522yn_aromadiffuser from "./ditua_dt1522yn_aromadiffuser.
 import device_dituo_dtt2190a_aromadiffuser from "./dituo_dtt2190a_aromadiffuser.js";
 import device_djive_arc_fan from "./djive_arc_fan.js";
 import device_djive_arc_portable_fan from "./djive_arc_portable_fan.js";
+import device_djive_arccasual_purifierfan from "./djive_arccasual_purifierfan.js";
 import device_dl01es_energymeter from "./dl01es_energymeter.js";
 import device_dluft_smartflow_ventilation from "./dluft_smartflow_ventilation.js";
 import device_doel_tiplus_litterbox from "./doel_tiplus_litterbox.js";
@@ -450,6 +454,7 @@ import device_efenz_kith_fanlight from "./efenz_kith_fanlight.js";
 import device_efr_pro_fireplace from "./efr_pro_fireplace.js";
 import device_eg4_solar_heatpump from "./eg4_solar_heatpump.js";
 import device_eglo_ceiling_fan from "./eglo_ceiling_fan.js";
+import device_ekaza_ekavt229z_lock from "./ekaza_ekavt229z_lock.js";
 import device_ekaza_minipad_controlpanel from "./ekaza_minipad_controlpanel.js";
 import device_elechico_ccib001_heatpump from "./elechico_ccib001_heatpump.js";
 import device_elechico_ccst6001_thermostat from "./elechico_ccst6001_thermostat.js";
@@ -891,6 +896,7 @@ import device_kogan_air_purifier from "./kogan_air_purifier.js";
 import device_kogan_bidet from "./kogan_bidet.js";
 import device_kogan_bladeless_fan from "./kogan_bladeless_fan.js";
 import device_kogan_dehumidifier from "./kogan_dehumidifier.js";
+import device_kogan_f28w_petfeeder from "./kogan_f28w_petfeeder.js";
 import device_kogan_garage_opener from "./kogan_garage_opener.js";
 import device_kogan_glass_1_7l_kettle from "./kogan_glass_1_7l_kettle.js";
 import device_kogan_heater_fan from "./kogan_heater_fan.js";
@@ -1044,6 +1050,7 @@ import device_meian_sw02_leakdetector from "./meian_sw02_leakdetector.js";
 import device_mellerware_citymove_vacuum from "./mellerware_citymove_vacuum.js";
 import device_mellerware_comfy_radiator from "./mellerware_comfy_radiator.js";
 import device_meowmatic_petfeeder from "./meowmatic_petfeeder.js";
+import device_mg2_6hw_breathing_radar from "./mg2_6hw_breathing_radar.js";
 import device_miboxer_wlbox2_lighting from "./miboxer_wlbox2_lighting.js";
 import device_miheat_th11wf_thermostat from "./miheat_th11wf_thermostat.js";
 import device_milano_ceiling_fan from "./milano_ceiling_fan.js";
@@ -1100,6 +1107,7 @@ import device_mowe_mw278i_inductionhob from "./mowe_mw278i_inductionhob.js";
 import device_mppt_4048_solarcharger from "./mppt_4048_solarcharger.js";
 import device_mrc_magnum_floorheater from "./mrc_magnum_floorheater.js";
 import device_mrpure_saltchlorinator from "./mrpure_saltchlorinator.js";
+import device_mty2_breaker from "./mty2_breaker.js";
 import device_multi_channel_switch from "./multi_channel_switch.js";
 import device_multi_leaf_dy_107_thermostat from "./multi_leaf_dy_107_thermostat.js";
 import device_multi_timer_powerstrip from "./multi_timer_powerstrip.js";
@@ -1148,6 +1156,7 @@ import device_novadigital_ceiling_fanlight from "./novadigital_ceiling_fanlight.
 import device_novadigital_midpanel8_controller from "./novadigital_midpanel8_controller.js";
 import device_novadigital_quad_switch from "./novadigital_quad_switch.js";
 import device_novadigital_sl06_lock from "./novadigital_sl06_lock.js";
+import device_novo_q13e_verticalblinds from "./novo_q13e_verticalblinds.js";
 import device_npdvl01_ceilingfanlight from "./npdvl01_ceilingfanlight.js";
 import device_nue_smart_fan_3speed_light from "./nue_smart_fan_3speed_light.js";
 import device_nulite_nlb245_heatpump from "./nulite_nlb245_heatpump.js";
@@ -1951,6 +1960,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_beltax_aircondition,
   device_benexmart_blind_motor,
   device_beok_tcb38_thermostat,
+  device_beok_tcc31_thermostat,
   device_beok_tgm50_thermostat,
   device_beok_tgm50wp_thermostat,
   device_beok_tgr81_thermostat_c,
@@ -2050,6 +2060,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_casdon_t2e_oven,
   device_casdon_td_pro_2,
   device_casdon_td_pro_3,
+  device_castle_nrseries_heater,
   device_catit_pet_feeder,
   device_catit_pixi_6meal_feeder,
   device_catit_pixi_smart_feeder,
@@ -2094,6 +2105,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_cleverio_pf100_petfeeder,
   device_climative_dh20s_dehumidifier,
   device_clofte_duo_400_humidifier,
+  device_cloudybay_dualzone_ceilinglight,
   device_cnc_ycb9nzf40ap_breaker,
   device_cnc_ycb9zf_breaker,
   device_co2_box,
@@ -2157,6 +2169,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_dituo_dtt2190a_aromadiffuser,
   device_djive_arc_fan,
   device_djive_arc_portable_fan,
+  device_djive_arccasual_purifierfan,
   device_dl01es_energymeter,
   device_dluft_smartflow_ventilation,
   device_doel_tiplus_litterbox,
@@ -2232,6 +2245,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_efr_pro_fireplace,
   device_eg4_solar_heatpump,
   device_eglo_ceiling_fan,
+  device_ekaza_ekavt229z_lock,
   device_ekaza_minipad_controlpanel,
   device_elechico_ccib001_heatpump,
   device_elechico_ccst6001_thermostat,
@@ -2673,6 +2687,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_kogan_bidet,
   device_kogan_bladeless_fan,
   device_kogan_dehumidifier,
+  device_kogan_f28w_petfeeder,
   device_kogan_garage_opener,
   device_kogan_glass_1_7l_kettle,
   device_kogan_heater_fan,
@@ -2826,6 +2841,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_mellerware_citymove_vacuum,
   device_mellerware_comfy_radiator,
   device_meowmatic_petfeeder,
+  device_mg2_6hw_breathing_radar,
   device_miboxer_wlbox2_lighting,
   device_miheat_th11wf_thermostat,
   device_milano_ceiling_fan,
@@ -2882,6 +2898,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_mppt_4048_solarcharger,
   device_mrc_magnum_floorheater,
   device_mrpure_saltchlorinator,
+  device_mty2_breaker,
   device_multi_channel_switch,
   device_multi_leaf_dy_107_thermostat,
   device_multi_timer_powerstrip,
@@ -2930,6 +2947,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_novadigital_midpanel8_controller,
   device_novadigital_quad_switch,
   device_novadigital_sl06_lock,
+  device_novo_q13e_verticalblinds,
   device_npdvl01_ceilingfanlight,
   device_nue_smart_fan_3speed_light,
   device_nulite_nlb245_heatpump,
