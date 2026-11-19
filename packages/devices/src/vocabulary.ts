@@ -146,6 +146,7 @@ export const CONTROL_NAMES = [
   "unlockApp",
   "unlockFingerprint",
   "unlockPassword",
+  "unlockTemporaryPassword",
   "uvSterilization",
   "voltage",
   "voltageCalibration",
