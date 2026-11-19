@@ -1,5 +1,13 @@
 # @open-tuya/devices
 
+## 0.3.2
+
+### Patch Changes
+
+- [#76](https://github.com/cheziyi/open-tuya/pull/76) [`cb5579a`](https://github.com/cheziyi/open-tuya/commit/cb5579ab6347d1d22c77735c6d370788442d493e) Thanks [@cheziyi](https://github.com/cheziyi)! - `CONTROL_NAMES` names `unlockTemporaryPassword`, the control that reports a lock opened with a temporary password, which 20 or more catalog entries now share.
+
+- [#69](https://github.com/cheziyi/open-tuya/pull/69) [`2fb33f4`](https://github.com/cheziyi/open-tuya/commit/2fb33f47d903af23658e88e0751bba1bd7ef8f2a) Thanks [@cheziyi-bot](https://github.com/apps/cheziyi-bot)! - Update the catalog to tuya-local's device files at make-all/tuya-local@8d6f4ca.
+
 ## 0.3.1
 
 ### Patch Changes
