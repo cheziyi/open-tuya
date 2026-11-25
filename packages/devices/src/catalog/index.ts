@@ -1621,7 +1621,6 @@ import device_ts100_waterqualitycontrol from "./ts100_waterqualitycontrol.js";
 import device_ts106_alarm from "./ts106_alarm.js";
 import device_ttec_reobipro_vacuum from "./ttec_reobipro_vacuum.js";
 import device_turbro_75000btu_poolheatpump from "./turbro_75000btu_poolheatpump.js";
-import device_tuya_000004rime_weather_station from "./tuya_000004rime_weather_station.js";
 import device_tuya_energy_meter from "./tuya_energy_meter.js";
 import device_tv_backlights from "./tv_backlights.js";
 import device_tx_e_gasmonitor from "./tx_e_gasmonitor.js";
@@ -1684,6 +1683,7 @@ import device_wdyk_2p63a_energy_meter from "./wdyk_2p63a_energy_meter.js";
 import device_wdyk_3phase_energymonitor from "./wdyk_3phase_energymonitor.js";
 import device_wdyk_4p100a_energymeter from "./wdyk_4p100a_energymeter.js";
 import device_weaja_s9_gasalarm from "./weaja_s9_gasalarm.js";
+import device_weatherstationpro_weatherstation from "./weatherstationpro_weatherstation.js";
 import device_weau_pool_heatpump from "./weau_pool_heatpump.js";
 import device_weau_pool_heatpump_v2 from "./weau_pool_heatpump_v2.js";
 import device_weau_pool_heatpump13kw from "./weau_pool_heatpump13kw.js";
@@ -3412,7 +3412,6 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_ts106_alarm,
   device_ttec_reobipro_vacuum,
   device_turbro_75000btu_poolheatpump,
-  device_tuya_000004rime_weather_station,
   device_tuya_energy_meter,
   device_tv_backlights,
   device_tx_e_gasmonitor,
@@ -3475,6 +3474,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_wdyk_3phase_energymonitor,
   device_wdyk_4p100a_energymeter,
   device_weaja_s9_gasalarm,
+  device_weatherstationpro_weatherstation,
   device_weau_pool_heatpump,
   device_weau_pool_heatpump13kw,
   device_weau_pool_heatpump_v2,
