@@ -20,10 +20,14 @@ const COLOUR_PARTS = ["h", "s", "v"] as const;
 // Source: A light's data point 24 has that conversion, and its status reads
 // '{"h": 1, "s": 1000, "v": 1000}' under colour_data_v2, as captured in
 // https://github.com/home-assistant-libs/tuya-device-handlers/commit/ebff6cdb566e793baae65f708cc9225cb39b31ce.
+// Source: The status of a JSON data point is text, which Home Assistant
+// parses, in
+// https://github.com/home-assistant-libs/tuya-device-handlers/commit/7d9b35afd9c3e3d135ed8b112517edfba70467d5.
 // Source: A command takes the same JSON text, in
 // https://github.com/home-assistant-libs/tuya-device-handlers/commit/b02ff1f414d35f6a6a9e5329dd3441e908fae8a5.
-// Source: A device sends the hex digits in lower case, such as 001703de0017,
-// as captured in https://github.com/tuya/tuya-home-assistant/issues/591.
+// Source: A device sends the hex digits in lower case, such as 007803e803e8,
+// as captured in
+// https://github.com/home-assistant-libs/tuya-device-handlers/commit/ef935430e9c871363b4cb5b80092f6e105a27d53.
 const COLOUR_V2: ValueConversion = {
   toDevice(value) {
     let colour: unknown;

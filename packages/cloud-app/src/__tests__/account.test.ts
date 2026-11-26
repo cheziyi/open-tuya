@@ -60,7 +60,8 @@ const MODE_RELATION = {
   valueConvert: "enum",
   valueType: "Enum",
 };
-// Source: A light's colour relation, as captured in
+// Source: A light's colour relation, and its status in the tests below, as
+// captured in
 // https://github.com/home-assistant-libs/tuya-device-handlers/commit/ebff6cdb566e793baae65f708cc9225cb39b31ce,
 // which carries no dpCode: this one is made up.
 const COLOUR_RELATION = {
@@ -379,7 +380,6 @@ describe("AppCloudAccount", () => {
       expect(cloud.requests.length).toBe(sent);
     });
 
-    // Source: The status of the light COLOUR_RELATION is captured from.
     it("reads and writes a colour the cloud converts, as the device's hex digits", async () => {
       const { cloud, account } = setUp();
       cloud.on("GET", `/v1.0/m/life/devices/${DEVICE_ID}/status`, () => ({

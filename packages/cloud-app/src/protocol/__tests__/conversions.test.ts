@@ -9,13 +9,13 @@ const colour = REVERSIBLE_CONVERSIONS.get("dj_v2_color_alg") as ValueConversion;
 describe("dj_v2_color_alg", () => {
   // Source: A light's status, as captured in
   // https://github.com/home-assistant-libs/tuya-device-handlers/commit/ebff6cdb566e793baae65f708cc9225cb39b31ce,
-  // and a device's 001703de0017 beside the cloud's h of 23, as captured in
-  // https://github.com/tuya/tuya-home-assistant/issues/591.
+  // and a device's 007803e803e8, as captured in
+  // https://github.com/home-assistant-libs/tuya-device-handlers/commit/ef935430e9c871363b4cb5b80092f6e105a27d53.
   it("turns the cloud's JSON text into the device's hex digits", () => {
     expect(colour.toDevice('{"h": 1, "s": 1000, "v": 1000}')).toBe(
       "000103e803e8",
     );
-    expect(colour.toDevice('{"h":23,"s":990,"v":23}')).toBe("001703de0017");
+    expect(colour.toDevice('{"h":120,"s":1000,"v":1000}')).toBe("007803e803e8");
     expect(colour.toDevice('{"h":0,"s":0,"v":65535}')).toBe("00000000ffff");
   });
 

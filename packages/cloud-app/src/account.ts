@@ -183,10 +183,12 @@ export class AppCloudAccount implements TuyaCloudAccount {
   }
 
   /** Fetches how the device's data points map to the cloud's codes, and
-   * resolves with each data point a client reads and writes, by the code the
-   * cloud reports it under. A device of a custom type, or with a data point
-   * that does not support local, resolves with none. It rejects with a
-   * `TuyaError` with code `CONNECTION_LOST` once the account is closed. */
+   * resolves with each data point a client reads and writes whose type is one
+   * of `MODEL_TYPES`, by the code the cloud reports it under: a light's
+   * colour, of type `Json`, is left out. A device of a custom type, or with a
+   * data point that does not support local, resolves with none. It rejects
+   * with a `TuyaError` with code `CONNECTION_LOST` once the account is
+   * closed. */
   async readDeviceModel(deviceId: string): Promise<TuyaDeviceModel> {
     const { relations, codes } = await this.fetchDataPointCodes(deviceId);
     return readDeviceModel(relations, codes.statusCodesById);
