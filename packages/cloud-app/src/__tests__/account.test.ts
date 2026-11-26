@@ -60,6 +60,20 @@ const MODE_RELATION = {
   valueConvert: "enum",
   valueType: "Enum",
 };
+// Source: A light's colour relation, as captured in
+// https://github.com/home-assistant-libs/tuya-device-handlers/commit/ebff6cdb566e793baae65f708cc9225cb39b31ce,
+// which carries no dpCode: this one is made up.
+const COLOUR_RELATION = {
+  ...SWITCH_RELATION,
+  dpCode: "colour_data_v2",
+  dpId: 24,
+  statusCode: "colour_data_v2",
+  statusFormat: '{"colour_data_v2":"$"}',
+  valueConvert: "dj_v2_color_alg",
+  valueDesc:
+    '{"h":{"min":0,"scale":0,"unit":"","max":360,"step":1},"s":{"min":0,"scale":0,"unit":"","max":1000,"step":1},"v":{"min":0,"scale":0,"unit":"","max":1000,"step":1}}',
+  valueType: "Json",
+};
 
 const cleanups: (() => unknown)[] = [];
 
@@ -363,6 +377,65 @@ describe("AppCloudAccount", () => {
         client.writeDataPoints({ "1": false, "2": "eco" }),
       ).rejects.toMatchObject({ code: "UNMAPPED_DATA_POINT" });
       expect(cloud.requests.length).toBe(sent);
+    });
+
+    // Source: The status of the light COLOUR_RELATION is captured from.
+    it("reads and writes a colour the cloud converts, as the device's hex digits", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", `/v1.0/m/life/devices/${DEVICE_ID}/status`, () => ({
+        result: { dpStatusRelationDTOS: [SWITCH_RELATION, COLOUR_RELATION] },
+      }));
+      cloud.on("GET", "/v1.0/m/life/ha/devices/detail", () => ({
+        result: [
+          {
+            ...DEVICE_RECORD,
+            status: [
+              { code: "switch_1", value: true },
+              {
+                code: "colour_data_v2",
+                value: '{"h": 1, "s": 1000, "v": 1000}',
+              },
+            ],
+          },
+        ],
+      }));
+      const client = await account.createClient(DEVICE_ID);
+
+      await expect(client.readDataPoints()).resolves.toEqual({
+        "1": true,
+        "24": "000103e803e8",
+      });
+      await client.writeDataPoints({ "1": false, "24": "007803e801f4" });
+      expect(cloud.requests.at(-1)?.body).toEqual({
+        commands: [
+          { code: "switch_1", value: false },
+          { code: "colour_data_v2", value: '{"h":120,"s":1000,"v":500}' },
+        ],
+      });
+      await expect(account.readDeviceModel(DEVICE_ID)).resolves.toEqual({
+        "1": { code: "switch_1", type: "boolean" },
+      });
+    });
+
+    it("leaves out of a read a colour the cloud reports as anything but its JSON text", async () => {
+      const { cloud, account } = setUp();
+      cloud.on("GET", `/v1.0/m/life/devices/${DEVICE_ID}/status`, () => ({
+        result: { dpStatusRelationDTOS: [SWITCH_RELATION, COLOUR_RELATION] },
+      }));
+      cloud.on("GET", "/v1.0/m/life/ha/devices/detail", () => ({
+        result: [
+          {
+            ...DEVICE_RECORD,
+            status: [
+              { code: "switch_1", value: true },
+              { code: "colour_data_v2", value: "000103e803e8" },
+            ],
+          },
+        ],
+      }));
+      const client = await account.createClient(DEVICE_ID);
+
+      await expect(client.readDataPoints()).resolves.toEqual({ "1": true });
     });
 
     // Source: Relations whose dpCode, statusCode and statusFormat's key differ,

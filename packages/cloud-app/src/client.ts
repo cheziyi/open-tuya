@@ -31,7 +31,8 @@ export interface AppCloudTransport {
 // https://github.com/tuya/tuya-device-sharing-sdk/commit/3e0d9ae6eb5e23e97ce7697a1bd3b248fe2c75b1.
 /** A device reached through the cloud the Smart Life app signs in to. Create
  * one with `AppCloudAccount.createClient`. It reads and writes only the data
- * points whose values the cloud passes through unchanged, and hands its
+ * points whose values the cloud passes through unchanged or converts in a way
+ * that loses nothing, each with the device's own value, and hands its
  * listeners every data point the cloud pushes. It subscribes to the device's
  * pushes while it has a listener, so a client that only reads and writes
  * holds no MQTT connection. */
@@ -88,8 +89,13 @@ export class AppCloudTuyaClient implements TuyaClient {
     const dataPoints: Record<string, DataPointValue> = {};
     for (const { code, value } of device.status ?? []) {
       const id = typeof code === "string" && this.idsByStatusCode.get(code);
-      if (id && isDataPointValue(value)) {
-        dataPoints[id] = value;
+      if (!id) {
+        continue;
+      }
+      const conversion = this.codes.conversionsById.get(id);
+      const own = conversion ? conversion.toDevice(value) : value;
+      if (isDataPointValue(own)) {
+        dataPoints[id] = own;
       }
     }
     return dataPoints;
@@ -107,7 +113,8 @@ export class AppCloudTuyaClient implements TuyaClient {
           `The cloud maps no code to data point ${id} of device ${this.deviceId}`,
         );
       }
-      return { code, value };
+      const conversion = this.codes.conversionsById.get(id);
+      return { code, value: conversion ? conversion.toCloud(value) : value };
     });
     await this.request(
       "POST",
