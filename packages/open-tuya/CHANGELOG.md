@@ -1,5 +1,12 @@
 # open-tuya
 
+## 0.3.2
+
+### Patch Changes
+
+- Updated dependencies [[`796a38b`](https://github.com/cheziyi/open-tuya/commit/796a38b4dcae687d1a565f80a29103c090cfaba3)]:
+  - @open-tuya/cloud-app@0.0.8
+
 ## 0.3.1
 
 ### Patch Changes

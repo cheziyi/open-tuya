@@ -1,5 +1,11 @@
 # @open-tuya/cloud-app
 
+## 0.0.8
+
+### Patch Changes
+
+- [#79](https://github.com/cheziyi/open-tuya/pull/79) [`796a38b`](https://github.com/cheziyi/open-tuya/commit/796a38b4dcae687d1a565f80a29103c090cfaba3) Thanks [@cheziyi](https://github.com/cheziyi)! - A light's colour reads and writes through the Smart Life cloud. A data point the cloud converts with `dj_v2_color_alg` is read and written as the device's own twelve hex digits, where a read left it out and a write rejected with `UNMAPPED_DATA_POINT`, so a light reached through this cloud alone took no colour.
+
 ## 0.0.7
 
 ### Patch Changes
