@@ -30,7 +30,7 @@ await using client = await account.createClient(devices[0].deviceId);
 
 [The open-tuya README](https://github.com/cheziyi/open-tuya#signing-in-to-the-smart-life-cloud) says where the
 user code is, why the client ID is Home Assistant's, and which data points
-the cloud passes through.
+a client reads and writes.
 
 ## License
 

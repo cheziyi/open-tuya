@@ -271,7 +271,8 @@ await using client = await account.createClient(devices[0].deviceId);
 ```
 
 The client keys data points by ID, as the LAN does, and reads and writes only
-those the cloud passes through unchanged:
+those the cloud passes through unchanged, and a light's colour, which it
+converts back to the device's own value:
 [DESIGN.md](DESIGN.md#cloud-app-data-points) says why. The cloud gives no
 LAN address or protocol version: take those from `discoverDevices`.
 
@@ -381,7 +382,7 @@ as a device does.
 | --- | --- | --- |
 | LAN | Protocol 3.1 to 3.5, and the devices behind a 3.3, 3.4 or 3.5 gateway | Needs each device's local key, which only a cloud gives. On 3.1 a read succeeds under a wrong key |
 | Tuya developer platform | Data centers `cn`, `us`, `us-e`, `eu`, `eu-w`, `in` and `sg` | Needs a cloud project, whose IoT Core trial expires and has to be extended |
-| Smart Life cloud | A Smart Life account, signed in by QR code | Reads and writes only the data points the cloud passes through unchanged. One session serves one program |
+| Smart Life cloud | A Smart Life account, signed in by QR code | Reads and writes only the data points the cloud passes through unchanged, and a light's colour. One session serves one program |
 | Catalog | Over 1,700 of tuya-local's devices, and the device files in `packages/devices/devices/` | A device neither lists has no entry, and `UNSUPPORTED.md` lists the tuya-local devices the import cannot convert |
 
 [UNSUPPORTED.md](UNSUPPORTED.md) lists what no source pins down, and what the

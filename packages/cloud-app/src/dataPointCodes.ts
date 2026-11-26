@@ -1,3 +1,7 @@
+import {
+  REVERSIBLE_CONVERSIONS,
+  type ValueConversion,
+} from "./protocol/conversions.js";
 import type { StatusRelation } from "./protocol/records.js";
 
 /** How a device's data points map to the cloud's codes. */
@@ -7,6 +11,10 @@ export interface DataPointCodes {
   statusCodesById: ReadonlyMap<string, string>;
   /** The code a command writes each data point by, by data point ID. */
   commandCodesById: ReadonlyMap<string, string>;
+  /** How the value of each data point the cloud converts turns into the
+   * device's and back, by data point ID. A mapped data point without one
+   * holds the device's value. */
+  conversionsById: ReadonlyMap<string, ValueConversion>;
   /** Whether the cloud pushes the device's data points by ID. */
   pushedById: boolean;
 }
@@ -23,8 +31,9 @@ export interface DataPointCodes {
 // https://github.com/home-assistant/core/issues/162625 shows: a relation with
 // statusCode "clear_energy" and statusFormat {"energy_reset":"$"} beside a
 // status "energy_reset" and a function "clear_energy".
-/** Maps each data point whose value the cloud passes through unchanged:
- * DESIGN.md#cloud-app-data-points says why the others are left out. */
+/** Maps each data point whose value the cloud passes through unchanged, or
+ * converts in a way that loses nothing: DESIGN.md#cloud-app-data-points says
+ * why the others are left out. */
 export function mapDataPointCodes(
   relations: readonly StatusRelation[],
   customType: boolean,
@@ -33,20 +42,25 @@ export function mapDataPointCodes(
     !customType && relations.every((relation) => relation.supportLocal);
   const statusCodesById = new Map<string, string>();
   const commandCodesById = new Map<string, string>();
+  const conversionsById = new Map<string, ValueConversion>();
   if (pushedById) {
     for (const relation of relations) {
-      if (relation.valueConvert !== "default") {
+      const conversion = REVERSIBLE_CONVERSIONS.get(relation.valueConvert);
+      if (relation.valueConvert !== "default" && conversion === undefined) {
         continue;
       }
       const id = String(relation.dpId);
       commandCodesById.set(id, relation.statusCode);
+      if (conversion !== undefined) {
+        conversionsById.set(id, conversion);
+      }
       const statusCode = statusFormatKey(relation.statusFormat);
       if (statusCode !== undefined) {
         statusCodesById.set(id, statusCode);
       }
     }
   }
-  return { statusCodesById, commandCodesById, pushedById };
+  return { statusCodesById, commandCodesById, conversionsById, pushedById };
 }
 
 function statusFormatKey(statusFormat: string): string | undefined {

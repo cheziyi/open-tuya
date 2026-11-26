@@ -7,6 +7,7 @@ const DEVICE_ID = "bf6c8539693b0cdea25thg";
 const CODES = {
   statusCodesById: new Map([["1", "switch_1"]]),
   commandCodesById: new Map([["1", "switch_1"]]),
+  conversionsById: new Map(),
   pushedById: true,
 };
 
