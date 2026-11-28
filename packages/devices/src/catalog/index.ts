@@ -254,6 +254,7 @@ import device_cadence_aroma_diffuser from "./cadence_aroma_diffuser.js";
 import device_caldo_up_t_wifi from "./caldo_up_t_wifi.js";
 import device_calex_aromadiffuser from "./calex_aromadiffuser.js";
 import device_calex_convector_heater from "./calex_convector_heater.js";
+import device_calex_flame_diffuser from "./calex_flame_diffuser.js";
 import device_calex_s45cleare27_light from "./calex_s45cleare27_light.js";
 import device_calibo_smart_ceiling_fan from "./calibo_smart_ceiling_fan.js";
 import device_calltou_caregiver_pagerbutton from "./calltou_caregiver_pagerbutton.js";
@@ -1104,6 +1105,7 @@ import device_morris_wfin35168_airconditioner from "./morris_wfin35168_aircondit
 import device_motion_sensor_light from "./motion_sensor_light.js";
 import device_mountfield_azuro_poolheatpump from "./mountfield_azuro_poolheatpump.js";
 import device_mowe_mw278i_inductionhob from "./mowe_mw278i_inductionhob.js";
+import device_mowe_slim_rangehood from "./mowe_slim_rangehood.js";
 import device_mppt_4048_solarcharger from "./mppt_4048_solarcharger.js";
 import device_mrc_magnum_floorheater from "./mrc_magnum_floorheater.js";
 import device_mrpure_saltchlorinator from "./mrpure_saltchlorinator.js";
@@ -1639,6 +1641,7 @@ import device_v330l_petfeeder from "./v330l_petfeeder.js";
 import device_vaco_mobyblue_heatpump from "./vaco_mobyblue_heatpump.js";
 import device_vacplus_dehumidifier from "./vacplus_dehumidifier.js";
 import device_valehaus_syzn119_tow_w from "./valehaus_syzn119_tow_w.js";
+import device_vantes_fresh_air_display from "./vantes_fresh_air_display.js";
 import device_varin_rgbcw_ceilingfan from "./varin_rgbcw_ceilingfan.js";
 import device_varin_va_e002_ceiling_fan_light from "./varin_va_e002_ceiling_fan_light.js";
 import device_varin_va_e003_fan_light from "./varin_va_e003_fan_light.js";
@@ -2045,6 +2048,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_caldo_up_t_wifi,
   device_calex_aromadiffuser,
   device_calex_convector_heater,
+  device_calex_flame_diffuser,
   device_calex_s45cleare27_light,
   device_calibo_smart_ceiling_fan,
   device_calltou_caregiver_pagerbutton,
@@ -2895,6 +2899,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_motion_sensor_light,
   device_mountfield_azuro_poolheatpump,
   device_mowe_mw278i_inductionhob,
+  device_mowe_slim_rangehood,
   device_mppt_4048_solarcharger,
   device_mrc_magnum_floorheater,
   device_mrpure_saltchlorinator,
@@ -3430,6 +3435,7 @@ export const CATALOG: readonly TuyaDeviceEntry[] = [
   device_vaco_mobyblue_heatpump,
   device_vacplus_dehumidifier,
   device_valehaus_syzn119_tow_w,
+  device_vantes_fresh_air_display,
   device_varin_rgbcw_ceilingfan,
   device_varin_va_e002_ceiling_fan_light,
   device_varin_va_e003_fan_light,
